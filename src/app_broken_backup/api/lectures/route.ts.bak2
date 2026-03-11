@@ -1,0 +1,99 @@
+import { NextResponse } from 'next/server';
+import { pool, getUserFromRequest, getFilterSQL, getInsertIds } from '@/lib/auth';
+import { sendSMS, sendWhatsApp, sendEmail } from '@/lib/integrations';
+
+async function notifyUsers(owner_id: number, school_id: number, title: string, message: string) {
+  // جلب المستهدفين
+  const users = await pool.query(
+    `SELECT email, phone, name FROM users WHERE (school_id = $1 OR owner_id = $2) AND status = 'active'`,
+    [school_id, owner_id]
+  );
+  for (const u of users.rows) {
+    if (u.phone) {
+      await sendSMS(u.phone, message, owner_id);
+      await sendWhatsApp(u.phone, `*${title}*\n${message}`, owner_id);
+    }
+    if (u.email) {
+      const html = `<div dir="rtl" style="font-family:Arial;padding:20px;background:#0D1B2A;color:white;border-radius:12px"><h2 style="color:#C9A227">${title}</h2><p>${message}</p></div>`;
+      await sendEmail(u.email, title, html, owner_id);
+    }
+  }
+}
+
+export async function GET(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const filter = getFilterSQL(user);
+    const result = await pool.query(
+      `SELECT * FROM lectures WHERE 1=1 ${filter.sql} ORDER BY scheduled_at DESC LIMIT 200`,
+      filter.params
+    );
+    return NextResponse.json(result.rows);
+  } catch (error) { console.error('Error:', error); return NextResponse.json([]); }
+}
+
+export async function POST(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const ids = getInsertIds(user);
+    const body = await request.json();
+    const { title, subject, teacher_id, teacher_name, class_id, scheduled_at, duration, type, location, description } = body;
+    if (!title || !scheduled_at) return NextResponse.json({ error: 'العنوان والوقت مطلوبان' }, { status: 400 });
+
+    const result = await pool.query(
+      `INSERT INTO lectures (title, subject, teacher_id, teacher_name, class_id, scheduled_at, duration, type, location, description, status, school_id, owner_id, created_at)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,'scheduled',$11,$12,NOW()) RETURNING *`,
+      [title, subject || null, teacher_id || null, teacher_name || null, class_id || null, scheduled_at, duration || 60, type || 'in_person', location || null, description || null, ids.school_id, ids.owner_id]
+    );
+
+    // إشعار بالمحاضرة الجديدة
+    if (ids.school_id && ids.owner_id) {
+      await notifyUsers(ids.owner_id, ids.school_id, '📚 محاضرة جديدة', `تمت جدولة محاضرة جديدة: ${title}`);
+    }
+
+    return NextResponse.json(result.rows[0], { status: 201 });
+  } catch (error) { console.error('Error:', error); return NextResponse.json({ error: 'فشل' }, { status: 500 }); }
+}
+
+export async function PUT(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const body = await request.json();
+    const { id, title, subject, teacher_name, scheduled_at, duration, type, location, description, status, confirmed } = body;
+    if (!id) return NextResponse.json({ error: 'المعرف مطلوب' }, { status: 400 });
+
+    const old = await pool.query('SELECT * FROM lectures WHERE id = $1', [id]);
+    const oldLecture = old.rows[0];
+
+    const result = await pool.query(
+      `UPDATE lectures SET title=$1, subject=$2, teacher_name=$3, scheduled_at=$4, duration=$5, type=$6, location=$7, description=$8, status=$9, confirmed=$10 WHERE id=$11 RETURNING *`,
+      [title, subject, teacher_name, scheduled_at, duration, type, location, description, status, confirmed ?? false, id]
+    );
+
+    // إشعار لو تغير الحالة
+    if (oldLecture && oldLecture.status !== status && oldLecture.school_id && oldLecture.owner_id) {
+      let msg = '';
+      if (status === 'online') msg = `تم تحويل محاضرة "${title}" إلى أونلاين`;
+      else if (status === 'recorded') msg = `تم تحويل محاضرة "${title}" إلى مسجلة`;
+      else if (status === 'cancelled') msg = `تم إلغاء محاضرة "${title}"`;
+      if (msg) await notifyUsers(oldLecture.owner_id, oldLecture.school_id, '📢 تحديث محاضرة', msg);
+    }
+
+    return NextResponse.json(result.rows[0]);
+  } catch (error) { console.error('Error:', error); return NextResponse.json({ error: 'فشل' }, { status: 500 }); }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    if (!id) return NextResponse.json({ error: 'المعرف مطلوب' }, { status: 400 });
+    await pool.query('DELETE FROM lectures WHERE id = $1', [id]);
+    return NextResponse.json({ success: true });
+  } catch (error) { console.error('Error:', error); return NextResponse.json({ error: 'فشل' }, { status: 500 }); }
+}

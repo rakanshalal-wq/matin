@@ -1,0 +1,68 @@
+import { NextResponse } from 'next/server';
+import { pool, getUserFromRequest, getFilterSQL, getInsertIds } from '@/lib/auth';
+
+
+export async function GET(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const filter = getFilterSQL(user);
+
+    const result = await pool.query(`
+      SELECT 
+        posts.*,
+        users.name as author_name,
+        users.avatar as author_avatar,
+        users.bio as author_bio,
+        users.verified as author_verified,
+        users.role as author_role
+      FROM posts
+      JOIN users ON posts.user_id = users.id
+      WHERE 1=1 ${filter.sql} ORDER BY posts.created_at DESC
+    `, filter.params);
+
+    return NextResponse.json({
+      success: true,
+      posts: result.rows
+    });
+
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'حدث خطأ في جلب المنشورات' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const ids = getInsertIds(user);
+
+    const { userId, content, imageUrl } = await request.json();
+
+    if (!userId || !content) {
+      return NextResponse.json(
+        { error: 'الرجاء ملء جميع الحقول المطلوبة' },
+        { status: 400 }
+      );
+    }
+
+    const result = await pool.query(
+      'INSERT INTO posts (user_id, content, image_url) VALUES ($1, $2, $3) RETURNING *',
+      [userId, content, imageUrl || null]
+    );
+
+    return NextResponse.json({
+      success: true,
+      post: result.rows[0]
+    });
+
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'حدث خطأ في إنشاء المنشور' },
+      { status: 500 }
+    );
+  }
+}

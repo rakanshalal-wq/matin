@@ -1,0 +1,1221 @@
+'use client';
+import { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+
+const G = '#C9A227', G2 = '#E8C547';
+const DARK = '#060C18', CARD = 'rgba(255,255,255,0.03)', BORDER = 'rgba(255,255,255,0.07)';
+
+const getAuthHeaders = (): Record<string, string> => {
+  try {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('matin_token') : null;
+    if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };
+  } catch {}
+  return { 'Content-Type': 'application/json' };
+};
+const api = (url: string, opts: RequestInit = {}) =>
+  fetch(url, { credentials: 'include', headers: { ...getAuthHeaders() }, ...opts });
+type Tab = 'overview' | 'schools' | 'permissions' | 'plans' | 'subscriptions' | 'users' | 'ads' | 'finance' | 'analytics' | 'support' | 'notifications' | 'security' | 'settings';
+
+const TABS: { id: Tab; icon: string; label: string }[] = [
+  { id: 'overview',      icon: '📊', label: 'نظرة عامة' },
+  { id: 'schools',       icon: '🏫', label: 'المؤسسات' },
+  { id: 'permissions',   icon: '🔑', label: 'الصلاحيات' },
+  { id: 'plans',         icon: '📦', label: 'الباقات' },
+  { id: 'subscriptions', icon: '💎', label: 'الاشتراكات' },
+  { id: 'users',         icon: '👥', label: 'المستخدمون' },
+  { id: 'ads',           icon: '📢', label: 'الإعلانات' },
+  { id: 'finance',       icon: '💰', label: 'المالية' },
+  { id: 'analytics',     icon: '📈', label: 'التحليلات' },
+  { id: 'support',       icon: '💬', label: 'الدعم' },
+  { id: 'notifications', icon: '🔔', label: 'الإشعارات' },
+  { id: 'security',      icon: '🔐', label: 'الأمان' },
+  { id: 'settings',      icon: '⚙️', label: 'الإعدادات' },
+];
+
+const ROLES: { value: string; label: string; color: string }[] = [
+  { value: 'owner',   label: 'مالك مدرسة',  color: '#8B5CF6' },
+  { value: 'admin',   label: 'مدير مدرسة',  color: '#3B82F6' },
+  { value: 'teacher', label: 'معلم',         color: '#10B981' },
+  { value: 'student', label: 'طالب',         color: '#EC4899' },
+  { value: 'parent',  label: 'ولي أمر',      color: '#F59E0B' },
+];
+
+function Toast({ msg, ok }: { msg: string; ok: boolean }) {
+  return (
+    <div style={{
+      position: 'fixed', top: 24, left: '50%', transform: 'translateX(-50%)', zIndex: 9999,
+      background: ok ? 'rgba(16,185,129,0.95)' : 'rgba(239,68,68,0.95)',
+      color: 'white', padding: '12px 32px', borderRadius: 12, fontWeight: 700, fontSize: 14,
+      boxShadow: '0 8px 40px rgba(0,0,0,0.5)', backdropFilter: 'blur(12px)',
+      border: `1px solid ${ok ? 'rgba(16,185,129,0.4)' : 'rgba(239,68,68,0.4)'}`,
+      minWidth: 200, textAlign: 'center'
+    }}>
+      {msg}
+    </div>
+  );
+}
+
+function StatCard({ icon, label, value, sub, color, onClick }: any) {
+  return (
+    <div onClick={onClick} style={{
+      background: CARD, border: `1px solid ${BORDER}`, borderTop: `2px solid ${color}44`,
+      borderRadius: 16, padding: '20px 18px', cursor: onClick ? 'pointer' : 'default', transition: 'all 0.2s'
+    }}
+      onMouseEnter={e => { if (onClick) (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.06)'; }}
+      onMouseLeave={e => { if (onClick) (e.currentTarget as HTMLElement).style.background = CARD; }}>
+      <div style={{ fontSize: 28, marginBottom: 10 }}>{icon}</div>
+      <div style={{ fontSize: 26, fontWeight: 800, color, marginBottom: 4 }}>{typeof value === 'number' ? value.toLocaleString('ar-SA') : value}</div>
+      <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', fontWeight: 600, marginBottom: 2 }}>{label}</div>
+      {sub && <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>{sub}</div>}
+    </div>
+  );
+}
+
+function SectionHeader({ title, sub, btn, onBtn }: any) {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
+      <div>
+        <h2 style={{ fontSize: 22, fontWeight: 800, margin: 0, color: 'white' }}>{title}</h2>
+        {sub && <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, margin: '4px 0 0' }}>{sub}</p>}
+      </div>
+      {btn && <button onClick={onBtn} style={{ background: `linear-gradient(135deg,${G},${G2})`, color: '#060C18', padding: '10px 22px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>{btn}</button>}
+    </div>
+  );
+}
+
+function Badge({ label, color, bg }: { label: string; color: string; bg: string }) {
+  return <span style={{ background: bg, color, padding: '3px 10px', borderRadius: 6, fontSize: 11, fontWeight: 700 }}>{label}</span>;
+}
+
+function statusBadge(s: string) {
+  const map: any = { ACTIVE: '#10B981', active: '#10B981', approved: '#10B981', TRIAL: '#F59E0B', trial: '#F59E0B', pending: '#F59E0B', SUSPENDED: '#EF4444', suspended: '#EF4444', rejected: '#EF4444', inactive: '#6B7280', expired: '#6B7280' };
+  const labels: any = { ACTIVE: 'نشط', active: 'نشط', approved: 'مفعّل', TRIAL: 'تجريبي', trial: 'تجريبي', pending: 'معلق', SUSPENDED: 'موقوف', suspended: 'موقوف', rejected: 'مرفوض', inactive: 'غير نشط', expired: 'منتهي' };
+  const c = map[s] || '#6B7280';
+  return <Badge label={labels[s] || s} color={c} bg={`${c}18`} />;
+}
+
+function Modal({ title, onClose, children, wide }: any) {
+  return (
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
+      <div style={{ background: '#0D1B2A', border: `1px solid ${BORDER}`, borderRadius: 20, padding: 32, width: '100%', maxWidth: wide ? 700 : 520, maxHeight: '88vh', overflowY: 'auto' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+          <h3 style={{ color: 'white', fontWeight: 800, fontSize: 18, margin: 0 }}>{title}</h3>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 22, cursor: 'pointer' }}>✕</button>
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function Input({ label, value, onChange, type = 'text', placeholder = '', readOnly = false }: any) {
+  return (
+    <div style={{ marginBottom: 14 }}>
+      <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>{label}</label>
+      <input type={type} value={value} onChange={e => onChange && onChange(e.target.value)} placeholder={placeholder} readOnly={readOnly}
+        style={{ width: '100%', background: readOnly ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}`, borderRadius: 10, padding: '10px 14px', color: readOnly ? 'rgba(255,255,255,0.4)' : 'white', fontSize: 13, outline: 'none', boxSizing: 'border-box' }} />
+    </div>
+  );
+}
+
+function Select({ label, value, onChange, options }: any) {
+  return (
+    <div style={{ marginBottom: 14 }}>
+      <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>{label}</label>
+      <select value={value} onChange={e => onChange(e.target.value)}
+        style={{ width: '100%', background: '#0D1B2A', border: `1px solid ${BORDER}`, borderRadius: 10, padding: '10px 14px', color: 'white', fontSize: 13, outline: 'none', boxSizing: 'border-box' }}>
+        {options.map((o: any) => <option key={o.value} value={o.value}>{o.label}</option>)}
+      </select>
+    </div>
+  );
+}
+
+function SaveBtn({ label, onClick, loading: ld }: any) {
+  return (
+    <button onClick={onClick} disabled={ld} style={{ width: '100%', background: ld ? 'rgba(201,162,39,0.4)' : `linear-gradient(135deg,${G},${G2})`, color: '#060C18', padding: '13px', borderRadius: 10, border: 'none', fontWeight: 800, cursor: ld ? 'not-allowed' : 'pointer', fontSize: 14, marginTop: 8 }}>
+      {ld ? '⏳ جاري الحفظ...' : label}
+    </button>
+  );
+}
+
+function EmptyState({ icon, msg }: any) {
+  return (
+    <div style={{ textAlign: 'center', padding: '60px 20px', background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16 }}>
+      <div style={{ fontSize: 52, marginBottom: 16 }}>{icon}</div>
+      <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 15 }}>{msg}</div>
+    </div>
+  );
+}
+
+function SearchBar({ value, onChange, placeholder }: any) {
+  return (
+    <input value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder || '🔍 بحث...'}
+      style={{ flex: 1, minWidth: 200, background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}`, borderRadius: 10, padding: '10px 14px', color: 'white', fontSize: 13, outline: 'none' }} />
+  );
+}
+
+function FilterBtn({ label, active, onClick }: any) {
+  return (
+    <button onClick={onClick} style={{ padding: '8px 16px', borderRadius: 8, border: `1px solid ${active ? G : BORDER}`, background: active ? `${G}18` : 'transparent', color: active ? G : 'rgba(255,255,255,0.4)', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>
+      {label}
+    </button>
+  );
+}
+
+function ActionBtn({ label, color, onClick }: any) {
+  const hex = color || '#3B82F6';
+  return (
+    <button onClick={onClick} style={{ background: `${hex}18`, border: `1px solid ${hex}33`, color: hex, padding: '4px 10px', borderRadius: 6, cursor: 'pointer', fontSize: 11, fontWeight: 600, whiteSpace: 'nowrap' }}>
+      {label}
+    </button>
+  );
+}
+
+function TableHeader({ cols }: { cols: string[] }) {
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: cols.map(() => '1fr').join(' '), padding: '12px 20px', background: 'rgba(255,255,255,0.04)', borderBottom: `1px solid ${BORDER}` }}>
+      {cols.map((h, i) => <span key={i} style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11, fontWeight: 700 }}>{h}</span>)}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════
+export default function SuperAdminDashboard() {
+  const router = useRouter();
+  const [me, setMe] = useState<any>(null);
+  const [tab, setTab] = useState<Tab>('overview');
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [toast, setToast] = useState<{ msg: string; ok: boolean } | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  // Data
+  const [stats, setStats] = useState<any>({});
+  const [schools, setSchools] = useState<any[]>([]);
+  const [users, setUsers] = useState<any[]>([]);
+  const [plans, setPlans] = useState<any[]>([]);
+  const [ads, setAds] = useState<any[]>([]);
+  const [subs, setSubs] = useState<any[]>([]);
+  const [leads, setLeads] = useState<any[]>([]);
+  const [support, setSupport] = useState<any[]>([]);
+  const [actLog, setActLog] = useState<any[]>([]);
+  const [permissions, setPermissions] = useState<any[]>([]);
+  const [settings, setSettings] = useState<any>({});
+
+  // Modals
+  const [schoolModal, setSchoolModal] = useState(false);
+  const [planModal, setPlanModal] = useState(false);
+  const [adModal, setAdModal] = useState(false);
+  const [assignPlanModal, setAssignPlanModal] = useState<any>(null); // school object
+  const [editPermModal, setEditPermModal] = useState<any>(null); // user object
+  const [editItem, setEditItem] = useState<any>(null);
+  const [notifModal, setNotifModal] = useState(false);
+
+  // Forms
+  const [sf, setSf] = useState({ name_ar: '', name: '', email: '', phone: '', city: '', status: 'TRIAL' });
+  const [pf, setPf] = useState({ name_ar: '', price_monthly: '', price_yearly: '', max_students: '500', max_teachers: '20', features: '', is_active: true });
+  const [af, setAf] = useState({ title: '', image_url: '', click_url: '', position: 'top', priority: '1', start_date: '', end_date: '' });
+  const [assignPlanForm, setAssignPlanForm] = useState({ plan_id: '', duration_months: '12' });
+  const [editPermForm, setEditPermForm] = useState({ role: '', status: '', is_active: true });
+  const [notifForm, setNotifForm] = useState({ title: '', body: '', target: 'all' });
+  const [settingsForm, setSettingsForm] = useState<any>({});
+
+  // Filters
+  const [schoolSearch, setSchoolSearch] = useState('');
+  const [schoolStatus, setSchoolStatus] = useState('all');
+  const [userSearch, setUserSearch] = useState('');
+  const [userRole, setUserRole] = useState('all');
+  const [permSearch, setPermSearch] = useState('');
+  const [permRole, setPermRole] = useState('all');
+  const [subsSearch, setSubsSearch] = useState('');
+
+  const showToast = (msg: string, ok = true) => {
+    setToast({ msg, ok });
+    setTimeout(() => setToast(null), 3500);
+  };
+
+  // ── Fetch ──────────────────────────────────────────────────────
+  const fetchStats = async () => { try { const r = await api('/api/dashboard-stats'); const d = await r.json(); setStats(d); } catch {} };
+  const fetchSchools = async () => { try { const r = await api('/api/schools'); const d = await r.json(); setSchools(Array.isArray(d) ? d : []); } catch {} };
+  const fetchUsers = async () => { try { const r = await api('/api/users'); const d = await r.json(); setUsers(Array.isArray(d) ? d : []); } catch {} };
+  const fetchPlans = async () => { try { const r = await api('/api/plans'); const d = await r.json(); setPlans(Array.isArray(d) ? d : (Array.isArray(d?.data) ? d.data : [])); } catch {} };
+  const fetchAds = async () => { try { const r = await api('/api/ads'); const d = await r.json(); setAds(Array.isArray(d) ? d : (Array.isArray(d?.ads) ? d.ads : [])); } catch {} };
+  const fetchSubs = async () => { try { const r = await api('/api/subscriptions'); const d = await r.json(); setSubs(Array.isArray(d) ? d : []); } catch {} };
+  const fetchLeads = async () => { try { const r = await api('/api/leads'); const d = await r.json(); setLeads(Array.isArray(d) ? d : []); } catch {} };
+  const fetchSupport = async () => { try { const r = await api('/api/support'); const d = await r.json(); setSupport(Array.isArray(d) ? d : []); } catch {} };
+  const fetchActLog = async () => { try { const r = await api('/api/activity-log'); const d = await r.json(); setActLog(Array.isArray(d) ? d : []); } catch {} };
+  const fetchPermissions = async () => { try { const r = await api('/api/permissions'); const d = await r.json(); setPermissions(Array.isArray(d) ? d : []); } catch {} };
+  const fetchSettings = async () => { try { const r = await api('/api/platform-settings'); const d = await r.json(); setSettings(d || {}); setSettingsForm(d || {}); } catch {} };
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const r = await api('/api/auth/me');
+        if (!r.ok) { router.push('/login'); return; }
+        const u = await r.json();
+        const userData = u?.user || u;
+        if (userData?.role !== 'super_admin') { router.push('/login'); return; }
+        setMe(userData);
+        await Promise.all([
+          fetchStats(), fetchSchools(), fetchUsers(), fetchPlans(),
+          fetchAds(), fetchSubs(), fetchLeads(), fetchSupport(),
+          fetchActLog(), fetchPermissions(), fetchSettings(),
+        ]);
+      } catch { router.push('/login'); }
+      finally { setLoading(false); }
+    };
+    init();
+  }, []);
+
+  // ── School Actions ─────────────────────────────────────────────
+  const saveSchool = async () => {
+    if (!sf.name_ar) { showToast('اسم المؤسسة مطلوب', false); return; }
+    setSaving(true);
+    try {
+      const method = editItem ? 'PUT' : 'POST';
+      const body = editItem ? { id: editItem.id, ...sf } : sf;
+      const r = await api('/api/schools', { method, body: JSON.stringify(body) });
+      if (!r.ok) { showToast('فشل الحفظ', false); return; }
+      showToast(editItem ? 'تم تحديث المؤسسة ✅' : 'تمت إضافة المؤسسة ✅');
+      setSchoolModal(false); setEditItem(null);
+      setSf({ name_ar: '', name: '', email: '', phone: '', city: '', status: 'TRIAL' });
+      fetchSchools();
+    } catch { showToast('خطأ في الاتصال', false); }
+    finally { setSaving(false); }
+  };
+
+  const changeSchoolStatus = async (id: string, status: string) => {
+    try {
+      await api('/api/schools', { method: 'PUT', body: JSON.stringify({ id, status }) });
+      fetchSchools();
+      showToast(status === 'ACTIVE' ? 'تم تفعيل المؤسسة ✅' : status === 'SUSPENDED' ? 'تم إيقاف المؤسسة' : 'تم التحديث');
+    } catch { showToast('خطأ', false); }
+  };
+
+  const deleteSchool = async (id: string) => {
+    if (!confirm('حذف المؤسسة؟ سيتم حذف جميع بياناتها. لا يمكن التراجع.')) return;
+    try { await api(`/api/schools?id=${id}`, { method: 'DELETE' }); fetchSchools(); showToast('تم حذف المؤسسة'); } catch { showToast('خطأ', false); }
+  };
+
+  // ── Assign Plan to School ──────────────────────────────────────
+  const assignPlan = async () => {
+    if (!assignPlanForm.plan_id) { showToast('اختر الباقة', false); return; }
+    setSaving(true);
+    try {
+      const r = await api('/api/plans', {
+        method: 'PUT',
+        body: JSON.stringify({ action: 'assign_to_school', plan_id: assignPlanForm.plan_id, school_id: assignPlanModal.id, duration_months: assignPlanForm.duration_months })
+      });
+      const d = await r.json();
+      if (!r.ok) { showToast(d.error || 'فشل التعيين', false); return; }
+      showToast('تم تعيين الباقة للمؤسسة ✅');
+      setAssignPlanModal(null);
+      setAssignPlanForm({ plan_id: '', duration_months: '12' });
+      fetchSchools(); fetchSubs();
+    } catch { showToast('خطأ', false); }
+    finally { setSaving(false); }
+  };
+
+  // ── Plan Actions ───────────────────────────────────────────────
+  const savePlan = async () => {
+    if (!pf.name_ar) { showToast('اسم الباقة مطلوب', false); return; }
+    setSaving(true);
+    try {
+      const method = editItem ? 'PUT' : 'POST';
+      const body = {
+        ...(editItem ? { id: editItem.id } : {}),
+        name: pf.name_ar, name_ar: pf.name_ar,
+        price_monthly: parseFloat(pf.price_monthly) || 0,
+        price_yearly: parseFloat(pf.price_yearly) || 0,
+        max_students: parseInt(pf.max_students) || 500,
+        max_teachers: parseInt(pf.max_teachers) || 20,
+        features: pf.features.split('\n').filter(Boolean),
+        is_active: pf.is_active,
+      };
+      const r = await api('/api/plans', { method, body: JSON.stringify(body) });
+      if (!r.ok) { showToast('فشل الحفظ', false); return; }
+      showToast(editItem ? 'تم تحديث الباقة ✅' : 'تمت إضافة الباقة ✅');
+      setPlanModal(false); setEditItem(null);
+      setPf({ name_ar: '', price_monthly: '', price_yearly: '', max_students: '500', max_teachers: '20', features: '', is_active: true });
+      fetchPlans();
+    } catch { showToast('خطأ', false); }
+    finally { setSaving(false); }
+  };
+
+  const togglePlan = async (plan: any) => {
+    try {
+      await api('/api/plans', { method: 'PUT', body: JSON.stringify({ id: plan.id, name: plan.name, name_ar: plan.name_ar, price_monthly: plan.price_monthly, price_yearly: plan.price_yearly, max_students: plan.max_students, max_teachers: plan.max_teachers, features: plan.features, is_active: !plan.is_active }) });
+      fetchPlans();
+      showToast(plan.is_active ? 'تم تعطيل الباقة' : 'تم تفعيل الباقة ✅');
+    } catch { showToast('خطأ', false); }
+  };
+
+  const deletePlan = async (id: any) => {
+    if (!confirm('حذف الباقة؟')) return;
+    try {
+      const r = await api(`/api/plans?id=${id}`, { method: 'DELETE' });
+      const d = await r.json();
+      if (!r.ok) { showToast(d.error || 'فشل الحذف', false); return; }
+      fetchPlans(); showToast('تم حذف الباقة');
+    } catch { showToast('خطأ', false); }
+  };
+
+  // ── Subscription Actions ───────────────────────────────────────
+  const changeSubStatus = async (id: any, status: string) => {
+    try {
+      await api('/api/subscriptions', { method: 'PUT', body: JSON.stringify({ id, status }) });
+      fetchSubs(); showToast('تم تحديث الاشتراك ✅');
+    } catch { showToast('خطأ', false); }
+  };
+
+  const deleteSub = async (id: any) => {
+    if (!confirm('حذف الاشتراك؟')) return;
+    try { await api(`/api/subscriptions?id=${id}`, { method: 'DELETE' }); fetchSubs(); showToast('تم الحذف'); } catch { showToast('خطأ', false); }
+  };
+
+  // ── Permission Actions ─────────────────────────────────────────
+  const openEditPerm = (u: any) => {
+    setEditPermModal(u);
+    setEditPermForm({ role: u.role, status: u.status || 'active', is_active: u.is_active !== false });
+  };
+
+  const savePermission = async () => {
+    if (!editPermModal) return;
+    setSaving(true);
+    try {
+      const r = await api('/api/permissions', {
+        method: 'PUT',
+        body: JSON.stringify({ id: editPermModal.id, role: editPermForm.role, status: editPermForm.status, is_active: editPermForm.is_active })
+      });
+      const d = await r.json();
+      if (!r.ok) { showToast(d.error || 'فشل', false); return; }
+      showToast('تم تحديث الصلاحيات ✅');
+      setEditPermModal(null);
+      fetchPermissions(); fetchUsers();
+    } catch { showToast('خطأ', false); }
+    finally { setSaving(false); }
+  };
+
+  const quickToggleUser = async (u: any) => {
+    const newStatus = (u.status === 'active' || u.is_active) ? 'suspended' : 'active';
+    const newActive = newStatus === 'active';
+    try {
+      await api('/api/permissions', { method: 'PUT', body: JSON.stringify({ id: u.id, status: newStatus, is_active: newActive }) });
+      fetchPermissions();
+      showToast(newActive ? `تم تفعيل ${u.name} ✅` : `تم إيقاف ${u.name}`);
+    } catch { showToast('خطأ', false); }
+  };
+
+  const deleteUserPerm = async (u: any) => {
+    if (!confirm(`حذف المستخدم "${u.name}"؟ لا يمكن التراجع.`)) return;
+    try {
+      const r = await api(`/api/permissions?id=${u.id}`, { method: 'DELETE' });
+      const d = await r.json();
+      if (!r.ok) { showToast(d.error || 'فشل', false); return; }
+      fetchPermissions(); showToast('تم حذف المستخدم');
+    } catch { showToast('خطأ', false); }
+  };
+
+  // ── User Actions ───────────────────────────────────────────────
+  const changeUserStatus = async (id: string, status: string) => {
+    try {
+      await api('/api/users', { method: 'PUT', body: JSON.stringify({ id, status }) });
+      fetchUsers(); showToast(status === 'active' ? 'تم التفعيل ✅' : 'تم الإيقاف');
+    } catch { showToast('خطأ', false); }
+  };
+
+  const deleteUser = async (id: string, role: string) => {
+    if (role === 'super_admin') { showToast('لا يمكن حذف مالك المنصة', false); return; }
+    if (!confirm('حذف المستخدم؟')) return;
+    try { await api(`/api/users?id=${id}`, { method: 'DELETE' }); fetchUsers(); showToast('تم الحذف'); } catch { showToast('خطأ', false); }
+  };
+
+  // ── Ad Actions ─────────────────────────────────────────────────
+  const saveAd = async () => {
+    if (!af.title) { showToast('عنوان الإعلان مطلوب', false); return; }
+    setSaving(true);
+    try {
+      const method = editItem ? 'PUT' : 'POST';
+      const body = editItem ? { id: editItem.id, ...af, is_platform_ad: true } : { ...af, is_platform_ad: true, is_active: true, priority: parseInt(af.priority) };
+      const r = await api('/api/ads', { method, body: JSON.stringify(body) });
+      if (!r.ok) { showToast('فشل الحفظ', false); return; }
+      showToast(editItem ? 'تم تحديث الإعلان ✅' : 'تم نشر الإعلان ✅');
+      setAdModal(false); setEditItem(null);
+      setAf({ title: '', image_url: '', click_url: '', position: 'top', priority: '1', start_date: '', end_date: '' });
+      fetchAds();
+    } catch { showToast('خطأ', false); }
+    finally { setSaving(false); }
+  };
+
+  const toggleAd = async (ad: any) => {
+    try { await api('/api/ads', { method: 'PUT', body: JSON.stringify({ id: ad.id, is_active: !ad.is_active }) }); fetchAds(); } catch {}
+  };
+
+  const deleteAd = async (id: number) => {
+    if (!confirm('حذف الإعلان؟')) return;
+    try { await api(`/api/ads?id=${id}`, { method: 'DELETE' }); fetchAds(); showToast('تم الحذف'); } catch {}
+  };
+
+  // ── Notification ───────────────────────────────────────────────
+  const sendNotification = async () => {
+    if (!notifForm.title || !notifForm.body) { showToast('العنوان والمحتوى مطلوبان', false); return; }
+    setSaving(true);
+    try {
+      const r = await api('/api/push-notifications', { method: 'POST', body: JSON.stringify({ ...notifForm }) });
+      if (r.ok) { showToast('تم إرسال الإشعار ✅'); setNotifModal(false); setNotifForm({ title: '', body: '', target: 'all' }); }
+      else showToast('فشل الإرسال', false);
+    } catch { showToast('خطأ', false); }
+    finally { setSaving(false); }
+  };
+
+  // ── Settings ───────────────────────────────────────────────────
+  const saveSettings = async () => {
+    setSaving(true);
+    try {
+      const r = await api('/api/platform-settings', { method: 'PUT', body: JSON.stringify(settingsForm) });
+      if (r.ok) showToast('تم حفظ الإعدادات ✅');
+      else showToast('فشل الحفظ', false);
+    } catch { showToast('خطأ', false); }
+    finally { setSaving(false); }
+  };
+
+  // ── Filters ────────────────────────────────────────────────────
+  const filteredSchools = schools.filter(s => {
+    const n = (s.name || s.name_ar || '').toLowerCase();
+    return n.includes(schoolSearch.toLowerCase()) && (schoolStatus === 'all' || s.status === schoolStatus);
+  });
+
+  const filteredUsers = users.filter(u => {
+    const match = (u.name || '').toLowerCase().includes(userSearch.toLowerCase()) || (u.email || '').toLowerCase().includes(userSearch.toLowerCase());
+    return match && (userRole === 'all' || u.role === userRole);
+  });
+
+  const filteredPerms = permissions.filter(u => {
+    const match = (u.name || '').toLowerCase().includes(permSearch.toLowerCase()) || (u.email || '').toLowerCase().includes(permSearch.toLowerCase()) || (u.school_name || '').toLowerCase().includes(permSearch.toLowerCase());
+    return match && (permRole === 'all' || u.role === permRole);
+  });
+
+  const filteredSubs = subs.filter(s => {
+    const match = (s.school_name || s.school_name_ar || '').toLowerCase().includes(subsSearch.toLowerCase()) || (s.owner_name || '').toLowerCase().includes(subsSearch.toLowerCase());
+    return match;
+  });
+
+  const timeAgo = (d: string) => {
+    if (!d) return '—';
+    const diff = Date.now() - new Date(d).getTime();
+    const m = Math.floor(diff / 60000);
+    if (m < 1) return 'الآن'; if (m < 60) return `منذ ${m}د`;
+    const h = Math.floor(m / 60); if (h < 24) return `منذ ${h}س`;
+    return `منذ ${Math.floor(h / 24)} يوم`;
+  };
+
+  const formatDate = (d: string) => {
+    if (!d) return '—';
+    return new Date(d).toLocaleDateString('ar-SA', { year: 'numeric', month: 'short', day: 'numeric' });
+  };
+
+  const getRoleInfo = (role: string) => ROLES.find(r => r.value === role) || { label: role, color: '#6B7280' };
+
+  if (loading) return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', flexDirection: 'column', gap: 16, background: DARK }}>
+      <div style={{ width: 64, height: 64, background: `linear-gradient(135deg,${G},${G2})`, borderRadius: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, boxShadow: `0 0 60px ${G}55` }}>👑</div>
+      <p style={{ color: G, fontWeight: 700, fontSize: 15 }}>جاري تحميل لوحة تحكم المنصة...</p>
+    </div>
+  );
+
+  // ════════════════════════════════════════════════════════════════
+  return (
+    <div style={{ direction: 'rtl', fontFamily: "'Segoe UI',system-ui,sans-serif", minHeight: '100vh', background: DARK, color: 'white', display: 'flex' }}>
+
+      {toast && <Toast msg={toast.msg} ok={toast.ok} />}
+
+      {/* ── Sidebar ── */}
+      <div style={{
+        width: sidebarOpen ? 220 : 64, flexShrink: 0, background: 'rgba(0,0,0,0.45)',
+        borderLeft: `1px solid ${BORDER}`, transition: 'width 0.3s', overflow: 'hidden',
+        display: 'flex', flexDirection: 'column', position: 'sticky', top: 0, height: '100vh'
+      }}>
+        <div style={{ padding: '20px 16px', borderBottom: `1px solid ${BORDER}`, display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ width: 36, height: 36, background: `linear-gradient(135deg,${G},${G2})`, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>👑</div>
+          {sidebarOpen && <div>
+            <div style={{ fontSize: 13, fontWeight: 800, color: G }}>مالك المنصة</div>
+            <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)' }}>{me?.name}</div>
+          </div>}
+        </div>
+        <div style={{ flex: 1, overflowY: 'auto', padding: '8px 0' }}>
+          {TABS.map(t => (
+            <button key={t.id} onClick={() => setTab(t.id)} style={{
+              width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px',
+              background: tab === t.id ? `${G}18` : 'transparent',
+              borderRight: tab === t.id ? `3px solid ${G}` : '3px solid transparent',
+              border: 'none', cursor: 'pointer', color: tab === t.id ? G : 'rgba(255,255,255,0.45)',
+              fontWeight: tab === t.id ? 700 : 400, fontSize: 13, textAlign: 'right', transition: 'all 0.15s', whiteSpace: 'nowrap'
+            }}>
+              <span style={{ fontSize: 16, flexShrink: 0 }}>{t.icon}</span>
+              {sidebarOpen && t.label}
+            </button>
+          ))}
+        </div>
+        <button onClick={() => {
+          if (confirm('تسجيل الخروج؟')) {
+            fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }).then(() => { localStorage.clear(); router.push('/login'); });
+          }
+        }} style={{ padding: '12px 16px', background: 'rgba(239,68,68,0.08)', border: 'none', borderTop: `1px solid ${BORDER}`, cursor: 'pointer', color: '#EF4444', fontSize: 12, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ fontSize: 16 }}>🚪</span>{sidebarOpen && 'تسجيل الخروج'}
+        </button>
+        <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ padding: '10px 16px', background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.3)', borderTop: `1px solid ${BORDER}`, fontSize: 14 }}>
+          {sidebarOpen ? '◀' : '▶'}
+        </button>
+      </div>
+
+      {/* ── Main Content ── */}
+      <div style={{ flex: 1, padding: '28px 32px', overflowY: 'auto', maxHeight: '100vh' }}>
+
+        {/* ════ نظرة عامة ════ */}
+        {tab === 'overview' && (
+          <div>
+            <SectionHeader title="📊 نظرة عامة" sub={`مرحباً ${me?.name} — لوحة تحكم منصة متين التعليمية`} />
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(160px,1fr))', gap: 14, marginBottom: 28 }}>
+              <StatCard icon="🏫" label="المؤسسات" value={stats.schools || schools.length} color={G} onClick={() => setTab('schools')} />
+              <StatCard icon="👑" label="ملاك المدارس" value={stats.owners || 0} color="#8B5CF6" onClick={() => setTab('permissions')} />
+              <StatCard icon="🎓" label="الطلاب" value={stats.students || 0} color="#10B981" onClick={() => setTab('users')} />
+              <StatCard icon="👨‍🏫" label="المعلمون" value={stats.teachers || 0} color="#3B82F6" onClick={() => setTab('users')} />
+              <StatCard icon="⏳" label="طلبات معلقة" value={stats.pending || 0} color="#F59E0B" sub="تنتظر الموافقة" onClick={() => setTab('permissions')} />
+              <StatCard icon="💎" label="اشتراكات نشطة" value={subs.filter(s => s.status === 'active').length} color="#EC4899" onClick={() => setTab('subscriptions')} />
+              <StatCard icon="📦" label="الباقات" value={plans.length} color="#06B6D4" onClick={() => setTab('plans')} />
+              <StatCard icon="📢" label="إعلانات نشطة" value={ads.filter(a => a.is_active).length} color="#F59E0B" onClick={() => setTab('ads')} />
+            </div>
+
+            {/* إجراءات سريعة */}
+            <div style={{ marginBottom: 28 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.3)', letterSpacing: 2, marginBottom: 14 }}>⚡ إجراءات سريعة</div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(140px,1fr))', gap: 10 }}>
+                {[
+                  { icon: '🏫', label: 'إضافة مؤسسة', action: () => { setTab('schools'); setTimeout(() => setSchoolModal(true), 100); } },
+                  { icon: '🔑', label: 'إدارة الصلاحيات', action: () => setTab('permissions') },
+                  { icon: '📦', label: 'باقة جديدة', action: () => { setTab('plans'); setTimeout(() => setPlanModal(true), 100); } },
+                  { icon: '🔔', label: 'إشعار جماعي', action: () => setNotifModal(true) },
+                  { icon: '📢', label: 'إعلان جديد', action: () => { setTab('ads'); setTimeout(() => setAdModal(true), 100); } },
+                  { icon: '📈', label: 'التحليلات', action: () => setTab('analytics') },
+                ].map((a, i) => (
+                  <button key={i} onClick={a.action} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: '16px 12px', cursor: 'pointer', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, transition: 'all 0.2s' }}
+                    onMouseEnter={e => (e.currentTarget.style.background = `${G}12`)}
+                    onMouseLeave={e => (e.currentTarget.style.background = CARD)}>
+                    <span style={{ fontSize: 26 }}>{a.icon}</span>
+                    <span style={{ color: 'rgba(255,255,255,0.65)', fontSize: 12, fontWeight: 600 }}>{a.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* آخر المؤسسات + معلقون */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 20 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
+                  <span style={{ fontWeight: 700 }}>🏫 آخر المؤسسات</span>
+                  <button onClick={() => setTab('schools')} style={{ background: 'none', border: 'none', color: G, cursor: 'pointer', fontSize: 12 }}>عرض الكل ←</button>
+                </div>
+                {schools.slice(0, 6).map((s, i) => (
+                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: `1px solid ${BORDER}` }}>
+                    <div>
+                      <div style={{ fontWeight: 600, fontSize: 13 }}>{s.name || s.name_ar}</div>
+                      <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11 }}>{s.city || '—'} · {s.owner_name || 'بدون مالك'}</div>
+                    </div>
+                    {statusBadge(s.status)}
+                  </div>
+                ))}
+                {schools.length === 0 && <div style={{ color: 'rgba(255,255,255,0.3)', textAlign: 'center', padding: 20 }}>لا توجد مؤسسات</div>}
+              </div>
+
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 20 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
+                  <span style={{ fontWeight: 700 }}>⏳ المستخدمون المعلقون</span>
+                  <button onClick={() => setTab('permissions')} style={{ background: 'none', border: 'none', color: G, cursor: 'pointer', fontSize: 12 }}>إدارة ←</button>
+                </div>
+                {permissions.filter(u => u.status === 'pending').slice(0, 6).map((u, i) => (
+                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: `1px solid ${BORDER}` }}>
+                    <div>
+                      <div style={{ fontWeight: 600, fontSize: 13 }}>{u.name}</div>
+                      <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11 }}>{getRoleInfo(u.role).label} · {u.school_name || '—'}</div>
+                    </div>
+                    <ActionBtn label="تفعيل" color="#10B981" onClick={() => quickToggleUser(u)} />
+                  </div>
+                ))}
+                {permissions.filter(u => u.status === 'pending').length === 0 && <div style={{ color: 'rgba(255,255,255,0.3)', textAlign: 'center', padding: 20 }}>لا يوجد مستخدمون معلقون ✅</div>}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ════ المؤسسات ════ */}
+        {tab === 'schools' && (
+          <div>
+            <SectionHeader title="🏫 إدارة المؤسسات" sub={`${schools.length} مؤسسة مسجلة`} btn="+ إضافة مؤسسة" onBtn={() => { setEditItem(null); setSf({ name_ar: '', name: '', email: '', phone: '', city: '', status: 'TRIAL' }); setSchoolModal(true); }} />
+            <div style={{ display: 'flex', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
+              <SearchBar value={schoolSearch} onChange={setSchoolSearch} placeholder="🔍 بحث بالاسم..." />
+              {['all', 'ACTIVE', 'TRIAL', 'SUSPENDED'].map(s => (
+                <FilterBtn key={s} label={s === 'all' ? 'الكل' : s === 'ACTIVE' ? 'نشط' : s === 'TRIAL' ? 'تجريبي' : 'موقوف'} active={schoolStatus === s} onClick={() => setSchoolStatus(s)} />
+              ))}
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: 'hidden' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 2fr', padding: '12px 20px', background: 'rgba(255,255,255,0.04)', borderBottom: `1px solid ${BORDER}` }}>
+                {['المؤسسة', 'المدينة', 'المالك', 'الحالة', 'إجراءات'].map((h, i) => (
+                  <span key={i} style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11, fontWeight: 700 }}>{h}</span>
+                ))}
+              </div>
+              {filteredSchools.length === 0
+                ? <div style={{ textAlign: 'center', padding: 40, color: 'rgba(255,255,255,0.3)' }}>لا توجد نتائج</div>
+                : filteredSchools.map((s, i) => (
+                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 2fr', padding: '14px 20px', borderBottom: `1px solid ${BORDER}`, alignItems: 'center' }}>
+                    <div>
+                      <div style={{ fontWeight: 600, fontSize: 14 }}>{s.name || s.name_ar}</div>
+                      <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11 }}>{s.email || '—'} · {s.code || ''}</div>
+                    </div>
+                    <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>{s.city || '—'}</div>
+                    <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12 }}>{s.owner_name || '—'}</div>
+                    {statusBadge(s.status)}
+                    <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+                      {s.status !== 'ACTIVE' && <ActionBtn label="تفعيل" color="#10B981" onClick={() => changeSchoolStatus(s.id, 'ACTIVE')} />}
+                      {s.status === 'ACTIVE' && <ActionBtn label="إيقاف" color="#F59E0B" onClick={() => changeSchoolStatus(s.id, 'SUSPENDED')} />}
+                      <ActionBtn label="باقة" color="#8B5CF6" onClick={() => { setAssignPlanModal(s); setAssignPlanForm({ plan_id: '', duration_months: '12' }); }} />
+                      <ActionBtn label="تعديل" color="#3B82F6" onClick={() => { setEditItem(s); setSf({ name_ar: s.name_ar || s.name || '', name: s.name || '', email: s.email || '', phone: s.phone || '', city: s.city || '', status: s.status || 'TRIAL' }); setSchoolModal(true); }} />
+                      <ActionBtn label="حذف" color="#EF4444" onClick={() => deleteSchool(s.id)} />
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
+        )}
+
+        {/* ════ الصلاحيات ════ */}
+        {tab === 'permissions' && (
+          <div>
+            <SectionHeader title="🔑 إدارة الصلاحيات" sub={`${permissions.length} مستخدم — تحكم كامل في الأدوار والوصول`} />
+
+            {/* ملخص سريع */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(130px,1fr))', gap: 12, marginBottom: 24 }}>
+              {ROLES.map(r => (
+                <div key={r.value} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '14px', textAlign: 'center', cursor: 'pointer' }}
+                  onClick={() => setPermRole(r.value)}>
+                  <div style={{ fontSize: 20, fontWeight: 800, color: r.color }}>{permissions.filter(u => u.role === r.value).length}</div>
+                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>{r.label}</div>
+                </div>
+              ))}
+              <div style={{ background: CARD, border: `2px solid ${G}33`, borderRadius: 12, padding: '14px', textAlign: 'center', cursor: 'pointer' }}
+                onClick={() => setPermRole('all')}>
+                <div style={{ fontSize: 20, fontWeight: 800, color: G }}>{permissions.length}</div>
+                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>الكل</div>
+              </div>
+            </div>
+
+            {/* فلاتر */}
+            <div style={{ display: 'flex', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
+              <SearchBar value={permSearch} onChange={setPermSearch} placeholder="🔍 بحث بالاسم أو البريد أو المدرسة..." />
+              <FilterBtn label="الكل" active={permRole === 'all'} onClick={() => setPermRole('all')} />
+              {ROLES.map(r => <FilterBtn key={r.value} label={r.label} active={permRole === r.value} onClick={() => setPermRole(r.value)} />)}
+            </div>
+
+            {/* جدول الصلاحيات */}
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: 'hidden' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr 2fr', padding: '12px 20px', background: 'rgba(255,255,255,0.04)', borderBottom: `1px solid ${BORDER}` }}>
+                {['المستخدم', 'الدور', 'المدرسة', 'الحالة', 'النشاط', 'إجراءات'].map((h, i) => (
+                  <span key={i} style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11, fontWeight: 700 }}>{h}</span>
+                ))}
+              </div>
+              {filteredPerms.length === 0
+                ? <div style={{ textAlign: 'center', padding: 40, color: 'rgba(255,255,255,0.3)' }}>لا توجد نتائج</div>
+                : filteredPerms.map((u, i) => {
+                  const roleInfo = getRoleInfo(u.role);
+                  const isActive = u.status === 'active' && u.is_active !== false;
+                  return (
+                    <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr 2fr', padding: '14px 20px', borderBottom: `1px solid ${BORDER}`, alignItems: 'center', background: u.status === 'pending' ? 'rgba(245,158,11,0.04)' : 'transparent' }}>
+                      <div>
+                        <div style={{ fontWeight: 600, fontSize: 14 }}>{u.name}</div>
+                        <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11 }}>{u.email}</div>
+                      </div>
+                      <span style={{ color: roleInfo.color, fontSize: 12, fontWeight: 700 }}>{roleInfo.label}</span>
+                      <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{u.school_name || '—'}</div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        {statusBadge(u.status || 'active')}
+                      </div>
+                      <div style={{ color: isActive ? '#10B981' : '#EF4444', fontSize: 12, fontWeight: 600 }}>
+                        {isActive ? '● نشط' : '● موقوف'}
+                      </div>
+                      <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+                        <ActionBtn
+                          label={isActive ? 'إيقاف' : 'تفعيل'}
+                          color={isActive ? '#F59E0B' : '#10B981'}
+                          onClick={() => quickToggleUser(u)}
+                        />
+                        <ActionBtn label="تعديل الدور" color="#8B5CF6" onClick={() => openEditPerm(u)} />
+                        <ActionBtn label="حذف" color="#EF4444" onClick={() => deleteUserPerm(u)} />
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+        )}
+
+        {/* ════ الباقات ════ */}
+        {tab === 'plans' && (
+          <div>
+            <SectionHeader title="📦 إدارة الباقات" sub="الباقات المعروضة على المؤسسات" btn="+ باقة جديدة" onBtn={() => { setEditItem(null); setPf({ name_ar: '', price_monthly: '', price_yearly: '', max_students: '500', max_teachers: '20', features: '', is_active: true }); setPlanModal(true); }} />
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 16 }}>
+              {plans.map((p, i) => (
+                <div key={i} style={{ background: CARD, border: `1px solid ${p.is_active !== false ? `${G}44` : BORDER}`, borderRadius: 16, padding: 24, position: 'relative' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
+                    <div>
+                      <div style={{ fontWeight: 800, fontSize: 18, color: 'white' }}>{p.name_ar || p.name}</div>
+                      <div style={{ color: G, fontWeight: 800, fontSize: 22, marginTop: 4 }}>{p.price_monthly?.toLocaleString('ar-SA')} <span style={{ fontSize: 13, fontWeight: 500 }}>ريال/شهر</span></div>
+                      {p.price_yearly > 0 && <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{p.price_yearly?.toLocaleString('ar-SA')} ريال/سنة</div>}
+                    </div>
+                    <span style={{ background: p.is_active !== false ? 'rgba(16,185,129,0.15)' : 'rgba(107,114,128,0.15)', color: p.is_active !== false ? '#10B981' : '#6B7280', padding: '4px 12px', borderRadius: 8, fontSize: 12, fontWeight: 700 }}>
+                      {p.is_active !== false ? '● نشط' : '● معطّل'}
+                    </span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 16 }}>
+                    <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 8, padding: '8px 12px' }}>
+                      <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>الطلاب</div>
+                      <div style={{ fontWeight: 700, color: '#10B981' }}>{p.max_students?.toLocaleString('ar-SA')}</div>
+                    </div>
+                    <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 8, padding: '8px 12px' }}>
+                      <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>المعلمون</div>
+                      <div style={{ fontWeight: 700, color: '#3B82F6' }}>{p.max_teachers?.toLocaleString('ar-SA')}</div>
+                    </div>
+                  </div>
+                  {p.features && (
+                    <div style={{ marginBottom: 16 }}>
+                      {(Array.isArray(p.features) ? p.features : (typeof p.features === 'string' ? JSON.parse(p.features || '[]') : [])).slice(0, 4).map((f: string, fi: number) => (
+                        <div key={fi} style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, padding: '2px 0' }}>✓ {f}</div>
+                      ))}
+                    </div>
+                  )}
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                    <ActionBtn label={p.is_active !== false ? 'تعطيل' : 'تفعيل'} color={p.is_active !== false ? '#F59E0B' : '#10B981'} onClick={() => togglePlan(p)} />
+                    <ActionBtn label="تعديل" color="#3B82F6" onClick={() => {
+                      setEditItem(p);
+                      const feats = Array.isArray(p.features) ? p.features : (typeof p.features === 'string' ? JSON.parse(p.features || '[]') : []);
+                      setPf({ name_ar: p.name_ar || p.name || '', price_monthly: String(p.price_monthly || ''), price_yearly: String(p.price_yearly || ''), max_students: String(p.max_students || '500'), max_teachers: String(p.max_teachers || '20'), features: feats.join('\n'), is_active: p.is_active !== false });
+                      setPlanModal(true);
+                    }} />
+                    <ActionBtn label="حذف" color="#EF4444" onClick={() => deletePlan(p.id)} />
+                  </div>
+                </div>
+              ))}
+              {plans.length === 0 && <EmptyState icon="📦" msg="لا توجد باقات — أضف باقتك الأولى" />}
+            </div>
+          </div>
+        )}
+
+        {/* ════ الاشتراكات ════ */}
+        {tab === 'subscriptions' && (
+          <div>
+            <SectionHeader title="💎 الاشتراكات" sub={`${subs.length} اشتراك · ${subs.filter(s => s.status === 'active').length} نشط`} />
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: 12, marginBottom: 20 }}>
+              {[
+                { label: 'نشط', value: subs.filter(s => s.status === 'active').length, color: '#10B981' },
+                { label: 'معلق', value: subs.filter(s => s.status === 'pending').length, color: '#F59E0B' },
+                { label: 'منتهي', value: subs.filter(s => s.status === 'expired').length, color: '#6B7280' },
+                { label: 'ملغي', value: subs.filter(s => s.status === 'cancelled').length, color: '#EF4444' },
+              ].map((c, i) => (
+                <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '14px', textAlign: 'center' }}>
+                  <div style={{ fontSize: 22, fontWeight: 800, color: c.color }}>{c.value}</div>
+                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>{c.label}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginBottom: 12 }}>
+              <SearchBar value={subsSearch} onChange={setSubsSearch} placeholder="🔍 بحث بالمدرسة أو المالك..." />
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: 'hidden' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr 1.5fr', padding: '12px 20px', background: 'rgba(255,255,255,0.04)', borderBottom: `1px solid ${BORDER}` }}>
+                {['المدرسة', 'الباقة', 'المبلغ', 'الحالة', 'الانتهاء', 'إجراءات'].map((h, i) => (
+                  <span key={i} style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11, fontWeight: 700 }}>{h}</span>
+                ))}
+              </div>
+              {filteredSubs.length === 0
+                ? <div style={{ textAlign: 'center', padding: 40, color: 'rgba(255,255,255,0.3)' }}>لا توجد اشتراكات</div>
+                : filteredSubs.map((s, i) => (
+                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr 1.5fr', padding: '14px 20px', borderBottom: `1px solid ${BORDER}`, alignItems: 'center' }}>
+                    <div>
+                      <div style={{ fontWeight: 600, fontSize: 14 }}>{s.school_name || s.school_name_ar || '—'}</div>
+                      <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11 }}>{s.owner_name || '—'}</div>
+                    </div>
+                    <div style={{ color: G, fontWeight: 600, fontSize: 13 }}>{s.plan_name || s.plan || '—'}</div>
+                    <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>{s.amount ? `${s.amount} ريال` : '—'}</div>
+                    {statusBadge(s.status || 'pending')}
+                    <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{formatDate(s.end_date)}</div>
+                    <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+                      {s.status !== 'active' && <ActionBtn label="تفعيل" color="#10B981" onClick={() => changeSubStatus(s.id, 'active')} />}
+                      {s.status === 'active' && <ActionBtn label="إيقاف" color="#F59E0B" onClick={() => changeSubStatus(s.id, 'suspended')} />}
+                      <ActionBtn label="حذف" color="#EF4444" onClick={() => deleteSub(s.id)} />
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
+        )}
+
+        {/* ════ المستخدمون ════ */}
+        {tab === 'users' && (
+          <div>
+            <SectionHeader title="👥 إدارة المستخدمين" sub={`${users.length} مستخدم مسجل`} />
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(130px,1fr))', gap: 12, marginBottom: 20 }}>
+              {ROLES.map(r => (
+                <div key={r.value} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '14px', textAlign: 'center' }}>
+                  <div style={{ fontSize: 20, fontWeight: 800, color: r.color }}>{users.filter(u => u.role === r.value).length}</div>
+                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>{r.label}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ display: 'flex', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
+              <SearchBar value={userSearch} onChange={setUserSearch} placeholder="🔍 بحث بالاسم أو البريد..." />
+              <FilterBtn label="الكل" active={userRole === 'all'} onClick={() => setUserRole('all')} />
+              {ROLES.map(r => <FilterBtn key={r.value} label={r.label} active={userRole === r.value} onClick={() => setUserRole(r.value)} />)}
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: 'hidden' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', padding: '12px 20px', background: 'rgba(255,255,255,0.04)', borderBottom: `1px solid ${BORDER}` }}>
+                {['المستخدم', 'الدور', 'الحالة', 'التسجيل', 'إجراءات'].map((h, i) => (
+                  <span key={i} style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11, fontWeight: 700 }}>{h}</span>
+                ))}
+              </div>
+              {filteredUsers.map((u, i) => {
+                const roleInfo = getRoleInfo(u.role);
+                return (
+                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', padding: '14px 20px', borderBottom: `1px solid ${BORDER}`, alignItems: 'center' }}>
+                    <div>
+                      <div style={{ fontWeight: 600, fontSize: 14 }}>{u.name}</div>
+                      <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11 }}>{u.email}</div>
+                    </div>
+                    <span style={{ color: roleInfo.color, fontSize: 12, fontWeight: 700 }}>{roleInfo.label}</span>
+                    {statusBadge(u.status)}
+                    <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{timeAgo(u.created_at)}</span>
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                      {u.role !== 'super_admin' && u.status !== 'active' && <ActionBtn label="تفعيل" color="#10B981" onClick={() => changeUserStatus(u.id, 'active')} />}
+                      {u.role !== 'super_admin' && u.status === 'active' && <ActionBtn label="إيقاف" color="#F59E0B" onClick={() => changeUserStatus(u.id, 'suspended')} />}
+                      {u.role !== 'super_admin' && <ActionBtn label="حذف" color="#EF4444" onClick={() => deleteUser(u.id, u.role)} />}
+                    </div>
+                  </div>
+                );
+              })}
+              {filteredUsers.length === 0 && <div style={{ textAlign: 'center', padding: 40, color: 'rgba(255,255,255,0.3)' }}>لا توجد نتائج</div>}
+            </div>
+          </div>
+        )}
+
+        {/* ════ الإعلانات ════ */}
+        {tab === 'ads' && (
+          <div>
+            <SectionHeader title="📢 الإعلانات" sub={`${ads.length} إعلان · ${ads.filter(a => a.is_active).length} نشط`} btn="+ إعلان جديد" onBtn={() => { setEditItem(null); setAf({ title: '', image_url: '', click_url: '', position: 'top', priority: '1', start_date: '', end_date: '' }); setAdModal(true); }} />
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 16 }}>
+              {ads.map((a, i) => (
+                <div key={i} style={{ background: CARD, border: `1px solid ${a.is_active ? `${G}33` : BORDER}`, borderRadius: 16, padding: 20 }}>
+                  {a.image_url && <img src={a.image_url} alt="" style={{ width: '100%', height: 120, objectFit: 'cover', borderRadius: 10, marginBottom: 12 }} />}
+                  <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 6 }}>{a.title}</div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                    <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>الموضع: {a.position || '—'}</span>
+                    <span style={{ background: a.is_active ? 'rgba(16,185,129,0.15)' : 'rgba(107,114,128,0.15)', color: a.is_active ? '#10B981' : '#6B7280', padding: '2px 10px', borderRadius: 6, fontSize: 11, fontWeight: 700 }}>
+                      {a.is_active ? 'نشط' : 'معطّل'}
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <ActionBtn label={a.is_active ? 'إيقاف' : 'تفعيل'} color={a.is_active ? '#F59E0B' : '#10B981'} onClick={() => toggleAd(a)} />
+                    <ActionBtn label="تعديل" color="#3B82F6" onClick={() => { setEditItem(a); setAf({ title: a.title || '', image_url: a.image_url || '', click_url: a.click_url || '', position: a.position || 'top', priority: String(a.priority || '1'), start_date: a.start_date || '', end_date: a.end_date || '' }); setAdModal(true); }} />
+                    <ActionBtn label="حذف" color="#EF4444" onClick={() => deleteAd(a.id)} />
+                  </div>
+                </div>
+              ))}
+              {ads.length === 0 && <EmptyState icon="📢" msg="لا توجد إعلانات" />}
+            </div>
+          </div>
+        )}
+
+        {/* ════ المالية ════ */}
+        {tab === 'finance' && (
+          <div>
+            <SectionHeader title="💰 المالية" sub="الإيرادات والاشتراكات" />
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 14, marginBottom: 24 }}>
+              <StatCard icon="💰" label="إجمالي الاشتراكات" value={subs.reduce((acc, s) => acc + (parseFloat(s.amount) || 0), 0).toLocaleString('ar-SA') + ' ريال'} color={G} />
+              <StatCard icon="✅" label="اشتراكات نشطة" value={subs.filter(s => s.status === 'active').length} color="#10B981" />
+              <StatCard icon="⏳" label="اشتراكات معلقة" value={subs.filter(s => s.status === 'pending').length} color="#F59E0B" />
+              <StatCard icon="❌" label="اشتراكات منتهية" value={subs.filter(s => s.status === 'expired').length} color="#EF4444" />
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: 'hidden' }}>
+              <div style={{ padding: '16px 20px', borderBottom: `1px solid ${BORDER}`, fontWeight: 700 }}>📋 آخر الاشتراكات</div>
+              {subs.slice(0, 20).map((s, i) => (
+                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 20px', borderBottom: `1px solid ${BORDER}` }}>
+                  <div>
+                    <div style={{ fontWeight: 600, fontSize: 14 }}>{s.school_name || '—'}</div>
+                    <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 12 }}>{s.plan_name || s.plan || '—'} · {formatDate(s.created_at)}</div>
+                  </div>
+                  <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                    <span style={{ fontWeight: 700, color: G }}>{s.amount ? `${s.amount} ريال` : '—'}</span>
+                    {statusBadge(s.status || 'pending')}
+                  </div>
+                </div>
+              ))}
+              {subs.length === 0 && <div style={{ textAlign: 'center', padding: 40, color: 'rgba(255,255,255,0.3)' }}>لا توجد بيانات مالية</div>}
+            </div>
+          </div>
+        )}
+
+        {/* ════ التحليلات ════ */}
+        {tab === 'analytics' && (
+          <div>
+            <SectionHeader title="📈 التحليلات" sub="إحصاءات استخدام المنصة" />
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 14, marginBottom: 24 }}>
+              <StatCard icon="🏫" label="المؤسسات النشطة" value={schools.filter(s => s.status === 'ACTIVE' || s.status === 'active').length} color="#10B981" />
+              <StatCard icon="🏫" label="مؤسسات تجريبية" value={schools.filter(s => s.status === 'TRIAL' || s.status === 'trial').length} color="#F59E0B" />
+              <StatCard icon="🏫" label="مؤسسات موقوفة" value={schools.filter(s => s.status === 'SUSPENDED').length} color="#EF4444" />
+              <StatCard icon="🎯" label="العملاء المحتملون" value={leads.length} color="#8B5CF6" />
+              <StatCard icon="💬" label="طلبات الدعم" value={support.length} color="#3B82F6" />
+              <StatCard icon="👥" label="إجمالي المستخدمين" value={users.length} color="#06B6D4" />
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 20 }}>
+                <div style={{ fontWeight: 700, marginBottom: 16 }}>📊 توزيع المستخدمين</div>
+                {ROLES.map(r => {
+                  const count = users.filter(u => u.role === r.value).length;
+                  const pct = users.length ? Math.round((count / users.length) * 100) : 0;
+                  return (
+                    <div key={r.value} style={{ marginBottom: 12 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                        <span style={{ fontSize: 13, color: r.color }}>{r.label}</span>
+                        <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>{count} ({pct}%)</span>
+                      </div>
+                      <div style={{ height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 3 }}>
+                        <div style={{ height: '100%', width: `${pct}%`, background: r.color, borderRadius: 3, transition: 'width 0.5s' }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 20 }}>
+                <div style={{ fontWeight: 700, marginBottom: 16 }}>🏫 توزيع المؤسسات</div>
+                {[
+                  { label: 'نشطة', value: schools.filter(s => s.status === 'ACTIVE').length, color: '#10B981' },
+                  { label: 'تجريبية', value: schools.filter(s => s.status === 'TRIAL').length, color: '#F59E0B' },
+                  { label: 'موقوفة', value: schools.filter(s => s.status === 'SUSPENDED').length, color: '#EF4444' },
+                ].map(c => {
+                  const pct = schools.length ? Math.round((c.value / schools.length) * 100) : 0;
+                  return (
+                    <div key={c.label} style={{ marginBottom: 12 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                        <span style={{ fontSize: 13, color: c.color }}>{c.label}</span>
+                        <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>{c.value} ({pct}%)</span>
+                      </div>
+                      <div style={{ height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 3 }}>
+                        <div style={{ height: '100%', width: `${pct}%`, background: c.color, borderRadius: 3 }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ════ الدعم ════ */}
+        {tab === 'support' && (
+          <div>
+            <SectionHeader title="💬 الدعم والشكاوى" sub={`${support.length} طلب دعم`} />
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: 'hidden' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', padding: '12px 20px', background: 'rgba(255,255,255,0.04)', borderBottom: `1px solid ${BORDER}` }}>
+                {['الطلب', 'المرسل', 'النوع', 'الحالة'].map((h, i) => (
+                  <span key={i} style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11, fontWeight: 700 }}>{h}</span>
+                ))}
+              </div>
+              {support.slice(0, 30).map((s, i) => (
+                <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', padding: '14px 20px', borderBottom: `1px solid ${BORDER}`, alignItems: 'center' }}>
+                  <div style={{ fontWeight: 600, fontSize: 13 }}>{s.subject || s.title || '—'}</div>
+                  <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{s.user_name || s.name || '—'}</div>
+                  <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{s.type || '—'}</div>
+                  {statusBadge(s.status || 'pending')}
+                </div>
+              ))}
+              {support.length === 0 && <div style={{ textAlign: 'center', padding: 40, color: 'rgba(255,255,255,0.3)' }}>لا توجد طلبات دعم ✅</div>}
+            </div>
+          </div>
+        )}
+
+        {/* ════ الإشعارات ════ */}
+        {tab === 'notifications' && (
+          <div>
+            <SectionHeader title="🔔 الإشعارات المركزية" sub="إرسال إشعارات لجميع مستخدمي المنصة" btn="📤 إرسال إشعار" onBtn={() => setNotifModal(true)} />
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, maxWidth: 560 }}>
+              <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 20 }}>📢 إشعار جماعي جديد</div>
+              <Input label="عنوان الإشعار" value={notifForm.title} onChange={(v: string) => setNotifForm(f => ({ ...f, title: v }))} placeholder="مثال: تحديث جديد في المنصة" />
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>محتوى الإشعار</label>
+                <textarea value={notifForm.body} onChange={e => setNotifForm(f => ({ ...f, body: e.target.value }))} placeholder="اكتب محتوى الإشعار هنا..."
+                  style={{ width: '100%', background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}`, borderRadius: 10, padding: '10px 14px', color: 'white', fontSize: 13, outline: 'none', boxSizing: 'border-box', minHeight: 100, resize: 'vertical' }} />
+              </div>
+              <Select label="الجمهور المستهدف" value={notifForm.target} onChange={(v: string) => setNotifForm(f => ({ ...f, target: v }))}
+                options={[{ value: 'all', label: 'جميع المستخدمين' }, { value: 'owners', label: 'ملاك المدارس فقط' }, { value: 'teachers', label: 'المعلمون فقط' }, { value: 'students', label: 'الطلاب فقط' }]} />
+              <SaveBtn label="📤 إرسال الإشعار" onClick={sendNotification} loading={saving} />
+            </div>
+          </div>
+        )}
+
+        {/* ════ الأمان ════ */}
+        {tab === 'security' && (
+          <div>
+            <SectionHeader title="🔐 الأمان والسجلات" sub="سجلات النشاط والعمليات" />
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: 'hidden', marginBottom: 20 }}>
+              <div style={{ padding: '16px 20px', borderBottom: `1px solid ${BORDER}`, fontWeight: 700 }}>📋 سجل النشاط</div>
+              {actLog.slice(0, 20).map((a, i) => (
+                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 20px', borderBottom: `1px solid ${BORDER}`, alignItems: 'center' }}>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 600 }}>{a.action || a.description || a.type || '—'}</div>
+                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>{a.user_name || a.email || '—'}</div>
+                  </div>
+                  <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: 12 }}>{timeAgo(a.created_at)}</span>
+                </div>
+              ))}
+              {actLog.length === 0 && <div style={{ textAlign: 'center', padding: 40, color: 'rgba(255,255,255,0.3)' }}>لا توجد سجلات</div>}
+            </div>
+          </div>
+        )}
+
+        {/* ════ الإعدادات ════ */}
+        {tab === 'settings' && (
+          <div>
+            <SectionHeader title="⚙️ إعدادات المنصة" sub="الإعدادات العامة لمنصة متين" />
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, maxWidth: 600 }}>
+              <Input label="اسم المنصة" value={settingsForm.platform_name || 'متين'} onChange={(v: string) => setSettingsForm((f: any) => ({ ...f, platform_name: v }))} />
+              <Input label="البريد الإلكتروني للدعم" value={settingsForm.support_email || ''} onChange={(v: string) => setSettingsForm((f: any) => ({ ...f, support_email: v }))} type="email" />
+              <Input label="رقم الدعم الفني" value={settingsForm.support_phone || ''} onChange={(v: string) => setSettingsForm((f: any) => ({ ...f, support_phone: v }))} />
+              <Input label="رابط الموقع" value={settingsForm.website_url || ''} onChange={(v: string) => setSettingsForm((f: any) => ({ ...f, website_url: v }))} />
+              <SaveBtn label="💾 حفظ الإعدادات" onClick={saveSettings} loading={saving} />
+            </div>
+          </div>
+        )}
+
+      </div>
+
+      {/* ══════════════════════════ MODALS ══════════════════════════ */}
+
+      {/* Modal: إضافة/تعديل مؤسسة */}
+      {schoolModal && (
+        <Modal title={editItem ? '✏️ تعديل المؤسسة' : '🏫 إضافة مؤسسة جديدة'} onClose={() => { setSchoolModal(false); setEditItem(null); }}>
+          <Input label="اسم المؤسسة (عربي) *" value={sf.name_ar} onChange={(v: string) => setSf(f => ({ ...f, name_ar: v }))} placeholder="مثال: مدرسة النور الأهلية" />
+          <Input label="اسم المؤسسة (إنجليزي)" value={sf.name} onChange={(v: string) => setSf(f => ({ ...f, name: v }))} placeholder="Al Noor School" />
+          <Input label="البريد الإلكتروني" value={sf.email} onChange={(v: string) => setSf(f => ({ ...f, email: v }))} type="email" />
+          <Input label="رقم الهاتف" value={sf.phone} onChange={(v: string) => setSf(f => ({ ...f, phone: v }))} />
+          <Input label="المدينة" value={sf.city} onChange={(v: string) => setSf(f => ({ ...f, city: v }))} placeholder="الرياض" />
+          <Select label="الحالة" value={sf.status} onChange={(v: string) => setSf(f => ({ ...f, status: v }))}
+            options={[{ value: 'TRIAL', label: 'تجريبي' }, { value: 'ACTIVE', label: 'نشط' }, { value: 'SUSPENDED', label: 'موقوف' }]} />
+          <SaveBtn label={editItem ? '💾 تحديث المؤسسة' : '➕ إضافة المؤسسة'} onClick={saveSchool} loading={saving} />
+        </Modal>
+      )}
+
+      {/* Modal: تعيين باقة لمدرسة */}
+      {assignPlanModal && (
+        <Modal title={`📦 تعيين باقة لـ: ${assignPlanModal.name || assignPlanModal.name_ar}`} onClose={() => setAssignPlanModal(null)}>
+          <div style={{ background: 'rgba(201,162,39,0.08)', border: `1px solid ${G}33`, borderRadius: 10, padding: '12px 16px', marginBottom: 16 }}>
+            <div style={{ fontSize: 12, color: G, fontWeight: 600 }}>⚠️ سيتم إلغاء الاشتراك الحالي وإنشاء اشتراك جديد</div>
+          </div>
+          <Select label="اختر الباقة *" value={assignPlanForm.plan_id} onChange={(v: string) => setAssignPlanForm(f => ({ ...f, plan_id: v }))}
+            options={[{ value: '', label: '-- اختر الباقة --' }, ...plans.map(p => ({ value: p.id, label: `${p.name_ar || p.name} — ${p.price_monthly} ريال/شهر` }))]} />
+          <Select label="مدة الاشتراك" value={assignPlanForm.duration_months} onChange={(v: string) => setAssignPlanForm(f => ({ ...f, duration_months: v }))}
+            options={[{ value: '1', label: 'شهر واحد' }, { value: '3', label: '3 أشهر' }, { value: '6', label: '6 أشهر' }, { value: '12', label: 'سنة كاملة' }, { value: '24', label: 'سنتان' }]} />
+          {assignPlanForm.plan_id && (
+            <div style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 10, padding: '12px 16px', marginBottom: 16 }}>
+              {(() => {
+                const plan = plans.find(p => p.id == assignPlanForm.plan_id);
+                const months = parseInt(assignPlanForm.duration_months);
+                const total = plan ? plan.price_monthly * months : 0;
+                return <div style={{ fontSize: 13, color: '#10B981', fontWeight: 600 }}>💰 الإجمالي: {total.toLocaleString('ar-SA')} ريال لمدة {months} شهر</div>;
+              })()}
+            </div>
+          )}
+          <SaveBtn label="✅ تعيين الباقة" onClick={assignPlan} loading={saving} />
+        </Modal>
+      )}
+
+      {/* Modal: تعديل صلاحيات مستخدم */}
+      {editPermModal && (
+        <Modal title={`🔑 تعديل صلاحيات: ${editPermModal.name}`} onClose={() => setEditPermModal(null)}>
+          <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 10, padding: '12px 16px', marginBottom: 16 }}>
+            <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginBottom: 4 }}>البريد الإلكتروني</div>
+            <div style={{ fontSize: 14, color: 'white' }}>{editPermModal.email}</div>
+            {editPermModal.school_name && <>
+              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 8, marginBottom: 4 }}>المدرسة</div>
+              <div style={{ fontSize: 14, color: 'white' }}>{editPermModal.school_name}</div>
+            </>}
+          </div>
+          <Select label="الدور" value={editPermForm.role} onChange={(v: string) => setEditPermForm(f => ({ ...f, role: v }))}
+            options={ROLES.map(r => ({ value: r.value, label: r.label }))} />
+          <Select label="الحالة" value={editPermForm.status} onChange={(v: string) => setEditPermForm(f => ({ ...f, status: v, is_active: v === 'active' }))}
+            options={[{ value: 'active', label: 'نشط ✅' }, { value: 'pending', label: 'معلق ⏳' }, { value: 'suspended', label: 'موقوف 🚫' }, { value: 'rejected', label: 'مرفوض ❌' }]} />
+          <div style={{ marginBottom: 14 }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
+              <input type="checkbox" checked={editPermForm.is_active} onChange={e => setEditPermForm(f => ({ ...f, is_active: e.target.checked }))} style={{ width: 18, height: 18, cursor: 'pointer' }} />
+              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14 }}>حساب نشط (يمكنه تسجيل الدخول)</span>
+            </label>
+          </div>
+          <SaveBtn label="💾 حفظ الصلاحيات" onClick={savePermission} loading={saving} />
+        </Modal>
+      )}
+
+      {/* Modal: باقة جديدة/تعديل */}
+      {planModal && (
+        <Modal title={editItem ? '✏️ تعديل الباقة' : '📦 إضافة باقة جديدة'} onClose={() => { setPlanModal(false); setEditItem(null); }}>
+          <Input label="اسم الباقة *" value={pf.name_ar} onChange={(v: string) => setPf(f => ({ ...f, name_ar: v }))} placeholder="مثال: الباقة الاحترافية" />
+          <Input label="السعر الشهري (ريال)" value={pf.price_monthly} onChange={(v: string) => setPf(f => ({ ...f, price_monthly: v }))} type="number" placeholder="299" />
+          <Input label="السعر السنوي (ريال)" value={pf.price_yearly} onChange={(v: string) => setPf(f => ({ ...f, price_yearly: v }))} type="number" placeholder="2999" />
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <Input label="الحد الأقصى للطلاب" value={pf.max_students} onChange={(v: string) => setPf(f => ({ ...f, max_students: v }))} type="number" />
+            <Input label="الحد الأقصى للمعلمين" value={pf.max_teachers} onChange={(v: string) => setPf(f => ({ ...f, max_teachers: v }))} type="number" />
+          </div>
+          <div style={{ marginBottom: 14 }}>
+            <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>المميزات (كل ميزة في سطر)</label>
+            <textarea value={pf.features} onChange={e => setPf(f => ({ ...f, features: e.target.value }))} placeholder="إدارة الطلاب&#10;إدارة المعلمين&#10;الاختبارات الإلكترونية"
+              style={{ width: '100%', background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}`, borderRadius: 10, padding: '10px 14px', color: 'white', fontSize: 13, outline: 'none', boxSizing: 'border-box', minHeight: 100, resize: 'vertical' }} />
+          </div>
+          <div style={{ marginBottom: 14 }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
+              <input type="checkbox" checked={pf.is_active} onChange={e => setPf(f => ({ ...f, is_active: e.target.checked }))} style={{ width: 18, height: 18 }} />
+              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14 }}>باقة نشطة (تظهر للمدارس)</span>
+            </label>
+          </div>
+          <SaveBtn label={editItem ? '💾 تحديث الباقة' : '➕ إضافة الباقة'} onClick={savePlan} loading={saving} />
+        </Modal>
+      )}
+
+      {/* Modal: إعلان */}
+      {adModal && (
+        <Modal title={editItem ? '✏️ تعديل الإعلان' : '📢 إعلان جديد'} onClose={() => { setAdModal(false); setEditItem(null); }}>
+          <Input label="عنوان الإعلان *" value={af.title} onChange={(v: string) => setAf(f => ({ ...f, title: v }))} placeholder="عنوان الإعلان" />
+          <Input label="رابط الصورة" value={af.image_url} onChange={(v: string) => setAf(f => ({ ...f, image_url: v }))} placeholder="https://..." />
+          <Input label="رابط الإعلان (عند النقر)" value={af.click_url} onChange={(v: string) => setAf(f => ({ ...f, click_url: v }))} placeholder="https://..." />
+          <Select label="موضع الإعلان" value={af.position} onChange={(v: string) => setAf(f => ({ ...f, position: v }))}
+            options={[{ value: 'top', label: 'أعلى الصفحة' }, { value: 'sidebar', label: 'الشريط الجانبي' }, { value: 'bottom', label: 'أسفل الصفحة' }, { value: 'popup', label: 'نافذة منبثقة' }]} />
+          <Input label="الأولوية (1 = الأعلى)" value={af.priority} onChange={(v: string) => setAf(f => ({ ...f, priority: v }))} type="number" />
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <Input label="تاريخ البداية" value={af.start_date} onChange={(v: string) => setAf(f => ({ ...f, start_date: v }))} type="date" />
+            <Input label="تاريخ الانتهاء" value={af.end_date} onChange={(v: string) => setAf(f => ({ ...f, end_date: v }))} type="date" />
+          </div>
+          <SaveBtn label={editItem ? '💾 تحديث الإعلان' : '📢 نشر الإعلان'} onClick={saveAd} loading={saving} />
+        </Modal>
+      )}
+
+      {/* Modal: إشعار */}
+      {notifModal && (
+        <Modal title="🔔 إرسال إشعار جماعي" onClose={() => setNotifModal(false)}>
+          <Input label="عنوان الإشعار *" value={notifForm.title} onChange={(v: string) => setNotifForm(f => ({ ...f, title: v }))} placeholder="مثال: تحديث مهم" />
+          <div style={{ marginBottom: 14 }}>
+            <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>محتوى الإشعار *</label>
+            <textarea value={notifForm.body} onChange={e => setNotifForm(f => ({ ...f, body: e.target.value }))} placeholder="اكتب محتوى الإشعار..."
+              style={{ width: '100%', background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}`, borderRadius: 10, padding: '10px 14px', color: 'white', fontSize: 13, outline: 'none', boxSizing: 'border-box', minHeight: 80, resize: 'vertical' }} />
+          </div>
+          <Select label="الجمهور" value={notifForm.target} onChange={(v: string) => setNotifForm(f => ({ ...f, target: v }))}
+            options={[{ value: 'all', label: 'الجميع' }, { value: 'owners', label: 'ملاك المدارس' }, { value: 'teachers', label: 'المعلمون' }, { value: 'students', label: 'الطلاب' }]} />
+          <SaveBtn label="📤 إرسال الإشعار" onClick={sendNotification} loading={saving} />
+        </Modal>
+      )}
+
+    </div>
+  );
+}

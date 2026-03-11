@@ -1,0 +1,215 @@
+import { NextResponse } from 'next/server';
+import { pool } from '@/lib/auth';
+import * as crypto from 'crypto';
+
+// =====================================================
+// API تسجيل مؤسسة جديدة - منصة متين
+// مُصحَّح: 2026-02-27
+// =====================================================
+
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const {
+      institution_name,
+      institution_type = 'school',
+      city,
+      contact_name,
+      contact_phone,
+      contact_email,
+      students_count,
+      plan = 'professional',
+      password,
+    } = body;
+
+    if (!institution_name || !contact_name || !contact_phone || !contact_email || !password) {
+      return NextResponse.json(
+        { error: 'الحقول المطلوبة: اسم المؤسسة، اسم المسؤول، الجوال، الإيميل، كلمة المرور' },
+        { status: 400 }
+      );
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(contact_email) ) {
+      return NextResponse.json({ error: 'صيغة البريد الإلكتروني غير صحيحة' }, { status: 400 });
+    }
+
+    if (password.length < 8) {
+      return NextResponse.json({ error: 'كلمة المرور يجب أن تكون 8 أحرف على الأقل' }, { status: 400 });
+    }
+
+    const existingUser = await pool.query(
+      'SELECT id FROM users WHERE email = $1',
+      [contact_email.toLowerCase().trim()]
+    );
+    if (existingUser.rows.length > 0) {
+      return NextResponse.json({ error: 'هذا البريد الإلكتروني مسجل مسبقاً' }, { status: 409 });
+    }
+
+    const typePrefix: Record<string, string> = {
+      school: 'SCH', university: 'UNI', institute: 'INS',
+      kindergarten: 'KND', training_center: 'TRN',
+    };
+    const prefix = typePrefix[institution_type] || 'SCH';
+    const schoolCode = `${prefix}-${Date.now().toString(36).toUpperCase()}`;
+    const schoolId = `school_${crypto.randomBytes(8).toString('hex')}`;
+
+    const bcrypt = await import('bcryptjs');
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    const slug = institution_name
+      .replace(/\s+/g, '-')
+      .replace(/[^\u0600-\u06FF\w-]/g, '')
+      + '-' + Date.now().toString(36);
+
+    const otp = Math.floor(1000 + Math.random() * 9000).toString();
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
+
+    const client = await pool.connect();
+    try {
+      await client.query('BEGIN');
+
+      await client.query(
+        `INSERT INTO schools (
+          id, name, name_ar, code, email, phone, city,
+          institution_type, status, slug, trial_ends_at, created_at, updated_at
+        ) VALUES ($1,$2,$2,$3,$4,$5,$6,$7,'TRIAL',$8,
+          NOW() + INTERVAL '30 days', NOW(), NOW()`,
+        [schoolId, institution_name, schoolCode, contact_email, contact_phone,
+         city || null, institution_type, slug]
+      );
+
+      const userResult = await client.query(
+        `INSERT INTO users (
+          name, email, password, role, school_id, owner_id,
+          institution_type, status, package, phone,
+          email_verified, verification_code, code_expires_at, created_at
+        ) VALUES ($1,$2,$3,'owner',$4,$4,$5,'active',$6,$7,false,$8,$9,NOW()
+        RETURNING id`,
+        [
+          contact_name,
+          contact_email.toLowerCase().trim(),
+          hashedPassword,
+          schoolId,
+          institution_type,
+          plan,
+          contact_phone,
+          otp,
+          otpExpiry,
+        ]
+      );
+      const userId = userResult.rows[0].id;
+
+      await client.query(
+        'UPDATE schools SET owner_id = $1 WHERE id::text = $2::text',
+        [userId.toString(), schoolId]
+      );
+
+      await client.query(
+        `INSERT INTO school_owners (user_id, school_id) VALUES ($1, $2) ON CONFLICT (school_id) DO NOTHING`,
+        [userId, schoolId]
+      );
+
+      const planResult = await client.query('SELECT id FROM plans WHERE name = $1', [plan]);
+      const planId = planResult.rows[0]?.id || null;
+
+      await client.query(
+        `INSERT INTO subscriptions (school_id, owner_id, plan_id, status, billing_cycle, trial_ends_at, created_at)
+         VALUES ($1,$2,$3,'trial','monthly',NOW() + INTERVAL '30 days',NOW()`,
+        [schoolId, userId.toString(), planId]
+      );
+
+      await client.query(
+        `INSERT INTO email_otps (email, otp, expires_at, created_at) VALUES ($1,$2,$3,NOW()
+         ON CONFLICT (email) DO UPDATE SET otp=$2, expires_at=$3, created_at=NOW()`,
+        [contact_email.toLowerCase().trim(), otp, otpExpiry]
+      );
+
+      await client.query('COMMIT');
+
+      // إرسال إيميل التحقق
+      try {
+        const RESEND_KEY = process.env.RESEND_API_KEY;
+        if (!RESEND_KEY || RESEND_KEY === 'dev_mode_no_email') {
+          console.log(`[DEV] OTP for ${contact_email}: ${otp}`);
+        } else {
+          const { Resend } = await import('resend');
+          const resend = new Resend(RESEND_KEY);
+          await resend.emails.send({
+            from: 'متين <noreply@matin.ink>',
+            to: contact_email,
+            subject: `مرحباً بك في متين - رمز التأكيد: ${otp}`,
+            html: `<div dir="rtl" style="font-family:Arial;max-width:500px;margin:0 auto;padding:20px">
+              <div style="background:#0D1B2A;padding:20px;border-radius:12px 12px 0 0;text-align:center">
+                <h1 style="color:#C9A227;margin:0">منصة متين</h1>
+              </div>
+              <div style="background:white;padding:30px;border-radius:0 0 12px 12px;border:1px solid #eee">
+                <h2>مرحباً ${contact_name}</h2>
+                <p>تم تسجيل مؤسستك <strong style="color:#C9A227">${institution_name}</strong> بنجاح.</p>
+                <div style="background:#0D1B2A;color:#C9A227;font-size:42px;font-weight:bold;text-align:center;padding:28px;border-radius:12px;letter-spacing:14px;margin:20px 0">${otp}</div>
+                <p style="color:#666;font-size:13px;text-align:center">صالح لمدة 10 دقائق</p>
+                <p><strong>كود المؤسسة:</strong> ${schoolCode}</p>
+                <a href="https://matin.ink/login" style="display:block;background:#C9A227;color:#0D1B2A;text-align:center;padding:15px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:20px">تسجيل الدخول الآن</a>
+              </div>
+            </div>`,
+          });
+        }
+      } catch (emailErr) {
+        console.error('[Register] Email error:', emailErr);
+      }
+
+      return NextResponse.json({
+        success: true,
+        message: 'تم تسجيل المؤسسة بنجاح. تحقق من بريدك الإلكتروني لتأكيد الحساب.',
+        data: {
+          school_id: schoolId,
+          school_code: schoolCode,
+          institution_type,
+          trial_ends_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+          requires_verification: true,
+          ...(process.env.NODE_ENV === 'development' ? { dev_otp: otp } : {}),
+        },
+      }, { status: 201 });
+
+    } catch (txError: any) {
+      await client.query('ROLLBACK');
+      throw txError;
+    } finally {
+      client.release();
+    }
+
+  } catch (error: any) {
+    console.error('[Register] Error:', error);
+    if (error.code === '23505') {
+      return NextResponse.json({ error: 'هذا البريد الإلكتروني أو الكود مسجل مسبقاً' }, { status: 409 });
+    }
+    return NextResponse.json({ error: 'فشل التسجيل. حاول مرة أخرى.' }, { status: 500 });
+  }
+}
+
+export async function GET(request: Request) {
+  try {
+    const { getUserFromRequest } = await import('@/lib/auth');
+    const user = await getUserFromRequest(request);
+    if (!user || user.role !== 'super_admin') {
+      return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    }
+    const result = await pool.query(`
+      SELECT s.id, s.name, s.code, s.email, s.phone, s.city,
+             s.institution_type, s.status, s.slug, s.created_at,
+             s.trial_ends_at, s.subscription_ends_at,
+             u.name as owner_name, u.email as owner_email,
+             p.name_ar as plan_name, sub.status as subscription_status,
+             (SELECT COUNT(*) FROM students WHERE school_id = s.id) as students_count,
+             (SELECT COUNT(*) FROM teachers WHERE school_id = s.id) as teachers_count
+      FROM schools s
+      LEFT JOIN users u ON u.school_id::text = s.id::text AND u.role = 'owner'
+      LEFT JOIN subscriptions sub ON sub.school_id::text = s.id::text
+      LEFT JOIN plans p ON p.id::text = sub.plan_id::text
+      ORDER BY s.created_at DESC
+    `);
+    return NextResponse.json({ success: true, data: result.rows });
+  } catch (error) {
+    return NextResponse.json({ error: 'فشل' }, { status: 500 });
+  }
+}
