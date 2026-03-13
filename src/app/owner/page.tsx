@@ -2260,6 +2260,7 @@ export default function OwnerDashboard() {
                               {(b.file_url || b.download_url) && (
                                 <a href={b.file_url || b.download_url} target="_blank" rel="noreferrer" className="text-xs px-2 py-1 rounded-lg" style={{ background: '#22C55E22', color: '#22C55E' }}>تحميل</a>
                               )}
+                              <button onClick={() => { setEditItem(b); setLibraryF({ title: b.title || b.title_ar || '', author: b.author || '', category: b.category || '', pages: b.pages || '', year: b.year || '', file_url: b.file_url || b.download_url || '', description: b.description || '' }); setModal('library'); }} className="text-xs px-2 py-1 rounded-lg" style={{ background: `${G}22`, color: G }}>تعديل</button>
                               <button onClick={async () => { if (confirm('حذف هذا الكتاب؟')) { await api(`/api/library?id=${b.id}`, { method: 'DELETE' }); fetchLibrary(); showToast('تم الحذف'); } }} className="text-xs px-2 py-1 rounded-lg" style={{ background: '#EF444422', color: '#EF4444' }}>حذف</button>
                             </div>
                           </td>
