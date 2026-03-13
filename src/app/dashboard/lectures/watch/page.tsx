@@ -12,6 +12,7 @@ export default function WatchLecturePage() {
   const [score, setScore] = useState(0);
   const [result, setResult] = useState('');
   const [msg, setMsg] = useState('');
+  const [saving, setSaving] = useState(false);
   const timerRef = useRef<any>(null);
   const [elapsed, setElapsed] = useState(0);
 
@@ -52,7 +53,6 @@ export default function WatchLecturePage() {
   };
 
   const loadQuiz = async () => {
-    // أسئلة تجريبية — لاحقاً تجي من Claude API
     const sampleQuestions = [
       { id: '1', question_text: 'ما هو الموضوع الرئيسي للمحاضرة؟', options: ['الموضوع الأول', 'الموضوع الثاني', 'الموضوع الثالث', 'لا شيء مما سبق'], correct_answer: 'الموضوع الأول' },
       { id: '2', question_text: 'أي من التالي صحيح؟', options: ['الخيار أ', 'الخيار ب', 'الخيار ج', 'الخيار د'], correct_answer: 'الخيار أ' },
@@ -61,7 +61,6 @@ export default function WatchLecturePage() {
       { id: '5', question_text: 'ما هو الاستنتاج النهائي؟', options: ['استنتاج أ', 'استنتاج ب', 'استنتاج ج', 'استنتاج د'], correct_answer: 'استنتاج أ' },
     ];
 
-    // حاول جلب أسئلة حقيقية من القاعدة
     if (lecture) {
       try {
         const res = await fetch(`/api/lectures/questions?lecture_id=${lecture.id}`, { headers: getHeaders() });
@@ -78,23 +77,58 @@ export default function WatchLecturePage() {
     setPhase('quiz');
   };
 
-  const submitQuiz = () => {
+  const submitQuiz = async () => {
     let correct = 0;
     questions.forEach(q => {
       if (answers[q.id] === q.correct_answer) correct++;
     });
     setScore(correct);
 
-    if (correct >= 3) {
-      setResult('present');
+    const attendanceStatus = correct >= 3 ? 'present' : correct === 2 ? 'retry' : 'absent';
+    setResult(attendanceStatus);
+
+    if (attendanceStatus === 'present') {
       setMsg(`أحسنت! ${correct}/5 — تم تسجيل حضورك ✓`);
-    } else if (correct === 2) {
-      setResult('retry');
+    } else if (attendanceStatus === 'retry') {
       setMsg(`${correct}/5 — تحتاج تعيد المحاولة`);
     } else {
-      setResult('absent');
       setMsg(`${correct}/5 — للأسف تم تسجيل غياب`);
     }
+
+    // حفظ نتيجة الاختبار والحضور في قاعدة البيانات
+    if (lecture && attendanceStatus !== 'retry') {
+      setSaving(true);
+      try {
+        // 1. حفظ الحضور
+        await fetch('/api/attendance', {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({
+            lecture_id: lecture.id,
+            status: attendanceStatus === 'present' ? 'present' : 'absent',
+            notes: `اختبار المحاضرة: ${correct}/5`,
+          }),
+        });
+
+        // 2. حفظ نتيجة الاختبار
+        await fetch('/api/quiz-results', {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({
+            lecture_id: lecture.id,
+            score: correct,
+            total: 5,
+            passed: attendanceStatus === 'present',
+            answers: JSON.stringify(answers),
+          }),
+        });
+      } catch (e) {
+        console.error('خطأ في حفظ النتيجة:', e);
+      } finally {
+        setSaving(false);
+      }
+    }
+
     setPhase('result');
   };
 
@@ -139,7 +173,6 @@ export default function WatchLecturePage() {
                 <span style={{ color: '#C9A227', fontSize: 13 }}>⏱️ {formatTime(elapsed)} / {lecture.duration_minutes || 45} دقيقة</span>
                 <span style={{ color: '#10B981', fontSize: 13 }}>📊 {progress}%</span>
               </div>
-              {/* شريط التقدم */}
               <div style={{ width: '100%', height: 4, background: 'rgba(255,255,255,0.1)', borderRadius: 2, marginTop: 6 }}>
                 <div style={{ width: `${progress}%`, height: '100%', background: 'linear-gradient(90deg, #C9A227, #10B981)', borderRadius: 2, transition: 'width 1s' }}></div>
               </div>
@@ -183,8 +216,8 @@ export default function WatchLecturePage() {
             ))}
           </div>
 
-          <button onClick={submitQuiz} disabled={Object.keys(answers).length < 5} style={{ marginTop: 24, padding: '14px 40px', background: Object.keys(answers).length < 5 ? '#374151' : 'linear-gradient(135deg, #C9A227, #E8C547)', color: Object.keys(answers).length < 5 ? '#6B7280' : '#000', border: 'none', borderRadius: 12, fontSize: 16, fontWeight: 700, cursor: 'pointer', ...inputStyle }}>
-            ✓ تسليم الإجابات ({Object.keys(answers).length}/5)
+          <button onClick={submitQuiz} disabled={Object.keys(answers).length < 5 || saving} style={{ marginTop: 24, padding: '14px 40px', background: Object.keys(answers).length < 5 ? '#374151' : 'linear-gradient(135deg, #C9A227, #E8C547)', color: Object.keys(answers).length < 5 ? '#6B7280' : '#000', border: 'none', borderRadius: 12, fontSize: 16, fontWeight: 700, cursor: 'pointer', ...inputStyle }}>
+            {saving ? '⏳ جاري الحفظ...' : `✓ تسليم الإجابات (${Object.keys(answers).length}/5)`}
           </button>
         </div>
       )}
