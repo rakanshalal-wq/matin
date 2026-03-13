@@ -1,17 +1,24 @@
 'use client';
-  const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
+const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
 
 export default function CommunityPage() {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [newPost, setNewPost] = useState('');
+  const [newPostTitle, setNewPostTitle] = useState('');
   const [showNewPost, setShowNewPost] = useState(false);
   const [commentText, setCommentText] = useState<Record<number, string>>({});
   const [showComments, setShowComments] = useState<Record<number, boolean>>({});
   const [comments, setComments] = useState<Record<number, any[]>>({});
   const [currentUser, setCurrentUser] = useState<any>(null);
-  const [filter, setFilter] = useState('all');
+  const [activeTab, setActiveTab] = useState('feed');
+  const [reports, setReports] = useState<any[]>([]);
+  const [blocked, setBlocked] = useState<any[]>([]);
+  const [searchText, setSearchText] = useState('');
+  const [filterType, setFilterType] = useState('all');
+
+  const isAdmin = ['admin', 'school_owner', 'university_owner', 'institute_owner', 'kindergarten_owner', 'training_owner', 'owner', 'super_admin'].includes(currentUser?.role);
 
   useEffect(() => {
     const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
@@ -19,7 +26,13 @@ export default function CommunityPage() {
     fetchPosts();
   }, []);
 
+  useEffect(() => {
+    if (isAdmin && activeTab === 'reports') fetchReports();
+    if (isAdmin && activeTab === 'blocked') fetchBlocked();
+  }, [activeTab, isAdmin]);
+
   const fetchPosts = async () => {
+    setLoading(true);
     try {
       const res = await fetch('/api/social', { method: 'POST', headers: getHeaders(), body: JSON.stringify({ action: 'get_posts' }) });
       const data = await res.json();
@@ -27,12 +40,27 @@ export default function CommunityPage() {
     } catch (error) { console.error('Error:', error); } finally { setLoading(false); }
   };
 
+  const fetchReports = async () => {
+    try {
+      const res = await fetch('/api/community', { headers: getHeaders() });
+      const data = await res.json();
+      setReports(data.reports || []);
+    } catch { setReports([]); }
+  };
+
+  const fetchBlocked = async () => {
+    try {
+      const res = await fetch('/api/community?type=blocked', { headers: getHeaders() });
+      const data = await res.json();
+      setBlocked(data.blocked || []);
+    } catch { setBlocked([]); }
+  };
+
   const createPost = async () => {
     if (!newPost.trim()) return;
     try {
-      await fetch('/api/social', { method: 'POST', headers: getHeaders(), body: JSON.stringify({ action: 'create_post', content: newPost }) });
-      setNewPost('');
-      setShowNewPost(false);
+      await fetch('/api/social', { method: 'POST', headers: getHeaders(), body: JSON.stringify({ action: 'create_post', content: newPost, title: newPostTitle }) });
+      setNewPost(''); setNewPostTitle(''); setShowNewPost(false);
       fetchPosts();
     } catch (error) { console.error('Error:', error); }
   };
@@ -49,8 +77,7 @@ export default function CommunityPage() {
     try {
       await fetch('/api/social', { method: 'POST', headers: getHeaders(), body: JSON.stringify({ action: 'add_comment', post_id: postId, content: commentText[postId] }) });
       setCommentText({ ...commentText, [postId]: '' });
-      fetchComments(postId);
-      fetchPosts();
+      fetchComments(postId); fetchPosts();
     } catch (error) { console.error('Error:', error); }
   };
 
@@ -76,6 +103,13 @@ export default function CommunityPage() {
     } catch (error) { console.error('Error:', error); }
   };
 
+  const pinPost = async (postId: number, pinned: boolean) => {
+    try {
+      await fetch('/api/community', { method: 'PUT', headers: getHeaders(), body: JSON.stringify({ id: postId, pinned: !pinned }) });
+      fetchPosts();
+    } catch { console.error('pin error'); }
+  };
+
   const timeAgo = (date: string) => {
     if (!date) return '';
     const diff = Date.now() - new Date(date).getTime();
@@ -89,18 +123,36 @@ export default function CommunityPage() {
     return new Date(date).toLocaleDateString('ar-SA');
   };
 
+  const filteredPosts = posts.filter(p => {
+    const matchSearch = !searchText || p.content?.includes(searchText) || p.user_name?.includes(searchText);
+    const matchFilter = filterType === 'all' || (filterType === 'mine' && p.user_id === currentUser?.id) || (filterType === 'pinned' && p.pinned);
+    return matchSearch && matchFilter;
+  });
+
   const stats = {
     total: posts.length,
     today: posts.filter(p => new Date(p.created_at).toDateString() === new Date().toDateString()).length,
     myPosts: posts.filter(p => p.user_id === currentUser?.id).length,
+    pinned: posts.filter(p => p.pinned).length,
   };
+
+  const tabs = [
+    { id: 'feed', label: '📰 المنشورات' },
+    ...(isAdmin ? [
+      { id: 'reports', label: '🚨 البلاغات' },
+      { id: 'blocked', label: '🚫 المحظورون' },
+      { id: 'stats', label: '📊 الإحصائيات' },
+    ] : []),
+  ];
+
+  const cardStyle = { background: 'rgba(255,255,255,0.05)', borderRadius: 16, padding: 24, border: '1px solid rgba(255,255,255,0.08)' };
 
   return (
     <div>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>🌐 المجتمع</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>🌐 الملتقى المجتمعي</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>تواصل مع زملائك وشارك أفكارك</p>
         </div>
         <button onClick={() => setShowNewPost(true)} style={{ padding: '12px 24px', background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', border: 'none', borderRadius: 10, color: '#06060E', fontSize: 15, fontWeight: 700, cursor: 'pointer' }}>
@@ -109,13 +161,14 @@ export default function CommunityPage() {
       </div>
 
       {/* الإحصائيات */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
           { label: 'إجمالي المنشورات', value: stats.total, icon: '📝', color: '#3B82F6' },
           { label: 'منشورات اليوم', value: stats.today, icon: '📅', color: '#10B981' },
           { label: 'منشوراتي', value: stats.myPosts, icon: '👤', color: '#C9A227' },
+          ...(isAdmin ? [{ label: 'المثبّتة', value: stats.pinned, icon: '📌', color: '#8B5CF6' }] : []),
         ].map((s, i) => (
-          <div key={i} style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 12, padding: 20, border: '1px solid rgba(255,255,255,0.08)' }}>
+          <div key={i} style={cardStyle}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <span style={{ fontSize: 28 }}>{s.icon}</span>
               <div>
@@ -127,106 +180,197 @@ export default function CommunityPage() {
         ))}
       </div>
 
-      {/* نموذج منشور جديد */}
-      {showNewPost && (
-        <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 16, padding: 24, marginBottom: 24, border: '1px solid rgba(201,162,39,0.3)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-            <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 700, color: '#06060E' }}>
-              {currentUser?.name?.charAt(0) || '؟'}
-            </div>
-            <div style={{ color: 'white', fontWeight: 600 }}>{currentUser?.name || 'مستخدم'}</div>
-          </div>
-          <textarea
-            value={newPost}
-            onChange={(e) => setNewPost(e.target.value)}
-            placeholder="شارك أفكارك مع المجتمع..."
-            style={{ width: '100%', minHeight: 120, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: 16, color: 'white', fontSize: 15, resize: 'vertical', outline: 'none', direction: 'rtl', boxSizing: 'border-box' }}
-          />
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 12 }}>
-            <button onClick={() => { setShowNewPost(false); setNewPost(''); }} style={{ padding: '10px 20px', background: 'rgba(255,255,255,0.08)', border: 'none', borderRadius: 8, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
-            <button onClick={createPost} disabled={!newPost.trim()} style={{ padding: '10px 24px', background: newPost.trim() ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'rgba(255,255,255,0.1)', border: 'none', borderRadius: 8, color: newPost.trim() ? '#06060E' : 'rgba(255,255,255,0.3)', fontWeight: 700, cursor: newPost.trim() ? 'pointer' : 'default', fontSize: 14 }}>نشر</button>
-          </div>
+      {/* التبويبات (للمدير فقط) */}
+      {isAdmin && (
+        <div style={{ display: 'flex', gap: 8, marginBottom: 24, flexWrap: 'wrap' }}>
+          {tabs.map(t => (
+            <button key={t.id} onClick={() => setActiveTab(t.id)} style={{ padding: '10px 20px', background: activeTab === t.id ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'rgba(255,255,255,0.05)', border: '1px solid ' + (activeTab === t.id ? 'transparent' : 'rgba(255,255,255,0.1)'), borderRadius: 10, color: activeTab === t.id ? '#06060E' : 'rgba(255,255,255,0.7)', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>
+              {t.label}
+            </button>
+          ))}
         </div>
       )}
 
-      {/* المنشورات */}
-      {loading ? (
-        <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.5)' }}>جاري التحميل...</div>
-      ) : posts.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>🌐</div>
-          <div style={{ fontSize: 18, fontWeight: 600, marginBottom: 8 }}>لا توجد منشورات بعد</div>
-          <div style={{ fontSize: 14 }}>كن أول من يشارك في المجتمع!</div>
-        </div>
-      ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          {posts.map((post: any) => (
-            <div key={post.id} style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 16, padding: 24, border: '1px solid rgba(255,255,255,0.08)', transition: 'border-color 0.2s' }}>
-              {/* رأس المنشور */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(135deg, #3B82F6, #60A5FA)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 700, color: 'white' }}>
-                    {post.user_name?.charAt(0) || '؟'}
-                  </div>
-                  <div>
-                    <div style={{ color: 'white', fontWeight: 600, fontSize: 15 }}>{post.user_name || 'مستخدم'}</div>
-                    <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{timeAgo(post.created_at)}</div>
-                  </div>
+      {/* تبويب المنشورات */}
+      {activeTab === 'feed' && (
+        <>
+          {/* نموذج منشور جديد */}
+          {showNewPost && (
+            <div style={{ ...cardStyle, marginBottom: 24, border: '1px solid rgba(201,162,39,0.3)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+                <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 700, color: '#06060E' }}>
+                  {currentUser?.name?.charAt(0) || '؟'}
                 </div>
-                {(post.user_id === currentUser?.id || currentUser?.role === 'super_admin') && (
-                  <button onClick={() => deletePost(post.id)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer', fontSize: 18 }}>🗑</button>
-                )}
+                <div style={{ color: 'white', fontWeight: 600 }}>{currentUser?.name || 'مستخدم'}</div>
               </div>
-
-              {/* محتوى المنشور */}
-              <div style={{ color: 'rgba(255,255,255,0.85)', fontSize: 15, lineHeight: 1.8, marginBottom: 16, whiteSpace: 'pre-wrap', direction: 'rtl' }}>
-                {post.content}
+              <input value={newPostTitle} onChange={e => setNewPostTitle(e.target.value)} placeholder="عنوان المنشور (اختياري)" style={{ width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '10px 14px', color: 'white', fontSize: 14, outline: 'none', direction: 'rtl', marginBottom: 12, boxSizing: 'border-box' }} />
+              <textarea value={newPost} onChange={e => setNewPost(e.target.value)} placeholder="شارك أفكارك مع المجتمع..." style={{ width: '100%', minHeight: 120, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: 16, color: 'white', fontSize: 15, resize: 'vertical', outline: 'none', direction: 'rtl', boxSizing: 'border-box' }} />
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 12 }}>
+                <button onClick={() => { setShowNewPost(false); setNewPost(''); setNewPostTitle(''); }} style={{ padding: '10px 20px', background: 'rgba(255,255,255,0.08)', border: 'none', borderRadius: 8, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
+                <button onClick={createPost} disabled={!newPost.trim()} style={{ padding: '10px 24px', background: newPost.trim() ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'rgba(255,255,255,0.1)', border: 'none', borderRadius: 8, color: newPost.trim() ? '#06060E' : 'rgba(255,255,255,0.3)', fontWeight: 700, cursor: newPost.trim() ? 'pointer' : 'default', fontSize: 14 }}>نشر</button>
               </div>
+            </div>
+          )}
 
-              {/* أزرار التفاعل */}
-              <div style={{ display: 'flex', gap: 16, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                <button onClick={() => toggleLike(post.id)} style={{ background: 'none', border: 'none', color: post.user_liked ? '#EF4444' : 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: 14, display: 'flex', alignItems: 'center', gap: 6 }}>
-                  {post.user_liked ? '❤️' : '🤍'} {post.likes_count || 0}
-                </button>
-                <button onClick={() => toggleComments(post.id)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: 14, display: 'flex', alignItems: 'center', gap: 6 }}>
-                  💬 {post.comments_count || 0}
-                </button>
-              </div>
+          {/* فلاتر البحث */}
+          <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
+            <input value={searchText} onChange={e => setSearchText(e.target.value)} placeholder="🔍 ابحث في المنشورات..." style={{ flex: 1, minWidth: 200, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '10px 14px', color: 'white', fontSize: 14, outline: 'none', direction: 'rtl' }} />
+            {['all', 'mine', ...(isAdmin ? ['pinned'] : [])].map(f => (
+              <button key={f} onClick={() => setFilterType(f)} style={{ padding: '10px 18px', background: filterType === f ? 'rgba(201,162,39,0.2)' : 'rgba(255,255,255,0.05)', border: '1px solid ' + (filterType === f ? 'rgba(201,162,39,0.5)' : 'rgba(255,255,255,0.1)'), borderRadius: 10, color: filterType === f ? '#C9A227' : 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>
+                {f === 'all' ? 'الكل' : f === 'mine' ? 'منشوراتي' : 'المثبّتة'}
+              </button>
+            ))}
+          </div>
 
-              {/* التعليقات */}
-              {showComments[post.id] && (
-                <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                  {/* إضافة تعليق */}
-                  <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
-                    <input
-                      value={commentText[post.id] || ''}
-                      onChange={(e) => setCommentText({ ...commentText, [post.id]: e.target.value })}
-                      onKeyDown={(e) => e.key === 'Enter' && addComment(post.id)}
-                      placeholder="اكتب تعليقاً..."
-                      style={{ flex: 1, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: 'white', fontSize: 14, outline: 'none', direction: 'rtl' }}
-                    />
-                    <button onClick={() => addComment(post.id)} style={{ padding: '10px 16px', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', border: 'none', borderRadius: 8, color: '#06060E', fontWeight: 700, cursor: 'pointer', fontSize: 13 }}>إرسال</button>
-                  </div>
-
-                  {/* قائمة التعليقات */}
-                  {(comments[post.id] || []).map((c: any) => (
-                    <div key={c.id} style={{ display: 'flex', gap: 10, marginBottom: 12, padding: 12, background: 'rgba(255,255,255,0.03)', borderRadius: 10 }}>
-                      <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'rgba(255,255,255,0.6)', flexShrink: 0 }}>
-                        {c.user_name?.charAt(0) || '؟'}
+          {/* المنشورات */}
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.5)' }}>جاري التحميل...</div>
+          ) : filteredPosts.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>
+              <div style={{ fontSize: 48, marginBottom: 16 }}>🌐</div>
+              <div style={{ fontSize: 18, fontWeight: 600 }}>لا توجد منشورات</div>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {filteredPosts.map((post: any) => (
+                <div key={post.id} style={{ ...cardStyle, border: post.pinned ? '1px solid rgba(201,162,39,0.4)' : '1px solid rgba(255,255,255,0.08)' }}>
+                  {post.pinned && <div style={{ color: '#C9A227', fontSize: 12, fontWeight: 700, marginBottom: 8 }}>📌 منشور مثبّت</div>}
+                  {/* رأس المنشور */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(135deg, #3B82F6, #60A5FA)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 700, color: 'white' }}>
+                        {post.user_name?.charAt(0) || '؟'}
                       </div>
                       <div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                          <span style={{ color: 'white', fontWeight: 600, fontSize: 13 }}>{c.user_name}</span>
-                          <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11 }}>{timeAgo(c.created_at)}</span>
-                        </div>
-                        <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginTop: 4, direction: 'rtl' }}>{c.content}</div>
+                        <div style={{ color: 'white', fontWeight: 600, fontSize: 15 }}>{post.user_name || 'مستخدم'}</div>
+                        <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{timeAgo(post.created_at)}</div>
                       </div>
                     </div>
-                  ))}
+                    <div style={{ display: 'flex', gap: 8 }}>
+                      {isAdmin && (
+                        <button onClick={() => pinPost(post.id, post.pinned)} title={post.pinned ? 'إلغاء التثبيت' : 'تثبيت'} style={{ background: 'none', border: 'none', color: post.pinned ? '#C9A227' : 'rgba(255,255,255,0.3)', cursor: 'pointer', fontSize: 16 }}>📌</button>
+                      )}
+                      {(post.user_id === currentUser?.id || isAdmin) && (
+                        <button onClick={() => deletePost(post.id)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer', fontSize: 18 }}>🗑</button>
+                      )}
+                    </div>
+                  </div>
+                  {post.title && <div style={{ color: 'white', fontWeight: 700, fontSize: 16, marginBottom: 8 }}>{post.title}</div>}
+                  <div style={{ color: 'rgba(255,255,255,0.85)', fontSize: 15, lineHeight: 1.8, marginBottom: 16, whiteSpace: 'pre-wrap', direction: 'rtl' }}>{post.content}</div>
+                  {/* أزرار التفاعل */}
+                  <div style={{ display: 'flex', gap: 16, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                    <button onClick={() => toggleLike(post.id)} style={{ background: 'none', border: 'none', color: post.user_liked ? '#EF4444' : 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: 14, display: 'flex', alignItems: 'center', gap: 6 }}>
+                      {post.user_liked ? '❤️' : '🤍'} {post.likes_count || 0}
+                    </button>
+                    <button onClick={() => toggleComments(post.id)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: 14, display: 'flex', alignItems: 'center', gap: 6 }}>
+                      💬 {post.comments_count || 0}
+                    </button>
+                  </div>
+                  {/* التعليقات */}
+                  {showComments[post.id] && (
+                    <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                      <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+                        <input value={commentText[post.id] || ''} onChange={e => setCommentText({ ...commentText, [post.id]: e.target.value })} onKeyDown={e => e.key === 'Enter' && addComment(post.id)} placeholder="اكتب تعليقاً..." style={{ flex: 1, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: 'white', fontSize: 14, outline: 'none', direction: 'rtl' }} />
+                        <button onClick={() => addComment(post.id)} style={{ padding: '10px 16px', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', border: 'none', borderRadius: 8, color: '#06060E', fontWeight: 700, cursor: 'pointer', fontSize: 13 }}>إرسال</button>
+                      </div>
+                      {(comments[post.id] || []).map((c: any) => (
+                        <div key={c.id} style={{ display: 'flex', gap: 10, marginBottom: 12, padding: 12, background: 'rgba(255,255,255,0.03)', borderRadius: 10 }}>
+                          <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'rgba(255,255,255,0.6)', flexShrink: 0 }}>
+                            {c.user_name?.charAt(0) || '؟'}
+                          </div>
+                          <div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                              <span style={{ color: 'white', fontWeight: 600, fontSize: 13 }}>{c.user_name}</span>
+                              <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11 }}>{timeAgo(c.created_at)}</span>
+                            </div>
+                            <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginTop: 4, direction: 'rtl' }}>{c.content}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              )}
+              ))}
             </div>
-          ))}
+          )}
+        </>
+      )}
+
+      {/* تبويب البلاغات - للمدير فقط */}
+      {activeTab === 'reports' && isAdmin && (
+        <div>
+          <h2 style={{ color: 'white', fontWeight: 700, marginBottom: 16 }}>🚨 البلاغات المُرسلة</h2>
+          {reports.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>
+              <div style={{ fontSize: 48, marginBottom: 12 }}>✅</div>
+              <div>لا توجد بلاغات حالياً</div>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {reports.map((r: any, i: number) => (
+                <div key={i} style={cardStyle}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <div style={{ color: 'white', fontWeight: 600 }}>{r.reporter_name || 'مستخدم'} أبلغ عن منشور</div>
+                      <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, marginTop: 4 }}>{r.reason || 'بدون سبب'}</div>
+                    </div>
+                    <div style={{ display: 'flex', gap: 8 }}>
+                      <button onClick={() => deletePost(r.post_id)} style={{ padding: '8px 16px', background: 'rgba(239,68,68,0.2)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, color: '#EF4444', cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>حذف المنشور</button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* تبويب المحظورون - للمدير فقط */}
+      {activeTab === 'blocked' && isAdmin && (
+        <div>
+          <h2 style={{ color: 'white', fontWeight: 700, marginBottom: 16 }}>🚫 المستخدمون المحظورون</h2>
+          {blocked.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>
+              <div style={{ fontSize: 48, marginBottom: 12 }}>✅</div>
+              <div>لا يوجد مستخدمون محظورون</div>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {blocked.map((b: any, i: number) => (
+                <div key={i} style={{ ...cardStyle, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ color: 'white', fontWeight: 600 }}>{b.user_name || 'مستخدم'}</div>
+                  <button style={{ padding: '8px 16px', background: 'rgba(34,197,94,0.2)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: 8, color: '#22C55E', cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>رفع الحظر</button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* تبويب الإحصائيات - للمدير فقط */}
+      {activeTab === 'stats' && isAdmin && (
+        <div>
+          <h2 style={{ color: 'white', fontWeight: 700, marginBottom: 16 }}>📊 إحصائيات المجتمع</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
+            {[
+              { label: 'إجمالي المنشورات', value: posts.length, icon: '📝', color: '#3B82F6' },
+              { label: 'إجمالي التفاعلات', value: posts.reduce((a, p) => a + (p.likes_count || 0), 0), icon: '❤️', color: '#EF4444' },
+              { label: 'إجمالي التعليقات', value: posts.reduce((a, p) => a + (p.comments_count || 0), 0), icon: '💬', color: '#10B981' },
+              { label: 'منشورات اليوم', value: posts.filter(p => new Date(p.created_at).toDateString() === new Date().toDateString()).length, icon: '📅', color: '#C9A227' },
+              { label: 'المنشورات المثبّتة', value: posts.filter(p => p.pinned).length, icon: '📌', color: '#8B5CF6' },
+              { label: 'متوسط التفاعل', value: posts.length ? (posts.reduce((a, p) => a + (p.likes_count || 0), 0) / posts.length).toFixed(1) : 0, icon: '📈', color: '#F59E0B' },
+            ].map((s, i) => (
+              <div key={i} style={cardStyle}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <span style={{ fontSize: 32 }}>{s.icon}</span>
+                  <div>
+                    <div style={{ fontSize: 28, fontWeight: 800, color: s.color }}>{s.value}</div>
+                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>{s.label}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

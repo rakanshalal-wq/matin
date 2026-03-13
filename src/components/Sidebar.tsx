@@ -70,6 +70,7 @@ const Icons = {
   cafeteria:    <Icon d="M18 8h1a4 4 0 0 1 0 8h-1 M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z M6 1v3 M10 1v3 M14 1v3" />,
   health:       <Icon d="M22 12h-4l-3 9L9 3l-3 9H2" />,
   store:        <Icon d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z M3 6h18 M16 10a4 4 0 0 1-8 0" />,
+  community:    <Icon d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75" />,
   messages:     <Icon d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />,
   announcements:<Icon d="M22 12h-4l-3 9L9 3l-3 9H2" />,
   parents:      <Icon d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75" />,
@@ -105,6 +106,7 @@ const getMenuByRole = (role: string): MenuGroup[] => {
         { label: 'الإعلانات السيادية', icon: Icons.ads, href: '/dashboard/ads' },
         { label: 'الإشعارات الجماعية', icon: Icons.notification, href: '/dashboard/push-notifications' },
         { label: 'المكتبة الرقمية', icon: Icons.library, href: '/dashboard/library' },
+        { label: 'الملتقى المجتمعي', icon: Icons.community, href: '/dashboard/community' },
       ]},
       { title: 'الذكاء الاصطناعي', items: [
         { label: 'المفتش الرقمي AI', icon: Icons.ai, href: '/dashboard/ai-chat' },
@@ -165,6 +167,7 @@ const getMenuByRole = (role: string): MenuGroup[] => {
         { label: 'الكافتيريا', icon: Icons.cafeteria, href: '/dashboard/cafeteria' },
         { label: 'الصحة', icon: Icons.health, href: '/dashboard/health' },
         { label: 'المتجر', icon: Icons.store, href: '/dashboard/store' },
+        { label: 'الملتقى المجتمعي', icon: Icons.community, href: '/dashboard/community' },
       ]},
       { title: 'التواصل', items: [
         { label: 'الرسائل', icon: Icons.messages, href: '/dashboard/messages' },
@@ -202,10 +205,12 @@ const getMenuByRole = (role: string): MenuGroup[] => {
         { label: 'المحاضرات', icon: Icons.lectures, href: '/dashboard/lectures' },
         { label: 'البث المباشر', icon: Icons.liveStream, href: '/dashboard/live-stream' },
         { label: 'الأنشطة', icon: Icons.activities, href: '/dashboard/activities' },
+        { label: 'المكتبة الرقمية', icon: Icons.library, href: '/dashboard/library' },
       ]},
       { title: 'التواصل', items: [
         { label: 'الرسائل', icon: Icons.messages, href: '/dashboard/messages' },
         { label: 'الإشعارات', icon: Icons.notification, href: '/dashboard/notifications' },
+        { label: 'الملتقى المجتمعي', icon: Icons.community, href: '/dashboard/community' },
         { label: 'المساعد الذكي', icon: Icons.ai, href: '/dashboard/ai-chat' },
       ]},
     ];
@@ -232,9 +237,10 @@ const getMenuByRole = (role: string): MenuGroup[] => {
         { label: 'البث المباشر', icon: Icons.liveStream, href: '/dashboard/live-stream' },
         { label: 'المكتبة', icon: Icons.library, href: '/dashboard/library' },
       ]},
-      { title: 'الخدمات', items: [
+      { title: 'الخدمات والتواصل', items: [
         { label: 'المتجر', icon: Icons.store, href: '/dashboard/store' },
         { label: 'المقصف', icon: Icons.cafeteria, href: '/dashboard/cafeteria' },
+        { label: 'الملتقى المجتمعي', icon: Icons.community, href: '/dashboard/community' },
         { label: 'الرسائل', icon: Icons.messages, href: '/dashboard/messages' },
         { label: 'المساعد الذكي', icon: Icons.ai, href: '/dashboard/ai-chat' },
       ]},
@@ -258,10 +264,12 @@ const getMenuByRole = (role: string): MenuGroup[] => {
         { label: 'المقصف الذكي', icon: Icons.cafeteria, href: '/dashboard/cafeteria' },
         { label: 'الصحة', icon: Icons.health, href: '/dashboard/health' },
         { label: 'المدفوعات', icon: Icons.payments, href: '/dashboard/parent/payments' },
+        { label: 'المتجر', icon: Icons.store, href: '/dashboard/store' },
       ]},
       { title: 'التواصل', items: [
         { label: 'الرسائل', icon: Icons.messages, href: '/dashboard/messages' },
         { label: 'الإشعارات', icon: Icons.notification, href: '/dashboard/notifications' },
+        { label: 'الملتقى المجتمعي', icon: Icons.community, href: '/dashboard/community' },
         { label: 'المساعد الذكي', icon: Icons.ai, href: '/dashboard/ai-chat' },
       ]},
     ];

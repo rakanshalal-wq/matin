@@ -49,6 +49,7 @@ const TABS: { id: string; label: string; icon: string; badge?: string }[] = [
   { id: 'notifications',  label: 'الإشعارات',        icon: 'notifications', badge: 'notif' },
   { id: 'settings',       label: 'الإعدادات',        icon: 'settings' },
   { id: 'activity',       label: 'سجل النشاط',       icon: 'activity' },
+  { id: 'library',         label: 'المكتبة الرقمية',    icon: 'activity' },
   { id: 'revenue',         label: 'الإيرادات',         icon: 'subscriptions' },
   { id: 'taxes',           label: 'الضرائب',           icon: 'plans' },
 ];
@@ -233,6 +234,9 @@ export default function OwnerDashboard() {
   const [revenue, setRevenue] = useState<any[]>([]);
   const [taxes, setTaxes] = useState<any[]>([]);
   const [taxF, setTaxF] = useState<any>({});
+  const [libraryBooks, setLibraryBooks] = useState<any[]>([]);
+  const [librarySearch, setLibrarySearch] = useState('');
+  const [libraryF, setLibraryF] = useState<any>({});
 
   const showToast = (msg: string, ok = true) => {
     setToast({ msg, ok });
@@ -412,6 +416,14 @@ export default function OwnerDashboard() {
     } catch {}
   }, []);
 
+  const fetchLibrary = useCallback(async () => {
+    try {
+      const r = await api('/api/library?limit=200');
+      const d = await r.json();
+      setLibraryBooks(Array.isArray(d?.data) ? d.data : Array.isArray(d) ? d : []);
+    } catch {}
+  }, []);
+
   const fetchSchoolServices = useCallback(async (schoolId: string) => {
     try {
       const r = await api(`/api/services?type=school&school_id=${schoolId}`);
@@ -436,7 +448,7 @@ export default function OwnerDashboard() {
           fetchSupport(), fetchNotifications(), fetchPermissions(),
           fetchJoinRequests(), fetchLeads(), fetchIntegrations(),
           fetchActLog(), fetchPlatformSettings(),
-          fetchRevenue(), fetchTaxes(),
+          fetchRevenue(), fetchTaxes(), fetchLibrary(),
         ]);
       } catch { router.push('/login'); }
       finally { setLoading(false); }
@@ -2210,6 +2222,57 @@ export default function OwnerDashboard() {
             </div>
           )}
 
+          {/* ════ LIBRARY ════ */}
+          {tab === 'library' && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <StatCard label="إجمالي الكتب" value={libraryBooks.length} color={G} />
+                <StatCard label="متاحة للتحميل" value={libraryBooks.filter(b => b.file_url || b.download_url).length} color="#22C55E" />
+                <StatCard label="الفئات" value={[...new Set(libraryBooks.map(b => b.category).filter(Boolean))].length} color="#3B82F6" />
+                <StatCard label="إجمالي الصفحات" value={libraryBooks.reduce((s, b) => s + Number(b.pages || 0), 0)} color="#8B5CF6" />
+              </div>
+              <div className="flex justify-between items-center gap-3 flex-wrap">
+                <input value={librarySearch} onChange={e => setLibrarySearch(e.target.value)} placeholder="🔍 ابحث في الكتب..." className="rounded-xl px-4 py-2 text-sm text-white outline-none" style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${BORDER}`, minWidth: 240 }} />
+                <Btn onClick={() => { setLibraryF({}); setEditItem(null); setModal('library'); }}>+ إضافة كتاب</Btn>
+              </div>
+              <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
+                        {['العنوان', 'المؤلف', 'الفئة', 'الصفحات', 'المدرسة', 'الإجراءات'].map(h => (
+                          <th key={h} className="text-right px-4 py-3 text-xs font-medium text-gray-400">{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {libraryBooks
+                        .filter(b => !librarySearch || (b.title || '').includes(librarySearch) || (b.author || '').includes(librarySearch))
+                        .map(b => (
+                        <tr key={b.id} style={{ borderBottom: `1px solid ${BORDER}` }} className="hover:bg-white/2 transition-colors">
+                          <td className="px-4 py-3 font-medium text-white max-w-[200px] truncate">{b.title || b.title_ar || '—'}</td>
+                          <td className="px-4 py-3 text-gray-400">{b.author || '—'}</td>
+                          <td className="px-4 py-3"><Badge text={b.category || 'عام'} color="#3B82F6" /></td>
+                          <td className="px-4 py-3 text-gray-400">{b.pages || '—'}</td>
+                          <td className="px-4 py-3 text-gray-400 text-xs">{b.school_name || 'المنصة'}</td>
+                          <td className="px-4 py-3">
+                            <div className="flex gap-2">
+                              {(b.file_url || b.download_url) && (
+                                <a href={b.file_url || b.download_url} target="_blank" rel="noreferrer" className="text-xs px-2 py-1 rounded-lg" style={{ background: '#22C55E22', color: '#22C55E' }}>تحميل</a>
+                              )}
+                              <button onClick={async () => { if (confirm('حذف هذا الكتاب؟')) { await api(`/api/library?id=${b.id}`, { method: 'DELETE' }); fetchLibrary(); showToast('تم الحذف'); } }} className="text-xs px-2 py-1 rounded-lg" style={{ background: '#EF444422', color: '#EF4444' }}>حذف</button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  {libraryBooks.length === 0 && <div className="text-center py-12 text-gray-500 text-sm">لا توجد كتب في المكتبة</div>}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* ════ REVENUE ════ */}
           {tab === 'revenue' && (
             <div className="space-y-4">
@@ -2599,6 +2662,38 @@ export default function OwnerDashboard() {
             <div className="flex gap-2 pt-2">
               <Btn onClick={sendNotification} disabled={saving}>{saving ? 'جاري الإرسال...' : 'إرسال'}</Btn>
               <Btn variant="ghost" onClick={() => { setModal(null); setNotifF({}); }}>إلغاء</Btn>
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {/* Library Modal */}
+      {modal === 'library' && (
+        <Modal title={editItem ? 'تعديل كتاب' : 'إضافة كتاب جديد'} onClose={() => { setModal(null); setEditItem(null); setLibraryF({}); }}>
+          <div className="space-y-3">
+            <Inp label="عنوان الكتاب" value={libraryF.title || ''} onChange={(v: string) => setLibraryF({ ...libraryF, title: v })} required />
+            <div className="grid grid-cols-2 gap-3">
+              <Inp label="المؤلف" value={libraryF.author || ''} onChange={(v: string) => setLibraryF({ ...libraryF, author: v })} />
+              <Inp label="الفئة" value={libraryF.category || ''} onChange={(v: string) => setLibraryF({ ...libraryF, category: v })} />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <Inp label="عدد الصفحات" value={libraryF.pages || ''} onChange={(v: string) => setLibraryF({ ...libraryF, pages: v })} type="number" />
+              <Inp label="سنة النشر" value={libraryF.year || ''} onChange={(v: string) => setLibraryF({ ...libraryF, year: v })} type="number" />
+            </div>
+            <Inp label="رابط الملف (PDF)" value={libraryF.file_url || ''} onChange={(v: string) => setLibraryF({ ...libraryF, file_url: v })} />
+            <Inp label="الوصف" value={libraryF.description || ''} onChange={(v: string) => setLibraryF({ ...libraryF, description: v })} textarea />
+            <div className="flex gap-2 pt-2">
+              <Btn onClick={async () => {
+                if (!libraryF.title) { showToast('عنوان الكتاب مطلوب', false); return; }
+                setSaving(true);
+                try {
+                  const method = editItem ? 'PUT' : 'POST';
+                  const r = await api('/api/library', { method, body: JSON.stringify(editItem ? { id: editItem.id, ...libraryF } : libraryF) });
+                  if (r.ok) { showToast(editItem ? 'تم التحديث' : 'تمت الإضافة'); setModal(null); setEditItem(null); setLibraryF({}); fetchLibrary(); }
+                  else { const e = await r.json(); showToast(e.error || 'حدث خطأ', false); }
+                } finally { setSaving(false); }
+              }} disabled={saving}>{saving ? 'جاري الحفظ...' : editItem ? 'تحديث' : 'إضافة'}</Btn>
+              <Btn variant="ghost" onClick={() => { setModal(null); setEditItem(null); setLibraryF({}); }}>إلغاء</Btn>
             </div>
           </div>
         </Modal>
