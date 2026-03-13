@@ -302,3 +302,40 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'فشل' }, { status: 500 });
   }
 }
+
+// PATCH /api/exam-session — إنهاء جلسة قسراً من المراقب
+export async function PATCH(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    if (!['super_admin', 'owner', 'admin', 'teacher'].includes(user.role)) {
+      return NextResponse.json({ error: 'غير مصرح' }, { status: 403 });
+    }
+    const body = await request.json();
+    const { id, action } = body;
+    if (!id) return NextResponse.json({ error: 'معرف الجلسة مطلوب' }, { status: 400 });
+    if (action === 'terminate') {
+      const result = await pool.query(
+        `UPDATE exam_sessions SET status = 'terminated', finished_at = NOW() WHERE id = $1 RETURNING *`,
+        [id]
+      );
+      if (result.rows.length === 0) return NextResponse.json({ error: 'الجلسة غير موجودة' }, { status: 404 });
+      await pool.query(
+        'INSERT INTO activity_log (action, details, user_id, school_id, created_at) VALUES ($1,$2,$3,$4,NOW())',
+        ['exam_session_terminated', JSON.stringify({ session_id: id, by: user.name }), String(user.id), user.school_id]
+      ).catch(() => {});
+      return NextResponse.json({ success: true, session: result.rows[0] });
+    }
+    if (action === 'warn') {
+      await pool.query(
+        'INSERT INTO activity_log (action, details, user_id, school_id, created_at) VALUES ($1,$2,$3,$4,NOW())',
+        ['exam_warning_sent', JSON.stringify({ session_id: id, by: user.name }), String(user.id), user.school_id]
+      ).catch(() => {});
+      return NextResponse.json({ success: true, message: 'تم تسجيل التحذير' });
+    }
+    return NextResponse.json({ error: 'action غير صحيح' }, { status: 400 });
+  } catch (error) {
+    console.error('exam-session PATCH error:', error);
+    return NextResponse.json({ error: 'خطأ في الخادم' }, { status: 500 });
+  }
+}

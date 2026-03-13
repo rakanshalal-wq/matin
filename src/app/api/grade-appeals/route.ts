@@ -94,6 +94,30 @@ export async function PUT(request: NextRequest) {
   }
 }
 
+// PATCH — قرار بشأن التظلم (approved/rejected/under_review)
+export async function PATCH(request: NextRequest) {
+  const user = await getUserFromRequest(request);
+  if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+  if (!['super_admin', 'owner', 'admin', 'teacher'].includes(user.role)) {
+    return NextResponse.json({ error: 'غير مصرح' }, { status: 403 });
+  }
+  try {
+    const body = await request.json();
+    const { id, decision } = body;
+    if (!id || !decision) return NextResponse.json({ error: 'بيانات ناقصة' }, { status: 400 });
+    const valid = ['approved', 'rejected', 'under_review'];
+    if (!valid.includes(decision)) return NextResponse.json({ error: 'قرار غير صحيح' }, { status: 400 });
+    const result = await pool.query(
+      `UPDATE grade_appeals SET status = $1, reviewed_by = $2, reviewed_at = NOW(), updated_at = NOW() WHERE id = $3 RETURNING *`,
+      [decision, String(user.id), id]
+    );
+    if (result.rows.length === 0) return NextResponse.json({ error: 'التظلم غير موجود' }, { status: 404 });
+    return NextResponse.json({ success: true, appeal: result.rows[0] });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
+
 export async function DELETE(request: NextRequest) {
   const user = await getUserFromRequest(request);
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

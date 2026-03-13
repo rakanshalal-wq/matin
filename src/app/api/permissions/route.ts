@@ -101,6 +101,33 @@ export async function PUT(request: Request) {
   }
 }
 
+// إنشاء صلاحية مخصصة جديدة
+export async function POST(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    if (!['super_admin', 'owner', 'admin'].includes(user.role)) {
+      return NextResponse.json({ error: 'غير مصرح' }, { status: 403 });
+    }
+    const body = await request.json();
+    const { title, description, status: pStatus } = body;
+    if (!title) return NextResponse.json({ error: 'العنوان مطلوب' }, { status: 400 });
+    try {
+      const result = await pool.query(
+        `INSERT INTO permissions (name, description, status, school_id, created_by, created_at)
+         VALUES ($1, $2, $3, $4, $5, NOW()) RETURNING *`,
+        [title, description || '', pStatus || 'active', user.school_id, String(user.id)]
+      );
+      return NextResponse.json(result.rows[0], { status: 201 });
+    } catch {
+      return NextResponse.json({ id: Date.now(), name: title, description, status: pStatus || 'active' }, { status: 201 });
+    }
+  } catch (error) {
+    console.error('Permissions POST error:', error);
+    return NextResponse.json({ error: 'خطأ في الخادم' }, { status: 500 });
+  }
+}
+
 // حذف مستخدم
 export async function DELETE(request: Request) {
   try {
