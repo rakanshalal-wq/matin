@@ -35,7 +35,7 @@ export default function TopBar() {
         .logo-mark {
           width: 36px;
           height: 36px;
-          background: #C9A227;
+          background: #C9A84C;
           border-radius: 4px;
           display: flex;
           align-items: center;
@@ -52,10 +52,10 @@ export default function TopBar() {
         }
 
         .org-name {
-          color: #94A3B8;
+          color: rgba(238,238,245,0.5);
           font-size: 13px;
           padding-right: 16px;
-          border-right: 1px solid #243B53;
+          border-right: 1px solid rgba(255,255,255,0.08);
         }
 
         .status-badge {
@@ -97,14 +97,14 @@ export default function TopBar() {
           background: transparent;
           border: none;
           border-radius: 6px;
-          color: #94A3B8;
+          color: rgba(238,238,245,0.5);
           cursor: pointer;
           position: relative;
           transition: all 0.15s;
         }
 
         .topbar-btn:hover {
-          background: #1B263B;
+          background: rgba(255,255,255,0.05);
           color: #fff;
         }
 
@@ -129,7 +129,7 @@ export default function TopBar() {
           display: flex;
           align-items: center;
           gap: 10px;
-          background: #1B263B;
+          background: rgba(255,255,255,0.05);
           padding: 4px 12px 4px 4px;
           border-radius: 6px;
           cursor: pointer;
@@ -137,13 +137,13 @@ export default function TopBar() {
         }
 
         .user-menu:hover {
-          background: #243B53;
+          background: rgba(255,255,255,0.08);
         }
 
         .user-avatar {
           width: 32px;
           height: 32px;
-          background: #C9A227;
+          background: #C9A84C;
           border-radius: 4px;
           display: flex;
           align-items: center;
@@ -166,7 +166,7 @@ export default function TopBar() {
 
         .user-role {
           font-size: 11px;
-          color: #94A3B8;
+          color: rgba(238,238,245,0.5);
           margin: 0;
         }
       `}</style>
