@@ -41,3 +41,23 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ message: 'تم الحذف' });
   } catch (error) { console.error('Error:', error); return NextResponse.json({ error: 'فشل' }, { status: 500 }); }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const body = await request.json();
+    const { id, name, phone, email, specialization, assigned_exams, status } = body;
+    if (!id) return NextResponse.json({ error: 'id مطلوب' }, { status: 400 });
+    const result = await pool.query(
+      `UPDATE supervisors_table SET name = COALESCE($1, name), phone = COALESCE($2, phone), email = COALESCE($3, email), specialization = COALESCE($4, specialization), assigned_exams = COALESCE($5, assigned_exams), status = COALESCE($6, status), updated_at = NOW() WHERE id = $7 RETURNING *`,
+      [name, phone, email, specialization, assigned_exams, status, id]
+    );
+    if (result.rows.length === 0) return NextResponse.json({ error: 'السجل غير موجود' }, { status: 404 });
+    return NextResponse.json({ data: result.rows[0] });
+  } catch (error) {
+    console.error('PUT supervisors error:', error);
+    return NextResponse.json({ error: 'خطأ في تحديث البيانات' }, { status: 500 });
+  }
+}
+

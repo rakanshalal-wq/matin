@@ -51,3 +51,23 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: 'فشل' }, { status: 500 });
   }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const body = await request.json();
+    const { id, design, is_active } = body;
+    if (!id) return NextResponse.json({ error: 'id مطلوب' }, { status: 400 });
+    const result = await pool.query(
+      `UPDATE page_designs SET design = COALESCE($1, design), is_active = COALESCE($2, is_active), updated_at = NOW() WHERE id = $3 RETURNING *`,
+      [design, is_active, id]
+    );
+    if (result.rows.length === 0) return NextResponse.json({ error: 'السجل غير موجود' }, { status: 404 });
+    return NextResponse.json({ data: result.rows[0] });
+  } catch (error) {
+    console.error('PUT page-design error:', error);
+    return NextResponse.json({ error: 'خطأ في تحديث البيانات' }, { status: 500 });
+  }
+}
+

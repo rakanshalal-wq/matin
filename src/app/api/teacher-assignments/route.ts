@@ -79,3 +79,23 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const body = await request.json();
+    const { id, subject, class_id, status } = body;
+    if (!id) return NextResponse.json({ error: 'id مطلوب' }, { status: 400 });
+    const result = await pool.query(
+      `UPDATE teacher_assignments SET subject = COALESCE($1, subject), class_id = COALESCE($2, class_id), status = COALESCE($3, status), updated_at = NOW() WHERE id = $4 RETURNING *`,
+      [subject, class_id, status, id]
+    );
+    if (result.rows.length === 0) return NextResponse.json({ error: 'السجل غير موجود' }, { status: 404 });
+    return NextResponse.json({ data: result.rows[0] });
+  } catch (error) {
+    console.error('PUT teacher-assignments error:', error);
+    return NextResponse.json({ error: 'خطأ في تحديث البيانات' }, { status: 500 });
+  }
+}
+

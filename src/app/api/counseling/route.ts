@@ -58,3 +58,23 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: 'فشل' }, { status: 500 });
   }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const body = await request.json();
+    const { id, student_name, counselor_name, type, description, status, notes } = body;
+    if (!id) return NextResponse.json({ error: 'id مطلوب' }, { status: 400 });
+    const result = await pool.query(
+      `UPDATE counseling SET student_name = COALESCE($1, student_name), counselor_name = COALESCE($2, counselor_name), type = COALESCE($3, type), description = COALESCE($4, description), status = COALESCE($5, status), notes = COALESCE($6, notes), updated_at = NOW() WHERE id = $7 RETURNING *`,
+      [student_name, counselor_name, type, description, status, notes, id]
+    );
+    if (result.rows.length === 0) return NextResponse.json({ error: 'السجل غير موجود' }, { status: 404 });
+    return NextResponse.json({ data: result.rows[0] });
+  } catch (error) {
+    console.error('PUT counseling error:', error);
+    return NextResponse.json({ error: 'خطأ في تحديث البيانات' }, { status: 500 });
+  }
+}
+

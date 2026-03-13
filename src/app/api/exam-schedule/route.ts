@@ -41,3 +41,23 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ message: 'تم الحذف' });
   } catch (error) { console.error('Error:', error); return NextResponse.json({ error: 'فشل' }, { status: 500 }); }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const body = await request.json();
+    const { id, exam_name, subject, date, start_time, end_time, room, class_name } = body;
+    if (!id) return NextResponse.json({ error: 'id مطلوب' }, { status: 400 });
+    const result = await pool.query(
+      `UPDATE exam_schedule SET exam_name = COALESCE($1, exam_name), subject = COALESCE($2, subject), date = COALESCE($3, date), start_time = COALESCE($4, start_time), end_time = COALESCE($5, end_time), room = COALESCE($6, room), class_name = COALESCE($7, class_name), updated_at = NOW() WHERE id = $8 RETURNING *`,
+      [exam_name, subject, date, start_time, end_time, room, class_name, id]
+    );
+    if (result.rows.length === 0) return NextResponse.json({ error: 'السجل غير موجود' }, { status: 404 });
+    return NextResponse.json({ data: result.rows[0] });
+  } catch (error) {
+    console.error('PUT exam-schedule error:', error);
+    return NextResponse.json({ error: 'خطأ في تحديث البيانات' }, { status: 500 });
+  }
+}
+

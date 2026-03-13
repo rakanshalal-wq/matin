@@ -125,3 +125,23 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ success: true });
   } catch (error) { console.error('Error:', error); return NextResponse.json({ error: 'فشل' }, { status: 500 }); }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const body = await request.json();
+    const { id, title, student_name, type, date, status } = body;
+    if (!id) return NextResponse.json({ error: 'id مطلوب' }, { status: 400 });
+    const result = await pool.query(
+      `UPDATE certificates SET title = COALESCE($1, title), student_name = COALESCE($2, student_name), type = COALESCE($3, type), date = COALESCE($4, date), status = COALESCE($5, status), updated_at = NOW() WHERE id = $6 RETURNING *`,
+      [title, student_name, type, date, status, id]
+    );
+    if (result.rows.length === 0) return NextResponse.json({ error: 'السجل غير موجود' }, { status: 404 });
+    return NextResponse.json({ data: result.rows[0] });
+  } catch (error) {
+    console.error('PUT certificates error:', error);
+    return NextResponse.json({ error: 'خطأ في تحديث البيانات' }, { status: 500 });
+  }
+}
+

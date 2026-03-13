@@ -198,3 +198,36 @@ export async function DELETE(request: Request) {
     console.error('Error:', error); return NextResponse.json({ error: 'فشل' }, { status: 500 });
   }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const body = await request.json();
+    const { id, type, ...rest } = body;
+    if (!id) return NextResponse.json({ error: 'id مطلوب' }, { status: 400 });
+    if (type === 'bus') {
+      const { bus_number, plate_number, capacity, driver_name, driver_phone, route_name, status } = rest;
+      const result = await pool.query(
+        `UPDATE buses SET bus_number=COALESCE($1,bus_number), plate_number=COALESCE($2,plate_number), capacity=COALESCE($3,capacity), driver_name=COALESCE($4,driver_name), driver_phone=COALESCE($5,driver_phone), route_name=COALESCE($6,route_name), status=COALESCE($7,status) WHERE id=$8 RETURNING *`,
+        [bus_number, plate_number, capacity, driver_name, driver_phone, route_name, status, id]
+      );
+      if (result.rows.length === 0) return NextResponse.json({ error: 'الحافلة غير موجودة' }, { status: 404 });
+      return NextResponse.json({ data: result.rows[0] });
+    }
+    if (type === 'rider') {
+      const { pickup_address, stop_order, status } = rest;
+      const result = await pool.query(
+        `UPDATE bus_riders SET pickup_address=COALESCE($1,pickup_address), stop_order=COALESCE($2,stop_order), status=COALESCE($3,status) WHERE id=$4 RETURNING *`,
+        [pickup_address, stop_order, status, id]
+      );
+      if (result.rows.length === 0) return NextResponse.json({ error: 'الراكب غير موجود' }, { status: 404 });
+      return NextResponse.json({ data: result.rows[0] });
+    }
+    return NextResponse.json({ error: 'نوع غير معروف، استخدم: bus أو rider' }, { status: 400 });
+  } catch (error) {
+    console.error('PUT transport error:', error);
+    return NextResponse.json({ error: 'خطأ في تحديث بيانات النقل' }, { status: 500 });
+  }
+}
+

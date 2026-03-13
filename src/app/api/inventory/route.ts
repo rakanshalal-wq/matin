@@ -51,3 +51,23 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: 'فشل' }, { status: 500 });
   }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const body = await request.json();
+    const { id, title, description, quantity, unit, min_quantity, category, status } = body;
+    if (!id) return NextResponse.json({ error: 'id مطلوب' }, { status: 400 });
+    const result = await pool.query(
+      `UPDATE inventory_items SET title = COALESCE($1, title), description = COALESCE($2, description), quantity = COALESCE($3, quantity), unit = COALESCE($4, unit), min_quantity = COALESCE($5, min_quantity), category = COALESCE($6, category), status = COALESCE($7, status), updated_at = NOW() WHERE id = $8 RETURNING *`,
+      [title, description, quantity, unit, min_quantity, category, status, id]
+    );
+    if (result.rows.length === 0) return NextResponse.json({ error: 'السجل غير موجود' }, { status: 404 });
+    return NextResponse.json({ data: result.rows[0] });
+  } catch (error) {
+    console.error('PUT inventory error:', error);
+    return NextResponse.json({ error: 'خطأ في تحديث البيانات' }, { status: 500 });
+  }
+}
+

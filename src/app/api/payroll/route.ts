@@ -62,3 +62,23 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const body = await request.json();
+    const { id, amount, bonus, deductions, net_amount, status, notes } = body;
+    if (!id) return NextResponse.json({ error: 'id مطلوب' }, { status: 400 });
+    const result = await pool.query(
+      `UPDATE payroll SET amount = COALESCE($1, amount), bonus = COALESCE($2, bonus), deductions = COALESCE($3, deductions), net_amount = COALESCE($4, net_amount), status = COALESCE($5, status), notes = COALESCE($6, notes), updated_at = NOW() WHERE id = $7 RETURNING *`,
+      [amount, bonus, deductions, net_amount, status, notes, id]
+    );
+    if (result.rows.length === 0) return NextResponse.json({ error: 'السجل غير موجود' }, { status: 404 });
+    return NextResponse.json({ data: result.rows[0] });
+  } catch (error) {
+    console.error('PUT payroll error:', error);
+    return NextResponse.json({ error: 'خطأ في تحديث البيانات' }, { status: 500 });
+  }
+}
+

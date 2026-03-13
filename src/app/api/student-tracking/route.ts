@@ -52,3 +52,23 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ success: true });
   } catch (error) { console.error('Error:', error); return NextResponse.json({ error: 'فشل' }, { status: 500 }); }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const body = await request.json();
+    const { id, lat, lng, status, bus_id } = body;
+    if (!id) return NextResponse.json({ error: 'id مطلوب' }, { status: 400 });
+    const result = await pool.query(
+      `UPDATE student_tracking SET lat = COALESCE($1, lat), lng = COALESCE($2, lng), status = COALESCE($3, status), bus_id = COALESCE($4, bus_id), updated_at = NOW() WHERE id = $5 RETURNING *`,
+      [lat, lng, status, bus_id, id]
+    );
+    if (result.rows.length === 0) return NextResponse.json({ error: 'السجل غير موجود' }, { status: 404 });
+    return NextResponse.json({ data: result.rows[0] });
+  } catch (error) {
+    console.error('PUT student-tracking error:', error);
+    return NextResponse.json({ error: 'خطأ في تحديث البيانات' }, { status: 500 });
+  }
+}
+

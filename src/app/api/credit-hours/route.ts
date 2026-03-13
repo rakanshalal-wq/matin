@@ -51,3 +51,23 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: 'فشل' }, { status: 500 });
   }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const body = await request.json();
+    const { id, subject_name, code, hours, type, semester, department } = body;
+    if (!id) return NextResponse.json({ error: 'id مطلوب' }, { status: 400 });
+    const result = await pool.query(
+      `UPDATE credit_hours SET subject_name = COALESCE($1, subject_name), code = COALESCE($2, code), hours = COALESCE($3, hours), type = COALESCE($4, type), semester = COALESCE($5, semester), department = COALESCE($6, department), updated_at = NOW() WHERE id = $7 RETURNING *`,
+      [subject_name, code, hours, type, semester, department, id]
+    );
+    if (result.rows.length === 0) return NextResponse.json({ error: 'السجل غير موجود' }, { status: 404 });
+    return NextResponse.json({ data: result.rows[0] });
+  } catch (error) {
+    console.error('PUT credit-hours error:', error);
+    return NextResponse.json({ error: 'خطأ في تحديث البيانات' }, { status: 500 });
+  }
+}
+

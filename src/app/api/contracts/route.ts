@@ -51,3 +51,23 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: 'فشل' }, { status: 500 });
   }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const body = await request.json();
+    const { id, title, party_name, type, start_date, end_date, value, status } = body;
+    if (!id) return NextResponse.json({ error: 'id مطلوب' }, { status: 400 });
+    const result = await pool.query(
+      `UPDATE contracts SET title = COALESCE($1, title), party_name = COALESCE($2, party_name), type = COALESCE($3, type), start_date = COALESCE($4, start_date), end_date = COALESCE($5, end_date), value = COALESCE($6, value), status = COALESCE($7, status), updated_at = NOW() WHERE id = $8 RETURNING *`,
+      [title, party_name, type, start_date, end_date, value, status, id]
+    );
+    if (result.rows.length === 0) return NextResponse.json({ error: 'السجل غير موجود' }, { status: 404 });
+    return NextResponse.json({ data: result.rows[0] });
+  } catch (error) {
+    console.error('PUT contracts error:', error);
+    return NextResponse.json({ error: 'خطأ في تحديث البيانات' }, { status: 500 });
+  }
+}
+
