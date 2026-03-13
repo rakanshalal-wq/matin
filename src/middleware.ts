@@ -86,7 +86,14 @@ export function middleware(request: NextRequest) {
   cleanup();
 
   // استثناء الصفحات العامة
-  if (pathname === "/login" || pathname === "/register" || pathname === "/" || pathname.startsWith("/school")) {
+  if (
+    pathname === '/login' ||
+    pathname === '/register' ||
+    pathname === '/' ||
+    pathname === '/forgot-password' ||
+    pathname === '/reset-password' ||
+    pathname.startsWith('/school')
+  ) {
     return NextResponse.next();
   }
 
@@ -104,7 +111,7 @@ export function middleware(request: NextRequest) {
 
   // ===== Rate Limiting =====
   // صارم على login وOTP: 5 محاولات كل 15 دقيقة (حماية من brute force)
-  if (pathname === '/api/auth/login' || pathname === '/api/auth/verify-otp' || pathname.startsWith('/api/nafath')) {
+  if (pathname === '/api/auth/login' || pathname === '/api/auth/verify-otp' || pathname.startsWith('/api/nafath') || pathname === '/api/auth/forgot-password' || pathname === '/api/auth/reset-password') {
     if (!getRateLimit(`strict:${ip}`, 5, 15 * 60 * 1000)) {
       return new NextResponse(JSON.stringify({ error: 'تجاوزت الحد المسموح، حاول بعد 15 دقيقة' }), {
         status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': '900' }
