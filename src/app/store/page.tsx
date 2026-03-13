@@ -1,228 +1,93 @@
 'use client';
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
-
 export default function StorePage() {
-  const [products, setProducts] = useState<any[]>([]);
-  const [cart, setCart] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [showCart, setShowCart] = useState(false);
-  const [showCheckout, setShowCheckout] = useState(false);
-  const [category, setCategory] = useState('الكل');
-  const [search, setSearch] = useState('');
-  const [ordering, setOrdering] = useState(false);
-  const [orderSuccess, setOrderSuccess] = useState('');
-  const [form, setForm] = useState({ name: '', phone: '', email: '', address: '', payment_method: 'cash', notes: '' });
-
-  useEffect(() => { fetchProducts(); }, []);
-
-  const fetchProducts = async () => {
-    try {
-      const res = await fetch('/api/store?type=products');
-      const data = await res.json();
-      setProducts(Array.isArray(data) ? data : []);
-    } catch (e) { console.error(e); }
-    finally { setLoading(false); }
-  };
-
-  const addToCart = (product: any) => {
-    setCart(prev => {
-      const exists = prev.find(i => i.id === product.id);
-      if (exists) return prev.map(i => i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i);
-      return [...prev, { ...product, quantity: 1 }];
-    });
-  };
-
-  const removeFromCart = (id: number) => setCart(prev => prev.filter(i => i.id !== id));
-  const updateQty = (id: number, qty: number) => {
-    if (qty <= 0) return removeFromCart(id);
-    setCart(prev => prev.map(i => i.id === id ? { ...i, quantity: qty } : i));
-  };
-
-  const total = cart.reduce((sum, i) => sum + (i.sale_price || i.price) * i.quantity, 0);
-  const cartCount = cart.reduce((sum, i) => sum + i.quantity, 0);
-
-  const categories = ['الكل', ...Array.from(new Set(products.map(p => p.category).filter(Boolean)))];
-  const filtered = products.filter(p => (category === 'الكل' || p.category === category) && (!search || p.name.toLowerCase().includes(search.toLowerCase())));
-
-  const handleOrder = async () => {
-    if (!form.name || !form.phone) return alert('الاسم والجوال مطلوبان');
-    setOrdering(true);
-    try {
-      const res = await fetch('/api/store', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'create_order', ...form, items: cart, total })
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setCart([]);
-        setShowCheckout(false);
-        setShowCart(false);
-        setOrderSuccess(`تم تأكيد طلبك! رقم الطلب: ${data.order_number} 🎉`);
-        setTimeout(() => setOrderSuccess(''), 8000);
-      } else alert(data.error || 'فشل');
-    } catch (e) { console.error(e); }
-    finally { setOrdering(false); }
-  };
-
-  const inputStyle: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none', boxSizing: 'border-box' };
-
   return (
-    <div style={{ background: '#0D1B2A', minHeight: '100vh', fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' }}>
-      <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-
-      {/* Navbar */}
-      <nav style={{ position: 'sticky', top: 0, background: 'rgba(13,27,42,0.95)', backdropFilter: 'blur(10px)', borderBottom: '1px solid rgba(201,162,39,0.2)', zIndex: 100, padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Link href="/" style={{ color: '#C9A227', fontWeight: 800, fontSize: 22, textDecoration: 'none' }}>🏪 متجر متين</Link>
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="🔍 بحث..." style={{ ...inputStyle, width: 200, padding: '8px 14px' }} />
-          <button onClick={() => setShowCart(true)} style={{ position: 'relative', background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', borderRadius: 10, padding: '10px 16px', cursor: 'pointer', fontWeight: 700 }}>
-            🛒 السلة
-            {cartCount > 0 && <span style={{ position: 'absolute', top: -8, left: -8, background: '#EF4444', color: 'white', borderRadius: '50%', width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800 }}>{cartCount}</span>}
-          </button>
+    <div style={{ background: '#06060E', minHeight: '100vh', color: '#EEEEF5', fontFamily: "'IBM Plex Sans Arabic', 'Tajawal', sans-serif", direction: 'rtl', overflowX: 'hidden' }}>
+      <style>{`
+        :root { --gold: #C9A84C; --gold-2: #E8C96D; --border: rgba(201,168,76,0.15); --text: #EEEEF5; --text-2: rgba(238,238,245,0.6); }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        .nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(6,6,14,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); padding:0 40px; height:64px; display:flex; align-items:center; justify-content:space-between; }
+        .nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+        .nav-logo-mark { width:34px; height:34px; background:var(--gold); border-radius:9px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:16px; color:#060C18; }
+        .nav-logo-text { font-size:18px; font-weight:800; color:var(--text); }
+        .nav-links { display:flex; align-items:center; gap:8px; }
+        .btn-ghost { padding:8px 20px; border-radius:9px; background:transparent; border:1px solid var(--border); color:var(--text-2); font-size:13.5px; font-weight:500; text-decoration:none; }
+        .btn-primary { padding:8px 20px; border-radius:9px; background:var(--gold); color:#000; font-size:13.5px; font-weight:700; text-decoration:none; }
+        .hero { position:relative; padding:140px 40px 80px; text-align:center; overflow:hidden; }
+        .hero-grid { position:absolute; inset:0; z-index:0; background-image:linear-gradient(rgba(201,168,76,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.025) 1px, transparent 1px); background-size:80px 80px; mask-image:radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 100%); }
+        .hero-glow { position:absolute; top:-200px; left:50%; transform:translateX(-50%); width:1100px; height:700px; background:radial-gradient(ellipse, rgba(201,168,76,0.15) 0%, rgba(201,168,76,0.08) 40%, transparent 70%); pointer-events:none; z-index:0; }
+        .hero-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.25); color:var(--gold); padding:6px 16px; border-radius:100px; font-size:12.5px; font-weight:600; margin-bottom:40px; }
+        .badge-dot { width:7px; height:7px; border-radius:50%; background:var(--gold); animation:pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+        .hero h1 { font-size:clamp(36px,5vw,64px); font-weight:900; line-height:1.15; position:relative; z-index:1; }
+        .hero h1 .gold { display:block; background:linear-gradient(90deg, var(--gold) 0%, var(--gold-2) 40%, #F5D78E 70%, var(--gold-2) 100%); background-size:200% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:shimmer 4s linear infinite; }
+        @keyframes shimmer { 0%{background-position:0% center} 100%{background-position:200% center} }
+        .hero p { font-size:18px; color:var(--text-2); max-width:600px; margin:24px auto 0; position:relative; z-index:1; line-height:1.7; }
+        .section { padding:80px 40px; max-width:1280px; margin:0 auto; }
+        .section-label { font-size:12px; font-weight:700; letter-spacing:2px; color:var(--gold); text-transform:uppercase; margin-bottom:16px; }
+        .section-title { font-size:clamp(28px,3.5vw,42px); font-weight:900; margin-bottom:16px; }
+        .section-desc { font-size:16px; color:var(--text-2); max-width:600px; line-height:1.7; margin-bottom:48px; }
+        .features-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:24px; }
+        .feature-card { background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:16px; padding:32px; transition:all 0.3s; }
+        .feature-card:hover { border-color:var(--gold); background:rgba(201,168,76,0.05); transform:translateY(-4px); }
+        .feature-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:24px; margin-bottom:20px; }
+        .feature-title { font-size:17px; font-weight:700; margin-bottom:10px; }
+        .feature-desc { font-size:14px; color:var(--text-2); line-height:1.7; }
+        .divider { height:1px; background:var(--border); margin:0 40px; }
+        .cta-section { padding:80px 40px; text-align:center; }
+        .cta-box { background:rgba(201,168,76,0.06); border:1px solid rgba(201,168,76,0.2); border-radius:24px; padding:64px 40px; max-width:700px; margin:0 auto; }
+        .btn-hero { display:inline-flex; align-items:center; gap:10px; background:var(--gold); color:#000; padding:15px 32px; border-radius:12px; font-size:15px; font-weight:700; text-decoration:none; margin-top:32px; }
+        .footer { padding:40px; border-top:1px solid var(--border); text-align:center; color:var(--text-2); font-size:13px; }
+      `}</style>
+      <nav className="nav">
+        <Link href="/" className="nav-logo"><div className="nav-logo-mark">م</div><span className="nav-logo-text">متين</span></Link>
+        <div className="nav-links">
+          <Link href="/features" className="btn-ghost">المميزات</Link>
+          <Link href="/pricing" className="btn-ghost">الأسعار</Link>
+          <Link href="/login" className="btn-ghost">تسجيل الدخول</Link>
+          <Link href="/register" className="btn-primary">ابدأ مجاناً</Link>
         </div>
       </nav>
-
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 24px' }}>
-
-        {orderSuccess && <div style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: 12, padding: '16px 20px', marginBottom: 24, color: '#22C55E', fontWeight: 700, fontSize: 16 }}>{orderSuccess}</div>}
-
-        {/* Categories */}
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 24 }}>
-          {categories.map(cat => (
-            <button key={cat} onClick={() => setCategory(cat)} style={{ background: category === cat ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'rgba(255,255,255,0.05)', color: category === cat ? '#0D1B2A' : 'rgba(255,255,255,0.7)', border: 'none', borderRadius: 20, padding: '8px 18px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>{cat}</button>
+      <section className="hero">
+        <div className="hero-grid"></div><div className="hero-glow"></div>
+        <div style={{ position:'relative', zIndex:1 }}>
+          <div className="hero-badge"><span className="badge-dot"></span>متجر متين</div>
+          <h1>متجر المستلزمات التعليمية<span className="gold">داخل المنصة</span></h1>
+          <p>متجر إلكتروني متكامل داخل منصة متين — الطلاب وأولياء الأمور يشترون المستلزمات المدرسية بسهولة وأمان.</p>
+        </div>
+      </section>
+      <div className="divider"></div>
+      <section className="section">
+        <div className="section-label">مميزات المتجر</div>
+        <div className="section-title">تسوق مدرسي ذكي</div>
+        <div className="section-desc">من الكتب إلى الزي المدرسي — كل ما يحتاجه الطالب في مكان واحد.</div>
+        <div className="features-grid">
+          {[
+            { icon: '📚', title: 'الكتب والمراجع', desc: 'شراء الكتب الدراسية والمراجع التعليمية مباشرة من المتجر بأسعار مدروسة.', color: 'rgba(201,168,76,0.12)' },
+            { icon: '👕', title: 'الزي المدرسي', desc: 'طلب الزي المدرسي بالمقاسات الصحيحة مع التوصيل للمنزل.', color: 'rgba(201,168,76,0.12)' },
+            { icon: '🎒', title: 'المستلزمات', desc: 'جميع المستلزمات المدرسية — أقلام، دفاتر، حقائب — في متجر واحد.', color: 'rgba(201,168,76,0.12)' },
+            { icon: '💳', title: 'دفع آمن', desc: 'الدفع عبر بوابات الدفع السعودية المعتمدة — موياسر، مدى، STC Pay.', color: 'rgba(201,168,76,0.12)' },
+            { icon: '🚚', title: 'توصيل للمنزل', desc: 'توصيل المشتريات للمنزل أو استلامها من المدرسة — حسب اختيار ولي الأمر.', color: 'rgba(201,168,76,0.12)' },
+            { icon: '📊', title: 'إدارة المخزون', desc: 'المدرسة تدير مخزون المتجر وتتابع المبيعات من لوحة التحكم.', color: 'rgba(201,168,76,0.12)' },
+          ].map((f, i) => (
+            <div key={i} className="feature-card">
+              <div className="feature-icon" style={{ background: f.color }}>{f.icon}</div>
+              <div className="feature-title">{f.title}</div>
+              <div className="feature-desc">{f.desc}</div>
+            </div>
           ))}
         </div>
-
-        {/* Products */}
-        {loading ? (
-          <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.5)', padding: 60 }}>جاري التحميل...</div>
-        ) : filtered.length === 0 ? (
-          <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.4)', padding: 60 }}>
-            <div style={{ fontSize: 64, marginBottom: 16 }}>🛍️</div>
-            <p>لا توجد منتجات</p>
-          </div>
-        ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 20 }}>
-            {filtered.map(product => (
-              <div key={product.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, overflow: 'hidden' }}>
-                {product.image ? (
-                  <div style={{ height: 180, background: `url(${product.image}) center/cover` }} />
-                ) : (
-                  <div style={{ height: 180, background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48 }}>🛍️</div>
-                )}
-                <div style={{ padding: 16 }}>
-                  <h3 style={{ color: 'white', fontWeight: 700, margin: '0 0 8px', fontSize: 15 }}>{product.name}</h3>
-                  {product.description && <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, margin: '0 0 12px', lineHeight: 1.5 }}>{product.description.slice(0, 80)}</p>}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                      {product.sale_price ? (
-                        <div>
-                          <span style={{ color: '#EF4444', textDecoration: 'line-through', fontSize: 13 }}>{product.price} ر.س</span>
-                          <span style={{ color: '#22C55E', fontWeight: 800, fontSize: 16, marginRight: 8 }}>{product.sale_price} ر.س</span>
-                        </div>
-                      ) : (
-                        <span style={{ color: '#C9A227', fontWeight: 800, fontSize: 16 }}>{product.price} ر.س</span>
-                      )}
-                    </div>
-                    <button onClick={() => addToCart(product)} disabled={product.stock === 0} style={{ background: product.stock === 0 ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg, #C9A227, #D4B03D)', color: product.stock === 0 ? 'rgba(255,255,255,0.3)' : '#0D1B2A', border: 'none', borderRadius: 8, padding: '8px 14px', fontSize: 13, fontWeight: 700, cursor: product.stock === 0 ? 'not-allowed' : 'pointer' }}>
-                      {product.stock === 0 ? 'نفد' : '🛒 أضف'}
-                    </button>
-                  </div>
-                  {product.stock > 0 && product.stock < 10 && <p style={{ color: '#F59E0B', fontSize: 12, margin: '8px 0 0' }}>⚠️ متبقي {product.stock} فقط</p>}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* السلة */}
-      {showCart && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', zIndex: 1000, display: 'flex', justifyContent: 'flex-left' }}>
-          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '100%', maxWidth: 420, background: '#1B263B', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 style={{ color: 'white', fontWeight: 800, margin: 0 }}>🛒 سلة التسوق ({cartCount})</h2>
-              <button onClick={() => setShowCart(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 24, cursor: 'pointer' }}>✕</button>
-            </div>
-            <div style={{ flex: 1, overflowY: 'auto', padding: 24 }}>
-              {cart.length === 0 ? (
-                <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.4)', padding: 40 }}>السلة فارغة</div>
-              ) : cart.map(item => (
-                <div key={item.id} style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 16, background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: 12 }}>
-                  <div style={{ flex: 1 }}>
-                    <p style={{ color: 'white', fontWeight: 600, margin: '0 0 4px', fontSize: 14 }}>{item.name}</p>
-                    <p style={{ color: '#C9A227', fontWeight: 700, margin: 0 }}>{(item.sale_price || item.price) * item.quantity} ر.س</p>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <button onClick={() => updateQty(item.id, item.quantity - 1)} style={{ width: 28, height: 28, background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: 6, color: 'white', cursor: 'pointer', fontSize: 16 }}>-</button>
-                    <span style={{ color: 'white', fontWeight: 700, minWidth: 20, textAlign: 'center' }}>{item.quantity}</span>
-                    <button onClick={() => updateQty(item.id, item.quantity + 1)} style={{ width: 28, height: 28, background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: 6, color: 'white', cursor: 'pointer', fontSize: 16 }}>+</button>
-                    <button onClick={() => removeFromCart(item.id)} style={{ width: 28, height: 28, background: 'rgba(239,68,68,0.1)', border: 'none', borderRadius: 6, color: '#EF4444', cursor: 'pointer' }}>🗑️</button>
-                  </div>
-                </div>
-              ))}
-            </div>
-            {cart.length > 0 && (
-              <div style={{ padding: 24, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
-                  <span style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 600 }}>الإجمالي:</span>
-                  <span style={{ color: '#C9A227', fontWeight: 800, fontSize: 20 }}>{total.toFixed(2)} ر.س</span>
-                </div>
-                <button onClick={() => { setShowCart(false); setShowCheckout(true); }} style={{ width: '100%', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#0D1B2A', border: 'none', borderRadius: 12, padding: 14, fontSize: 16, fontWeight: 800, cursor: 'pointer' }}>إتمام الطلب →</button>
-              </div>
-            )}
-          </div>
-          <div style={{ flex: 1 }} onClick={() => setShowCart(false)} />
+      </section>
+      <div className="divider"></div>
+      <section className="cta-section">
+        <div className="cta-box">
+          <div style={{ fontSize:'12px', fontWeight:700, letterSpacing:'2px', color:'var(--gold)', textTransform:'uppercase', marginBottom:'16px' }}>ابدأ الآن</div>
+          <h2 style={{ fontSize:'32px', fontWeight:900, marginBottom:'16px' }}>متجر مدرسي احترافي</h2>
+          <p style={{ fontSize:'15px', color:'var(--text-2)', lineHeight:1.7 }}>أضف متجراً إلكترونياً لمدرستك وابدأ البيع فوراً بدون أي تعقيد تقني.</p>
+          <Link href="/register" className="btn-hero">ابدأ تجربتك المجانية ←</Link>
         </div>
-      )}
-
-      {/* Checkout */}
-      {showCheckout && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
-          <div style={{ background: '#1B263B', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: 32, width: '100%', maxWidth: 500, maxHeight: '90vh', overflowY: 'auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontWeight: 800, margin: 0 }}>📦 إتمام الطلب</h2>
-              <button onClick={() => setShowCheckout(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 24, cursor: 'pointer' }}>✕</button>
-            </div>
-
-            {[{ key: 'name', label: 'الاسم *', ph: 'اسمك الكامل' }, { key: 'phone', label: 'الجوال *', ph: '05xxxxxxxx' }, { key: 'email', label: 'الإيميل', ph: 'example@email.com' }, { key: 'address', label: 'العنوان', ph: 'عنوان التوصيل' }, { key: 'notes', label: 'ملاحظات', ph: 'أي ملاحظات للطلب' }].map(f => (
-              <div key={f.key} style={{ marginBottom: 16 }}>
-                <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>{f.label}</label>
-                <input value={(form as any)[f.key]} onChange={e => setForm({ ...form, [f.key]: e.target.value })} placeholder={f.ph} style={inputStyle} />
-              </div>
-            ))}
-
-            <div style={{ marginBottom: 20 }}>
-              <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 10 }}>طريقة الدفع</label>
-              <div style={{ display: 'flex', gap: 10 }}>
-                {[{ key: 'cash', label: '💵 كاش' }, { key: 'online', label: '💳 أونلاين' }].map(p => (
-                  <button key={p.key} onClick={() => setForm({ ...form, payment_method: p.key })} style={{ flex: 1, background: form.payment_method === p.key ? 'rgba(201,162,39,0.2)' : 'rgba(255,255,255,0.05)', color: form.payment_method === p.key ? '#C9A227' : 'rgba(255,255,255,0.6)', border: `1px solid ${form.payment_method === p.key ? 'rgba(201,162,39,0.5)' : 'rgba(255,255,255,0.1)'}`, borderRadius: 10, padding: '12px', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>{p.label}</button>
-                ))}
-              </div>
-            </div>
-
-            <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: 16, marginBottom: 20 }}>
-              <h4 style={{ color: 'white', margin: '0 0 12px' }}>ملخص الطلب</h4>
-              {cart.map(item => (
-                <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                  <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14 }}>{item.name} × {item.quantity}</span>
-                  <span style={{ color: 'white', fontWeight: 600 }}>{((item.sale_price || item.price) * item.quantity).toFixed(2)} ر.س</span>
-                </div>
-              ))}
-              <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 12, marginTop: 8, display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: 'white', fontWeight: 700 }}>الإجمالي</span>
-                <span style={{ color: '#C9A227', fontWeight: 800, fontSize: 18 }}>{total.toFixed(2)} ر.س</span>
-              </div>
-            </div>
-
-            <button onClick={handleOrder} disabled={ordering} style={{ width: '100%', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#0D1B2A', border: 'none', borderRadius: 12, padding: 16, fontSize: 16, fontWeight: 800, cursor: 'pointer' }}>
-              {ordering ? '⏳ جاري التأكيد...' : '✅ تأكيد الطلب'}
-            </button>
-          </div>
-        </div>
-      )}
+      </section>
+      <footer className="footer"><p>© {new Date().getFullYear()} منصة متين التعليمية. جميع الحقوق محفوظة.</p></footer>
     </div>
   );
 }
