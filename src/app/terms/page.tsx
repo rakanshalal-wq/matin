@@ -1,105 +1,81 @@
-'use client';
+import Link from 'next/link';
 
 export default function TermsPage() {
+  const navLinkStyle: React.CSSProperties = { color: 'rgba(238,238,245,0.65)', textDecoration: 'none', fontSize: 14, fontWeight: 500 };
+  const sectionStyle: React.CSSProperties = { marginBottom: 40 };
+  const h2Style: React.CSSProperties = { fontSize: 18, fontWeight: 700, color: '#C9A84C', marginBottom: 12, borderRight: '3px solid #C9A84C', paddingRight: 12 };
+  const pStyle: React.CSSProperties = { fontSize: 14, color: 'rgba(238,238,245,0.65)', lineHeight: 1.9 };
+
   return (
-    <div className="min-h-screen bg-gray-50" dir="rtl">
-      {/* Header */}
-      <div className="bg-gradient-to-l from-blue-700 to-indigo-800 text-white py-16">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h1 className="text-4xl font-bold mb-4">شروط الخدمة</h1>
-          <p className="text-blue-200">آخر تحديث: مارس 2026</p>
+    <>
+      <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+      <div style={{ background: '#06060E', minHeight: '100vh', color: '#EEEEF5', fontFamily: "'IBM Plex Sans Arabic', sans-serif", direction: 'rtl', paddingTop: 64 }}>
+
+        <nav style={{ position: 'fixed', top: 0, right: 0, left: 0, zIndex: 200, height: 64, display: 'flex', alignItems: 'center', padding: '0 48px', gap: 40, background: 'rgba(6,6,14,0.92)', borderBottom: '1px solid rgba(201,168,76,0.2)' }}>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#EEEEF5', fontSize: 19, fontWeight: 800 }}>
+            <div style={{ width: 34, height: 34, borderRadius: 9, background: 'linear-gradient(135deg,#C9A84C,#E2C46A)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, fontWeight: 900, color: '#000' }}>م</div>
+            متين
+          </Link>
+          <div style={{ display: 'flex', gap: 28, flex: 1 }}>
+            <Link href="/features" style={navLinkStyle}>المميزات</Link>
+            <Link href="/pricing" style={navLinkStyle}>الأسعار</Link>
+            <Link href="/about" style={navLinkStyle}>عن متين</Link>
+            <Link href="/contact" style={navLinkStyle}>تواصل معنا</Link>
+          </div>
+          <Link href="/register" style={{ padding: '8px 20px', borderRadius: 9, background: '#C9A84C', color: '#000', fontSize: 13.5, fontWeight: 700, textDecoration: 'none' }}>ابدأ مجاناً</Link>
+        </nav>
+
+        <section style={{ padding: '80px 24px 40px', textAlign: 'center' }}>
+          <h1 style={{ fontSize: 'clamp(32px,5vw,52px)', fontWeight: 800, letterSpacing: -2, color: '#EEEEF5', margin: 0 }}>
+            الشروط{' '}
+            <span style={{ background: 'linear-gradient(90deg,#C9A84C,#E2C46A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>والأحكام</span>
+          </h1>
+          <p style={{ fontSize: 14, color: 'rgba(238,238,245,0.4)', marginTop: 12 }}>آخر تحديث: مارس 2026</p>
+        </section>
+
+        <div style={{ width: '100%', height: 1, background: 'rgba(255,255,255,0.06)' }} />
+
+        <div style={{ maxWidth: 800, margin: '0 auto', padding: '60px 24px' }}>
+          <div style={{ background: '#0B0B16', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 20, padding: 40 }}>
+            <div style={sectionStyle}>
+              <h2 style={h2Style}>١. القبول بالشروط</h2>
+              <p style={pStyle}>مرحباً بك في منصة متين التعليمية. باستخدامك لهذه المنصة، فإنك توافق على الالتزام بهذه الشروط والأحكام. إذا كنت لا توافق على أي من هذه الشروط، يرجى عدم استخدام المنصة.</p>
+            </div>
+            <div style={sectionStyle}>
+              <h2 style={h2Style}>٢. الاشتراك والحساب</h2>
+              <p style={pStyle}>يجب أن تكون مؤسسة تعليمية مرخصة للاشتراك في متين. أنت مسؤول عن الحفاظ على سرية بيانات الدخول لحسابك. يحق لمتين تعليق أو إنهاء الحساب في حال مخالفة الشروط.</p>
+            </div>
+            <div style={sectionStyle}>
+              <h2 style={h2Style}>٣. الاشتراكات والمدفوعات</h2>
+              <p style={pStyle}>الاشتراكات تُجدَّد تلقائياً ما لم يتم الإلغاء قبل 7 أيام من تاريخ التجديد. المدفوعات غير قابلة للاسترداد بعد بدء الفترة الجديدة. نقدم 14 يوماً تجريبية مجانية بدون بطاقة ائتمانية.</p>
+            </div>
+            <div style={sectionStyle}>
+              <h2 style={h2Style}>٤. ملكية البيانات</h2>
+              <p style={pStyle}>جميع البيانات التي تُدخلها في المنصة هي ملكك الحصري. متين لا تدّعي أي ملكية على بياناتك. عند إنهاء الاشتراك، يمكنك تصدير بياناتك كاملة خلال 30 يوماً.</p>
+            </div>
+            <div style={sectionStyle}>
+              <h2 style={h2Style}>٥. الاستخدام المقبول</h2>
+              <p style={pStyle}>يُمنع استخدام المنصة لأي غرض غير قانوني، أو نشر محتوى مسيء، أو محاولة اختراق الأنظمة، أو إعادة بيع الخدمة لأطراف ثالثة دون إذن كتابي.</p>
+            </div>
+            <div style={sectionStyle}>
+              <h2 style={h2Style}>٦. تحديد المسؤولية</h2>
+              <p style={pStyle}>تلتزم متين بتقديم الخدمة بأعلى معايير الجودة. في حالات الانقطاع غير المتوقعة، نقدم تعويضاً وفق اتفاقية مستوى الخدمة (SLA) المتفق عليها. مسؤوليتنا القصوى لا تتجاوز قيمة اشتراكك الشهري.</p>
+            </div>
+            <div style={sectionStyle}>
+              <h2 style={h2Style}>٧. القانون المطبق</h2>
+              <p style={pStyle}>تخضع هذه الشروط لأنظمة المملكة العربية السعودية. أي نزاع يُحسم أمام المحاكم السعودية المختصة.</p>
+            </div>
+          </div>
         </div>
+
+        <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+          <span style={{ fontSize: 13, color: 'rgba(238,238,245,0.35)' }}>© {new Date().getFullYear()} منصة متين. جميع الحقوق محفوظة.</span>
+          <div style={{ display: 'flex', gap: 24 }}>
+            <Link href="/privacy" style={{ fontSize: 13, color: 'rgba(238,238,245,0.35)', textDecoration: 'none' }}>سياسة الخصوصية</Link>
+            <Link href="/contact" style={{ fontSize: 13, color: 'rgba(238,238,245,0.35)', textDecoration: 'none' }}>تواصل معنا</Link>
+          </div>
+        </footer>
       </div>
-
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        <div className="bg-white rounded-2xl shadow-lg p-8 space-y-8">
-          
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 border-r-4 border-blue-600 pr-4">1. مقدمة</h2>
-            <p className="text-gray-700 leading-relaxed">
-              مرحباً بك في منصة متين التعليمية. باستخدامك لهذه المنصة، فإنك توافق على الالتزام بهذه الشروط والأحكام. إذا كنت لا توافق على أي من هذه الشروط، يرجى عدم استخدام المنصة. تحتفظ منصة متين بالحق في تعديل هذه الشروط في أي وقت مع إشعار المستخدمين بالتغييرات.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 border-r-4 border-blue-600 pr-4">2. وصف الخدمة</h2>
-            <p className="text-gray-700 leading-relaxed">
-              منصة متين هي نظام إدارة تعليمي شامل (SaaS) يوفر أدوات لإدارة المؤسسات التعليمية بما في ذلك: إدارة الطلاب والمعلمين، الحضور والغياب، الاختبارات والدرجات، الجداول الدراسية، المكتبة الرقمية، نظام النقل، المتجر الإلكتروني، والتواصل بين أطراف العملية التعليمية.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 border-r-4 border-blue-600 pr-4">3. التسجيل والحسابات</h2>
-            <ul className="space-y-3 text-gray-700">
-              <li className="flex items-start gap-2"><span className="text-blue-600 mt-1">●</span><span>يجب أن تكون المعلومات المقدمة عند التسجيل صحيحة ودقيقة</span></li>
-              <li className="flex items-start gap-2"><span className="text-blue-600 mt-1">●</span><span>أنت مسؤول عن الحفاظ على سرية بيانات الدخول الخاصة بك</span></li>
-              <li className="flex items-start gap-2"><span className="text-blue-600 mt-1">●</span><span>يجب إبلاغنا فوراً في حال الاشتباه بأي استخدام غير مصرح به</span></li>
-              <li className="flex items-start gap-2"><span className="text-blue-600 mt-1">●</span><span>يحق لنا تعليق أو إلغاء الحسابات التي تنتهك هذه الشروط</span></li>
-            </ul>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 border-r-4 border-blue-600 pr-4">4. الاشتراكات والدفع</h2>
-            <p className="text-gray-700 leading-relaxed">
-              تقدم المنصة باقات اشتراك مختلفة (أساسية مجانية، متقدمة، مؤسسية). الاشتراكات المدفوعة تتجدد تلقائياً ما لم يتم إلغاؤها قبل تاريخ التجديد. يمكن الترقية أو التخفيض في أي وقت مع احتساب الفرق بشكل تناسبي. لا يتم استرداد المبالغ المدفوعة إلا في حالات استثنائية وفق تقديرنا.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 border-r-4 border-blue-600 pr-4">5. الاستخدام المقبول</h2>
-            <p className="text-gray-700 leading-relaxed mb-4">يُحظر استخدام المنصة في:</p>
-            <ul className="space-y-3 text-gray-700">
-              <li className="flex items-start gap-2"><span className="text-red-600 mt-1">✗</span><span>أي نشاط غير قانوني أو مخالف للأنظمة السعودية</span></li>
-              <li className="flex items-start gap-2"><span className="text-red-600 mt-1">✗</span><span>نشر محتوى مسيء أو غير لائق</span></li>
-              <li className="flex items-start gap-2"><span className="text-red-600 mt-1">✗</span><span>محاولة اختراق أو تعطيل المنصة</span></li>
-              <li className="flex items-start gap-2"><span className="text-red-600 mt-1">✗</span><span>مشاركة بيانات الدخول مع أطراف غير مصرح لها</span></li>
-              <li className="flex items-start gap-2"><span className="text-red-600 mt-1">✗</span><span>استخدام المنصة لأغراض تجارية غير مرتبطة بالتعليم</span></li>
-            </ul>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 border-r-4 border-blue-600 pr-4">6. الملكية الفكرية</h2>
-            <p className="text-gray-700 leading-relaxed">
-              جميع حقوق الملكية الفكرية للمنصة (الكود، التصميم، العلامة التجارية، المحتوى) مملوكة لشركة متين. المحتوى الذي ينشئه المستخدمون (اختبارات، مواد تعليمية) يبقى ملكاً لهم مع منح المنصة ترخيصاً محدوداً لعرضه وتخزينه. لا يحق للمستخدم نسخ أو إعادة توزيع أي جزء من المنصة.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 border-r-4 border-blue-600 pr-4">7. مستوى الخدمة (SLA)</h2>
-            <p className="text-gray-700 leading-relaxed">
-              نسعى لتوفير المنصة بنسبة تشغيل 99.9%. قد تحدث فترات صيانة مجدولة مع إشعار مسبق. لا نتحمل المسؤولية عن الانقطاعات الناتجة عن أسباب خارجة عن إرادتنا (كوارث طبيعية، مشاكل مزودي الخدمة).
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 border-r-4 border-blue-600 pr-4">8. حدود المسؤولية</h2>
-            <p className="text-gray-700 leading-relaxed">
-              المنصة مقدمة &quot;كما هي&quot; دون ضمانات صريحة أو ضمنية. لا نتحمل المسؤولية عن أي أضرار مباشرة أو غير مباشرة ناتجة عن استخدام المنصة، بما في ذلك فقدان البيانات أو الأرباح، وذلك في الحدود التي يسمح بها النظام.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 border-r-4 border-blue-600 pr-4">9. إنهاء الخدمة</h2>
-            <p className="text-gray-700 leading-relaxed">
-              يحق لك إلغاء حسابك في أي وقت. عند الإلغاء، سيتم حذف بياناتك خلال 30 يوماً مع إمكانية تصدير البيانات قبل الحذف. يحق لنا إنهاء أو تعليق حسابك في حالة انتهاك هذه الشروط.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 border-r-4 border-blue-600 pr-4">10. القانون الحاكم</h2>
-            <p className="text-gray-700 leading-relaxed">
-              تخضع هذه الشروط لأنظمة المملكة العربية السعودية. أي نزاع ينشأ عن استخدام المنصة يتم حله ودياً أولاً، وفي حال عدم التوصل لحل يُحال إلى الجهات القضائية المختصة في المملكة العربية السعودية.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 border-r-4 border-blue-600 pr-4">11. التواصل</h2>
-            <p className="text-gray-700 leading-relaxed">
-              لأي استفسارات حول شروط الخدمة، يرجى التواصل معنا عبر البريد الإلكتروني: legal@matin.ink أو عبر نموذج التواصل في الموقع.
-            </p>
-          </section>
-        </div>
-      </div>
-    </div>
+    </>
   );
 }
