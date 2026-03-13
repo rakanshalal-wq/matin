@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { pool, getUserFromRequest, getFilterSQL, getInsertIds } from '@/lib/auth';
 import { sendSMS, sendWhatsApp, sendEmail } from '@/lib/integrations';
+import { sendEventToSchool } from '@/app/api/sse/route';
 
 export async function GET(request: Request) {
   try {
@@ -90,6 +91,10 @@ export async function POST(request: Request) {
       sendResults.email = emailSent;
     }
 
+    // إرسال الإشعار فورياً عبر SSE لجميع مستخدمي المدرسة
+    if (ids.school_id) {
+      sendEventToSchool(String(ids.school_id), 'notification', result.rows[0]);
+    }
     return NextResponse.json({ ...result.rows[0], sendResults }, { status: 201 });
   } catch (error) { console.error('Error:', error); return NextResponse.json({ error: 'فشل' }, { status: 500 }); }
 }

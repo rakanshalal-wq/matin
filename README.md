@@ -35,8 +35,11 @@ psql -U postgres -c "CREATE DATABASE matin_db;"
 psql -U postgres -c "CREATE USER matin WITH PASSWORD 'your_password';"
 psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE matin_db TO matin;"
 
-# تشغيل الـ schema
+# تشغيل الـ schema الأساسي
 psql -U matin -d matin_db -f scripts/schema.sql
+
+# تشغيل الجداول الإضافية (مطلوب - 97 جدول جديد)
+psql -U matin -d matin_db -f scripts/migration_v2.sql
 
 # إضافة البيانات الأولية (super_admin)
 psql -U matin -d matin_db -f scripts/seed.sql
@@ -110,8 +113,11 @@ src/
     ├── auth.ts        # المصادقة وإدارة الجلسات
     └── integrations.ts # التكاملات الخارجية
 scripts/
-├── schema.sql         # هيكل قاعدة البيانات الكامل
+├── schema.sql         # هيكل قاعدة البيانات الأساسي (86 جدول)
+├── migration_v2.sql   # جداول إضافية (97 جدول) - مطلوب للتشغيل الكامل
 └── seed.sql           # البيانات الأولية
+docs/
+└── API.md             # توثيق كامل لجميع API endpoints (164+)
 ```
 
 ---
@@ -168,6 +174,12 @@ server {
 - **التكاملات** — Moyasar، HyperPay، نفاذ، Google Maps
 - **الذكاء الاصطناعي** — AI Auditor لرصد الشذوذات
 - **الباقات** — مجانية، أساسية، احترافية، ذهبية، حكومية
+
+---
+
+## توثيق API
+
+راجع [`docs/API.md`](docs/API.md) للاطلاع على جميع الـ endpoints (164+ endpoint) مع أمثلة الطلبات والاستجابات.
 
 ---
 
