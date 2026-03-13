@@ -12,7 +12,6 @@ const RED = '#EF4444';
 const BLUE = '#3B82F6';
 const PURPLE = '#8B5CF6';
 
-// ====== الأقسام الـ 14 لمالك المنصة وفق الدستور ======
 const TABS = [
   { id: 'overview',       label: 'نظرة عامة',          icon: '🏛' },
   { id: 'finance',        label: 'المالية والإيرادات',  icon: '💰' },
@@ -25,24 +24,18 @@ const TABS = [
   { id: 'notifications',  label: 'الإشعارات الجماعية', icon: '🔔' },
   { id: 'ai_auditor',     label: 'AI Auditor',          icon: '🤖' },
   { id: 'audit_log',      label: 'سجل الأمان',         icon: '🔐' },
-  { id: 'integrations',   label: 'التكاملات',           icon: '🔗' },
-  { id: 'library',        label: 'المكتبة الرقمية',    icon: '📚' },
   { id: 'support',        label: 'الدعم الفني',         icon: '🎧' },
 ];
 
 const StatCard = ({ title, value, sub, color, icon }: any) => (
   <div style={{
     background: `linear-gradient(135deg, ${color}08 0%, ${color}03 100%)`,
-    border: `1px solid ${color}20`,
-    borderRadius: 16,
-    padding: '20px 22px',
-    position: 'relative',
-    overflow: 'hidden',
+    border: `1px solid ${color}20`, borderRadius: 16, padding: '20px 22px', position: 'relative', overflow: 'hidden',
   }}>
     <div style={{ position: 'absolute', top: 0, right: 0, width: 80, height: 80, background: `radial-gradient(circle, ${color}10 0%, transparent 70%)`, borderRadius: '0 16px 0 0' }} />
     <div style={{ fontSize: 28, marginBottom: 10 }}>{icon}</div>
     <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12, fontWeight: 600, marginBottom: 6 }}>{title}</div>
-    <div style={{ color: color, fontSize: 28, fontWeight: 800, lineHeight: 1 }}>{value}</div>
+    <div style={{ color: color, fontSize: 28, fontWeight: 800, lineHeight: 1 }}>{value ?? '—'}</div>
     {sub && <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 11, marginTop: 6 }}>{sub}</div>}
   </div>
 );
@@ -58,79 +51,210 @@ const SectionTitle = ({ title, icon, desc }: any) => (
 );
 
 const Badge = ({ label, color }: any) => (
-  <span style={{ background: `${color}15`, color, border: `1px solid ${color}30`, borderRadius: 6, padding: '2px 8px', fontSize: 11, fontWeight: 600 }}>
-    {label}
-  </span>
+  <span style={{ background: `${color}15`, color, border: `1px solid ${color}30`, borderRadius: 6, padding: '2px 8px', fontSize: 11, fontWeight: 600 }}>{label}</span>
 );
 
-const ActionBtn = ({ label, color, onClick }: any) => (
-  <button onClick={onClick} style={{
-    background: `${color}15`, color, border: `1px solid ${color}30`,
-    borderRadius: 8, padding: '6px 14px', fontSize: 12, fontWeight: 600, cursor: 'pointer',
-    transition: 'all 0.2s',
-  }}
-    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = `${color}25`; }}
-    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = `${color}15`; }}
-  >{label}</button>
+const Btn = ({ label, color, onClick, disabled }: any) => (
+  <button disabled={disabled} onClick={onClick} style={{
+    background: `${color}15`, color, border: `1px solid ${color}30`, borderRadius: 8,
+    padding: '6px 14px', fontSize: 12, fontWeight: 600, cursor: disabled ? 'not-allowed' : 'pointer',
+    opacity: disabled ? 0.5 : 1, transition: 'all 0.2s',
+  }}>{label}</button>
 );
 
-// بيانات تجريبية للعرض
-const MOCK_INSTITUTIONS = [
-  { id: 1, name: 'مدرسة النور الأهلية', type: 'مدرسة', plan: 'احترافية', students: 487, limit: 500, status: 'active', paid: true, days_late: 0 },
-  { id: 2, name: 'أكاديمية المستقبل', type: 'معهد', plan: 'أساسية', students: 198, limit: 200, status: 'active', paid: false, days_late: 12 },
-  { id: 3, name: 'روضة الأمل', type: 'روضة', plan: 'أساسية', students: 45, limit: 200, status: 'active', paid: true, days_late: 0 },
-  { id: 4, name: 'جامعة الإبداع', type: 'جامعة', plan: 'مؤسسية', students: 2340, limit: 5000, status: 'pending', paid: false, days_late: 3 },
-  { id: 5, name: 'مركز التميز للتدريب', type: 'تدريب', plan: 'احترافية', students: 312, limit: 1000, status: 'frozen', paid: false, days_late: 45 },
-];
-
-const MOCK_AUDIT = [
-  { id: 1, time: '2026-03-13 14:22', user: 'مالك المنصة', action: 'تجميد مؤسسة', target: 'مركز التميز', ip: '192.168.1.1', severity: 'high' },
-  { id: 2, time: '2026-03-13 13:15', user: 'admin@matin.ink', action: 'تعديل باقة', target: 'الباقة الاحترافية', ip: '192.168.1.2', severity: 'medium' },
-  { id: 3, time: '2026-03-13 11:40', user: 'مالك المنصة', action: 'إنشاء كوبون', target: 'MATIN20', ip: '192.168.1.1', severity: 'low' },
-  { id: 4, time: '2026-03-13 10:05', user: 'مالك المنصة', action: 'قبول مؤسسة', target: 'روضة الأمل', ip: '192.168.1.1', severity: 'low' },
-  { id: 5, time: '2026-03-13 09:30', user: 'system', action: 'استقطاع ضريبة سيادية', target: 'مدرسة النور', ip: 'system', severity: 'info' },
-];
-
-const MOCK_AI_ALERTS = [
-  { id: 1, institution: 'مدرسة النور الأهلية', type: 'تلاعب بالدرجات', desc: 'رُصد نمط غير طبيعي في رفع درجات الفصل الثالث — 15 طالب بزيادة مفاجئة', severity: 'high', time: '2026-03-13 08:00' },
-  { id: 2, institution: 'أكاديمية المستقبل', type: 'غياب متكرر للأستاذ', desc: 'الأستاذ محمد العمري: 8 غيابات في 30 يوماً — تجاوز الحد المسموح', severity: 'medium', time: '2026-03-12 16:30' },
-  { id: 3, institution: 'جامعة الإبداع', type: 'تسجيل مشبوه', desc: 'محاولات تسجيل دخول متعددة فاشلة من IP غير معروف', severity: 'high', time: '2026-03-12 14:00' },
-];
-
-const MOCK_COUPONS = [
-  { id: 1, code: 'MATIN20', discount: '20%', type: 'نسبة', uses: 45, max: 100, expires: '2026-04-01', status: 'active' },
-  { id: 2, code: 'SCHOOL50', discount: '50 ر.س', type: 'مبلغ', uses: 12, max: 50, expires: '2026-03-31', status: 'active' },
-  { id: 3, code: 'SUMMER30', discount: '30%', type: 'نسبة', uses: 50, max: 50, expires: '2026-06-30', status: 'expired' },
-];
-
-const MOCK_SUPPORT = [
-  { id: 1, institution: 'مدرسة النور', subject: 'مشكلة في رفع الدرجات', priority: 'high', status: 'open', created: '2026-03-13' },
-  { id: 2, institution: 'أكاديمية المستقبل', subject: 'عدم ظهور الجدول الدراسي', priority: 'medium', status: 'in_progress', created: '2026-03-12' },
-  { id: 3, institution: 'روضة الأمل', subject: 'استفسار عن الترقية للباقة الاحترافية', priority: 'low', status: 'resolved', created: '2026-03-11' },
-];
+const Toast = ({ msg, onClose }: any) => msg ? (
+  <div style={{ position: 'fixed', bottom: 24, left: '50%', transform: 'translateX(-50%)', background: '#1a1a2e', border: `1px solid ${GOLD}40`, borderRadius: 12, padding: '12px 24px', color: '#EEEEF5', fontSize: 13, fontWeight: 600, zIndex: 9999, boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }}>
+    {msg} <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'rgba(238,238,245,0.4)', cursor: 'pointer', marginRight: 8 }}>✕</button>
+  </div>
+) : null;
 
 export default function OwnerDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
-  const [newCoupon, setNewCoupon] = useState({ code: '', discount: '', type: 'نسبة', max: '', expires: '' });
-  const [notifMsg, setNotifMsg] = useState('');
-  const [notifTarget, setNotifTarget] = useState('all');
-  const [adTitle, setAdTitle] = useState('');
-  const [adBody, setAdBody] = useState('');
-  const [taxRate, setTaxRate] = useState('2.5');
-  const [planName, setPlanName] = useState('');
-  const [planPrice, setPlanPrice] = useState('');
-  const [planLimit, setPlanLimit] = useState('');
+  const [toast, setToast] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const cellStyle: any = { padding: '12px 14px', borderBottom: `1px solid ${BORDER}`, color: 'rgba(238,238,245,0.75)', fontSize: 13 };
-  const headStyle: any = { padding: '10px 14px', color: 'rgba(238,238,245,0.4)', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.5, borderBottom: `1px solid ${BORDER}` };
+  // البيانات
+  const [stats, setStats] = useState<any>({});
+  const [schools, setSchools] = useState<any[]>([]);
+  const [joinRequests, setJoinRequests] = useState<any[]>([]);
+  const [plans, setPlans] = useState<any[]>([]);
+  const [coupons, setCoupons] = useState<any[]>([]);
+  const [taxes, setTaxes] = useState<any[]>([]);
+  const [support, setSupport] = useState<any[]>([]);
+  const [auditLog, setAuditLog] = useState<any[]>([]);
+  const [ads, setAds] = useState<any[]>([]);
+  const [commissions, setCommissions] = useState<any[]>([]);
+  const [notifications, setNotifications] = useState<any[]>([]);
+
+  // Forms
+  const [newCoupon, setNewCoupon] = useState({ code: '', discount: '', type: 'percentage', max_uses: '', expires_at: '' });
+  const [notifForm, setNotifForm] = useState({ title: '', message: '', target: 'all' });
+  const [adForm, setAdForm] = useState({ title: '', body: '', start_date: '', end_date: '' });
+  const [planForm, setPlanForm] = useState({ name: '', price: '', student_limit: '', features: '' });
 
   const inputStyle: any = {
     background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, borderRadius: 8,
     padding: '10px 14px', color: '#EEEEF5', fontSize: 13, outline: 'none', width: '100%', boxSizing: 'border-box',
   };
+  const cellStyle: any = { padding: '12px 14px', borderBottom: `1px solid ${BORDER}`, color: 'rgba(238,238,245,0.75)', fontSize: 13 };
+  const headStyle: any = { padding: '10px 14px', color: 'rgba(238,238,245,0.4)', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.5, borderBottom: `1px solid ${BORDER}` };
+
+  const getH = useCallback(() => {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('matin_token') : null;
+    return { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) };
+  }, []);
+
+  const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(''), 3000); };
+
+  const loadAll = useCallback(async () => {
+    setLoading(true);
+    try {
+      const h = getH();
+      const [statsR, schoolsR, joinR, plansR, couponsR, taxesR, supportR, auditR, adsR, commissionsR] = await Promise.all([
+        fetch('/api/dashboard-stats', { headers: h }),
+        fetch('/api/schools?limit=50', { headers: h }),
+        fetch('/api/join-requests?status=pending&limit=20', { headers: h }),
+        fetch('/api/plans', { headers: h }),
+        fetch('/api/coupons', { headers: h }),
+        fetch('/api/taxes', { headers: h }),
+        fetch('/api/support?limit=20', { headers: h }),
+        fetch('/api/activity-log?limit=20', { headers: h }),
+        fetch('/api/advertisements', { headers: h }),
+        fetch('/api/commissions?limit=10', { headers: h }),
+      ]);
+      const [statsD, schoolsD, joinD, plansD, couponsD, taxesD, supportD, auditD, adsD, commissionsD] = await Promise.all([
+        statsR.json(), schoolsR.json(), joinR.json(), plansR.json(), couponsR.json(),
+        taxesR.json(), supportR.json(), auditR.json(), adsR.json(), commissionsR.json(),
+      ]);
+      setStats(statsD || {});
+      setSchools(Array.isArray(schoolsD) ? schoolsD : schoolsD?.schools || []);
+      setJoinRequests(Array.isArray(joinD) ? joinD : joinD?.requests || []);
+      setPlans(Array.isArray(plansD) ? plansD : plansD?.plans || []);
+      setCoupons(Array.isArray(couponsD) ? couponsD : couponsD?.coupons || []);
+      setTaxes(Array.isArray(taxesD) ? taxesD : taxesD?.taxes || []);
+      setSupport(Array.isArray(supportD) ? supportD : supportD?.tickets || []);
+      setAuditLog(Array.isArray(auditD) ? auditD : auditD?.logs || []);
+      setAds(Array.isArray(adsD) ? adsD : adsD?.ads || []);
+      setCommissions(Array.isArray(commissionsD) ? commissionsD : commissionsD?.commissions || []);
+    } catch (e) { console.error(e); } finally { setLoading(false); }
+  }, [getH]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('matin_token');
+    if (!token) { window.location.href = '/login'; return; }
+    fetch('/api/auth/verify', { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.json())
+      .then(d => {
+        if (!d.valid || d.user?.role !== 'super_admin') { window.location.href = '/login'; return; }
+        loadAll();
+      }).catch(() => { window.location.href = '/login'; });
+  }, [loadAll]);
+
+  // ===== Actions =====
+  const handleJoinRequest = async (id: number, action: 'approve' | 'reject') => {
+    try {
+      const r = await fetch(`/api/join-requests`, { method: 'PUT', headers: getH(), body: JSON.stringify({ id, action }) });
+      const d = await r.json();
+      if (r.ok) { showToast(action === 'approve' ? 'تم قبول المؤسسة ✓' : 'تم رفض المؤسسة'); loadAll(); }
+      else showToast(d.error || 'فشل');
+    } catch { showToast('خطأ في الشبكة'); }
+  };
+
+  const handleSchoolAction = async (id: number, action: 'freeze' | 'unfreeze') => {
+    try {
+      const r = await fetch(`/api/schools`, { method: 'PUT', headers: getH(), body: JSON.stringify({ id, status: action === 'freeze' ? 'frozen' : 'active' }) });
+      if (r.ok) { showToast(action === 'freeze' ? 'تم تجميد المؤسسة' : 'تم إلغاء التجميد'); loadAll(); }
+      else showToast('فشل');
+    } catch { showToast('خطأ'); }
+  };
+
+  const handleCreateCoupon = async () => {
+    if (!newCoupon.code || !newCoupon.discount) { showToast('أدخل الكود والخصم'); return; }
+    try {
+      const r = await fetch('/api/coupons', { method: 'POST', headers: getH(), body: JSON.stringify(newCoupon) });
+      const d = await r.json();
+      if (r.ok) { showToast('تم إنشاء الكوبون ✓'); setNewCoupon({ code: '', discount: '', type: 'percentage', max_uses: '', expires_at: '' }); loadAll(); }
+      else showToast(d.error || 'فشل');
+    } catch { showToast('خطأ'); }
+  };
+
+  const handleDeleteCoupon = async (id: number) => {
+    if (!confirm('حذف الكوبون؟')) return;
+    try {
+      const r = await fetch(`/api/coupons?id=${id}`, { method: 'DELETE', headers: getH() });
+      if (r.ok) { showToast('تم حذف الكوبون'); loadAll(); }
+    } catch { showToast('خطأ'); }
+  };
+
+  const handleCreatePlan = async () => {
+    if (!planForm.name || !planForm.price) { showToast('أدخل اسم الباقة والسعر'); return; }
+    try {
+      const r = await fetch('/api/plans', { method: 'POST', headers: getH(), body: JSON.stringify(planForm) });
+      const d = await r.json();
+      if (r.ok) { showToast('تم إنشاء الباقة ✓'); setPlanForm({ name: '', price: '', student_limit: '', features: '' }); loadAll(); }
+      else showToast(d.error || 'فشل');
+    } catch { showToast('خطأ'); }
+  };
+
+  const handleDeletePlan = async (id: number) => {
+    if (!confirm('حذف الباقة؟')) return;
+    try {
+      const r = await fetch(`/api/plans?id=${id}`, { method: 'DELETE', headers: getH() });
+      if (r.ok) { showToast('تم حذف الباقة'); loadAll(); }
+    } catch { showToast('خطأ'); }
+  };
+
+  const handleCreateAd = async () => {
+    if (!adForm.title || !adForm.body) { showToast('أدخل العنوان والنص'); return; }
+    try {
+      const r = await fetch('/api/advertisements', { method: 'POST', headers: getH(), body: JSON.stringify(adForm) });
+      const d = await r.json();
+      if (r.ok) { showToast('تم نشر الإعلان ✓'); setAdForm({ title: '', body: '', start_date: '', end_date: '' }); loadAll(); }
+      else showToast(d.error || 'فشل');
+    } catch { showToast('خطأ'); }
+  };
+
+  const handleDeleteAd = async (id: number) => {
+    if (!confirm('حذف الإعلان؟')) return;
+    try {
+      const r = await fetch(`/api/advertisements?id=${id}`, { method: 'DELETE', headers: getH() });
+      if (r.ok) { showToast('تم حذف الإعلان'); loadAll(); }
+    } catch { showToast('خطأ'); }
+  };
+
+  const handleSendNotification = async () => {
+    if (!notifForm.message) { showToast('أدخل نص الإشعار'); return; }
+    try {
+      const r = await fetch('/api/push-notifications', { method: 'POST', headers: getH(), body: JSON.stringify(notifForm) });
+      const d = await r.json();
+      if (r.ok) { showToast('تم إرسال الإشعار ✓'); setNotifForm({ title: '', message: '', target: 'all' }); }
+      else showToast(d.error || 'فشل');
+    } catch { showToast('خطأ'); }
+  };
+
+  const handleSupportReply = async (id: number) => {
+    const reply = prompt('اكتب الرد:');
+    if (!reply) return;
+    try {
+      const r = await fetch('/api/support', { method: 'PUT', headers: getH(), body: JSON.stringify({ id, reply, status: 'in_progress' }) });
+      if (r.ok) { showToast('تم إرسال الرد ✓'); loadAll(); }
+    } catch { showToast('خطأ'); }
+  };
+
+  if (loading) return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: BG }}>
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ width: 48, height: 48, borderRadius: '50%', border: `3px solid ${GOLD}20`, borderTopColor: GOLD, animation: 'spin 0.8s linear infinite', margin: '0 auto 16px' }} />
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 13, fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>جاري التحميل...</div>
+      </div>
+    </div>
+  );
 
   return (
     <div style={{ minHeight: '100vh', background: BG, fontFamily: "'IBM Plex Sans Arabic', 'Tajawal', sans-serif", direction: 'rtl' }}>
+      <Toast msg={toast} onClose={() => setToast('')} />
+
       {/* Header */}
       <div style={{ background: 'rgba(255,255,255,0.02)', borderBottom: `1px solid ${BORDER}`, padding: '16px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 100, backdropFilter: 'blur(12px)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -141,30 +265,25 @@ export default function OwnerDashboard() {
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ background: `${GREEN}15`, color: GREEN, border: `1px solid ${GREEN}30`, borderRadius: 20, padding: '4px 12px', fontSize: 11, fontWeight: 600 }}>● النظام يعمل 99.9%</div>
+          <div style={{ background: `${GREEN}15`, color: GREEN, border: `1px solid ${GREEN}30`, borderRadius: 20, padding: '4px 12px', fontSize: 11, fontWeight: 600 }}>● النظام يعمل</div>
           <Link href="/dashboard" style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(238,238,245,0.6)', border: `1px solid ${BORDER}`, borderRadius: 8, padding: '6px 14px', fontSize: 12, textDecoration: 'none' }}>الرئيسية</Link>
         </div>
       </div>
 
-      {/* Sovereign Banner */}
-      <div style={{ background: `linear-gradient(135deg, ${GOLD}10 0%, transparent 100%)`, borderBottom: `1px solid ${GOLD}15`, padding: '10px 28px', display: 'flex', alignItems: 'center', gap: 10 }}>
-        <span style={{ fontSize: 14 }}>⚡</span>
-        <span style={{ color: GOLD, fontSize: 12, fontWeight: 600 }}>إعلان سيادي: </span>
-        <span style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12 }}>هذا الإعلان يظهر إجبارياً على جميع لوحات تحكم المؤسسات — يمكن تعديله من قسم الإعلانات السيادية</span>
-      </div>
-
-      <div style={{ display: 'flex', minHeight: 'calc(100vh - 100px)' }}>
+      <div style={{ display: 'flex', minHeight: 'calc(100vh - 64px)' }}>
         {/* Sidebar */}
-        <div style={{ width: 220, background: 'rgba(255,255,255,0.015)', borderLeft: `1px solid ${BORDER}`, padding: '20px 0', flexShrink: 0, position: 'sticky', top: 100, height: 'calc(100vh - 100px)', overflowY: 'auto' }}>
+        <div style={{ width: 220, background: 'rgba(255,255,255,0.015)', borderLeft: `1px solid ${BORDER}`, padding: '20px 0', flexShrink: 0, position: 'sticky', top: 64, height: 'calc(100vh - 64px)', overflowY: 'auto' }}>
           {TABS.map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{
-              width: '100%', textAlign: 'right', padding: '11px 20px', background: activeTab === tab.id ? `${GOLD}12` : 'transparent',
+              width: '100%', textAlign: 'right', padding: '11px 20px',
+              background: activeTab === tab.id ? `${GOLD}12` : 'transparent',
               borderRight: activeTab === tab.id ? `3px solid ${GOLD}` : '3px solid transparent',
-              border: 'none', borderLeft: 'none', color: activeTab === tab.id ? GOLD : 'rgba(238,238,245,0.55)',
-              fontSize: 13, fontWeight: activeTab === tab.id ? 700 : 500, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, transition: 'all 0.2s',
+              border: 'none', borderLeft: 'none',
+              color: activeTab === tab.id ? GOLD : 'rgba(238,238,245,0.55)',
+              fontSize: 13, fontWeight: activeTab === tab.id ? 700 : 500, cursor: 'pointer',
+              display: 'flex', alignItems: 'center', gap: 10, transition: 'all 0.2s',
             }}>
-              <span>{tab.icon}</span>
-              <span>{tab.label}</span>
+              <span>{tab.icon}</span><span>{tab.label}</span>
             </button>
           ))}
         </div>
@@ -175,72 +294,50 @@ export default function OwnerDashboard() {
           {/* ===== نظرة عامة ===== */}
           {activeTab === 'overview' && (
             <div>
-              <SectionTitle title="نظرة عامة — السلطة المطلقة" icon="🏛" desc="إحصائيات شاملة للمنصة بالكامل — تتحدث تلقائياً" />
+              <SectionTitle title="نظرة عامة" icon="🏛" desc="إحصائيات شاملة للمنصة — تتحدث تلقائياً من قاعدة البيانات" />
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 32 }}>
-                <StatCard title="إجمالي المؤسسات" value="47" sub="5 معلقة للمراجعة" color={GOLD} icon="🏫" />
-                <StatCard title="إجمالي المستخدمين" value="18,432" sub="↑ 234 هذا الشهر" color={BLUE} icon="👥" />
-                <StatCard title="الإيرادات الشهرية" value="82,400 ر.س" sub="↑ 12% عن الشهر الماضي" color={GREEN} icon="💰" />
-                <StatCard title="طلبات انتظار" value="5" sub="تحتاج مراجعة فورية" color="#F59E0B" icon="⏳" />
-                <StatCard title="الضرائب السيادية" value="4,120 ر.س" sub="هذا الشهر" color={PURPLE} icon="⚖️" />
-                <StatCard title="تنبيهات AI Auditor" value="3" sub="تحتاج تدخلاً" color={RED} icon="🤖" />
+                <StatCard title="إجمالي المؤسسات" value={stats.total_schools ?? schools.length} sub="مؤسسة مسجلة" color={GOLD} icon="🏫" />
+                <StatCard title="إجمالي المستخدمين" value={stats.total_users ?? '—'} sub="مستخدم نشط" color={BLUE} icon="👥" />
+                <StatCard title="الإيرادات الشهرية" value={stats.monthly_revenue ? `${stats.monthly_revenue} ر.س` : '—'} color={GREEN} icon="💰" />
+                <StatCard title="طلبات انتظار" value={joinRequests.length} sub="تحتاج مراجعة" color="#F59E0B" icon="⏳" />
+                <StatCard title="الضرائب السيادية" value={stats.total_taxes ? `${stats.total_taxes} ر.س` : '—'} sub="هذا الشهر" color={PURPLE} icon="⚖️" />
+                <StatCard title="تذاكر دعم مفتوحة" value={support.filter((s: any) => s.status === 'open').length} color={RED} icon="🎧" />
               </div>
 
               {/* طلبات الانضمام المعلقة */}
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24, marginBottom: 24 }}>
-                <SectionTitle title="طلبات الانضمام المعلقة" icon="⏳" desc="مؤسسات تنتظر القبول أو الرفض من مالك المنصة" />
-                <div style={{ overflowX: 'auto' }}>
-                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                    <thead>
-                      <tr>
+                <SectionTitle title="طلبات الانضمام المعلقة" icon="⏳" desc="مؤسسات تنتظر القبول أو الرفض" />
+                {joinRequests.length === 0 ? (
+                  <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 13, textAlign: 'center', padding: '24px 0' }}>لا توجد طلبات معلقة</div>
+                ) : (
+                  <div style={{ overflowX: 'auto' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                      <thead><tr>
                         <th style={headStyle}>المؤسسة</th>
                         <th style={headStyle}>النوع</th>
-                        <th style={headStyle}>الباقة المطلوبة</th>
+                        <th style={headStyle}>الباقة</th>
                         <th style={headStyle}>تاريخ الطلب</th>
                         <th style={headStyle}>الإجراء</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {[
-                        { name: 'جامعة الإبداع', type: 'جامعة', plan: 'مؤسسية', date: '2026-03-10' },
-                        { name: 'مدرسة الرياض الدولية', type: 'مدرسة', plan: 'احترافية', date: '2026-03-11' },
-                        { name: 'معهد البرمجة', type: 'معهد', plan: 'أساسية', date: '2026-03-12' },
-                      ].map((r, i) => (
-                        <tr key={i}>
-                          <td style={cellStyle}>{r.name}</td>
-                          <td style={cellStyle}>{r.type}</td>
-                          <td style={cellStyle}><Badge label={r.plan} color={GOLD} /></td>
-                          <td style={cellStyle}>{r.date}</td>
-                          <td style={cellStyle}>
-                            <div style={{ display: 'flex', gap: 6 }}>
-                              <ActionBtn label="قبول" color={GREEN} onClick={() => alert(`تم قبول ${r.name}`)} />
-                              <ActionBtn label="رفض" color={RED} onClick={() => alert(`تم رفض ${r.name}`)} />
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              {/* تنبيهات تجاوز الحد */}
-              <div style={{ background: CARD, border: `1px solid ${RED}20`, borderRadius: 16, padding: 24 }}>
-                <SectionTitle title="تنبيهات تجاوز حد الباقة" icon="⚠️" desc="مؤسسات اقتربت من حد طلابها — إيقاف تلقائي عند التجاوز" />
-                {MOCK_INSTITUTIONS.filter(i => i.students / i.limit > 0.9).map(inst => (
-                  <div key={inst.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: `1px solid ${BORDER}` }}>
-                    <div>
-                      <div style={{ color: '#EEEEF5', fontSize: 14, fontWeight: 600 }}>{inst.name}</div>
-                      <div style={{ color: 'rgba(238,238,245,0.45)', fontSize: 12 }}>{inst.students} / {inst.limit} طالب</div>
-                    </div>
-                    <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                      <div style={{ width: 120, height: 6, background: 'rgba(255,255,255,0.08)', borderRadius: 3, overflow: 'hidden' }}>
-                        <div style={{ width: `${(inst.students / inst.limit) * 100}%`, height: '100%', background: inst.students / inst.limit > 0.95 ? RED : '#F59E0B', borderRadius: 3 }} />
-                      </div>
-                      <span style={{ color: inst.students / inst.limit > 0.95 ? RED : '#F59E0B', fontSize: 12, fontWeight: 700 }}>{Math.round((inst.students / inst.limit) * 100)}%</span>
-                      <ActionBtn label="ترقية الباقة" color={GOLD} onClick={() => alert(`ترقية باقة ${inst.name}`)} />
-                    </div>
+                      </tr></thead>
+                      <tbody>
+                        {joinRequests.map((r: any) => (
+                          <tr key={r.id}>
+                            <td style={cellStyle}>{r.school_name || r.name}</td>
+                            <td style={cellStyle}>{r.school_type || r.type || '—'}</td>
+                            <td style={cellStyle}><Badge label={r.plan || 'أساسية'} color={GOLD} /></td>
+                            <td style={cellStyle}>{r.created_at ? new Date(r.created_at).toLocaleDateString('ar-SA') : '—'}</td>
+                            <td style={cellStyle}>
+                              <div style={{ display: 'flex', gap: 6 }}>
+                                <Btn label="قبول" color={GREEN} onClick={() => handleJoinRequest(r.id, 'approve')} />
+                                <Btn label="رفض" color={RED} onClick={() => handleJoinRequest(r.id, 'reject')} />
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
-                ))}
+                )}
               </div>
             </div>
           )}
@@ -248,75 +345,49 @@ export default function OwnerDashboard() {
           {/* ===== المالية والإيرادات ===== */}
           {activeTab === 'finance' && (
             <div>
-              <SectionTitle title="المالية والإيرادات" icon="💰" desc="إجمالي الإيرادات الشهرية والسنوية مع تفصيل حسب كل باقة ومؤسسة" />
+              <SectionTitle title="المالية والإيرادات" icon="💰" desc="إجمالي الإيرادات والمتأخرات" />
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 28 }}>
-                <StatCard title="إيرادات هذا الشهر" value="82,400 ر.س" sub="↑ 12% عن الشهر الماضي" color={GREEN} icon="📈" />
-                <StatCard title="إيرادات هذا العام" value="743,200 ر.س" sub="الهدف: 1,000,000 ر.س" color={GOLD} icon="🏆" />
-                <StatCard title="المتأخرات" value="23,100 ر.س" sub="3 مؤسسات متأخرة" color={RED} icon="⚠️" />
-                <StatCard title="عمولات المتاجر" value="8,340 ر.س" sub="هذا الشهر" color={PURPLE} icon="🛒" />
-              </div>
-
-              {/* إيرادات حسب الباقة */}
-              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24, marginBottom: 24 }}>
-                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>الإيرادات حسب الباقة</h3>
-                {[
-                  { plan: 'الباقة الأساسية', count: 18, revenue: '32,400 ر.س', color: BLUE },
-                  { plan: 'الباقة الاحترافية', count: 22, revenue: '38,500 ر.س', color: GOLD },
-                  { plan: 'الباقة المؤسسية', count: 5, revenue: '8,750 ر.س', color: PURPLE },
-                  { plan: 'الباقة الذهبية', count: 2, revenue: '2,750 ر.س', color: '#F59E0B' },
-                ].map((r, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: `1px solid ${BORDER}` }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <div style={{ width: 8, height: 8, borderRadius: '50%', background: r.color }} />
-                      <span style={{ color: '#EEEEF5', fontSize: 14 }}>{r.plan}</span>
-                      <Badge label={`${r.count} مؤسسة`} color={r.color} />
-                    </div>
-                    <span style={{ color: r.color, fontSize: 16, fontWeight: 700 }}>{r.revenue}</span>
-                  </div>
-                ))}
+                <StatCard title="إيرادات هذا الشهر" value={stats.monthly_revenue ? `${stats.monthly_revenue} ر.س` : '—'} color={GREEN} icon="📈" />
+                <StatCard title="إيرادات هذا العام" value={stats.yearly_revenue ? `${stats.yearly_revenue} ر.س` : '—'} color={GOLD} icon="🏆" />
+                <StatCard title="المتأخرات" value={stats.overdue_amount ? `${stats.overdue_amount} ر.س` : '—'} color={RED} icon="⚠️" />
+                <StatCard title="عمولات المتاجر" value={stats.store_commissions ? `${stats.store_commissions} ر.س` : '—'} color={PURPLE} icon="🛒" />
               </div>
 
               {/* المؤسسات المتأخرة */}
               <div style={{ background: CARD, border: `1px solid ${RED}20`, borderRadius: 16, padding: 24, marginBottom: 24 }}>
                 <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>المؤسسات المتأخرة عن الدفع</h3>
-                <div style={{ overflowX: 'auto' }}>
+                {schools.filter((s: any) => s.payment_status === 'overdue' || s.days_late > 0).length === 0 ? (
+                  <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 13, textAlign: 'center', padding: '16px 0' }}>لا توجد مؤسسات متأخرة</div>
+                ) : (
                   <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                    <thead>
-                      <tr>
-                        <th style={headStyle}>المؤسسة</th>
-                        <th style={headStyle}>الباقة</th>
-                        <th style={headStyle}>المبلغ المستحق</th>
-                        <th style={headStyle}>أيام التأخير</th>
-                        <th style={headStyle}>الإجراء</th>
-                      </tr>
-                    </thead>
+                    <thead><tr>
+                      <th style={headStyle}>المؤسسة</th>
+                      <th style={headStyle}>الباقة</th>
+                      <th style={headStyle}>أيام التأخير</th>
+                      <th style={headStyle}>الإجراء</th>
+                    </tr></thead>
                     <tbody>
-                      {MOCK_INSTITUTIONS.filter(i => !i.paid).map(inst => (
-                        <tr key={inst.id}>
-                          <td style={cellStyle}>{inst.name}</td>
-                          <td style={cellStyle}><Badge label={inst.plan} color={GOLD} /></td>
-                          <td style={cellStyle}>{inst.plan === 'أساسية' ? '299' : inst.plan === 'احترافية' ? '699' : '2,500'} ر.س</td>
-                          <td style={cellStyle}><span style={{ color: inst.days_late > 30 ? RED : '#F59E0B', fontWeight: 700 }}>{inst.days_late} يوم</span></td>
+                      {schools.filter((s: any) => s.payment_status === 'overdue' || s.days_late > 0).map((s: any) => (
+                        <tr key={s.id}>
+                          <td style={cellStyle}>{s.name_ar || s.name}</td>
+                          <td style={cellStyle}><Badge label={s.plan || 'أساسية'} color={GOLD} /></td>
+                          <td style={cellStyle}><span style={{ color: (s.days_late || 0) > 30 ? RED : '#F59E0B', fontWeight: 700 }}>{s.days_late || 0} يوم</span></td>
                           <td style={cellStyle}>
                             <div style={{ display: 'flex', gap: 6 }}>
-                              <ActionBtn label="إرسال تذكير" color={GOLD} onClick={() => alert('تم إرسال التذكير')} />
-                              {inst.days_late > 30 && <ActionBtn label="تجميد" color={RED} onClick={() => alert('تم تجميد المؤسسة')} />}
+                              <Btn label="إرسال تذكير" color={GOLD} onClick={() => showToast('تم إرسال التذكير')} />
+                              {(s.days_late || 0) > 30 && <Btn label="تجميد" color={RED} onClick={() => handleSchoolAction(s.id, 'freeze')} />}
                             </div>
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
-                </div>
+                )}
               </div>
 
               <div style={{ display: 'flex', gap: 12 }}>
-                <button style={{ background: `${GREEN}15`, color: GREEN, border: `1px solid ${GREEN}30`, borderRadius: 10, padding: '12px 24px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
-                  📊 تصدير تقرير Excel
-                </button>
-                <button style={{ background: `${BLUE}15`, color: BLUE, border: `1px solid ${BLUE}30`, borderRadius: 10, padding: '12px 24px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
-                  📄 تصدير تقرير PDF
-                </button>
+                <Link href="/dashboard/reports" style={{ background: `${GREEN}15`, color: GREEN, border: `1px solid ${GREEN}30`, borderRadius: 10, padding: '12px 24px', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>📊 تقارير مالية</Link>
+                <Link href="/dashboard/taxes" style={{ background: `${PURPLE}15`, color: PURPLE, border: `1px solid ${PURPLE}30`, borderRadius: 10, padding: '12px 24px', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>⚖️ الضرائب التفصيلية</Link>
               </div>
             </div>
           )}
@@ -324,168 +395,126 @@ export default function OwnerDashboard() {
           {/* ===== مراقبة المؤسسات ===== */}
           {activeTab === 'institutions' && (
             <div>
-              <SectionTitle title="مراقبة المؤسسات" icon="🏫" desc="عدد الطلاب في كل مؤسسة يتحدث تلقائياً — قبول / رفض / تجميد أي مؤسسة" />
-              <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                  <thead>
-                    <tr>
+              <SectionTitle title="مراقبة المؤسسات" icon="🏫" desc="جميع المؤسسات المسجلة في المنصة" />
+              {schools.length === 0 ? (
+                <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 13, textAlign: 'center', padding: '40px 0' }}>لا توجد مؤسسات</div>
+              ) : (
+                <div style={{ overflowX: 'auto' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <thead><tr>
                       <th style={headStyle}>المؤسسة</th>
                       <th style={headStyle}>النوع</th>
                       <th style={headStyle}>الباقة</th>
-                      <th style={headStyle}>الطلاب / الحد</th>
-                      <th style={headStyle}>الدفع</th>
+                      <th style={headStyle}>الطلاب</th>
                       <th style={headStyle}>الحالة</th>
                       <th style={headStyle}>الإجراءات</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {MOCK_INSTITUTIONS.map(inst => (
-                      <tr key={inst.id}>
-                        <td style={cellStyle}><span style={{ color: '#EEEEF5', fontWeight: 600 }}>{inst.name}</span></td>
-                        <td style={cellStyle}>{inst.type}</td>
-                        <td style={cellStyle}><Badge label={inst.plan} color={GOLD} /></td>
-                        <td style={cellStyle}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                            <span style={{ color: inst.students / inst.limit > 0.9 ? RED : '#EEEEF5' }}>{inst.students}</span>
-                            <span style={{ color: 'rgba(238,238,245,0.3)' }}>/ {inst.limit}</span>
-                            <div style={{ width: 60, height: 4, background: 'rgba(255,255,255,0.08)', borderRadius: 2, overflow: 'hidden' }}>
-                              <div style={{ width: `${(inst.students / inst.limit) * 100}%`, height: '100%', background: inst.students / inst.limit > 0.9 ? RED : GREEN, borderRadius: 2 }} />
+                    </tr></thead>
+                    <tbody>
+                      {schools.map((s: any) => (
+                        <tr key={s.id}>
+                          <td style={cellStyle}><span style={{ color: '#EEEEF5', fontWeight: 600 }}>{s.name_ar || s.name}</span></td>
+                          <td style={cellStyle}>{s.school_type || s.type || '—'}</td>
+                          <td style={cellStyle}><Badge label={s.plan || 'أساسية'} color={GOLD} /></td>
+                          <td style={cellStyle}>{s.student_count ?? '—'}</td>
+                          <td style={cellStyle}><Badge label={s.status === 'active' ? 'نشط' : s.status === 'pending' ? 'معلق' : 'مجمد'} color={s.status === 'active' ? GREEN : s.status === 'pending' ? '#F59E0B' : RED} /></td>
+                          <td style={cellStyle}>
+                            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                              {s.status === 'pending' && <Btn label="قبول" color={GREEN} onClick={() => handleSchoolAction(s.id, 'unfreeze')} />}
+                              {s.status !== 'frozen' && <Btn label="تجميد" color={RED} onClick={() => handleSchoolAction(s.id, 'freeze')} />}
+                              {s.status === 'frozen' && <Btn label="إلغاء التجميد" color={BLUE} onClick={() => handleSchoolAction(s.id, 'unfreeze')} />}
                             </div>
-                          </div>
-                        </td>
-                        <td style={cellStyle}><Badge label={inst.paid ? 'مدفوع' : `متأخر ${inst.days_late}ي`} color={inst.paid ? GREEN : RED} /></td>
-                        <td style={cellStyle}><Badge label={inst.status === 'active' ? 'نشط' : inst.status === 'pending' ? 'معلق' : 'مجمد'} color={inst.status === 'active' ? GREEN : inst.status === 'pending' ? '#F59E0B' : RED} /></td>
-                        <td style={cellStyle}>
-                          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                            {inst.status === 'pending' && <ActionBtn label="قبول" color={GREEN} onClick={() => alert(`قبول ${inst.name}`)} />}
-                            {inst.status !== 'frozen' && <ActionBtn label="تجميد" color={RED} onClick={() => alert(`تجميد ${inst.name}`)} />}
-                            {inst.status === 'frozen' && <ActionBtn label="إلغاء التجميد" color={BLUE} onClick={() => alert(`إلغاء تجميد ${inst.name}`)} />}
-                            <ActionBtn label="عرض" color={GOLD} onClick={() => alert(`عرض ${inst.name}`)} />
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           )}
 
           {/* ===== الضرائب السيادية ===== */}
           {activeTab === 'taxes' && (
             <div>
-              <SectionTitle title="الضرائب السيادية" icon="⚖️" desc="استقطاع نسبة مئوية آلية من كل عملية مالية تمر عبر المنصة — رسوم دراسية + مبيعات المتجر + الإعلانات" />
+              <SectionTitle title="الضرائب السيادية" icon="⚖️" desc="استقطاع نسبة مئوية آلية من كل عملية مالية" />
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 28 }}>
-                <StatCard title="الضريبة السيادية اليوم" value="412 ر.س" sub="من 38 عملية" color={GOLD} icon="⚡" />
-                <StatCard title="الضريبة هذا الشهر" value="4,120 ر.س" sub="من 847 عملية" color={PURPLE} icon="📊" />
-                <StatCard title="الضريبة هذا العام" value="38,450 ر.س" sub="↑ 18% عن العام الماضي" color={GREEN} icon="🏆" />
+                <StatCard title="الضريبة هذا الشهر" value={stats.monthly_tax ? `${stats.monthly_tax} ر.س` : '—'} color={GOLD} icon="⚡" />
+                <StatCard title="الضريبة هذا العام" value={stats.yearly_tax ? `${stats.yearly_tax} ر.س` : '—'} color={PURPLE} icon="📊" />
               </div>
-
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24, marginBottom: 24 }}>
-                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>إعداد نسبة الاستقطاع</h3>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
-                  {[
-                    { label: 'رسوم دراسية', rate: taxRate, key: 'tuition' },
-                    { label: 'مبيعات المتجر', rate: '3.0', key: 'store' },
-                    { label: 'إيرادات الإعلانات', rate: '5.0', key: 'ads' },
-                    { label: 'عمولات الإحالة', rate: '1.5', key: 'referral' },
-                  ].map((item, i) => (
-                    <div key={i}>
-                      <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>{item.label}</label>
-                      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                        <input type="number" defaultValue={item.rate} style={{ ...inputStyle, width: 80 }} />
-                        <span style={{ color: 'rgba(238,238,245,0.4)', fontSize: 13 }}>%</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <button style={{ background: `${GOLD}15`, color: GOLD, border: `1px solid ${GOLD}30`, borderRadius: 10, padding: '10px 24px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
-                  حفظ نسب الاستقطاع
-                </button>
-              </div>
-
-              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
-                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>آخر عمليات الاستقطاع</h3>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                  <thead>
-                    <tr>
+                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>سجل الضرائب</h3>
+                {taxes.length === 0 ? (
+                  <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 13, textAlign: 'center', padding: '24px 0' }}>لا توجد سجلات ضريبية</div>
+                ) : (
+                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <thead><tr>
                       <th style={headStyle}>المؤسسة</th>
                       <th style={headStyle}>نوع العملية</th>
-                      <th style={headStyle}>المبلغ الأصلي</th>
-                      <th style={headStyle}>الاستقطاع</th>
-                      <th style={headStyle}>الوقت</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[
-                      { inst: 'مدرسة النور', type: 'رسوم دراسية', amount: '2,400 ر.س', tax: '60 ر.س', time: '14:22' },
-                      { inst: 'أكاديمية المستقبل', type: 'مبيعات متجر', amount: '450 ر.س', tax: '13.5 ر.س', time: '13:15' },
-                      { inst: 'جامعة الإبداع', type: 'رسوم دراسية', amount: '8,500 ر.س', tax: '212.5 ر.س', time: '11:40' },
-                    ].map((r, i) => (
-                      <tr key={i}>
-                        <td style={cellStyle}>{r.inst}</td>
-                        <td style={cellStyle}>{r.type}</td>
-                        <td style={cellStyle}>{r.amount}</td>
-                        <td style={{ ...cellStyle, color: GOLD, fontWeight: 700 }}>{r.tax}</td>
-                        <td style={cellStyle}>{r.time}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                      <th style={headStyle}>المبلغ</th>
+                      <th style={headStyle}>الضريبة</th>
+                      <th style={headStyle}>التاريخ</th>
+                    </tr></thead>
+                    <tbody>
+                      {taxes.map((t: any) => (
+                        <tr key={t.id}>
+                          <td style={cellStyle}>{t.school_name || t.school_id}</td>
+                          <td style={cellStyle}>{t.transaction_type || t.type}</td>
+                          <td style={cellStyle}>{t.amount} ر.س</td>
+                          <td style={{ ...cellStyle, color: GOLD, fontWeight: 700 }}>{t.tax_amount} ر.س</td>
+                          <td style={cellStyle}>{t.created_at ? new Date(t.created_at).toLocaleDateString('ar-SA') : '—'}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
               </div>
+              <Link href="/dashboard/taxes" style={{ background: `${GOLD}15`, color: GOLD, border: `1px solid ${GOLD}30`, borderRadius: 10, padding: '10px 24px', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>⚖️ إدارة الضرائب التفصيلية</Link>
             </div>
           )}
 
           {/* ===== الاشتراكات والباقات ===== */}
           {activeTab === 'subscriptions' && (
             <div>
-              <SectionTitle title="الاشتراكات والباقات" icon="📦" desc="إنشاء وتعديل الباقات والحدود والأسعار — مالك المنصة يمتلك حق إنشاء باقات مخصصة بأي سعر وأي صلاحيات" />
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20, marginBottom: 28 }}>
-                {[
-                  { name: 'مجانية', price: '0', limit: '50 طالب', features: 'حضور، درجات، رسائل، جداول', color: '#6B7280', count: 0 },
-                  { name: 'أساسية', price: '299 ر.س/شهر', limit: '200 طالب', features: '+ اختبارات، تقارير، مكتبة', color: BLUE, count: 18 },
-                  { name: 'احترافية', price: '699 ر.س/شهر', limit: '1000 طالب', features: '+ متجر، AI، تصدير، Matin Coin', color: GOLD, count: 22 },
-                  { name: 'مؤسسية', price: 'تفاوض', limit: 'غير محدود', features: '+ نقل، مقصف، صحة، GPS، API', color: PURPLE, count: 5 },
-                  { name: 'ذهبية', price: 'تفاوض', limit: 'غير محدود', features: 'كل المميزات + إخفاء إعلانات متين', color: '#F59E0B', count: 2 },
-                ].map((plan, i) => (
-                  <div key={i} style={{ background: `${plan.color}06`, border: `1px solid ${plan.color}20`, borderRadius: 16, padding: 20 }}>
+              <SectionTitle title="الاشتراكات والباقات" icon="📦" desc="إنشاء وتعديل الباقات والحدود والأسعار" />
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 20, marginBottom: 28 }}>
+                {plans.map((plan: any) => (
+                  <div key={plan.id} style={{ background: `${GOLD}06`, border: `1px solid ${GOLD}20`, borderRadius: 16, padding: 20 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                       <div>
-                        <div style={{ color: plan.color, fontSize: 16, fontWeight: 800 }}>{plan.name}</div>
-                        <div style={{ color: '#EEEEF5', fontSize: 18, fontWeight: 700, marginTop: 4 }}>{plan.price}</div>
+                        <div style={{ color: GOLD, fontSize: 16, fontWeight: 800 }}>{plan.name}</div>
+                        <div style={{ color: '#EEEEF5', fontSize: 18, fontWeight: 700, marginTop: 4 }}>{plan.price} ر.س/شهر</div>
                       </div>
-                      <Badge label={`${plan.count} مؤسسة`} color={plan.color} />
+                      <Badge label={`${plan.school_count || 0} مؤسسة`} color={GOLD} />
                     </div>
-                    <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12, marginBottom: 8 }}>الحد: {plan.limit}</div>
-                    <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12, marginBottom: 16 }}>{plan.features}</div>
-                    <div style={{ display: 'flex', gap: 8 }}>
-                      <ActionBtn label="تعديل" color={plan.color} onClick={() => alert(`تعديل باقة ${plan.name}`)} />
-                      <ActionBtn label="حذف" color={RED} onClick={() => alert(`حذف باقة ${plan.name}`)} />
-                    </div>
+                    <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12, marginBottom: 8 }}>الحد: {plan.student_limit || 'غير محدود'} طالب</div>
+                    {plan.features && <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12, marginBottom: 16 }}>{plan.features}</div>}
+                    <Btn label="حذف" color={RED} onClick={() => handleDeletePlan(plan.id)} />
                   </div>
                 ))}
+                {plans.length === 0 && <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 13 }}>لا توجد باقات مسجلة</div>}
               </div>
 
-              {/* إنشاء باقة جديدة */}
               <div style={{ background: CARD, border: `1px solid ${GOLD}20`, borderRadius: 16, padding: 24 }}>
-                <h3 style={{ color: GOLD, fontSize: 15, fontWeight: 700, marginBottom: 16 }}>إنشاء باقة مخصصة جديدة</h3>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16, marginBottom: 16 }}>
+                <h3 style={{ color: GOLD, fontSize: 15, fontWeight: 700, marginBottom: 16 }}>إنشاء باقة جديدة</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
                   <div>
                     <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>اسم الباقة</label>
-                    <input value={planName} onChange={e => setPlanName(e.target.value)} placeholder="مثال: ذهبية خاصة" style={inputStyle} />
+                    <input value={planForm.name} onChange={e => setPlanForm({ ...planForm, name: e.target.value })} placeholder="مثال: ذهبية خاصة" style={inputStyle} />
                   </div>
                   <div>
                     <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>السعر الشهري (ر.س)</label>
-                    <input value={planPrice} onChange={e => setPlanPrice(e.target.value)} placeholder="مثال: 1500" style={inputStyle} />
+                    <input value={planForm.price} onChange={e => setPlanForm({ ...planForm, price: e.target.value })} placeholder="مثال: 1500" style={inputStyle} />
                   </div>
                   <div>
                     <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>حد الطلاب</label>
-                    <input value={planLimit} onChange={e => setPlanLimit(e.target.value)} placeholder="مثال: 2000" style={inputStyle} />
+                    <input value={planForm.student_limit} onChange={e => setPlanForm({ ...planForm, student_limit: e.target.value })} placeholder="مثال: 2000" style={inputStyle} />
+                  </div>
+                  <div>
+                    <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>المميزات</label>
+                    <input value={planForm.features} onChange={e => setPlanForm({ ...planForm, features: e.target.value })} placeholder="مثال: AI + متجر + تقارير" style={inputStyle} />
                   </div>
                 </div>
-                <button onClick={() => { alert(`تم إنشاء باقة: ${planName}`); setPlanName(''); setPlanPrice(''); setPlanLimit(''); }} style={{ background: `${GOLD}15`, color: GOLD, border: `1px solid ${GOLD}30`, borderRadius: 10, padding: '10px 24px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
-                  ✨ إنشاء الباقة
-                </button>
+                <Btn label="✨ إنشاء الباقة" color={GOLD} onClick={handleCreatePlan} />
               </div>
             </div>
           )}
@@ -493,69 +522,58 @@ export default function OwnerDashboard() {
           {/* ===== الإعلانات السيادية ===== */}
           {activeTab === 'ads' && (
             <div>
-              <SectionTitle title="الإعلانات السيادية" icon="📣" desc="إعلانات متين الرسمية تظهر إجبارياً في جميع لوحات التحكم — الباقات الذهبية تملك حق شراء إخفاء الإعلانات" />
-              <div style={{ background: `${GOLD}08`, border: `1px solid ${GOLD}20`, borderRadius: 12, padding: 16, marginBottom: 24, display: 'flex', alignItems: 'center', gap: 12 }}>
-                <span style={{ fontSize: 20 }}>⚡</span>
-                <div>
-                  <div style={{ color: GOLD, fontSize: 13, fontWeight: 700 }}>الإعلان الحالي النشط</div>
-                  <div style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, marginTop: 2 }}>هذا الإعلان يظهر إجبارياً على جميع لوحات تحكم المؤسسات</div>
-                </div>
-              </div>
-
-              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24, marginBottom: 24 }}>
-                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>إنشاء إعلان سيادي جديد</h3>
+              <SectionTitle title="الإعلانات السيادية" icon="📣" desc="إعلانات متين الرسمية تظهر في جميع لوحات التحكم" />
+              <div style={{ background: CARD, border: `1px solid ${GOLD}20`, borderRadius: 16, padding: 24, marginBottom: 24 }}>
+                <h3 style={{ color: GOLD, fontSize: 15, fontWeight: 700, marginBottom: 16 }}>إنشاء إعلان سيادي جديد</h3>
                 <div style={{ display: 'grid', gap: 16, marginBottom: 16 }}>
                   <div>
                     <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>عنوان الإعلان</label>
-                    <input value={adTitle} onChange={e => setAdTitle(e.target.value)} placeholder="مثال: تحديث جديد في منصة متين" style={inputStyle} />
+                    <input value={adForm.title} onChange={e => setAdForm({ ...adForm, title: e.target.value })} placeholder="مثال: تحديث جديد في منصة متين" style={inputStyle} />
                   </div>
                   <div>
                     <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>نص الإعلان</label>
-                    <textarea value={adBody} onChange={e => setAdBody(e.target.value)} placeholder="نص الإعلان الذي سيظهر لجميع المؤسسات..." style={{ ...inputStyle, minHeight: 80, resize: 'vertical' }} />
+                    <textarea value={adForm.body} onChange={e => setAdForm({ ...adForm, body: e.target.value })} placeholder="نص الإعلان..." style={{ ...inputStyle, minHeight: 80, resize: 'vertical' }} />
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                     <div>
                       <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>تاريخ البدء</label>
-                      <input type="date" style={inputStyle} />
+                      <input type="date" value={adForm.start_date} onChange={e => setAdForm({ ...adForm, start_date: e.target.value })} style={inputStyle} />
                     </div>
                     <div>
                       <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>تاريخ الانتهاء</label>
-                      <input type="date" style={inputStyle} />
+                      <input type="date" value={adForm.end_date} onChange={e => setAdForm({ ...adForm, end_date: e.target.value })} style={inputStyle} />
                     </div>
                   </div>
                 </div>
-                <button onClick={() => alert('تم نشر الإعلان السيادي')} style={{ background: `${GOLD}15`, color: GOLD, border: `1px solid ${GOLD}30`, borderRadius: 10, padding: '10px 24px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
-                  📣 نشر الإعلان السيادي
-                </button>
+                <Btn label="📣 نشر الإعلان السيادي" color={GOLD} onClick={handleCreateAd} />
               </div>
 
-              {/* إدارة عقود الإعلانات */}
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
-                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>عقود إخفاء الإعلانات (الباقة الذهبية)</h3>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                  <thead>
-                    <tr>
-                      <th style={headStyle}>المؤسسة</th>
+                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>الإعلانات الحالية</h3>
+                {ads.length === 0 ? (
+                  <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 13, textAlign: 'center', padding: '24px 0' }}>لا توجد إعلانات</div>
+                ) : (
+                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <thead><tr>
+                      <th style={headStyle}>العنوان</th>
                       <th style={headStyle}>تاريخ البدء</th>
                       <th style={headStyle}>تاريخ الانتهاء</th>
-                      <th style={headStyle}>المبلغ</th>
                       <th style={headStyle}>الحالة</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[
-                      { inst: 'جامعة الإبداع', start: '2026-01-01', end: '2026-12-31', amount: '5,000 ر.س', status: 'active' },
-                    ].map((r, i) => (
-                      <tr key={i}>
-                        <td style={cellStyle}>{r.inst}</td>
-                        <td style={cellStyle}>{r.start}</td>
-                        <td style={cellStyle}>{r.end}</td>
-                        <td style={{ ...cellStyle, color: GOLD, fontWeight: 700 }}>{r.amount}</td>
-                        <td style={cellStyle}><Badge label="نشط" color={GREEN} /></td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                      <th style={headStyle}>إجراء</th>
+                    </tr></thead>
+                    <tbody>
+                      {ads.map((ad: any) => (
+                        <tr key={ad.id}>
+                          <td style={cellStyle}>{ad.title}</td>
+                          <td style={cellStyle}>{ad.start_date ? new Date(ad.start_date).toLocaleDateString('ar-SA') : '—'}</td>
+                          <td style={cellStyle}>{ad.end_date ? new Date(ad.end_date).toLocaleDateString('ar-SA') : '—'}</td>
+                          <td style={cellStyle}><Badge label={ad.is_active ? 'نشط' : 'غير نشط'} color={ad.is_active ? GREEN : RED} /></td>
+                          <td style={cellStyle}><Btn label="حذف" color={RED} onClick={() => handleDeleteAd(ad.id)} /></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
               </div>
             </div>
           )}
@@ -563,65 +581,65 @@ export default function OwnerDashboard() {
           {/* ===== الكوبونات ===== */}
           {activeTab === 'coupons' && (
             <div>
-              <SectionTitle title="الكوبونات" icon="🎟" desc="إنشاء كودات خصم للمؤسسات — تحديد الاستخدام والمدة والنوع" />
+              <SectionTitle title="الكوبونات" icon="🎟" desc="إنشاء كودات خصم للمؤسسات" />
               <div style={{ background: CARD, border: `1px solid ${GOLD}20`, borderRadius: 16, padding: 24, marginBottom: 24 }}>
                 <h3 style={{ color: GOLD, fontSize: 15, fontWeight: 700, marginBottom: 16 }}>إنشاء كوبون جديد</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16, marginBottom: 16 }}>
                   <div>
                     <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>كود الخصم</label>
-                    <input value={newCoupon.code} onChange={e => setNewCoupon({ ...newCoupon, code: e.target.value })} placeholder="مثال: MATIN20" style={inputStyle} />
+                    <input value={newCoupon.code} onChange={e => setNewCoupon({ ...newCoupon, code: e.target.value.toUpperCase() })} placeholder="MATIN20" style={inputStyle} />
                   </div>
                   <div>
                     <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>قيمة الخصم</label>
-                    <input value={newCoupon.discount} onChange={e => setNewCoupon({ ...newCoupon, discount: e.target.value })} placeholder="20 أو 50" style={inputStyle} />
+                    <input value={newCoupon.discount} onChange={e => setNewCoupon({ ...newCoupon, discount: e.target.value })} placeholder="20" style={inputStyle} />
                   </div>
                   <div>
                     <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>نوع الخصم</label>
-                    <select value={newCoupon.type} onChange={e => setNewCoupon({ ...newCoupon, type: e.target.value })} style={{ ...inputStyle }}>
-                      <option>نسبة (%)</option>
-                      <option>مبلغ (ر.س)</option>
+                    <select value={newCoupon.type} onChange={e => setNewCoupon({ ...newCoupon, type: e.target.value })} style={inputStyle}>
+                      <option value="percentage">نسبة (%)</option>
+                      <option value="fixed">مبلغ ثابت (ر.س)</option>
                     </select>
                   </div>
                   <div>
                     <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>الحد الأقصى للاستخدام</label>
-                    <input value={newCoupon.max} onChange={e => setNewCoupon({ ...newCoupon, max: e.target.value })} placeholder="100" style={inputStyle} />
+                    <input value={newCoupon.max_uses} onChange={e => setNewCoupon({ ...newCoupon, max_uses: e.target.value })} placeholder="100" style={inputStyle} />
                   </div>
                   <div>
                     <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>تاريخ الانتهاء</label>
-                    <input type="date" value={newCoupon.expires} onChange={e => setNewCoupon({ ...newCoupon, expires: e.target.value })} style={inputStyle} />
+                    <input type="date" value={newCoupon.expires_at} onChange={e => setNewCoupon({ ...newCoupon, expires_at: e.target.value })} style={inputStyle} />
                   </div>
                 </div>
-                <button onClick={() => { alert(`تم إنشاء الكوبون: ${newCoupon.code}`); setNewCoupon({ code: '', discount: '', type: 'نسبة', max: '', expires: '' }); }} style={{ background: `${GOLD}15`, color: GOLD, border: `1px solid ${GOLD}30`, borderRadius: 10, padding: '10px 24px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
-                  🎟 إنشاء الكوبون
-                </button>
+                <Btn label="🎟 إنشاء الكوبون" color={GOLD} onClick={handleCreateCoupon} />
               </div>
 
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
                 <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>الكوبونات الحالية</h3>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                  <thead>
-                    <tr>
+                {coupons.length === 0 ? (
+                  <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 13, textAlign: 'center', padding: '24px 0' }}>لا توجد كوبونات</div>
+                ) : (
+                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <thead><tr>
                       <th style={headStyle}>الكود</th>
                       <th style={headStyle}>الخصم</th>
                       <th style={headStyle}>الاستخدام</th>
                       <th style={headStyle}>الانتهاء</th>
                       <th style={headStyle}>الحالة</th>
                       <th style={headStyle}>إجراء</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {MOCK_COUPONS.map(c => (
-                      <tr key={c.id}>
-                        <td style={{ ...cellStyle, color: GOLD, fontWeight: 700, fontFamily: 'monospace' }}>{c.code}</td>
-                        <td style={cellStyle}>{c.discount}</td>
-                        <td style={cellStyle}>{c.uses} / {c.max}</td>
-                        <td style={cellStyle}>{c.expires}</td>
-                        <td style={cellStyle}><Badge label={c.status === 'active' ? 'نشط' : 'منتهي'} color={c.status === 'active' ? GREEN : RED} /></td>
-                        <td style={cellStyle}><ActionBtn label="إلغاء" color={RED} onClick={() => alert(`إلغاء ${c.code}`)} /></td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </tr></thead>
+                    <tbody>
+                      {coupons.map((c: any) => (
+                        <tr key={c.id}>
+                          <td style={{ ...cellStyle, color: GOLD, fontWeight: 700, fontFamily: 'monospace' }}>{c.code}</td>
+                          <td style={cellStyle}>{c.discount}{c.type === 'percentage' ? '%' : ' ر.س'}</td>
+                          <td style={cellStyle}>{c.used_count || 0} / {c.max_uses || '∞'}</td>
+                          <td style={cellStyle}>{c.expires_at ? new Date(c.expires_at).toLocaleDateString('ar-SA') : '—'}</td>
+                          <td style={cellStyle}><Badge label={c.is_active ? 'نشط' : 'منتهي'} color={c.is_active ? GREEN : RED} /></td>
+                          <td style={cellStyle}><Btn label="حذف" color={RED} onClick={() => handleDeleteCoupon(c.id)} /></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
               </div>
             </div>
           )}
@@ -629,40 +647,35 @@ export default function OwnerDashboard() {
           {/* ===== المتجر والعمولات ===== */}
           {activeTab === 'store' && (
             <div>
-              <SectionTitle title="المتجر والعمولات" icon="🛒" desc="الإشراف على متاجر المؤسسات وعمولات المبيعات — كل شيء يمر عبر متين = عمولة تلقائية لمالك المنصة" />
+              <SectionTitle title="المتجر والعمولات" icon="🛒" desc="الإشراف على متاجر المؤسسات وعمولات المبيعات" />
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 28 }}>
-                <StatCard title="متاجر نشطة" value="23" sub="من أصل 47 مؤسسة" color={GOLD} icon="🏪" />
-                <StatCard title="عمولات هذا الشهر" value="8,340 ر.س" sub="متوسط 3% من المبيعات" color={GREEN} icon="💸" />
-                <StatCard title="إجمالي المبيعات" value="278,000 ر.س" sub="عبر جميع المتاجر" color={BLUE} icon="📊" />
+                <StatCard title="عمولات هذا الشهر" value={stats.store_commissions ? `${stats.store_commissions} ر.س` : '—'} color={GREEN} icon="💸" />
+                <StatCard title="إجمالي المبيعات" value={stats.total_sales ? `${stats.total_sales} ر.س` : '—'} color={BLUE} icon="📊" />
               </div>
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
-                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>أعلى المتاجر مبيعاً</h3>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                  <thead>
-                    <tr>
+                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>أحدث العمولات</h3>
+                {commissions.length === 0 ? (
+                  <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 13, textAlign: 'center', padding: '24px 0' }}>لا توجد عمولات</div>
+                ) : (
+                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <thead><tr>
                       <th style={headStyle}>المؤسسة</th>
                       <th style={headStyle}>المبيعات</th>
-                      <th style={headStyle}>العمولة (3%)</th>
-                      <th style={headStyle}>المنتجات</th>
-                      <th style={headStyle}>الحالة</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[
-                      { inst: 'مدرسة النور', sales: '45,200 ر.س', commission: '1,356 ر.س', products: 34, status: 'active' },
-                      { inst: 'جامعة الإبداع', sales: '128,500 ر.س', commission: '3,855 ر.س', products: 87, status: 'active' },
-                      { inst: 'أكاديمية المستقبل', sales: '23,400 ر.س', commission: '702 ر.س', products: 18, status: 'active' },
-                    ].map((r, i) => (
-                      <tr key={i}>
-                        <td style={cellStyle}>{r.inst}</td>
-                        <td style={cellStyle}>{r.sales}</td>
-                        <td style={{ ...cellStyle, color: GOLD, fontWeight: 700 }}>{r.commission}</td>
-                        <td style={cellStyle}>{r.products} منتج</td>
-                        <td style={cellStyle}><Badge label="نشط" color={GREEN} /></td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                      <th style={headStyle}>العمولة</th>
+                      <th style={headStyle}>التاريخ</th>
+                    </tr></thead>
+                    <tbody>
+                      {commissions.map((c: any) => (
+                        <tr key={c.id}>
+                          <td style={cellStyle}>{c.school_name || c.school_id}</td>
+                          <td style={cellStyle}>{c.sale_amount} ر.س</td>
+                          <td style={{ ...cellStyle, color: GOLD, fontWeight: 700 }}>{c.commission_amount} ر.س</td>
+                          <td style={cellStyle}>{c.created_at ? new Date(c.created_at).toLocaleDateString('ar-SA') : '—'}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
               </div>
             </div>
           )}
@@ -670,37 +683,29 @@ export default function OwnerDashboard() {
           {/* ===== الإشعارات الجماعية ===== */}
           {activeTab === 'notifications' && (
             <div>
-              <SectionTitle title="الإشعارات الجماعية" icon="🔔" desc="إرسال إشعارات جماعية لجميع المستخدمين أو فئة محددة" />
-              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24, marginBottom: 24 }}>
+              <SectionTitle title="الإشعارات الجماعية" icon="🔔" desc="إرسال إشعارات لجميع المستخدمين أو فئة محددة" />
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
                 <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>إرسال إشعار جماعي</h3>
                 <div style={{ display: 'grid', gap: 16, marginBottom: 16 }}>
                   <div>
+                    <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>عنوان الإشعار</label>
+                    <input value={notifForm.title} onChange={e => setNotifForm({ ...notifForm, title: e.target.value })} placeholder="عنوان الإشعار" style={inputStyle} />
+                  </div>
+                  <div>
                     <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>المستهدفون</label>
-                    <select value={notifTarget} onChange={e => setNotifTarget(e.target.value)} style={inputStyle}>
-                      <option value="all">جميع المستخدمين (18,432)</option>
-                      <option value="owners">مالكو المؤسسات فقط (47)</option>
-                      <option value="teachers">المعلمون فقط</option>
-                      <option value="students">الطلاب فقط</option>
-                      <option value="parents">أولياء الأمور فقط</option>
-                      <option value="basic">مشتركو الباقة الأساسية</option>
-                      <option value="pro">مشتركو الباقة الاحترافية</option>
+                    <select value={notifForm.target} onChange={e => setNotifForm({ ...notifForm, target: e.target.value })} style={inputStyle}>
+                      <option value="all">جميع المستخدمين</option>
+                      <option value="owners">مالكو المؤسسات</option>
+                      <option value="teachers">المعلمون</option>
+                      <option value="students">الطلاب</option>
+                      <option value="parents">أولياء الأمور</option>
                     </select>
                   </div>
                   <div>
                     <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>نص الإشعار</label>
-                    <textarea value={notifMsg} onChange={e => setNotifMsg(e.target.value)} placeholder="اكتب نص الإشعار هنا..." style={{ ...inputStyle, minHeight: 80, resize: 'vertical' }} />
+                    <textarea value={notifForm.message} onChange={e => setNotifForm({ ...notifForm, message: e.target.value })} placeholder="اكتب نص الإشعار هنا..." style={{ ...inputStyle, minHeight: 80, resize: 'vertical' }} />
                   </div>
-                  <div style={{ display: 'flex', gap: 12 }}>
-                    <button onClick={() => alert(`تم إرسال الإشعار لـ: ${notifTarget}`)} style={{ background: `${GOLD}15`, color: GOLD, border: `1px solid ${GOLD}30`, borderRadius: 10, padding: '10px 24px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
-                      🔔 إرسال الإشعار
-                    </button>
-                    <button style={{ background: `${BLUE}15`, color: BLUE, border: `1px solid ${BLUE}30`, borderRadius: 10, padding: '10px 24px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
-                      📱 Push Notification
-                    </button>
-                    <button style={{ background: `${GREEN}15`, color: GREEN, border: `1px solid ${GREEN}30`, borderRadius: 10, padding: '10px 24px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
-                      💬 واتساب
-                    </button>
-                  </div>
+                  <Btn label="🔔 إرسال الإشعار" color={GOLD} onClick={handleSendNotification} />
                 </div>
               </div>
             </div>
@@ -709,33 +714,12 @@ export default function OwnerDashboard() {
           {/* ===== AI Auditor ===== */}
           {activeTab === 'ai_auditor' && (
             <div>
-              <SectionTitle title="AI Auditor — المفتش الرقمي الآلي" icon="🤖" desc="ذكاء اصطناعي يراقب السجلات والدرجات والحضور عشوائياً — كشف أي تلاعب أو أنماط مشبوهة في أي مؤسسة" />
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 28 }}>
-                <StatCard title="تنبيهات نشطة" value="3" sub="تحتاج تدخلاً فورياً" color={RED} icon="🚨" />
-                <StatCard title="فحوصات هذا الأسبوع" value="1,247" sub="عشوائية تلقائية" color={BLUE} icon="🔍" />
-                <StatCard title="حالات محلولة" value="28" sub="هذا الشهر" color={GREEN} icon="✅" />
-              </div>
-              <div style={{ display: 'grid', gap: 16 }}>
-                {MOCK_AI_ALERTS.map(alert => (
-                  <div key={alert.id} style={{ background: alert.severity === 'high' ? `${RED}06` : `${GOLD}06`, border: `1px solid ${alert.severity === 'high' ? RED : GOLD}20`, borderRadius: 16, padding: 20 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
-                      <div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                          <Badge label={alert.severity === 'high' ? 'خطر عالي' : 'تحذير'} color={alert.severity === 'high' ? RED : '#F59E0B'} />
-                          <span style={{ color: '#EEEEF5', fontSize: 14, fontWeight: 700 }}>{alert.type}</span>
-                        </div>
-                        <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12, marginBottom: 4 }}>المؤسسة: {alert.institution}</div>
-                        <div style={{ color: 'rgba(238,238,245,0.7)', fontSize: 13 }}>{alert.desc}</div>
-                      </div>
-                      <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 11 }}>{alert.time}</div>
-                    </div>
-                    <div style={{ display: 'flex', gap: 8 }}>
-                      <ActionBtn label="تحقيق فوري" color={RED} onClick={() => window.alert('بدء التحقيق')} />
-                      <ActionBtn label="تجميد المؤسسة" color={GOLD} onClick={() => window.alert('تجميد المؤسسة')} />
-                      <ActionBtn label="تجاهل" color="#6B7280" onClick={() => window.alert('تم التجاهل')} />
-                    </div>
-                  </div>
-                ))}
+              <SectionTitle title="AI Auditor — المفتش الرقمي الآلي" icon="🤖" desc="ذكاء اصطناعي يراقب السجلات والدرجات والحضور" />
+              <div style={{ background: `${BLUE}06`, border: `1px solid ${BLUE}20`, borderRadius: 16, padding: 24, textAlign: 'center' }}>
+                <div style={{ fontSize: 48, marginBottom: 16 }}>🤖</div>
+                <div style={{ color: '#EEEEF5', fontSize: 16, fontWeight: 700, marginBottom: 8 }}>AI Auditor</div>
+                <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 13, marginBottom: 20 }}>نظام المراقبة الذكي يعمل في الخلفية ويرصد الأنماط المشبوهة تلقائياً</div>
+                <Link href="/dashboard/super-admin/platform-settings" style={{ background: `${BLUE}15`, color: BLUE, border: `1px solid ${BLUE}30`, borderRadius: 10, padding: '10px 24px', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>إعدادات AI Auditor</Link>
               </div>
             </div>
           )}
@@ -743,125 +727,34 @@ export default function OwnerDashboard() {
           {/* ===== سجل الأمان ===== */}
           {activeTab === 'audit_log' && (
             <div>
-              <SectionTitle title="سجل الأمان — Audit Log" icon="🔐" desc="غير قابل للحذف — كل حركة في النظام موثقة بالتفصيل" />
+              <SectionTitle title="سجل الأمان — Audit Log" icon="🔐" desc="كل حركة في النظام موثقة — غير قابل للحذف" />
               <div style={{ background: `${RED}06`, border: `1px solid ${RED}15`, borderRadius: 12, padding: 14, marginBottom: 24, display: 'flex', alignItems: 'center', gap: 10 }}>
                 <span style={{ fontSize: 18 }}>🔒</span>
-                <span style={{ color: 'rgba(238,238,245,0.7)', fontSize: 13 }}>هذا السجل محمي ومشفر — لا يمكن لأي مستخدم حذف أو تعديل أي سجل حتى مالك المنصة</span>
+                <span style={{ color: 'rgba(238,238,245,0.7)', fontSize: 13 }}>هذا السجل محمي ومشفر — لا يمكن لأي مستخدم حذف أو تعديل أي سجل</span>
               </div>
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
-                <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
-                  <input placeholder="بحث في السجل..." style={{ ...inputStyle, maxWidth: 300 }} />
-                  <select style={{ ...inputStyle, maxWidth: 150 }}>
-                    <option>جميع المستويات</option>
-                    <option>خطر عالي</option>
-                    <option>متوسط</option>
-                    <option>منخفض</option>
-                  </select>
-                  <button style={{ background: `${BLUE}15`, color: BLUE, border: `1px solid ${BLUE}30`, borderRadius: 8, padding: '8px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
-                    📥 تصدير
-                  </button>
-                </div>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                  <thead>
-                    <tr>
+                {auditLog.length === 0 ? (
+                  <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 13, textAlign: 'center', padding: '24px 0' }}>لا توجد سجلات</div>
+                ) : (
+                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <thead><tr>
                       <th style={headStyle}>الوقت</th>
                       <th style={headStyle}>المستخدم</th>
                       <th style={headStyle}>الإجراء</th>
                       <th style={headStyle}>الهدف</th>
-                      <th style={headStyle}>IP</th>
-                      <th style={headStyle}>المستوى</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {MOCK_AUDIT.map(log => (
-                      <tr key={log.id}>
-                        <td style={{ ...cellStyle, fontFamily: 'monospace', fontSize: 12 }}>{log.time}</td>
-                        <td style={cellStyle}>{log.user}</td>
-                        <td style={cellStyle}>{log.action}</td>
-                        <td style={cellStyle}>{log.target}</td>
-                        <td style={{ ...cellStyle, fontFamily: 'monospace', fontSize: 11 }}>{log.ip}</td>
-                        <td style={cellStyle}>
-                          <Badge
-                            label={log.severity === 'high' ? 'عالي' : log.severity === 'medium' ? 'متوسط' : log.severity === 'low' ? 'منخفض' : 'معلومات'}
-                            color={log.severity === 'high' ? RED : log.severity === 'medium' ? '#F59E0B' : log.severity === 'low' ? GREEN : BLUE}
-                          />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-
-          {/* ===== التكاملات ===== */}
-          {activeTab === 'integrations' && (
-            <div>
-              <SectionTitle title="التكاملات" icon="🔗" desc="ربط APIs: دفع، شحن، رسائل، جهات حكومية — إدارة التكاملات مع الجهات الحكومية والشركات" />
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
-                {[
-                  { name: 'نفاذ', desc: 'التحقق من الهوية الوطنية', status: 'active', type: 'حكومي', color: GREEN },
-                  { name: 'نور', desc: 'ربط بيانات وزارة التعليم', status: 'active', type: 'حكومي', color: GREEN },
-                  { name: 'صحتي', desc: 'التحقق من الأعذار الطبية', status: 'active', type: 'حكومي', color: GREEN },
-                  { name: 'Moyasar', desc: 'بوابة الدفع الإلكتروني', status: 'active', type: 'مالي', color: GOLD },
-                  { name: 'Tabby', desc: 'التقسيط بدون فوائد', status: 'active', type: 'مالي', color: GOLD },
-                  { name: 'STC Pay', desc: 'محفظة STC للدفع', status: 'active', type: 'مالي', color: GOLD },
-                  { name: 'واتساب Business', desc: 'إشعارات واتساب', status: 'active', type: 'تواصل', color: BLUE },
-                  { name: 'SMS Gateway', desc: 'رسائل SMS', status: 'active', type: 'تواصل', color: BLUE },
-                  { name: 'Firebase', desc: 'Push Notifications', status: 'active', type: 'تقني', color: PURPLE },
-                  { name: 'Google Maps', desc: 'تتبع GPS للنقل', status: 'active', type: 'تقني', color: PURPLE },
-                ].map((integ, i) => (
-                  <div key={i} style={{ background: `${integ.color}06`, border: `1px solid ${integ.color}20`, borderRadius: 14, padding: 18 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
-                      <div style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700 }}>{integ.name}</div>
-                      <Badge label={integ.status === 'active' ? 'متصل' : 'غير متصل'} color={integ.status === 'active' ? GREEN : RED} />
-                    </div>
-                    <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12, marginBottom: 8 }}>{integ.desc}</div>
-                    <Badge label={integ.type} color={integ.color} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* ===== المكتبة الرقمية ===== */}
-          {activeTab === 'library' && (
-            <div>
-              <SectionTitle title="المكتبة الرقمية" icon="📚" desc="عقود مزودي المحتوى والشراكات — إدارة المحتوى الرقمي المتاح لجميع المؤسسات" />
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 28 }}>
-                <StatCard title="الكتب الرقمية" value="12,450" sub="متاحة لجميع المؤسسات" color={GOLD} icon="📖" />
-                <StatCard title="مزودو المحتوى" value="8" sub="شركاء نشر معتمدون" color={BLUE} icon="🤝" />
-                <StatCard title="تحميلات هذا الشهر" value="34,200" sub="عبر جميع المؤسسات" color={GREEN} icon="⬇️" />
-              </div>
-              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
-                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>عقود مزودي المحتوى</h3>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                  <thead>
-                    <tr>
-                      <th style={headStyle}>المزود</th>
-                      <th style={headStyle}>نوع المحتوى</th>
-                      <th style={headStyle}>عدد الكتب</th>
-                      <th style={headStyle}>انتهاء العقد</th>
-                      <th style={headStyle}>الحالة</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[
-                      { provider: 'دار المعرفة', type: 'كتب مدرسية', books: 3400, expires: '2026-12-31', status: 'active' },
-                      { provider: 'مكتبة الرياض', type: 'كتب عامة', books: 5200, expires: '2026-06-30', status: 'active' },
-                      { provider: 'Springer', type: 'أبحاث علمية', books: 2800, expires: '2027-01-01', status: 'active' },
-                      { provider: 'دار الفكر', type: 'كتب إسلامية', books: 1050, expires: '2026-09-30', status: 'active' },
-                    ].map((r, i) => (
-                      <tr key={i}>
-                        <td style={cellStyle}>{r.provider}</td>
-                        <td style={cellStyle}>{r.type}</td>
-                        <td style={cellStyle}>{r.books.toLocaleString('ar-SA')} كتاب</td>
-                        <td style={cellStyle}>{r.expires}</td>
-                        <td style={cellStyle}><Badge label="نشط" color={GREEN} /></td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </tr></thead>
+                    <tbody>
+                      {auditLog.map((log: any) => (
+                        <tr key={log.id}>
+                          <td style={{ ...cellStyle, fontFamily: 'monospace', fontSize: 12 }}>{log.created_at ? new Date(log.created_at).toLocaleString('ar-SA') : '—'}</td>
+                          <td style={cellStyle}>{log.user_name || log.user_id || 'system'}</td>
+                          <td style={cellStyle}>{log.action || log.activity_type}</td>
+                          <td style={cellStyle}>{log.target || log.description || '—'}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
               </div>
             </div>
           )}
@@ -869,51 +762,43 @@ export default function OwnerDashboard() {
           {/* ===== الدعم الفني ===== */}
           {activeTab === 'support' && (
             <div>
-              <SectionTitle title="الدعم الفني" icon="🎧" desc="تذاكر الدعم من المؤسسات — تعيين الفريق ومتابعة الحل" />
+              <SectionTitle title="الدعم الفني" icon="🎧" desc="تذاكر الدعم من المؤسسات" />
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 28 }}>
-                <StatCard title="تذاكر مفتوحة" value="2" sub="تحتاج رداً" color={RED} icon="🎫" />
-                <StatCard title="قيد المعالجة" value="1" sub="يعمل عليها الفريق" color="#F59E0B" icon="⚙️" />
-                <StatCard title="محلولة هذا الشهر" value="34" sub="متوسط وقت الحل: 4 ساعات" color={GREEN} icon="✅" />
+                <StatCard title="تذاكر مفتوحة" value={support.filter((s: any) => s.status === 'open').length} color={RED} icon="🎫" />
+                <StatCard title="قيد المعالجة" value={support.filter((s: any) => s.status === 'in_progress').length} color="#F59E0B" icon="⚙️" />
+                <StatCard title="محلولة" value={support.filter((s: any) => s.status === 'resolved').length} color={GREEN} icon="✅" />
               </div>
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                  <thead>
-                    <tr>
+                {support.length === 0 ? (
+                  <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 13, textAlign: 'center', padding: '24px 0' }}>لا توجد تذاكر</div>
+                ) : (
+                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <thead><tr>
                       <th style={headStyle}>#</th>
                       <th style={headStyle}>المؤسسة</th>
                       <th style={headStyle}>الموضوع</th>
                       <th style={headStyle}>الأولوية</th>
                       <th style={headStyle}>الحالة</th>
-                      <th style={headStyle}>تاريخ الإنشاء</th>
                       <th style={headStyle}>إجراء</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {MOCK_SUPPORT.map(ticket => (
-                      <tr key={ticket.id}>
-                        <td style={{ ...cellStyle, color: GOLD, fontWeight: 700 }}>#{ticket.id}</td>
-                        <td style={cellStyle}>{ticket.institution}</td>
-                        <td style={cellStyle}>{ticket.subject}</td>
-                        <td style={cellStyle}>
-                          <Badge
-                            label={ticket.priority === 'high' ? 'عاجل' : ticket.priority === 'medium' ? 'متوسط' : 'منخفض'}
-                            color={ticket.priority === 'high' ? RED : ticket.priority === 'medium' ? '#F59E0B' : GREEN}
-                          />
-                        </td>
-                        <td style={cellStyle}>
-                          <Badge
-                            label={ticket.status === 'open' ? 'مفتوح' : ticket.status === 'in_progress' ? 'قيد المعالجة' : 'محلول'}
-                            color={ticket.status === 'open' ? RED : ticket.status === 'in_progress' ? '#F59E0B' : GREEN}
-                          />
-                        </td>
-                        <td style={cellStyle}>{ticket.created}</td>
-                        <td style={cellStyle}>
-                          <ActionBtn label="رد" color={GOLD} onClick={() => alert(`الرد على تذكرة #${ticket.id}`)} />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </tr></thead>
+                    <tbody>
+                      {support.map((ticket: any) => (
+                        <tr key={ticket.id}>
+                          <td style={{ ...cellStyle, color: GOLD, fontWeight: 700 }}>#{ticket.id}</td>
+                          <td style={cellStyle}>{ticket.school_name || ticket.school_id || '—'}</td>
+                          <td style={cellStyle}>{ticket.subject || ticket.title}</td>
+                          <td style={cellStyle}>
+                            <Badge label={ticket.priority === 'high' ? 'عاجل' : ticket.priority === 'medium' ? 'متوسط' : 'منخفض'} color={ticket.priority === 'high' ? RED : ticket.priority === 'medium' ? '#F59E0B' : GREEN} />
+                          </td>
+                          <td style={cellStyle}>
+                            <Badge label={ticket.status === 'open' ? 'مفتوح' : ticket.status === 'in_progress' ? 'قيد المعالجة' : 'محلول'} color={ticket.status === 'open' ? RED : ticket.status === 'in_progress' ? '#F59E0B' : GREEN} />
+                          </td>
+                          <td style={cellStyle}><Btn label="رد" color={GOLD} onClick={() => handleSupportReply(ticket.id)} /></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
               </div>
             </div>
           )}
