@@ -2,1028 +2,924 @@
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 
-const API = (path: string) => {
-  const token = typeof window !== 'undefined' ? localStorage.getItem('matin_token') : null;
-  return fetch(path, { headers: { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}) } });
-};
-
 const GOLD = '#C9A84C';
 const GOLD2 = '#E2C46A';
 const BG = '#06060E';
 const CARD = 'rgba(255,255,255,0.03)';
 const BORDER = 'rgba(255,255,255,0.07)';
+const GREEN = '#10B981';
+const RED = '#EF4444';
+const BLUE = '#3B82F6';
+const PURPLE = '#8B5CF6';
 
-const StatCard = ({ title, value, sub, color, icon, href }: any) => (
-  <Link href={href || '#'} style={{ textDecoration: 'none' }}>
-    <div style={{
-      background: `linear-gradient(135deg, ${color}08 0%, ${color}03 100%)`,
-      border: `1px solid ${color}20`,
-      borderRadius: 16,
-      padding: '20px 22px',
-      cursor: 'pointer',
-      transition: 'all 0.25s',
-      position: 'relative',
-      overflow: 'hidden',
-    }}
-      onMouseEnter={e => {
-        (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)';
-        (e.currentTarget as HTMLElement).style.boxShadow = `0 12px 40px ${color}20`;
-        (e.currentTarget as HTMLElement).style.borderColor = `${color}40`;
-      }}
-      onMouseLeave={e => {
-        (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-        (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-        (e.currentTarget as HTMLElement).style.borderColor = `${color}20`;
-      }}
-    >
-      <div style={{ position: 'absolute', top: 0, right: 0, width: 80, height: 80, background: `radial-gradient(circle, ${color}10 0%, transparent 70%)`, borderRadius: '0 16px 0 0' }} />
-      <div style={{ fontSize: 28, marginBottom: 10 }}>{icon}</div>
-      <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12, fontWeight: 600, marginBottom: 6, letterSpacing: 0.3 }}>{title}</div>
-      <div style={{ color: color, fontSize: 28, fontWeight: 800, lineHeight: 1 }}>{value ?? '—'}</div>
-      {sub && <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 11, marginTop: 6 }}>{sub}</div>}
-    </div>
-  </Link>
-);
-
-const SectionHeader = ({ title, icon, action, onAction }: any) => (
-  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-      <span style={{ fontSize: 20 }}>{icon}</span>
-      <h2 style={{ color: '#EEEEF5', fontSize: 16, fontWeight: 700, margin: 0 }}>{title}</h2>
-    </div>
-    {action && (
-      <button onClick={onAction} style={{ background: `${GOLD}15`, color: GOLD, border: `1px solid ${GOLD}30`, borderRadius: 8, padding: '6px 14px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
-        {action}
-      </button>
-    )}
-  </div>
-);
-
-const Badge = ({ status }: { status: string }) => {
-  const colors: Record<string, string> = {
-    active: '#10B981', inactive: '#EF4444', pending: '#F59E0B', paid: '#10B981',
-    unpaid: '#EF4444', present: '#10B981', absent: '#EF4444', late: '#F59E0B',
-    open: '#3B82F6', closed: '#6B7280', resolved: '#10B981',
-  };
-  const labels: Record<string, string> = {
-    active: 'نشط', inactive: 'غير نشط', pending: 'معلق', paid: 'مدفوع',
-    unpaid: 'غير مدفوع', present: 'حاضر', absent: 'غائب', late: 'متأخر',
-    open: 'مفتوح', closed: 'مغلق', resolved: 'محلول',
-  };
-  const c = colors[status] || '#6B7280';
-  return (
-    <span style={{ background: `${c}15`, color: c, border: `1px solid ${c}30`, borderRadius: 6, padding: '2px 8px', fontSize: 11, fontWeight: 600 }}>
-      {labels[status] || status}
-    </span>
-  );
-};
-
-const Modal = ({ title, onClose, children }: any) => (
-  <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, backdropFilter: 'blur(4px)' }}>
-    <div style={{ background: '#0D0D1A', border: `1px solid ${BORDER}`, borderRadius: 20, padding: 28, width: '90%', maxWidth: 520, maxHeight: '80vh', overflowY: 'auto', direction: 'rtl' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-        <h3 style={{ color: '#EEEEF5', fontSize: 16, fontWeight: 700, margin: 0 }}>{title}</h3>
-        <button onClick={onClose} style={{ background: 'rgba(255,255,255,0.05)', border: 'none', color: 'rgba(238,238,245,0.5)', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>✕</button>
-      </div>
-      {children}
-    </div>
-  </div>
-);
-
-const Input = ({ label, value, onChange, type = 'text', placeholder = '' }: any) => (
-  <div style={{ marginBottom: 14 }}>
-    <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>{label}</label>
-    <input
-      type={type}
-      value={value}
-      onChange={e => onChange(e.target.value)}
-      placeholder={placeholder}
-      style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, borderRadius: 10, padding: '10px 14px', color: '#EEEEF5', fontSize: 14, outline: 'none', boxSizing: 'border-box' }}
-    />
-  </div>
-);
-
-const Btn = ({ label, onClick, color = GOLD, disabled = false }: any) => (
-  <button
-    onClick={onClick}
-    disabled={disabled}
-    style={{ background: `linear-gradient(135deg, ${color} 0%, ${color}CC 100%)`, color: '#06060E', border: 'none', borderRadius: 10, padding: '10px 20px', fontSize: 13, fontWeight: 700, cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 0.6 : 1, width: '100%' }}
-  >
-    {label}
-  </button>
-);
-
-// ============================================================
-// TABS
-// ============================================================
+// ====== الأقسام الـ 14 لمالك المنصة وفق الدستور ======
 const TABS = [
-  { id: 'overview', label: 'نظرة عامة', icon: '🏠' },
-  { id: 'students', label: 'الطلاب', icon: '👨‍🎓' },
-  { id: 'teachers', label: 'المعلمون', icon: '👩‍🏫' },
-  { id: 'classes', label: 'الفصول', icon: '🏛' },
-  { id: 'exams', label: 'الاختبارات', icon: '📝' },
-  { id: 'attendance', label: 'الحضور', icon: '✋' },
-  { id: 'grades', label: 'الدرجات', icon: '📊' },
-  { id: 'homework', label: 'الواجبات', icon: '📌' },
-  { id: 'announcements', label: 'الإعلانات', icon: '📢' },
-  { id: 'finance', label: 'المالية', icon: '💰' },
-  { id: 'payroll', label: 'الرواتب', icon: '💵' },
-  { id: 'schedules', label: 'الجداول', icon: '🗓' },
-  { id: 'subjects', label: 'المواد', icon: '📚' },
-  { id: 'parents', label: 'أولياء الأمور', icon: '👨‍👩‍👧' },
-  { id: 'join_requests', label: 'طلبات الانضمام', icon: '📋' },
-  { id: 'library', label: 'المكتبة', icon: '📖' },
-  { id: 'reports', label: 'التقارير', icon: '📈' },
-  { id: 'settings', label: 'الإعدادات', icon: '⚙️' },
+  { id: 'overview',       label: 'نظرة عامة',          icon: '🏛' },
+  { id: 'finance',        label: 'المالية والإيرادات',  icon: '💰' },
+  { id: 'institutions',   label: 'مراقبة المؤسسات',    icon: '🏫' },
+  { id: 'taxes',          label: 'الضرائب السيادية',   icon: '⚖️' },
+  { id: 'subscriptions',  label: 'الاشتراكات والباقات', icon: '📦' },
+  { id: 'ads',            label: 'الإعلانات السيادية',  icon: '📣' },
+  { id: 'coupons',        label: 'الكوبونات',           icon: '🎟' },
+  { id: 'store',          label: 'المتجر والعمولات',    icon: '🛒' },
+  { id: 'notifications',  label: 'الإشعارات الجماعية', icon: '🔔' },
+  { id: 'ai_auditor',     label: 'AI Auditor',          icon: '🤖' },
+  { id: 'audit_log',      label: 'سجل الأمان',         icon: '🔐' },
+  { id: 'integrations',   label: 'التكاملات',           icon: '🔗' },
+  { id: 'library',        label: 'المكتبة الرقمية',    icon: '📚' },
+  { id: 'support',        label: 'الدعم الفني',         icon: '🎧' },
 ];
 
-export default function InstitutionOwnerDashboard() {
-  const [activeTab, setActiveTab] = useState('overview');
-  const [stats, setStats] = useState<any>({});
-  const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<any>({});
-  const [modal, setModal] = useState<string | null>(null);
-  const [form, setForm] = useState<any>({});
-  const [msg, setMsg] = useState('');
-  const [search, setSearch] = useState('');
+const StatCard = ({ title, value, sub, color, icon }: any) => (
+  <div style={{
+    background: `linear-gradient(135deg, ${color}08 0%, ${color}03 100%)`,
+    border: `1px solid ${color}20`,
+    borderRadius: 16,
+    padding: '20px 22px',
+    position: 'relative',
+    overflow: 'hidden',
+  }}>
+    <div style={{ position: 'absolute', top: 0, right: 0, width: 80, height: 80, background: `radial-gradient(circle, ${color}10 0%, transparent 70%)`, borderRadius: '0 16px 0 0' }} />
+    <div style={{ fontSize: 28, marginBottom: 10 }}>{icon}</div>
+    <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12, fontWeight: 600, marginBottom: 6 }}>{title}</div>
+    <div style={{ color: color, fontSize: 28, fontWeight: 800, lineHeight: 1 }}>{value}</div>
+    {sub && <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 11, marginTop: 6 }}>{sub}</div>}
+  </div>
+);
 
-  useEffect(() => {
-    const stored = localStorage.getItem('matin_user');
-    if (stored) setUser(JSON.parse(stored));
-    loadStats();
-  }, []);
-
-  const loadStats = async () => {
-    try {
-      const r = await API('/api/dashboard-stats');
-      const d = await r.json();
-      setStats(d.stats || d);
-    } catch {}
-    setLoading(false);
-  };
-
-  const loadTab = useCallback(async (tab: string) => {
-    if (data[tab]) return;
-    const endpoints: Record<string, string> = {
-      students: '/api/students',
-      teachers: '/api/teachers',
-      classes: '/api/classes',
-      exams: '/api/exams',
-      attendance: '/api/attendance',
-      grades: '/api/grades',
-      homework: '/api/homework',
-      announcements: '/api/announcements',
-      finance: '/api/finance?type=fees',
-      payroll: '/api/payroll',
-      schedules: '/api/schedules',
-      subjects: '/api/subjects',
-      parents: '/api/parents',
-      join_requests: '/api/join-requests',
-      library: '/api/library',
-      reports: '/api/reports',
-      settings: '/api/settings',
-    };
-    const ep = endpoints[tab];
-    if (!ep) return;
-    try {
-      const r = await API(ep);
-      const d = await r.json();
-      setData((prev: any) => ({ ...prev, [tab]: d.data || d.items || d.rows || d }));
-    } catch {}
-  }, [data]);
-
-  useEffect(() => {
-    if (activeTab !== 'overview') loadTab(activeTab);
-  }, [activeTab]);
-
-  const handleSubmit = async (endpoint: string, body: any, successMsg: string) => {
-    try {
-      const r = await API(endpoint);
-      // POST
-      const token = localStorage.getItem('matin_token');
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
-        body: JSON.stringify(body),
-      });
-      const d = await res.json();
-      if (res.ok) {
-        setMsg(successMsg);
-        setModal(null);
-        setForm({});
-        setData((prev: any) => ({ ...prev, [activeTab]: undefined }));
-        setTimeout(() => setMsg(''), 3000);
-        loadTab(activeTab);
-      } else {
-        setMsg(d.error || 'حدث خطأ');
-      }
-    } catch {
-      setMsg('حدث خطأ في الاتصال');
-    }
-  };
-
-  const postData = async (endpoint: string, body: any, successMsg: string) => {
-    const token = localStorage.getItem('matin_token');
-    try {
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
-        body: JSON.stringify(body),
-      });
-      const d = await res.json();
-      if (res.ok) {
-        setMsg(successMsg);
-        setModal(null);
-        setForm({});
-        setData((prev: any) => ({ ...prev, [activeTab]: undefined }));
-        setTimeout(() => setMsg(''), 3000);
-        setTimeout(() => loadTab(activeTab), 300);
-      } else {
-        setMsg(d.error || 'حدث خطأ');
-      }
-    } catch {
-      setMsg('حدث خطأ في الاتصال');
-    }
-  };
-
-  const deleteItem = async (endpoint: string, id: any) => {
-    if (!confirm('هل أنت متأكد من الحذف؟')) return;
-    const token = localStorage.getItem('matin_token');
-    try {
-      await fetch(`${endpoint}?id=${id}`, {
-        method: 'DELETE',
-        headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
-      });
-      setData((prev: any) => ({ ...prev, [activeTab]: undefined }));
-      setTimeout(() => loadTab(activeTab), 300);
-    } catch {}
-  };
-
-  const tabData = data[activeTab] || [];
-  const filtered = Array.isArray(tabData) ? tabData.filter((item: any) => {
-    if (!search) return true;
-    return JSON.stringify(item).toLowerCase().includes(search.toLowerCase());
-  }) : tabData;
-
-  if (loading) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 400 }}>
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ width: 60, height: 60, background: `linear-gradient(135deg, ${GOLD} 0%, ${GOLD2} 100%)`, borderRadius: 16, margin: '0 auto 16px', animation: 'pulse 2s infinite' }} />
-        <p style={{ color: GOLD, fontSize: 16, fontWeight: 700 }}>جاري التحميل...</p>
-      </div>
+const SectionTitle = ({ title, icon, desc }: any) => (
+  <div style={{ marginBottom: 24 }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+      <span style={{ fontSize: 22 }}>{icon}</span>
+      <h2 style={{ color: '#EEEEF5', fontSize: 18, fontWeight: 800, margin: 0 }}>{title}</h2>
     </div>
-  );
+    {desc && <p style={{ color: 'rgba(238,238,245,0.45)', fontSize: 13, margin: 0, paddingRight: 32 }}>{desc}</p>}
+  </div>
+);
+
+const Badge = ({ label, color }: any) => (
+  <span style={{ background: `${color}15`, color, border: `1px solid ${color}30`, borderRadius: 6, padding: '2px 8px', fontSize: 11, fontWeight: 600 }}>
+    {label}
+  </span>
+);
+
+const ActionBtn = ({ label, color, onClick }: any) => (
+  <button onClick={onClick} style={{
+    background: `${color}15`, color, border: `1px solid ${color}30`,
+    borderRadius: 8, padding: '6px 14px', fontSize: 12, fontWeight: 600, cursor: 'pointer',
+    transition: 'all 0.2s',
+  }}
+    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = `${color}25`; }}
+    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = `${color}15`; }}
+  >{label}</button>
+);
+
+// بيانات تجريبية للعرض
+const MOCK_INSTITUTIONS = [
+  { id: 1, name: 'مدرسة النور الأهلية', type: 'مدرسة', plan: 'احترافية', students: 487, limit: 500, status: 'active', paid: true, days_late: 0 },
+  { id: 2, name: 'أكاديمية المستقبل', type: 'معهد', plan: 'أساسية', students: 198, limit: 200, status: 'active', paid: false, days_late: 12 },
+  { id: 3, name: 'روضة الأمل', type: 'روضة', plan: 'أساسية', students: 45, limit: 200, status: 'active', paid: true, days_late: 0 },
+  { id: 4, name: 'جامعة الإبداع', type: 'جامعة', plan: 'مؤسسية', students: 2340, limit: 5000, status: 'pending', paid: false, days_late: 3 },
+  { id: 5, name: 'مركز التميز للتدريب', type: 'تدريب', plan: 'احترافية', students: 312, limit: 1000, status: 'frozen', paid: false, days_late: 45 },
+];
+
+const MOCK_AUDIT = [
+  { id: 1, time: '2026-03-13 14:22', user: 'مالك المنصة', action: 'تجميد مؤسسة', target: 'مركز التميز', ip: '192.168.1.1', severity: 'high' },
+  { id: 2, time: '2026-03-13 13:15', user: 'admin@matin.ink', action: 'تعديل باقة', target: 'الباقة الاحترافية', ip: '192.168.1.2', severity: 'medium' },
+  { id: 3, time: '2026-03-13 11:40', user: 'مالك المنصة', action: 'إنشاء كوبون', target: 'MATIN20', ip: '192.168.1.1', severity: 'low' },
+  { id: 4, time: '2026-03-13 10:05', user: 'مالك المنصة', action: 'قبول مؤسسة', target: 'روضة الأمل', ip: '192.168.1.1', severity: 'low' },
+  { id: 5, time: '2026-03-13 09:30', user: 'system', action: 'استقطاع ضريبة سيادية', target: 'مدرسة النور', ip: 'system', severity: 'info' },
+];
+
+const MOCK_AI_ALERTS = [
+  { id: 1, institution: 'مدرسة النور الأهلية', type: 'تلاعب بالدرجات', desc: 'رُصد نمط غير طبيعي في رفع درجات الفصل الثالث — 15 طالب بزيادة مفاجئة', severity: 'high', time: '2026-03-13 08:00' },
+  { id: 2, institution: 'أكاديمية المستقبل', type: 'غياب متكرر للأستاذ', desc: 'الأستاذ محمد العمري: 8 غيابات في 30 يوماً — تجاوز الحد المسموح', severity: 'medium', time: '2026-03-12 16:30' },
+  { id: 3, institution: 'جامعة الإبداع', type: 'تسجيل مشبوه', desc: 'محاولات تسجيل دخول متعددة فاشلة من IP غير معروف', severity: 'high', time: '2026-03-12 14:00' },
+];
+
+const MOCK_COUPONS = [
+  { id: 1, code: 'MATIN20', discount: '20%', type: 'نسبة', uses: 45, max: 100, expires: '2026-04-01', status: 'active' },
+  { id: 2, code: 'SCHOOL50', discount: '50 ر.س', type: 'مبلغ', uses: 12, max: 50, expires: '2026-03-31', status: 'active' },
+  { id: 3, code: 'SUMMER30', discount: '30%', type: 'نسبة', uses: 50, max: 50, expires: '2026-06-30', status: 'expired' },
+];
+
+const MOCK_SUPPORT = [
+  { id: 1, institution: 'مدرسة النور', subject: 'مشكلة في رفع الدرجات', priority: 'high', status: 'open', created: '2026-03-13' },
+  { id: 2, institution: 'أكاديمية المستقبل', subject: 'عدم ظهور الجدول الدراسي', priority: 'medium', status: 'in_progress', created: '2026-03-12' },
+  { id: 3, institution: 'روضة الأمل', subject: 'استفسار عن الترقية للباقة الاحترافية', priority: 'low', status: 'resolved', created: '2026-03-11' },
+];
+
+export default function OwnerDashboard() {
+  const [activeTab, setActiveTab] = useState('overview');
+  const [newCoupon, setNewCoupon] = useState({ code: '', discount: '', type: 'نسبة', max: '', expires: '' });
+  const [notifMsg, setNotifMsg] = useState('');
+  const [notifTarget, setNotifTarget] = useState('all');
+  const [adTitle, setAdTitle] = useState('');
+  const [adBody, setAdBody] = useState('');
+  const [taxRate, setTaxRate] = useState('2.5');
+  const [planName, setPlanName] = useState('');
+  const [planPrice, setPlanPrice] = useState('');
+  const [planLimit, setPlanLimit] = useState('');
+
+  const cellStyle: any = { padding: '12px 14px', borderBottom: `1px solid ${BORDER}`, color: 'rgba(238,238,245,0.75)', fontSize: 13 };
+  const headStyle: any = { padding: '10px 14px', color: 'rgba(238,238,245,0.4)', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.5, borderBottom: `1px solid ${BORDER}` };
+
+  const inputStyle: any = {
+    background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, borderRadius: 8,
+    padding: '10px 14px', color: '#EEEEF5', fontSize: 13, outline: 'none', width: '100%', boxSizing: 'border-box',
+  };
 
   return (
-    <div style={{ direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: BG, fontFamily: "'IBM Plex Sans Arabic', 'Tajawal', sans-serif", direction: 'rtl' }}>
       {/* Header */}
-      <div style={{ marginBottom: 24 }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+      <div style={{ background: 'rgba(255,255,255,0.02)', borderBottom: `1px solid ${BORDER}`, padding: '16px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 100, backdropFilter: 'blur(12px)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ width: 36, height: 36, borderRadius: 10, background: `linear-gradient(135deg, ${GOLD} 0%, ${GOLD2} 100%)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 900, color: BG }}>م</div>
           <div>
-            <h1 style={{ color: '#EEEEF5', fontSize: 22, fontWeight: 800, margin: 0 }}>
-              مرحباً، {user?.name || 'مالك المؤسسة'} 👋
-            </h1>
-            <p style={{ color: 'rgba(238,238,245,0.4)', fontSize: 13, margin: '4px 0 0' }}>
-              لوحة تحكم المؤسسة التعليمية
-            </p>
+            <div style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 800 }}>لوحة مالك المنصة</div>
+            <div style={{ color: GOLD, fontSize: 11, fontWeight: 600 }}>السلطة السيادية المطلقة</div>
           </div>
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button onClick={loadStats} style={{ background: `${GOLD}15`, color: GOLD, border: `1px solid ${GOLD}30`, borderRadius: 10, padding: '8px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
-              🔄 تحديث
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ background: `${GREEN}15`, color: GREEN, border: `1px solid ${GREEN}30`, borderRadius: 20, padding: '4px 12px', fontSize: 11, fontWeight: 600 }}>● النظام يعمل 99.9%</div>
+          <Link href="/dashboard" style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(238,238,245,0.6)', border: `1px solid ${BORDER}`, borderRadius: 8, padding: '6px 14px', fontSize: 12, textDecoration: 'none' }}>الرئيسية</Link>
+        </div>
+      </div>
+
+      {/* Sovereign Banner */}
+      <div style={{ background: `linear-gradient(135deg, ${GOLD}10 0%, transparent 100%)`, borderBottom: `1px solid ${GOLD}15`, padding: '10px 28px', display: 'flex', alignItems: 'center', gap: 10 }}>
+        <span style={{ fontSize: 14 }}>⚡</span>
+        <span style={{ color: GOLD, fontSize: 12, fontWeight: 600 }}>إعلان سيادي: </span>
+        <span style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12 }}>هذا الإعلان يظهر إجبارياً على جميع لوحات تحكم المؤسسات — يمكن تعديله من قسم الإعلانات السيادية</span>
+      </div>
+
+      <div style={{ display: 'flex', minHeight: 'calc(100vh - 100px)' }}>
+        {/* Sidebar */}
+        <div style={{ width: 220, background: 'rgba(255,255,255,0.015)', borderLeft: `1px solid ${BORDER}`, padding: '20px 0', flexShrink: 0, position: 'sticky', top: 100, height: 'calc(100vh - 100px)', overflowY: 'auto' }}>
+          {TABS.map(tab => (
+            <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{
+              width: '100%', textAlign: 'right', padding: '11px 20px', background: activeTab === tab.id ? `${GOLD}12` : 'transparent',
+              borderRight: activeTab === tab.id ? `3px solid ${GOLD}` : '3px solid transparent',
+              border: 'none', borderLeft: 'none', color: activeTab === tab.id ? GOLD : 'rgba(238,238,245,0.55)',
+              fontSize: 13, fontWeight: activeTab === tab.id ? 700 : 500, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, transition: 'all 0.2s',
+            }}>
+              <span>{tab.icon}</span>
+              <span>{tab.label}</span>
             </button>
-          </div>
+          ))}
         </div>
-      </div>
 
-      {/* Message */}
-      {msg && (
-        <div style={{ background: msg.includes('خطأ') ? '#EF444415' : '#10B98115', border: `1px solid ${msg.includes('خطأ') ? '#EF4444' : '#10B981'}30`, borderRadius: 10, padding: '10px 16px', marginBottom: 16, color: msg.includes('خطأ') ? '#EF4444' : '#10B981', fontSize: 13, fontWeight: 600 }}>
-          {msg}
-        </div>
-      )}
+        {/* Main Content */}
+        <div style={{ flex: 1, padding: '28px 32px', overflowY: 'auto' }}>
 
-      {/* Tabs */}
-      <div style={{ display: 'flex', gap: 4, overflowX: 'auto', marginBottom: 24, paddingBottom: 4 }}>
-        {TABS.map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            style={{
-              background: activeTab === tab.id ? `linear-gradient(135deg, ${GOLD} 0%, ${GOLD2} 100%)` : 'rgba(255,255,255,0.04)',
-              color: activeTab === tab.id ? '#06060E' : 'rgba(238,238,245,0.6)',
-              border: `1px solid ${activeTab === tab.id ? 'transparent' : BORDER}`,
-              borderRadius: 10,
-              padding: '8px 14px',
-              fontSize: 12,
-              fontWeight: 700,
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-              transition: 'all 0.2s',
-            }}
-          >
-            {tab.icon} {tab.label}
-          </button>
-        ))}
-      </div>
+          {/* ===== نظرة عامة ===== */}
+          {activeTab === 'overview' && (
+            <div>
+              <SectionTitle title="نظرة عامة — السلطة المطلقة" icon="🏛" desc="إحصائيات شاملة للمنصة بالكامل — تتحدث تلقائياً" />
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 32 }}>
+                <StatCard title="إجمالي المؤسسات" value="47" sub="5 معلقة للمراجعة" color={GOLD} icon="🏫" />
+                <StatCard title="إجمالي المستخدمين" value="18,432" sub="↑ 234 هذا الشهر" color={BLUE} icon="👥" />
+                <StatCard title="الإيرادات الشهرية" value="82,400 ر.س" sub="↑ 12% عن الشهر الماضي" color={GREEN} icon="💰" />
+                <StatCard title="طلبات انتظار" value="5" sub="تحتاج مراجعة فورية" color="#F59E0B" icon="⏳" />
+                <StatCard title="الضرائب السيادية" value="4,120 ر.س" sub="هذا الشهر" color={PURPLE} icon="⚖️" />
+                <StatCard title="تنبيهات AI Auditor" value="3" sub="تحتاج تدخلاً" color={RED} icon="🤖" />
+              </div>
 
-      {/* ============ OVERVIEW ============ */}
-      {activeTab === 'overview' && (
-        <div>
-          {/* Stats Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 14, marginBottom: 28 }}>
-            <StatCard title="إجمالي الطلاب" value={stats.students || stats.total_students || 0} icon="👨‍🎓" color="#3B82F6" href="/dashboard/students" />
-            <StatCard title="المعلمون" value={stats.teachers || stats.total_teachers || 0} icon="👩‍🏫" color="#8B5CF6" href="/dashboard/teachers" />
-            <StatCard title="الفصول" value={stats.classes || stats.total_classes || 0} icon="🏛" color="#10B981" href="/dashboard/classes" />
-            <StatCard title="الاختبارات النشطة" value={stats.active_exams || 0} icon="📝" color="#EF4444" href="/dashboard/exams" />
-            <StatCard title="الحضور اليوم" value={stats.attendance_today ? `${stats.attendance_today}%` : '—'} icon="✋" color="#06B6D4" href="/dashboard/attendance" />
-            <StatCard title="الواجبات المعلقة" value={stats.pending_homework || 0} icon="📌" color="#F59E0B" href="/dashboard/homework" />
-            <StatCard title="الإيرادات الشهرية" value={stats.monthly_revenue ? `${Number(stats.monthly_revenue).toLocaleString('ar-SA')} ر.س` : '—'} icon="💰" color="#C9A84C" href="/dashboard/finance" />
-            <StatCard title="طلبات الانضمام" value={stats.pending_requests || 0} icon="📋" color="#A78BFA" href="/dashboard/join-requests" />
-          </div>
+              {/* طلبات الانضمام المعلقة */}
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24, marginBottom: 24 }}>
+                <SectionTitle title="طلبات الانضمام المعلقة" icon="⏳" desc="مؤسسات تنتظر القبول أو الرفض من مالك المنصة" />
+                <div style={{ overflowX: 'auto' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <thead>
+                      <tr>
+                        <th style={headStyle}>المؤسسة</th>
+                        <th style={headStyle}>النوع</th>
+                        <th style={headStyle}>الباقة المطلوبة</th>
+                        <th style={headStyle}>تاريخ الطلب</th>
+                        <th style={headStyle}>الإجراء</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        { name: 'جامعة الإبداع', type: 'جامعة', plan: 'مؤسسية', date: '2026-03-10' },
+                        { name: 'مدرسة الرياض الدولية', type: 'مدرسة', plan: 'احترافية', date: '2026-03-11' },
+                        { name: 'معهد البرمجة', type: 'معهد', plan: 'أساسية', date: '2026-03-12' },
+                      ].map((r, i) => (
+                        <tr key={i}>
+                          <td style={cellStyle}>{r.name}</td>
+                          <td style={cellStyle}>{r.type}</td>
+                          <td style={cellStyle}><Badge label={r.plan} color={GOLD} /></td>
+                          <td style={cellStyle}>{r.date}</td>
+                          <td style={cellStyle}>
+                            <div style={{ display: 'flex', gap: 6 }}>
+                              <ActionBtn label="قبول" color={GREEN} onClick={() => alert(`تم قبول ${r.name}`)} />
+                              <ActionBtn label="رفض" color={RED} onClick={() => alert(`تم رفض ${r.name}`)} />
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
 
-          {/* Quick Actions */}
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 20, marginBottom: 20 }}>
-            <SectionHeader title="الإجراءات السريعة" icon="⚡" />
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 10 }}>
-              {[
-                { label: 'إضافة طالب', icon: '👨‍🎓', tab: 'students' },
-                { label: 'إضافة معلم', icon: '👩‍🏫', tab: 'teachers' },
-                { label: 'إضافة فصل', icon: '🏛', tab: 'classes' },
-                { label: 'إضافة اختبار', icon: '📝', tab: 'exams' },
-                { label: 'إعلان جديد', icon: '📢', tab: 'announcements' },
-                { label: 'واجب جديد', icon: '📌', tab: 'homework' },
-              ].map((action, i) => (
-                <button key={i} onClick={() => setActiveTab(action.tab)} style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${BORDER}`, borderRadius: 12, padding: '12px 8px', cursor: 'pointer', textAlign: 'center', transition: 'all 0.2s' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = `${GOLD}10`; (e.currentTarget as HTMLElement).style.borderColor = `${GOLD}30`; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.03)'; (e.currentTarget as HTMLElement).style.borderColor = BORDER; }}
-                >
-                  <div style={{ fontSize: 22, marginBottom: 6 }}>{action.icon}</div>
-                  <div style={{ color: 'rgba(238,238,245,0.7)', fontSize: 11, fontWeight: 600 }}>{action.label}</div>
+              {/* تنبيهات تجاوز الحد */}
+              <div style={{ background: CARD, border: `1px solid ${RED}20`, borderRadius: 16, padding: 24 }}>
+                <SectionTitle title="تنبيهات تجاوز حد الباقة" icon="⚠️" desc="مؤسسات اقتربت من حد طلابها — إيقاف تلقائي عند التجاوز" />
+                {MOCK_INSTITUTIONS.filter(i => i.students / i.limit > 0.9).map(inst => (
+                  <div key={inst.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: `1px solid ${BORDER}` }}>
+                    <div>
+                      <div style={{ color: '#EEEEF5', fontSize: 14, fontWeight: 600 }}>{inst.name}</div>
+                      <div style={{ color: 'rgba(238,238,245,0.45)', fontSize: 12 }}>{inst.students} / {inst.limit} طالب</div>
+                    </div>
+                    <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                      <div style={{ width: 120, height: 6, background: 'rgba(255,255,255,0.08)', borderRadius: 3, overflow: 'hidden' }}>
+                        <div style={{ width: `${(inst.students / inst.limit) * 100}%`, height: '100%', background: inst.students / inst.limit > 0.95 ? RED : '#F59E0B', borderRadius: 3 }} />
+                      </div>
+                      <span style={{ color: inst.students / inst.limit > 0.95 ? RED : '#F59E0B', fontSize: 12, fontWeight: 700 }}>{Math.round((inst.students / inst.limit) * 100)}%</span>
+                      <ActionBtn label="ترقية الباقة" color={GOLD} onClick={() => alert(`ترقية باقة ${inst.name}`)} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ===== المالية والإيرادات ===== */}
+          {activeTab === 'finance' && (
+            <div>
+              <SectionTitle title="المالية والإيرادات" icon="💰" desc="إجمالي الإيرادات الشهرية والسنوية مع تفصيل حسب كل باقة ومؤسسة" />
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 28 }}>
+                <StatCard title="إيرادات هذا الشهر" value="82,400 ر.س" sub="↑ 12% عن الشهر الماضي" color={GREEN} icon="📈" />
+                <StatCard title="إيرادات هذا العام" value="743,200 ر.س" sub="الهدف: 1,000,000 ر.س" color={GOLD} icon="🏆" />
+                <StatCard title="المتأخرات" value="23,100 ر.س" sub="3 مؤسسات متأخرة" color={RED} icon="⚠️" />
+                <StatCard title="عمولات المتاجر" value="8,340 ر.س" sub="هذا الشهر" color={PURPLE} icon="🛒" />
+              </div>
+
+              {/* إيرادات حسب الباقة */}
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24, marginBottom: 24 }}>
+                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>الإيرادات حسب الباقة</h3>
+                {[
+                  { plan: 'الباقة الأساسية', count: 18, revenue: '32,400 ر.س', color: BLUE },
+                  { plan: 'الباقة الاحترافية', count: 22, revenue: '38,500 ر.س', color: GOLD },
+                  { plan: 'الباقة المؤسسية', count: 5, revenue: '8,750 ر.س', color: PURPLE },
+                  { plan: 'الباقة الذهبية', count: 2, revenue: '2,750 ر.س', color: '#F59E0B' },
+                ].map((r, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: `1px solid ${BORDER}` }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <div style={{ width: 8, height: 8, borderRadius: '50%', background: r.color }} />
+                      <span style={{ color: '#EEEEF5', fontSize: 14 }}>{r.plan}</span>
+                      <Badge label={`${r.count} مؤسسة`} color={r.color} />
+                    </div>
+                    <span style={{ color: r.color, fontSize: 16, fontWeight: 700 }}>{r.revenue}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* المؤسسات المتأخرة */}
+              <div style={{ background: CARD, border: `1px solid ${RED}20`, borderRadius: 16, padding: 24, marginBottom: 24 }}>
+                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>المؤسسات المتأخرة عن الدفع</h3>
+                <div style={{ overflowX: 'auto' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <thead>
+                      <tr>
+                        <th style={headStyle}>المؤسسة</th>
+                        <th style={headStyle}>الباقة</th>
+                        <th style={headStyle}>المبلغ المستحق</th>
+                        <th style={headStyle}>أيام التأخير</th>
+                        <th style={headStyle}>الإجراء</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {MOCK_INSTITUTIONS.filter(i => !i.paid).map(inst => (
+                        <tr key={inst.id}>
+                          <td style={cellStyle}>{inst.name}</td>
+                          <td style={cellStyle}><Badge label={inst.plan} color={GOLD} /></td>
+                          <td style={cellStyle}>{inst.plan === 'أساسية' ? '299' : inst.plan === 'احترافية' ? '699' : '2,500'} ر.س</td>
+                          <td style={cellStyle}><span style={{ color: inst.days_late > 30 ? RED : '#F59E0B', fontWeight: 700 }}>{inst.days_late} يوم</span></td>
+                          <td style={cellStyle}>
+                            <div style={{ display: 'flex', gap: 6 }}>
+                              <ActionBtn label="إرسال تذكير" color={GOLD} onClick={() => alert('تم إرسال التذكير')} />
+                              {inst.days_late > 30 && <ActionBtn label="تجميد" color={RED} onClick={() => alert('تم تجميد المؤسسة')} />}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', gap: 12 }}>
+                <button style={{ background: `${GREEN}15`, color: GREEN, border: `1px solid ${GREEN}30`, borderRadius: 10, padding: '12px 24px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+                  📊 تصدير تقرير Excel
                 </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Recent Activity */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 20 }}>
-              <SectionHeader title="آخر الطلاب المسجلين" icon="👨‍🎓" action="عرض الكل" onAction={() => setActiveTab('students')} />
-              <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 13, textAlign: 'center', padding: '20px 0' }}>
-                اضغط على "عرض الكل" لرؤية الطلاب
+                <button style={{ background: `${BLUE}15`, color: BLUE, border: `1px solid ${BLUE}30`, borderRadius: 10, padding: '12px 24px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+                  📄 تصدير تقرير PDF
+                </button>
               </div>
             </div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 20 }}>
-              <SectionHeader title="الاختبارات القادمة" icon="📝" action="عرض الكل" onAction={() => setActiveTab('exams')} />
-              <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 13, textAlign: 'center', padding: '20px 0' }}>
-                اضغط على "عرض الكل" لرؤية الاختبارات
+          )}
+
+          {/* ===== مراقبة المؤسسات ===== */}
+          {activeTab === 'institutions' && (
+            <div>
+              <SectionTitle title="مراقبة المؤسسات" icon="🏫" desc="عدد الطلاب في كل مؤسسة يتحدث تلقائياً — قبول / رفض / تجميد أي مؤسسة" />
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr>
+                      <th style={headStyle}>المؤسسة</th>
+                      <th style={headStyle}>النوع</th>
+                      <th style={headStyle}>الباقة</th>
+                      <th style={headStyle}>الطلاب / الحد</th>
+                      <th style={headStyle}>الدفع</th>
+                      <th style={headStyle}>الحالة</th>
+                      <th style={headStyle}>الإجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {MOCK_INSTITUTIONS.map(inst => (
+                      <tr key={inst.id}>
+                        <td style={cellStyle}><span style={{ color: '#EEEEF5', fontWeight: 600 }}>{inst.name}</span></td>
+                        <td style={cellStyle}>{inst.type}</td>
+                        <td style={cellStyle}><Badge label={inst.plan} color={GOLD} /></td>
+                        <td style={cellStyle}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                            <span style={{ color: inst.students / inst.limit > 0.9 ? RED : '#EEEEF5' }}>{inst.students}</span>
+                            <span style={{ color: 'rgba(238,238,245,0.3)' }}>/ {inst.limit}</span>
+                            <div style={{ width: 60, height: 4, background: 'rgba(255,255,255,0.08)', borderRadius: 2, overflow: 'hidden' }}>
+                              <div style={{ width: `${(inst.students / inst.limit) * 100}%`, height: '100%', background: inst.students / inst.limit > 0.9 ? RED : GREEN, borderRadius: 2 }} />
+                            </div>
+                          </div>
+                        </td>
+                        <td style={cellStyle}><Badge label={inst.paid ? 'مدفوع' : `متأخر ${inst.days_late}ي`} color={inst.paid ? GREEN : RED} /></td>
+                        <td style={cellStyle}><Badge label={inst.status === 'active' ? 'نشط' : inst.status === 'pending' ? 'معلق' : 'مجمد'} color={inst.status === 'active' ? GREEN : inst.status === 'pending' ? '#F59E0B' : RED} /></td>
+                        <td style={cellStyle}>
+                          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                            {inst.status === 'pending' && <ActionBtn label="قبول" color={GREEN} onClick={() => alert(`قبول ${inst.name}`)} />}
+                            {inst.status !== 'frozen' && <ActionBtn label="تجميد" color={RED} onClick={() => alert(`تجميد ${inst.name}`)} />}
+                            {inst.status === 'frozen' && <ActionBtn label="إلغاء التجميد" color={BLUE} onClick={() => alert(`إلغاء تجميد ${inst.name}`)} />}
+                            <ActionBtn label="عرض" color={GOLD} onClick={() => alert(`عرض ${inst.name}`)} />
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          )}
 
-      {/* ============ STUDENTS ============ */}
-      {activeTab === 'students' && (
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, gap: 12, flexWrap: 'wrap' }}>
-            <SectionHeader title="إدارة الطلاب" icon="👨‍🎓" />
-            <div style={{ display: 'flex', gap: 8 }}>
-              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="بحث..." style={{ background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, borderRadius: 10, padding: '8px 14px', color: '#EEEEF5', fontSize: 13, outline: 'none', width: 200 }} />
-              <button onClick={() => setModal('add_student')} style={{ background: `linear-gradient(135deg, ${GOLD} 0%, ${GOLD2} 100%)`, color: '#06060E', border: 'none', borderRadius: 10, padding: '8px 16px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-                + إضافة طالب
-              </button>
-            </div>
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: 'hidden' }}>
-            <div style={{overflowX:"auto"}}><table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
-                  {['الاسم', 'البريد', 'الصف', 'الحالة', 'تاريخ التسجيل', 'إجراءات'].map(h => (
-                    <th key={h} style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12, fontWeight: 600, textAlign: 'right' }}>{h}</th>
+          {/* ===== الضرائب السيادية ===== */}
+          {activeTab === 'taxes' && (
+            <div>
+              <SectionTitle title="الضرائب السيادية" icon="⚖️" desc="استقطاع نسبة مئوية آلية من كل عملية مالية تمر عبر المنصة — رسوم دراسية + مبيعات المتجر + الإعلانات" />
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 28 }}>
+                <StatCard title="الضريبة السيادية اليوم" value="412 ر.س" sub="من 38 عملية" color={GOLD} icon="⚡" />
+                <StatCard title="الضريبة هذا الشهر" value="4,120 ر.س" sub="من 847 عملية" color={PURPLE} icon="📊" />
+                <StatCard title="الضريبة هذا العام" value="38,450 ر.س" sub="↑ 18% عن العام الماضي" color={GREEN} icon="🏆" />
+              </div>
+
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24, marginBottom: 24 }}>
+                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>إعداد نسبة الاستقطاع</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+                  {[
+                    { label: 'رسوم دراسية', rate: taxRate, key: 'tuition' },
+                    { label: 'مبيعات المتجر', rate: '3.0', key: 'store' },
+                    { label: 'إيرادات الإعلانات', rate: '5.0', key: 'ads' },
+                    { label: 'عمولات الإحالة', rate: '1.5', key: 'referral' },
+                  ].map((item, i) => (
+                    <div key={i}>
+                      <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>{item.label}</label>
+                      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                        <input type="number" defaultValue={item.rate} style={{ ...inputStyle, width: 80 }} />
+                        <span style={{ color: 'rgba(238,238,245,0.4)', fontSize: 13 }}>%</span>
+                      </div>
+                    </div>
                   ))}
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.length === 0 ? (
-                  <tr><td colSpan={6} style={{ textAlign: 'center', padding: 40, color: 'rgba(238,238,245,0.3)', fontSize: 14 }}>لا توجد بيانات</td></tr>
-                ) : filtered.slice(0, 50).map((s: any, i: number) => (
-                  <tr key={i} style={{ borderBottom: `1px solid ${BORDER}` }}
-                    onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.02)'}
-                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = 'transparent'}
-                  >
-                    <td style={{ padding: '12px 16px', color: '#EEEEF5', fontSize: 13, fontWeight: 600 }}>{s.name || s.student_name || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12 }}>{s.email || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12 }}>{s.class_name || s.grade || s.class_id || '—'}</td>
-                    <td style={{ padding: '12px 16px' }}><Badge status={s.status || 'active'} /></td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.4)', fontSize: 11 }}>{s.created_at ? new Date(s.created_at).toLocaleDateString('ar-SA') : '—'}</td>
-                    <td style={{ padding: '12px 16px' }}>
-                      <button onClick={() => deleteItem('/api/students', s.id)} style={{ background: '#EF444415', color: '#EF4444', border: '1px solid #EF444430', borderRadius: 6, padding: '4px 10px', fontSize: 11, cursor: 'pointer' }}>حذف</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          </div>
-        </div>
-      )}
-
-      {/* ============ TEACHERS ============ */}
-      {activeTab === 'teachers' && (
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, gap: 12, flexWrap: 'wrap' }}>
-            <SectionHeader title="إدارة المعلمين" icon="👩‍🏫" />
-            <div style={{ display: 'flex', gap: 8 }}>
-              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="بحث..." style={{ background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, borderRadius: 10, padding: '8px 14px', color: '#EEEEF5', fontSize: 13, outline: 'none', width: 200 }} />
-              <button onClick={() => setModal('add_teacher')} style={{ background: `linear-gradient(135deg, ${GOLD} 0%, ${GOLD2} 100%)`, color: '#06060E', border: 'none', borderRadius: 10, padding: '8px 16px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-                + إضافة معلم
-              </button>
-            </div>
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: 'hidden' }}>
-            <div style={{overflowX:"auto"}}><table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
-                  {['الاسم', 'البريد', 'التخصص', 'الحالة', 'تاريخ الانضمام', 'إجراءات'].map(h => (
-                    <th key={h} style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12, fontWeight: 600, textAlign: 'right' }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.length === 0 ? (
-                  <tr><td colSpan={6} style={{ textAlign: 'center', padding: 40, color: 'rgba(238,238,245,0.3)', fontSize: 14 }}>لا توجد بيانات</td></tr>
-                ) : filtered.slice(0, 50).map((t: any, i: number) => (
-                  <tr key={i} style={{ borderBottom: `1px solid ${BORDER}` }}
-                    onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.02)'}
-                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = 'transparent'}
-                  >
-                    <td style={{ padding: '12px 16px', color: '#EEEEF5', fontSize: 13, fontWeight: 600 }}>{t.name || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12 }}>{t.email || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12 }}>{t.subject || t.specialization || '—'}</td>
-                    <td style={{ padding: '12px 16px' }}><Badge status={t.status || 'active'} /></td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.4)', fontSize: 11 }}>{t.created_at ? new Date(t.created_at).toLocaleDateString('ar-SA') : '—'}</td>
-                    <td style={{ padding: '12px 16px' }}>
-                      <button onClick={() => deleteItem('/api/teachers', t.id)} style={{ background: '#EF444415', color: '#EF4444', border: '1px solid #EF444430', borderRadius: 6, padding: '4px 10px', fontSize: 11, cursor: 'pointer' }}>حذف</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          </div>
-        </div>
-      )}
-
-      {/* ============ CLASSES ============ */}
-      {activeTab === 'classes' && (
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, gap: 12, flexWrap: 'wrap' }}>
-            <SectionHeader title="إدارة الفصول" icon="🏛" />
-            <button onClick={() => setModal('add_class')} style={{ background: `linear-gradient(135deg, ${GOLD} 0%, ${GOLD2} 100%)`, color: '#06060E', border: 'none', borderRadius: 10, padding: '8px 16px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-              + إضافة فصل
-            </button>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 14 }}>
-            {Array.isArray(filtered) && filtered.length === 0 ? (
-              <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: 40, color: 'rgba(238,238,245,0.3)', fontSize: 14 }}>لا توجد فصول</div>
-            ) : Array.isArray(filtered) && filtered.map((cls: any, i: number) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 18, transition: 'all 0.2s' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = `${GOLD}30`; (e.currentTarget as HTMLElement).style.background = `${GOLD}05`; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = BORDER; (e.currentTarget as HTMLElement).style.background = CARD; }}
-              >
-                <div style={{ fontSize: 24, marginBottom: 8 }}>🏛</div>
-                <div style={{ color: '#EEEEF5', fontSize: 14, fontWeight: 700, marginBottom: 4 }}>{cls.name || cls.class_name || `فصل ${i + 1}`}</div>
-                <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12 }}>المرحلة: {cls.grade || cls.level || '—'}</div>
-                <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12, marginTop: 4 }}>الطلاب: {cls.student_count || cls.students_count || 0}</div>
-                <div style={{ marginTop: 10, display: 'flex', gap: 6 }}>
-                  <button onClick={() => deleteItem('/api/classes', cls.id)} style={{ background: '#EF444415', color: '#EF4444', border: '1px solid #EF444430', borderRadius: 6, padding: '4px 10px', fontSize: 11, cursor: 'pointer' }}>حذف</button>
                 </div>
+                <button style={{ background: `${GOLD}15`, color: GOLD, border: `1px solid ${GOLD}30`, borderRadius: 10, padding: '10px 24px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+                  حفظ نسب الاستقطاع
+                </button>
               </div>
-            ))}
-          </div>
-        </div>
-      )}
 
-      {/* ============ EXAMS ============ */}
-      {activeTab === 'exams' && (
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, gap: 12, flexWrap: 'wrap' }}>
-            <SectionHeader title="إدارة الاختبارات" icon="📝" />
-            <button onClick={() => setModal('add_exam')} style={{ background: `linear-gradient(135deg, ${GOLD} 0%, ${GOLD2} 100%)`, color: '#06060E', border: 'none', borderRadius: 10, padding: '8px 16px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-              + إضافة اختبار
-            </button>
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: 'hidden' }}>
-            <div style={{overflowX:"auto"}}><table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
-                  {['الاختبار', 'المادة', 'الفصل', 'التاريخ', 'الحالة', 'إجراءات'].map(h => (
-                    <th key={h} style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12, fontWeight: 600, textAlign: 'right' }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.length === 0 ? (
-                  <tr><td colSpan={6} style={{ textAlign: 'center', padding: 40, color: 'rgba(238,238,245,0.3)', fontSize: 14 }}>لا توجد اختبارات</td></tr>
-                ) : filtered.slice(0, 50).map((e: any, i: number) => (
-                  <tr key={i} style={{ borderBottom: `1px solid ${BORDER}` }}
-                    onMouseEnter={el => (el.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.02)'}
-                    onMouseLeave={el => (el.currentTarget as HTMLElement).style.background = 'transparent'}
-                  >
-                    <td style={{ padding: '12px 16px', color: '#EEEEF5', fontSize: 13, fontWeight: 600 }}>{e.title || e.name || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12 }}>{e.subject || e.subject_name || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12 }}>{e.class_name || e.class_id || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.4)', fontSize: 12 }}>{e.exam_date || e.date ? new Date(e.exam_date || e.date).toLocaleDateString('ar-SA') : '—'}</td>
-                    <td style={{ padding: '12px 16px' }}><Badge status={e.status || 'active'} /></td>
-                    <td style={{ padding: '12px 16px' }}>
-                      <button onClick={() => deleteItem('/api/exams', e.id)} style={{ background: '#EF444415', color: '#EF4444', border: '1px solid #EF444430', borderRadius: 6, padding: '4px 10px', fontSize: 11, cursor: 'pointer' }}>حذف</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          </div>
-        </div>
-      )}
-
-      {/* ============ ATTENDANCE ============ */}
-      {activeTab === 'attendance' && (
-        <div>
-          <SectionHeader title="سجل الحضور والغياب" icon="✋" />
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: 'hidden' }}>
-            <div style={{overflowX:"auto"}}><table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
-                  {['الطالب', 'الفصل', 'التاريخ', 'الحالة', 'ملاحظات'].map(h => (
-                    <th key={h} style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12, fontWeight: 600, textAlign: 'right' }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {Array.isArray(filtered) && filtered.length === 0 ? (
-                  <tr><td colSpan={5} style={{ textAlign: 'center', padding: 40, color: 'rgba(238,238,245,0.3)', fontSize: 14 }}>لا توجد سجلات حضور</td></tr>
-                ) : Array.isArray(filtered) && filtered.slice(0, 50).map((a: any, i: number) => (
-                  <tr key={i} style={{ borderBottom: `1px solid ${BORDER}` }}>
-                    <td style={{ padding: '12px 16px', color: '#EEEEF5', fontSize: 13 }}>{a.student_name || a.name || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12 }}>{a.class_name || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.4)', fontSize: 12 }}>{a.date ? new Date(a.date).toLocaleDateString('ar-SA') : '—'}</td>
-                    <td style={{ padding: '12px 16px' }}><Badge status={a.status || 'present'} /></td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.4)', fontSize: 12 }}>{a.notes || '—'}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          </div>
-        </div>
-      )}
-
-      {/* ============ GRADES ============ */}
-      {activeTab === 'grades' && (
-        <div>
-          <SectionHeader title="الدرجات والنتائج" icon="📊" />
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: 'hidden' }}>
-            <div style={{overflowX:"auto"}}><table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
-                  {['الطالب', 'المادة', 'الاختبار', 'الدرجة', 'النسبة', 'التقدير'].map(h => (
-                    <th key={h} style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12, fontWeight: 600, textAlign: 'right' }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {Array.isArray(filtered) && filtered.length === 0 ? (
-                  <tr><td colSpan={6} style={{ textAlign: 'center', padding: 40, color: 'rgba(238,238,245,0.3)', fontSize: 14 }}>لا توجد درجات</td></tr>
-                ) : Array.isArray(filtered) && filtered.slice(0, 50).map((g: any, i: number) => (
-                  <tr key={i} style={{ borderBottom: `1px solid ${BORDER}` }}>
-                    <td style={{ padding: '12px 16px', color: '#EEEEF5', fontSize: 13 }}>{g.student_name || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12 }}>{g.subject || g.subject_name || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12 }}>{g.exam_title || g.exam_name || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: GOLD, fontSize: 14, fontWeight: 700 }}>{g.score ?? g.grade ?? '—'}</td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12 }}>{g.percentage ? `${g.percentage}%` : '—'}</td>
-                    <td style={{ padding: '12px 16px', color: '#10B981', fontSize: 12, fontWeight: 600 }}>{g.letter_grade || g.grade_letter || '—'}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          </div>
-        </div>
-      )}
-
-      {/* ============ HOMEWORK ============ */}
-      {activeTab === 'homework' && (
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <SectionHeader title="الواجبات المنزلية" icon="📌" />
-            <button onClick={() => setModal('add_homework')} style={{ background: `linear-gradient(135deg, ${GOLD} 0%, ${GOLD2} 100%)`, color: '#06060E', border: 'none', borderRadius: 10, padding: '8px 16px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-              + إضافة واجب
-            </button>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 14 }}>
-            {Array.isArray(filtered) && filtered.length === 0 ? (
-              <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: 40, color: 'rgba(238,238,245,0.3)', fontSize: 14 }}>لا توجد واجبات</div>
-            ) : Array.isArray(filtered) && filtered.map((hw: any, i: number) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 18 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
-                  <div style={{ color: '#EEEEF5', fontSize: 14, fontWeight: 700 }}>{hw.title || '—'}</div>
-                  <Badge status={hw.status || 'active'} />
-                </div>
-                <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12, marginBottom: 6 }}>المادة: {hw.subject || '—'}</div>
-                <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12, marginBottom: 6 }}>الفصل: {hw.class_name || '—'}</div>
-                <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12 }}>الموعد النهائي: {hw.due_date ? new Date(hw.due_date).toLocaleDateString('ar-SA') : '—'}</div>
-                <div style={{ marginTop: 12 }}>
-                  <button onClick={() => deleteItem('/api/homework', hw.id)} style={{ background: '#EF444415', color: '#EF4444', border: '1px solid #EF444430', borderRadius: 6, padding: '4px 10px', fontSize: 11, cursor: 'pointer' }}>حذف</button>
-                </div>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
+                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>آخر عمليات الاستقطاع</h3>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr>
+                      <th style={headStyle}>المؤسسة</th>
+                      <th style={headStyle}>نوع العملية</th>
+                      <th style={headStyle}>المبلغ الأصلي</th>
+                      <th style={headStyle}>الاستقطاع</th>
+                      <th style={headStyle}>الوقت</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      { inst: 'مدرسة النور', type: 'رسوم دراسية', amount: '2,400 ر.س', tax: '60 ر.س', time: '14:22' },
+                      { inst: 'أكاديمية المستقبل', type: 'مبيعات متجر', amount: '450 ر.س', tax: '13.5 ر.س', time: '13:15' },
+                      { inst: 'جامعة الإبداع', type: 'رسوم دراسية', amount: '8,500 ر.س', tax: '212.5 ر.س', time: '11:40' },
+                    ].map((r, i) => (
+                      <tr key={i}>
+                        <td style={cellStyle}>{r.inst}</td>
+                        <td style={cellStyle}>{r.type}</td>
+                        <td style={cellStyle}>{r.amount}</td>
+                        <td style={{ ...cellStyle, color: GOLD, fontWeight: 700 }}>{r.tax}</td>
+                        <td style={cellStyle}>{r.time}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            ))}
-          </div>
-        </div>
-      )}
+            </div>
+          )}
 
-      {/* ============ ANNOUNCEMENTS ============ */}
-      {activeTab === 'announcements' && (
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <SectionHeader title="الإعلانات" icon="📢" />
-            <button onClick={() => setModal('add_announcement')} style={{ background: `linear-gradient(135deg, ${GOLD} 0%, ${GOLD2} 100%)`, color: '#06060E', border: 'none', borderRadius: 10, padding: '8px 16px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-              + إعلان جديد
-            </button>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {Array.isArray(filtered) && filtered.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: 40, color: 'rgba(238,238,245,0.3)', fontSize: 14 }}>لا توجد إعلانات</div>
-            ) : Array.isArray(filtered) && filtered.map((ann: any, i: number) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 18 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
-                  <div style={{ color: '#EEEEF5', fontSize: 14, fontWeight: 700 }}>{ann.title || '—'}</div>
-                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                    <Badge status={ann.status || 'active'} />
-                    <button onClick={() => deleteItem('/api/announcements', ann.id)} style={{ background: '#EF444415', color: '#EF4444', border: '1px solid #EF444430', borderRadius: 6, padding: '4px 10px', fontSize: 11, cursor: 'pointer' }}>حذف</button>
+          {/* ===== الاشتراكات والباقات ===== */}
+          {activeTab === 'subscriptions' && (
+            <div>
+              <SectionTitle title="الاشتراكات والباقات" icon="📦" desc="إنشاء وتعديل الباقات والحدود والأسعار — مالك المنصة يمتلك حق إنشاء باقات مخصصة بأي سعر وأي صلاحيات" />
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20, marginBottom: 28 }}>
+                {[
+                  { name: 'مجانية', price: '0', limit: '50 طالب', features: 'حضور، درجات، رسائل، جداول', color: '#6B7280', count: 0 },
+                  { name: 'أساسية', price: '299 ر.س/شهر', limit: '200 طالب', features: '+ اختبارات، تقارير، مكتبة', color: BLUE, count: 18 },
+                  { name: 'احترافية', price: '699 ر.س/شهر', limit: '1000 طالب', features: '+ متجر، AI، تصدير، Matin Coin', color: GOLD, count: 22 },
+                  { name: 'مؤسسية', price: 'تفاوض', limit: 'غير محدود', features: '+ نقل، مقصف، صحة، GPS، API', color: PURPLE, count: 5 },
+                  { name: 'ذهبية', price: 'تفاوض', limit: 'غير محدود', features: 'كل المميزات + إخفاء إعلانات متين', color: '#F59E0B', count: 2 },
+                ].map((plan, i) => (
+                  <div key={i} style={{ background: `${plan.color}06`, border: `1px solid ${plan.color}20`, borderRadius: 16, padding: 20 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: plan.color, fontSize: 16, fontWeight: 800 }}>{plan.name}</div>
+                        <div style={{ color: '#EEEEF5', fontSize: 18, fontWeight: 700, marginTop: 4 }}>{plan.price}</div>
+                      </div>
+                      <Badge label={`${plan.count} مؤسسة`} color={plan.color} />
+                    </div>
+                    <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12, marginBottom: 8 }}>الحد: {plan.limit}</div>
+                    <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12, marginBottom: 16 }}>{plan.features}</div>
+                    <div style={{ display: 'flex', gap: 8 }}>
+                      <ActionBtn label="تعديل" color={plan.color} onClick={() => alert(`تعديل باقة ${plan.name}`)} />
+                      <ActionBtn label="حذف" color={RED} onClick={() => alert(`حذف باقة ${plan.name}`)} />
+                    </div>
                   </div>
-                </div>
-                <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 13, lineHeight: 1.6 }}>{ann.content || ann.body || '—'}</div>
-                <div style={{ color: 'rgba(238,238,245,0.3)', fontSize: 11, marginTop: 8 }}>{ann.created_at ? new Date(ann.created_at).toLocaleDateString('ar-SA') : '—'}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* ============ FINANCE ============ */}
-      {activeTab === 'finance' && (
-        <div>
-          <SectionHeader title="الإدارة المالية" icon="💰" />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 14, marginBottom: 20 }}>
-            <StatCard title="إجمالي الرسوم" value="—" icon="💵" color={GOLD} />
-            <StatCard title="المدفوعات" value="—" icon="✅" color="#10B981" />
-            <StatCard title="المتأخرات" value="—" icon="⚠️" color="#EF4444" />
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: 'hidden' }}>
-            <div style={{overflowX:"auto"}}><table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
-                  {['الطالب', 'نوع الرسوم', 'المبلغ', 'الحالة', 'تاريخ الاستحقاق'].map(h => (
-                    <th key={h} style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12, fontWeight: 600, textAlign: 'right' }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {Array.isArray(filtered) && filtered.length === 0 ? (
-                  <tr><td colSpan={5} style={{ textAlign: 'center', padding: 40, color: 'rgba(238,238,245,0.3)', fontSize: 14 }}>لا توجد سجلات مالية</td></tr>
-                ) : Array.isArray(filtered) && filtered.slice(0, 50).map((f: any, i: number) => (
-                  <tr key={i} style={{ borderBottom: `1px solid ${BORDER}` }}>
-                    <td style={{ padding: '12px 16px', color: '#EEEEF5', fontSize: 13 }}>{f.student_name || f.name || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12 }}>{f.fee_type || f.type || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: GOLD, fontSize: 13, fontWeight: 700 }}>{f.amount ? `${Number(f.amount).toLocaleString('ar-SA')} ر.س` : '—'}</td>
-                    <td style={{ padding: '12px 16px' }}><Badge status={f.status || 'pending'} /></td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.4)', fontSize: 12 }}>{f.due_date ? new Date(f.due_date).toLocaleDateString('ar-SA') : '—'}</td>
-                  </tr>
                 ))}
-              </tbody>
-            </table>
-          </div>
-          </div>
-        </div>
-      )}
-
-      {/* ============ PAYROLL ============ */}
-      {activeTab === 'payroll' && (
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <SectionHeader title="إدارة الرواتب" icon="💵" />
-            <button onClick={() => setModal('add_payroll')} style={{ background: `linear-gradient(135deg, ${GOLD} 0%, ${GOLD2} 100%)`, color: '#06060E', border: 'none', borderRadius: 10, padding: '8px 16px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-              + إضافة راتب
-            </button>
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: 'hidden' }}>
-            <div style={{overflowX:"auto"}}><table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
-                  {['الموظف', 'الدور', 'الراتب الأساسي', 'البدلات', 'الخصومات', 'الصافي', 'الشهر', 'الحالة', 'إجراءات'].map(h => (
-                    <th key={h} style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 11, fontWeight: 600, textAlign: 'right' }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {Array.isArray(filtered) && filtered.length === 0 ? (
-                  <tr><td colSpan={9} style={{ textAlign: 'center', padding: 40, color: 'rgba(238,238,245,0.3)', fontSize: 14 }}>لا توجد سجلات رواتب</td></tr>
-                ) : Array.isArray(filtered) && filtered.slice(0, 50).map((p: any, i: number) => (
-                  <tr key={i} style={{ borderBottom: `1px solid ${BORDER}` }}>
-                    <td style={{ padding: '10px 14px', color: '#EEEEF5', fontSize: 13 }}>{p.employee_name || p.employee_name_full || '—'}</td>
-                    <td style={{ padding: '10px 14px', color: 'rgba(238,238,245,0.5)', fontSize: 12 }}>{p.role || p.employee_role || '—'}</td>
-                    <td style={{ padding: '10px 14px', color: GOLD, fontSize: 12 }}>{p.basic_salary ? `${Number(p.basic_salary).toLocaleString()} ر.س` : '—'}</td>
-                    <td style={{ padding: '10px 14px', color: '#10B981', fontSize: 12 }}>{p.allowances ? `${Number(p.allowances).toLocaleString()} ر.س` : '—'}</td>
-                    <td style={{ padding: '10px 14px', color: '#EF4444', fontSize: 12 }}>{p.deductions ? `${Number(p.deductions).toLocaleString()} ر.س` : '—'}</td>
-                    <td style={{ padding: '10px 14px', color: GOLD2, fontSize: 13, fontWeight: 700 }}>{p.net_salary ? `${Number(p.net_salary).toLocaleString()} ر.س` : '—'}</td>
-                    <td style={{ padding: '10px 14px', color: 'rgba(238,238,245,0.4)', fontSize: 12 }}>{p.month && p.year ? `${p.month}/${p.year}` : '—'}</td>
-                    <td style={{ padding: '10px 14px' }}><Badge status={p.status || 'pending'} /></td>
-                    <td style={{ padding: '10px 14px' }}>
-                      <button onClick={() => deleteItem('/api/payroll', p.id)} style={{ background: '#EF444415', color: '#EF4444', border: '1px solid #EF444430', borderRadius: 6, padding: '4px 8px', fontSize: 11, cursor: 'pointer' }}>حذف</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          </div>
-        </div>
-      )}
-
-      {/* ============ SCHEDULES ============ */}
-      {activeTab === 'schedules' && (
-        <div>
-          <SectionHeader title="الجداول الدراسية" icon="🗓" />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 14 }}>
-            {Array.isArray(filtered) && filtered.length === 0 ? (
-              <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: 40, color: 'rgba(238,238,245,0.3)', fontSize: 14 }}>لا توجد جداول</div>
-            ) : Array.isArray(filtered) && filtered.map((s: any, i: number) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 18 }}>
-                <div style={{ color: '#EEEEF5', fontSize: 14, fontWeight: 700, marginBottom: 8 }}>{s.subject || s.title || `جدول ${i + 1}`}</div>
-                <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12, marginBottom: 4 }}>الفصل: {s.class_name || '—'}</div>
-                <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12, marginBottom: 4 }}>اليوم: {s.day || '—'}</div>
-                <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12 }}>الوقت: {s.start_time || '—'} - {s.end_time || '—'}</div>
               </div>
-            ))}
-          </div>
-        </div>
-      )}
 
-      {/* ============ SUBJECTS ============ */}
-      {activeTab === 'subjects' && (
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <SectionHeader title="المواد الدراسية" icon="📚" />
-            <button onClick={() => setModal('add_subject')} style={{ background: `linear-gradient(135deg, ${GOLD} 0%, ${GOLD2} 100%)`, color: '#06060E', border: 'none', borderRadius: 10, padding: '8px 16px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-              + إضافة مادة
-            </button>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 14 }}>
-            {Array.isArray(filtered) && filtered.length === 0 ? (
-              <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: 40, color: 'rgba(238,238,245,0.3)', fontSize: 14 }}>لا توجد مواد</div>
-            ) : Array.isArray(filtered) && filtered.map((sub: any, i: number) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 18, textAlign: 'center' }}>
-                <div style={{ fontSize: 28, marginBottom: 8 }}>📚</div>
-                <div style={{ color: '#EEEEF5', fontSize: 14, fontWeight: 700, marginBottom: 4 }}>{sub.name || sub.subject_name || '—'}</div>
-                <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12 }}>{sub.grade || sub.level || '—'}</div>
-                <button onClick={() => deleteItem('/api/subjects', sub.id)} style={{ marginTop: 10, background: '#EF444415', color: '#EF4444', border: '1px solid #EF444430', borderRadius: 6, padding: '4px 10px', fontSize: 11, cursor: 'pointer' }}>حذف</button>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* ============ PARENTS ============ */}
-      {activeTab === 'parents' && (
-        <div>
-          <SectionHeader title="أولياء الأمور" icon="👨‍👩‍👧" />
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: 'hidden' }}>
-            <div style={{overflowX:"auto"}}><table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
-                  {['الاسم', 'البريد', 'الهاتف', 'الأبناء', 'الحالة'].map(h => (
-                    <th key={h} style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12, fontWeight: 600, textAlign: 'right' }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {Array.isArray(filtered) && filtered.length === 0 ? (
-                  <tr><td colSpan={5} style={{ textAlign: 'center', padding: 40, color: 'rgba(238,238,245,0.3)', fontSize: 14 }}>لا يوجد أولياء أمور</td></tr>
-                ) : Array.isArray(filtered) && filtered.slice(0, 50).map((p: any, i: number) => (
-                  <tr key={i} style={{ borderBottom: `1px solid ${BORDER}` }}>
-                    <td style={{ padding: '12px 16px', color: '#EEEEF5', fontSize: 13 }}>{p.name || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12 }}>{p.email || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12 }}>{p.phone || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12 }}>{p.children_count || p.students_count || '—'}</td>
-                    <td style={{ padding: '12px 16px' }}><Badge status={p.status || 'active'} /></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          </div>
-        </div>
-      )}
-
-      {/* ============ JOIN REQUESTS ============ */}
-      {activeTab === 'join_requests' && (
-        <div>
-          <SectionHeader title="طلبات الانضمام" icon="📋" />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {Array.isArray(filtered) && filtered.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: 40, color: 'rgba(238,238,245,0.3)', fontSize: 14 }}>لا توجد طلبات انضمام</div>
-            ) : Array.isArray(filtered) && filtered.map((req: any, i: number) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 18 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 10 }}>
+              {/* إنشاء باقة جديدة */}
+              <div style={{ background: CARD, border: `1px solid ${GOLD}20`, borderRadius: 16, padding: 24 }}>
+                <h3 style={{ color: GOLD, fontSize: 15, fontWeight: 700, marginBottom: 16 }}>إنشاء باقة مخصصة جديدة</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16, marginBottom: 16 }}>
                   <div>
-                    <div style={{ color: '#EEEEF5', fontSize: 14, fontWeight: 700, marginBottom: 4 }}>{req.name || req.student_name || '—'}</div>
-                    <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12 }}>البريد: {req.email || '—'}</div>
-                    <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12, marginTop: 2 }}>الصف المطلوب: {req.requested_grade || req.grade || '—'}</div>
+                    <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>اسم الباقة</label>
+                    <input value={planName} onChange={e => setPlanName(e.target.value)} placeholder="مثال: ذهبية خاصة" style={inputStyle} />
                   </div>
-                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                    <Badge status={req.status || 'pending'} />
-                    {req.status === 'pending' && (
-                      <>
-                        <button onClick={async () => {
-                          const token = localStorage.getItem('matin_token');
-                          await fetch(`/api/join-requests?id=${req.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}) }, body: JSON.stringify({ status: 'approved' }) });
-                          setData((prev: any) => ({ ...prev, join_requests: undefined }));
-                          setTimeout(() => loadTab('join_requests'), 300);
-                        }} style={{ background: '#10B98115', color: '#10B981', border: '1px solid #10B98130', borderRadius: 6, padding: '4px 10px', fontSize: 11, cursor: 'pointer' }}>قبول</button>
-                        <button onClick={async () => {
-                          const token = localStorage.getItem('matin_token');
-                          await fetch(`/api/join-requests?id=${req.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}) }, body: JSON.stringify({ status: 'rejected' }) });
-                          setData((prev: any) => ({ ...prev, join_requests: undefined }));
-                          setTimeout(() => loadTab('join_requests'), 300);
-                        }} style={{ background: '#EF444415', color: '#EF4444', border: '1px solid #EF444430', borderRadius: 6, padding: '4px 10px', fontSize: 11, cursor: 'pointer' }}>رفض</button>
-                      </>
-                    )}
+                  <div>
+                    <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>السعر الشهري (ر.س)</label>
+                    <input value={planPrice} onChange={e => setPlanPrice(e.target.value)} placeholder="مثال: 1500" style={inputStyle} />
+                  </div>
+                  <div>
+                    <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>حد الطلاب</label>
+                    <input value={planLimit} onChange={e => setPlanLimit(e.target.value)} placeholder="مثال: 2000" style={inputStyle} />
                   </div>
                 </div>
+                <button onClick={() => { alert(`تم إنشاء باقة: ${planName}`); setPlanName(''); setPlanPrice(''); setPlanLimit(''); }} style={{ background: `${GOLD}15`, color: GOLD, border: `1px solid ${GOLD}30`, borderRadius: 10, padding: '10px 24px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+                  ✨ إنشاء الباقة
+                </button>
               </div>
-            ))}
-          </div>
-        </div>
-      )}
+            </div>
+          )}
 
-      {/* ============ LIBRARY ============ */}
-      {activeTab === 'library' && (
-        <div>
-          <SectionHeader title="المكتبة الرقمية" icon="📖" />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 14 }}>
-            {Array.isArray(filtered) && filtered.length === 0 ? (
-              <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: 40, color: 'rgba(238,238,245,0.3)', fontSize: 14 }}>لا توجد كتب أو مواد</div>
-            ) : Array.isArray(filtered) && filtered.map((book: any, i: number) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 18 }}>
-                <div style={{ fontSize: 28, marginBottom: 8 }}>📖</div>
-                <div style={{ color: '#EEEEF5', fontSize: 14, fontWeight: 700, marginBottom: 4 }}>{book.title || book.name || '—'}</div>
-                <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12 }}>المؤلف: {book.author || '—'}</div>
-                <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12, marginTop: 4 }}>النوع: {book.type || book.category || '—'}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* ============ REPORTS ============ */}
-      {activeTab === 'reports' && (
-        <div>
-          <SectionHeader title="التقارير والإحصائيات" icon="📈" />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 14, marginBottom: 20 }}>
-            <StatCard title="الطلاب الكلي" value={stats.students || 0} icon="👨‍🎓" color="#3B82F6" />
-            <StatCard title="المعلمون" value={stats.teachers || 0} icon="👩‍🏫" color="#8B5CF6" />
-            <StatCard title="الفصول" value={stats.classes || 0} icon="🏛" color="#10B981" />
-            <StatCard title="الاختبارات" value={stats.active_exams || 0} icon="📝" color="#EF4444" />
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: 'hidden' }}>
-            <div style={{overflowX:"auto"}}><table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
-                  {['التقرير', 'النوع', 'التاريخ', 'الحالة'].map(h => (
-                    <th key={h} style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12, fontWeight: 600, textAlign: 'right' }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {Array.isArray(filtered) && filtered.length === 0 ? (
-                  <tr><td colSpan={4} style={{ textAlign: 'center', padding: 40, color: 'rgba(238,238,245,0.3)', fontSize: 14 }}>لا توجد تقارير</td></tr>
-                ) : Array.isArray(filtered) && filtered.slice(0, 50).map((r: any, i: number) => (
-                  <tr key={i} style={{ borderBottom: `1px solid ${BORDER}` }}>
-                    <td style={{ padding: '12px 16px', color: '#EEEEF5', fontSize: 13 }}>{r.title || r.name || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.5)', fontSize: 12 }}>{r.type || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: 'rgba(238,238,245,0.4)', fontSize: 12 }}>{r.created_at ? new Date(r.created_at).toLocaleDateString('ar-SA') : '—'}</td>
-                    <td style={{ padding: '12px 16px' }}><Badge status={r.status || 'active'} /></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          </div>
-        </div>
-      )}
-
-      {/* ============ SETTINGS ============ */}
-      {activeTab === 'settings' && (
-        <div>
-          <SectionHeader title="إعدادات المؤسسة" icon="⚙️" />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {Array.isArray(filtered) && filtered.map((setting: any, i: number) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 18, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          {/* ===== الإعلانات السيادية ===== */}
+          {activeTab === 'ads' && (
+            <div>
+              <SectionTitle title="الإعلانات السيادية" icon="📣" desc="إعلانات متين الرسمية تظهر إجبارياً في جميع لوحات التحكم — الباقات الذهبية تملك حق شراء إخفاء الإعلانات" />
+              <div style={{ background: `${GOLD}08`, border: `1px solid ${GOLD}20`, borderRadius: 12, padding: 16, marginBottom: 24, display: 'flex', alignItems: 'center', gap: 12 }}>
+                <span style={{ fontSize: 20 }}>⚡</span>
                 <div>
-                  <div style={{ color: '#EEEEF5', fontSize: 13, fontWeight: 600 }}>{setting.key || '—'}</div>
-                  <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12, marginTop: 4 }}>{setting.description || '—'}</div>
+                  <div style={{ color: GOLD, fontSize: 13, fontWeight: 700 }}>الإعلان الحالي النشط</div>
+                  <div style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, marginTop: 2 }}>هذا الإعلان يظهر إجبارياً على جميع لوحات تحكم المؤسسات</div>
                 </div>
-                <div style={{ color: GOLD, fontSize: 13, fontWeight: 600 }}>{String(setting.value || '—')}</div>
               </div>
-            ))}
-          </div>
+
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24, marginBottom: 24 }}>
+                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>إنشاء إعلان سيادي جديد</h3>
+                <div style={{ display: 'grid', gap: 16, marginBottom: 16 }}>
+                  <div>
+                    <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>عنوان الإعلان</label>
+                    <input value={adTitle} onChange={e => setAdTitle(e.target.value)} placeholder="مثال: تحديث جديد في منصة متين" style={inputStyle} />
+                  </div>
+                  <div>
+                    <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>نص الإعلان</label>
+                    <textarea value={adBody} onChange={e => setAdBody(e.target.value)} placeholder="نص الإعلان الذي سيظهر لجميع المؤسسات..." style={{ ...inputStyle, minHeight: 80, resize: 'vertical' }} />
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                    <div>
+                      <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>تاريخ البدء</label>
+                      <input type="date" style={inputStyle} />
+                    </div>
+                    <div>
+                      <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>تاريخ الانتهاء</label>
+                      <input type="date" style={inputStyle} />
+                    </div>
+                  </div>
+                </div>
+                <button onClick={() => alert('تم نشر الإعلان السيادي')} style={{ background: `${GOLD}15`, color: GOLD, border: `1px solid ${GOLD}30`, borderRadius: 10, padding: '10px 24px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+                  📣 نشر الإعلان السيادي
+                </button>
+              </div>
+
+              {/* إدارة عقود الإعلانات */}
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
+                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>عقود إخفاء الإعلانات (الباقة الذهبية)</h3>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr>
+                      <th style={headStyle}>المؤسسة</th>
+                      <th style={headStyle}>تاريخ البدء</th>
+                      <th style={headStyle}>تاريخ الانتهاء</th>
+                      <th style={headStyle}>المبلغ</th>
+                      <th style={headStyle}>الحالة</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      { inst: 'جامعة الإبداع', start: '2026-01-01', end: '2026-12-31', amount: '5,000 ر.س', status: 'active' },
+                    ].map((r, i) => (
+                      <tr key={i}>
+                        <td style={cellStyle}>{r.inst}</td>
+                        <td style={cellStyle}>{r.start}</td>
+                        <td style={cellStyle}>{r.end}</td>
+                        <td style={{ ...cellStyle, color: GOLD, fontWeight: 700 }}>{r.amount}</td>
+                        <td style={cellStyle}><Badge label="نشط" color={GREEN} /></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* ===== الكوبونات ===== */}
+          {activeTab === 'coupons' && (
+            <div>
+              <SectionTitle title="الكوبونات" icon="🎟" desc="إنشاء كودات خصم للمؤسسات — تحديد الاستخدام والمدة والنوع" />
+              <div style={{ background: CARD, border: `1px solid ${GOLD}20`, borderRadius: 16, padding: 24, marginBottom: 24 }}>
+                <h3 style={{ color: GOLD, fontSize: 15, fontWeight: 700, marginBottom: 16 }}>إنشاء كوبون جديد</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16, marginBottom: 16 }}>
+                  <div>
+                    <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>كود الخصم</label>
+                    <input value={newCoupon.code} onChange={e => setNewCoupon({ ...newCoupon, code: e.target.value })} placeholder="مثال: MATIN20" style={inputStyle} />
+                  </div>
+                  <div>
+                    <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>قيمة الخصم</label>
+                    <input value={newCoupon.discount} onChange={e => setNewCoupon({ ...newCoupon, discount: e.target.value })} placeholder="20 أو 50" style={inputStyle} />
+                  </div>
+                  <div>
+                    <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>نوع الخصم</label>
+                    <select value={newCoupon.type} onChange={e => setNewCoupon({ ...newCoupon, type: e.target.value })} style={{ ...inputStyle }}>
+                      <option>نسبة (%)</option>
+                      <option>مبلغ (ر.س)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>الحد الأقصى للاستخدام</label>
+                    <input value={newCoupon.max} onChange={e => setNewCoupon({ ...newCoupon, max: e.target.value })} placeholder="100" style={inputStyle} />
+                  </div>
+                  <div>
+                    <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>تاريخ الانتهاء</label>
+                    <input type="date" value={newCoupon.expires} onChange={e => setNewCoupon({ ...newCoupon, expires: e.target.value })} style={inputStyle} />
+                  </div>
+                </div>
+                <button onClick={() => { alert(`تم إنشاء الكوبون: ${newCoupon.code}`); setNewCoupon({ code: '', discount: '', type: 'نسبة', max: '', expires: '' }); }} style={{ background: `${GOLD}15`, color: GOLD, border: `1px solid ${GOLD}30`, borderRadius: 10, padding: '10px 24px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+                  🎟 إنشاء الكوبون
+                </button>
+              </div>
+
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
+                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>الكوبونات الحالية</h3>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr>
+                      <th style={headStyle}>الكود</th>
+                      <th style={headStyle}>الخصم</th>
+                      <th style={headStyle}>الاستخدام</th>
+                      <th style={headStyle}>الانتهاء</th>
+                      <th style={headStyle}>الحالة</th>
+                      <th style={headStyle}>إجراء</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {MOCK_COUPONS.map(c => (
+                      <tr key={c.id}>
+                        <td style={{ ...cellStyle, color: GOLD, fontWeight: 700, fontFamily: 'monospace' }}>{c.code}</td>
+                        <td style={cellStyle}>{c.discount}</td>
+                        <td style={cellStyle}>{c.uses} / {c.max}</td>
+                        <td style={cellStyle}>{c.expires}</td>
+                        <td style={cellStyle}><Badge label={c.status === 'active' ? 'نشط' : 'منتهي'} color={c.status === 'active' ? GREEN : RED} /></td>
+                        <td style={cellStyle}><ActionBtn label="إلغاء" color={RED} onClick={() => alert(`إلغاء ${c.code}`)} /></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* ===== المتجر والعمولات ===== */}
+          {activeTab === 'store' && (
+            <div>
+              <SectionTitle title="المتجر والعمولات" icon="🛒" desc="الإشراف على متاجر المؤسسات وعمولات المبيعات — كل شيء يمر عبر متين = عمولة تلقائية لمالك المنصة" />
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 28 }}>
+                <StatCard title="متاجر نشطة" value="23" sub="من أصل 47 مؤسسة" color={GOLD} icon="🏪" />
+                <StatCard title="عمولات هذا الشهر" value="8,340 ر.س" sub="متوسط 3% من المبيعات" color={GREEN} icon="💸" />
+                <StatCard title="إجمالي المبيعات" value="278,000 ر.س" sub="عبر جميع المتاجر" color={BLUE} icon="📊" />
+              </div>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
+                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>أعلى المتاجر مبيعاً</h3>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr>
+                      <th style={headStyle}>المؤسسة</th>
+                      <th style={headStyle}>المبيعات</th>
+                      <th style={headStyle}>العمولة (3%)</th>
+                      <th style={headStyle}>المنتجات</th>
+                      <th style={headStyle}>الحالة</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      { inst: 'مدرسة النور', sales: '45,200 ر.س', commission: '1,356 ر.س', products: 34, status: 'active' },
+                      { inst: 'جامعة الإبداع', sales: '128,500 ر.س', commission: '3,855 ر.س', products: 87, status: 'active' },
+                      { inst: 'أكاديمية المستقبل', sales: '23,400 ر.س', commission: '702 ر.س', products: 18, status: 'active' },
+                    ].map((r, i) => (
+                      <tr key={i}>
+                        <td style={cellStyle}>{r.inst}</td>
+                        <td style={cellStyle}>{r.sales}</td>
+                        <td style={{ ...cellStyle, color: GOLD, fontWeight: 700 }}>{r.commission}</td>
+                        <td style={cellStyle}>{r.products} منتج</td>
+                        <td style={cellStyle}><Badge label="نشط" color={GREEN} /></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* ===== الإشعارات الجماعية ===== */}
+          {activeTab === 'notifications' && (
+            <div>
+              <SectionTitle title="الإشعارات الجماعية" icon="🔔" desc="إرسال إشعارات جماعية لجميع المستخدمين أو فئة محددة" />
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24, marginBottom: 24 }}>
+                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>إرسال إشعار جماعي</h3>
+                <div style={{ display: 'grid', gap: 16, marginBottom: 16 }}>
+                  <div>
+                    <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>المستهدفون</label>
+                    <select value={notifTarget} onChange={e => setNotifTarget(e.target.value)} style={inputStyle}>
+                      <option value="all">جميع المستخدمين (18,432)</option>
+                      <option value="owners">مالكو المؤسسات فقط (47)</option>
+                      <option value="teachers">المعلمون فقط</option>
+                      <option value="students">الطلاب فقط</option>
+                      <option value="parents">أولياء الأمور فقط</option>
+                      <option value="basic">مشتركو الباقة الأساسية</option>
+                      <option value="pro">مشتركو الباقة الاحترافية</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>نص الإشعار</label>
+                    <textarea value={notifMsg} onChange={e => setNotifMsg(e.target.value)} placeholder="اكتب نص الإشعار هنا..." style={{ ...inputStyle, minHeight: 80, resize: 'vertical' }} />
+                  </div>
+                  <div style={{ display: 'flex', gap: 12 }}>
+                    <button onClick={() => alert(`تم إرسال الإشعار لـ: ${notifTarget}`)} style={{ background: `${GOLD}15`, color: GOLD, border: `1px solid ${GOLD}30`, borderRadius: 10, padding: '10px 24px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+                      🔔 إرسال الإشعار
+                    </button>
+                    <button style={{ background: `${BLUE}15`, color: BLUE, border: `1px solid ${BLUE}30`, borderRadius: 10, padding: '10px 24px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+                      📱 Push Notification
+                    </button>
+                    <button style={{ background: `${GREEN}15`, color: GREEN, border: `1px solid ${GREEN}30`, borderRadius: 10, padding: '10px 24px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+                      💬 واتساب
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ===== AI Auditor ===== */}
+          {activeTab === 'ai_auditor' && (
+            <div>
+              <SectionTitle title="AI Auditor — المفتش الرقمي الآلي" icon="🤖" desc="ذكاء اصطناعي يراقب السجلات والدرجات والحضور عشوائياً — كشف أي تلاعب أو أنماط مشبوهة في أي مؤسسة" />
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 28 }}>
+                <StatCard title="تنبيهات نشطة" value="3" sub="تحتاج تدخلاً فورياً" color={RED} icon="🚨" />
+                <StatCard title="فحوصات هذا الأسبوع" value="1,247" sub="عشوائية تلقائية" color={BLUE} icon="🔍" />
+                <StatCard title="حالات محلولة" value="28" sub="هذا الشهر" color={GREEN} icon="✅" />
+              </div>
+              <div style={{ display: 'grid', gap: 16 }}>
+                {MOCK_AI_ALERTS.map(alert => (
+                  <div key={alert.id} style={{ background: alert.severity === 'high' ? `${RED}06` : `${GOLD}06`, border: `1px solid ${alert.severity === 'high' ? RED : GOLD}20`, borderRadius: 16, padding: 20 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
+                      <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                          <Badge label={alert.severity === 'high' ? 'خطر عالي' : 'تحذير'} color={alert.severity === 'high' ? RED : '#F59E0B'} />
+                          <span style={{ color: '#EEEEF5', fontSize: 14, fontWeight: 700 }}>{alert.type}</span>
+                        </div>
+                        <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12, marginBottom: 4 }}>المؤسسة: {alert.institution}</div>
+                        <div style={{ color: 'rgba(238,238,245,0.7)', fontSize: 13 }}>{alert.desc}</div>
+                      </div>
+                      <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 11 }}>{alert.time}</div>
+                    </div>
+                    <div style={{ display: 'flex', gap: 8 }}>
+                      <ActionBtn label="تحقيق فوري" color={RED} onClick={() => alert('بدء التحقيق')} />
+                      <ActionBtn label="تجميد المؤسسة" color={GOLD} onClick={() => alert('تجميد المؤسسة')} />
+                      <ActionBtn label="تجاهل" color="#6B7280" onClick={() => alert('تم التجاهل')} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ===== سجل الأمان ===== */}
+          {activeTab === 'audit_log' && (
+            <div>
+              <SectionTitle title="سجل الأمان — Audit Log" icon="🔐" desc="غير قابل للحذف — كل حركة في النظام موثقة بالتفصيل" />
+              <div style={{ background: `${RED}06`, border: `1px solid ${RED}15`, borderRadius: 12, padding: 14, marginBottom: 24, display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ fontSize: 18 }}>🔒</span>
+                <span style={{ color: 'rgba(238,238,245,0.7)', fontSize: 13 }}>هذا السجل محمي ومشفر — لا يمكن لأي مستخدم حذف أو تعديل أي سجل حتى مالك المنصة</span>
+              </div>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
+                <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
+                  <input placeholder="بحث في السجل..." style={{ ...inputStyle, maxWidth: 300 }} />
+                  <select style={{ ...inputStyle, maxWidth: 150 }}>
+                    <option>جميع المستويات</option>
+                    <option>خطر عالي</option>
+                    <option>متوسط</option>
+                    <option>منخفض</option>
+                  </select>
+                  <button style={{ background: `${BLUE}15`, color: BLUE, border: `1px solid ${BLUE}30`, borderRadius: 8, padding: '8px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
+                    📥 تصدير
+                  </button>
+                </div>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr>
+                      <th style={headStyle}>الوقت</th>
+                      <th style={headStyle}>المستخدم</th>
+                      <th style={headStyle}>الإجراء</th>
+                      <th style={headStyle}>الهدف</th>
+                      <th style={headStyle}>IP</th>
+                      <th style={headStyle}>المستوى</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {MOCK_AUDIT.map(log => (
+                      <tr key={log.id}>
+                        <td style={{ ...cellStyle, fontFamily: 'monospace', fontSize: 12 }}>{log.time}</td>
+                        <td style={cellStyle}>{log.user}</td>
+                        <td style={cellStyle}>{log.action}</td>
+                        <td style={cellStyle}>{log.target}</td>
+                        <td style={{ ...cellStyle, fontFamily: 'monospace', fontSize: 11 }}>{log.ip}</td>
+                        <td style={cellStyle}>
+                          <Badge
+                            label={log.severity === 'high' ? 'عالي' : log.severity === 'medium' ? 'متوسط' : log.severity === 'low' ? 'منخفض' : 'معلومات'}
+                            color={log.severity === 'high' ? RED : log.severity === 'medium' ? '#F59E0B' : log.severity === 'low' ? GREEN : BLUE}
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* ===== التكاملات ===== */}
+          {activeTab === 'integrations' && (
+            <div>
+              <SectionTitle title="التكاملات" icon="🔗" desc="ربط APIs: دفع، شحن، رسائل، جهات حكومية — إدارة التكاملات مع الجهات الحكومية والشركات" />
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
+                {[
+                  { name: 'نفاذ', desc: 'التحقق من الهوية الوطنية', status: 'active', type: 'حكومي', color: GREEN },
+                  { name: 'نور', desc: 'ربط بيانات وزارة التعليم', status: 'active', type: 'حكومي', color: GREEN },
+                  { name: 'صحتي', desc: 'التحقق من الأعذار الطبية', status: 'active', type: 'حكومي', color: GREEN },
+                  { name: 'Moyasar', desc: 'بوابة الدفع الإلكتروني', status: 'active', type: 'مالي', color: GOLD },
+                  { name: 'Tabby', desc: 'التقسيط بدون فوائد', status: 'active', type: 'مالي', color: GOLD },
+                  { name: 'STC Pay', desc: 'محفظة STC للدفع', status: 'active', type: 'مالي', color: GOLD },
+                  { name: 'واتساب Business', desc: 'إشعارات واتساب', status: 'active', type: 'تواصل', color: BLUE },
+                  { name: 'SMS Gateway', desc: 'رسائل SMS', status: 'active', type: 'تواصل', color: BLUE },
+                  { name: 'Firebase', desc: 'Push Notifications', status: 'active', type: 'تقني', color: PURPLE },
+                  { name: 'Google Maps', desc: 'تتبع GPS للنقل', status: 'active', type: 'تقني', color: PURPLE },
+                ].map((integ, i) => (
+                  <div key={i} style={{ background: `${integ.color}06`, border: `1px solid ${integ.color}20`, borderRadius: 14, padding: 18 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+                      <div style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700 }}>{integ.name}</div>
+                      <Badge label={integ.status === 'active' ? 'متصل' : 'غير متصل'} color={integ.status === 'active' ? GREEN : RED} />
+                    </div>
+                    <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12, marginBottom: 8 }}>{integ.desc}</div>
+                    <Badge label={integ.type} color={integ.color} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ===== المكتبة الرقمية ===== */}
+          {activeTab === 'library' && (
+            <div>
+              <SectionTitle title="المكتبة الرقمية" icon="📚" desc="عقود مزودي المحتوى والشراكات — إدارة المحتوى الرقمي المتاح لجميع المؤسسات" />
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 28 }}>
+                <StatCard title="الكتب الرقمية" value="12,450" sub="متاحة لجميع المؤسسات" color={GOLD} icon="📖" />
+                <StatCard title="مزودو المحتوى" value="8" sub="شركاء نشر معتمدون" color={BLUE} icon="🤝" />
+                <StatCard title="تحميلات هذا الشهر" value="34,200" sub="عبر جميع المؤسسات" color={GREEN} icon="⬇️" />
+              </div>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
+                <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>عقود مزودي المحتوى</h3>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr>
+                      <th style={headStyle}>المزود</th>
+                      <th style={headStyle}>نوع المحتوى</th>
+                      <th style={headStyle}>عدد الكتب</th>
+                      <th style={headStyle}>انتهاء العقد</th>
+                      <th style={headStyle}>الحالة</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      { provider: 'دار المعرفة', type: 'كتب مدرسية', books: 3400, expires: '2026-12-31', status: 'active' },
+                      { provider: 'مكتبة الرياض', type: 'كتب عامة', books: 5200, expires: '2026-06-30', status: 'active' },
+                      { provider: 'Springer', type: 'أبحاث علمية', books: 2800, expires: '2027-01-01', status: 'active' },
+                      { provider: 'دار الفكر', type: 'كتب إسلامية', books: 1050, expires: '2026-09-30', status: 'active' },
+                    ].map((r, i) => (
+                      <tr key={i}>
+                        <td style={cellStyle}>{r.provider}</td>
+                        <td style={cellStyle}>{r.type}</td>
+                        <td style={cellStyle}>{r.books.toLocaleString('ar-SA')} كتاب</td>
+                        <td style={cellStyle}>{r.expires}</td>
+                        <td style={cellStyle}><Badge label="نشط" color={GREEN} /></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* ===== الدعم الفني ===== */}
+          {activeTab === 'support' && (
+            <div>
+              <SectionTitle title="الدعم الفني" icon="🎧" desc="تذاكر الدعم من المؤسسات — تعيين الفريق ومتابعة الحل" />
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 28 }}>
+                <StatCard title="تذاكر مفتوحة" value="2" sub="تحتاج رداً" color={RED} icon="🎫" />
+                <StatCard title="قيد المعالجة" value="1" sub="يعمل عليها الفريق" color="#F59E0B" icon="⚙️" />
+                <StatCard title="محلولة هذا الشهر" value="34" sub="متوسط وقت الحل: 4 ساعات" color={GREEN} icon="✅" />
+              </div>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr>
+                      <th style={headStyle}>#</th>
+                      <th style={headStyle}>المؤسسة</th>
+                      <th style={headStyle}>الموضوع</th>
+                      <th style={headStyle}>الأولوية</th>
+                      <th style={headStyle}>الحالة</th>
+                      <th style={headStyle}>تاريخ الإنشاء</th>
+                      <th style={headStyle}>إجراء</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {MOCK_SUPPORT.map(ticket => (
+                      <tr key={ticket.id}>
+                        <td style={{ ...cellStyle, color: GOLD, fontWeight: 700 }}>#{ticket.id}</td>
+                        <td style={cellStyle}>{ticket.institution}</td>
+                        <td style={cellStyle}>{ticket.subject}</td>
+                        <td style={cellStyle}>
+                          <Badge
+                            label={ticket.priority === 'high' ? 'عاجل' : ticket.priority === 'medium' ? 'متوسط' : 'منخفض'}
+                            color={ticket.priority === 'high' ? RED : ticket.priority === 'medium' ? '#F59E0B' : GREEN}
+                          />
+                        </td>
+                        <td style={cellStyle}>
+                          <Badge
+                            label={ticket.status === 'open' ? 'مفتوح' : ticket.status === 'in_progress' ? 'قيد المعالجة' : 'محلول'}
+                            color={ticket.status === 'open' ? RED : ticket.status === 'in_progress' ? '#F59E0B' : GREEN}
+                          />
+                        </td>
+                        <td style={cellStyle}>{ticket.created}</td>
+                        <td style={cellStyle}>
+                          <ActionBtn label="رد" color={GOLD} onClick={() => alert(`الرد على تذكرة #${ticket.id}`)} />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
         </div>
-      )}
-
-      {/* ============ MODALS ============ */}
-      {modal === 'add_student' && (
-        <Modal title="إضافة طالب جديد" onClose={() => { setModal(null); setForm({}); }}>
-          <Input label="الاسم الكامل" value={form.name || ''} onChange={(v: string) => setForm({ ...form, name: v })} placeholder="محمد أحمد" />
-          <Input label="البريد الإلكتروني" value={form.email || ''} onChange={(v: string) => setForm({ ...form, email: v })} type="email" placeholder="student@school.com" />
-          <Input label="كلمة المرور" value={form.password || ''} onChange={(v: string) => setForm({ ...form, password: v })} type="password" placeholder="••••••••" />
-          <Input label="الصف الدراسي" value={form.grade || ''} onChange={(v: string) => setForm({ ...form, grade: v })} placeholder="الأول الابتدائي" />
-          <Btn label="إضافة الطالب" onClick={() => postData('/api/students', { ...form, role: 'student' }, 'تم إضافة الطالب بنجاح')} />
-        </Modal>
-      )}
-
-      {modal === 'add_teacher' && (
-        <Modal title="إضافة معلم جديد" onClose={() => { setModal(null); setForm({}); }}>
-          <Input label="الاسم الكامل" value={form.name || ''} onChange={(v: string) => setForm({ ...form, name: v })} placeholder="أحمد محمد" />
-          <Input label="البريد الإلكتروني" value={form.email || ''} onChange={(v: string) => setForm({ ...form, email: v })} type="email" placeholder="teacher@school.com" />
-          <Input label="كلمة المرور" value={form.password || ''} onChange={(v: string) => setForm({ ...form, password: v })} type="password" placeholder="••••••••" />
-          <Input label="التخصص" value={form.subject || ''} onChange={(v: string) => setForm({ ...form, subject: v })} placeholder="الرياضيات" />
-          <Btn label="إضافة المعلم" onClick={() => postData('/api/teachers', { ...form, role: 'teacher' }, 'تم إضافة المعلم بنجاح')} />
-        </Modal>
-      )}
-
-      {modal === 'add_class' && (
-        <Modal title="إضافة فصل جديد" onClose={() => { setModal(null); setForm({}); }}>
-          <Input label="اسم الفصل" value={form.name || ''} onChange={(v: string) => setForm({ ...form, name: v })} placeholder="الأول أ" />
-          <Input label="المرحلة الدراسية" value={form.grade || ''} onChange={(v: string) => setForm({ ...form, grade: v })} placeholder="الأول الابتدائي" />
-          <Input label="السعة القصوى" value={form.capacity || ''} onChange={(v: string) => setForm({ ...form, capacity: v })} type="number" placeholder="30" />
-          <Btn label="إضافة الفصل" onClick={() => postData('/api/classes', form, 'تم إضافة الفصل بنجاح')} />
-        </Modal>
-      )}
-
-      {modal === 'add_exam' && (
-        <Modal title="إضافة اختبار جديد" onClose={() => { setModal(null); setForm({}); }}>
-          <Input label="عنوان الاختبار" value={form.title || ''} onChange={(v: string) => setForm({ ...form, title: v })} placeholder="اختبار الفصل الأول" />
-          <Input label="المادة" value={form.subject || ''} onChange={(v: string) => setForm({ ...form, subject: v })} placeholder="الرياضيات" />
-          <Input label="تاريخ الاختبار" value={form.exam_date || ''} onChange={(v: string) => setForm({ ...form, exam_date: v })} type="date" />
-          <Input label="الدرجة الكاملة" value={form.total_marks || ''} onChange={(v: string) => setForm({ ...form, total_marks: v })} type="number" placeholder="100" />
-          <Btn label="إضافة الاختبار" onClick={() => postData('/api/exams', form, 'تم إضافة الاختبار بنجاح')} />
-        </Modal>
-      )}
-
-      {modal === 'add_homework' && (
-        <Modal title="إضافة واجب جديد" onClose={() => { setModal(null); setForm({}); }}>
-          <Input label="عنوان الواجب" value={form.title || ''} onChange={(v: string) => setForm({ ...form, title: v })} placeholder="واجب الرياضيات" />
-          <Input label="المادة" value={form.subject || ''} onChange={(v: string) => setForm({ ...form, subject: v })} placeholder="الرياضيات" />
-          <Input label="الموعد النهائي" value={form.due_date || ''} onChange={(v: string) => setForm({ ...form, due_date: v })} type="date" />
-          <Input label="التفاصيل" value={form.description || ''} onChange={(v: string) => setForm({ ...form, description: v })} placeholder="تفاصيل الواجب..." />
-          <Btn label="إضافة الواجب" onClick={() => postData('/api/homework', form, 'تم إضافة الواجب بنجاح')} />
-        </Modal>
-      )}
-
-      {modal === 'add_announcement' && (
-        <Modal title="إضافة إعلان جديد" onClose={() => { setModal(null); setForm({}); }}>
-          <Input label="عنوان الإعلان" value={form.title || ''} onChange={(v: string) => setForm({ ...form, title: v })} placeholder="إعلان هام" />
-          <div style={{ marginBottom: 14 }}>
-            <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>محتوى الإعلان</label>
-            <textarea value={form.content || ''} onChange={e => setForm({ ...form, content: e.target.value })} placeholder="محتوى الإعلان..." style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, borderRadius: 10, padding: '10px 14px', color: '#EEEEF5', fontSize: 14, outline: 'none', boxSizing: 'border-box', minHeight: 100, resize: 'vertical' }} />
-          </div>
-          <Btn label="نشر الإعلان" onClick={() => postData('/api/announcements', form, 'تم نشر الإعلان بنجاح')} />
-        </Modal>
-      )}
-
-      {modal === 'add_subject' && (
-        <Modal title="إضافة مادة دراسية" onClose={() => { setModal(null); setForm({}); }}>
-          <Input label="اسم المادة" value={form.name || ''} onChange={(v: string) => setForm({ ...form, name: v })} placeholder="الرياضيات" />
-          <Input label="المرحلة الدراسية" value={form.grade || ''} onChange={(v: string) => setForm({ ...form, grade: v })} placeholder="الأول الابتدائي" />
-          <Input label="عدد الحصص أسبوعياً" value={form.hours_per_week || ''} onChange={(v: string) => setForm({ ...form, hours_per_week: v })} type="number" placeholder="5" />
-          <Btn label="إضافة المادة" onClick={() => postData('/api/subjects', form, 'تم إضافة المادة بنجاح')} />
-        </Modal>
-      )}
-
-      {modal === 'add_payroll' && (
-        <Modal title="إضافة راتب" onClose={() => { setModal(null); setForm({}); }}>
-          <Input label="اسم الموظف" value={form.employee_name || ''} onChange={(v: string) => setForm({ ...form, employee_name: v })} placeholder="محمد أحمد" />
-          <Input label="الدور الوظيفي" value={form.role || ''} onChange={(v: string) => setForm({ ...form, role: v })} placeholder="معلم" />
-          <Input label="الراتب الأساسي (ر.س)" value={form.basic_salary || ''} onChange={(v: string) => setForm({ ...form, basic_salary: v })} type="number" placeholder="5000" />
-          <Input label="البدلات (ر.س)" value={form.allowances || ''} onChange={(v: string) => setForm({ ...form, allowances: v })} type="number" placeholder="500" />
-          <Input label="الخصومات (ر.س)" value={form.deductions || ''} onChange={(v: string) => setForm({ ...form, deductions: v })} type="number" placeholder="0" />
-          <Input label="الشهر" value={form.month || ''} onChange={(v: string) => setForm({ ...form, month: v })} type="number" placeholder="3" />
-          <Input label="السنة" value={form.year || ''} onChange={(v: string) => setForm({ ...form, year: v })} type="number" placeholder="2026" />
-          <Btn label="إضافة الراتب" onClick={() => postData('/api/payroll', form, 'تم إضافة الراتب بنجاح')} />
-        </Modal>
-      )}
+      </div>
     </div>
   );
 }
