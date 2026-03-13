@@ -730,9 +730,9 @@ export default function OwnerDashboard() {
                       <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 11 }}>{alert.time}</div>
                     </div>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <ActionBtn label="تحقيق فوري" color={RED} onClick={() => alert('بدء التحقيق')} />
-                      <ActionBtn label="تجميد المؤسسة" color={GOLD} onClick={() => alert('تجميد المؤسسة')} />
-                      <ActionBtn label="تجاهل" color="#6B7280" onClick={() => alert('تم التجاهل')} />
+                      <ActionBtn label="تحقيق فوري" color={RED} onClick={() => window.alert('بدء التحقيق')} />
+                      <ActionBtn label="تجميد المؤسسة" color={GOLD} onClick={() => window.alert('تجميد المؤسسة')} />
+                      <ActionBtn label="تجاهل" color="#6B7280" onClick={() => window.alert('تم التجاهل')} />
                     </div>
                   </div>
                 ))}

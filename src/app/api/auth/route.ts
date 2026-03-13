@@ -42,7 +42,7 @@ export async function POST(request: Request) {
       const expires = new Date(Date.now() + 10 * 60 * 1000);
       await pool.query('DELETE FROM email_otps WHERE email = $1', [email]);
       await pool.query('INSERT INTO email_otps (email, otp, expires_at) VALUES ($1, $2, $3)', [email, code, expires]);
-      await sendOTP(u.phone || '', email, u.name, code, u.owner_id || u.id);
+      await sendOTP(u.phone || '', email, u.name, code);
       return NextResponse.json({ success: true, message: 'تم إرسال رمز التحقق' });
     }
 

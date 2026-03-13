@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     const { action, national_id, transaction_id, owner_id } = body;
 
     // جلب credentials نفاذ من الداشبورد
-    const nafath = await getIntegration('nafath', owner_id);
+    const nafath = await getIntegration('nafath');
     if (!nafath?.api_key) return NextResponse.json({ error: 'نفاذ غير مفعّل، فعّله من مركز التكاملات' }, { status: 400 });
 
     const appId = nafath.api_key;

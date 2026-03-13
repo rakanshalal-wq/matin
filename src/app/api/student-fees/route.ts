@@ -29,9 +29,9 @@ export async function POST(request: Request) {
     if (payment_method === 'online') {
       const owner_id = ids.owner_id;
       // جرب Moyasar أولاً
-      const moyasar = await getPaymentCredentials('moyasar', owner_id);
-      const hyperpay = await getPaymentCredentials('hyperpay', owner_id);
-      const tap = await getPaymentCredentials('tap', owner_id);
+      const moyasar = await getPaymentCredentials('moyasar');
+      const hyperpay = await getPaymentCredentials('hyperpay');
+      const tap = await getPaymentCredentials('tap');
 
       const paymentProvider = moyasar ? 'moyasar' : hyperpay ? 'hyperpay' : tap ? 'tap' : null;
       if (!paymentProvider) return NextResponse.json({ error: 'لا يوجد بوابة دفع مفعّلة، فعّل إحداها من مركز التكاملات' }, { status: 400 });

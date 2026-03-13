@@ -175,7 +175,7 @@ export async function POST(request: Request) {
 
     return response;
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('Login error FULL:', JSON.stringify(error, Object.getOwnPropertyNames(error)));
     return NextResponse.json(
       { success: false, message: 'حدث خطأ في الخادم' },
       { status: 500 }

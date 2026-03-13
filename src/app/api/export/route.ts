@@ -23,27 +23,27 @@ export async function GET(req: NextRequest) {
     switch (type) {
       case 'students':
         tableName = 'students';
-        query = `SELECT s.*, u.name, u.email, u.phone FROM students s LEFT JOIN users u ON s.user_id = u.id WHERE 1=1 ${filterSQL.replace(/school_id/g, 's.school_id')}`;
+        query = `SELECT s.*, u.name, u.email, u.phone FROM students s LEFT JOIN users u ON s.user_id = u.id WHERE 1=1 ${filterSQL.sql.replace(/\$\d+/g, '').replace(/school_id/g, 's.school_id')}`;
         break;
       case 'teachers':
         tableName = 'teachers';
-        query = `SELECT t.*, u.name, u.email, u.phone FROM teachers t LEFT JOIN users u ON t.user_id = u.id WHERE 1=1 ${filterSQL.replace(/school_id/g, 't.school_id')}`;
+        query = `SELECT t.*, u.name, u.email, u.phone FROM teachers t LEFT JOIN users u ON t.user_id = u.id WHERE 1=1 ${filterSQL.sql.replace(/\$\d+/g, '').replace(/school_id/g, 't.school_id')}`;
         break;
       case 'attendance':
         tableName = 'attendance';
-        query = `SELECT * FROM attendance WHERE 1=1 ${filterSQL}`;
+        query = `SELECT * FROM attendance WHERE 1=1 ${filterSQL.sql}`;
         break;
       case 'grades':
         tableName = 'grades';
-        query = `SELECT * FROM grades WHERE 1=1 ${filterSQL}`;
+        query = `SELECT * FROM grades WHERE 1=1 ${filterSQL.sql}`;
         break;
       case 'classes':
         tableName = 'classes';
-        query = `SELECT * FROM classes WHERE 1=1 ${filterSQL}`;
+        query = `SELECT * FROM classes WHERE 1=1 ${filterSQL.sql}`;
         break;
       case 'exams':
         tableName = 'exams';
-        query = `SELECT * FROM exams WHERE 1=1 ${filterSQL}`;
+        query = `SELECT * FROM exams WHERE 1=1 ${filterSQL.sql}`;
         break;
       default:
         return NextResponse.json({ error: 'نوع التصدير غير مدعوم' }, { status: 400 });

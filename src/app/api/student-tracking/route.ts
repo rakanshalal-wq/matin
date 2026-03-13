@@ -9,7 +9,7 @@ export async function GET(request: Request) {
     const filter = getFilterSQL(user);
 
     // جلب Google Maps Key من الداشبورد
-    const mapsKey = await getGoogleMapsKey(user.owner_id || user.id);
+    const mapsKey = await getGoogleMapsKey();
 
     const result = await pool.query(
       `SELECT * FROM student_tracking WHERE 1=1 ${filter.sql} ORDER BY created_at DESC LIMIT 200`,
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     if (!student_name) return NextResponse.json({ error: 'اسم الطالب مطلوب' }, { status: 400 });
 
     // التحقق من Google Maps مفعّل
-    const mapsKey = await getGoogleMapsKey(ids.owner_id);
+    const mapsKey = await getGoogleMapsKey();
     if (!mapsKey) return NextResponse.json({ error: 'Google Maps غير مفعّل، فعّله من مركز التكاملات' }, { status: 400 });
 
     const result = await pool.query(

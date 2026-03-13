@@ -120,20 +120,22 @@ export default function LoginPage() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#06060E', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl', padding: 20 }}>
-      <div style={{ position: 'fixed', top: -200, right: -200, width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(201,162,39,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
-      <div style={{ position: 'fixed', bottom: -200, left: -200, width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(201,162,39,0.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
+      <div style={{ position: 'fixed', top: -200, right: -200, width: 600, height: 600, borderRadius: '50%', background: 'radial-gradient(circle, rgba(201,168,76,0.10) 0%, transparent 70%)', pointerEvents: 'none' }} />
+      <div style={{ position: 'fixed', bottom: -200, left: -200, width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%)', pointerEvents: 'none' }} />
+      <div style={{ position: 'fixed', top: '40%', left: '50%', transform: 'translate(-50%,-50%)', width: 800, height: 800, borderRadius: '50%', background: 'radial-gradient(circle, rgba(201,168,76,0.03) 0%, transparent 60%)', pointerEvents: 'none' }} />
 
       <div style={{ width: '100%', maxWidth: 440, position: 'relative', zIndex: 1 }}>
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
           <div onClick={() => router.push('/')} style={{ cursor: 'pointer', display: 'inline-block' }}>
-            <div style={{ fontSize: 48, fontWeight: 900, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 50%, #C9A227 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: 8, letterSpacing: 2 }}>متين</div>
+            <div style={{ width: 72, height: 72, background: 'linear-gradient(135deg, #C9A84C 0%, #E2C46A 100%)', borderRadius: 20, margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 32px rgba(201,168,76,0.35)', fontSize: 32, fontWeight: 900, color: '#000' }}>م</div>
+            <div style={{ fontSize: 28, fontWeight: 900, background: 'linear-gradient(135deg, #C9A84C 0%, #E2C46A 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: 4, letterSpacing: 1 }}>متين</div>
           </div>
           <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15 }}>
             {step === 'credentials' ? 'تسجيل الدخول إلى لوحة التحكم' : step === 'otp' ? 'أدخل رمز التحقق المرسل لإيميلك' : 'يجب تغيير كلمة المرور المؤقتة'}
           </p>
         </div>
 
-        <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20, padding: '40px 32px', backdropFilter: 'blur(20px)' }}>
+        <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(201,168,76,0.12)', borderRadius: 20, padding: '40px 32px', backdropFilter: 'blur(20px)', boxShadow: '0 24px 64px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,168,76,0.05)' }}>
           {error && (
             <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 12, padding: '12px 16px', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 10 }}>
               <span style={{ fontSize: 20 }}>⚠️</span>
@@ -156,8 +158,8 @@ export default function LoginPage() {
                   </button>
                 </div>
               </div>
-              <button type="submit" disabled={loading} style={{ width: '100%', background: loading ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#0D1B2A', border: 'none', borderRadius: 12, padding: '16px', fontSize: 17, fontWeight: 800, cursor: loading ? 'not-allowed' : 'pointer', transition: 'all 0.3s', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-                {loading ? '⏳ جاري التحقق...' : '🚀 تسجيل الدخول'}
+              <button type="submit" disabled={loading} style={{ width: '100%', background: loading ? 'rgba(201,168,76,0.4)' : 'linear-gradient(135deg, #C9A84C 0%, #E2C46A 100%)', color: '#000', border: 'none', borderRadius: 12, padding: '16px', fontSize: 16, fontWeight: 800, cursor: loading ? 'not-allowed' : 'pointer', transition: 'all 0.3s', fontFamily: 'IBM Plex Sans Arabic, sans-serif', boxShadow: loading ? 'none' : '0 4px 20px rgba(201,168,76,0.3)' }}>
+                {loading ? 'جاري التحقق...' : 'تسجيل الدخول'}
               </button>
             </form>
           ) : step === 'otp' ? (

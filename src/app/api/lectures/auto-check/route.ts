@@ -4,12 +4,12 @@ import { sendSMS, sendWhatsApp, sendEmail } from '@/lib/integrations';
 
 async function notify(owner_id: number, school_id: number, phone: string | null, email: string | null, name: string, title: string, message: string) {
   if (phone) {
-    await sendSMS(phone, message, owner_id);
-    await sendWhatsApp(phone, `*${title}*\n${message}`, owner_id);
+    await sendSMS(phone, message);
+    await sendWhatsApp(phone, `*${title}*\n${message}`);
   }
   if (email) {
     const html = `<div dir="rtl" style="font-family:Arial;padding:20px;background:#0D1B2A;color:white;border-radius:12px"><h2 style="color:#C9A227">${title}</h2><p>مرحباً ${name}،</p><p>${message}</p></div>`;
-    await sendEmail(email, title, html, owner_id);
+    await sendEmail(email, title, html);
   }
 }
 

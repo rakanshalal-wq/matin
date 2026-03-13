@@ -2,7 +2,6 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   compress: true,
   typescript: { ignoreBuildErrors: true },
-  eslint: { ignoreDuringBuilds: true },
   headers: async () => [
     {
       source: "/(.*)",

@@ -48,7 +48,7 @@ export async function POST(request: Request) {
       let smsSent = 0;
       for (const row of phones.rows) {
         if (row.phone) {
-          const r = await sendSMS(row.phone, `${title}\n${content || ''}`, owner_id ?? undefined);
+          const r = await sendSMS(row.phone, `${title}\n${content || ''}`);
           if (r.success) smsSent++;
         }
       }
@@ -66,7 +66,7 @@ export async function POST(request: Request) {
       let waSent = 0;
       for (const row of phones.rows) {
         if (row.phone) {
-          const r = await sendWhatsApp(row.phone, `*${title}*\n${content || ''}`, owner_id ?? undefined);
+          const r = await sendWhatsApp(row.phone, `*${title}*\n${content || ''}`);
           if (r.success) waSent++;
         }
       }
@@ -84,7 +84,7 @@ export async function POST(request: Request) {
       let emailSent = 0;
       for (const row of emails.rows) {
         const html = `<div dir="rtl" style="font-family:Arial;padding:20px;background:#0D1B2A;color:white;border-radius:12px"><h2 style="color:#C9A227">${title}</h2><p>${content || ''}</p><p style="color:rgba(255,255,255,0.4);font-size:12px">متين - نظام إدارة التعليم</p></div>`;
-        const r = await sendEmail(row.email, title, html, owner_id ?? undefined);
+        const r = await sendEmail(row.email, title, html);
         if (r.success) emailSent++;
       }
       sendResults.email = emailSent;

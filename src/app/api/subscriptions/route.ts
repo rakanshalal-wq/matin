@@ -50,9 +50,9 @@ export async function POST(request: Request) {
     const owner_id = user.id;
     let paymentProvider = null;
     let paymentCredentials = null;
-    const moyasar = await getPaymentCredentials("moyasar", owner_id);
-    const hyperpay = await getPaymentCredentials("hyperpay", owner_id);
-    const tap = await getPaymentCredentials("tap", owner_id);
+    const moyasar = await getPaymentCredentials("moyasar");
+    const hyperpay = await getPaymentCredentials("hyperpay");
+    const tap = await getPaymentCredentials("tap");
     if (moyasar) { paymentProvider = "moyasar"; paymentCredentials = moyasar; }
     else if (hyperpay) { paymentProvider = "hyperpay"; paymentCredentials = hyperpay; }
     else if (tap) { paymentProvider = "tap"; paymentCredentials = tap; }

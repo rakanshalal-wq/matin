@@ -2,11 +2,18 @@ import { Pool } from 'pg';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 
+// تجاوز DATABASE_URL العام (قد يكون MySQL من البيئة)
+const RAW_DB_URL = process.env.DATABASE_URL || '';
+const MATIN_DB_URL = RAW_DB_URL.startsWith('postgresql://') || RAW_DB_URL.startsWith('postgres://')
+  ? RAW_DB_URL
+  : 'postgresql://matin:matin_secure_2026@127.0.0.1:5432/matin_db_new';
+const isLocal = MATIN_DB_URL.includes('localhost') || MATIN_DB_URL.includes('127.0.0.1');
 export const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: MATIN_DB_URL,
   max: 20,
   idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
+  connectionTimeoutMillis: 10000,
+  ssl: isLocal ? false : { rejectUnauthorized: false },
 });
 
 const JWT_SECRET = process.env.JWT_SECRET!;

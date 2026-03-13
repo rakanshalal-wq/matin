@@ -1,6 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { Icon, ICONS, G, DARK, CARD, BORDER, Spinner } from '@/components/ui-icons';
+
+/* ─── Design: Dark #06060E + Gold #C9A84C — متين v5 ─── */
 
 const getHeaders = (): Record<string, string> => {
   try {
@@ -48,11 +51,9 @@ export default function StudentDashboard() {
   };
 
   if (loading) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 40, marginBottom: 16 }}>🎓</div>
-        <div style={{ color: '#3B82F6', fontWeight: 700, fontSize: 18 }}>جاري تحميل بوابة الطالب...</div>
-      </div>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', flexDirection: 'column', gap: 16, background: DARK }}>
+      <Spinner size={40} />
+      <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 14, fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>جاري تحميل بوابة الطالب...</div>
     </div>
   );
 
@@ -61,23 +62,32 @@ export default function StudentDashboard() {
   const pendingHW = homework.filter((h: any) => h.status === 'active').length;
 
   return (
-    <div>
+    <div style={{ fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' }}>
       {/* Header */}
-      <div style={{ marginBottom: 24, background: 'linear-gradient(135deg, rgba(59,130,246,0.1), rgba(139,92,246,0.1))', border: '1px solid rgba(59,130,246,0.2)', borderRadius: 16, padding: '20px 24px' }}>
+      <div style={{ marginBottom: 28, background: `rgba(201,168,76,0.06)`, border: `1px solid rgba(201,168,76,0.15)`, borderRadius: 16, padding: '20px 24px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <div style={{ width: 56, height: 56, background: 'linear-gradient(135deg, #3B82F6, #8B5CF6)', borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28 }}>🎓</div>
+          <div style={{ width: 52, height: 52, background: `rgba(201,168,76,0.12)`, borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', color: G }}>
+            <Icon d={ICONS.student_hat} size={26} />
+          </div>
           <div>
-            <h1 style={{ fontSize: 22, fontWeight: 800, color: 'white', margin: 0 }}>مرحباً {user?.name} 👋</h1>
-            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, margin: '4px 0 0' }}>بوابة الطالب - منصة متين التعليمية</p>
+            <h1 style={{ fontSize: 20, fontWeight: 800, color: '#EEEEF5', margin: 0, letterSpacing: -0.5 }}>مرحباً {user?.name}</h1>
+            <p style={{ color: 'rgba(238,238,245,0.4)', fontSize: 13, margin: '4px 0 0' }}>بوابة الطالب — منصة متين التعليمية</p>
           </div>
         </div>
       </div>
 
       {/* Tabs */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 24, flexWrap: 'wrap' }}>
-        {[{ id: 'overview', label: 'نظرة عامة', icon: '📊' }, { id: 'exams', label: 'اختباراتي', icon: '📝' }, { id: 'grades', label: 'درجاتي', icon: '📈' }, { id: 'homework', label: 'واجباتي', icon: '📒' }].map(tab => (
-          <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} style={{ padding: '10px 18px', borderRadius: 10, border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, background: activeTab === tab.id ? '#3B82F6' : 'rgba(255,255,255,0.05)', color: activeTab === tab.id ? 'white' : 'rgba(255,255,255,0.7)', transition: 'all 0.2s' }}>
-            {tab.icon} {tab.label}
+      <div style={{ display: 'flex', gap: 6, marginBottom: 24, flexWrap: 'wrap' }}>
+        {[
+          { id: 'overview', label: 'نظرة عامة', icon: 'dashboard' },
+          { id: 'exams', label: 'اختباراتي', icon: 'exams' },
+          { id: 'grades', label: 'درجاتي', icon: 'grades' },
+          { id: 'homework', label: 'واجباتي', icon: 'homework' },
+        ].map(tab => (
+          <button key={tab.id} onClick={() => setActiveTab(tab.id as any)}
+            style={{ padding: '9px 16px', borderRadius: 10, border: `1px solid ${activeTab === tab.id ? G : BORDER}`, cursor: 'pointer', fontFamily: 'inherit', fontSize: 13, fontWeight: 600, background: activeTab === tab.id ? `rgba(201,168,76,0.1)` : 'transparent', color: activeTab === tab.id ? G : 'rgba(238,238,245,0.5)', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: 7 }}>
+            <Icon d={ICONS[tab.icon]} size={14} color={activeTab === tab.id ? G : 'rgba(238,238,245,0.4)'} />
+            {tab.label}
           </button>
         ))}
       </div>
@@ -85,47 +95,58 @@ export default function StudentDashboard() {
       {/* === نظرة عامة === */}
       {activeTab === 'overview' && (
         <div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 28 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 14, marginBottom: 28 }}>
             {[
-              { label: 'متوسط الدرجات', value: `${avgGrade}%`, icon: '📈', color: '#10B981' },
-              { label: 'اختبارات متاحة', value: publishedExams.length, icon: '📝', color: '#3B82F6' },
-              { label: 'واجبات معلقة', value: pendingHW, icon: '📒', color: '#F59E0B' },
-              { label: 'نسبة الحضور', value: `${stats.attendance_rate || 0}%`, icon: '✅', color: '#8B5CF6' },
+              { label: 'متوسط الدرجات', value: `${avgGrade}%`, icon: 'grades', color: '#10B981' },
+              { label: 'اختبارات متاحة', value: publishedExams.length, icon: 'exams', color: '#3B82F6' },
+              { label: 'واجبات معلقة', value: pendingHW, icon: 'homework', color: '#F59E0B' },
+              { label: 'نسبة الحضور', value: `${stats.attendance_rate || 0}%`, icon: 'attendance', color: '#8B5CF6' },
             ].map((s, i) => (
-              <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${s.color}30`, borderRadius: 14, padding: 20 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div>
-                    <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, marginBottom: 6 }}>{s.label}</div>
-                    <div style={{ color: s.color, fontSize: 28, fontWeight: 800 }}>{s.value}</div>
+              <div key={i} style={{ background: `${s.color}08`, border: `1px solid ${s.color}25`, borderRadius: 14, padding: '18px 16px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                  <div style={{ color: 'rgba(238,238,245,0.45)', fontSize: 12, fontWeight: 500 }}>{s.label}</div>
+                  <div style={{ width: 32, height: 32, borderRadius: 8, background: `${s.color}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: s.color }}>
+                    <Icon d={ICONS[s.icon]} size={16} />
                   </div>
-                  <div style={{ fontSize: 30 }}>{s.icon}</div>
                 </div>
+                <div style={{ color: s.color, fontSize: 26, fontWeight: 800 }}>{s.value}</div>
               </div>
             ))}
           </div>
 
           {/* روابط سريعة */}
-          <h2 style={{ color: 'white', fontSize: 16, fontWeight: 700, marginBottom: 16 }}>🚀 الوصول السريع</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12, marginBottom: 28 }}>
+          <h2 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Icon d={ICONS.dashboard} size={16} color={G} /> الوصول السريع
+          </h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: 10, marginBottom: 28 }}>
             {[
-              { label: 'اختباراتي', icon: '📝', tab: 'exams', color: '#3B82F6' },
-              { label: 'درجاتي', icon: '📈', tab: 'grades', color: '#10B981' },
-              { label: 'واجباتي', icon: '📒', tab: 'homework', color: '#F59E0B' },
+              { label: 'اختباراتي', icon: 'exams', tab: 'exams', color: '#3B82F6' },
+              { label: 'درجاتي', icon: 'grades', tab: 'grades', color: '#10B981' },
+              { label: 'واجباتي', icon: 'homework', tab: 'homework', color: '#F59E0B' },
             ].map((a, i) => (
-              <div key={i} onClick={() => setActiveTab(a.tab as any)} style={{ background: `${a.color}10`, border: `1px solid ${a.color}30`, borderRadius: 12, padding: '18px 12px', textAlign: 'center', cursor: 'pointer' }}>
-                <div style={{ fontSize: 28, marginBottom: 8 }}>{a.icon}</div>
+              <div key={i} onClick={() => setActiveTab(a.tab as any)}
+                style={{ background: `${a.color}08`, border: `1px solid ${a.color}25`, borderRadius: 12, padding: '16px 12px', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = a.color; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = `${a.color}25`; }}>
+                <div style={{ width: 36, height: 36, borderRadius: 10, background: `${a.color}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px', color: a.color }}>
+                  <Icon d={ICONS[a.icon]} size={18} />
+                </div>
                 <div style={{ color: a.color, fontSize: 13, fontWeight: 700 }}>{a.label}</div>
               </div>
             ))}
             {[
-              { label: 'الجدول', icon: '📅', href: '/dashboard/schedules' },
-              { label: 'المكتبة', icon: '📚', href: '/dashboard/library' },
-              { label: 'الرسائل', icon: '✉️', href: '/dashboard/messages' },
+              { label: 'الجدول', icon: 'schedule', href: '/dashboard/schedules', color: '#6366F1' },
+              { label: 'المكتبة', icon: 'subjects', href: '/dashboard/library', color: '#06B6D4' },
+              { label: 'الرسائل', icon: 'messages', href: '/dashboard/messages', color: '#EC4899' },
             ].map((a, i) => (
               <Link key={i} href={a.href} style={{ textDecoration: 'none' }}>
-                <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '18px 12px', textAlign: 'center', cursor: 'pointer' }}>
-                  <div style={{ fontSize: 28, marginBottom: 8 }}>{a.icon}</div>
-                  <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 600 }}>{a.label}</div>
+                <div style={{ background: 'rgba(255,255,255,0.02)', border: `1px solid ${BORDER}`, borderRadius: 12, padding: '16px 12px', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = a.color; (e.currentTarget as HTMLDivElement).style.background = `${a.color}08`; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = BORDER; (e.currentTarget as HTMLDivElement).style.background = 'rgba(255,255,255,0.02)'; }}>
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: `${a.color}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px', color: a.color }}>
+                    <Icon d={ICONS[a.icon]} size={18} />
+                  </div>
+                  <div style={{ color: 'rgba(238,238,245,0.6)', fontSize: 13, fontWeight: 600 }}>{a.label}</div>
                 </div>
               </Link>
             ))}
@@ -134,19 +155,22 @@ export default function StudentDashboard() {
           {/* اختبارات متاحة */}
           {publishedExams.length > 0 && (
             <div>
-              <h2 style={{ color: 'white', fontSize: 16, fontWeight: 700, marginBottom: 16 }}>📝 اختبارات متاحة الآن</h2>
+              <h2 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Icon d={ICONS.exams} size={16} color={G} /> اختبارات متاحة الآن
+              </h2>
               <div style={{ display: 'grid', gap: 10 }}>
                 {publishedExams.slice(0, 3).map((exam: any) => (
-                  <div key={exam.id} style={{ background: 'rgba(59,130,246,0.06)', border: '1px solid rgba(59,130,246,0.2)', borderRadius: 12, padding: '14px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div key={exam.id} style={{ background: 'rgba(59,130,246,0.05)', border: '1px solid rgba(59,130,246,0.18)', borderRadius: 12, padding: '14px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                      <div style={{ color: 'white', fontWeight: 700 }}>{exam.title_ar || exam.title}</div>
-                      <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, marginTop: 4 }}>
-                        ⏱️ {exam.duration} دقيقة | 💯 {exam.total_marks} درجة
+                      <div style={{ color: '#EEEEF5', fontWeight: 700, fontSize: 14 }}>{exam.title_ar || exam.title}</div>
+                      <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12, marginTop: 4, display: 'flex', gap: 12 }}>
+                        <span>{exam.duration} دقيقة</span>
+                        <span>{exam.total_marks} درجة</span>
                       </div>
                     </div>
                     <Link href={`/dashboard/exam-take?exam_id=${exam.id}&student_id=${user?.id}`}>
-                      <button style={{ padding: '8px 18px', background: '#3B82F6', color: 'white', border: 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 700, fontFamily: 'inherit', fontSize: 13 }}>
-                        ابدأ الاختبار
+                      <button style={{ padding: '8px 16px', background: '#3B82F6', color: 'white', border: 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 700, fontFamily: 'inherit', fontSize: 13 }}>
+                        ابدأ
                       </button>
                     </Link>
                   </div>
@@ -157,109 +181,121 @@ export default function StudentDashboard() {
         </div>
       )}
 
-      {/* === اختباراتي === */}
+      {/* === الاختبارات === */}
       {activeTab === 'exams' && (
         <div>
-          <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, marginBottom: 20 }}>📝 اختباراتي ({exams.length})</h2>
-          <div style={{ display: 'grid', gap: 10 }}>
-            {exams.length === 0 ? (
-              <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.4)', padding: 40 }}>لا توجد اختبارات بعد</div>
-            ) : exams.map((exam: any) => (
-              <div key={exam.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '16px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
-                <div>
-                  <div style={{ color: 'white', fontWeight: 700, marginBottom: 4 }}>{exam.title_ar || exam.title}</div>
-                  <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>
-                    ⏱️ {exam.duration} دقيقة | 💯 {exam.total_marks} درجة | 🎯 {exam.passing_marks} للنجاح
-                  </div>
-                </div>
-                <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                  <span style={{ padding: '4px 12px', borderRadius: 20, fontSize: 12, fontWeight: 600, background: exam.status === 'PUBLISHED' ? 'rgba(59,130,246,0.15)' : exam.status === 'ACTIVE' ? 'rgba(16,185,129,0.15)' : 'rgba(156,163,175,0.1)', color: exam.status === 'PUBLISHED' ? '#3B82F6' : exam.status === 'ACTIVE' ? '#10B981' : '#9CA3AF' }}>
-                    {exam.status === 'PUBLISHED' ? '📢 منشور' : exam.status === 'ACTIVE' ? '⚡ جاري' : exam.status === 'DRAFT' ? '📝 مسودة' : exam.status}
-                  </span>
-                  {(exam.status === 'PUBLISHED' || exam.status === 'ACTIVE') && (
-                    <Link href={`/dashboard/exam-take?exam_id=${exam.id}&student_id=${user?.id}`}>
-                      <button style={{ padding: '7px 16px', background: '#3B82F6', color: 'white', border: 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 700, fontFamily: 'inherit', fontSize: 13 }}>
-                        ابدأ الاختبار ←
-                      </button>
-                    </Link>
-                  )}
-                </div>
+          <h2 style={{ color: '#EEEEF5', fontSize: 16, fontWeight: 700, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Icon d={ICONS.exams} size={17} color={G} /> اختباراتي
+          </h2>
+          {exams.length === 0 ? (
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: '40px 32px', textAlign: 'center' }}>
+              <div style={{ width: 52, height: 52, borderRadius: 14, background: 'rgba(201,168,76,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px', color: G }}>
+                <Icon d={ICONS.exams} size={24} />
               </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* === درجاتي === */}
-      {activeTab === 'grades' && (
-        <div>
-          <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, marginBottom: 20 }}>📈 درجاتي ({grades.length})</h2>
-          {grades.length === 0 ? (
-            <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.4)', padding: 40 }}>لا توجد درجات بعد</div>
+              <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 14 }}>لا توجد اختبارات حالياً</div>
+            </div>
           ) : (
-            <div>
-              {/* ملخص */}
-              <div style={{ background: 'rgba(16,185,129,0.06)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 14, padding: 20, marginBottom: 20, display: 'flex', gap: 32, justifyContent: 'center', flexWrap: 'wrap' }}>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ color: '#10B981', fontSize: 32, fontWeight: 800 }}>{avgGrade}%</div>
-                  <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>المتوسط العام</div>
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ color: '#3B82F6', fontSize: 32, fontWeight: 800 }}>{grades.length}</div>
-                  <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>عدد المواد</div>
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ color: '#F59E0B', fontSize: 32, fontWeight: 800 }}>{grades.filter((g: any) => (g.percentage || 0) >= 60).length}</div>
-                  <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>مواد ناجح</div>
-                </div>
-              </div>
-              <div style={{ display: 'grid', gap: 10 }}>
-                {grades.map((grade: any) => (
-                  <div key={grade.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '14px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'grid', gap: 10 }}>
+              {exams.map((exam: any) => {
+                const statusColor = exam.status === 'PUBLISHED' || exam.status === 'ACTIVE' ? '#10B981' : exam.status === 'DRAFT' ? '#F59E0B' : '#6B7280';
+                const statusLabel = exam.status === 'PUBLISHED' || exam.status === 'ACTIVE' ? 'متاح' : exam.status === 'DRAFT' ? 'مسودة' : 'منتهي';
+                return (
+                  <div key={exam.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '14px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                      <div style={{ color: 'white', fontWeight: 700 }}>{grade.course_name || grade.course_id}</div>
-                      <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, marginTop: 4 }}>
-                        {grade.marks} / {grade.max_marks} درجة
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                        <span style={{ color: '#EEEEF5', fontWeight: 700, fontSize: 14 }}>{exam.title_ar || exam.title}</span>
+                        <span style={{ background: `${statusColor}18`, color: statusColor, fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 20 }}>{statusLabel}</span>
+                      </div>
+                      <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12, display: 'flex', gap: 12 }}>
+                        <span>{exam.duration} دقيقة</span>
+                        <span>{exam.total_marks} درجة</span>
+                        {exam.subject_name && <span>{exam.subject_name}</span>}
                       </div>
                     </div>
-                    <div style={{ textAlign: 'center' }}>
-                      <div style={{ fontSize: 22, fontWeight: 800, color: (grade.percentage || 0) >= 90 ? '#10B981' : (grade.percentage || 0) >= 70 ? '#3B82F6' : (grade.percentage || 0) >= 60 ? '#F59E0B' : '#EF4444' }}>
-                        {grade.grade || `${Math.round(grade.percentage || 0)}%`}
-                      </div>
-                      <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>{Math.round(grade.percentage || 0)}%</div>
-                    </div>
+                    {(exam.status === 'PUBLISHED' || exam.status === 'ACTIVE') && (
+                      <Link href={`/dashboard/exam-take?exam_id=${exam.id}&student_id=${user?.id}`}>
+                        <button style={{ padding: '8px 16px', background: G, color: '#000', border: 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 800, fontFamily: 'inherit', fontSize: 13 }}>
+                          ابدأ
+                        </button>
+                      </Link>
+                    )}
                   </div>
-                ))}
-              </div>
+                );
+              })}
             </div>
           )}
         </div>
       )}
 
-      {/* === واجباتي === */}
+      {/* === الدرجات === */}
+      {activeTab === 'grades' && (
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+            <h2 style={{ color: '#EEEEF5', fontSize: 16, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Icon d={ICONS.grades} size={17} color={G} /> درجاتي
+            </h2>
+            {grades.length > 0 && (
+              <div style={{ background: `rgba(201,168,76,0.1)`, border: `1px solid rgba(201,168,76,0.2)`, borderRadius: 10, padding: '6px 14px', color: G, fontSize: 13, fontWeight: 700 }}>
+                المعدل: {avgGrade}%
+              </div>
+            )}
+          </div>
+          {grades.length === 0 ? (
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: '40px 32px', textAlign: 'center' }}>
+              <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 14 }}>لا توجد درجات مسجلة</div>
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gap: 8 }}>
+              {grades.map((g: any, i: number) => {
+                const pct = g.percentage || 0;
+                const color = pct >= 90 ? '#10B981' : pct >= 75 ? '#3B82F6' : pct >= 60 ? '#F59E0B' : '#EF4444';
+                return (
+                  <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '14px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <div style={{ color: '#EEEEF5', fontWeight: 700, fontSize: 14 }}>{g.subject_name || g.exam_title || 'مادة'}</div>
+                      {g.exam_title && <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12, marginTop: 3 }}>{g.exam_title}</div>}
+                    </div>
+                    <div style={{ textAlign: 'center' }}>
+                      <div style={{ color, fontSize: 20, fontWeight: 800 }}>{pct}%</div>
+                      <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 11 }}>{g.obtained_marks}/{g.total_marks}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* === الواجبات === */}
       {activeTab === 'homework' && (
         <div>
-          <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, marginBottom: 20 }}>📒 واجباتي ({homework.length})</h2>
-          <div style={{ display: 'grid', gap: 10 }}>
-            {homework.length === 0 ? (
-              <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.4)', padding: 40 }}>لا توجد واجبات بعد</div>
-            ) : homework.map((hw: any) => (
-              <div key={hw.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '14px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
-                <div>
-                  <div style={{ color: 'white', fontWeight: 700 }}>{hw.title}</div>
-                  <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, marginTop: 4 }}>
-                    {hw.subject && <span style={{ marginLeft: 12 }}>📚 {hw.subject}</span>}
-                    {hw.teacher_name && <span style={{ marginLeft: 12 }}>👨‍🏫 {hw.teacher_name}</span>}
-                    {hw.due_date && <span>📅 التسليم: {new Date(hw.due_date).toLocaleDateString('ar-SA')}</span>}
+          <h2 style={{ color: '#EEEEF5', fontSize: 16, fontWeight: 700, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Icon d={ICONS.homework} size={17} color={G} /> واجباتي
+          </h2>
+          {homework.length === 0 ? (
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: '40px 32px', textAlign: 'center' }}>
+              <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 14 }}>لا توجد واجبات حالياً</div>
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gap: 8 }}>
+              {homework.map((hw: any, i: number) => {
+                const isActive = hw.status === 'active';
+                return (
+                  <div key={i} style={{ background: CARD, border: `1px solid ${isActive ? 'rgba(245,158,11,0.25)' : BORDER}`, borderRadius: 12, padding: '14px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                        <span style={{ color: '#EEEEF5', fontWeight: 700, fontSize: 14 }}>{hw.title_ar || hw.title}</span>
+                        {isActive && <span style={{ background: 'rgba(245,158,11,0.12)', color: '#F59E0B', fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 20 }}>معلق</span>}
+                      </div>
+                      {hw.due_date && <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12 }}>موعد التسليم: {new Date(hw.due_date).toLocaleDateString('ar-SA')}</div>}
+                    </div>
+                    <div style={{ color: 'rgba(238,238,245,0.3)', fontSize: 12 }}>{hw.subject_name}</div>
                   </div>
-                  {hw.description && <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, marginTop: 6 }}>{hw.description}</div>}
-                </div>
-                <span style={{ padding: '4px 12px', borderRadius: 20, fontSize: 12, fontWeight: 600, background: hw.status === 'active' ? 'rgba(245,158,11,0.1)' : 'rgba(156,163,175,0.1)', color: hw.status === 'active' ? '#F59E0B' : '#9CA3AF' }}>
-                  {hw.status === 'active' ? '⏳ معلق' : '✅ منتهي'}
-                </span>
-              </div>
-            ))}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       )}
     </div>
