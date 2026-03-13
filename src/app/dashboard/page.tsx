@@ -111,7 +111,7 @@ export default function DashboardHome() {
         fetch('/api/dashboard-stats', { headers }),
         fetch('/api/schools', { headers }),
         fetch('/api/exams?limit=5', { headers }),
-        fetch('/api/admissions?status=pending&limit=5', { headers }),
+        fetch('/api/admission?status=pending&limit=5', { headers }),
       ]);
       const [statsData, schoolsData, examsData, admissionsData] = await Promise.all([
         statsRes.json(), schoolsRes.json(), examsRes.json(), admissionsRes.json()

@@ -17,17 +17,17 @@ export default function SchedulePage(){
   const [toast,setToast]=useState('');
   const [form,setForm]=useState({class_id:'',teacher_id:'',subject:'',day_of_week:'0',start_time:'08:00',end_time:'09:00',room:''});
   useEffect(()=>{load();loadClasses();loadTeachers();},[]);
-  const load=async()=>{try{const r=await fetch('/api/schedule',{headers:getH(),credentials:'include'});const d=await r.json();setSchedule(Array.isArray(d)?d:d.schedule||[]);}catch{}finally{setLoading(false);}};
+  const load=async()=>{try{const r=await fetch('/api/schedules',{headers:getH(),credentials:'include'});const d=await r.json();setSchedule(Array.isArray(d)?d:d.schedule||[]);}catch{}finally{setLoading(false);}};
   const loadClasses=async()=>{try{const r=await fetch('/api/classes',{headers:getH()});const d=await r.json();setClasses(Array.isArray(d)?d:[]);}catch{}};
   const loadTeachers=async()=>{try{const r=await fetch('/api/teachers',{headers:getH()});const d=await r.json();setTeachers(Array.isArray(d)?d:[]);}catch{}};
   const showToast=(m:string)=>{setToast(m);setTimeout(()=>setToast(''),3000);};
   const handleAdd=async()=>{
     if(!form.class_id||!form.subject)return showToast('الفصل والمادة مطلوبان');
     setSaving(true);
-    try{const r=await fetch('/api/schedule',{method:'POST',headers:getH(),credentials:'include',body:JSON.stringify({...form,day_of_week:parseInt(form.day_of_week)})});const d=await r.json();if(r.ok){showToast('تم إضافة الحصة ✓');setShowAdd(false);setForm({class_id:'',teacher_id:'',subject:'',day_of_week:'0',start_time:'08:00',end_time:'09:00',room:''});load();}else showToast(d.error||'فشل');}
+    try{const r=await fetch('/api/schedules',{method:'POST',headers:getH(),credentials:'include',body:JSON.stringify({...form,day_of_week:parseInt(form.day_of_week)})});const d=await r.json();if(r.ok){showToast('تم إضافة الحصة ✓');setShowAdd(false);setForm({class_id:'',teacher_id:'',subject:'',day_of_week:'0',start_time:'08:00',end_time:'09:00',room:''});load();}else showToast(d.error||'فشل');}
     catch{showToast('خطأ');}finally{setSaving(false);}
   };
-  const handleDelete=async(id:string)=>{if(!confirm('حذف الحصة؟'))return;try{const r=await fetch(`/api/schedule?id=${id}`,{method:'DELETE',headers:getH(),credentials:'include'});if(r.ok){showToast('تم الحذف ✓');load();}else showToast('فشل');}catch{showToast('خطأ');}};
+  const handleDelete=async(id:string)=>{if(!confirm('حذف الحصة؟'))return;try{const r=await fetch(`/api/schedules?id=${id}`,{method:'DELETE',headers:getH(),credentials:'include'});if(r.ok){showToast('تم الحذف ✓');load();}else showToast('فشل');}catch{showToast('خطأ');}};
   const filtered=schedule.filter((s:any)=>!classFilter||s.class_id===classFilter);
   const byDay=(day:number)=>filtered.filter((s:any)=>s.day_of_week===day||s.day_of_week===String(day));
   return(

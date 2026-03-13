@@ -117,8 +117,8 @@ export default function SchoolOwnerDashboard() {
         fetch('/api/dashboard-stats', { headers }),
         fetch('/api/schools', { headers }),
         fetch('/api/exams?limit=5', { headers }),
-        fetch('/api/admissions?status=pending&limit=5', { headers }),
-        fetch('/api/activity?limit=8', { headers }),
+        fetch('/api/admission?status=pending&limit=5', { headers }),
+        fetch('/api/activity-log?limit=8', { headers }),
       ]);
       const [statsData, schoolsData, examsData, admissionsData, activityData] = await Promise.all([
         statsRes.json(), schoolsRes.json(), examsRes.json(), admissionsRes.json(), activityRes.json()
