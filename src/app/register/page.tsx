@@ -8,8 +8,11 @@ export default function RegisterPage() {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [form, setForm] = useState({
     institution_name: '',
+    institution_type: 'school',
+    city: '',
     contact_name: '',
     contact_phone: '',
     contact_email: '',
@@ -40,11 +43,61 @@ export default function RegisterPage() {
     padding: '16px',
     fontSize: 16,
     fontWeight: 800,
-    cursor: 'pointer',
+    cursor: loading ? 'not-allowed' : 'pointer',
     transition: 'all 0.3s',
     boxShadow: '0 8px 24px rgba(201, 168, 76, 0.25)',
     fontFamily: 'var(--font)',
-    marginTop: 24
+    marginTop: 24,
+    opacity: loading ? 0.7 : 1
+  };
+
+  const labelStyle: React.CSSProperties = {
+    color: 'rgba(238, 238, 245, 0.65)',
+    fontSize: 13,
+    fontWeight: 700,
+    marginBottom: 8,
+    display: 'block'
+  };
+
+  const handleNext = () => {
+    if (!form.institution_name.trim()) { setError('اسم المؤسسة مطلوب'); return; }
+    if (!form.contact_name.trim()) { setError('اسم المسؤول مطلوب'); return; }
+    if (!form.contact_phone.trim()) { setError('رقم الجوال مطلوب'); return; }
+    setError('');
+    setStep(2);
+  };
+
+  const handleSubmit = async () => {
+    setError('');
+    if (!form.contact_email.trim()) { setError('البريد الإلكتروني مطلوب'); return; }
+    if (!form.password) { setError('كلمة المرور مطلوبة'); return; }
+    if (form.password.length < 8) { setError('كلمة المرور يجب أن تكون 8 أحرف على الأقل'); return; }
+    if (form.password !== form.confirm_password) { setError('كلمتا المرور غير متطابقتين'); return; }
+    setLoading(true);
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          institution_name: form.institution_name.trim(),
+          institution_type: form.institution_type,
+          city: form.city.trim() || undefined,
+          contact_name: form.contact_name.trim(),
+          contact_phone: form.contact_phone.trim(),
+          contact_email: form.contact_email.trim().toLowerCase(),
+          password: form.password,
+          plan: form.plan,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) { setError(data.error || 'حدث خطأ أثناء التسجيل'); return; }
+      setSuccess('تم إنشاء حسابك بنجاح! جاري توجيهك...');
+      setTimeout(() => router.push('/login?registered=1'), 2000);
+    } catch {
+      setError('تعذّر الاتصال بالخادم، يرجى المحاولة مجدداً');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -78,30 +131,75 @@ export default function RegisterPage() {
             <p style={{ color: 'rgba(238, 238, 245, 0.35)', fontSize: 14, fontWeight: 500 }}>انضم لأكثر من 500 مؤسسة تعليمية في المملكة</p>
           </div>
 
+          {/* Step Indicator */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 28 }}>
+            {[1, 2].map(s => (
+              <div key={s} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <div style={{ width: 32, height: 32, borderRadius: '50%', background: step >= s ? '#C9A84C' : 'rgba(255,255,255,0.06)', border: `2px solid ${step >= s ? '#C9A84C' : 'rgba(255,255,255,0.1)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: step >= s ? '#000' : 'rgba(255,255,255,0.3)', fontSize: 13, fontWeight: 800, transition: 'all 0.3s' }}>{s}</div>
+                {s < 2 && <div style={{ width: 40, height: 2, background: step > s ? '#C9A84C' : 'rgba(255,255,255,0.08)', borderRadius: 1, transition: 'all 0.3s' }} />}
+              </div>
+            ))}
+          </div>
+
+          {/* Error / Success */}
+          {error && <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 12, padding: '12px 16px', marginBottom: 20, color: '#FCA5A5', fontSize: 14, fontWeight: 600 }}>{error}</div>}
+          {success && <div style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: 12, padding: '12px 16px', marginBottom: 20, color: '#86EFAC', fontSize: 14, fontWeight: 600 }}>{success}</div>}
+
           {step === 1 ? (
             <div>
               <div style={{ marginBottom: 20 }}>
-                <label style={{ color: 'rgba(238, 238, 245, 0.65)', fontSize: 13, fontWeight: 700, marginBottom: 8, display: 'block' }}>اسم المؤسسة التعليمية</label>
+                <label style={labelStyle}>اسم المؤسسة التعليمية *</label>
                 <input type="text" value={form.institution_name} onChange={e => setForm({...form, institution_name: e.target.value})} placeholder="مثلاً: مدارس الرواد الأهلية" style={inputStyle} />
               </div>
               <div style={{ marginBottom: 20 }}>
-                <label style={{ color: 'rgba(238, 238, 245, 0.65)', fontSize: 13, fontWeight: 700, marginBottom: 8, display: 'block' }}>اسم المسؤول</label>
+                <label style={labelStyle}>نوع المؤسسة</label>
+                <select value={form.institution_type} onChange={e => setForm({...form, institution_type: e.target.value})} style={{ ...inputStyle, cursor: 'pointer' }}>
+                  <option value="school">مدرسة</option>
+                  <option value="university">جامعة</option>
+                  <option value="institute">معهد</option>
+                  <option value="kindergarten">روضة أطفال</option>
+                  <option value="training_center">مركز تدريب</option>
+                </select>
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={labelStyle}>اسم المسؤول *</label>
                 <input type="text" value={form.contact_name} onChange={e => setForm({...form, contact_name: e.target.value})} placeholder="الاسم الكامل" style={inputStyle} />
               </div>
-              <button onClick={() => setStep(2)} style={btnStyle}>التالي ←</button>
+              <div style={{ marginBottom: 20 }}>
+                <label style={labelStyle}>رقم الجوال *</label>
+                <input type="tel" value={form.contact_phone} onChange={e => setForm({...form, contact_phone: e.target.value})} placeholder="05xxxxxxxx" style={inputStyle} dir="ltr" />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={labelStyle}>المدينة</label>
+                <input type="text" value={form.city} onChange={e => setForm({...form, city: e.target.value})} placeholder="الرياض، جدة، الدمام..." style={inputStyle} />
+              </div>
+              <button onClick={handleNext} style={btnStyle}>التالي ←</button>
             </div>
           ) : (
             <div>
               <div style={{ marginBottom: 20 }}>
-                <label style={{ color: 'rgba(238, 238, 245, 0.65)', fontSize: 13, fontWeight: 700, marginBottom: 8, display: 'block' }}>البريد الإلكتروني</label>
-                <input type="email" value={form.contact_email} onChange={e => setForm({...form, contact_email: e.target.value})} placeholder="name@school.com" style={inputStyle} />
+                <label style={labelStyle}>البريد الإلكتروني *</label>
+                <input type="email" value={form.contact_email} onChange={e => setForm({...form, contact_email: e.target.value})} placeholder="name@school.com" style={inputStyle} dir="ltr" />
               </div>
               <div style={{ marginBottom: 20 }}>
-                <label style={{ color: 'rgba(238, 238, 245, 0.65)', fontSize: 13, fontWeight: 700, marginBottom: 8, display: 'block' }}>كلمة المرور</label>
-                <input type="password" value={form.password} onChange={e => setForm({...form, password: e.target.value})} placeholder="••••••••" style={inputStyle} />
+                <label style={labelStyle}>كلمة المرور * (8 أحرف على الأقل)</label>
+                <input type="password" value={form.password} onChange={e => setForm({...form, password: e.target.value})} placeholder="••••••••" style={inputStyle} dir="ltr" />
               </div>
-              <button onClick={() => setStep(1)} style={{ ...btnStyle, background: 'rgba(255,255,255,0.03)', color: '#EEEEF5', border: '1px solid rgba(255,255,255,0.08)', boxShadow: 'none', marginTop: 16 }}>← رجوع</button>
-              <button style={btnStyle}>إنشاء الحساب ✓</button>
+              <div style={{ marginBottom: 20 }}>
+                <label style={labelStyle}>تأكيد كلمة المرور *</label>
+                <input type="password" value={form.confirm_password} onChange={e => setForm({...form, confirm_password: e.target.value})} placeholder="••••••••" style={inputStyle} dir="ltr" />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={labelStyle}>الباقة</label>
+                <select value={form.plan} onChange={e => setForm({...form, plan: e.target.value})} style={{ ...inputStyle, cursor: 'pointer' }}>
+                  <option value="free">مجانية</option>
+                  <option value="basic">أساسية</option>
+                  <option value="pro">احترافية</option>
+                  <option value="enterprise">مؤسسية</option>
+                </select>
+              </div>
+              <button onClick={handleSubmit} disabled={loading} style={btnStyle}>{loading ? 'جاري إنشاء الحساب...' : 'إنشاء الحساب ✓'}</button>
+              <button onClick={() => { setStep(1); setError(''); }} style={{ ...btnStyle, background: 'rgba(255,255,255,0.03)', color: '#EEEEF5', border: '1px solid rgba(255,255,255,0.08)', boxShadow: 'none', marginTop: 12 }}>← رجوع</button>
             </div>
           )}
 
