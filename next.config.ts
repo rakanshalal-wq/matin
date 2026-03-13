@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   compress: true,
-  typescript: { ignoreBuildErrors: true },
+  // typescript.ignoreBuildErrors أُزيل — أخطاء TypeScript يجب إصلاحها وليس تجاهلها
   headers: async () => [
     {
       source: "/(.*)",

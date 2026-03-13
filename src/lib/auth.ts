@@ -20,6 +20,8 @@ const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {
   throw new Error('[Startup] JWT_SECRET غير معيّن. يجب تعيين JWT_SECRET في .env.local');
 }
+// TypeScript: بعد التحقق أعلاه، JWT_SECRET مضمون أنه string
+const JWT_SECRET_SAFE = JWT_SECRET as string;
 const JWT_EXPIRES = '7d';
 const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || '';
 const ALGORITHM = 'aes-256-gcm';
@@ -78,14 +80,14 @@ export function decryptField(encrypted: string): string {
 export function generateToken(user: any): string {
   return jwt.sign(
     { id: user.id, role: user.role, school_id: user.school_id, owner_id: user.owner_id, package: user.package || 'free' },
-    JWT_SECRET,
+    JWT_SECRET_SAFE,
     { expiresIn: JWT_EXPIRES }
   );
 }
 
 export function verifyToken(token: string): any {
   try {
-    return jwt.verify(token, JWT_SECRET);
+    return jwt.verify(token, JWT_SECRET_SAFE);
   } catch { return null; }
 }
 
@@ -134,9 +136,9 @@ export function getFilterSQL(user: any, paramStart: number = 1): { sql: string; 
       return { sql: '', params: [] };
 
     case 'owner':
-      // مالك المدرسة يرى فقط بيانات مدرسته
-      if (!user.school_id) return { sql: 'AND 1=0', params: [] };
-      return { sql: `AND school_id = $${paramStart}`, params: [user.school_id] };
+      // مالك المدرسة يرى بيانات مدارسه عبر owner_id (ليس school_id)
+      // المالك لا ينتمي لمدرسة بل يملكها، لذا نفلتر بـ owner_id = user.id
+      return { sql: `AND owner_id = $${paramStart}`, params: [user.id] };
 
     case 'admin':
       // مدير المدرسة يرى بيانات مدرسته فقط
