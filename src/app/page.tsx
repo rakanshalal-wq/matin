@@ -98,6 +98,7 @@ const PLANS = [
 export default function HomePage() {
   const [scrolled, setScrolled] = useState(false);
   const [activeCategory, setActiveCategory] = useState(0);
+  const [showInstitutions, setShowInstitutions] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
@@ -165,6 +166,13 @@ export default function HomePage() {
         .nav-links { display: flex; gap: 32px; list-style: none; flex: 1; }
         .nav-links a { color: var(--text-2); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
         .nav-links a:hover { color: var(--text); }
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-btn { color: var(--text-2); background: none; border: none; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 5px; font-family: inherit; padding: 0; transition: color 0.2s; }
+        .nav-dropdown-btn:hover { color: var(--text); }
+        .nav-dropdown-menu { position: absolute; top: calc(100% + 16px); right: 0; background: rgba(13,13,26,0.98); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 12px; min-width: 220px; backdrop-filter: blur(24px); z-index: 300; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+        .nav-dropdown-item { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 10px; text-decoration: none; color: var(--text-2); font-size: 13px; font-weight: 500; transition: all 0.2s; white-space: nowrap; }
+        .nav-dropdown-item:hover { background: rgba(255,255,255,0.04); color: var(--text); }
+        .nav-dropdown-item span { font-size: 16px; }
         .nav-end { display: flex; gap: 8px; align-items: center; margin-right: auto; }
         .btn-ghost { padding: 8px 18px; border-radius: 9px; border: 1px solid var(--border); background: transparent; color: var(--text-2); font-size: 13.5px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.2s; }
         .btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
@@ -271,13 +279,14 @@ export default function HomePage() {
 
         /* ── FOOTER ── */
         footer { border-top: 1px solid var(--border); padding: 64px 48px 40px; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; max-width: 1160px; margin: 0 auto; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto; }
+        @media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr 1fr; } }
         @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
         .footer-brand p { font-size: 13.5px; color: var(--text-3); line-height: 1.7; margin-top: 16px; max-width: 280px; }
         .footer-col h4 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 16px; }
         .footer-col a { display: block; font-size: 13px; color: var(--text-3); text-decoration: none; margin-bottom: 10px; transition: color 0.2s; }
         .footer-col a:hover { color: var(--text); }
-        .footer-bottom { max-width: 1160px; margin: 40px auto 0; padding-top: 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; }
+        .footer-bottom { max-width: 1280px; margin: 40px auto 0; padding-top: 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; }
         .footer-copy { font-size: 12.5px; color: var(--text-3); }
         .footer-social { display: flex; gap: 12px; }
         .social-btn { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--text-3); text-decoration: none; transition: all 0.2s; }
@@ -303,11 +312,25 @@ export default function HomePage() {
         </Link>
         <ul className="nav-links">
           <li><a href="#features">المميزات</a></li>
-          <li><a href="#integrations">التكاملات</a></li>
-          <li><Link href="/community">الملتقى</Link></li>
+          <li className="nav-dropdown" onMouseEnter={() => setShowInstitutions(true)} onMouseLeave={() => setShowInstitutions(false)}>
+            <button className="nav-dropdown-btn">المؤسسات <span style={{fontSize:10,opacity:0.6}}>▼</span></button>
+            {showInstitutions && (
+              <div className="nav-dropdown-menu">
+                {[{href:'/schools',icon:'🏫',label:'المدارس'},{href:'/universities',icon:'🎓',label:'الجامعات'},{href:'/institutes',icon:'📚',label:'المعاهد'},{href:'/kindergarten',icon:'🌱',label:'رياض الأطفال'},{href:'/training',icon:'💼',label:'مراكز التدريب'}].map(item => (
+                  <Link key={item.href} href={item.href} className="nav-dropdown-item">
+                    <span>{item.icon}</span>{item.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </li>
           <li><Link href="/pricing">الأسعار</Link></li>
+          <li><Link href="/community">الملتقى</Link></li>
+          <li><Link href="/about">عن متين</Link></li>
+          <li><Link href="/contact">تواصل معنا</Link></li>
         </ul>
         <div className="nav-end">
+          <Link href="/demo" className="btn-ghost">طلب عرض</Link>
           <Link href="/login" className="btn-ghost">تسجيل الدخول</Link>
           <Link href="/register" className="btn-primary">ابدأ مجاناً</Link>
         </div>
@@ -509,27 +532,43 @@ export default function HomePage() {
               متين
             </Link>
             <p>نظام إدارة المدارس الأكثر تكاملاً في المملكة العربية السعودية. مصمم خصيصاً للمؤسسات التعليمية السعودية.</p>
+            <div style={{ marginTop: 20, display: 'flex', gap: 8 }}>
+              <Link href="/register" style={{ padding: '8px 16px', borderRadius: 9, background: 'var(--gold)', color: '#000', fontSize: 12.5, fontWeight: 700, textDecoration: 'none' }}>ابدأ مجاناً</Link>
+              <Link href="/demo" style={{ padding: '8px 16px', borderRadius: 9, border: '1px solid var(--border)', color: 'var(--text-2)', fontSize: 12.5, fontWeight: 500, textDecoration: 'none' }}>طلب عرض</Link>
+            </div>
           </div>
           <div className="footer-col">
             <h4>المنتج</h4>
-            <Link href="/features">المميزات</Link>
-            <Link href="/pricing">الأسعار</Link>
-            <Link href="/dashboard/integrations">التكاملات</Link>
-            <Link href="/dashboard/ai-chat">الذكاء الاصطناعي</Link>
+            <Link href="/features">كل المميزات</Link>
+            <Link href="/pricing">الأسعار والباقات</Link>
+            <Link href="/ai">الذكاء الاصطناعي</Link>
+            <Link href="/demo">طلب عرض تجريبي</Link>
+            <Link href="/faq">الأسئلة الشائعة</Link>
           </div>
           <div className="footer-col">
-            <h4>المجتمع</h4>
-            <Link href="/community">الملتقى</Link>
-            <Link href="/dashboard/forums">المنتديات</Link>
-            <Link href="/dashboard/news">الأخبار</Link>
-            <Link href="/contact">تواصل معنا</Link>
+            <h4>المؤسسات</h4>
+            <Link href="/schools">المدارس</Link>
+            <Link href="/universities">الجامعات</Link>
+            <Link href="/institutes">المعاهد والأكاديميات</Link>
+            <Link href="/kindergarten">رياض الأطفال</Link>
+            <Link href="/training">مراكز التدريب</Link>
+          </div>
+          <div className="footer-col">
+            <h4>الميزات</h4>
+            <Link href="/attendance">الحضور والغياب</Link>
+            <Link href="/exams">الاختبارات</Link>
+            <Link href="/transport">النقل المدرسي</Link>
+            <Link href="/elearning">التعليم الإلكتروني</Link>
+            <Link href="/health">الصحة المدرسية</Link>
           </div>
           <div className="footer-col">
             <h4>الشركة</h4>
             <Link href="/about">عن متين</Link>
+            <Link href="/community">الملتقى</Link>
+            <Link href="/contact">تواصل معنا</Link>
+            <Link href="/sustainability">الاستدامة</Link>
             <Link href="/privacy">سياسة الخصوصية</Link>
             <Link href="/terms">الشروط والأحكام</Link>
-            <Link href="/sustainability">الاستدامة</Link>
           </div>
         </div>
         <div className="footer-bottom">
