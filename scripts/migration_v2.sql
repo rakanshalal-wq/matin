@@ -1447,3 +1447,20 @@ CREATE TABLE IF NOT EXISTS school_invoices (
 CREATE INDEX IF NOT EXISTS idx_school_invoices_school ON school_invoices(school_id);
 CREATE INDEX IF NOT EXISTS idx_school_invoices_status ON school_invoices(status);
 CREATE INDEX IF NOT EXISTS idx_school_invoices_due ON school_invoices(due_date);
+
+-- ─── Taxes ────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS taxes (
+  id            SERIAL PRIMARY KEY,
+  name          VARCHAR(255) NOT NULL,
+  type          VARCHAR(50) NOT NULL DEFAULT 'vat',
+  rate          DECIMAL(5,2) DEFAULT 0,
+  amount        DECIMAL(12,2) DEFAULT 0,
+  description   TEXT,
+  school_id     INTEGER REFERENCES schools(id) ON DELETE SET NULL,
+  owner_id      INTEGER,
+  status        VARCHAR(50) DEFAULT 'active',
+  due_date      DATE,
+  created_at    TIMESTAMP DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_taxes_school ON taxes(school_id);
+CREATE INDEX IF NOT EXISTS idx_taxes_status ON taxes(status);

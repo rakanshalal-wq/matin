@@ -21,9 +21,16 @@ export default function LoginPage() {
     super_admin: '/owner',
     owner: '/dashboard/owner',
     admin: '/dashboard/admin',
+    school_owner: '/dashboard/admin',
+    university_owner: '/dashboard/admin',
+    institute_owner: '/dashboard/admin',
+    kindergarten_owner: '/dashboard/admin',
+    training_owner: '/dashboard/admin',
     teacher: '/dashboard/teacher',
     student: '/dashboard/student',
     parent: '/dashboard/parent',
+    driver: '/dashboard/driver',
+    platform_staff: '/dashboard/support',
   };
 
   const completeLogin = (user: any, token: string) => {
