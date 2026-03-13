@@ -54,8 +54,8 @@ export default function CommissionsPage() {
   };
 
   const typeLabels: any = { fixed: 'مبلغ ثابت', percentage: 'نسبة مئوية', tiered: 'متدرّج', bonus: 'مكافأة' };
-  const roleLabels: any = { sales_rep: 'مندوب مبيعات', referral: 'مُحيل', agent: 'وكيل', partner: 'شريك', employee: 'موظف', affiliate: 'مسوّق بالعمولة' };
-  const roleIcons: any = { sales_rep: '🧑‍💼', referral: '🤝', agent: '🕴️', partner: '🤝', employee: '👔', affiliate: '📢' };
+  const roleLabels: any = { sales_rep: 'مندوب مبيعات', referral: 'مُحيل', partner: 'شريك', employee: 'موظف', affiliate: 'مسوّق بالعمولة' };
+  const roleIcons: any = { sales_rep: '🧑‍💼', referral: '🤝', partner: '🤝', employee: '👔', affiliate: '📢' };
   const statusLabels: any = { paid: 'تم الصرف', pending: 'معلّق', processing: 'جاري المعالجة', cancelled: 'ملغي' };
   const statusColors: any = { paid: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, pending: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, processing: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, cancelled: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' } };
   const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
@@ -81,7 +81,7 @@ export default function CommissionsPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
           <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>💸 العمولات</h1>
-          <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة عمولات المندوبين والوكلاء والشركاء</p>
+          <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة عمولات المندوبين والشركاء</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ person_name: '', role: '', type: 'fixed', amount: '', percentage: '', source: '', month: '', status: 'pending' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
           ➕ إضافة عمولة
@@ -183,7 +183,7 @@ export default function CommissionsPage() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ gridColumn: 'span 2' }}>
                 <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>اسم المستفيد *</label>
-                <input value={form.person_name} onChange={e => setForm({ ...form, person_name: e.target.value })} style={inputStyle} placeholder="اسم المندوب أو الوكيل" />
+                <input value={form.person_name} onChange={e => setForm({ ...form, person_name: e.target.value })} style={inputStyle} placeholder="اسم المستفيد" />
               </div>
               <div>
                 <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>الدور</label>
@@ -191,7 +191,6 @@ export default function CommissionsPage() {
                   <option value="">— اختر —</option>
                   <option value="sales_rep">مندوب مبيعات 🧑‍💼</option>
                   <option value="referral">مُحيل 🤝</option>
-                  <option value="agent">وكيل 🕴️</option>
                   <option value="partner">شريك 🤝</option>
                   <option value="employee">موظف 👔</option>
                   <option value="affiliate">مسوّق بالعمولة 📢</option>
