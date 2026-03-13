@@ -18,7 +18,7 @@ export async function GET(request: Request) {
         users.role as author_role
       FROM posts
       JOIN users ON posts.user_id = users.id
-      WHERE 1=1 ${filter.sql} ORDER BY posts.created_at DESC
+      WHERE 1=1 ${filter.sql} ORDER BY posts.created_at DESC LIMIT 200
     `, filter.params);
 
     return NextResponse.json({

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { pool, getUserFromRequest } from '@/lib/auth';
+import { getPaginationParams, buildPaginatedResponse } from '@/lib/pagination';
 import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
 
@@ -70,8 +71,20 @@ export async function GET(request: Request) {
         LEFT JOIN schools sc ON sc.id = t.school_id WHERE t.school_id = $1`;
       params = [String(user.school_id)];
     }
-    query += ' ORDER BY t.created_at DESC';
-    return NextResponse.json((await pool.query(query, params)).rows);
+    const { searchParams } = new URL(request.url);
+    if (searchParams.get('all') === 'true') {
+      query += ' ORDER BY t.created_at DESC LIMIT 5000';
+      return NextResponse.json((await pool.query(query, params)).rows);
+    }
+    const { page, limit, offset } = getPaginationParams(searchParams);
+    const countQuery = `SELECT COUNT(*) FROM (${query}) AS sub`;
+    const dataQuery = `${query} ORDER BY t.created_at DESC LIMIT ${limit} OFFSET ${offset}`;
+    const [countResult, dataResult] = await Promise.all([
+      pool.query(countQuery, params),
+      pool.query(dataQuery, params)
+    ]);
+    const total = parseInt(countResult.rows[0]?.count || '0', 10);
+    return NextResponse.json(buildPaginatedResponse(dataResult.rows, total, page, limit));
   } catch (error) {
     console.error('Teachers GET Error:', error);
     return NextResponse.json([]);

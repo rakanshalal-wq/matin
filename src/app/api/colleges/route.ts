@@ -13,7 +13,7 @@ export async function GET(request: Request) {
       SELECT c.*, s.name as school_name 
       FROM colleges c
       LEFT JOIN schools s ON c.school_id = s.id
-      WHERE 1=1 ${filter.sql} ORDER BY c.created_at DESC
+      WHERE 1=1 ${filter.sql} ORDER BY c.created_at DESC LIMIT 200
     `, filter.params);
     return NextResponse.json(result.rows);
   } catch (error) {

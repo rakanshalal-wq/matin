@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { pool, getUserFromRequest, getFilterSQL, getInsertIds } from '@/lib/auth';
+import { getPaginationParams, buildPaginatedResponse } from '@/lib/pagination';
 
 
 export async function GET(request: Request) {
@@ -8,13 +9,20 @@ export async function GET(request: Request) {
     if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     const filter = getFilterSQL(user);
 
-    const result = await pool.query(`
-      SELECT a.*, s.name as school_name 
-      FROM admissions a
-      LEFT JOIN schools s ON a.school_id::text = s.id::text
-      WHERE 1=1 ${filter.sql} ORDER BY a.created_at DESC
-    `, filter.params);
-    return NextResponse.json(result.rows);
+    const { searchParams } = new URL(request.url);
+    const { page, limit, offset } = getPaginationParams(searchParams);
+    const [countResult, dataResult] = await Promise.all([
+      pool.query(`SELECT COUNT(*) FROM admissions a WHERE 1=1 ${filter.sql}`, filter.params),
+      pool.query(`
+        SELECT a.*, s.name as school_name 
+        FROM admissions a
+        LEFT JOIN schools s ON a.school_id::text = s.id::text
+        WHERE 1=1 ${filter.sql} ORDER BY a.created_at DESC
+        LIMIT ${limit} OFFSET ${offset}
+      `, filter.params)
+    ]);
+    const total = parseInt(countResult.rows[0]?.count || '0', 10);
+    return NextResponse.json(buildPaginatedResponse(dataResult.rows, total, page, limit));
   } catch (error) {
     console.error('Error:', error);
     return NextResponse.json([]);

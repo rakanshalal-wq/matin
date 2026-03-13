@@ -7,7 +7,7 @@ export async function GET(request: Request) {
     if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     const { sql: filterSql, params } = getFilterSQL(user);
     const result = await pool.query(
-      `SELECT l.*, u.name as employee_name FROM leaves l LEFT JOIN users u ON l.teacher_id = u.id WHERE 1=1 ${filterSql.replace('school_id', 'l.school_id')} ORDER BY l.created_at DESC`,
+      `SELECT l.*, u.name as employee_name FROM leaves l LEFT JOIN users u ON l.teacher_id = u.id WHERE 1=1 ${filterSql.replace('school_id', 'l.school_id')} ORDER BY l.created_at DESC LIMIT 200`,
       params
     );
     return NextResponse.json(result.rows);

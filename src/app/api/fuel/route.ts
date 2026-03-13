@@ -6,7 +6,7 @@ export async function GET(request: Request) {
     const user = await getUserFromRequest(request);
     if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     const filter = getFilterSQL(user);
- const result = await pool.query('SELECT * FROM fuel_records ORDER BY created_at DESC'); return NextResponse.json(result.rows); }
+ const result = await pool.query('SELECT * FROM fuel_records ORDER BY created_at DESC LIMIT 200'); return NextResponse.json(result.rows); }
   catch (error) { console.error('Error:', error); return NextResponse.json([]); }
 }
 

@@ -12,7 +12,7 @@ export async function GET(request: Request) {
       FROM delegates d
       LEFT JOIN users u ON u.id = d.user_id
       WHERE 1=1 ${filter.sql}
-      ORDER BY d.created_at DESC
+      ORDER BY d.created_at DESC LIMIT 200
     `, filter.params);
     
     return NextResponse.json(result.rows);

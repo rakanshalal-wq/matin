@@ -16,7 +16,7 @@ export async function GET(request: Request) {
     if (type === 'buses') {
       const result = await pool.query(`
         SELECT b.*, (SELECT COUNT(*) FROM bus_riders WHERE bus_id = b.id AND status = 'active') as rider_count
-        FROM buses b WHERE 1=1 ${filter.sql} ORDER BY b.created_at DESC
+        FROM buses b WHERE 1=1 ${filter.sql} ORDER BY b.created_at DESC LIMIT 200
       `, filter.params);
       return NextResponse.json(result.rows);
     }

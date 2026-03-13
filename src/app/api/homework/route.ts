@@ -45,7 +45,7 @@ export async function GET(request: Request) {
         (SELECT COUNT(*) FROM homework_submissions WHERE homework_id = h.id AND status = 'graded') as graded_count
       FROM homework h
       WHERE 1=1 ${filter.sql}
-      ORDER BY h.created_at DESC
+      ORDER BY h.created_at DESC LIMIT 200
     `, filter.params);
     return NextResponse.json(result.rows);
   } catch (error) { console.error('Error:', error); return NextResponse.json([]); }

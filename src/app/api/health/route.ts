@@ -6,7 +6,7 @@ export async function GET(request: Request) {
     const user = await getUserFromRequest(request);
     const filter = getFilterSQL(user);
     const result = await pool.query(
-      `SELECT * FROM health_records WHERE 1=1 ${filter.sql} ORDER BY created_at DESC`,
+      `SELECT * FROM health_records WHERE 1=1 ${filter.sql} ORDER BY created_at DESC LIMIT 200`,
       filter.params
     );
     return NextResponse.json(result.rows);

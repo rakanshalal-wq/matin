@@ -22,7 +22,7 @@ export async function GET(request: Request) {
        FROM users u
        LEFT JOIN schools s ON s.id = u.school_id
        WHERE u.status = 'pending' ${schoolFilter}
-       ORDER BY u.created_at DESC`,
+       ORDER BY u.created_at DESC LIMIT 200`,
       params
     );
     return NextResponse.json(result.rows);

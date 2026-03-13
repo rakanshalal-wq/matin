@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { pool, getUserFromRequest, getFilterSQL } from '@/lib/auth';
+import { getPaginationParams, buildPaginatedResponse } from '@/lib/pagination';
 
 export async function GET(request: Request) {
   try {
@@ -7,15 +8,22 @@ export async function GET(request: Request) {
     if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     const filter = getFilterSQL(user);
     
-    const result = await pool.query(`
-      SELECT a.*, u.name as author_name
-      FROM announcements a
-      LEFT JOIN users u ON u.id = a.author_id
-      WHERE 1=1 ${filter.sql.replace(/school_id/g, 'a.school_id')}
-      ORDER BY a.created_at DESC
-    `, filter.params);
-    
-    return NextResponse.json(result.rows);
+    const { searchParams } = new URL(request.url);
+    const { page, limit, offset } = getPaginationParams(searchParams);
+    const filterSQL = filter.sql.replace(/school_id/g, 'a.school_id');
+    const [countResult, dataResult] = await Promise.all([
+      pool.query(`SELECT COUNT(*) FROM announcements a WHERE 1=1 ${filterSQL}`, filter.params),
+      pool.query(`
+        SELECT a.*, u.name as author_name
+        FROM announcements a
+        LEFT JOIN users u ON u.id = a.author_id
+        WHERE 1=1 ${filterSQL}
+        ORDER BY a.created_at DESC
+        LIMIT ${limit} OFFSET ${offset}
+      `, filter.params)
+    ]);
+    const total = parseInt(countResult.rows[0]?.count || '0', 10);
+    return NextResponse.json(buildPaginatedResponse(dataResult.rows, total, page, limit));
   } catch (error: any) {
     // If table doesn't exist, return empty array
     if (error.message.includes('does not exist')) {

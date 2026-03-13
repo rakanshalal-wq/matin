@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { getPaginationParams, buildPaginatedResponse } from '@/lib/pagination';
 import { pool, getUserFromRequest, getFilterSQL, getInsertIds } from '@/lib/auth';
 
 export async function GET(request: Request) {
@@ -7,8 +8,14 @@ export async function GET(request: Request) {
     if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     const filter = getFilterSQL(user);
 
-    const result = await pool.query('SELECT * FROM forums ORDER BY created_at DESC');
-    return NextResponse.json(result.rows);
+    const { searchParams } = new URL(request.url);
+    const { page, limit, offset } = getPaginationParams(searchParams);
+    const [countResult, dataResult] = await Promise.all([
+      pool.query('SELECT COUNT(*) FROM forums'),
+      pool.query(`SELECT * FROM forums ORDER BY created_at DESC LIMIT ${limit} OFFSET ${offset}`)
+    ]);
+    const total = parseInt(countResult.rows[0]?.count || '0', 10);
+    return NextResponse.json(buildPaginatedResponse(dataResult.rows, total, page, limit));
   } catch (error) { console.error('Error:', error); return NextResponse.json([]); }
 }
 

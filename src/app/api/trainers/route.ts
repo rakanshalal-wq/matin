@@ -8,7 +8,7 @@ export async function GET(request: Request) {
     if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     const filter = getFilterSQL(user);
 
-    const result = await pool.query('SELECT * FROM trainers ORDER BY created_at DESC');
+    const result = await pool.query('SELECT * FROM trainers ORDER BY created_at DESC LIMIT 200');
     return NextResponse.json(result.rows);
   } catch (error) {
     console.error('Error:', error);

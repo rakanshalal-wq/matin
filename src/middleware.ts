@@ -47,6 +47,7 @@ const PLAN_FEATURES: Record<string, string[]> = {
   enterprise: ['attendance', 'grades', 'messages', 'students', 'teachers', 'classes', 'subjects', 'schedules', 'homework', 'exams', 'library', 'reports', 'announcements', 'store', 'ai-chat', 'export', 'community', 'social', 'payroll', 'leaves', 'employees', 'transport', 'cafeteria', 'health', 'clinic', 'vaccinations', 'driver-app', 'api', 'white-label', 'integrations'],
 };
 
+// مطابقة صفحات Dashboard بالميزات
 const PATH_TO_FEATURE: Record<string, string> = {
   '/dashboard/ai-chat': 'ai-chat',
   '/dashboard/export': 'export',
@@ -63,6 +64,20 @@ const PATH_TO_FEATURE: Record<string, string> = {
   '/dashboard/leaves': 'leaves',
   '/dashboard/employees': 'employees',
   '/dashboard/integrations': 'integrations',
+};
+
+// مطابقة API routes بالميزات لتطبيق Package Enforcement على مستوى API
+const API_PATH_TO_FEATURE: Record<string, string> = {
+  '/api/ai-chat': 'ai-chat',
+  '/api/store': 'store',
+  '/api/transport': 'transport',
+  '/api/cafeteria': 'cafeteria',
+  '/api/clinic': 'clinic',
+  '/api/payroll': 'payroll',
+  '/api/employees': 'employees',
+  '/api/integrations': 'integrations',
+  '/api/community': 'community',
+  '/api/export': 'export',
 };
 
 export function middleware(request: NextRequest) {
@@ -87,15 +102,25 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  if (pathname.startsWith('/api/auth') || pathname.startsWith('/api/guests') || pathname.startsWith('/api/nafath')) {
-    if (!true) {
+  // ===== Rate Limiting =====
+  // صارم على login وOTP: 5 محاولات كل 15 دقيقة (حماية من brute force)
+  if (pathname === '/api/auth/login' || pathname === '/api/auth/verify-otp' || pathname.startsWith('/api/nafath')) {
+    if (!getRateLimit(`strict:${ip}`, 5, 15 * 60 * 1000)) {
       return new NextResponse(JSON.stringify({ error: 'تجاوزت الحد المسموح، حاول بعد 15 دقيقة' }), {
         status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': '900' }
       });
     }
   }
-
-  if (pathname.startsWith('/api/')) {
+  // متوسط على باقي auth: 20 طلب/دقيقة
+  else if (pathname.startsWith('/api/auth') || pathname.startsWith('/api/guests')) {
+    if (!getRateLimit(`auth:${ip}`, 20, 60 * 1000)) {
+      return new NextResponse(JSON.stringify({ error: 'طلبات كثيرة جداً، حاول لاحقاً' }), {
+        status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': '60' }
+      });
+    }
+  }
+  // عام على باقي API: 100 طلب/دقيقة
+  else if (pathname.startsWith('/api/')) {
     if (!getRateLimit(`api:${ip}`, 100, 60 * 1000)) {
       return new NextResponse(JSON.stringify({ error: 'طلبات كثيرة جداً، حاول لاحقاً' }), {
         status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': '60' }
@@ -103,18 +128,21 @@ export function middleware(request: NextRequest) {
     }
   }
 
+  // ===== حماية من User Agents المشبوهة =====
   const userAgent = request.headers.get('user-agent') || '';
   const suspiciousAgents = ['sqlmap', 'nikto', 'nmap', 'masscan', 'zgrab', 'scanner', 'exploit', 'havij'];
   if (suspiciousAgents.some(agent => userAgent.toLowerCase().includes(agent))) {
     return new NextResponse('Forbidden', { status: 403 });
   }
 
+  // ===== حماية من SQL Injection في URL =====
   const url = request.nextUrl.toString().toLowerCase();
   const sqlPatterns = ['union+select', 'union%20select', 'drop+table', 'drop%20table', '--+', "' or '1'='1", 'xp_cmdshell', 'exec(', 'script>', '<script'];
   if (sqlPatterns.some(pattern => url.includes(pattern))) {
     return new NextResponse('Forbidden', { status: 403 });
   }
 
+  // ===== حماية صفحة /owner =====
   if (pathname.startsWith('/owner')) {
     const { role } = getTokenPayload(request);
     if (role !== 'super_admin') {
@@ -122,13 +150,12 @@ export function middleware(request: NextRequest) {
     }
   }
 
+  // ===== Package Enforcement على صفحات Dashboard =====
   if (pathname.startsWith('/dashboard/')) {
     const matchedPath = Object.keys(PATH_TO_FEATURE).find(path => pathname.startsWith(path));
     if (matchedPath) {
       const { role, package: userPackage } = getTokenPayload(request);
-      if (role === 'super_admin' || role === 'owner') {
-        // تابع بدون حجب
-      } else {
+      if (role !== 'super_admin' && role !== 'owner') {
         const requiredFeature = PATH_TO_FEATURE[matchedPath];
         const allowedFeatures = PLAN_FEATURES[userPackage] || PLAN_FEATURES.free;
         if (!allowedFeatures.includes(requiredFeature)) {
@@ -140,6 +167,26 @@ export function middleware(request: NextRequest) {
           if (!PLAN_FEATURES.pro.includes(requiredFeature)) requiredPlan = 'enterprise';
           subscribeUrl.searchParams.set('required_plan', requiredPlan);
           return NextResponse.redirect(subscribeUrl);
+        }
+      }
+    }
+  }
+
+  // ===== Package Enforcement على API routes =====
+  // يمنع الوصول المباشر للـ API حتى لو تجاوز المستخدم الـ UI
+  if (pathname.startsWith('/api/')) {
+    const matchedApiPath = Object.keys(API_PATH_TO_FEATURE).find(path => pathname.startsWith(path));
+    if (matchedApiPath) {
+      const { role, package: userPackage } = getTokenPayload(request);
+      // super_admin وowner لا يُقيَّدان
+      if (role !== 'super_admin' && role !== 'owner' && role !== '') {
+        const requiredFeature = API_PATH_TO_FEATURE[matchedApiPath];
+        const allowedFeatures = PLAN_FEATURES[userPackage] || PLAN_FEATURES.free;
+        if (!allowedFeatures.includes(requiredFeature)) {
+          return new NextResponse(
+            JSON.stringify({ error: 'هذه الميزة غير متاحة في باقتك الحالية', feature: requiredFeature, current_plan: userPackage }),
+            { status: 403, headers: { 'Content-Type': 'application/json' } }
+          );
         }
       }
     }
@@ -162,10 +209,10 @@ export function middleware(request: NextRequest) {
   );
   response.headers.set('X-Powered-By', 'matin');
 
+  // ===== CORS للـ API في Production =====
   if (request.method !== 'GET' && pathname.startsWith('/api/')) {
     if (process.env.NODE_ENV === 'production') {
       const origin = request.headers.get('origin');
-      // إصلاح أمني: الـ IP يُقرأ من البيئة بدل تضمينه في الكود
       const extraOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim()) : [];
       const allowedOrigins = ['https://matin.ink', 'http://localhost:3000', 'http://localhost:80', ...extraOrigins];
       const isAllowed = !origin || allowedOrigins.includes(origin);

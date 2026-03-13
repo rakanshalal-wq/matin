@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { pool, getUserFromRequest, getFilterSQL, getInsertIds } from '@/lib/auth';
+import { getPaginationParams, buildPaginatedResponse } from '@/lib/pagination';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 
@@ -9,12 +10,14 @@ export async function GET(request: Request) {
     const user = await getUserFromRequest(request);
     if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     const filter = getFilterSQL(user);
-    const result = await pool.query(`
-      SELECT id, name, email, phone, role, status, bio, created_at FROM users
-      WHERE role = 'employee'
-      ${filter.sql} ORDER BY created_at DESC
-    `, filter.params);
-    return NextResponse.json(result.rows);
+    const { searchParams } = new URL(request.url);
+    const { page, limit, offset } = getPaginationParams(searchParams);
+    const [countResult, dataResult] = await Promise.all([
+      pool.query(`SELECT COUNT(*) FROM users WHERE role = 'employee' ${filter.sql}`, filter.params),
+      pool.query(`SELECT id, name, email, phone, role, status, bio, created_at FROM users WHERE role = 'employee' ${filter.sql} ORDER BY created_at DESC LIMIT ${limit} OFFSET ${offset}`, filter.params)
+    ]);
+    const total = parseInt(countResult.rows[0]?.count || '0', 10);
+    return NextResponse.json(buildPaginatedResponse(dataResult.rows, total, page, limit));
   } catch (error) {
     console.error('Error:', error);
     return NextResponse.json([]);

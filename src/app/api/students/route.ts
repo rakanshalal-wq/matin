@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { pool, getUserFromRequest } from '@/lib/auth';
+import { getPaginationParams, buildPaginatedResponse } from '@/lib/pagination';
 import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
 
@@ -73,8 +74,22 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const classFilter = searchParams.get('class_id');
     if (classFilter) { query += ' AND s.class_id = $' + String(params.length + 1); params.push(classFilter); }
-    query += ' ORDER BY s.created_at DESC';
-    return NextResponse.json((await pool.query(query, params)).rows);
+    // إذا طُلب all=true نُرجع كل البيانات (للتصدير مثلاً)
+    if (searchParams.get('all') === 'true') {
+      query += ' ORDER BY s.created_at DESC LIMIT 5000';
+      return NextResponse.json((await pool.query(query, params)).rows);
+    }
+    // Pagination افتراضي
+    const { page, limit, offset } = getPaginationParams(searchParams);
+    const baseQuery = query;
+    const countQuery = `SELECT COUNT(*) FROM (${baseQuery}) AS sub`;
+    const dataQuery = `${baseQuery} ORDER BY s.created_at DESC LIMIT ${limit} OFFSET ${offset}`;
+    const [countResult, dataResult] = await Promise.all([
+      pool.query(countQuery, params),
+      pool.query(dataQuery, params)
+    ]);
+    const total = parseInt(countResult.rows[0]?.count || '0', 10);
+    return NextResponse.json(buildPaginatedResponse(dataResult.rows, total, page, limit));
   } catch (error) {
     console.error('GET Error:', error);
     return NextResponse.json([]);

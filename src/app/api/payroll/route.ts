@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
       FROM payroll p
       LEFT JOIN users u ON p.employee_id = u.id
       WHERE p.school_id IN (SELECT school_id FROM users WHERE id = $1)
-      ORDER BY p.created_at DESC
+      ORDER BY p.created_at DESC LIMIT 200
     `, [user.id]);
 
     return NextResponse.json({ data: result.rows, total: result.rowCount });
