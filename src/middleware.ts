@@ -165,7 +165,9 @@ export function middleware(request: NextRequest) {
   if (request.method !== 'GET' && pathname.startsWith('/api/')) {
     if (process.env.NODE_ENV === 'production') {
       const origin = request.headers.get('origin');
-      const allowedOrigins = ['https://matin.ink', 'http://localhost:3000', 'http://localhost:80', 'http://164.92.245.158', 'http://164.92.245.158:3000'];
+      // إصلاح أمني: الـ IP يُقرأ من البيئة بدل تضمينه في الكود
+      const extraOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim()) : [];
+      const allowedOrigins = ['https://matin.ink', 'http://localhost:3000', 'http://localhost:80', ...extraOrigins];
       const isAllowed = !origin || allowedOrigins.includes(origin);
       if (!isAllowed) {
         return new NextResponse(JSON.stringify({ error: 'غير مسموح' }), { status: 403, headers: { 'Content-Type': 'application/json' } });

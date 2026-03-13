@@ -14,7 +14,7 @@ async function sendPasswordEmail(email: string, name: string, password: string, 
   try {
     const apiKeyResult = await pool.query("SELECT value FROM platform_settings WHERE key = 'email_api_key'");
     const apiKey = apiKeyResult.rows[0]?.value;
-    if (!apiKey) { console.log(`[DEV] Password for ${email}: ${password}`); return; }
+    if (!apiKey) { console.error('[Email] email_api_key not configured — password email not sent'); return; }
 
     const loginUrl = schoolSlug ? `https://matin.ink/school/${schoolSlug}` : 'https://matin.ink/login';
 

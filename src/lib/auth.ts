@@ -2,11 +2,11 @@ import { Pool } from 'pg';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 
-// تجاوز DATABASE_URL العام (قد يكون MySQL من البيئة)
-const RAW_DB_URL = process.env.DATABASE_URL || '';
-const MATIN_DB_URL = RAW_DB_URL.startsWith('postgresql://') || RAW_DB_URL.startsWith('postgres://')
-  ? RAW_DB_URL
-  : 'postgresql://matin:matin_secure_2026@127.0.0.1:5432/matin_db_new';
+// إصلاح أمني: الاتصال بقاعدة البيانات يعتمد كلياً على متغيرات البيئة — لا توجد كلمة مرور مضمّنة في الكود
+const MATIN_DB_URL = process.env.MATIN_DATABASE_URL || process.env.DATABASE_URL || '';
+if (!MATIN_DB_URL || (!MATIN_DB_URL.startsWith('postgresql://') && !MATIN_DB_URL.startsWith('postgres://'))) {
+  throw new Error('[Startup] MATIN_DATABASE_URL أو DATABASE_URL غير معيّن أو غير صحيح. يجب تعيين متغير بيئة PostgreSQL صحيح في .env.local');
+}
 const isLocal = MATIN_DB_URL.includes('localhost') || MATIN_DB_URL.includes('127.0.0.1');
 export const pool = new Pool({
   connectionString: MATIN_DB_URL,
@@ -16,7 +16,10 @@ export const pool = new Pool({
   ssl: isLocal ? false : { rejectUnauthorized: false },
 });
 
-const JWT_SECRET = process.env.JWT_SECRET!;
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  throw new Error('[Startup] JWT_SECRET غير معيّن. يجب تعيين JWT_SECRET في .env.local');
+}
 const JWT_EXPIRES = '7d';
 const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || '';
 const ALGORITHM = 'aes-256-gcm';

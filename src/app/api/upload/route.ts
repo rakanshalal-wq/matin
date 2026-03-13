@@ -2,9 +2,16 @@ import { NextResponse } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { existsSync } from 'fs';
+import { getUserFromRequest } from '@/lib/auth';
 
 export async function POST(request: Request) {
   try {
+    // التحقق من المصادقة أولاً — لا يُسمح برفع ملفات بدون تسجيل دخول
+    const user = await getUserFromRequest(request);
+    if (!user) {
+      return NextResponse.json({ error: 'غير مصرح — يجب تسجيل الدخول أولاً' }, { status: 401 });
+    }
+
     const formData = await request.formData();
     const file = formData.get('file') as File;
     const category = formData.get('category') as string || 'general';

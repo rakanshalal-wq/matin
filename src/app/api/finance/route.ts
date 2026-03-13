@@ -57,7 +57,10 @@ export async function GET(request: Request) {
 
       const filter = getFilterSQL(user);
 
-      const totalRevenue = await pool.query(`SELECT COALESCE(SUM(amount), 0) as total FROM payments WHERE status = 'paid' ${user.role === 'super_admin' ? '' : 'AND owner_id = ' + user.id}`);
+      // إصلاح أمني: استخدام parameterized query بدل string concatenation
+      const totalRevenue = user.role === 'super_admin'
+        ? await pool.query(`SELECT COALESCE(SUM(amount), 0) as total FROM payments WHERE status = 'paid'`)
+        : await pool.query(`SELECT COALESCE(SUM(amount), 0) as total FROM payments WHERE status = 'paid' AND owner_id = $1`, [String(user.id)]);
       const totalSubs = await pool.query(`SELECT package, COUNT(*) as count FROM subscriptions WHERE status = 'active' GROUP BY package`);
       const recentPayments = await pool.query(`SELECT p.*, u.name as user_name FROM payments p LEFT JOIN users u ON u.id = p.user_id WHERE p.status = 'paid' ORDER BY p.paid_at DESC LIMIT 10`);
       const monthlyRevenue = await pool.query(`SELECT COALESCE(SUM(amount), 0) as total FROM payments WHERE status = 'paid' AND paid_at >= date_trunc('month', CURRENT_DATE)`);
