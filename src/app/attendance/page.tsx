@@ -1,131 +1,93 @@
+'use client';
 import Link from 'next/link';
-
 export default function AttendancePage() {
   return (
-    <>
-      <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-      
-      <div style={{ background: 'linear-gradient(135deg, #0D1B2A 0%, #1B263B 50%, #243B53 100%)', minHeight: '100vh', fontFamily: "'IBM Plex Sans Arabic', sans-serif" }} dir="rtl">
-        
-        <nav style={{ position: 'sticky', top: 0, background: 'rgba(13, 27, 42, 0.95)', backdropFilter: 'blur(10px)', borderBottom: '1px solid rgba(201, 162, 39, 0.2)', zIndex: 1000, padding: '16px 0' }}>
-          <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 12 }}>
-              <div style={{ width: 48, height: 48, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, fontWeight: 700, color: '#0D1B2A', boxShadow: '0 4px 12px rgba(201, 162, 39, 0.3)' }}>م</div>
-              <span style={{ fontSize: 28, fontWeight: 800, color: '#C9A227' }}>متين</span>
-            </Link>
-            <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
-              <Link href="/community" style={{ color: 'white', textDecoration: 'none', fontSize: 15, fontWeight: 500 }}>المجتمع</Link>
-              <Link href="/store" style={{ color: 'white', textDecoration: 'none', fontSize: 15, fontWeight: 500 }}>المتجر</Link>
-              <Link href="/pricing" style={{ color: 'white', textDecoration: 'none', fontSize: 15, fontWeight: 500 }}>الأسعار</Link>
-              <Link href="/contact" style={{ color: 'white', textDecoration: 'none', fontSize: 15, fontWeight: 500 }}>تواصل معنا</Link>
-              <Link href="/login" style={{ padding: '10px 24px', background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', border: 'none', borderRadius: 8, color: '#0D1B2A', textDecoration: 'none', fontSize: 15, fontWeight: 700, boxShadow: '0 4px 12px rgba(201, 162, 39, 0.4)' }}>تسجيل الدخول</Link>
+    <div style={{ background: '#06060E', minHeight: '100vh', color: '#EEEEF5', fontFamily: "'IBM Plex Sans Arabic', 'Tajawal', sans-serif", direction: 'rtl', overflowX: 'hidden' }}>
+      <style>{`
+        :root { --gold: #C9A84C; --gold-2: #E8C96D; --border: rgba(201,168,76,0.15); --text: #EEEEF5; --text-2: rgba(238,238,245,0.6); }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        .nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(6,6,14,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); padding:0 40px; height:64px; display:flex; align-items:center; justify-content:space-between; }
+        .nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+        .nav-logo-mark { width:34px; height:34px; background:var(--gold); border-radius:9px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:16px; color:#060C18; }
+        .nav-logo-text { font-size:18px; font-weight:800; color:var(--text); }
+        .nav-links { display:flex; align-items:center; gap:8px; }
+        .btn-ghost { padding:8px 20px; border-radius:9px; background:transparent; border:1px solid var(--border); color:var(--text-2); font-size:13.5px; font-weight:500; text-decoration:none; }
+        .btn-primary { padding:8px 20px; border-radius:9px; background:var(--gold); color:#000; font-size:13.5px; font-weight:700; text-decoration:none; }
+        .hero { position:relative; padding:140px 40px 80px; text-align:center; overflow:hidden; }
+        .hero-grid { position:absolute; inset:0; z-index:0; background-image:linear-gradient(rgba(201,168,76,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.025) 1px, transparent 1px); background-size:80px 80px; mask-image:radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 100%); }
+        .hero-glow { position:absolute; top:-200px; left:50%; transform:translateX(-50%); width:1100px; height:700px; background:radial-gradient(ellipse, rgba(59,130,246,0.12) 0%, rgba(201,168,76,0.08) 40%, transparent 70%); pointer-events:none; z-index:0; }
+        .hero-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.2); color:#3B82F6; padding:6px 16px; border-radius:100px; font-size:12.5px; font-weight:600; margin-bottom:40px; }
+        .badge-dot { width:7px; height:7px; border-radius:50%; background:#3B82F6; animation:pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+        .hero h1 { font-size:clamp(36px,5vw,64px); font-weight:900; line-height:1.15; position:relative; z-index:1; }
+        .hero h1 .gold { display:block; background:linear-gradient(90deg, var(--gold) 0%, var(--gold-2) 40%, #F5D78E 70%, var(--gold-2) 100%); background-size:200% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:shimmer 4s linear infinite; }
+        @keyframes shimmer { 0%{background-position:0% center} 100%{background-position:200% center} }
+        .hero p { font-size:18px; color:var(--text-2); max-width:600px; margin:24px auto 0; position:relative; z-index:1; line-height:1.7; }
+        .section { padding:80px 40px; max-width:1280px; margin:0 auto; }
+        .section-label { font-size:12px; font-weight:700; letter-spacing:2px; color:var(--gold); text-transform:uppercase; margin-bottom:16px; }
+        .section-title { font-size:clamp(28px,3.5vw,42px); font-weight:900; margin-bottom:16px; }
+        .section-desc { font-size:16px; color:var(--text-2); max-width:600px; line-height:1.7; margin-bottom:48px; }
+        .features-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:24px; }
+        .feature-card { background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:16px; padding:32px; transition:all 0.3s; }
+        .feature-card:hover { border-color:var(--gold); background:rgba(201,168,76,0.05); transform:translateY(-4px); }
+        .feature-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:24px; margin-bottom:20px; }
+        .feature-title { font-size:17px; font-weight:700; margin-bottom:10px; }
+        .feature-desc { font-size:14px; color:var(--text-2); line-height:1.7; }
+        .divider { height:1px; background:var(--border); margin:0 40px; }
+        .cta-section { padding:80px 40px; text-align:center; }
+        .cta-box { background:rgba(201,168,76,0.06); border:1px solid rgba(201,168,76,0.2); border-radius:24px; padding:64px 40px; max-width:700px; margin:0 auto; }
+        .btn-hero { display:inline-flex; align-items:center; gap:10px; background:var(--gold); color:#000; padding:15px 32px; border-radius:12px; font-size:15px; font-weight:700; text-decoration:none; margin-top:32px; }
+        .footer { padding:40px; border-top:1px solid var(--border); text-align:center; color:var(--text-2); font-size:13px; }
+      `}</style>
+      <nav className="nav">
+        <Link href="/" className="nav-logo"><div className="nav-logo-mark">م</div><span className="nav-logo-text">متين</span></Link>
+        <div className="nav-links">
+          <Link href="/features" className="btn-ghost">المميزات</Link>
+          <Link href="/pricing" className="btn-ghost">الأسعار</Link>
+          <Link href="/login" className="btn-ghost">تسجيل الدخول</Link>
+          <Link href="/register" className="btn-primary">ابدأ مجاناً</Link>
+        </div>
+      </nav>
+      <section className="hero">
+        <div className="hero-grid"></div><div className="hero-glow"></div>
+        <div style={{ position:'relative', zIndex:1 }}>
+          <div className="hero-badge"><span className="badge-dot"></span>الحضور والغياب</div>
+          <h1>تتبع الحضور بدقة<span className="gold">وإشعارات فورية للأهل</span></h1>
+          <p>نظام حضور وغياب ذكي — تسجيل بالبصمة أو QR أو يدوي، مع إشعار واتساب فوري لولي الأمر عند غياب ابنه.</p>
+        </div>
+      </section>
+      <div className="divider"></div>
+      <section className="section">
+        <div className="section-label">المميزات الكاملة</div>
+        <div className="section-title">نظام حضور ذكي ودقيق</div>
+        <div className="section-desc">تسجيل الحضور بأسرع طريقة وأدق نتيجة — لا أخطاء، لا تلاعب، لا تأخير.</div>
+        <div className="features-grid">
+          {[
+            { icon: '📱', title: 'تسجيل بمسح QR', desc: 'كل طالب يمسح QR الخاص به عند الدخول — سريع، دقيق، ولا يحتاج معلم.', color: 'rgba(59,130,246,0.12)' },
+            { icon: '🔔', title: 'إشعار واتساب فوري', desc: 'ولي الأمر يستلم رسالة واتساب فوراً عند غياب ابنه أو تأخره — بدون أي تأخير.', color: 'rgba(59,130,246,0.12)' },
+            { icon: '📊', title: 'تقارير الحضور', desc: 'تقارير يومية وأسبوعية وشهرية لكل طالب وكل فصل — نسب الحضور والغياب والتأخر.', color: 'rgba(201,168,76,0.12)' },
+            { icon: '⚠️', title: 'تنبيهات الغياب المتكرر', desc: 'تنبيه تلقائي للإدارة عند تجاوز الطالب حد الغياب المسموح به حسب اللوائح.', color: 'rgba(201,168,76,0.12)' },
+            { icon: '✏️', title: 'تعديل الحضور', desc: 'المعلم يعدل الحضور بسهولة مع حفظ سجل التعديلات وسبب كل تعديل.', color: 'rgba(201,168,76,0.12)' },
+            { icon: '📅', title: 'إجازات وأعذار', desc: 'تسجيل الإجازات والأعذار الرسمية مع ربطها بسجل الحضور تلقائياً.', color: 'rgba(201,168,76,0.12)' },
+          ].map((f, i) => (
+            <div key={i} className="feature-card">
+              <div className="feature-icon" style={{ background: f.color }}>{f.icon}</div>
+              <div className="feature-title">{f.title}</div>
+              <div className="feature-desc">{f.desc}</div>
             </div>
-          </div>
-        </nav>
-
-        <section style={{ padding: '80px 24px', textAlign: 'center' }}>
-          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-            <div style={{ fontSize: 80, marginBottom: 24 }}>⏰</div>
-            <h1 style={{ fontSize: 56, fontWeight: 900, color: 'white', marginBottom: 20 }}>
-              الحضور <span style={{ color: '#C9A227' }}>والغياب</span>
-            </h1>
-            <p style={{ fontSize: 22, color: 'rgba(255, 255, 255, 0.8)', marginBottom: 40 }}>
-              نظام متقدم لتسجيل الحضور والغياب مع إشعارات فورية وتقارير تفصيلية
-            </p>
-          </div>
-        </section>
-
-        <section style={{ padding: '60px 24px' }}>
-          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 32 }}>
-              {[
-                { icon: '📱', title: 'تسجيل إلكتروني سريع', desc: 'تسجيل الحضور بنقرة واحدة عبر الجوال أو الكمبيوتر' },
-                { icon: '🔔', title: 'إشعارات فورية', desc: 'إشعارات تلقائية للأهالي عند غياب الطالب أو تأخره' },
-                { icon: '📊', title: 'تقارير تفصيلية', desc: 'تقارير يومية وشهرية وسنوية عن الحضور والغياب' },
-                { icon: '⚡', title: 'تسجيل جماعي', desc: 'تسجيل حضور الفصل كامل دفعة واحدة' },
-                { icon: '🎯', title: 'التتبع الذكي', desc: 'تحليل أنماط الغياب والتأخر لكل طالب' },
-                { icon: '📅', title: 'تقويم الحضور', desc: 'عرض تقويم شامل لأيام الحضور والغياب' },
-                { icon: '🔐', title: 'صلاحيات مرنة', desc: 'صلاحيات متعددة المستويات للمعلمين والإدارة' },
-                { icon: '📈', title: 'إحصائيات متقدمة', desc: 'نسب الحضور والغياب على مستوى الطالب والفصل والمدرسة' }
-              ].map((f, i) => (
-                <div key={i} style={{ background: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: 16, padding: 32, textAlign: 'center' }}>
-                  <div style={{ fontSize: 48, marginBottom: 16 }}>{f.icon}</div>
-                  <h3 style={{ fontSize: 22, fontWeight: 700, color: 'white', marginBottom: 12 }}>{f.title}</h3>
-                  <p style={{ fontSize: 16, color: 'rgba(255, 255, 255, 0.7)', lineHeight: 1.6 }}>{f.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section style={{ padding: '80px 24px', background: 'rgba(201, 162, 39, 0.05)' }}>
-          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-            <h2 style={{ fontSize: 42, fontWeight: 900, color: 'white', marginBottom: 40, textAlign: 'center' }}>
-              كيف <span style={{ color: '#C9A227' }}>يعمل النظام؟</span>
-            </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 32 }}>
-              {[
-                { num: '1', title: 'فتح الحصة', desc: 'المعلم يفتح قائمة الحضور' },
-                { num: '2', title: 'تسجيل الحضور', desc: 'تسجيل سريع لكل طالب' },
-                { num: '3', title: 'الإشعارات', desc: 'إشعارات فورية للأهالي' },
-                { num: '4', title: 'التقارير', desc: 'تقارير تلقائية دقيقة' }
-              ].map((s, i) => (
-                <div key={i} style={{ textAlign: 'center' }}>
-                  <div style={{ width: 80, height: 80, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36, fontWeight: 900, color: '#0D1B2A', margin: '0 auto 20px' }}>{s.num}</div>
-                  <h3 style={{ fontSize: 20, fontWeight: 700, color: 'white', marginBottom: 12 }}>{s.title}</h3>
-                  <p style={{ fontSize: 16, color: 'rgba(255, 255, 255, 0.7)' }}>{s.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section style={{ padding: '80px 24px' }}>
-          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-            <h2 style={{ fontSize: 42, fontWeight: 900, color: 'white', marginBottom: 40, textAlign: 'center' }}>
-              الفوائد <span style={{ color: '#C9A227' }}>الرئيسية</span>
-            </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
-              {[
-                '✅ توفير الوقت للمعلمين',
-                '✅ دقة عالية في البيانات',
-                '✅ متابعة فورية من الأهالي',
-                '✅ تقليل الغياب والتأخر',
-                '✅ امتثال للوائح التعليم',
-                '✅ قرارات مبنية على البيانات'
-              ].map((b, i) => (
-                <div key={i} style={{ background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: 12, padding: 24, fontSize: 18, fontWeight: 600, color: 'white' }}>{b}</div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section style={{ padding: '80px 24px', background: 'rgba(201, 162, 39, 0.05)', textAlign: 'center' }}>
-          <div style={{ maxWidth: 800, margin: '0 auto' }}>
-            <h2 style={{ fontSize: 42, fontWeight: 900, color: 'white', marginBottom: 20 }}>
-              جاهز <span style={{ color: '#C9A227' }}>للبدء؟</span>
-            </h2>
-            <p style={{ fontSize: 20, color: 'rgba(255, 255, 255, 0.8)', marginBottom: 32 }}>
-              ابدأ تجربتك المجانية الآن واكتشف كيف يمكن لمتين تبسيط إدارة الحضور والغياب
-            </p>
-            <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link href="/register" style={{ display: 'inline-block', padding: '16px 40px', background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', border: 'none', borderRadius: 12, color: '#0D1B2A', textDecoration: 'none', fontSize: 18, fontWeight: 800 }}>
-                🚀 ابدأ مجاناً
-              </Link>
-              <Link href="/contact" style={{ display: 'inline-block', padding: '16px 40px', background: 'transparent', border: '2px solid #C9A227', borderRadius: 12, color: '#C9A227', textDecoration: 'none', fontSize: 18, fontWeight: 700 }}>
-                📞 تواصل معنا
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        <footer style={{ padding: '40px 24px', borderTop: '1px solid rgba(201, 162, 39, 0.2)', textAlign: 'center' }}>
-          <p style={{ fontSize: 14, color: 'rgba(255, 255, 255, 0.5)' }}>
-            © 2026 متين - جميع الحقوق محفوظة | صنع بـ ❤️ في السعودية 🇸🇦
-          </p>
-        </footer>
-
-      </div>
-    </>
+          ))}
+        </div>
+      </section>
+      <div className="divider"></div>
+      <section className="cta-section">
+        <div className="cta-box">
+          <div style={{ fontSize:'12px', fontWeight:700, letterSpacing:'2px', color:'var(--gold)', textTransform:'uppercase', marginBottom:'16px' }}>ابدأ الآن</div>
+          <h2 style={{ fontSize:'32px', fontWeight:900, marginBottom:'16px' }}>لا غياب يمر دون علم</h2>
+          <p style={{ fontSize:'15px', color:'var(--text-2)', lineHeight:1.7 }}>نظام الحضور في متين يضمن أن كل غياب يُرصد ويُبلَّغ عنه فوراً لأولياء الأمور.</p>
+          <Link href="/register" className="btn-hero">ابدأ تجربتك المجانية ←</Link>
+        </div>
+      </section>
+      <footer className="footer"><p>© {new Date().getFullYear()} منصة متين التعليمية. جميع الحقوق محفوظة.</p></footer>
+    </div>
   );
 }
