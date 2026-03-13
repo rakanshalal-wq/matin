@@ -19,6 +19,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const { title, image_url, link, bg_color } = await request.json();
+    if (!title?.trim()) return NextResponse.json({ error: 'عنوان الإعلان مطلوب' }, { status: 400 });
 
     const result = await pool.query(
       'INSERT INTO advertisements (title, image_url, link, bg_color) VALUES ($1, $2, $3, $4) RETURNING *',

@@ -225,6 +225,7 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
+  try {
   const user = await getUserFromRequest(request);
   if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
 
@@ -252,4 +253,9 @@ export async function GET(request: Request) {
   );
 
   return NextResponse.json({ sessions: sessions.rows });
+
+  } catch (error) {
+    console.error('GET exam-proctoring error:', error);
+    return NextResponse.json({ error: 'خطأ في جلب بيانات المراقبة' }, { status: 500 });
+  }
 }

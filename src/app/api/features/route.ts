@@ -19,6 +19,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const { title, description, icon, image_url, link } = await request.json();
+    if (!title?.trim()) return NextResponse.json({ error: 'عنوان الميزة مطلوب' }, { status: 400 });
 
     const result = await pool.query(
       'INSERT INTO features (title, description, icon, image_url, link) VALUES ($1, $2, $3, $4, $5) RETURNING *',

@@ -31,6 +31,7 @@ export async function POST(request: Request) {
 
     const body = await request.json();
     const { school_id, name, name_en, type, dean_name, email, phone, description } = body;
+    if (!name?.trim()) return NextResponse.json({ error: 'اسم الكلية مطلوب' }, { status: 400 });
 
     const result = await pool.query(`
       INSERT INTO colleges (school_id, name, name_en, type, dean_name, email, phone, description, is_active, created_at, updated_at)

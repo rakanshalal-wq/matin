@@ -70,3 +70,23 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ reply: 'عذراً، حدث خطأ. حاول مجدداً.', success: false });
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const user = getUserFromToken(request as any);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    if (!id) return NextResponse.json({ error: 'id مطلوب' }, { status: 400 });
+    const result = await pool.query(
+      `DELETE FROM ai_chats WHERE id = $1 AND user_id::text = $2::text RETURNING id`,
+      [id, user.id]
+    );
+    if (result.rows.length === 0) return NextResponse.json({ error: 'السجل غير موجود أو غير مصرح بحذفه' }, { status: 404 });
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('DELETE ai-chat error:', error);
+    return NextResponse.json({ error: 'خطأ في الحذف' }, { status: 500 });
+  }
+}
+

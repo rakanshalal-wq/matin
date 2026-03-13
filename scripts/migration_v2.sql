@@ -1422,3 +1422,28 @@ CREATE INDEX IF NOT EXISTS idx_email_otps_expires_at ON email_otps(expires_at);
 -- ============================================================
 -- انتهى migration_v2.sql
 -- ============================================================
+
+-- =====================================================
+-- جدول فواتير المدارس (school_invoices)
+-- =====================================================
+CREATE TABLE IF NOT EXISTS school_invoices (
+  id SERIAL PRIMARY KEY,
+  school_id INTEGER REFERENCES schools(id) ON DELETE CASCADE,
+  invoice_number VARCHAR(50) UNIQUE,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  amount DECIMAL(12,2) NOT NULL DEFAULT 0,
+  tax_rate DECIMAL(5,2) DEFAULT 0,
+  tax_amount DECIMAL(12,2) DEFAULT 0,
+  total_amount DECIMAL(12,2) NOT NULL DEFAULT 0,
+  due_date DATE,
+  paid_at TIMESTAMP,
+  status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending','paid','overdue','cancelled')),
+  notes TEXT,
+  created_by INTEGER REFERENCES users(id),
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_school_invoices_school ON school_invoices(school_id);
+CREATE INDEX IF NOT EXISTS idx_school_invoices_status ON school_invoices(status);
+CREATE INDEX IF NOT EXISTS idx_school_invoices_due ON school_invoices(due_date);

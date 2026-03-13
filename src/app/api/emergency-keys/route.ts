@@ -78,3 +78,23 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    if (!id) return NextResponse.json({ error: 'id مطلوب' }, { status: 400 });
+    const result = await pool.query(
+      `DELETE FROM emergency_keys WHERE id = $1 RETURNING id`,
+      [id]
+    );
+    if (result.rows.length === 0) return NextResponse.json({ error: 'السجل غير موجود' }, { status: 404 });
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('DELETE emergency-keys error:', error);
+    return NextResponse.json({ error: 'خطأ في الحذف' }, { status: 500 });
+  }
+}
+

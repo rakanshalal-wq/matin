@@ -19,6 +19,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const { name, logo_url, icon } = await request.json();
+    if (!name?.trim()) return NextResponse.json({ error: 'اسم الشريك مطلوب' }, { status: 400 });
 
     const result = await pool.query(
       'INSERT INTO partners (name, logo_url, icon) VALUES ($1, $2, $3) RETURNING *',
