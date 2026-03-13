@@ -1,25 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { pool } from '@/lib/auth';
-import jwt from 'jsonwebtoken';
-
-function getUserFromToken(req: NextRequest) {
-  try {
-    const auth = req.headers.get('authorization');
-    if (auth?.startsWith('Bearer ')) {
-      const token = auth.split(' ')[1];
-      return jwt.verify(token, process.env.JWT_SECRET || 'matin_secret_2024') as any;
-    }
-    const cookie = req.cookies.get('matin_token')?.value;
-    if (cookie) {
-      return jwt.verify(cookie, process.env.JWT_SECRET || 'matin_secret_2024') as any;
-    }
-    return null;
-  } catch { return null; }
-}
+import { pool, getUserFromRequest } from '@/lib/auth';
 
 export async function GET(req: NextRequest) {
   try {
-    const user = getUserFromToken(req);
+    const user = await getUserFromRequest(req);
     if (!user) return NextResponse.json({ chats: [], messages: [] });
 
     const chats = await pool.query(
@@ -36,7 +20,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const user = getUserFromToken(req);
+    const user = await getUserFromRequest(req);
     if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
 
     const body = await req.json();
@@ -71,9 +55,9 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function DELETE(request: Request) {
+export async function DELETE(request: NextRequest) {
   try {
-    const user = getUserFromToken(request as any);
+    const user = await getUserFromRequest(request);
     if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');

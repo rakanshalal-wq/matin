@@ -1,11 +1,7 @@
-import { NextResponse } from 'next/server';
-import { Pool } from 'pg';
+import { NextRequest, NextResponse } from 'next/server';
+import { pool } from '@/lib/auth';
 
-const pool = new Pool({
-  connectionString: 'postgresql://matin:F5HC3q3qoxxKhDy84YYWWpmd@localhost:5432/matin_db'
-});
-
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const postId = searchParams.get('postId');
@@ -24,10 +20,10 @@ export async function GET(request: Request) {
         users.avatar as author_avatar,
         users.verified as author_verified,
         users.role as author_role
-      FROM comments
-      JOIN users ON comments.user_id = users.id
-      WHERE comments.post_id = $1
-      ORDER BY comments.created_at ASC
+      FROM post_comments
+      JOIN users ON post_comments.user_id = users.id
+      WHERE post_comments.post_id = $1
+      ORDER BY post_comments.created_at ASC
     `, [postId]);
 
     return NextResponse.json({
@@ -43,11 +39,15 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
-  try {
-    const { userId, postId, content } = await request.json();
+export async function POST(request: NextRequest) {
+  const { getUserFromRequest } = await import('@/lib/auth');
+  const user = await getUserFromRequest(request);
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    if (!userId || !postId || !content) {
+  try {
+    const { postId, content } = await request.json();
+
+    if (!postId || !content) {
       return NextResponse.json(
         { error: 'الرجاء ملء جميع الحقول المطلوبة' },
         { status: 400 }
@@ -55,8 +55,8 @@ export async function POST(request: Request) {
     }
 
     const result = await pool.query(
-      'INSERT INTO comments (user_id, post_id, content) VALUES ($1, $2, $3) RETURNING *',
-      [userId, postId, content]
+      'INSERT INTO post_comments (user_id, post_id, content, created_at) VALUES ($1, $2, $3, NOW()) RETURNING *',
+      [user.id, postId, content]
     );
 
     await pool.query(

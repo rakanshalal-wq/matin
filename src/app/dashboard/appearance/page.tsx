@@ -25,12 +25,14 @@ export default function AppearancePage() {
   });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("template");
 
   useEffect(() => {
+    setLoading(true);
     fetch("/api/appearance").then(r => r.json()).then(data => {
       if (data && !data.error) setSettings(prev => ({ ...prev, ...data }));
-    }).catch(() => {});
+    }).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
   const handleSave = async () => {
@@ -64,6 +66,15 @@ export default function AppearancePage() {
     { id: "text", label: "النصوص" },
     { id: "options", label: "الخيارات" },
   ];
+
+  if (loading) return (
+    <div className="p-6 max-w-5xl mx-auto flex items-center justify-center min-h-[300px]" dir="rtl">
+      <div className="text-center">
+        <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+        <p className="text-gray-500">جاري تحميل الإعدادات...</p>
+      </div>
+    </div>
+  );
 
   return (
     <div className="p-6 max-w-5xl mx-auto" dir="rtl">

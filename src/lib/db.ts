@@ -1,9 +1,19 @@
 import { Pool } from 'pg';
 
-const connectionString = process.env.DATABASE_URL || 'postgresql://matin_user:matin_pass_2026@localhost:5432/matin_db';
+// DATABASE_URL يجب أن يكون محدداً في .env
+// لا نضع credentials مباشرة في الكود
+const connectionString = process.env.DATABASE_URL;
+
+if (!connectionString) {
+  // في development نعطي تحذيراً، في production نوقف التشغيل
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('DATABASE_URL environment variable is required');
+  }
+  console.warn('[db] DATABASE_URL not set — database queries will fail');
+}
 
 const pool = new Pool({
-  connectionString,
+  connectionString: connectionString || 'postgresql://localhost:5432/matin_db',
   max: 10,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,

@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import pool from '@/lib/db';
+import { NextRequest, NextResponse } from 'next/server';
+import { pool, getUserFromRequest } from '@/lib/auth';
 
 export async function GET() {
   try {
@@ -16,7 +16,9 @@ export async function GET() {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const user = await getUserFromRequest(request);
+  if (!user || user.role !== 'super_admin') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   try {
     const { title, image_url, link, bg_color } = await request.json();
     if (!title?.trim()) return NextResponse.json({ error: 'عنوان الإعلان مطلوب' }, { status: 400 });
@@ -36,7 +38,9 @@ export async function POST(request: Request) {
   }
 }
 
-export async function PUT(request: Request) {
+export async function PUT(request: NextRequest) {
+  const user = await getUserFromRequest(request);
+  if (!user || user.role !== 'super_admin') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   try {
     const { id, title, image_url, link, bg_color, is_active } = await request.json();
 
@@ -55,7 +59,9 @@ export async function PUT(request: Request) {
   }
 }
 
-export async function DELETE(request: Request) {
+export async function DELETE(request: NextRequest) {
+  const user = await getUserFromRequest(request);
+  if (!user || user.role !== 'super_admin') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   try {
     const { id } = await request.json();
 
