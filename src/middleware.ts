@@ -157,6 +157,17 @@ export function middleware(request: NextRequest) {
     }
   }
 
+  // ===== حماية جميع صفحات /dashboard =====
+  // أي شخص بدون token صحيح يُحوَّل لصفحة تسجيل الدخول
+  if (pathname.startsWith('/dashboard')) {
+    const { role } = getTokenPayload(request);
+    if (!role) {
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('redirect', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+  }
+
   // ===== Package Enforcement على صفحات Dashboard =====
   if (pathname.startsWith('/dashboard/')) {
     const matchedPath = Object.keys(PATH_TO_FEATURE).find(path => pathname.startsWith(path));

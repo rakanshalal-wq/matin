@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Pool } from 'pg';
-import { verifyToken } from '@/lib/auth';
+import { pool, getUserFromRequest } from '@/lib/auth';
 import OpenAI from 'openai';
-
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 // تهيئة OpenAI بشكل lazy لتجنب خطأ البناء
 let _openai: OpenAI | null = null;
@@ -14,17 +11,9 @@ function getOpenAI(): OpenAI {
   return _openai;
 }
 
-async function getUser(req: NextRequest) {
-  try {
-    const token = req.cookies.get('token')?.value || req.headers.get('authorization')?.replace('Bearer ', '');
-    if (!token) return null;
-    return await verifyToken(token);
-  } catch { return null; }
-}
-
-// ── GET: جلب البيانات ─────────────────────────────────────────────
+// ── GET: جلب البيانات ─────────────────────────────────────────────────────
 export async function GET(req: NextRequest) {
-  const user = await getUser(req);
+  const user = await getUserFromRequest(req);
   if (!user || user.role !== 'super_admin') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { searchParams } = new URL(req.url);
@@ -149,10 +138,9 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
-
-// ── POST: تنفيذ الإجراءات ─────────────────────────────────────────
+// ── POST: تنفيذ الإجراءات ───────────────────────────────────────────────────
 export async function POST(req: NextRequest) {
-  const user = await getUser(req);
+  const user = await getUserFromRequest(req);
   if (!user || user.role !== 'super_admin') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const body = await req.json();
@@ -342,7 +330,7 @@ export async function POST(req: NextRequest) {
 
 // ── Helper: تسجيل الإجراء ─────────────────────────────────────────
 async function logAction(
-  pool: Pool, moderatorId: number | null, moderatorName: string,
+  _pool: typeof pool, moderatorId: number | null, moderatorName: string,
   action: string, contentType: string, contentId: number,
   reason: string | null, isAi = false
 ) {

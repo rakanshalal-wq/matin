@@ -1,22 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Pool } from 'pg';
-import jwt from 'jsonwebtoken';
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-function getUserFromRequest(req: NextRequest) {
-  try {
-    const auth = req.headers.get('authorization');
-    if (auth?.startsWith('Bearer ')) {
-      const token = auth.split(' ')[1];
-      return jwt.verify(token, process.env.JWT_SECRET || '') as any;
-    }
-    const userId = req.headers.get('x-user-id');
-    if (userId) return { id: parseInt(userId) };
-    return null;
-  } catch { return null; }
-}
+import { pool, getUserFromRequest } from '@/lib/auth';
+
 export async function POST(req: NextRequest) {
   try {
-    const user = getUserFromRequest(req);
+    const user = await getUserFromRequest(req);
     if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     const body = await req.json();
     const { action } = body;
