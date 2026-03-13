@@ -131,7 +131,7 @@ export async function POST(request: Request) {
       try {
         const RESEND_KEY = process.env.RESEND_API_KEY;
         if (!RESEND_KEY || RESEND_KEY === 'dev_mode_no_email') {
-          console.log(`[DEV] OTP for ${contact_email}: ${otp}`);
+          // [DEV] log removed
         } else {
           const { Resend } = await import('resend');
           const resend = new Resend(RESEND_KEY);

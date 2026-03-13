@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
         }
       }
     } catch (notifError) {
-      console.log('Could not send parent notification:', notifError);
+      // notification error suppressed
     }
 
     return NextResponse.json({ data: result.rows[0], success: true });

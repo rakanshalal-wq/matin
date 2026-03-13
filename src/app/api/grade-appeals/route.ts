@@ -1,92 +1,90 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { query } from '@/lib/db';
-import { verifyToken } from '@/lib/auth';
-import { paginate } from '@/lib/pagination';
+import { pool, getUserFromRequest } from '@/lib/auth';
+import { getPaginationParams, buildPaginatedResponse } from '@/lib/pagination';
 
-export async function GET(req: NextRequest) {
-  const user = verifyToken(req);
+export async function GET(request: NextRequest) {
+  const user = await getUserFromRequest(request);
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { searchParams } = new URL(req.url);
-  const page = parseInt(searchParams.get('page') || '1');
-  const limit = parseInt(searchParams.get('limit') || '20');
+  const { searchParams } = new URL(request.url);
+  const { page, limit, offset } = getPaginationParams(searchParams);
   const status = searchParams.get('status');
 
   try {
-    let sql = `
-      SELECT ga.*, 
-        s.full_name AS student_name,
-        sub.name AS subject_name,
-        t.full_name AS teacher_name
-      FROM grade_appeals ga
-      LEFT JOIN students s ON ga.student_id = s.id
-      LEFT JOIN subjects sub ON ga.subject_id = sub.id
-      LEFT JOIN teachers t ON ga.teacher_id = t.id
-      WHERE ga.school_id = ?
-    `;
+    let whereClause = 'WHERE ga.school_id = $1';
     const params: any[] = [user.school_id || user.id];
+    let paramIdx = 2;
 
     if (status) {
-      sql += ' AND ga.status = ?';
+      whereClause += ` AND ga.status = $${paramIdx++}`;
       params.push(status);
     }
 
-    sql += ' ORDER BY ga.created_at DESC';
+    const countResult = await pool.query(
+      `SELECT COUNT(*) as total FROM grade_appeals ga ${whereClause}`,
+      params
+    );
+    const total = parseInt(countResult.rows[0]?.total || '0');
 
-    const countSql = `SELECT COUNT(*) as total FROM grade_appeals ga WHERE ga.school_id = ?${status ? ' AND ga.status = ?' : ''}`;
-    const countParams = status ? [user.school_id || user.id, status] : [user.school_id || user.id];
+    const result = await pool.query(
+      `SELECT ga.*,
+        s.full_name AS student_name,
+        sub.name AS subject_name,
+        t.full_name AS teacher_name
+       FROM grade_appeals ga
+       LEFT JOIN students s ON ga.student_id = s.id
+       LEFT JOIN subjects sub ON ga.subject_id = sub.id
+       LEFT JOIN teachers t ON ga.teacher_id = t.id
+       ${whereClause}
+       ORDER BY ga.created_at DESC
+       LIMIT $${paramIdx} OFFSET $${paramIdx + 1}`,
+      [...params, limit, offset]
+    );
 
-    const [countResult] = await query(countSql, countParams) as any[];
-    const total = countResult?.total || 0;
-
-    const { offset, meta } = paginate(page, limit, total);
-    sql += ` LIMIT ${limit} OFFSET ${offset}`;
-
-    const rows = await query(sql, params);
-    return NextResponse.json({ data: rows, ...meta });
+    return NextResponse.json(buildPaginatedResponse(result.rows, total, page, limit));
   } catch (err: any) {
-    // Return empty array if table doesn't exist yet
-    return NextResponse.json({ data: [], page: 1, limit, total: 0, totalPages: 0 });
+    return NextResponse.json(buildPaginatedResponse([], 0, page, limit));
   }
 }
 
-export async function POST(req: NextRequest) {
-  const user = verifyToken(req);
+export async function POST(request: NextRequest) {
+  const user = await getUserFromRequest(request);
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   try {
-    const body = await req.json();
+    const body = await request.json();
     const { student_id, subject_id, teacher_id, original_grade, requested_grade, reason } = body;
 
     if (!student_id || !subject_id || !reason) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const result = await query(
+    const result = await pool.query(
       `INSERT INTO grade_appeals (school_id, student_id, subject_id, teacher_id, original_grade, requested_grade, reason, status, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', NOW())`,
+       VALUES ($1, $2, $3, $4, $5, $6, $7, 'pending', NOW())
+       RETURNING id`,
       [user.school_id || user.id, student_id, subject_id, teacher_id || null, original_grade || null, requested_grade || null, reason]
-    ) as any;
+    );
 
-    return NextResponse.json({ success: true, id: result.insertId }, { status: 201 });
+    return NextResponse.json({ success: true, id: result.rows[0]?.id }, { status: 201 });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 
-export async function PUT(req: NextRequest) {
-  const user = verifyToken(req);
+export async function PUT(request: NextRequest) {
+  const user = await getUserFromRequest(request);
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   try {
-    const body = await req.json();
+    const body = await request.json();
     const { id, status, response_note, new_grade } = body;
 
     if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 });
 
-    await query(
-      `UPDATE grade_appeals SET status = ?, response_note = ?, new_grade = ?, updated_at = NOW()
-       WHERE id = ? AND school_id = ?`,
+    await pool.query(
+      `UPDATE grade_appeals SET status = $1, response_note = $2, new_grade = $3, updated_at = NOW()
+       WHERE id = $4 AND school_id = $5`,
       [status || 'pending', response_note || null, new_grade || null, id, user.school_id || user.id]
     );
 
@@ -96,16 +94,19 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-export async function DELETE(req: NextRequest) {
-  const user = verifyToken(req);
+export async function DELETE(request: NextRequest) {
+  const user = await getUserFromRequest(request);
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { searchParams } = new URL(req.url);
+  const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
   if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 });
 
   try {
-    await query('DELETE FROM grade_appeals WHERE id = ? AND school_id = ?', [id, user.school_id || user.id]);
+    await pool.query(
+      'DELETE FROM grade_appeals WHERE id = $1 AND school_id = $2',
+      [id, user.school_id || user.id]
+    );
     return NextResponse.json({ success: true });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });

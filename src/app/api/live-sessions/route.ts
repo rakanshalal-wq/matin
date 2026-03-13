@@ -1,70 +1,68 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { query } from '@/lib/db';
-import { verifyToken } from '@/lib/auth';
-import { paginate } from '@/lib/pagination';
+import { pool, getUserFromRequest } from '@/lib/auth';
+import { getPaginationParams, buildPaginatedResponse } from '@/lib/pagination';
 
-export async function GET(req: NextRequest) {
-  const user = verifyToken(req);
+export async function GET(request: NextRequest) {
+  const user = await getUserFromRequest(request);
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { searchParams } = new URL(req.url);
-  const page = parseInt(searchParams.get('page') || '1');
-  const limit = parseInt(searchParams.get('limit') || '20');
+  const { searchParams } = new URL(request.url);
+  const { page, limit, offset } = getPaginationParams(searchParams);
   const status = searchParams.get('status');
 
   try {
-    let sql = `
-      SELECT ls.*,
-        t.full_name AS teacher_name,
-        sub.name AS subject_name,
-        c.name AS class_name
-      FROM live_sessions ls
-      LEFT JOIN teachers t ON ls.teacher_id = t.id
-      LEFT JOIN subjects sub ON ls.subject_id = sub.id
-      LEFT JOIN classes c ON ls.class_id = c.id
-      WHERE ls.school_id = ?
-    `;
+    let whereClause = 'WHERE ls.school_id = $1';
     const params: any[] = [user.school_id || user.id];
+    let paramIdx = 2;
 
     if (status) {
-      sql += ' AND ls.status = ?';
+      whereClause += ` AND ls.status = $${paramIdx++}`;
       params.push(status);
     }
 
-    sql += ' ORDER BY ls.scheduled_at DESC';
+    const countResult = await pool.query(
+      `SELECT COUNT(*) as total FROM live_sessions ls ${whereClause}`,
+      params
+    );
+    const total = parseInt(countResult.rows[0]?.total || '0');
 
-    const countSql = `SELECT COUNT(*) as total FROM live_sessions ls WHERE ls.school_id = ?${status ? ' AND ls.status = ?' : ''}`;
-    const countParams = status ? [user.school_id || user.id, status] : [user.school_id || user.id];
+    const result = await pool.query(
+      `SELECT ls.*,
+        t.full_name AS teacher_name,
+        sub.name AS subject_name,
+        c.name AS class_name
+       FROM live_sessions ls
+       LEFT JOIN teachers t ON ls.teacher_id = t.id
+       LEFT JOIN subjects sub ON ls.subject_id = sub.id
+       LEFT JOIN classes c ON ls.class_id = c.id
+       ${whereClause}
+       ORDER BY ls.scheduled_at DESC
+       LIMIT $${paramIdx} OFFSET $${paramIdx + 1}`,
+      [...params, limit, offset]
+    );
 
-    const [countResult] = await query(countSql, countParams) as any[];
-    const total = countResult?.total || 0;
-
-    const { offset, meta } = paginate(page, limit, total);
-    sql += ` LIMIT ${limit} OFFSET ${offset}`;
-
-    const rows = await query(sql, params);
-    return NextResponse.json({ data: rows, ...meta });
+    return NextResponse.json(buildPaginatedResponse(result.rows, total, page, limit));
   } catch (err: any) {
-    // Return empty array if table doesn't exist yet
-    return NextResponse.json({ data: [], page: 1, limit, total: 0, totalPages: 0 });
+    return NextResponse.json(buildPaginatedResponse([], 0, page, limit));
   }
 }
 
-export async function POST(req: NextRequest) {
-  const user = verifyToken(req);
+export async function POST(request: NextRequest) {
+  const user = await getUserFromRequest(request);
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   try {
-    const body = await req.json();
+    const body = await request.json();
     const { title, subject_id, class_id, teacher_id, scheduled_at, duration_minutes, platform, meeting_url, description } = body;
 
     if (!title || !scheduled_at) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const result = await query(
+    const result = await pool.query(
       `INSERT INTO live_sessions (school_id, title, subject_id, class_id, teacher_id, scheduled_at, duration_minutes, platform, meeting_url, description, status, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'scheduled', NOW())`,
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 'scheduled', NOW())
+       RETURNING id`,
       [
         user.school_id || user.id,
         title,
@@ -77,28 +75,28 @@ export async function POST(req: NextRequest) {
         meeting_url || null,
         description || null
       ]
-    ) as any;
+    );
 
-    return NextResponse.json({ success: true, id: result.insertId }, { status: 201 });
+    return NextResponse.json({ success: true, id: result.rows[0]?.id }, { status: 201 });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 
-export async function PUT(req: NextRequest) {
-  const user = verifyToken(req);
+export async function PUT(request: NextRequest) {
+  const user = await getUserFromRequest(request);
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   try {
-    const body = await req.json();
+    const body = await request.json();
     const { id, title, subject_id, class_id, scheduled_at, duration_minutes, platform, meeting_url, description, status } = body;
 
     if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 });
 
-    await query(
-      `UPDATE live_sessions SET title = ?, subject_id = ?, class_id = ?, scheduled_at = ?, duration_minutes = ?,
-       platform = ?, meeting_url = ?, description = ?, status = ?, updated_at = NOW()
-       WHERE id = ? AND school_id = ?`,
+    await pool.query(
+      `UPDATE live_sessions SET title = $1, subject_id = $2, class_id = $3, scheduled_at = $4,
+       duration_minutes = $5, platform = $6, meeting_url = $7, description = $8, status = $9, updated_at = NOW()
+       WHERE id = $10 AND school_id = $11`,
       [
         title,
         subject_id || null,
@@ -120,16 +118,19 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-export async function DELETE(req: NextRequest) {
-  const user = verifyToken(req);
+export async function DELETE(request: NextRequest) {
+  const user = await getUserFromRequest(request);
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { searchParams } = new URL(req.url);
+  const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
   if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 });
 
   try {
-    await query('DELETE FROM live_sessions WHERE id = ? AND school_id = ?', [id, user.school_id || user.id]);
+    await pool.query(
+      'DELETE FROM live_sessions WHERE id = $1 AND school_id = $2',
+      [id, user.school_id || user.id]
+    );
     return NextResponse.json({ success: true });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });

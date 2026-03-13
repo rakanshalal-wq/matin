@@ -30,7 +30,7 @@ async function sendVerificationEmail(email: string, code: string) {
       })
     });
   } else {
-    console.log(`[DEV] Verification code for ${email}: ${code}`);
+    // [DEV] log removed
   }
 }
 
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
       if (!codeValid) return NextResponse.json({ error: 'الرمز غير صحيح' }, { status: 400 });
       await pool.query(`UPDATE users SET email_verified = true, verification_code = NULL, code_expires_at = NULL WHERE id = $1`, [u.id]);
       await pool.query('DELETE FROM email_otps WHERE email = $1', [emailNorm]);
-      console.log(`[Verify] Email verified: ${emailNorm}`);
+      // log removed
       return NextResponse.json({ verified: true, message: 'تم تأكيد الإيميل بنجاح ✓' });
     }
 

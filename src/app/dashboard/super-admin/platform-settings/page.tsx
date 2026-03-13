@@ -58,7 +58,7 @@ export default function PlatformSettingsPage() {
     try {
       const res = await fetch('/api/platform-settings', { headers: getHeaders(), credentials: 'include' });
       const data = await res.json();
-      if (data.success) { console.log('LOADED', data.settings.length, 'settings');
+      if (data.success) { 
         const map: Record<string, string> = {};
         for (const s of data.settings) { map[s.key] = s.value; }
         setSettings(map);
@@ -77,7 +77,7 @@ export default function PlatformSettingsPage() {
     try {
       const res = await fetch('/api/platform-settings', { method: 'PUT', headers: getHeaders(), credentials: 'include', body: JSON.stringify({ settings }) });
       const data = await res.json();
-      if (data.success) { console.log('LOADED', data.settings.length, 'settings'); setSaved(true); setTimeout(() => setSaved(false), 3000); }
+      if (data.success) {  setSaved(true); setTimeout(() => setSaved(false), 3000); }
       else { alert(data.error || 'فشل الحفظ'); }
     } catch (e) { alert('خطأ في الاتصال'); }
     setSaving(false);
