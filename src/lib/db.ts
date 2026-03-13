@@ -13,7 +13,7 @@ if (!connectionString) {
 }
 
 const pool = new Pool({
-  connectionString: connectionString || 'postgresql://localhost:5432/matin_db',
+  connectionString: connectionString || undefined,
   max: 10,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
