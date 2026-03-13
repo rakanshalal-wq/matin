@@ -10,7 +10,7 @@ export default function TopBar() {
           right: 0;
           left: 0;
           height: 60px;
-          background: #0D1B2A;
+          background: #06060E;
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -42,7 +42,7 @@ export default function TopBar() {
           justify-content: center;
           font-weight: 700;
           font-size: 16px;
-          color: #0D1B2A;
+          color: #06060E;
         }
 
         .logo-text {
@@ -150,7 +150,7 @@ export default function TopBar() {
           justify-content: center;
           font-size: 12px;
           font-weight: 600;
-          color: #0D1B2A;
+          color: #06060E;
         }
 
         .user-info {

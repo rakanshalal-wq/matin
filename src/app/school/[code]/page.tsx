@@ -4,7 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 
 const TEMPLATES = {
   classic: { primary: '#1a3a5c', secondary: '#C9A227', bg: '#f8f9fa', headerBg: '#1a3a5c' },
-  modern: { primary: '#6366F1', secondary: '#10B981', bg: '#0D1B2A', headerBg: '#0A1520' },
+  modern: { primary: '#6366F1', secondary: '#10B981', bg: '#06060E', headerBg: '#0A1520' },
   green: { primary: '#065f46', secondary: '#f59e0b', bg: '#f0fdf4', headerBg: '#065f46' },
   red: { primary: '#991b1b', secondary: '#C9A227', bg: '#fff5f5', headerBg: '#991b1b' },
   purple: { primary: '#4c1d95', secondary: '#f59e0b', bg: '#faf5ff', headerBg: '#4c1d95' },
@@ -53,16 +53,16 @@ export default function SchoolPublicPage() {
   };
 
   if (loading) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#0D1B2A' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#06060E' }}>
       <div style={{ color: '#C9A227', fontSize: '18px' }}>جاري التحميل...</div>
     </div>
   );
 
   if (!school) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#0D1B2A', flexDirection: 'column', gap: '16px' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#06060E', flexDirection: 'column', gap: '16px' }}>
       <div style={{ fontSize: '64px' }}>🏫</div>
       <div style={{ color: 'white', fontSize: '20px' }}>المؤسسة غير موجودة</div>
-      <button onClick={() => router.push('/')} style={{ background: '#C9A227', color: '#0D1B2A', border: 'none', borderRadius: '8px', padding: '10px 24px', cursor: 'pointer', fontWeight: 700 }}>
+      <button onClick={() => router.push('/')} style={{ background: '#C9A227', color: '#06060E', border: 'none', borderRadius: '8px', padding: '10px 24px', cursor: 'pointer', fontWeight: 700 }}>
         العودة للرئيسية
       </button>
     </div>
@@ -89,7 +89,7 @@ export default function SchoolPublicPage() {
       {/* إعلانات المنصة - بانر علوي */}
       {ads.filter(a => a.is_platform_ad).length > 0 && (
         <div style={{ background: template.primary, color: 'white', padding: '8px 16px', textAlign: 'center', fontSize: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
-          <span style={{ background: template.secondary, color: '#0D1B2A', borderRadius: '4px', padding: '2px 8px', fontSize: '11px', fontWeight: 700 }}>إعلان</span>
+          <span style={{ background: template.secondary, color: '#06060E', borderRadius: '4px', padding: '2px 8px', fontSize: '11px', fontWeight: 700 }}>إعلان</span>
           <span>{ads.filter(a => a.is_platform_ad)[adIndex % ads.filter(a => a.is_platform_ad).length]?.title}</span>
         </div>
       )}
@@ -118,7 +118,7 @@ export default function SchoolPublicPage() {
               تسجيل الدخول
             </button>
             <button onClick={() => router.push('/school/' + schoolCode + '/join')}
-              style={{ background: template.secondary, color: '#0D1B2A', border: 'none', borderRadius: '8px', padding: '8px 16px', cursor: 'pointer', fontSize: '13px', fontWeight: 700 }}>
+              style={{ background: template.secondary, color: '#06060E', border: 'none', borderRadius: '8px', padding: '8px 16px', cursor: 'pointer', fontSize: '13px', fontWeight: 700 }}>
               التسجيل
             </button>
           </div>
@@ -128,7 +128,7 @@ export default function SchoolPublicPage() {
         <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', gap: '4px' }}>
           {TABS.map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-              style={{ background: activeTab === tab.id ? template.secondary : 'transparent', color: activeTab === tab.id ? '#0D1B2A' : 'rgba(255,255,255,0.7)', border: 'none', borderRadius: '8px 8px 0 0', padding: '10px 20px', cursor: 'pointer', fontSize: '14px', fontWeight: activeTab === tab.id ? 700 : 400, transition: 'all 0.2s' }}>
+              style={{ background: activeTab === tab.id ? template.secondary : 'transparent', color: activeTab === tab.id ? '#06060E' : 'rgba(255,255,255,0.7)', border: 'none', borderRadius: '8px 8px 0 0', padding: '10px 20px', cursor: 'pointer', fontSize: '14px', fontWeight: activeTab === tab.id ? 700 : 400, transition: 'all 0.2s' }}>
               {tab.label}
             </button>
           ))}
@@ -166,7 +166,7 @@ export default function SchoolPublicPage() {
             {/* إعلانات المنصة - بانر وسط الصفحة */}
             {ads.filter(a => a.is_platform_ad && a.position === 'middle').length > 0 && (
               <div style={{ background: `linear-gradient(135deg, ${template.secondary}20, ${template.secondary}10)`, border: `2px solid ${template.secondary}40`, borderRadius: '12px', padding: '20px', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <span style={{ background: template.secondary, color: '#0D1B2A', borderRadius: '6px', padding: '4px 10px', fontSize: '12px', fontWeight: 700, flexShrink: 0 }}>إعلان</span>
+                <span style={{ background: template.secondary, color: '#06060E', borderRadius: '6px', padding: '4px 10px', fontSize: '12px', fontWeight: 700, flexShrink: 0 }}>إعلان</span>
                 <div>
                   <div style={{ color: textColor, fontWeight: 700 }}>{ads.filter(a => a.is_platform_ad && a.position === 'middle')[0]?.title}</div>
                   <div style={{ color: subTextColor, fontSize: '13px' }}>{ads.filter(a => a.is_platform_ad && a.position === 'middle')[0]?.description}</div>

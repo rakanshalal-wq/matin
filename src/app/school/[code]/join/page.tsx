@@ -62,7 +62,7 @@ export default function JoinSchoolPage() {
   const labelStyle = { color: 'rgba(255,255,255,0.7)', fontSize: '13px', marginBottom: '6px', display: 'block' };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0D1B2A', fontFamily: 'IBM Plex Sans Arabic, Arial, sans-serif', direction: 'rtl', padding: '20px' }}>
+    <div style={{ minHeight: '100vh', background: '#06060E', fontFamily: 'IBM Plex Sans Arabic, Arial, sans-serif', direction: 'rtl', padding: '20px' }}>
       <div style={{ maxWidth: '600px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '32px', paddingTop: '20px' }}>
           <div style={{ color: '#C9A227', fontSize: '32px', fontWeight: 800, marginBottom: '8px' }}>متين</div>
@@ -141,7 +141,7 @@ export default function JoinSchoolPage() {
                 )}
               </div>
               <button onClick={handleSubmit} disabled={loading}
-                style={{ background: '#C9A227', color: '#0D1B2A', border: 'none', borderRadius: '10px', padding: '14px 32px', fontSize: '16px', fontWeight: 700, cursor: 'pointer', width: '100%', marginTop: '20px', opacity: loading ? 0.7 : 1 }}>
+                style={{ background: '#C9A227', color: '#06060E', border: 'none', borderRadius: '10px', padding: '14px 32px', fontSize: '16px', fontWeight: 700, cursor: 'pointer', width: '100%', marginTop: '20px', opacity: loading ? 0.7 : 1 }}>
                 {loading ? 'جاري التسجيل...' : 'تسجيل ✓'}
               </button>
               <button onClick={() => setStep(1)}
@@ -161,7 +161,7 @@ export default function JoinSchoolPage() {
                 <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '13px' }}>حسابك بانتظار موافقة إدارة المدرسة. ستتمكن من تسجيل الدخول بعد التفعيل.</div>
               </div>
               <button onClick={() => router.push('/login')}
-                style={{ background: '#C9A227', color: '#0D1B2A', border: 'none', borderRadius: '10px', padding: '14px 32px', fontSize: '16px', fontWeight: 700, cursor: 'pointer', width: '100%' }}>
+                style={{ background: '#C9A227', color: '#06060E', border: 'none', borderRadius: '10px', padding: '14px 32px', fontSize: '16px', fontWeight: 700, cursor: 'pointer', width: '100%' }}>
                 الذهاب لتسجيل الدخول
               </button>
             </div>

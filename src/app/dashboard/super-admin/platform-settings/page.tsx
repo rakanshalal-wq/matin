@@ -34,7 +34,7 @@ const SelectField = ({ label, value, onChange, options, desc }: { label: string;
     <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>{label}</label>
     {desc && <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11, marginBottom: 6 }}>{desc}</div>}
     <select value={value} onChange={(e) => onChange(e.target.value)} style={{ width: '100%', padding: '10px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit' }}>
-      {options.map(o => <option key={o.value} value={o.value} style={{ background: '#0D1B2A' }}>{o.label}</option>)}
+      {options.map(o => <option key={o.value} value={o.value} style={{ background: '#06060E' }}>{o.label}</option>)}
     </select>
   </div>
 );
@@ -84,7 +84,7 @@ export default function PlatformSettingsPage() {
   };
 
   if (loading) return (
-    <div style={{ minHeight: '100vh', background: '#0D1B2A', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div style={{ minHeight: '100vh', background: '#06060E', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div style={{ color: '#C9A227', fontSize: 18 }}>جاري تحميل الإعدادات...</div>
     </div>
   );
@@ -101,14 +101,14 @@ export default function PlatformSettingsPage() {
   ];
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0D1B2A', direction: 'rtl', fontFamily: 'Tajawal, sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: '#06060E', direction: 'rtl', fontFamily: 'Tajawal, sans-serif' }}>
       <div style={{ background: 'rgba(255,255,255,0.02)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '16px 24px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <a href="/dashboard/super-admin" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: 14 }}>← العودة للوحة التحكم</a>
             <h1 style={{ color: 'white', fontSize: 22, fontWeight: 800, margin: 0 }}>⚙️ إعدادات المنصة</h1>
           </div>
-          <button onClick={saveSettings} disabled={saving} style={{ padding: '12px 32px', border: 'none', borderRadius: 10, cursor: saving ? 'wait' : 'pointer', fontWeight: 700, fontSize: 15, fontFamily: 'inherit', background: saved ? '#10B981' : 'linear-gradient(135deg, #C9A227, #D4B03D)', color: saved ? 'white' : '#0D1B2A' }}>
+          <button onClick={saveSettings} disabled={saving} style={{ padding: '12px 32px', border: 'none', borderRadius: 10, cursor: saving ? 'wait' : 'pointer', fontWeight: 700, fontSize: 15, fontFamily: 'inherit', background: saved ? '#10B981' : 'linear-gradient(135deg, #C9A227, #D4B03D)', color: saved ? 'white' : '#06060E' }}>
             {saving ? 'جاري الحفظ...' : saved ? '✅ تم الحفظ' : '💾 حفظ التغييرات'}
           </button>
         </div>
@@ -116,7 +116,7 @@ export default function PlatformSettingsPage() {
       <div style={{ display: 'flex', maxWidth: 1200, margin: '0 auto', padding: 24, gap: 24 }}>
         <div style={{ width: 200, flexShrink: 0 }}>
           {tabs.map(tab => (
-            <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ width: '100%', padding: '12px 16px', border: 'none', borderRadius: 10, cursor: 'pointer', marginBottom: 6, textAlign: 'right', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 10, background: activeTab === tab.id ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'transparent', color: activeTab === tab.id ? '#0D1B2A' : 'rgba(255,255,255,0.6)' }}>
+            <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ width: '100%', padding: '12px 16px', border: 'none', borderRadius: 10, cursor: 'pointer', marginBottom: 6, textAlign: 'right', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 10, background: activeTab === tab.id ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'transparent', color: activeTab === tab.id ? '#06060E' : 'rgba(255,255,255,0.6)' }}>
               <span>{tab.icon}</span> {tab.label}
             </button>
           ))}

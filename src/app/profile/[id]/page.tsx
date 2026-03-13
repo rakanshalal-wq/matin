@@ -126,7 +126,7 @@ export default function ProfilePage() {
   if (isLoading) {
     return (
       <div style={{ 
-        background: 'linear-gradient(135deg, #0D1B2A 0%, #1B263B 50%, #243B53 100%)', 
+        background: 'linear-gradient(135deg, #06060E 0%, #1B263B 50%, #243B53 100%)', 
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
@@ -141,7 +141,7 @@ export default function ProfilePage() {
   if (!profileData) {
     return (
       <div style={{ 
-        background: 'linear-gradient(135deg, #0D1B2A 0%, #1B263B 50%, #243B53 100%)', 
+        background: 'linear-gradient(135deg, #06060E 0%, #1B263B 50%, #243B53 100%)', 
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
@@ -159,7 +159,7 @@ export default function ProfilePage() {
     <>
       <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
       
-      <div style={{ background: 'linear-gradient(135deg, #0D1B2A 0%, #1B263B 50%, #243B53 100%)', minHeight: '100vh' }} dir="rtl">
+      <div style={{ background: 'linear-gradient(135deg, #06060E 0%, #1B263B 50%, #243B53 100%)', minHeight: '100vh' }} dir="rtl">
         
         {/* NAVBAR */}
         <nav style={{ 
@@ -184,7 +184,7 @@ export default function ProfilePage() {
                 justifyContent: 'center',
                 fontSize: 24,
                 fontWeight: 700,
-                color: '#0D1B2A',
+                color: '#06060E',
                 boxShadow: '0 4px 12px rgba(201, 162, 39, 0.3)'
               }}>م</div>
               <span style={{ fontSize: 24, fontWeight: 700, color: '#C9A227' }}>متين المجتمع</span>
@@ -268,7 +268,7 @@ export default function ProfilePage() {
                       background: isFollowing ? 'transparent' : 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)',
                       border: isFollowing ? '1px solid #C9A227' : 'none',
                       borderRadius: 8,
-                      color: isFollowing ? '#C9A227' : '#0D1B2A',
+                      color: isFollowing ? '#C9A227' : '#06060E',
                       fontSize: 14,
                       fontWeight: 700,
                       cursor: 'pointer',

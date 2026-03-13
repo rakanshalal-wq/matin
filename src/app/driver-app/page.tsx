@@ -196,7 +196,7 @@ export default function DriverAppPage() {
   // Login Screen
   if (!isLoggedIn) {
     return (
-      <div dir="rtl" style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+      <div dir="rtl" style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #1e3a5f 0%, #06060E 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
         <div style={{ background: 'white', borderRadius: '20px', padding: '40px', maxWidth: '400px', width: '100%', textAlign: 'center' }}>
           <div style={{ fontSize: '48px', marginBottom: '10px' }}>🚌</div>
           <h1 style={{ fontSize: '24px', color: '#1e3a5f', marginBottom: '5px' }}>تطبيق السائق</h1>

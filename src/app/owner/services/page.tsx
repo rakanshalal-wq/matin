@@ -78,7 +78,7 @@ export default function OwnerServicesPage() {
   const filteredSchoolServices = schoolServices.filter(s => (filterCategory === 'all' || s.category === filterCategory) && (!searchQuery || s.name_ar.includes(searchQuery)));
   const filteredPlatformServices = services.filter(s => (filterCategory === 'all' || s.category === filterCategory) && (!searchQuery || s.name_ar.includes(searchQuery)));
 
-  const P = { page: { padding: 24, direction: 'rtl' as const, fontFamily: 'IBM Plex Sans Arabic,Arial,sans-serif', background: '#0D1B2A', minHeight: '100vh' } };
+  const P = { page: { padding: 24, direction: 'rtl' as const, fontFamily: 'IBM Plex Sans Arabic,Arial,sans-serif', background: '#06060E', minHeight: '100vh' } };
 
   if (loading) return <div style={{ ...P.page, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#C9A227', fontSize: 18 }}>⚙️ جاري التحميل...</div>;
 

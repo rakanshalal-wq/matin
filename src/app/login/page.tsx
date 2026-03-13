@@ -119,7 +119,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0D1B2A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl', padding: 20 }}>
+    <div style={{ minHeight: '100vh', background: '#06060E', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl', padding: 20 }}>
       <div style={{ position: 'fixed', top: -200, right: -200, width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(201,162,39,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
       <div style={{ position: 'fixed', bottom: -200, left: -200, width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(201,162,39,0.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
