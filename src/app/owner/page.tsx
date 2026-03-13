@@ -49,6 +49,8 @@ const TABS: { id: string; label: string; icon: string; badge?: string }[] = [
   { id: 'notifications',  label: 'الإشعارات',        icon: 'notifications', badge: 'notif' },
   { id: 'settings',       label: 'الإعدادات',        icon: 'settings' },
   { id: 'activity',       label: 'سجل النشاط',       icon: 'activity' },
+  { id: 'revenue',         label: 'الإيرادات',         icon: 'subscriptions' },
+  { id: 'taxes',           label: 'الضرائب',           icon: 'plans' },
 ];
 
 type TabId = string;
@@ -228,6 +230,9 @@ export default function OwnerDashboard() {
   const [shippingF, setShippingF] = useState<any>({});
   const [integF, setIntegF] = useState<any>({});
   const [notifF, setNotifF] = useState<any>({});
+  const [revenue, setRevenue] = useState<any[]>([]);
+  const [taxes, setTaxes] = useState<any[]>([]);
+  const [taxF, setTaxF] = useState<any>({});
 
   const showToast = (msg: string, ok = true) => {
     setToast({ msg, ok });
@@ -391,6 +396,22 @@ export default function OwnerDashboard() {
     } catch {}
   }, []);
 
+  const fetchRevenue = useCallback(async () => {
+    try {
+      const r = await api('/api/school-invoices?limit=100');
+      const d = await r.json();
+      setRevenue(Array.isArray(d?.data) ? d.data : Array.isArray(d) ? d : []);
+    } catch {}
+  }, []);
+
+  const fetchTaxes = useCallback(async () => {
+    try {
+      const r = await api('/api/taxes?limit=100');
+      const d = await r.json();
+      setTaxes(Array.isArray(d?.data) ? d.data : Array.isArray(d) ? d : []);
+    } catch {}
+  }, []);
+
   const fetchSchoolServices = useCallback(async (schoolId: string) => {
     try {
       const r = await api(`/api/services?type=school&school_id=${schoolId}`);
@@ -415,6 +436,7 @@ export default function OwnerDashboard() {
           fetchSupport(), fetchNotifications(), fetchPermissions(),
           fetchJoinRequests(), fetchLeads(), fetchIntegrations(),
           fetchActLog(), fetchPlatformSettings(),
+          fetchRevenue(), fetchTaxes(),
         ]);
       } catch { router.push('/login'); }
       finally { setLoading(false); }
@@ -2188,6 +2210,112 @@ export default function OwnerDashboard() {
             </div>
           )}
 
+          {/* ════ REVENUE ════ */}
+          {tab === 'revenue' && (
+            <div className="space-y-4">
+              {/* Stats */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <StatCard label="إجمالي الفواتير" value={revenue.length} color={G} />
+                <StatCard label="مدفوعة" value={revenue.filter(r => r.status === 'paid').length} color="#22C55E" />
+                <StatCard label="معلقة" value={revenue.filter(r => r.status === 'pending').length} color="#F59E0B" />
+                <StatCard label="متأخرة" value={revenue.filter(r => r.status === 'overdue').length} color="#EF4444" />
+              </div>
+              {/* Revenue Summary */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="rounded-2xl p-5" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
+                  <div className="text-xs text-gray-400 mb-1">إجمالي المبالغ</div>
+                  <div className="text-2xl font-black" style={{ color: G }}>{num(revenue.reduce((s, r) => s + Number(r.total_amount || r.amount || 0), 0))} ر.س</div>
+                </div>
+                <div className="rounded-2xl p-5" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
+                  <div className="text-xs text-gray-400 mb-1">المحصّل</div>
+                  <div className="text-2xl font-black text-green-400">{num(revenue.filter(r => r.status === 'paid').reduce((s, r) => s + Number(r.total_amount || r.amount || 0), 0))} ر.س</div>
+                </div>
+                <div className="rounded-2xl p-5" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
+                  <div className="text-xs text-gray-400 mb-1">المتبقي</div>
+                  <div className="text-2xl font-black text-yellow-400">{num(revenue.filter(r => r.status !== 'paid').reduce((s, r) => s + Number(r.total_amount || r.amount || 0), 0))} ر.س</div>
+                </div>
+              </div>
+              {/* Table */}
+              <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
+                <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: `1px solid ${BORDER}` }}>
+                  <h3 className="font-bold text-white text-sm">فواتير المؤسسات</h3>
+                  <button onClick={fetchRevenue} className="text-xs px-3 py-1.5 rounded-xl font-medium" style={{ color: G, border: `1px solid ${G}44` }}>تحديث</button>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
+                        {['المؤسسة', 'المبلغ', 'الضريبة', 'الإجمالي', 'الحالة', 'تاريخ الاستحقاق', 'تاريخ الإنشاء'].map(h => (
+                          <th key={h} className="text-right px-4 py-3 text-xs font-medium text-gray-400">{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {revenue.map(r => (
+                        <tr key={r.id} style={{ borderBottom: `1px solid ${BORDER}` }} className="hover:bg-white/2 transition-colors">
+                          <td className="px-4 py-3 font-medium text-white">{r.school_name || r.school_id || '—'}</td>
+                          <td className="px-4 py-3 text-gray-300">{num(r.amount)} ر.س</td>
+                          <td className="px-4 py-3 text-gray-400 text-xs">{r.tax_rate ? `${r.tax_rate}%` : '—'}</td>
+                          <td className="px-4 py-3 font-bold" style={{ color: G }}>{num(r.total_amount || r.amount)} ر.س</td>
+                          <td className="px-4 py-3"><Badge text={{ paid: 'مدفوعة', pending: 'معلقة', overdue: 'متأخرة', cancelled: 'ملغاة' }[r.status as string] || r.status} color={{ paid: '#22C55E', pending: '#F59E0B', overdue: '#EF4444', cancelled: '#6B7280' }[r.status as string] || '#6B7280'} /></td>
+                          <td className="px-4 py-3 text-gray-400 text-xs">{fmt(r.due_date)}</td>
+                          <td className="px-4 py-3 text-gray-400 text-xs">{fmt(r.created_at)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  {revenue.length === 0 && <div className="text-center py-12 text-gray-500 text-sm">لا توجد فواتير</div>}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ════ TAXES ════ */}
+          {tab === 'taxes' && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <StatCard label="إجمالي الضرائب" value={taxes.length} color={G} />
+                <StatCard label="نشطة" value={taxes.filter(t => t.is_active).length} color="#22C55E" />
+                <StatCard label="معطّلة" value={taxes.filter(t => !t.is_active).length} color="#6B7280" />
+                <StatCard label="متوسط النسبة" value={taxes.length > 0 ? `${(taxes.reduce((s, t) => s + Number(t.rate || 0), 0) / taxes.length).toFixed(1)}%` : '0%'} color="#3B82F6" />
+              </div>
+              <div className="flex justify-end">
+                <Btn onClick={() => { setTaxF({}); setModal('tax'); }}>+ إضافة ضريبة</Btn>
+              </div>
+              <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
+                        {['الاسم', 'النوع', 'النسبة', 'ينطبق على', 'الحالة', 'الإجراءات'].map(h => (
+                          <th key={h} className="text-right px-4 py-3 text-xs font-medium text-gray-400">{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {taxes.map(t => (
+                        <tr key={t.id} style={{ borderBottom: `1px solid ${BORDER}` }} className="hover:bg-white/2 transition-colors">
+                          <td className="px-4 py-3 font-medium text-white">{t.name || t.name_ar || '—'}</td>
+                          <td className="px-4 py-3 text-gray-400">{t.type || '—'}</td>
+                          <td className="px-4 py-3 font-bold" style={{ color: G }}>{t.rate}%</td>
+                          <td className="px-4 py-3 text-gray-400 text-xs">{t.applies_to || 'الكل'}</td>
+                          <td className="px-4 py-3"><Badge text={t.is_active ? 'نشطة' : 'معطّلة'} color={t.is_active ? '#22C55E' : '#6B7280'} /></td>
+                          <td className="px-4 py-3">
+                            <div className="flex gap-2">
+                              <button onClick={() => { setTaxF(t); setEditItem(t); setModal('tax'); }} className="text-xs px-2 py-1 rounded-lg" style={{ background: `${G}22`, color: G }}>تعديل</button>
+                              <button onClick={async () => { if (confirm('حذف هذه الضريبة؟')) { await api(`/api/taxes?id=${t.id}`, { method: 'DELETE' }); fetchTaxes(); showToast('تم الحذف'); } }} className="text-xs px-2 py-1 rounded-lg" style={{ background: '#EF444422', color: '#EF4444' }}>حذف</button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  {taxes.length === 0 && <div className="text-center py-12 text-gray-500 text-sm">لا توجد ضرائب مضافة</div>}
+                </div>
+              </div>
+            </div>
+          )}
+
         </div>{/* end content */}
       </main>
 
@@ -2471,6 +2599,39 @@ export default function OwnerDashboard() {
             <div className="flex gap-2 pt-2">
               <Btn onClick={sendNotification} disabled={saving}>{saving ? 'جاري الإرسال...' : 'إرسال'}</Btn>
               <Btn variant="ghost" onClick={() => { setModal(null); setNotifF({}); }}>إلغاء</Btn>
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {/* Tax Modal */}
+      {modal === 'tax' && (
+        <Modal title={editItem ? 'تعديل ضريبة' : 'إضافة ضريبة'} onClose={() => { setModal(null); setEditItem(null); setTaxF({}); }}>
+          <div className="space-y-3">
+            <Inp label="اسم الضريبة" value={taxF.name || ''} onChange={(v: string) => setTaxF({ ...taxF, name: v })} required />
+            <div className="grid grid-cols-2 gap-3">
+              <Inp label="النسبة (%)" value={taxF.rate || ''} onChange={(v: string) => setTaxF({ ...taxF, rate: v })} type="number" required />
+              <Inp label="النوع" value={taxF.type || ''} onChange={(v: string) => setTaxF({ ...taxF, type: v })} />
+            </div>
+            <Inp label="ينطبق على" value={taxF.applies_to || ''} onChange={(v: string) => setTaxF({ ...taxF, applies_to: v })} />
+            <Inp label="الوصف" value={taxF.description || ''} onChange={(v: string) => setTaxF({ ...taxF, description: v })} textarea />
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" checked={taxF.is_active !== false} onChange={e => setTaxF({ ...taxF, is_active: e.target.checked })} className="w-4 h-4 rounded" />
+              <span className="text-sm text-gray-300">نشطة</span>
+            </label>
+            <div className="flex gap-2 pt-2">
+              <Btn onClick={async () => {
+                if (!taxF.name || !taxF.rate) { showToast('الاسم والنسبة مطلوبان', false); return; }
+                setSaving(true);
+                try {
+                  const method = editItem ? 'PUT' : 'POST';
+                  const url = editItem ? `/api/taxes?id=${editItem.id}` : '/api/taxes';
+                  const r = await api(url, { method, body: JSON.stringify({ ...taxF, is_active: taxF.is_active !== false }) });
+                  if (r.ok) { showToast(editItem ? 'تم التحديث' : 'تمت الإضافة'); setModal(null); setEditItem(null); setTaxF({}); fetchTaxes(); }
+                  else { const e = await r.json(); showToast(e.error || 'حدث خطأ', false); }
+                } finally { setSaving(false); }
+              }} disabled={saving}>{saving ? 'جاري الحفظ...' : editItem ? 'تحديث' : 'إضافة'}</Btn>
+              <Btn variant="ghost" onClick={() => { setModal(null); setEditItem(null); setTaxF({}); }}>إلغاء</Btn>
             </div>
           </div>
         </Modal>
