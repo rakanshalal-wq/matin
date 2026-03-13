@@ -90,7 +90,7 @@ export default function SubscriptionsPage() {
           <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{
             padding: '10px 20px', borderRadius: 10, border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: 14,
             background: activeTab === tab.id ? 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)' : 'rgba(255,255,255,0.05)',
-            color: activeTab === tab.id ? '#0D1B2A' : 'rgba(255,255,255,0.7)',
+            color: activeTab === tab.id ? '#06060E' : 'rgba(255,255,255,0.7)',
             fontFamily: 'IBM Plex Sans Arabic, sans-serif',
           }}>{tab.label}</button>
         ))}
@@ -108,7 +108,7 @@ export default function SubscriptionsPage() {
                 borderRadius: 16, padding: 24, position: 'relative',
               }}>
                 {isCurrent && (
-                  <div style={{ position: 'absolute', top: -12, right: 20, background: plan.color, color: plan.id === 'basic' ? 'white' : '#0D1B2A', padding: '4px 14px', borderRadius: 20, fontSize: 12, fontWeight: 700 }}>
+                  <div style={{ position: 'absolute', top: -12, right: 20, background: plan.color, color: plan.id === 'basic' ? 'white' : '#06060E', padding: '4px 14px', borderRadius: 20, fontSize: 12, fontWeight: 700 }}>
                     ✓ باقتك الحالية
                   </div>
                 )}
@@ -150,7 +150,7 @@ export default function SubscriptionsPage() {
                   style={{
                     width: '100%', padding: '12px', borderRadius: 10, border: 'none', fontWeight: 700, fontSize: 14, cursor: isCurrent ? 'default' : 'pointer',
                     background: isCurrent ? 'rgba(255,255,255,0.05)' : `linear-gradient(135deg, ${plan.color}, ${plan.color}dd)`,
-                    color: isCurrent ? 'rgba(255,255,255,0.4)' : plan.id === 'basic' ? 'white' : '#0D1B2A',
+                    color: isCurrent ? 'rgba(255,255,255,0.4)' : plan.id === 'basic' ? 'white' : '#06060E',
                     opacity: upgrading === plan.id ? 0.7 : 1,
                     fontFamily: 'IBM Plex Sans Arabic, sans-serif',
                   }}

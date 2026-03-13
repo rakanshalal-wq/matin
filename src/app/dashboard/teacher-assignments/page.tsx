@@ -54,10 +54,10 @@ export default function TeacherAssignmentsPage() {
     <div style={{ padding: 24, fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' as const }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: '#0D1B2A', margin: 0 }}>📚 تعيين المعلمين</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: '#06060E', margin: 0 }}>📚 تعيين المعلمين</h1>
           <p style={{ color: '#6B7280', fontSize: 14, marginTop: 4 }}>ربط المعلم بالمادة والفصل الدراسي</p>
         </div>
-        <button onClick={() => setShowAdd(true)} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#0D1B2A', border: 'none', borderRadius: 12, padding: '12px 24px', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>+ تعيين جديد</button>
+        <button onClick={() => setShowAdd(true)} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 12, padding: '12px 24px', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>+ تعيين جديد</button>
       </div>
 
       {subjects.length === 0 && !loading && (
@@ -71,7 +71,7 @@ export default function TeacherAssignmentsPage() {
       ) : assignments.length === 0 ? (
         <div style={{ textAlign: 'center', padding: 80 }}>
           <div style={{ fontSize: 64 }}>📭</div>
-          <h3 style={{ color: '#0D1B2A', fontSize: 20, fontWeight: 700, marginTop: 16 }}>لا توجد تعيينات</h3>
+          <h3 style={{ color: '#06060E', fontSize: 20, fontWeight: 700, marginTop: 16 }}>لا توجد تعيينات</h3>
           <p style={{ color: '#6B7280', fontSize: 14 }}>عيّن المعلمين للمواد والفصول</p>
         </div>
       ) : (
@@ -103,7 +103,7 @@ export default function TeacherAssignmentsPage() {
 
       {showAdd && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 999 }}>
-          <div style={{ background: '#0D1B2A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 20, padding: 32, width: '100%', maxWidth: 500 }}>
+          <div style={{ background: '#06060E', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 20, padding: 32, width: '100%', maxWidth: 500 }}>
             <h2 style={{ color: '#C9A227', fontSize: 22, fontWeight: 700, marginBottom: 24 }}>+ تعيين جديد</h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               <div>
@@ -129,7 +129,7 @@ export default function TeacherAssignmentsPage() {
               </div>
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
-              <button onClick={handleAdd} disabled={saving} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#0D1B2A', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>
+              <button onClick={handleAdd} disabled={saving} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>
                 {saving ? '⏳ جاري الحفظ...' : '💾 حفظ التعيين'}
               </button>
               <button onClick={() => setShowAdd(false)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إلغاء</button>

@@ -77,10 +77,10 @@ export default function ParentPaymentsPage() {
 
   const filtered = (data?.invoices || []).filter((i: any) => filterStatus === 'all' || i.status === filterStatus);
 
-  if (loading) return <div style={{ padding: 24, direction: 'rtl', background: '#0D1B2A', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#8B5CF6', fontSize: 18 }}>💳 جاري التحميل...</div>;
+  if (loading) return <div style={{ padding: 24, direction: 'rtl', background: '#06060E', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#8B5CF6', fontSize: 18 }}>💳 جاري التحميل...</div>;
 
   return (
-    <div style={{ padding: 24, direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic,Arial,sans-serif', background: '#0D1B2A', minHeight: '100vh' }}>
+    <div style={{ padding: 24, direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic,Arial,sans-serif', background: '#06060E', minHeight: '100vh' }}>
       <h1 style={{ color: '#8B5CF6', fontSize: 24, fontWeight: 800, margin: '0 0 4px' }}>💳 الفواتير والدفع</h1>
       <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, margin: '0 0 20px' }}>جميع رسوم أبنائك في مكان واحد</p>
 
@@ -169,7 +169,7 @@ export default function ParentPaymentsPage() {
 
       {selectedInvoice && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-          <div style={{ background: '#0D1B2A', border: '1px solid rgba(139,92,246,0.3)', borderRadius: 20, padding: 28, width: '100%', maxWidth: 500, maxHeight: '90vh', overflowY: 'auto', direction: 'rtl' }}>
+          <div style={{ background: '#06060E', border: '1px solid rgba(139,92,246,0.3)', borderRadius: 20, padding: 28, width: '100%', maxWidth: 500, maxHeight: '90vh', overflowY: 'auto', direction: 'rtl' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
               <h3 style={{ color: '#8B5CF6', fontSize: 18, fontWeight: 800, margin: 0 }}>💳 إتمام الدفع</h3>
               <button onClick={() => setSelectedInvoice(null)} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', width: 32, height: 32, borderRadius: '50%', cursor: 'pointer', fontSize: 18 }}>×</button>

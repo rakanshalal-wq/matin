@@ -119,7 +119,7 @@ export default function CollegesPage() {
         </div>
         <button onClick={() => setShowAddModal(true)} style={{
           background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)',
-          color: '#0D1B2A',
+          color: '#06060E',
           padding: '12px 24px',
           borderRadius: 10,
           border: 'none',
@@ -191,7 +191,7 @@ export default function CollegesPage() {
             <button onClick={() => setShowAddModal(true)} style={{
               marginTop: 16,
               background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)',
-              color: '#0D1B2A',
+              color: '#06060E',
               padding: '12px 24px',
               borderRadius: 10,
               border: 'none',
@@ -424,7 +424,7 @@ export default function CollegesPage() {
                 <button type="submit" disabled={saving} style={{
                   background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)',
                   border: 'none',
-                  color: '#0D1B2A',
+                  color: '#06060E',
                   padding: '12px 24px',
                   borderRadius: 8,
                   fontWeight: 700,

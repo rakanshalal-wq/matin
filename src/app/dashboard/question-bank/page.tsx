@@ -166,13 +166,13 @@ export default function QuestionBankPage() {
   const canEdit = ['super_admin', 'owner', 'admin', 'teacher'].includes(user?.role);
 
   const s = {
-    page: { minHeight: '100vh', background: '#0D1B2A', fontFamily: 'IBM Plex Sans Arabic, Arial, sans-serif', direction: 'rtl' as const, padding: '24px' },
+    page: { minHeight: '100vh', background: '#06060E', fontFamily: 'IBM Plex Sans Arabic, Arial, sans-serif', direction: 'rtl' as const, padding: '24px' },
     btn: (color: string) => ({ padding: '10px 20px', background: `${color}20`, border: `1px solid ${color}50`, borderRadius: '8px', color: color, fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }),
     card: { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(201,162,39,0.1)', borderRadius: '12px', padding: '16px', marginBottom: '12px' },
     input: { width: '100%', padding: '10px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '14px', outline: 'none', direction: 'rtl' as const, marginBottom: '12px', boxSizing: 'border-box' as const, fontFamily: 'IBM Plex Sans Arabic, sans-serif' },
     label: { color: 'rgba(255,255,255,0.6)', fontSize: '12px', marginBottom: '4px', display: 'block' },
     modal: { position: 'fixed' as const, inset: 0, background: 'rgba(0,0,0,0.8)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' },
-    modalBox: { background: '#0D1B2A', border: '1px solid rgba(201,162,39,0.3)', borderRadius: '16px', padding: '28px', width: '100%', maxWidth: '600px', maxHeight: '90vh', overflowY: 'auto' as const },
+    modalBox: { background: '#06060E', border: '1px solid rgba(201,162,39,0.3)', borderRadius: '16px', padding: '28px', width: '100%', maxWidth: '600px', maxHeight: '90vh', overflowY: 'auto' as const },
   };
 
   return (

@@ -48,7 +48,7 @@ export default function EmergencyKeysPage() {
   };
 
   return (
-    <div style={{ padding: 24, background: '#0D1B2A', minHeight: '100vh', fontFamily: 'Arial' }} dir="rtl">
+    <div style={{ padding: 24, background: '#06060E', minHeight: '100vh', fontFamily: 'Arial' }} dir="rtl">
       <div style={{ marginBottom: 24 }}>
         <h1 style={{ color: '#C9A227', fontSize: 24, fontWeight: 800, margin: 0 }}>🗝️ مفاتيح الطوارئ</h1>
         <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>فتح الاختبارات المشفرة يتطلب أمرك + شخص معتمد — مثل خزنة البنك</p>
@@ -132,7 +132,7 @@ export default function EmergencyKeysPage() {
       {/* نموذج الإضافة */}
       {showAdd && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ background: '#0D1B2A', borderRadius: 16, padding: 24, border: '1px solid rgba(201,162,39,0.3)', width: 420 }}>
+          <div style={{ background: '#06060E', borderRadius: 16, padding: 24, border: '1px solid rgba(201,162,39,0.3)', width: 420 }}>
             <h3 style={{ color: '#C9A227', margin: '0 0 20px 0' }}>إضافة شخص معتمد</h3>
             {[
               { label: 'الاسم الكامل', key: 'name', type: 'text' },

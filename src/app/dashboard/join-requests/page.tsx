@@ -87,7 +87,7 @@ export default function JoinRequestsPage() {
     <div style={{ padding: '24px', fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' as const }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: '#0D1B2A', margin: 0 }}>📋 طلبات الانضمام</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: '#06060E', margin: 0 }}>📋 طلبات الانضمام</h1>
           <p style={{ color: '#6B7280', fontSize: 14, marginTop: 4 }}>إدارة طلبات المعلمين والطلاب وأولياء الأمور</p>
         </div>
         <div style={{ background: '#FEF3C7', color: '#92400E', padding: '8px 20px', borderRadius: 12, fontWeight: 700, fontSize: 15 }}>
@@ -100,7 +100,7 @@ export default function JoinRequestsPage() {
       ) : requests.length === 0 ? (
         <div style={{ textAlign: 'center', padding: 80 }}>
           <div style={{ fontSize: 64 }}>✅</div>
-          <h3 style={{ color: '#0D1B2A', fontSize: 20, fontWeight: 700, marginTop: 16 }}>لا توجد طلبات معلّقة</h3>
+          <h3 style={{ color: '#06060E', fontSize: 20, fontWeight: 700, marginTop: 16 }}>لا توجد طلبات معلّقة</h3>
           <p style={{ color: '#6B7280', fontSize: 14 }}>جميع الطلبات تمت معالجتها</p>
         </div>
       ) : (
@@ -113,7 +113,7 @@ export default function JoinRequestsPage() {
                     {req.role === 'teacher' ? '👨‍🏫' : req.role === 'student' ? '🎓' : '👨‍👩‍👧'}
                   </div>
                   <div>
-                    <h3 style={{ fontWeight: 700, fontSize: 17, color: '#0D1B2A', margin: 0 }}>{req.name}</h3>
+                    <h3 style={{ fontWeight: 700, fontSize: 17, color: '#06060E', margin: 0 }}>{req.name}</h3>
                     <span style={{ background: roleColor(req.role) + '20', color: roleColor(req.role), padding: '2px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600 }}>
                       {roleLabel(req.role)}
                     </span>

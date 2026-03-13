@@ -216,7 +216,7 @@ export default function ReportsPage() {
           <button key={rt.id} onClick={() => fetchReport(rt.id)} style={{
             padding: '10px 20px', borderRadius: 10, border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: 14,
             background: activeReport === rt.id ? 'linear-gradient(135deg, #C9A227, #E8C547)' : 'rgba(255,255,255,0.05)',
-            color: activeReport === rt.id ? '#0D1B2A' : 'rgba(255,255,255,0.7)',
+            color: activeReport === rt.id ? '#06060E' : 'rgba(255,255,255,0.7)',
             fontFamily: 'IBM Plex Sans Arabic, sans-serif',
             transition: 'all 0.2s',
           }}>{rt.label}</button>

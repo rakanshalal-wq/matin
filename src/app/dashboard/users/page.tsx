@@ -137,19 +137,19 @@ export default function UsersPage() {
           style={{ flex: 1, minWidth: 250, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none' }}
         />
         <select value={roleFilter} onChange={e => setRoleFilter(e.target.value)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none', cursor: 'pointer' }}>
-          <option value="all" style={{background:'#0D1B2A'}}>كل الأدوار</option>
-          <option value="owner" style={{background:'#0D1B2A'}}>ملاك مدارس</option>
-          <option value="admin" style={{background:'#0D1B2A'}}>مدراء</option>
-          <option value="teacher" style={{background:'#0D1B2A'}}>معلمين</option>
-          <option value="parent" style={{background:'#0D1B2A'}}>أولياء أمور</option>
-          <option value="student" style={{background:'#0D1B2A'}}>طلاب</option>
+          <option value="all" style={{background:'#06060E'}}>كل الأدوار</option>
+          <option value="owner" style={{background:'#06060E'}}>ملاك مدارس</option>
+          <option value="admin" style={{background:'#06060E'}}>مدراء</option>
+          <option value="teacher" style={{background:'#06060E'}}>معلمين</option>
+          <option value="parent" style={{background:'#06060E'}}>أولياء أمور</option>
+          <option value="student" style={{background:'#06060E'}}>طلاب</option>
         </select>
         <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none', cursor: 'pointer' }}>
-          <option value="all" style={{background:'#0D1B2A'}}>كل الحالات</option>
-          <option value="pending" style={{background:'#0D1B2A'}}>قيد المراجعة</option>
-          <option value="active" style={{background:'#0D1B2A'}}>مفعّل</option>
-          <option value="rejected" style={{background:'#0D1B2A'}}>مرفوض</option>
-          <option value="suspended" style={{background:'#0D1B2A'}}>موقوف</option>
+          <option value="all" style={{background:'#06060E'}}>كل الحالات</option>
+          <option value="pending" style={{background:'#06060E'}}>قيد المراجعة</option>
+          <option value="active" style={{background:'#06060E'}}>مفعّل</option>
+          <option value="rejected" style={{background:'#06060E'}}>مرفوض</option>
+          <option value="suspended" style={{background:'#06060E'}}>موقوف</option>
         </select>
       </div>
 

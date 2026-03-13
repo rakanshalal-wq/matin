@@ -65,10 +65,10 @@ export default function SchoolInvoicesPage() {
   const filtered = (data?.invoices || []).filter((i: any) => (filterStatus === 'all' || i.status === filterStatus) && (!searchQuery || i.student_name?.includes(searchQuery) || i.invoice_number?.includes(searchQuery)));
   const inp = { width: '100%', padding: '10px 14px', borderRadius: 10, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', fontSize: 14, fontFamily: 'inherit', boxSizing: 'border-box' as const };
 
-  if (loading) return <div style={{ padding: 24, direction: 'rtl', background: '#0D1B2A', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#C9A227' }}>⏳ جاري التحميل...</div>;
+  if (loading) return <div style={{ padding: 24, direction: 'rtl', background: '#06060E', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#C9A227' }}>⏳ جاري التحميل...</div>;
 
   return (
-    <div style={{ padding: 24, direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic,Arial,sans-serif', background: '#0D1B2A', minHeight: '100vh' }}>
+    <div style={{ padding: 24, direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic,Arial,sans-serif', background: '#06060E', minHeight: '100vh' }}>
       <h1 style={{ color: '#C9A227', fontSize: 24, fontWeight: 800, margin: '0 0 4px' }}>💰 إدارة الفواتير</h1>
       <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, margin: '0 0 20px' }}>إنشاء وإدارة فواتير أولياء الأمور</p>
 
@@ -154,7 +154,7 @@ export default function SchoolInvoicesPage() {
           </div>
           <div style={{ display: 'flex', gap: 10 }}>
             <button onClick={() => setActiveTab('list')} style={{ flex: 1, padding: 12, borderRadius: 10, cursor: 'pointer', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)', fontSize: 14 }}>إلغاء</button>
-            <button onClick={createInvoice} disabled={saving} style={{ flex: 2, padding: 12, borderRadius: 10, cursor: 'pointer', background: 'linear-gradient(135deg,#C9A227,#E8C547)', border: 'none', color: '#0D1B2A', fontSize: 14, fontWeight: 700, opacity: saving ? 0.7 : 1 }}>{saving ? '⏳ جاري الإنشاء...' : '✅ إنشاء الفاتورة'}</button>
+            <button onClick={createInvoice} disabled={saving} style={{ flex: 2, padding: 12, borderRadius: 10, cursor: 'pointer', background: 'linear-gradient(135deg,#C9A227,#E8C547)', border: 'none', color: '#06060E', fontSize: 14, fontWeight: 700, opacity: saving ? 0.7 : 1 }}>{saving ? '⏳ جاري الإنشاء...' : '✅ إنشاء الفاتورة'}</button>
           </div>
         </div>
       )}

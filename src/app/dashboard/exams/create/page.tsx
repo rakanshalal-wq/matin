@@ -158,7 +158,7 @@ export default function CreateExamPage() {
           <button key={s.num} onClick={() => setStep(s.num)} style={{
             flex: 1, padding: '12px 8px', borderRadius: 10, border: 'none', cursor: 'pointer',
             background: step === s.num ? '#C9A227' : step > s.num ? 'rgba(201,162,39,0.2)' : 'rgba(255,255,255,0.05)',
-            color: step === s.num ? '#0D1B2A' : step > s.num ? '#C9A227' : 'rgba(255,255,255,0.5)',
+            color: step === s.num ? '#06060E' : step > s.num ? '#C9A227' : 'rgba(255,255,255,0.5)',
             fontWeight: 700, fontSize: 14,
           }}>
             {s.num}. {s.label}
@@ -192,7 +192,7 @@ export default function CreateExamPage() {
             <div>
               <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, display: 'block', marginBottom: 6 }}>الفصل الدراسي</label>
               <select value={examData.class_id} onChange={e => setExamData(p => ({ ...p, class_id: e.target.value }))}
-                style={{ width: '100%', padding: '10px 14px', background: '#0D1B2A', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: 'white', fontSize: 14, boxSizing: 'border-box' }}>
+                style={{ width: '100%', padding: '10px 14px', background: '#06060E', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: 'white', fontSize: 14, boxSizing: 'border-box' }}>
                 <option value="">-- اختر الفصل --</option>
                 {classes.map((c: any) => <option key={c.id} value={c.id}>{c.name}</option>)}
               </select>
@@ -200,7 +200,7 @@ export default function CreateExamPage() {
             <div>
               <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, display: 'block', marginBottom: 6 }}>نوع الاختبار</label>
               <select value={examData.exam_type} onChange={e => setExamData(p => ({ ...p, exam_type: e.target.value }))}
-                style={{ width: '100%', padding: '10px 14px', background: '#0D1B2A', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: 'white', fontSize: 14, boxSizing: 'border-box' }}>
+                style={{ width: '100%', padding: '10px 14px', background: '#06060E', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: 'white', fontSize: 14, boxSizing: 'border-box' }}>
                 <option value="quiz">اختبار قصير</option>
                 <option value="midterm">منتصف الفصل</option>
                 <option value="final">نهائي</option>
@@ -250,7 +250,7 @@ export default function CreateExamPage() {
             </div>
           </div>
           <div style={{ marginTop: 24, display: 'flex', justifyContent: 'flex-end' }}>
-            <button onClick={() => setStep(2)} style={{ background: '#C9A227', color: '#0D1B2A', border: 'none', borderRadius: 10, padding: '12px 28px', fontWeight: 700, fontSize: 15, cursor: 'pointer' }}>
+            <button onClick={() => setStep(2)} style={{ background: '#C9A227', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 28px', fontWeight: 700, fontSize: 15, cursor: 'pointer' }}>
               التالي: اختيار الأسئلة →
             </button>
           </div>
@@ -268,17 +268,17 @@ export default function CreateExamPage() {
               {/* فلاتر */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, marginBottom: 16 }}>
                 <select value={filters.subject} onChange={e => setFilters(p => ({ ...p, subject: e.target.value }))}
-                  style={{ padding: '8px 10px', background: '#0D1B2A', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, color: 'white', fontSize: 13 }}>
+                  style={{ padding: '8px 10px', background: '#06060E', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, color: 'white', fontSize: 13 }}>
                   <option value="">كل المواد</option>
                   {subjects.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
                 <select value={filters.grade} onChange={e => setFilters(p => ({ ...p, grade: e.target.value }))}
-                  style={{ padding: '8px 10px', background: '#0D1B2A', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, color: 'white', fontSize: 13 }}>
+                  style={{ padding: '8px 10px', background: '#06060E', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, color: 'white', fontSize: 13 }}>
                   <option value="">كل الصفوف</option>
                   {grades.map(g => <option key={g} value={g}>{g}</option>)}
                 </select>
                 <select value={filters.difficulty} onChange={e => setFilters(p => ({ ...p, difficulty: e.target.value }))}
-                  style={{ padding: '8px 10px', background: '#0D1B2A', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, color: 'white', fontSize: 13 }}>
+                  style={{ padding: '8px 10px', background: '#06060E', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, color: 'white', fontSize: 13 }}>
                   <option value="">كل المستويات</option>
                   <option value="easy">سهل</option>
                   <option value="medium">متوسط</option>
@@ -311,7 +311,7 @@ export default function CreateExamPage() {
                             {q.lesson && <span style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)', fontSize: 11, padding: '2px 8px', borderRadius: 6 }}>{q.lesson}</span>}
                           </div>
                         </div>
-                        <div style={{ width: 24, height: 24, borderRadius: 6, background: isSelected ? '#C9A227' : 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 14, color: isSelected ? '#0D1B2A' : 'transparent' }}>
+                        <div style={{ width: 24, height: 24, borderRadius: 6, background: isSelected ? '#C9A227' : 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 14, color: isSelected ? '#06060E' : 'transparent' }}>
                           ✓
                         </div>
                       </div>
@@ -360,7 +360,7 @@ export default function CreateExamPage() {
             <button onClick={() => setStep(1)} style={{ background: 'rgba(255,255,255,0.08)', color: 'white', border: 'none', borderRadius: 10, padding: '12px 24px', fontWeight: 600, fontSize: 14, cursor: 'pointer' }}>
               ← السابق
             </button>
-            <button onClick={() => setStep(3)} disabled={selectedQuestions.length === 0} style={{ background: selectedQuestions.length > 0 ? '#C9A227' : 'rgba(255,255,255,0.1)', color: selectedQuestions.length > 0 ? '#0D1B2A' : 'rgba(255,255,255,0.3)', border: 'none', borderRadius: 10, padding: '12px 28px', fontWeight: 700, fontSize: 15, cursor: selectedQuestions.length > 0 ? 'pointer' : 'not-allowed' }}>
+            <button onClick={() => setStep(3)} disabled={selectedQuestions.length === 0} style={{ background: selectedQuestions.length > 0 ? '#C9A227' : 'rgba(255,255,255,0.1)', color: selectedQuestions.length > 0 ? '#06060E' : 'rgba(255,255,255,0.3)', border: 'none', borderRadius: 10, padding: '12px 28px', fontWeight: 700, fontSize: 15, cursor: selectedQuestions.length > 0 ? 'pointer' : 'not-allowed' }}>
               التالي: المراجعة →
             </button>
           </div>
@@ -428,7 +428,7 @@ export default function CreateExamPage() {
             <button onClick={() => setStep(2)} style={{ background: 'rgba(255,255,255,0.08)', color: 'white', border: 'none', borderRadius: 10, padding: '12px 24px', fontWeight: 600, fontSize: 14, cursor: 'pointer' }}>
               ← السابق
             </button>
-            <button onClick={handleSave} disabled={saving} style={{ background: '#C9A227', color: '#0D1B2A', border: 'none', borderRadius: 10, padding: '12px 32px', fontWeight: 700, fontSize: 15, cursor: saving ? 'not-allowed' : 'pointer', opacity: saving ? 0.7 : 1 }}>
+            <button onClick={handleSave} disabled={saving} style={{ background: '#C9A227', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 32px', fontWeight: 700, fontSize: 15, cursor: saving ? 'not-allowed' : 'pointer', opacity: saving ? 0.7 : 1 }}>
               {saving ? 'جاري الحفظ...' : '✅ نشر الاختبار'}
             </button>
           </div>

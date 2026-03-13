@@ -71,7 +71,7 @@ export default function StoreDashboard() {
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
           <a href="/store" target="_blank" rel="noreferrer" style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 10, padding: '10px 18px', textDecoration: 'none', fontWeight: 700, fontSize: 14 }}>👁️ المتجر</a>
-          <button onClick={openAdd} style={{ background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#0D1B2A', padding: '10px 20px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>➕ منتج جديد</button>
+          <button onClick={openAdd} style={{ background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', padding: '10px 20px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>➕ منتج جديد</button>
         </div>
       </div>
 
@@ -96,7 +96,7 @@ export default function StoreDashboard() {
       {/* Tabs */}
       <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
         {[{ key: 'products', label: '📦 المنتجات', count: products.length }, { key: 'orders', label: '🛒 الطلبات', count: orders.length }].map(tab => (
-          <button key={tab.key} onClick={() => setActiveTab(tab.key as any)} style={{ background: activeTab === tab.key ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'rgba(255,255,255,0.05)', color: activeTab === tab.key ? '#0D1B2A' : 'rgba(255,255,255,0.7)', border: 'none', borderRadius: 20, padding: '8px 20px', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
+          <button key={tab.key} onClick={() => setActiveTab(tab.key as any)} style={{ background: activeTab === tab.key ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'rgba(255,255,255,0.05)', color: activeTab === tab.key ? '#06060E' : 'rgba(255,255,255,0.7)', border: 'none', borderRadius: 20, padding: '8px 20px', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
             {tab.label} ({tab.count})
           </button>
         ))}
@@ -187,7 +187,7 @@ export default function StoreDashboard() {
                 <input value={(form as any)[f.key]} onChange={e => setForm({ ...form, [f.key]: e.target.value })} type={['price', 'sale_price', 'stock'].includes(f.key) ? 'number' : 'text'} style={inputStyle} dir={f.key === 'image' ? 'ltr' : 'rtl'} />
               </div>
             ))}
-            <button onClick={handleSave} disabled={saving} style={{ width: '100%', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#0D1B2A', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 800, cursor: 'pointer', marginTop: 8 }}>
+            <button onClick={handleSave} disabled={saving} style={{ width: '100%', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 800, cursor: 'pointer', marginTop: 8 }}>
               {saving ? '⏳ جاري الحفظ...' : '💾 حفظ'}
             </button>
           </div>

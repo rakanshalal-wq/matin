@@ -154,7 +154,7 @@ export default function SettingsPage() {
               </h2>
               <button onClick={handleSaveAll} disabled={saving === 'all'} style={{
                 padding: '10px 24px', background: 'linear-gradient(135deg, #C9A227, #E8C547)',
-                color: '#0D1B2A', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700,
+                color: '#06060E', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700,
                 cursor: saving === 'all' ? 'not-allowed' : 'pointer', opacity: saving === 'all' ? 0.7 : 1,
                 fontFamily: 'IBM Plex Sans Arabic, sans-serif',
               }}>

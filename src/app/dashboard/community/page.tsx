@@ -103,7 +103,7 @@ export default function CommunityPage() {
           <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>🌐 المجتمع</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>تواصل مع زملائك وشارك أفكارك</p>
         </div>
-        <button onClick={() => setShowNewPost(true)} style={{ padding: '12px 24px', background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', border: 'none', borderRadius: 10, color: '#0D1B2A', fontSize: 15, fontWeight: 700, cursor: 'pointer' }}>
+        <button onClick={() => setShowNewPost(true)} style={{ padding: '12px 24px', background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', border: 'none', borderRadius: 10, color: '#06060E', fontSize: 15, fontWeight: 700, cursor: 'pointer' }}>
           ✏️ منشور جديد
         </button>
       </div>
@@ -131,7 +131,7 @@ export default function CommunityPage() {
       {showNewPost && (
         <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 16, padding: 24, marginBottom: 24, border: '1px solid rgba(201,162,39,0.3)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-            <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 700, color: '#0D1B2A' }}>
+            <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 700, color: '#06060E' }}>
               {currentUser?.name?.charAt(0) || '؟'}
             </div>
             <div style={{ color: 'white', fontWeight: 600 }}>{currentUser?.name || 'مستخدم'}</div>
@@ -144,7 +144,7 @@ export default function CommunityPage() {
           />
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 12 }}>
             <button onClick={() => { setShowNewPost(false); setNewPost(''); }} style={{ padding: '10px 20px', background: 'rgba(255,255,255,0.08)', border: 'none', borderRadius: 8, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
-            <button onClick={createPost} disabled={!newPost.trim()} style={{ padding: '10px 24px', background: newPost.trim() ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'rgba(255,255,255,0.1)', border: 'none', borderRadius: 8, color: newPost.trim() ? '#0D1B2A' : 'rgba(255,255,255,0.3)', fontWeight: 700, cursor: newPost.trim() ? 'pointer' : 'default', fontSize: 14 }}>نشر</button>
+            <button onClick={createPost} disabled={!newPost.trim()} style={{ padding: '10px 24px', background: newPost.trim() ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'rgba(255,255,255,0.1)', border: 'none', borderRadius: 8, color: newPost.trim() ? '#06060E' : 'rgba(255,255,255,0.3)', fontWeight: 700, cursor: newPost.trim() ? 'pointer' : 'default', fontSize: 14 }}>نشر</button>
           </div>
         </div>
       )}
@@ -205,7 +205,7 @@ export default function CommunityPage() {
                       placeholder="اكتب تعليقاً..."
                       style={{ flex: 1, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: 'white', fontSize: 14, outline: 'none', direction: 'rtl' }}
                     />
-                    <button onClick={() => addComment(post.id)} style={{ padding: '10px 16px', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', border: 'none', borderRadius: 8, color: '#0D1B2A', fontWeight: 700, cursor: 'pointer', fontSize: 13 }}>إرسال</button>
+                    <button onClick={() => addComment(post.id)} style={{ padding: '10px 16px', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', border: 'none', borderRadius: 8, color: '#06060E', fontWeight: 700, cursor: 'pointer', fontSize: 13 }}>إرسال</button>
                   </div>
 
                   {/* قائمة التعليقات */}

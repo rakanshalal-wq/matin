@@ -186,7 +186,7 @@ export default function LecturesPage() {
                 return (
                   <div key={lec.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}>
                     {/* صورة مصغرة */}
-                    <div style={{ height: 140, background: `linear-gradient(135deg, #1a2d4a, #0D1B2A)`, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                    <div style={{ height: 140, background: `linear-gradient(135deg, #1a2d4a, #06060E)`, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
                       {lec.thumbnail ? (
                         <img src={lec.thumbnail} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       ) : (
@@ -434,7 +434,7 @@ export default function LecturesPage() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
               {courses.map((c: any) => (
                 <div key={c.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}>
-                  <div style={{ height: 140, background: 'linear-gradient(135deg, #1a2d4a, #0D1B2A)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ height: 140, background: 'linear-gradient(135deg, #1a2d4a, #06060E)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     {c.thumbnail ? <img src={c.thumbnail} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 48 }}>📚</span>}
                   </div>
                   <div style={{ padding: '14px 16px' }}>

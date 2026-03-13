@@ -240,7 +240,7 @@ export default function TeacherDashboard() {
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
             <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>📒 الواجبات المنزلية</h2>
-            <button onClick={() => setShowAddHW(!showAddHW)} style={{ padding: '10px 20px', background: showAddHW ? 'rgba(255,255,255,0.1)' : '#F59E0B', color: showAddHW ? 'white' : '#0D1B2A', border: 'none', borderRadius: 10, cursor: 'pointer', fontWeight: 700, fontFamily: 'inherit' }}>
+            <button onClick={() => setShowAddHW(!showAddHW)} style={{ padding: '10px 20px', background: showAddHW ? 'rgba(255,255,255,0.1)' : '#F59E0B', color: showAddHW ? 'white' : '#06060E', border: 'none', borderRadius: 10, cursor: 'pointer', fontWeight: 700, fontFamily: 'inherit' }}>
               {showAddHW ? '✕ إلغاء' : '+ إضافة واجب'}
             </button>
           </div>
@@ -254,7 +254,7 @@ export default function TeacherDashboard() {
               </div>
               <div style={{ marginBottom: 16 }}><label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, display: 'block', marginBottom: 6 }}>التفاصيل</label><textarea value={hwForm.description} onChange={e => setHwForm({...hwForm, description: e.target.value})} placeholder="وصف الواجب..." rows={3} style={{ ...inputStyle, resize: 'vertical' }} /></div>
               {hwMsg && (<div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 12, background: hwMsg.includes('✅') ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)', color: hwMsg.includes('✅') ? '#10B981' : '#EF4444' }}>{hwMsg}</div>)}
-              <button onClick={addHomework} disabled={savingHW} style={{ padding: '10px 24px', background: '#F59E0B', color: '#0D1B2A', border: 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 700, fontFamily: 'inherit' }}>{savingHW ? '⏳ جاري الحفظ...' : '💾 حفظ الواجب'}</button>
+              <button onClick={addHomework} disabled={savingHW} style={{ padding: '10px 24px', background: '#F59E0B', color: '#06060E', border: 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 700, fontFamily: 'inherit' }}>{savingHW ? '⏳ جاري الحفظ...' : '💾 حفظ الواجب'}</button>
             </div>
           )}
           <div style={{ display: 'grid', gap: 10 }}>

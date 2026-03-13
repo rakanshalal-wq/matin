@@ -51,7 +51,7 @@ export default function AdminDashboard() {
     finally { setLoading(false); }
   };
 
-  if (!user) return <div style={{minHeight:'100vh',background:'#0D1B2A',display:'flex',alignItems:'center',justifyContent:'center',color:'#C9A227',fontSize:20}}>جاري التحميل...</div>;
+  if (!user) return <div style={{minHeight:'100vh',background:'#06060E',display:'flex',alignItems:'center',justifyContent:'center',color:'#C9A227',fontSize:20}}>جاري التحميل...</div>;
 
   const statCards = [
     { label: 'إجمالي الطلاب', value: stats.my_students || stats.students || 0, icon: '🎓', color: '#3B82F6', href: '/dashboard/students' },
@@ -116,7 +116,7 @@ export default function AdminDashboard() {
               padding: '10px 20px', borderRadius: 10, border: 'none', fontSize: 14, fontWeight: 600,
               cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif',
               background: activeTab === tab.id ? 'linear-gradient(135deg, #C9A227, #E8C547)' : 'rgba(255,255,255,0.05)',
-              color: activeTab === tab.id ? '#0D1B2A' : 'rgba(255,255,255,0.7)',
+              color: activeTab === tab.id ? '#06060E' : 'rgba(255,255,255,0.7)',
             }}>
             {tab.label}
           </button>
@@ -195,7 +195,7 @@ export default function AdminDashboard() {
         <div style={cardStyle}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
             <h3 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>🎓 قائمة الطلاب</h3>
-            <Link href="/dashboard/students" style={{ padding: '8px 16px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#0D1B2A', borderRadius: 8, textDecoration: 'none', fontSize: 13, fontWeight: 700 }}>
+            <Link href="/dashboard/students" style={{ padding: '8px 16px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#06060E', borderRadius: 8, textDecoration: 'none', fontSize: 13, fontWeight: 700 }}>
               إدارة الطلاب ←
             </Link>
           </div>
@@ -232,7 +232,7 @@ export default function AdminDashboard() {
         <div style={cardStyle}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
             <h3 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>👨‍🏫 قائمة المعلمين</h3>
-            <Link href="/dashboard/teachers" style={{ padding: '8px 16px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#0D1B2A', borderRadius: 8, textDecoration: 'none', fontSize: 13, fontWeight: 700 }}>
+            <Link href="/dashboard/teachers" style={{ padding: '8px 16px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#06060E', borderRadius: 8, textDecoration: 'none', fontSize: 13, fontWeight: 700 }}>
               إدارة المعلمين ←
             </Link>
           </div>
@@ -262,7 +262,7 @@ export default function AdminDashboard() {
         <div style={cardStyle}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
             <h3 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>🏫 الفصول الدراسية</h3>
-            <Link href="/dashboard/classes" style={{ padding: '8px 16px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#0D1B2A', borderRadius: 8, textDecoration: 'none', fontSize: 13, fontWeight: 700 }}>
+            <Link href="/dashboard/classes" style={{ padding: '8px 16px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#06060E', borderRadius: 8, textDecoration: 'none', fontSize: 13, fontWeight: 700 }}>
               إدارة الفصول ←
             </Link>
           </div>

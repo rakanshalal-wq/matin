@@ -28,7 +28,7 @@ export default function PlatformAnalyticsPage() {
   ] : [];
 
   return (
-    <div style={{ padding: 24, background: '#0D1B2A', minHeight: '100vh', fontFamily: 'Arial' }} dir="rtl">
+    <div style={{ padding: 24, background: '#06060E', minHeight: '100vh', fontFamily: 'Arial' }} dir="rtl">
       <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h1 style={{ color: '#C9A227', fontSize: 24, fontWeight: 800, margin: 0 }}>📊 إحصاءات المنصة</h1>

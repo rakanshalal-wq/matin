@@ -62,7 +62,7 @@ export default function SchoolPageEditor() {
           <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>🏫 صفحة المدرسة</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>تخصيص الصفحة العامة لمدرستك</p>
         </div>
-        <button onClick={() => setShowAdd(true)} style={{ background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#0D1B2A', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>➕ إنشاء صفحة</button>
+        <button onClick={() => setShowAdd(true)} style={{ background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>➕ إنشاء صفحة</button>
       </div>
 
       {success && <div style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: 12, padding: '12px 20px', marginBottom: 24, color: '#22C55E', fontWeight: 600 }}>{success}</div>}
@@ -153,7 +153,7 @@ export default function SchoolPageEditor() {
               </div>
 
               <div style={{ display: 'flex', gap: 12 }}>
-                <button onClick={handleSave} disabled={saving} style={{ flex: 1, background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#0D1B2A', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 800, cursor: 'pointer' }}>
+                <button onClick={handleSave} disabled={saving} style={{ flex: 1, background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 800, cursor: 'pointer' }}>
                   {saving ? '⏳ جاري الحفظ...' : '💾 حفظ التغييرات'}
                 </button>
                 <a href={`/school/${selected.slug}`} target="_blank" rel="noreferrer" style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 12, padding: '14px 20px', fontSize: 14, fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center' }}>👁️ معاينة</a>
@@ -182,7 +182,7 @@ export default function SchoolPageEditor() {
                 <input value={newSlug} onChange={e => setNewSlug(e.target.value.toLowerCase().replace(/\s/g, '-'))} placeholder="al-nujoom" style={{ ...inputStyle, flex: 1 }} dir="ltr" />
               </div>
             </div>
-            <button onClick={handleCreate} style={{ width: '100%', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#0D1B2A', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 800, cursor: 'pointer' }}>🚀 إنشاء الصفحة</button>
+            <button onClick={handleCreate} style={{ width: '100%', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 800, cursor: 'pointer' }}>🚀 إنشاء الصفحة</button>
           </div>
         </div>
       )}

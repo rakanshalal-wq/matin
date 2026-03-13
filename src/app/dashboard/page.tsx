@@ -151,7 +151,7 @@ export default function DashboardHome() {
       {/* الهيدر — تحية + معلومات المؤسسة */}
       {/* ══════════════════════════════════════════ */}
       <div style={{
-        background: 'linear-gradient(135deg, #0D1B2A 0%, #1a2d4a 50%, #0D1B2A 100%)',
+        background: 'linear-gradient(135deg, #06060E 0%, #1a2d4a 50%, #06060E 100%)',
         border: '1px solid rgba(201,162,39,0.2)',
         borderRadius: 20,
         padding: '28px 32px',

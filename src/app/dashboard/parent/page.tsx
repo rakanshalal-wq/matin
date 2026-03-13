@@ -38,7 +38,7 @@ export default function ParentDashboard() {
   };
 
   const s = {
-    page: { display: 'flex', minHeight: '100vh', background: '#0D1B2A', fontFamily: 'IBM Plex Sans Arabic, Arial, sans-serif', direction: 'rtl' as const },
+    page: { display: 'flex', minHeight: '100vh', background: '#06060E', fontFamily: 'IBM Plex Sans Arabic, Arial, sans-serif', direction: 'rtl' as const },
     sidebar: { width: '220px', background: '#0A1520', borderLeft: '1px solid rgba(139,92,246,0.15)', display: 'flex', flexDirection: 'column' as const, flexShrink: 0 },
     menuItem: { display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px', color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: '14px' },
     main: { flex: 1, overflow: 'auto' },

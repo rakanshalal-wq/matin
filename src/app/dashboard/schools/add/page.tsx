@@ -306,7 +306,7 @@ export default function AddSchoolPage() {
           <button type="submit" disabled={loading} style={{
             background: loading ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)',
             border: 'none',
-            color: '#0D1B2A',
+            color: '#06060E',
             padding: '14px 32px',
             borderRadius: 10,
             fontWeight: 700,

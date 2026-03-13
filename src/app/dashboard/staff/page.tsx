@@ -98,7 +98,7 @@ export default function StaffPage() {
           <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>👨‍🏫 إدارة الطاقم</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إضافة وإدارة المعلمين والمدراء والموظفين</p>
         </div>
-        <button onClick={() => { setEditItem(null); setForm({ name: '', email: '', password: '', phone: '', role: 'teacher', school_id: '', national_id: '' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#0D1B2A', border: 'none', borderRadius: 12, padding: '12px 24px', cursor: 'pointer', fontWeight: 700, fontSize: 14 }}>
+        <button onClick={() => { setEditItem(null); setForm({ name: '', email: '', password: '', phone: '', role: 'teacher', school_id: '', national_id: '' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 12, padding: '12px 24px', cursor: 'pointer', fontWeight: 700, fontSize: 14 }}>
           ➕ إضافة جديد
         </button>
       </div>
@@ -127,11 +127,11 @@ export default function StaffPage() {
       <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
         <input value={search} onChange={e => setSearch(e.target.value)} placeholder="🔍 بحث بالاسم أو الإيميل..." style={{ flex: 1, minWidth: 250, ...inputStyle }} />
         <select value={roleFilter} onChange={e => setRoleFilter(e.target.value)} style={{ ...inputStyle, width: 'auto', cursor: 'pointer' }}>
-          <option value="all" style={{background:'#0D1B2A'}}>كل الأدوار</option>
-          <option value="admin" style={{background:'#0D1B2A'}}>مدراء</option>
-          <option value="teacher" style={{background:'#0D1B2A'}}>معلمين</option>
-          <option value="student" style={{background:'#0D1B2A'}}>طلاب</option>
-          <option value="parent" style={{background:'#0D1B2A'}}>أولياء أمور</option>
+          <option value="all" style={{background:'#06060E'}}>كل الأدوار</option>
+          <option value="admin" style={{background:'#06060E'}}>مدراء</option>
+          <option value="teacher" style={{background:'#06060E'}}>معلمين</option>
+          <option value="student" style={{background:'#06060E'}}>طلاب</option>
+          <option value="parent" style={{background:'#06060E'}}>أولياء أمور</option>
         </select>
       </div>
 
@@ -186,7 +186,7 @@ export default function StaffPage() {
       {/* Modal إضافة/تعديل */}
       {showModal && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
-          <div style={{ background: '#0D1B2A', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
+          <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
               <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? '✏️ تعديل' : '➕ إضافة عضو جديد'}</h2>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>✕</button>
@@ -200,10 +200,10 @@ export default function StaffPage() {
               <div>
                 <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>الدور *</label>
                 <select value={form.role} onChange={e => setForm({...form, role: e.target.value})} style={{...inputStyle, cursor: 'pointer'}}>
-                  <option value="teacher" style={{background:'#0D1B2A'}}>👨‍🏫 معلم</option>
-                  <option value="admin" style={{background:'#0D1B2A'}}>🔧 مدير مدرسة</option>
-                  <option value="student" style={{background:'#0D1B2A'}}>🎓 طالب</option>
-                  <option value="parent" style={{background:'#0D1B2A'}}>👨‍👧 ولي أمر</option>
+                  <option value="teacher" style={{background:'#06060E'}}>👨‍🏫 معلم</option>
+                  <option value="admin" style={{background:'#06060E'}}>🔧 مدير مدرسة</option>
+                  <option value="student" style={{background:'#06060E'}}>🎓 طالب</option>
+                  <option value="parent" style={{background:'#06060E'}}>👨‍👧 ولي أمر</option>
                 </select>
               </div>
               {!editItem && (
@@ -228,9 +228,9 @@ export default function StaffPage() {
               <div>
                 <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>المدرسة *</label>
                 <select value={form.school_id} onChange={e => setForm({...form, school_id: e.target.value})} style={{...inputStyle, cursor: 'pointer'}}>
-                  <option value="" style={{background:'#0D1B2A'}}>-- اختر المدرسة --</option>
+                  <option value="" style={{background:'#06060E'}}>-- اختر المدرسة --</option>
                   {schools.map((s: any) => (
-                    <option key={s.id} value={s.id} style={{background:'#0D1B2A'}}>{s.name}</option>
+                    <option key={s.id} value={s.id} style={{background:'#06060E'}}>{s.name}</option>
                   ))}
                 </select>
               </div>
@@ -247,7 +247,7 @@ export default function StaffPage() {
 
             <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
-              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#0D1B2A', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? '💾 تحديث' : '➕ إضافة'}</button>
+              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? '💾 تحديث' : '➕ إضافة'}</button>
             </div>
           </div>
         </div>
