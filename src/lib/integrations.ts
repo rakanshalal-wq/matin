@@ -407,7 +407,8 @@ async function sendSMSUnifonic(phone: string, message: string) {
 // ══════════════════════════════════════════════════════════════════
 export async function sendEmail(to: string | string[], subject: string, html: string, text?: string) {
   const config = await getIntegrationConfig('resend');
-  const apiKey = config?.api_key || process.env.RESEND_API_KEY || 're_8YPijCu9_5KBU9zvhf9btdto73sdDpfvs';
+  const apiKey = config?.api_key || process.env.RESEND_API_KEY;
+  if (!apiKey) return { success: false, error: 'Resend غير مفعّل — أضف API key من لوحة التكاملات' };
   const from = config?.from_email || 'no-reply@matin.ink';
   const fromName = config?.from_name || 'منصة متين';
   
