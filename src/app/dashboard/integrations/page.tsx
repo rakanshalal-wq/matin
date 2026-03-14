@@ -2,11 +2,11 @@
 import { useState, useEffect } from "react";
 
 const INTEGRATIONS = [
-  { key: "moyasar", name: "موياسر", category: "دفع", icon: "💳", desc: "بوابة دفع سعودية - مدى، فيزا، ماستركارد", fields: ["publishable_key", "secret_key"], testable: true },
-  { key: "hyperpay", name: "HyperPay", category: "دفع", icon: "💳", desc: "بوابة دفع متكاملة", fields: ["api_key", "entity_id"], testable: false },
-  { key: "stc_pay", name: "STC Pay", category: "دفع", icon: "📱", desc: "محفظة STC الإلكترونية", fields: ["api_key", "merchant_id"], testable: false },
-  { key: "tabby", name: "Tabby", category: "دفع", icon: "🛍️", desc: "اشتري الآن وادفع لاحقاً", fields: ["public_key", "secret_key", "merchant_code"], testable: false },
-  { key: "tamara", name: "Tamara", category: "دفع", icon: "🛍️", desc: "تقسيط بدون فوائد", fields: ["api_token"], testable: false },
+  { key: "payment_gateway_1", name: "بوابة الدفع الرئيسية", category: "دفع", icon: "💳", desc: "قبول مدى، فيزا، ماستركارد", fields: ["publishable_key", "secret_key"], testable: true },
+  { key: "payment_gateway_2", name: "بوابة الدفع البديلة", category: "دفع", icon: "💳", desc: "بوابة دفع احتياطية متكاملة", fields: ["api_key", "entity_id"], testable: false },
+  { key: "payment_wallet", name: "المحفظة الإلكترونية", category: "دفع", icon: "📱", desc: "الدفع عبر المحفظة الإلكترونية", fields: ["api_key", "merchant_id"], testable: false },
+  { key: "payment_bnpl_1", name: "الدفع على أقساط", category: "دفع", icon: "🛍️", desc: "اشتري الآن وادفع لاحقاً", fields: ["public_key", "secret_key", "merchant_code"], testable: false },
+  { key: "payment_bnpl_2", name: "التقسيط بدون فوائد", category: "دفع", icon: "🛍️", desc: "تقسيط ميسّر بدون فوائد", fields: ["api_token"], testable: false },
   { key: "taqnyat", name: "تقنيات SMS", category: "رسائل", icon: "📨", desc: "رسائل SMS سعودية", fields: ["api_key", "sender"], testable: false },
   { key: "unifonic", name: "Unifonic", category: "رسائل", icon: "📨", desc: "رسائل SMS عربية", fields: ["app_id", "sender_id"], testable: false },
   { key: "whatsapp", name: "واتساب Business", category: "رسائل", icon: "💬", desc: "إرسال رسائل واتساب تلقائية", fields: ["access_token", "phone_number_id"], testable: true },
