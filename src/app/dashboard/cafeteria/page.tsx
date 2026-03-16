@@ -1,124 +1,165 @@
 'use client';
-  const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
 
+const getHeaders = (): Record<string, string> => {
+  try {
+    const token = localStorage.getItem('matin_token');
+    if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };
+    const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
+    return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') };
+  } catch { return { 'Content-Type': 'application/json' }; }
+};
+
+const GOLD = '#C9A84C';
+const BG = '#0B0B16';
+const CARD_BG = 'rgba(255,255,255,0.04)';
+const BORDER = 'rgba(255,255,255,0.08)';
+
+const CATEGORIES = ['وجبات رئيسية', 'وجبات خفيفة', 'مشروبات', 'حلويات', 'فطور', 'اخرى'];
+
 export default function CafeteriaPage() {
+  const [tab, setTab] = useState<'menu' | 'orders' | 'inventory'>('menu');
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [filterCategory, setFilterCategory] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
   const [saving, setSaving] = useState(false);
-  const [formData, setFormData] = useState({ item_name: '', category: '', price: '', quantity: '', status: 'available' });
+  const [form, setForm] = useState({ name: '', category: 'وجبات رئيسية', price: '', description: '', available: true, calories: '', allergens: '' });
 
   useEffect(() => { fetchItems(); }, []);
-  const fetchItems = async () => { try { const res = await fetch('/api/cafeteria', { headers: getHeaders() }); const data = await res.json(); setItems(Array.isArray(data) ? data : []); } catch (e) { console.error(e); } finally { setLoading(false); } };
 
-  const handleAdd = async () => {
-    if (!formData.item_name) return alert('أدخل اسم الصنف');
-    setSaving(true);
+  const fetchItems = async () => {
+    setLoading(true);
     try {
-      const res = await fetch('/api/cafeteria', { method: 'POST', headers: getHeaders(), body: JSON.stringify(formData) });
-      if (res.ok) { setShowAddModal(false); setFormData({ item_name: '', category: '', price: '', quantity: '', status: 'available' }); fetchItems(); }
-    } catch (e) { console.error(e); } finally { setSaving(false); }
+      const res = await fetch('/api/cafeteria', { headers: getHeaders() });
+      const data = await res.json();
+      setItems(Array.isArray(data) ? data : []);
+    } catch { setItems([]); } finally { setLoading(false); }
   };
 
-  const handleDelete = async (id: number) => { if (!confirm('هل أنت متأكد؟')) return; try { await fetch(`/api/cafeteria?id=${id}`, { method: 'DELETE', headers: getHeaders() }); fetchItems(); } catch (e) { console.error(e); } };
+  const handleSave = async () => {
+    if (!form.name || !form.price) return alert('ادخل اسم الصنف والسعر');
+    setSaving(true);
+    try {
+      const method = editItem ? 'PUT' : 'POST';
+      const url = editItem ? '/api/cafeteria?id=' + editItem.id : '/api/cafeteria';
+      const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify(form) });
+      if (res.ok) { setShowModal(false); setEditItem(null); setForm({ name: '', category: 'وجبات رئيسية', price: '', description: '', available: true, calories: '', allergens: '' }); fetchItems(); }
+      else { const e = await res.json(); alert(e.error || 'فشل الحفظ'); }
+    } catch { } finally { setSaving(false); }
+  };
 
-  const totalRevenue = items.reduce((sum, i) => sum + (parseFloat(i.price) || 0) * (parseInt(i.quantity) || 0), 0);
-  const filteredItems = items.filter(i => i.item_name?.toLowerCase().includes(searchTerm.toLowerCase()) || i.category?.toLowerCase().includes(searchTerm.toLowerCase()));
-  const inputStyle: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none' };
+  const handleDelete = async (id: number) => {
+    if (!confirm('هل انت متاكد من الحذف؟')) return;
+    try { await fetch('/api/cafeteria?id=' + id, { method: 'DELETE', headers: getHeaders() }); fetchItems(); } catch { }
+  };
+
+  const openEdit = (item: any) => {
+    setEditItem(item);
+    setForm({ name: item.name || '', category: item.category || 'وجبات رئيسية', price: String(item.price || ''), description: item.description || '', available: item.available !== false, calories: String(item.calories || ''), allergens: item.allergens || '' });
+    setShowModal(true);
+  };
+
+  const filtered = items.filter((r: any) => {
+    const matchSearch = !searchTerm || r.name?.includes(searchTerm);
+    const matchCat = !filterCategory || r.category === filterCategory;
+    return matchSearch && matchCat;
+  });
+
+  const totalItems = items.length;
+  const availableItems = items.filter((r: any) => r.available !== false).length;
+  const avgPrice = items.length ? (items.reduce((s: number, r: any) => s + Number(r.price || 0), 0) / items.length).toFixed(1) : 0;
+
+  const inp: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid ' + BORDER, borderRadius: 8, padding: '10px 14px', color: 'white', fontSize: 14, outline: 'none', boxSizing: 'border-box' };
+  const lbl: React.CSSProperties = { display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6 };
 
   return (
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+    <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
         <div>
           <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>🍽️ الكافتيريا</h1>
-          <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة أصناف الكافتيريا والوجبات</p>
+          <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>ادارة قائمة الطعام والطلبات</p>
         </div>
-        <button onClick={() => setShowAddModal(true)} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>➕ إضافة صنف</button>
+        <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ اضافة صنف</button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 28 }}>
         {[
-          { label: 'إجمالي الأصناف', value: items.length, icon: '🍽️', color: '#C9A227' },
-          { label: 'متوفر', value: items.filter(i => i.status === 'available').length, icon: '✅', color: '#10B981' },
-          { label: 'غير متوفر', value: items.filter(i => i.status === 'unavailable').length, icon: '❌', color: '#EF4444' },
-        ].map((stat, i) => (
-          <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><span style={{ fontSize: 28 }}>{stat.icon}</span><span style={{ fontSize: 28, fontWeight: 800, color: stat.color }}>{stat.value}</span></div>
-            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginTop: 8 }}>{stat.label}</p>
+          { label: 'اجمالي الاصناف', value: totalItems, color: GOLD, icon: '🍽️' },
+          { label: 'متاح الان', value: availableItems, color: '#10B981', icon: '✅' },
+          { label: 'غير متاح', value: totalItems - availableItems, color: '#EF4444', icon: '❌' },
+          { label: 'متوسط السعر', value: avgPrice + ' ر.س', color: '#3B82F6', icon: '💰' },
+        ].map((s, i) => (
+          <div key={i} style={{ background: CARD_BG, border: '1px solid ' + BORDER, borderRadius: 14, padding: '18px 20px' }}>
+            <div style={{ fontSize: 24, marginBottom: 8 }}>{s.icon}</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: s.color }}>{s.value}</div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>{s.label}</div>
           </div>
         ))}
       </div>
 
-      <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 16, marginBottom: 24 }}>
-        <input type="text" placeholder="🔍 بحث بالاسم أو التصنيف..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
+      <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
+        <input placeholder="🔍 بحث عن صنف..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} style={{ ...inp, width: 260 }} />
+        <select value={filterCategory} onChange={e => setFilterCategory(e.target.value)} style={{ ...inp, width: 200 }}>
+          <option value="">جميع الفئات</option>
+          {CATEGORIES.map(c => <option key={c}>{c}</option>)}
+        </select>
       </div>
 
-      <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, overflow: 'hidden' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
         {loading ? (
-          <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>⏳ جاري التحميل...</p></div>
-        ) : filteredItems.length === 0 ? (
-          <div style={{ padding: 60, textAlign: 'center' }}>
-            <p style={{ fontSize: 48, marginBottom: 16 }}>🍽️</p>
-            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد أصناف</p>
-            <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>➕ إضافة أول صنف</button>
+          <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>جاري التحميل...</div>
+        ) : filtered.length === 0 ? (
+          <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: 60 }}>
+            <div style={{ fontSize: 48, marginBottom: 16 }}>🍽️</div>
+            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 16 }}>لا توجد اصناف في القائمة</p>
+            <button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ اضافة اول صنف</button>
           </div>
-        ) : (
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr style={{ background: 'rgba(201,162,39,0.1)' }}>
-                <th style={{ padding: 16, textAlign: 'right', color: '#C9A227', fontWeight: 700 }}>الصنف</th>
-                <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>التصنيف</th>
-                <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>السعر</th>
-                <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>الكمية</th>
-                <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>الحالة</th>
-                <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>إجراءات</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredItems.map((item) => (
-                <tr key={item.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                  <td style={{ padding: 16 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{ width: 40, height: 40, background: 'rgba(245,158,11,0.1)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>🍽️</div>
-                      <p style={{ color: 'white', fontWeight: 600, margin: 0 }}>{item.item_name}</p>
-                    </div>
-                  </td>
-                  <td style={{ padding: 16, textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>{item.category || '—'}</td>
-                  <td style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontSize: 15, fontWeight: 700 }}>{item.price ? `${parseFloat(item.price)} ر.س` : '—'}</td>
-                  <td style={{ padding: 16, textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>{item.quantity || '0'}</td>
-                  <td style={{ padding: 16, textAlign: 'center' }}><span style={{ background: item.status === 'available' ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)', color: item.status === 'available' ? '#10B981' : '#EF4444', padding: '6px 12px', borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{item.status === 'available' ? 'متوفر' : 'غير متوفر'}</span></td>
-                  <td style={{ padding: 16, textAlign: 'center' }}>
-                    <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-                      <button style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>✏️</button>
-                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>🗑️</button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+        ) : filtered.map((item: any, i: number) => (
+          <div key={item.id || i} style={{ background: CARD_BG, border: '1px solid ' + (item.available !== false ? BORDER : 'rgba(239,68,68,0.2)'), borderRadius: 16, padding: '20px', position: 'relative' }}>
+            {item.available === false && (
+              <div style={{ position: 'absolute', top: 12, left: 12, background: 'rgba(239,68,68,0.2)', color: '#EF4444', padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600 }}>غير متاح</div>
+            )}
+            <div style={{ fontSize: 32, marginBottom: 12 }}>🍽️</div>
+            <div style={{ color: 'white', fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{item.name}</div>
+            <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, marginBottom: 8 }}>{item.category}</div>
+            {item.description && <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, marginBottom: 8 }}>{item.description}</div>}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+              <span style={{ color: GOLD, fontWeight: 800, fontSize: 18 }}>{item.price} ر.س</span>
+              {item.calories && <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{item.calories} سعرة</span>}
+            </div>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button onClick={() => openEdit(item)} style={{ flex: 1, background: 'rgba(201,168,76,0.15)', border: '1px solid rgba(201,168,76,0.3)', borderRadius: 8, padding: '7px', color: GOLD, cursor: 'pointer', fontSize: 13 }}>تعديل</button>
+              <button onClick={() => handleDelete(item.id)} style={{ flex: 1, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, padding: '7px', color: '#EF4444', cursor: 'pointer', fontSize: 13 }}>حذف</button>
+            </div>
+          </div>
+        ))}
       </div>
 
-      {showAddModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
-          <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 500 }}>
+      {showModal && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
+          <div style={{ background: '#12121F', border: '1px solid ' + BORDER, borderRadius: 20, padding: 32, width: '100%', maxWidth: 500, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>🍽️ إضافة صنف</h2>
-              <button onClick={() => setShowAddModal(false)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>✕</button>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل الصنف' : 'اضافة صنف جديد'}</h2>
+              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 22, cursor: 'pointer' }}>✕</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-              <div style={{ gridColumn: '1 / -1' }}><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>اسم الصنف *</label><input value={formData.item_name} onChange={e => setFormData({ ...formData, item_name: e.target.value })} style={inputStyle} /></div>
-              <div><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>التصنيف</label><select value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })} style={{ ...inputStyle, appearance: 'auto' } as any}><option value="" style={{ background: '#06060E' }}>اختر</option><option value="meals" style={{ background: '#06060E' }}>وجبات</option><option value="snacks" style={{ background: '#06060E' }}>مقرمشات</option><option value="drinks" style={{ background: '#06060E' }}>مشروبات</option><option value="desserts" style={{ background: '#06060E' }}>حلويات</option></select></div>
-              <div><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>السعر (ر.س)</label><input value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} style={inputStyle} /></div>
-              <div><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>الكمية</label><input value={formData.quantity} onChange={e => setFormData({ ...formData, quantity: e.target.value })} style={inputStyle} /></div>
-              <div><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>الحالة</label><select value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} style={{ ...inputStyle, appearance: 'auto' } as any}><option value="available" style={{ background: '#06060E' }}>متوفر</option><option value="unavailable" style={{ background: '#06060E' }}>غير متوفر</option></select></div>
+              <div style={{ gridColumn: '1/-1' }}><label style={lbl}>اسم الصنف *</label><input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder="مثال: شاورما دجاج" style={inp} /></div>
+              <div><label style={lbl}>الفئة</label><select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} style={inp}>{CATEGORIES.map(c => <option key={c}>{c}</option>)}</select></div>
+              <div><label style={lbl}>السعر (ر.س) *</label><input type="number" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} placeholder="0" style={inp} /></div>
+              <div><label style={lbl}>السعرات الحرارية</label><input type="number" value={form.calories} onChange={e => setForm({ ...form, calories: e.target.value })} placeholder="0" style={inp} /></div>
+              <div style={{ gridColumn: '1/-1' }}><label style={lbl}>الوصف</label><textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} placeholder="وصف الصنف..." style={{ ...inp, height: 70, resize: 'vertical' as const }} /></div>
+              <div style={{ gridColumn: '1/-1' }}><label style={lbl}>مسببات الحساسية</label><input value={form.allergens} onChange={e => setForm({ ...form, allergens: e.target.value })} placeholder="مثال: جلوتين، لاكتوز..." style={inp} /></div>
+              <div style={{ gridColumn: '1/-1', display: 'flex', alignItems: 'center', gap: 10 }}>
+                <input type="checkbox" id="avail" checked={form.available} onChange={e => setForm({ ...form, available: e.target.checked })} style={{ width: 18, height: 18, cursor: 'pointer' }} />
+                <label htmlFor="avail" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14, cursor: 'pointer' }}>متاح الان</label>
+              </div>
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
-              <button onClick={handleAdd} disabled={saving} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>{saving ? '⏳' : '💾 حفظ'}</button>
-              <button onClick={() => setShowAddModal(false)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إلغاء</button>
+              <button onClick={handleSave} disabled={saving} style={{ flex: 1, background: GOLD, border: 'none', borderRadius: 10, padding: 12, color: '#0B0B16', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 15, opacity: saving ? 0.7 : 1 }}>{saving ? 'جاري الحفظ...' : editItem ? 'حفظ التعديلات' : 'اضافة الصنف'}</button>
+              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ flex: 1, background: 'rgba(255,255,255,0.06)', border: '1px solid ' + BORDER, borderRadius: 10, padding: 12, color: 'white', cursor: 'pointer', fontSize: 15 }}>الغاء</button>
             </div>
           </div>
         </div>
