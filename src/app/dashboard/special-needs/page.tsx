@@ -1,134 +1,77 @@
 'use client';
-  const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
-
+const getH = (): Record<string, string> => { try { const t = localStorage.getItem('matin_token'); if (t) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + t }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
+const GOLD = '#C9A84C', BG = '#0B0B16', CB = 'rgba(255,255,255,0.04)', BR = 'rgba(255,255,255,0.08)';
+const DISABILITY_TYPES = ['صعوبات تعلم','إعاقة بصرية','إعاقة سمعية','إعاقة حركية','اضطراب طيف التوحد','اضطراب نقص الانتباه','إعاقة ذهنية','موهبة وتميز','أخرى'];
+const SUPPORT_LEVELS = ['دعم خفيف','دعم متوسط','دعم مكثف'];
 export default function SpecialNeedsPage() {
-  const [items, setItems] = useState<any[]>([]);
+  const [students, setStudents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [search, setSearch] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
   const [saving, setSaving] = useState(false);
-  const [formData, setFormData] = useState({ student_name: '', condition_type: '', description: '', support_plan: '', teacher_name: '', status: 'active' });
-
-  useEffect(() => { fetchItems(); }, []);
-  const fetchItems = async () => { try { const res = await fetch('/api/special-needs', { headers: getHeaders() }); const data = await res.json(); setItems(Array.isArray(data) ? data : []); } catch (e) { console.error(e); } finally { setLoading(false); } };
-
-  const handleAdd = async () => {
-    if (!formData.student_name) return alert('أدخل اسم الطالب');
-    setSaving(true);
-    try {
-      const res = await fetch('/api/special-needs', { method: 'POST', headers: getHeaders(), body: JSON.stringify(formData) });
-      if (res.ok) { setShowAddModal(false); setFormData({ student_name: '', condition_type: '', description: '', support_plan: '', teacher_name: '', status: 'active' }); fetchItems(); }
-      else { const err = await res.json(); alert(err.error || 'فشل'); }
-    } catch (e) { console.error(e); } finally { setSaving(false); }
-  };
-
-  const handleDelete = async (id: number) => {
-    if (!confirm('هل أنت متأكد؟')) return;
-    try { await fetch(`/api/special-needs?id=${id}`, { method: 'DELETE', headers: getHeaders() }); fetchItems(); } catch (e) { console.error(e); }
-  };
-
-  const filteredItems = items.filter(i => i.student_name?.toLowerCase().includes(searchTerm.toLowerCase()) || i.condition_type?.toLowerCase().includes(searchTerm.toLowerCase()));
-  const inputStyle: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none' };
-
+  const [form, setForm] = useState({ student_name: '', grade: '', disability_type: 'صعوبات تعلم', support_level: 'دعم خفيف', specialist_name: '', iep_date: '', accommodations: '', notes: '', parent_contact: '' });
+  useEffect(() => { fetchData(); }, []);
+  const fetchData = async () => { setLoading(true); try { const r = await fetch('/api/special-needs', { headers: getH() }); const d = await r.json(); setStudents(Array.isArray(d) ? d : (d.students || [])); } catch { setStudents([]); } finally { setLoading(false); } };
+  const handleSave = async () => { if (!form.student_name) return alert('أدخل اسم الطالب'); setSaving(true); try { const m = editItem ? 'PUT' : 'POST'; const u = editItem ? '/api/special-needs?id=' + editItem.id : '/api/special-needs'; const r = await fetch(u, { method: m, headers: getH(), body: JSON.stringify(form) }); if (r.ok) { setShowModal(false); setEditItem(null); setForm({ student_name: '', grade: '', disability_type: 'صعوبات تعلم', support_level: 'دعم خفيف', specialist_name: '', iep_date: '', accommodations: '', notes: '', parent_contact: '' }); fetchData(); } else { const e = await r.json(); alert(e.error || 'فشل'); } } catch { } finally { setSaving(false); } };
+  const handleDelete = async (id: number) => { if (!confirm('تأكيد الحذف؟')) return; try { await fetch('/api/special-needs?id=' + id, { method: 'DELETE', headers: getH() }); fetchData(); } catch { } };
+  const openEdit = (item: any) => { setEditItem(item); setForm({ student_name: item.student_name || '', grade: item.grade || '', disability_type: item.disability_type || 'صعوبات تعلم', support_level: item.support_level || 'دعم خفيف', specialist_name: item.specialist_name || '', iep_date: item.iep_date || '', accommodations: item.accommodations || '', notes: item.notes || '', parent_contact: item.parent_contact || '' }); setShowModal(true); };
+  const filtered = students.filter((r: any) => !search || r.student_name?.includes(search) || r.disability_type?.includes(search));
+  const inp: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid ' + BR, borderRadius: 8, padding: '10px 14px', color: 'white', fontSize: 14, outline: 'none', boxSizing: 'border-box' };
+  const lbl: React.CSSProperties = { display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6 };
+  const SUPPORT_COLORS: Record<string, string> = { 'دعم خفيف': '#10B981', 'دعم متوسط': '#F59E0B', 'دعم مكثف': '#EF4444' };
   return (
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-        <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>♿ ذوي الاحتياجات الخاصة</h1>
-          <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة ومتابعة الطلاب من ذوي الاحتياجات الخاصة</p>
-        </div>
-        <button onClick={() => setShowAddModal(true)} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>➕ إضافة حالة</button>
+    <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
+        <div><h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>♿ ذوو الاحتياجات الخاصة</h1><p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>متابعة الطلاب ذوي الاحتياجات الخاصة وخطط دعمهم</p></div>
+        <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ إضافة طالب</button>
       </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
-        {[
-          { label: 'إجمالي الحالات', value: items.length, icon: '♿', color: '#C9A227' },
-          { label: 'نشطة', value: items.filter(i => i.status === 'active').length, icon: '✅', color: '#10B981' },
-        ].map((stat, i) => (
-          <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><span style={{ fontSize: 28 }}>{stat.icon}</span><span style={{ fontSize: 28, fontWeight: 800, color: stat.color }}>{stat.value}</span></div>
-            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginTop: 8 }}>{stat.label}</p>
-          </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(160px,1fr))', gap: 16, marginBottom: 28 }}>
+        {[{ l: 'إجمالي الطلاب', v: students.length, c: GOLD, i: '♿' }, ...SUPPORT_LEVELS.map(sl => ({ l: sl, v: students.filter((r: any) => r.support_level === sl).length, c: SUPPORT_COLORS[sl] || '#9CA3AF', i: sl === 'دعم خفيف' ? '🟢' : sl === 'دعم متوسط' ? '🟡' : '🔴' }))].map((s, i) => (
+          <div key={i} style={{ background: CB, border: '1px solid ' + BR, borderRadius: 14, padding: '18px 20px' }}><div style={{ fontSize: 24, marginBottom: 8 }}>{s.i}</div><div style={{ fontSize: 26, fontWeight: 800, color: s.c }}>{s.v}</div><div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>{s.l}</div></div>
         ))}
       </div>
-
-      <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 16, marginBottom: 24 }}>
-        <input type="text" placeholder="🔍 بحث بالاسم أو نوع الحالة..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
+      <input placeholder="🔍 بحث عن طالب..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inp, width: 300, marginBottom: 20 }} />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 16 }}>
+        {loading ? <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)', gridColumn: '1/-1' }}>جاري التحميل...</div> :
+          filtered.length === 0 ? <div style={{ textAlign: 'center', padding: 60, gridColumn: '1/-1' }}><div style={{ fontSize: 48, marginBottom: 16 }}>♿</div><p style={{ color: 'rgba(255,255,255,0.4)' }}>لا توجد سجلات</p><button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ إضافة</button></div> :
+          filtered.map((s: any, i: number) => (
+            <div key={s.id || i} style={{ background: CB, border: '1px solid ' + BR, borderRadius: 16, padding: 20 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                <div><div style={{ fontSize: 17, fontWeight: 700, color: 'white' }}>{s.student_name}</div><div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>{s.grade || 'غير محدد'}</div></div>
+                <span style={{ background: `${SUPPORT_COLORS[s.support_level] || '#9CA3AF'}22`, color: SUPPORT_COLORS[s.support_level] || '#9CA3AF', padding: '4px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{s.support_level}</span>
+              </div>
+              <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 8, padding: '10px 12px', marginBottom: 12 }}><div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginBottom: 4 }}>نوع الاحتياج</div><div style={{ fontSize: 14, color: 'white' }}>{s.disability_type}</div></div>
+              {s.specialist_name && <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginBottom: 8 }}>👨‍⚕️ {s.specialist_name}</div>}
+              {s.accommodations && <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', marginBottom: 12, lineHeight: 1.6 }}>التسهيلات: {s.accommodations}</div>}
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button onClick={() => openEdit(s)} style={{ flex: 1, background: 'rgba(201,168,76,0.15)', border: '1px solid rgba(201,168,76,0.3)', borderRadius: 8, padding: '8px', color: GOLD, cursor: 'pointer', fontSize: 13 }}>تعديل</button>
+                <button onClick={() => handleDelete(s.id)} style={{ flex: 1, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, padding: '8px', color: '#EF4444', cursor: 'pointer', fontSize: 13 }}>حذف</button>
+              </div>
+            </div>
+          ))}
       </div>
-
-      <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, overflow: 'hidden' }}>
-        {loading ? (
-          <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>⏳ جاري التحميل...</p></div>
-        ) : filteredItems.length === 0 ? (
-          <div style={{ padding: 60, textAlign: 'center' }}>
-            <p style={{ fontSize: 48, marginBottom: 16 }}>♿</p>
-            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد حالات مسجلة</p>
-            <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>➕ إضافة أول حالة</button>
+      {showModal && <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
+        <div style={{ background: '#12121F', border: '1px solid ' + BR, borderRadius: 20, padding: 32, width: '100%', maxWidth: 560, maxHeight: '90vh', overflowY: 'auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}><h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل البيانات' : 'إضافة طالب جديد'}</h2><button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 22, cursor: 'pointer' }}>✕</button></div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <div style={{ gridColumn: '1/-1' }}><label style={lbl}>اسم الطالب *</label><input value={form.student_name} onChange={e => setForm({ ...form, student_name: e.target.value })} style={inp} /></div>
+            <div><label style={lbl}>الصف الدراسي</label><input value={form.grade} onChange={e => setForm({ ...form, grade: e.target.value })} placeholder="مثال: الثالث ابتدائي" style={inp} /></div>
+            <div><label style={lbl}>نوع الاحتياج</label><select value={form.disability_type} onChange={e => setForm({ ...form, disability_type: e.target.value })} style={inp}>{DISABILITY_TYPES.map(d => <option key={d} value={d}>{d}</option>)}</select></div>
+            <div><label style={lbl}>مستوى الدعم</label><select value={form.support_level} onChange={e => setForm({ ...form, support_level: e.target.value })} style={inp}>{SUPPORT_LEVELS.map(s => <option key={s} value={s}>{s}</option>)}</select></div>
+            <div><label style={lbl}>المختص المسؤول</label><input value={form.specialist_name} onChange={e => setForm({ ...form, specialist_name: e.target.value })} style={inp} /></div>
+            <div><label style={lbl}>تاريخ خطة IEP</label><input type="date" value={form.iep_date} onChange={e => setForm({ ...form, iep_date: e.target.value })} style={inp} /></div>
+            <div><label style={lbl}>تواصل ولي الأمر</label><input value={form.parent_contact} onChange={e => setForm({ ...form, parent_contact: e.target.value })} style={inp} /></div>
+            <div style={{ gridColumn: '1/-1' }}><label style={lbl}>التسهيلات المقدمة</label><textarea value={form.accommodations} onChange={e => setForm({ ...form, accommodations: e.target.value })} placeholder="مثال: وقت إضافي في الاختبارات، مقعد أمامي..." style={{ ...inp, height: 70, resize: 'vertical' as const }} /></div>
+            <div style={{ gridColumn: '1/-1' }}><label style={lbl}>ملاحظات</label><textarea value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} style={{ ...inp, height: 60, resize: 'vertical' as const }} /></div>
           </div>
-        ) : (
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr style={{ background: 'rgba(201,162,39,0.1)' }}>
-                <th style={{ padding: 16, textAlign: 'right', color: '#C9A227', fontWeight: 700 }}>الطالب</th>
-                <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>نوع الحالة</th>
-                <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>المعلم المسؤول</th>
-                <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>الحالة</th>
-                <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>إجراءات</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredItems.map((item) => (
-                <tr key={item.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                  <td style={{ padding: 16 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{ width: 40, height: 40, background: 'rgba(59,130,246,0.1)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>♿</div>
-                      <div>
-                        <p style={{ color: 'white', fontWeight: 600, margin: 0 }}>{item.student_name}</p>
-                        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, margin: 0 }}>{item.description || ''}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td style={{ padding: 16, textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>{item.condition_type || '—'}</td>
-                  <td style={{ padding: 16, textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>{item.teacher_name || '—'}</td>
-                  <td style={{ padding: 16, textAlign: 'center' }}>
-                    <span style={{ background: item.status === 'active' ? 'rgba(16,185,129,0.1)' : 'rgba(107,114,128,0.1)', color: item.status === 'active' ? '#10B981' : '#6B7280', padding: '6px 12px', borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{item.status === 'active' ? 'نشطة' : 'مغلقة'}</span>
-                  </td>
-                  <td style={{ padding: 16, textAlign: 'center' }}>
-                    <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-                      <button style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>👁️ عرض</button>
-                      <button style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>✏️ تعديل</button>
-                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>🗑️ حذف</button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
-
-      {showAddModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
-          <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>♿ إضافة حالة جديدة</h2>
-              <button onClick={() => setShowAddModal(false)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>✕</button>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-              <div style={{ gridColumn: '1 / -1' }}><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>اسم الطالب *</label><input value={formData.student_name} onChange={e => setFormData({ ...formData, student_name: e.target.value })} placeholder="اسم الطالب" style={inputStyle} /></div>
-              <div><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>نوع الحالة</label><select value={formData.condition_type} onChange={e => setFormData({ ...formData, condition_type: e.target.value })} style={{ ...inputStyle, appearance: 'auto' } as any}><option value="" style={{ background: '#06060E' }}>اختر</option><option value="physical" style={{ background: '#06060E' }}>جسدية</option><option value="learning" style={{ background: '#06060E' }}>صعوبات تعلم</option><option value="autism" style={{ background: '#06060E' }}>طيف التوحد</option><option value="adhd" style={{ background: '#06060E' }}>فرط الحركة</option><option value="speech" style={{ background: '#06060E' }}>نطق وتخاطب</option><option value="visual" style={{ background: '#06060E' }}>بصرية</option><option value="hearing" style={{ background: '#06060E' }}>سمعية</option><option value="other" style={{ background: '#06060E' }}>أخرى</option></select></div>
-              <div><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>المعلم المسؤول</label><input value={formData.teacher_name} onChange={e => setFormData({ ...formData, teacher_name: e.target.value })} style={inputStyle} /></div>
-              <div style={{ gridColumn: '1 / -1' }}><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>وصف الحالة</label><textarea value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} placeholder="وصف تفصيلي للحالة" rows={3} style={{ ...inputStyle, resize: 'vertical' } as any} /></div>
-              <div style={{ gridColumn: '1 / -1' }}><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>خطة الدعم</label><textarea value={formData.support_plan} onChange={e => setFormData({ ...formData, support_plan: e.target.value })} placeholder="خطة الدعم والمساندة" rows={3} style={{ ...inputStyle, resize: 'vertical' } as any} /></div>
-            </div>
-            <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-start' }}>
-              <button onClick={handleAdd} disabled={saving} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>{saving ? '⏳ جاري الحفظ...' : '💾 حفظ الحالة'}</button>
-              <button onClick={() => setShowAddModal(false)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إلغاء</button>
-            </div>
+          <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
+            <button onClick={handleSave} disabled={saving} style={{ flex: 1, background: GOLD, border: 'none', borderRadius: 10, padding: 12, color: '#0B0B16', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 15, opacity: saving ? 0.7 : 1 }}>{saving ? 'جاري الحفظ...' : editItem ? 'حفظ التعديلات' : 'إضافة الطالب'}</button>
+            <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ flex: 1, background: 'rgba(255,255,255,0.06)', border: '1px solid ' + BR, borderRadius: 10, padding: 12, color: 'white', cursor: 'pointer', fontSize: 15 }}>إلغاء</button>
           </div>
         </div>
-      )}
+      </div>}
     </div>
   );
 }
