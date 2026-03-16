@@ -1,183 +1,81 @@
 'use client';
 import { useState, useEffect } from 'react';
-
-export default function DelegatesPage() {
-  const [delegates, setDelegates] = useState<any[]>([]);
-  const [users, setUsers] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
-  const [selectedUser, setSelectedUser] = useState('');
-  const [permissions, setPermissions] = useState({
-    manage_students: false,
-    manage_teachers: false,
-    manage_classes: false,
-    manage_finance: false,
-    manage_reports: false,
-    manage_settings: false,
-  });
-
-  const getHeaders = () => {
-    const token = document.cookie.split(';').find(c => c.trim().startsWith('token='))?.split('=')[1];
-    return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` };
-  };
-
-  useEffect(() => {
-    fetchDelegates();
-    fetchUsers();
-  }, []);
-
-  const fetchDelegates = async () => {
-    try {
-      const res = await fetch('/api/delegates', { headers: getHeaders() });
-      const data = await res.json();
-      setDelegates(Array.isArray(data) ? data : []);
-    } catch (e) { console.error(e); }
-    setLoading(false);
-  };
-
-  const fetchUsers = async () => {
-    try {
-      const res = await fetch('/api/users', { headers: getHeaders() });
-      const data = await res.json();
-      setUsers(Array.isArray(data) ? data : []);
-    } catch (e) { console.error(e); }
-  };
-
-  const addDelegate = async () => {
-    if (!selectedUser) return alert('اختر مستخدم');
-    try {
-      await fetch('/api/delegates', {
-        method: 'POST',
-        headers: getHeaders(),
-        body: JSON.stringify({ user_id: parseInt(selectedUser), permissions }),
-      });
-      setShowForm(false);
-      setSelectedUser('');
-      setPermissions({ manage_students: false, manage_teachers: false, manage_classes: false, manage_finance: false, manage_reports: false, manage_settings: false });
-      fetchDelegates();
-    } catch (e) { console.error(e); }
-  };
-
-  const deleteDelegate = async (id: number) => {
-    if (!confirm('هل أنت متأكد من حذف هذا المندوب؟')) return;
-    await fetch(`/api/delegates?id=${id}`, { method: 'DELETE', headers: getHeaders() });
-    fetchDelegates();
-  };
-
-  const permissionLabels: Record<string, string> = {
-    manage_students: '👨‍🎓 إدارة الطلاب',
-    manage_teachers: '👨‍🏫 إدارة المعلمين',
-    manage_classes: '🏫 إدارة الفصول',
-    manage_finance: '💰 إدارة المالية',
-    manage_reports: '📊 إدارة التقارير',
-    manage_settings: '⚙️ إدارة الإعدادات',
-  };
-
-  if (loading) return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', color: '#C9A227' }}>جاري التحميل...</div>;
-
-  return (
-    <div style={{ padding: '30px', maxWidth: '1200px', margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
-        <div>
-          <h1 style={{ fontSize: '28px', color: '#C9A227', margin: 0 }}>👥 المندوبون</h1>
-          <p style={{ color: '#94A3B8', margin: '5px 0 0' }}>إدارة مندوبي المدرسة وصلاحياتهم</p>
-        </div>
-        <button onClick={() => setShowForm(!showForm)} style={{ padding: '10px 20px', background: '#C9A227', color: '#0F172A', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>
-          ➕ إضافة مندوب
-        </button>
+const getH=():Record<string,string>=>{try{const t=localStorage.getItem('matin_token');if(t)return{'Content-Type':'application/json','Authorization':'Bearer '+t};const u=JSON.parse(localStorage.getItem('matin_user')||'{}');return{'Content-Type':'application/json','x-user-id':String(u.id||'')}}catch{return{'Content-Type':'application/json'}}};
+const GOLD='#C9A84C',BG='#0B0B16',CB='rgba(255,255,255,0.04)',BR='rgba(255,255,255,0.08)';
+export default function Page(){
+  const [items,setItems]=useState<any[]>([]);
+  const [loading,setLoading]=useState(true);
+  const [showModal,setShowModal]=useState(false);
+  const [editing,setEditing]=useState<any>(null);
+  const [form,setForm]=useState({'student_name':'','delegate_name':'','relationship':'أب','id_number':'','phone':'','photo_url':'','valid_until':'','status':'نشط','notes':''});
+  const [search,setSearch]=useState('');
+  const [saving,setSaving]=useState(false);
+  const inp:React.CSSProperties={width:'100%',background:'rgba(255,255,255,0.05)',border:'1px solid '+BR,borderRadius:8,padding:'10px 14px',color:'white',fontSize:14,outline:'none',boxSizing:'border-box'};
+  const lbl:React.CSSProperties={display:'block',color:'rgba(255,255,255,0.6)',fontSize:13,marginBottom:6};
+  useEffect(()=>{fetchData();},[]);
+  const fetchData=async()=>{setLoading(true);try{const r=await fetch('/api/delegates',{headers:getH()});const d=await r.json();setItems(Array.isArray(d)?d:(d.delegates||[]))}catch{setItems([])}finally{setLoading(false)}};
+  const openAdd=()=>{setEditing(null);setForm({'student_name':'','delegate_name':'','relationship':'أب','id_number':'','phone':'','photo_url':'','valid_until':'','status':'نشط','notes':''});setShowModal(true)};
+  const openEdit=(item:any)=>{setEditing(item);const f:any={};Object.keys({'student_name':'','delegate_name':'','relationship':'أب','id_number':'','phone':'','photo_url':'','valid_until':'','status':'نشط','notes':''}).forEach(k=>{f[k]=item[k]??({'student_name':'','delegate_name':'','relationship':'أب','id_number':'','phone':'','photo_url':'','valid_until':'','status':'نشط','notes':''} as any)[k]});setForm(f);setShowModal(true)};
+  const save=async()=>{setSaving(true);try{const method=editing?'PUT':'POST';const url=editing?'/api/delegates?id='+editing.id:'/api/delegates';const r=await fetch(url,{method,headers:getH(),body:JSON.stringify(form)});if(r.ok){setShowModal(false);fetchData()}}catch{}finally{setSaving(false)}};
+  const del=async(id:number)=>{if(!confirm('حذف هذا السجل؟'))return;try{await fetch('/api/delegates?id='+id,{method:'DELETE',headers:getH()});fetchData()}catch{}};
+  const filtered=items.filter(r=>!search||JSON.stringify(r).toLowerCase().includes(search.toLowerCase()));
+  return(
+    <div style={{minHeight:'100vh',background:BG,padding:'32px 24px',direction:'rtl',fontFamily:'Cairo, sans-serif'}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:32,flexWrap:'wrap',gap:16}}>
+        <div><h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}>👤 المندوبون</h1><p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>إدارة مندوبي استلام الطلاب المعتمدين</p></div>
+        <button onClick={openAdd} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 20px',color:'#0B0B16',fontWeight:700,cursor:'pointer',fontSize:14}}>+ إضافة</button>
       </div>
-
-      {/* إحصائيات */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '30px' }}>
-        {[
-          { label: 'إجمالي المندوبين', value: delegates.length, icon: '👥', color: '#3B82F6' },
-          { label: 'نشط', value: delegates.length, icon: '✅', color: '#10B981' },
-          { label: 'الصلاحيات', value: delegates.reduce((sum, d) => sum + Object.values(d.permissions || {}).filter(Boolean).length, 0), icon: '🔑', color: '#C9A227' },
-        ].map((stat, i) => (
-          <div key={i} style={{ background: '#1E293B', borderRadius: '12px', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div>
-              <div style={{ fontSize: '24px', fontWeight: 'bold', color: stat.color }}>{stat.value}</div>
-              <div style={{ color: '#94A3B8', fontSize: '14px' }}>{stat.label}</div>
-            </div>
-            <div style={{ fontSize: '30px' }}>{stat.icon}</div>
-          </div>
-        ))}
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:16,marginBottom:28}}>
+        <div key='إجمالي المندوبين' style={{background:CB,border:'1px solid '+BR,borderRadius:14,padding:'18px 20px'}}><div style={{fontSize:24,fontWeight:800,color:'#C9A84C'}}>items.length</div><div style={{fontSize:12,color:'rgba(255,255,255,0.5)',marginTop:4}}>إجمالي المندوبين</div></div><div key='نشطون' style={{background:CB,border:'1px solid '+BR,borderRadius:14,padding:'18px 20px'}}><div style={{fontSize:24,fontWeight:800,color:'#10B981'}}>active</div><div style={{fontSize:12,color:'rgba(255,255,255,0.5)',marginTop:4}}>نشطون</div></div><div key='موقوفون' style={{background:CB,border:'1px solid '+BR,borderRadius:14,padding:'18px 20px'}}><div style={{fontSize:24,fontWeight:800,color:'#F59E0B'}}>suspended</div><div style={{fontSize:12,color:'rgba(255,255,255,0.5)',marginTop:4}}>موقوفون</div></div><div key='منتهون' style={{background:CB,border:'1px solid '+BR,borderRadius:14,padding:'18px 20px'}}><div style={{fontSize:24,fontWeight:800,color:'#EF4444'}}>expired</div><div style={{fontSize:12,color:'rgba(255,255,255,0.5)',marginTop:4}}>منتهون</div></div>
       </div>
-
-      {/* نموذج إضافة */}
-      {showForm && (
-        <div style={{ background: '#1E293B', borderRadius: '12px', padding: '25px', marginBottom: '30px', border: '1px solid #334155' }}>
-          <h3 style={{ color: '#C9A227', marginBottom: '20px' }}>إضافة مندوب جديد</h3>
-          <div style={{ marginBottom: '15px' }}>
-            <label style={{ color: '#94A3B8', display: 'block', marginBottom: '5px' }}>اختر المستخدم</label>
-            <select value={selectedUser} onChange={e => setSelectedUser(e.target.value)} style={{ width: '100%', padding: '10px', background: '#0F172A', color: '#fff', border: '1px solid #334155', borderRadius: '8px' }}>
-              <option value="">-- اختر مستخدم --</option>
-              {users.map((u: any) => (
-                <option key={u.id} value={u.id}>{u.name} ({u.email})</option>
-              ))}
-            </select>
-          </div>
-          <div style={{ marginBottom: '15px' }}>
-            <label style={{ color: '#94A3B8', display: 'block', marginBottom: '10px' }}>الصلاحيات</label>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
-              {Object.entries(permissionLabels).map(([key, label]) => (
-                <label key={key} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#E2E8F0', cursor: 'pointer', padding: '8px', background: permissions[key as keyof typeof permissions] ? '#1a3a2a' : '#0F172A', borderRadius: '8px', border: `1px solid ${permissions[key as keyof typeof permissions] ? '#10B981' : '#334155'}` }}>
-                  <input type="checkbox" checked={permissions[key as keyof typeof permissions]} onChange={e => setPermissions({ ...permissions, [key]: e.target.checked })} />
-                  {label}
-                </label>
-              ))}
-            </div>
-          </div>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <button onClick={addDelegate} style={{ padding: '10px 25px', background: '#10B981', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>حفظ</button>
-            <button onClick={() => setShowForm(false)} style={{ padding: '10px 25px', background: '#334155', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>إلغاء</button>
-          </div>
-        </div>
-      )}
-
-      {/* جدول المندوبين */}
-      {delegates.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '60px', background: '#1E293B', borderRadius: '12px', color: '#94A3B8' }}>
-          <div style={{ fontSize: '48px', marginBottom: '15px' }}>👥</div>
-          <p>لا يوجد مندوبون حالياً</p>
-          <p style={{ fontSize: '14px' }}>أضف مندوبين لمساعدتك في إدارة المدرسة</p>
-        </div>
-      ) : (
-        <div style={{ background: '#1E293B', borderRadius: '12px', overflow: 'hidden' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr style={{ background: '#0F172A' }}>
-                <th style={{ padding: '15px', textAlign: 'right', color: '#C9A227' }}>المندوب</th>
-                <th style={{ padding: '15px', textAlign: 'right', color: '#C9A227' }}>البريد</th>
-                <th style={{ padding: '15px', textAlign: 'right', color: '#C9A227' }}>الدور</th>
-                <th style={{ padding: '15px', textAlign: 'right', color: '#C9A227' }}>الصلاحيات</th>
-                <th style={{ padding: '15px', textAlign: 'right', color: '#C9A227' }}>تاريخ الإضافة</th>
-                <th style={{ padding: '15px', textAlign: 'center', color: '#C9A227' }}>إجراءات</th>
-              </tr>
-            </thead>
+      <div style={{marginBottom:20}}><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="بحث..." style={{...inp,width:300}}/></div>
+      <div style={{background:CB,border:'1px solid '+BR,borderRadius:16,overflow:'hidden'}}>
+        <div style={{overflowX:'auto'}}>
+          <table style={{width:'100%',borderCollapse:'collapse'}}>
+            <thead><tr style={{borderBottom:'1px solid '+BR}}><th key='الطالب' style={{padding:'14px 16px',textAlign:'right',color:'rgba(255,255,255,0.5)',fontSize:13,fontWeight:600}}>الطالب</th><th key='المندوب' style={{padding:'14px 16px',textAlign:'right',color:'rgba(255,255,255,0.5)',fontSize:13,fontWeight:600}}>المندوب</th><th key='الصلة' style={{padding:'14px 16px',textAlign:'right',color:'rgba(255,255,255,0.5)',fontSize:13,fontWeight:600}}>الصلة</th><th key='رقم الهوية' style={{padding:'14px 16px',textAlign:'right',color:'rgba(255,255,255,0.5)',fontSize:13,fontWeight:600}}>رقم الهوية</th><th key='الجوال' style={{padding:'14px 16px',textAlign:'right',color:'rgba(255,255,255,0.5)',fontSize:13,fontWeight:600}}>الجوال</th><th key='الحالة' style={{padding:'14px 16px',textAlign:'right',color:'rgba(255,255,255,0.5)',fontSize:13,fontWeight:600}}>الحالة</th><th key='إجراءات' style={{padding:'14px 16px',textAlign:'right',color:'rgba(255,255,255,0.5)',fontSize:13,fontWeight:600}}>إجراءات</th></tr></thead>
             <tbody>
-              {delegates.map((d: any) => (
-                <tr key={d.id} style={{ borderBottom: '1px solid #334155' }}>
-                  <td style={{ padding: '15px', color: '#E2E8F0' }}>{d.user_name || 'غير معروف'}</td>
-                  <td style={{ padding: '15px', color: '#94A3B8' }}>{d.user_email || '-'}</td>
-                  <td style={{ padding: '15px', color: '#94A3B8' }}>{d.user_role || '-'}</td>
-                  <td style={{ padding: '15px' }}>
-                    <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
-                      {Object.entries(d.permissions || {}).filter(([_, v]) => v).map(([k]) => (
-                        <span key={k} style={{ padding: '2px 8px', background: '#10B981', color: '#fff', borderRadius: '12px', fontSize: '11px' }}>
-                          {permissionLabels[k] || k}
-                        </span>
-                      ))}
+              {loading?<tr><td colSpan={7} style={{textAlign:'center',padding:40,color:'rgba(255,255,255,0.4)'}}>جاري التحميل...</td></tr>
+              :filtered.length===0?<tr><td colSpan={7} style={{textAlign:'center',padding:40,color:'rgba(255,255,255,0.4)'}}>لا توجد سجلات</td></tr>
+              :filtered.map((r:any,i:number)=>(
+                <tr key={i} style={{borderBottom:'1px solid '+BR}}>
+                  <td style={{padding:'12px 16px',color:GOLD,fontWeight:700,fontSize:14}}>{r.student_name||'—'}</td>
+<td style={{padding:'12px 16px',color:'rgba(255,255,255,0.7)',fontSize:13}}>{r.delegate_name||'—'}</td>
+<td style={{padding:'12px 16px',color:'rgba(255,255,255,0.7)',fontSize:13}}>{r.relationship||'—'}</td>
+<td style={{padding:'12px 16px',color:'rgba(255,255,255,0.7)',fontSize:13}}>{r.id_number||'—'}</td>
+<td style={{padding:'12px 16px',color:'rgba(255,255,255,0.7)',fontSize:13}}>{r.phone||'—'}</td>
+<td style={{padding:'12px 16px'}}><span style={{background:'rgba(255,255,255,0.05)',color:'rgba(255,255,255,0.7)',padding:'3px 10px',borderRadius:20,fontSize:12}}>{r.status||'—'}</span></td>
+                  <td style={{padding:'12px 16px'}}>
+                    <div style={{display:'flex',gap:6}}>
+                      <button onClick={()=>openEdit(r)} style={{background:'rgba(59,130,246,0.1)',border:'1px solid rgba(59,130,246,0.2)',borderRadius:6,padding:'5px 10px',color:'#3B82F6',cursor:'pointer',fontSize:12}}>تعديل</button>
+                      <button onClick={()=>del(r.id)} style={{background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.2)',borderRadius:6,padding:'5px 10px',color:'#EF4444',cursor:'pointer',fontSize:12}}>حذف</button>
                     </div>
-                  </td>
-                  <td style={{ padding: '15px', color: '#94A3B8' }}>{new Date(d.created_at).toLocaleDateString('ar-SA')}</td>
-                  <td style={{ padding: '15px', textAlign: 'center' }}>
-                    <button onClick={() => deleteDelegate(d.id)} style={{ padding: '5px 12px', background: '#EF4444', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>🗑️ حذف</button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+      </div>
+      {showModal&&(
+        <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:1000,padding:20}}>
+          <div style={{background:'#111827',border:'1px solid '+BR,borderRadius:20,padding:32,width:'100%',maxWidth:520,maxHeight:'90vh',overflowY:'auto'}}>
+            <h3 style={{color:'white',fontSize:20,fontWeight:700,marginBottom:24}}>{editing?'تعديل':'إضافة جديدة'}</h3>
+            <div style={{display:'flex',flexDirection:'column',gap:14}}>
+              <div><label style={lbl}>اسم الطالب</label><input type='text' value={form.student_name} onChange={e=>setForm({...form,student_name:e.target.value})} style={inp} placeholder=''/></div>
+<div><label style={lbl}>اسم المندوب</label><input type='text' value={form.delegate_name} onChange={e=>setForm({...form,delegate_name:e.target.value})} style={inp} placeholder=''/></div>
+<div><label style={lbl}>صلة القرابة</label><select value={form.relationship} onChange={e=>setForm({...form,relationship:e.target.value})} style={inp}><option key='أب' value='أب'>أب</option><option key='أم' value='أم'>أم</option><option key='أخ' value='أخ'>أخ</option><option key='أخت' value='أخت'>أخت</option><option key='عم' value='عم'>عم</option><option key='خال' value='خال'>خال</option><option key='جد' value='جد'>جد</option><option key='جدة' value='جدة'>جدة</option><option key='أخرى' value='أخرى'>أخرى</option></select></div>
+<div><label style={lbl}>رقم الهوية</label><input type='text' value={form.id_number} onChange={e=>setForm({...form,id_number:e.target.value})} style={inp} placeholder=''/></div>
+<div><label style={lbl}>رقم الجوال</label><input type='text' value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})} style={inp} placeholder=''/></div>
+<div><label style={lbl}>رابط الصورة</label><input type='text' value={form.photo_url} onChange={e=>setForm({...form,photo_url:e.target.value})} style={inp} placeholder=''/></div>
+<div><label style={lbl}>صالح حتى</label><input type='date' value={form.valid_until} onChange={e=>setForm({...form,valid_until:e.target.value})} style={inp} placeholder=''/></div>
+<div><label style={lbl}>الحالة</label><select value={form.status} onChange={e=>setForm({...form,status:e.target.value})} style={inp}><option key='نشط' value='نشط'>نشط</option><option key='موقوف' value='موقوف'>موقوف</option><option key='منتهي' value='منتهي'>منتهي</option></select></div>
+<div><label style={lbl}>ملاحظات</label><textarea value={form.notes} onChange={e=>setForm({...form,notes:e.target.value})} style={{...inp,minHeight:70,resize:'vertical'}} placeholder=''/></div>
+            </div>
+            <div style={{display:'flex',gap:12,marginTop:24}}>
+              <button onClick={save} disabled={saving} style={{flex:1,background:GOLD,border:'none',borderRadius:10,padding:12,color:'#0B0B16',fontWeight:700,cursor:saving?'not-allowed':'pointer',opacity:saving?0.7:1}}>{saving?'جاري الحفظ...':'حفظ'}</button>
+              <button onClick={()=>setShowModal(false)} style={{flex:1,background:CB,border:'1px solid '+BR,borderRadius:10,padding:12,color:'rgba(255,255,255,0.7)',cursor:'pointer'}}>إلغاء</button>
+            </div>
+          </div>
         </div>
       )}
     </div>

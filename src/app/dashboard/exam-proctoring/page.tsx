@@ -1,164 +1,84 @@
 'use client';
 import { useState, useEffect } from 'react';
-
-export default function ExamProctoringPage() {
-  const [sessions, setSessions] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selected, setSelected] = useState<any>(null);
-
-  useEffect(() => {
-    fetchSessions();
-    const interval = setInterval(fetchSessions, 30000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const fetchSessions = async () => {
-    try {
-      const res = await fetch('/api/exam-session');
-      const data = await res.json();
-      setSessions(data.sessions || []);
-    } catch {}
-    setLoading(false);
-  };
-
-  const handleStop = async (id: string) => {
-    await fetch('/api/exam-session', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, action: 'terminate' }),
-    });
-    fetchSessions();
-  };
-
-  const violationColor = (count: number) => {
-    if (count === 0) return '#10B981';
-    if (count <= 2) return '#F59E0B';
-    return '#EF4444';
-  };
-
-  return (
-    <div style={{ padding: 24, background: '#06060E', minHeight: '100vh', fontFamily: 'Arial' }} dir="rtl">
-      <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <h1 style={{ color: '#C9A227', fontSize: 24, fontWeight: 800, margin: 0 }}>🎥 مراقبة الاختبارات</h1>
-          <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>المراقبة الثلاثية — لحظي — يتحدث كل 30 ثانية</p>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#10B981', animation: 'pulse 2s infinite' }} />
-          <span style={{ color: '#10B981', fontSize: 13 }}>مباشر</span>
-        </div>
+const getH=():Record<string,string>=>{try{const t=localStorage.getItem('matin_token');if(t)return{'Content-Type':'application/json','Authorization':'Bearer '+t};const u=JSON.parse(localStorage.getItem('matin_user')||'{}');return{'Content-Type':'application/json','x-user-id':String(u.id||'')}}catch{return{'Content-Type':'application/json'}}};
+const GOLD='#C9A84C',BG='#0B0B16',CB='rgba(255,255,255,0.04)',BR='rgba(255,255,255,0.08)';
+export default function Page(){
+  const [items,setItems]=useState<any[]>([]);
+  const [loading,setLoading]=useState(true);
+  const [showModal,setShowModal]=useState(false);
+  const [editing,setEditing]=useState<any>(null);
+  const [form,setForm]=useState({'proctor_name':'','exam_name':'','room':'','exam_date':'','start_time':'','end_time':'','students_count':0,'status':'مجدول','notes':''});
+  const [search,setSearch]=useState('');
+  const [saving,setSaving]=useState(false);
+  const inp:React.CSSProperties={width:'100%',background:'rgba(255,255,255,0.05)',border:'1px solid '+BR,borderRadius:8,padding:'10px 14px',color:'white',fontSize:14,outline:'none',boxSizing:'border-box'};
+  const lbl:React.CSSProperties={display:'block',color:'rgba(255,255,255,0.6)',fontSize:13,marginBottom:6};
+  useEffect(()=>{fetchData();},[]);
+  const fetchData=async()=>{setLoading(true);try{const r=await fetch('/api/exam-proctoring',{headers:getH()});const d=await r.json();setItems(Array.isArray(d)?d:(d.proctoring||[]))}catch{setItems([])}finally{setLoading(false)}};
+  const openAdd=()=>{setEditing(null);setForm({'proctor_name':'','exam_name':'','room':'','exam_date':'','start_time':'','end_time':'','students_count':0,'status':'مجدول','notes':''});setShowModal(true)};
+  const openEdit=(item:any)=>{setEditing(item);const f:any={};Object.keys({'proctor_name':'','exam_name':'','room':'','exam_date':'','start_time':'','end_time':'','students_count':0,'status':'مجدول','notes':''}).forEach(k=>{f[k]=item[k]??({'proctor_name':'','exam_name':'','room':'','exam_date':'','start_time':'','end_time':'','students_count':0,'status':'مجدول','notes':''} as any)[k]});setForm(f);setShowModal(true)};
+  const save=async()=>{setSaving(true);try{const method=editing?'PUT':'POST';const url=editing?'/api/exam-proctoring?id='+editing.id:'/api/exam-proctoring';const r=await fetch(url,{method,headers:getH(),body:JSON.stringify(form)});if(r.ok){setShowModal(false);fetchData()}}catch{}finally{setSaving(false)}};
+  const del=async(id:number)=>{if(!confirm('حذف هذا السجل؟'))return;try{await fetch('/api/exam-proctoring?id='+id,{method:'DELETE',headers:getH()});fetchData()}catch{}};
+  const filtered=items.filter(r=>!search||JSON.stringify(r).toLowerCase().includes(search.toLowerCase()));
+  return(
+    <div style={{minHeight:'100vh',background:BG,padding:'32px 24px',direction:'rtl',fontFamily:'Cairo, sans-serif'}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:32,flexWrap:'wrap',gap:16}}>
+        <div><h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}>👁️ مراقبة الاختبارات</h1><p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>إدارة جداول مراقبة الاختبارات والامتحانات</p></div>
+        <button onClick={openAdd} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 20px',color:'#0B0B16',fontWeight:700,cursor:'pointer',fontSize:14}}>+ إضافة</button>
       </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 24 }}>
-        {[
-          { label: 'جلسات نشطة', value: sessions.filter(s => s.status === 'active').length, color: '#10B981' },
-          { label: 'تنبيهات صفراء', value: sessions.reduce((a, s) => a + (s.suspicious_flags || 0), 0), color: '#F59E0B' },
-          { label: 'مخالفات حمراء', value: sessions.filter(s => (s.fullscreen_exits || 0) >= 2).length, color: '#EF4444' },
-          { label: 'إجمالي الطلاب', value: sessions.length, color: '#C9A227' },
-        ].map((stat, i) => (
-          <div key={i} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 12, padding: 20, border: '1px solid rgba(255,255,255,0.08)' }}>
-            <div style={{ color: stat.color, fontSize: 28, fontWeight: 800 }}>{stat.value}</div>
-            <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, marginTop: 4 }}>{stat.label}</div>
-          </div>
-        ))}
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:16,marginBottom:28}}>
+        <div key='إجمالي المراقبين' style={{background:CB,border:'1px solid '+BR,borderRadius:14,padding:'18px 20px'}}><div style={{fontSize:24,fontWeight:800,color:'#C9A84C'}}>items.length</div><div style={{fontSize:12,color:'rgba(255,255,255,0.5)',marginTop:4}}>إجمالي المراقبين</div></div><div key='مجدولون' style={{background:CB,border:'1px solid '+BR,borderRadius:14,padding:'18px 20px'}}><div style={{fontSize:24,fontWeight:800,color:'#3B82F6'}}>scheduled</div><div style={{fontSize:12,color:'rgba(255,255,255,0.5)',marginTop:4}}>مجدولون</div></div><div key='جاري' style={{background:CB,border:'1px solid '+BR,borderRadius:14,padding:'18px 20px'}}><div style={{fontSize:24,fontWeight:800,color:'#10B981'}}>active</div><div style={{fontSize:12,color:'rgba(255,255,255,0.5)',marginTop:4}}>جاري</div></div><div key='منتهون' style={{background:CB,border:'1px solid '+BR,borderRadius:14,padding:'18px 20px'}}><div style={{fontSize:24,fontWeight:800,color:'#6B7280'}}>ended</div><div style={{fontSize:12,color:'rgba(255,255,255,0.5)',marginTop:4}}>منتهون</div></div>
       </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: selected ? '1fr 360px' : '1fr', gap: 16 }}>
-        <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.08)', overflow: 'hidden' }}>
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-            <span style={{ color: 'white', fontWeight: 700 }}>الجلسات النشطة</span>
-          </div>
-          {loading ? (
-            <div style={{ padding: 40, textAlign: 'center', color: 'rgba(255,255,255,0.4)' }}>جاري التحميل...</div>
-          ) : sessions.length === 0 ? (
-            <div style={{ padding: 40, textAlign: 'center', color: 'rgba(255,255,255,0.4)' }}>
-              <div style={{ fontSize: 40, marginBottom: 12 }}>🎥</div>
-              <div>لا توجد اختبارات نشطة الآن</div>
-            </div>
-          ) : (
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr style={{ background: 'rgba(255,255,255,0.04)' }}>
-                  {['الطالب', 'الاختبار', 'خروج الشاشة', 'تبديل تاب', 'نسخ', 'مشبوه', 'IP', 'الحالة', 'إجراء'].map(h => (
-                    <th key={h} style={{ padding: '12px 16px', color: 'rgba(255,255,255,0.5)', fontSize: 12, fontWeight: 600, textAlign: 'right' }}>{h}</th>
-                  ))}
+      <div style={{marginBottom:20}}><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="بحث..." style={{...inp,width:300}}/></div>
+      <div style={{background:CB,border:'1px solid '+BR,borderRadius:16,overflow:'hidden'}}>
+        <div style={{overflowX:'auto'}}>
+          <table style={{width:'100%',borderCollapse:'collapse'}}>
+            <thead><tr style={{borderBottom:'1px solid '+BR}}><th key='المراقب' style={{padding:'14px 16px',textAlign:'right',color:'rgba(255,255,255,0.5)',fontSize:13,fontWeight:600}}>المراقب</th><th key='الاختبار' style={{padding:'14px 16px',textAlign:'right',color:'rgba(255,255,255,0.5)',fontSize:13,fontWeight:600}}>الاختبار</th><th key='القاعة' style={{padding:'14px 16px',textAlign:'right',color:'rgba(255,255,255,0.5)',fontSize:13,fontWeight:600}}>القاعة</th><th key='التاريخ' style={{padding:'14px 16px',textAlign:'right',color:'rgba(255,255,255,0.5)',fontSize:13,fontWeight:600}}>التاريخ</th><th key='الوقت' style={{padding:'14px 16px',textAlign:'right',color:'rgba(255,255,255,0.5)',fontSize:13,fontWeight:600}}>الوقت</th><th key='الطلاب' style={{padding:'14px 16px',textAlign:'right',color:'rgba(255,255,255,0.5)',fontSize:13,fontWeight:600}}>الطلاب</th><th key='الحالة' style={{padding:'14px 16px',textAlign:'right',color:'rgba(255,255,255,0.5)',fontSize:13,fontWeight:600}}>الحالة</th><th key='إجراءات' style={{padding:'14px 16px',textAlign:'right',color:'rgba(255,255,255,0.5)',fontSize:13,fontWeight:600}}>إجراءات</th></tr></thead>
+            <tbody>
+              {loading?<tr><td colSpan={8} style={{textAlign:'center',padding:40,color:'rgba(255,255,255,0.4)'}}>جاري التحميل...</td></tr>
+              :filtered.length===0?<tr><td colSpan={8} style={{textAlign:'center',padding:40,color:'rgba(255,255,255,0.4)'}}>لا توجد سجلات</td></tr>
+              :filtered.map((r:any,i:number)=>(
+                <tr key={i} style={{borderBottom:'1px solid '+BR}}>
+                  <td style={{padding:'12px 16px',color:GOLD,fontWeight:700,fontSize:14}}>{r.proctor_name||'—'}</td>
+<td style={{padding:'12px 16px',color:'rgba(255,255,255,0.7)',fontSize:13}}>{r.exam_name||'—'}</td>
+<td style={{padding:'12px 16px',color:'rgba(255,255,255,0.7)',fontSize:13}}>{r.room||'—'}</td>
+<td style={{padding:'12px 16px',color:'rgba(255,255,255,0.6)',fontSize:13}}>{r.exam_date?new Date(r.exam_date).toLocaleDateString('ar-SA'):'—'}</td>
+<td style={{padding:'12px 16px',color:'rgba(255,255,255,0.7)',fontSize:13}}>{r.start_time||'—'}</td>
+<td style={{padding:'12px 16px',color:'rgba(255,255,255,0.7)',fontSize:13}}>{r.students_count||'—'}</td>
+<td style={{padding:'12px 16px'}}><span style={{background:'rgba(255,255,255,0.05)',color:'rgba(255,255,255,0.7)',padding:'3px 10px',borderRadius:20,fontSize:12}}>{r.status||'—'}</span></td>
+                  <td style={{padding:'12px 16px'}}>
+                    <div style={{display:'flex',gap:6}}>
+                      <button onClick={()=>openEdit(r)} style={{background:'rgba(59,130,246,0.1)',border:'1px solid rgba(59,130,246,0.2)',borderRadius:6,padding:'5px 10px',color:'#3B82F6',cursor:'pointer',fontSize:12}}>تعديل</button>
+                      <button onClick={()=>del(r.id)} style={{background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.2)',borderRadius:6,padding:'5px 10px',color:'#EF4444',cursor:'pointer',fontSize:12}}>حذف</button>
+                    </div>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {sessions.map((session, i) => {
-                  const totalViolations = (session.fullscreen_exits || 0) + (session.tab_switches || 0) + (session.copy_attempts || 0);
-                  return (
-                    <tr key={session.id}
-                      onClick={() => setSelected(selected?.id === session.id ? null : session)}
-                      style={{ borderTop: '1px solid rgba(255,255,255,0.06)', background: selected?.id === session.id ? 'rgba(201,162,39,0.08)' : i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.02)', cursor: 'pointer' }}>
-                      <td style={{ padding: '14px 16px', color: 'white', fontSize: 14 }}>{session.student_name || 'طالب'}</td>
-                      <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>{session.exam_title || '—'}</td>
-                      <td style={{ padding: '14px 16px', textAlign: 'center' }}>
-                        <span style={{ color: violationColor(session.fullscreen_exits || 0), fontWeight: 700 }}>{session.fullscreen_exits || 0}</span>
-                      </td>
-                      <td style={{ padding: '14px 16px', textAlign: 'center' }}>
-                        <span style={{ color: violationColor(session.tab_switches || 0), fontWeight: 700 }}>{session.tab_switches || 0}</span>
-                      </td>
-                      <td style={{ padding: '14px 16px', textAlign: 'center' }}>
-                        <span style={{ color: violationColor(session.copy_attempts || 0), fontWeight: 700 }}>{session.copy_attempts || 0}</span>
-                      </td>
-                      <td style={{ padding: '14px 16px', textAlign: 'center' }}>
-                        <span style={{ color: violationColor(session.suspicious_flags || 0), fontWeight: 700 }}>{session.suspicious_flags || 0}</span>
-                      </td>
-                      <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.5)', fontSize: 12 }}>{session.ip_address || '—'}</td>
-                      <td style={{ padding: '14px 16px' }}>
-                        <span style={{ background: session.status === 'active' ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)', color: session.status === 'active' ? '#10B981' : '#EF4444', padding: '4px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600 }}>
-                          {session.status === 'active' ? 'نشط' : 'منتهي'}
-                        </span>
-                      </td>
-                      <td style={{ padding: '14px 16px' }}>
-                        {session.status === 'active' && totalViolations >= 2 && (
-                          <button onClick={(e) => { e.stopPropagation(); handleStop(session.id); }}
-                            style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 12 }}>
-                            ⛔ إيقاف
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          )}
-        </div>
-
-        {selected && (
-          <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 16, border: '1px solid rgba(201,162,39,0.2)', padding: 20 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-              <span style={{ color: '#C9A227', fontWeight: 700 }}>تفاصيل الجلسة</span>
-              <button onClick={() => setSelected(null)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', fontSize: 18 }}>✕</button>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {[
-                { label: 'الطالب', value: selected.student_name || '—' },
-                { label: 'الاختبار', value: selected.exam_title || '—' },
-                { label: 'بدأ الساعة', value: selected.started_at ? new Date(selected.started_at).toLocaleTimeString('ar') : '—' },
-                { label: 'IP', value: selected.ip_address || '—' },
-                { label: 'خروج الشاشة', value: selected.fullscreen_exits || 0 },
-                { label: 'تبديل تاب', value: selected.tab_switches || 0 },
-                { label: 'محاولات نسخ', value: selected.copy_attempts || 0 },
-                { label: 'مشبوه', value: selected.suspicious_flags || 0 },
-              ].map((item, i) => (
-                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                  <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>{item.label}</span>
-                  <span style={{ color: 'white', fontSize: 13, fontWeight: 600 }}>{item.value}</span>
-                </div>
               ))}
-              {selected.status === 'active' && (
-                <button onClick={() => handleStop(selected.id)}
-                  style={{ marginTop: 8, width: '100%', background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 10, padding: '12px', cursor: 'pointer', fontSize: 14, fontWeight: 600 }}>
-                  ⛔ إيقاف الاختبار
-                </button>
-              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {showModal&&(
+        <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:1000,padding:20}}>
+          <div style={{background:'#111827',border:'1px solid '+BR,borderRadius:20,padding:32,width:'100%',maxWidth:520,maxHeight:'90vh',overflowY:'auto'}}>
+            <h3 style={{color:'white',fontSize:20,fontWeight:700,marginBottom:24}}>{editing?'تعديل':'إضافة جديدة'}</h3>
+            <div style={{display:'flex',flexDirection:'column',gap:14}}>
+              <div><label style={lbl}>اسم المراقب</label><input type='text' value={form.proctor_name} onChange={e=>setForm({...form,proctor_name:e.target.value})} style={inp} placeholder=''/></div>
+<div><label style={lbl}>اسم الاختبار</label><input type='text' value={form.exam_name} onChange={e=>setForm({...form,exam_name:e.target.value})} style={inp} placeholder=''/></div>
+<div><label style={lbl}>القاعة</label><input type='text' value={form.room} onChange={e=>setForm({...form,room:e.target.value})} style={inp} placeholder=''/></div>
+<div><label style={lbl}>تاريخ الاختبار</label><input type='date' value={form.exam_date} onChange={e=>setForm({...form,exam_date:e.target.value})} style={inp} placeholder=''/></div>
+<div><label style={lbl}>وقت البداية</label><input type='time' value={form.start_time} onChange={e=>setForm({...form,start_time:e.target.value})} style={inp} placeholder=''/></div>
+<div><label style={lbl}>وقت النهاية</label><input type='time' value={form.end_time} onChange={e=>setForm({...form,end_time:e.target.value})} style={inp} placeholder=''/></div>
+<div><label style={lbl}>عدد الطلاب</label><input type='number' value={form.students_count} onChange={e=>setForm({...form,students_count:Number(e.target.value)})} style={inp}/></div>
+<div><label style={lbl}>الحالة</label><select value={form.status} onChange={e=>setForm({...form,status:e.target.value})} style={inp}><option key='مجدول' value='مجدول'>مجدول</option><option key='جاري' value='جاري'>جاري</option><option key='منتهي' value='منتهي'>منتهي</option><option key='ملغي' value='ملغي'>ملغي</option></select></div>
+<div><label style={lbl}>ملاحظات</label><textarea value={form.notes} onChange={e=>setForm({...form,notes:e.target.value})} style={{...inp,minHeight:70,resize:'vertical'}} placeholder=''/></div>
+            </div>
+            <div style={{display:'flex',gap:12,marginTop:24}}>
+              <button onClick={save} disabled={saving} style={{flex:1,background:GOLD,border:'none',borderRadius:10,padding:12,color:'#0B0B16',fontWeight:700,cursor:saving?'not-allowed':'pointer',opacity:saving?0.7:1}}>{saving?'جاري الحفظ...':'حفظ'}</button>
+              <button onClick={()=>setShowModal(false)} style={{flex:1,background:CB,border:'1px solid '+BR,borderRadius:10,padding:12,color:'rgba(255,255,255,0.7)',cursor:'pointer'}}>إلغاء</button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
