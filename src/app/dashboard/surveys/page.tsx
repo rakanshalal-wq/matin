@@ -1,233 +1,73 @@
 'use client';
-  const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
-
+const getH = (): Record<string, string> => { try { const t = localStorage.getItem('matin_token'); if (t) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + t }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
+const GOLD = '#C9A84C', BG = '#0B0B16', CB = 'rgba(255,255,255,0.04)', BR = 'rgba(255,255,255,0.08)';
+const STATUS_MAP: Record<string, { l: string; c: string }> = { draft: { l: 'مسودة', c: '#9CA3AF' }, active: { l: 'نشط', c: '#10B981' }, closed: { l: 'مغلق', c: '#EF4444' } };
 export default function SurveysPage() {
-  const [data, setData] = useState<any[]>([]);
+  const [surveys, setSurveys] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [editItem, setEditItem] = useState<any>(null);
-  const [form, setForm] = useState({ title: '', description: '', target_audience: 'all', questions_count: '', responses_count: '0', start_date: '', end_date: '', status: 'draft' });
-
+  const [saving, setSaving] = useState(false);
+  const [form, setForm] = useState({ title: '', description: '', target_role: 'all', status: 'draft', deadline: '', anonymous: true });
   useEffect(() => { fetchData(); }, []);
-
-  const fetchData = async () => {
-    try {
-      const res = await fetch('/api/surveys', { headers: getHeaders() });
-      const result = await res.json();
-      setData(result || []);
-    } catch (error) { console.error('Error:', error); } finally { setLoading(false); }
-  };
-
-  const handleSubmit = async () => {
-    if (!form.title) return alert('عنوان الاستبيان مطلوب');
-    try {
-      const method = editItem ? 'PUT' : 'POST';
-      const body = editItem ? { ...form, id: editItem.id } : form;
-      const res = await fetch('/api/surveys', { method, headers: getHeaders(), body: JSON.stringify(body) });
-      if (res.ok) { fetchData(); setShowModal(false); setEditItem(null); setForm({ title: '', description: '', target_audience: 'all', questions_count: '', responses_count: '0', start_date: '', end_date: '', status: 'draft' }); }
-    } catch (error) { console.error('Error:', error); }
-  };
-
-  const handleDelete = async (id: number) => {
-    if (!confirm('هل أنت متأكد من الحذف؟')) return;
-    try { await fetch(`/api/surveys?id=${id}`, { method: 'DELETE', headers: getHeaders() }); fetchData(); } catch (error) { console.error('Error:', error); }
-  };
-
-  const handleEdit = (item: any) => {
-    setEditItem(item);
-    setForm({ title: item.title || '', description: item.description || '', target_audience: item.target_audience || 'all', questions_count: item.questions_count?.toString() || '', responses_count: item.responses_count?.toString() || '0', start_date: item.start_date ? item.start_date.split('T')[0] : '', end_date: item.end_date ? item.end_date.split('T')[0] : '', status: item.status || 'draft' });
-    setShowModal(true);
-  };
-
-  const isExpired = (date: string) => { if (!date) return false; return new Date(date) < new Date(); };
-  const isActive = (item: any) => item.status === 'active' && !isExpired(item.end_date);
-
-  const filtered = data.filter((item: any) => item.title?.toLowerCase().includes(search.toLowerCase()) || item.description?.toLowerCase().includes(search.toLowerCase()));
-
-  const totalResponses = data.reduce((sum: number, d: any) => sum + (parseInt(d.responses_count) || 0), 0);
-
-  const stats = {
-    total: data.length,
-    active: data.filter((d: any) => isActive(d)).length,
-    draft: data.filter((d: any) => d.status === 'draft').length,
-    totalResponses,
-  };
-
-  const audienceLabels: any = { all: 'الجميع', students: 'الطلاب', teachers: 'المعلمين', parents: 'أولياء الأمور', employees: 'الموظفين' };
-  const audienceIcons: any = { all: '👥', students: '🎓', teachers: '👨‍🏫', parents: '👨‍👩‍👧', employees: '👔' };
-  const statusLabels: any = { draft: 'مسودة', active: 'نشط', closed: 'مغلق', archived: 'مؤرشف' };
-  const statusColors: any = { draft: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280' }, active: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, closed: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' }, archived: { bg: 'rgba(139,92,246,0.1)', color: '#8B5CF6' } };
-
-  const inputStyle = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none' };
-
+  const fetchData = async () => { setLoading(true); try { const r = await fetch('/api/surveys', { headers: getH() }); const d = await r.json(); setSurveys(Array.isArray(d) ? d : (d.surveys || [])); } catch { setSurveys([]); } finally { setLoading(false); } };
+  const handleSave = async () => { if (!form.title) return alert('أدخل عنوان الاستبيان'); setSaving(true); try { const m = editItem ? 'PUT' : 'POST'; const u = editItem ? '/api/surveys?id=' + editItem.id : '/api/surveys'; const r = await fetch(u, { method: m, headers: getH(), body: JSON.stringify(form) }); if (r.ok) { setShowModal(false); setEditItem(null); setForm({ title: '', description: '', target_role: 'all', status: 'draft', deadline: '', anonymous: true }); fetchData(); } } catch { } finally { setSaving(false); } };
+  const handleDelete = async (id: number) => { if (!confirm('تأكيد الحذف؟')) return; try { await fetch('/api/surveys?id=' + id, { method: 'DELETE', headers: getH() }); fetchData(); } catch { } };
+  const openEdit = (item: any) => { setEditItem(item); setForm({ title: item.title || '', description: item.description || '', target_role: item.target_role || 'all', status: item.status || 'draft', deadline: item.deadline || '', anonymous: item.anonymous !== false }); setShowModal(true); };
+  const inp: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid ' + BR, borderRadius: 8, padding: '10px 14px', color: 'white', fontSize: 14, outline: 'none', boxSizing: 'border-box' };
+  const lbl: React.CSSProperties = { display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6 };
   return (
-    <div>
-      {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-        <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>📊 الاستبيانات</h1>
-          <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إنشاء وإدارة الاستبيانات واستطلاعات الرأي</p>
-        </div>
-        <button onClick={() => { setEditItem(null); setForm({ title: '', description: '', target_audience: 'all', questions_count: '', responses_count: '0', start_date: '', end_date: '', status: 'draft' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
-          ➕ إنشاء استبيان
-        </button>
+    <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
+        <div><h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>📊 الاستبيانات</h1><p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>إنشاء وإدارة استبيانات الرأي والتقييم</p></div>
+        <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ إنشاء استبيان</button>
       </div>
-
-      {/* Stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
-        {[
-          { label: 'إجمالي الاستبيانات', value: stats.total, icon: '📊', color: '#C9A227' },
-          { label: 'نشط', value: stats.active, icon: '✅', color: '#10B981' },
-          { label: 'مسودة', value: stats.draft, icon: '📝', color: '#6B7280' },
-          { label: 'إجمالي الردود', value: stats.totalResponses, icon: '💬', color: '#3B82F6' },
-        ].map((stat, i) => (
-          <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
-            <div style={{ fontSize: 28 }}>{stat.icon}</div>
-            <div style={{ fontSize: 26, fontWeight: 800, color: stat.color, marginTop: 4 }}>{stat.value}</div>
-            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>{stat.label}</div>
-          </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: 16, marginBottom: 28 }}>
+        {[{ l: 'الإجمالي', v: surveys.length, c: GOLD, i: '📊' }, { l: 'نشطة', v: surveys.filter((s: any) => s.status === 'active').length, c: '#10B981', i: '✅' }, { l: 'مسودات', v: surveys.filter((s: any) => s.status === 'draft').length, c: '#9CA3AF', i: '📝' }, { l: 'مغلقة', v: surveys.filter((s: any) => s.status === 'closed').length, c: '#EF4444', i: '🔒' }].map((s, i) => (
+          <div key={i} style={{ background: CB, border: '1px solid ' + BR, borderRadius: 14, padding: '18px 20px' }}><div style={{ fontSize: 24, marginBottom: 8 }}>{s.i}</div><div style={{ fontSize: 26, fontWeight: 800, color: s.c }}>{s.v}</div><div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>{s.l}</div></div>
         ))}
       </div>
-
-      {/* Search */}
-      <div style={{ marginBottom: 20 }}>
-        <input placeholder="🔍 بحث بالعنوان أو الوصف..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(320px,1fr))', gap: 16 }}>
+        {loading ? <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)', gridColumn: '1/-1' }}>جاري التحميل...</div> :
+          surveys.length === 0 ? <div style={{ textAlign: 'center', padding: 60, gridColumn: '1/-1' }}><div style={{ fontSize: 48, marginBottom: 16 }}>📊</div><p style={{ color: 'rgba(255,255,255,0.4)' }}>لا توجد استبيانات</p><button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>إنشاء أول استبيان</button></div> :
+          surveys.map((s: any, i: number) => { const st = STATUS_MAP[s.status] || STATUS_MAP.draft; return (
+            <div key={s.id || i} style={{ background: CB, border: '1px solid ' + BR, borderRadius: 16, padding: 20 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                <div style={{ flex: 1 }}><div style={{ fontSize: 16, fontWeight: 700, color: 'white', marginBottom: 6 }}>{s.title}</div><div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>{s.description}</div></div>
+                <span style={{ background: `${st.c}22`, color: st.c, padding: '4px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600, marginRight: 8, whiteSpace: 'nowrap' }}>{st.l}</span>
+              </div>
+              <div style={{ display: 'flex', gap: 16, marginBottom: 16, fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
+                <span>👥 {s.target_role === 'all' ? 'الجميع' : s.target_role}</span>
+                <span>📝 {s.responses_count || 0} استجابة</span>
+                {s.anonymous && <span>🔒 مجهول</span>}
+              </div>
+              {s.deadline && <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginBottom: 12 }}>⏰ ينتهي: {new Date(s.deadline).toLocaleDateString('ar-SA')}</div>}
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button onClick={() => openEdit(s)} style={{ flex: 1, background: 'rgba(201,168,76,0.15)', border: '1px solid rgba(201,168,76,0.3)', borderRadius: 8, padding: '8px', color: GOLD, cursor: 'pointer', fontSize: 13 }}>تعديل</button>
+                <button onClick={() => handleDelete(s.id)} style={{ flex: 1, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, padding: '8px', color: '#EF4444', cursor: 'pointer', fontSize: 13 }}>حذف</button>
+              </div>
+            </div>
+          ); })}
       </div>
-
-      {/* Survey Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 16 }}>
-        {loading ? (
-          <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12, gridColumn: '1 / -1' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
-        ) : filtered.length === 0 ? (
-          <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12, gridColumn: '1 / -1' }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>📊</div>
-            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد استبيانات</p>
-            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "إنشاء استبيان" لإنشاء أول استبيان</p>
+      {showModal && <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
+        <div style={{ background: '#12121F', border: '1px solid ' + BR, borderRadius: 20, padding: 32, width: '100%', maxWidth: 480 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}><h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل الاستبيان' : 'استبيان جديد'}</h2><button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 22, cursor: 'pointer' }}>✕</button></div>
+          <div style={{ display: 'grid', gap: 16 }}>
+            <div><label style={lbl}>العنوان *</label><input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} style={inp} /></div>
+            <div><label style={lbl}>الوصف</label><textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} style={{ ...inp, height: 70, resize: 'vertical' as const }} /></div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              <div><label style={lbl}>الفئة المستهدفة</label><select value={form.target_role} onChange={e => setForm({ ...form, target_role: e.target.value })} style={inp}><option value="all">الجميع</option><option value="teacher">المعلمون</option><option value="student">الطلاب</option><option value="parent">أولياء الأمور</option></select></div>
+              <div><label style={lbl}>الحالة</label><select value={form.status} onChange={e => setForm({ ...form, status: e.target.value })} style={inp}><option value="draft">مسودة</option><option value="active">نشط</option><option value="closed">مغلق</option></select></div>
+            </div>
+            <div><label style={lbl}>تاريخ الانتهاء</label><input type="date" value={form.deadline} onChange={e => setForm({ ...form, deadline: e.target.value })} style={inp} /></div>
           </div>
-        ) : filtered.map((item: any) => (
-          <div key={item.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 20, borderRight: `4px solid ${isActive(item) ? '#10B981' : isExpired(item.end_date) ? '#EF4444' : '#6B7280'}` }}>
-            {/* Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
-              <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-                  <span style={{ color: 'white', fontWeight: 700, fontSize: 16 }}>{item.title}</span>
-                  {isActive(item) && <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#10B981', boxShadow: '0 0 6px rgba(16,185,129,0.5)' }} />}
-                </div>
-                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, margin: 0 }}>{item.description ? item.description.substring(0, 70) + (item.description.length > 70 ? '...' : '') : 'لا يوجد وصف'}</p>
-              </div>
-              <span style={{ background: isExpired(item.end_date) && item.status === 'active' ? 'rgba(239,68,68,0.1)' : statusColors[item.status]?.bg, color: isExpired(item.end_date) && item.status === 'active' ? '#EF4444' : statusColors[item.status]?.color, padding: '4px 12px', borderRadius: 8, fontSize: 11, fontWeight: 600, whiteSpace: 'nowrap' }}>
-                {isExpired(item.end_date) && item.status === 'active' ? 'منتهي' : statusLabels[item.status] || item.status}
-              </span>
-            </div>
-
-            {/* Info Row */}
-            <div style={{ display: 'flex', gap: 16, marginBottom: 14, flexWrap: 'wrap' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{ fontSize: 14 }}>{audienceIcons[item.target_audience] || '👥'}</span>
-                <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12 }}>{audienceLabels[item.target_audience] || item.target_audience}</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{ fontSize: 14 }}>❓</span>
-                <span style={{ color: '#C9A227', fontWeight: 700, fontSize: 13 }}>{item.questions_count || 0}</span>
-                <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>سؤال</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{ fontSize: 14 }}>💬</span>
-                <span style={{ color: '#3B82F6', fontWeight: 700, fontSize: 13 }}>{item.responses_count || 0}</span>
-                <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>رد</span>
-              </div>
-            </div>
-
-            {/* Response Progress */}
-            {parseInt(item.questions_count) > 0 && (
-              <div style={{ marginBottom: 14 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                  <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11 }}>معدل المشاركة</span>
-                  <span style={{ color: '#10B981', fontSize: 11, fontWeight: 600 }}>{item.responses_count || 0} رد</span>
-                </div>
-                <div style={{ height: 6, background: 'rgba(255,255,255,0.08)', borderRadius: 3, overflow: 'hidden' }}>
-                  <div style={{ width: `${Math.min(((parseInt(item.responses_count) || 0) / 100) * 100, 100)}%`, height: '100%', background: 'linear-gradient(90deg, #C9A227, #10B981)', borderRadius: 3 }} />
-                </div>
-              </div>
-            )}
-
-            {/* Dates */}
-            <div style={{ display: 'flex', gap: 16, marginBottom: 14 }}>
-              {item.start_date && (
-                <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>📅 من: {new Date(item.start_date).toLocaleDateString('ar-SA')}</div>
-              )}
-              {item.end_date && (
-                <div style={{ color: isExpired(item.end_date) ? '#EF4444' : 'rgba(255,255,255,0.4)', fontSize: 12, fontWeight: isExpired(item.end_date) ? 700 : 400 }}>📅 إلى: {new Date(item.end_date).toLocaleDateString('ar-SA')}{isExpired(item.end_date) && ' ⛔'}</div>
-              )}
-            </div>
-
-            {/* Actions */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 12 }}>
-              <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>✏️ تعديل</button>
-              <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>🗑️ حذف</button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Modal */}
-      {showModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
-          <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? '✏️ تعديل استبيان' : '➕ إنشاء استبيان جديد'}</h2>
-              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>✕</button>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-              <div style={{ gridColumn: 'span 2' }}>
-                <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>عنوان الاستبيان *</label>
-                <input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} style={inputStyle} placeholder="عنوان الاستبيان" />
-              </div>
-              <div>
-                <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>الفئة المستهدفة</label>
-                <select value={form.target_audience} onChange={e => setForm({ ...form, target_audience: e.target.value })} style={inputStyle}>
-                  <option value="all">الجميع 👥</option>
-                  <option value="students">الطلاب 🎓</option>
-                  <option value="teachers">المعلمين 👨‍🏫</option>
-                  <option value="parents">أولياء الأمور 👨‍👩‍👧</option>
-                  <option value="employees">الموظفين 👔</option>
-                </select>
-              </div>
-              <div>
-                <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>عدد الأسئلة</label>
-                <input type="number" value={form.questions_count} onChange={e => setForm({ ...form, questions_count: e.target.value })} style={inputStyle} placeholder="0" />
-              </div>
-              <div>
-                <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>تاريخ البداية</label>
-                <input type="date" value={form.start_date} onChange={e => setForm({ ...form, start_date: e.target.value })} style={inputStyle} />
-              </div>
-              <div>
-                <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>تاريخ النهاية</label>
-                <input type="date" value={form.end_date} onChange={e => setForm({ ...form, end_date: e.target.value })} style={inputStyle} />
-              </div>
-              <div style={{ gridColumn: 'span 2' }}>
-                <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>الوصف</label>
-                <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} style={{ ...inputStyle, minHeight: 80, resize: 'vertical' }} placeholder="وصف الاستبيان والهدف منه..." />
-              </div>
-              <div>
-                <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>الحالة</label>
-                <select value={form.status} onChange={e => setForm({ ...form, status: e.target.value })} style={inputStyle}>
-                  <option value="draft">مسودة</option>
-                  <option value="active">نشط</option>
-                  <option value="closed">مغلق</option>
-                  <option value="archived">مؤرشف</option>
-                </select>
-              </div>
-            </div>
-            <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
-              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
-              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? '💾 تحديث' : '➕ إنشاء'}</button>
-            </div>
+          <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
+            <button onClick={handleSave} disabled={saving} style={{ flex: 1, background: GOLD, border: 'none', borderRadius: 10, padding: 12, color: '#0B0B16', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 15, opacity: saving ? 0.7 : 1 }}>{saving ? 'جاري الحفظ...' : editItem ? 'حفظ' : 'إنشاء'}</button>
+            <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ flex: 1, background: 'rgba(255,255,255,0.06)', border: '1px solid ' + BR, borderRadius: 10, padding: 12, color: 'white', cursor: 'pointer', fontSize: 15 }}>إلغاء</button>
           </div>
         </div>
-      )}
+      </div>}
     </div>
   );
 }
