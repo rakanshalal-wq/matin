@@ -81,6 +81,33 @@ const Icons = {
   tracking:     <Icon d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />,
   driverApp:    <Icon d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />,
   logout:       <Icon d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4 M16 17l5-5-5-5 M21 12H9" />,
+  structure:    <Icon d="M3 3h7v7H3z M14 3h7v7h-7z M14 14h7v7h-7z M3 14h7v7H3z" />,
+  weekSched:    <Icon d="M8 2v4 M16 2v4 M3 10h18 M8 14h.01 M12 14h.01 M16 14h.01 M8 18h.01 M12 18h.01 M16 18h.01 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z" />,
+  admission:    <Icon d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M12 11v6 M9 14h6" />,
+  behavior:     <Icon d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M9 12l2 2 4-4" />,
+  survey:       <Icon d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2 M9 14l2 2 4-4" />,
+  calendar:     <Icon d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z" />,
+  gifted:       <Icon d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />,
+  special:      <Icon d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 7a4 4 0 1 0 0-8 M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75" />,
+  payroll:      <Icon d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6 M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />,
+  contracts:    <Icon d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M16 13H8 M16 17H8" />,
+  training:     <Icon d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z M6 8h2 M6 12h2" />,
+  invoice:      <Icon d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M9 13h6 M9 17h3" />,
+  scholarship:  <Icon d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5" />,
+  complaint:    <Icon d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z M12 8v4 M12 16h.01" />,
+  news:         <Icon d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2z M2 7h2 M2 12h2 M2 17h2" />,
+  gallery:      <Icon d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z M8.5 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M21 15l-5-5L5 21" />,
+  tasks:        <Icon d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />,
+  meetings:     <Icon d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75" />,
+  parentsCouncil: <Icon d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 7a4 4 0 1 0 0-8 M15 11h6 M18 8v6" />,
+  appearance:   <Icon d="M12 20h9 M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />,
+  integrations: <Icon d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71 M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />,
+  errorLog:     <Icon d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01" />,
+  vaccination:  <Icon d="M18 2l4 4-14 14H4v-4L18 2z M14.5 5.5l4 4" />,
+  counseling:   <Icon d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z M8 10h8 M8 14h5" />,
+  recording:    <Icon d="M15 10l4.553-2.069A1 1 0 0 1 21 8.87v6.26a1 1 0 0 1-1.447.899L15 14 M3 8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 12h.01" />,
+  visitors:     <Icon d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75" />,
+  facilities:   <Icon d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10" />,
 };
 
 const getMenuByRole = (role: string): MenuGroup[] => {
@@ -126,17 +153,33 @@ const getMenuByRole = (role: string): MenuGroup[] => {
       { title: 'الرئيسية', items: [
         { label: 'لوحة التحكم', icon: Icons.dashboard, href: '/dashboard/admin' },
         { label: 'صفحة المؤسسة', icon: Icons.schoolPage, href: '/dashboard/school-page' },
+        { label: 'التقويم', icon: Icons.calendar, href: '/dashboard/calendar' },
         { label: 'الإعدادات', icon: Icons.settings, href: '/dashboard/settings' },
+        { label: 'المظهر والتخصيص', icon: Icons.appearance, href: '/dashboard/appearance' },
+        { label: 'التكاملات', icon: Icons.integrations, href: '/dashboard/integrations' },
       ]},
-      { title: 'الأكاديمي', items: [
-        { label: 'الطلاب', icon: Icons.students, href: '/dashboard/students' },
-        { label: 'المعلمون', icon: Icons.teachers, href: '/dashboard/teachers' },
-        { label: 'الفصول', icon: Icons.classes, href: '/dashboard/classes' },
-        { label: 'الجداول', icon: Icons.schedule, href: '/dashboard/schedules' },
+      { title: 'الهيكل الأكاديمي', items: [
+        { label: 'المراحل والمواد والمسارات', icon: Icons.structure, href: '/dashboard/academic-structure' },
+        { label: 'الجدول الأسبوعي', icon: Icons.weekSched, href: '/dashboard/weekly-schedule' },
         { label: 'المناهج', icon: Icons.curriculum, href: '/dashboard/curriculum' },
+      ]},
+      { title: 'الطلاب', items: [
+        { label: 'الطلاب', icon: Icons.students, href: '/dashboard/students' },
+        { label: 'طلبات القبول', icon: Icons.admission, href: '/dashboard/admission' },
+        { label: 'الموهوبون', icon: Icons.gifted, href: '/dashboard/gifted' },
+        { label: 'ذوو الاحتياجات الخاصة', icon: Icons.special, href: '/dashboard/special-needs' },
+        { label: 'الإرشاد الطلابي', icon: Icons.counseling, href: '/dashboard/counseling' },
+        { label: 'السلوك والانضباط', icon: Icons.behavior, href: '/dashboard/behavior' },
+        { label: 'الشكاوى', icon: Icons.complaint, href: '/dashboard/complaints' },
+      ]},
+      { title: 'العمليات الأكاديمية', items: [
+        { label: 'الفصول', icon: Icons.classes, href: '/dashboard/classes' },
+        { label: 'المعلمون', icon: Icons.teachers, href: '/dashboard/teachers' },
+        { label: 'الجداول', icon: Icons.schedule, href: '/dashboard/schedules' },
         { label: 'الحضور', icon: Icons.attendance, href: '/dashboard/attendance' },
         { label: 'الدرجات', icon: Icons.grades, href: '/dashboard/grades' },
         { label: 'الواجبات', icon: Icons.homework, href: '/dashboard/homework' },
+        { label: 'الشهادات', icon: Icons.certificates, href: '/dashboard/certificates' },
       ]},
       { title: 'الاختبارات', items: [
         { label: 'الاختبارات', icon: Icons.exams, href: '/dashboard/exams' },
@@ -144,41 +187,57 @@ const getMenuByRole = (role: string): MenuGroup[] => {
         { label: 'جدول الاختبارات', icon: Icons.examSchedule, href: '/dashboard/exam-schedule' },
         { label: 'قاعات الاختبار', icon: Icons.examRooms, href: '/dashboard/exam-rooms' },
         { label: 'مراقبة الاختبار', icon: Icons.proctoring, href: '/dashboard/exam-proctoring' },
+        { label: 'تحليلات الأسئلة', icon: Icons.analytics, href: '/dashboard/question-analytics' },
       ]},
       { title: 'التعليم الإلكتروني', items: [
         { label: 'المحاضرات', icon: Icons.lectures, href: '/dashboard/lectures' },
         { label: 'البث المباشر', icon: Icons.liveStream, href: '/dashboard/live-stream' },
+        { label: 'التسجيلات', icon: Icons.recording, href: '/dashboard/recordings' },
         { label: 'المكتبة الرقمية', icon: Icons.library, href: '/dashboard/library' },
         { label: 'الأنشطة', icon: Icons.activities, href: '/dashboard/activities' },
+        { label: 'الاستبيانات', icon: Icons.survey, href: '/dashboard/surveys' },
       ]},
       { title: 'الموارد البشرية', items: [
         { label: 'الموظفون', icon: Icons.employees, href: '/dashboard/employees' },
         { label: 'الرواتب', icon: Icons.salaries, href: '/dashboard/salaries' },
+        { label: 'كشف الرواتب', icon: Icons.payroll, href: '/dashboard/payroll' },
         { label: 'الإجازات', icon: Icons.leaves, href: '/dashboard/leaves' },
+        { label: 'العقود', icon: Icons.contracts, href: '/dashboard/contracts' },
+        { label: 'التدريب المهني', icon: Icons.training, href: '/dashboard/training' },
         { label: 'الصلاحيات', icon: Icons.permissions, href: '/dashboard/permissions' },
       ]},
       { title: 'المالية', items: [
         { label: 'المالية', icon: Icons.finance, href: '/dashboard/finance' },
         { label: 'رسوم الطلاب', icon: Icons.payments, href: '/dashboard/student-fees' },
+        { label: 'الفواتير', icon: Icons.invoice, href: '/dashboard/school-invoices' },
+        { label: 'المنح الدراسية', icon: Icons.scholarship, href: '/dashboard/scholarships' },
         { label: 'الاشتراك', icon: Icons.subscription, href: '/dashboard/subscribe' },
       ]},
       { title: 'الخدمات', items: [
         { label: 'النقل المدرسي', icon: Icons.transport, href: '/dashboard/transport' },
         { label: 'الكافتيريا', icon: Icons.cafeteria, href: '/dashboard/cafeteria' },
-        { label: 'الصحة', icon: Icons.health, href: '/dashboard/health' },
+        { label: 'الصحة والتطعيمات', icon: Icons.health, href: '/dashboard/health' },
+        { label: 'المرافق والمباني', icon: Icons.facilities, href: '/dashboard/facilities' },
         { label: 'المتجر', icon: Icons.store, href: '/dashboard/store' },
+        { label: 'الزوار', icon: Icons.visitors, href: '/dashboard/visitors' },
         { label: 'الملتقى المجتمعي', icon: Icons.community, href: '/dashboard/community' },
       ]},
       { title: 'التواصل', items: [
         { label: 'الرسائل', icon: Icons.messages, href: '/dashboard/messages' },
         { label: 'الإشعارات', icon: Icons.notification, href: '/dashboard/push-notifications' },
         { label: 'الإعلانات', icon: Icons.announcements, href: '/dashboard/announcements' },
+        { label: 'الأخبار', icon: Icons.news, href: '/dashboard/news' },
+        { label: 'معرض الصور', icon: Icons.gallery, href: '/dashboard/gallery' },
         { label: 'أولياء الأمور', icon: Icons.parents, href: '/dashboard/parents' },
+        { label: 'مجلس الآباء', icon: Icons.parentsCouncil, href: '/dashboard/parents-council' },
+        { label: 'الاجتماعات', icon: Icons.meetings, href: '/dashboard/meetings' },
       ]},
-      { title: 'الذكاء الاصطناعي', items: [
+      { title: 'الذكاء الاصطناعي والتقارير', items: [
         { label: 'المساعد الذكي', icon: Icons.ai, href: '/dashboard/ai-chat' },
         { label: 'التقارير الذكية', icon: Icons.reports, href: '/dashboard/reports' },
         { label: 'تحليلات الأداء', icon: Icons.analytics, href: '/dashboard/platform-analytics' },
+        { label: 'المهام', icon: Icons.tasks, href: '/dashboard/tasks' },
+        { label: 'سجل النشاط', icon: Icons.errorLog, href: '/dashboard/activity-log' },
       ]},
     ];
   }
@@ -188,6 +247,8 @@ const getMenuByRole = (role: string): MenuGroup[] => {
       { title: 'الرئيسية', items: [
         { label: 'لوحتي', icon: Icons.dashboard, href: '/dashboard/teacher' },
         { label: 'ملفي الإنجازي', icon: Icons.portfolio, href: '/dashboard/teacher-assignments' },
+        { label: 'جدولي الأسبوعي', icon: Icons.weekSched, href: '/dashboard/weekly-schedule' },
+        { label: 'التقويم', icon: Icons.calendar, href: '/dashboard/calendar' },
       ]},
       { title: 'الفصول والطلاب', items: [
         { label: 'فصولي', icon: Icons.classes, href: '/dashboard/classes' },
@@ -195,6 +256,7 @@ const getMenuByRole = (role: string): MenuGroup[] => {
         { label: 'الحضور', icon: Icons.attendance, href: '/dashboard/attendance' },
         { label: 'الدرجات', icon: Icons.grades, href: '/dashboard/grades' },
         { label: 'الواجبات', icon: Icons.homework, href: '/dashboard/homework' },
+        { label: 'السلوك والانضباط', icon: Icons.behavior, href: '/dashboard/behavior' },
       ]},
       { title: 'الاختبارات', items: [
         { label: 'اختباراتي', icon: Icons.exams, href: '/dashboard/exams' },
@@ -204,14 +266,17 @@ const getMenuByRole = (role: string): MenuGroup[] => {
       { title: 'التعليم الإلكتروني', items: [
         { label: 'المحاضرات', icon: Icons.lectures, href: '/dashboard/lectures' },
         { label: 'البث المباشر', icon: Icons.liveStream, href: '/dashboard/live-stream' },
+        { label: 'التسجيلات', icon: Icons.recording, href: '/dashboard/recordings' },
         { label: 'الأنشطة', icon: Icons.activities, href: '/dashboard/activities' },
         { label: 'المكتبة الرقمية', icon: Icons.library, href: '/dashboard/library' },
+        { label: 'الاستبيانات', icon: Icons.survey, href: '/dashboard/surveys' },
       ]},
       { title: 'التواصل', items: [
         { label: 'الرسائل', icon: Icons.messages, href: '/dashboard/messages' },
         { label: 'الإشعارات', icon: Icons.notification, href: '/dashboard/notifications' },
         { label: 'الملتقى المجتمعي', icon: Icons.community, href: '/dashboard/community' },
         { label: 'المساعد الذكي', icon: Icons.ai, href: '/dashboard/ai-chat' },
+        { label: 'المهام', icon: Icons.tasks, href: '/dashboard/tasks' },
       ]},
     ];
   }
@@ -221,28 +286,36 @@ const getMenuByRole = (role: string): MenuGroup[] => {
       { title: 'الرئيسية', items: [
         { label: 'لوحتي', icon: Icons.dashboard, href: '/dashboard/student' },
         { label: 'محفظتي الرقمية', icon: Icons.certificates, href: '/dashboard/certificates' },
+        { label: 'التقويم', icon: Icons.calendar, href: '/dashboard/calendar' },
       ]},
       { title: 'الدراسة', items: [
-        { label: 'جدولي', icon: Icons.schedule, href: '/dashboard/schedules' },
+        { label: 'جدولي الأسبوعي', icon: Icons.weekSched, href: '/dashboard/weekly-schedule' },
+        { label: 'الجداول', icon: Icons.schedule, href: '/dashboard/schedules' },
         { label: 'الواجبات', icon: Icons.homework, href: '/dashboard/homework' },
         { label: 'درجاتي', icon: Icons.grades, href: '/dashboard/grades' },
         { label: 'حضوري', icon: Icons.attendance, href: '/dashboard/attendance' },
+        { label: 'الأنشطة', icon: Icons.activities, href: '/dashboard/activities' },
       ]},
       { title: 'الاختبارات', items: [
         { label: 'اختباراتي', icon: Icons.exams, href: '/dashboard/exams' },
         { label: 'أداء الاختبار', icon: Icons.proctoring, href: '/dashboard/exam-take' },
+        { label: 'جدول الاختبارات', icon: Icons.examSchedule, href: '/dashboard/exam-schedule' },
       ]},
       { title: 'التعليم الإلكتروني', items: [
         { label: 'المحاضرات', icon: Icons.lectures, href: '/dashboard/lectures' },
         { label: 'البث المباشر', icon: Icons.liveStream, href: '/dashboard/live-stream' },
         { label: 'المكتبة', icon: Icons.library, href: '/dashboard/library' },
+        { label: 'الاستبيانات', icon: Icons.survey, href: '/dashboard/surveys' },
       ]},
       { title: 'الخدمات والتواصل', items: [
         { label: 'المتجر', icon: Icons.store, href: '/dashboard/store' },
         { label: 'المقصف', icon: Icons.cafeteria, href: '/dashboard/cafeteria' },
+        { label: 'الصحة', icon: Icons.health, href: '/dashboard/health' },
         { label: 'الملتقى المجتمعي', icon: Icons.community, href: '/dashboard/community' },
         { label: 'الرسائل', icon: Icons.messages, href: '/dashboard/messages' },
+        { label: 'الإشعارات', icon: Icons.notification, href: '/dashboard/notifications' },
         { label: 'المساعد الذكي', icon: Icons.ai, href: '/dashboard/ai-chat' },
+        { label: 'المهام', icon: Icons.tasks, href: '/dashboard/tasks' },
       ]},
     ];
   }
@@ -251,13 +324,16 @@ const getMenuByRole = (role: string): MenuGroup[] => {
     return [
       { title: 'الرئيسية', items: [
         { label: 'لوحتي', icon: Icons.dashboard, href: '/dashboard/parent' },
+        { label: 'التقويم', icon: Icons.calendar, href: '/dashboard/calendar' },
       ]},
       { title: 'متابعة الأبناء', items: [
         { label: 'الحضور والغياب', icon: Icons.attendance, href: '/dashboard/attendance' },
         { label: 'الدرجات والتقارير', icon: Icons.grades, href: '/dashboard/grades' },
         { label: 'الواجبات', icon: Icons.homework, href: '/dashboard/homework' },
-        { label: 'الجدول الدراسي', icon: Icons.schedule, href: '/dashboard/schedules' },
+        { label: 'الجدول الدراسي', icon: Icons.weekSched, href: '/dashboard/weekly-schedule' },
         { label: 'الاختبارات', icon: Icons.exams, href: '/dashboard/exams' },
+        { label: 'السلوك والانضباط', icon: Icons.behavior, href: '/dashboard/behavior' },
+        { label: 'الشهادات', icon: Icons.certificates, href: '/dashboard/certificates' },
       ]},
       { title: 'الخدمات', items: [
         { label: 'النقل المدرسي (GPS)', icon: Icons.transport, href: '/dashboard/transport' },
@@ -270,6 +346,8 @@ const getMenuByRole = (role: string): MenuGroup[] => {
         { label: 'الرسائل', icon: Icons.messages, href: '/dashboard/messages' },
         { label: 'الإشعارات', icon: Icons.notification, href: '/dashboard/notifications' },
         { label: 'الملتقى المجتمعي', icon: Icons.community, href: '/dashboard/community' },
+        { label: 'مجلس الآباء', icon: Icons.parentsCouncil, href: '/dashboard/parents-council' },
+        { label: 'الشكاوى والمقترحات', icon: Icons.complaint, href: '/dashboard/complaints' },
         { label: 'المساعد الذكي', icon: Icons.ai, href: '/dashboard/ai-chat' },
       ]},
     ];
@@ -283,6 +361,7 @@ const getMenuByRole = (role: string): MenuGroup[] => {
       ]},
       { title: 'العمليات', items: [
         { label: 'الطلاب في رحلتي', icon: Icons.tracking, href: '/dashboard/student-tracking' },
+        { label: 'إدارة المركبة', icon: Icons.transport, href: '/dashboard/bus-maintenance' },
         { label: 'الرسائل', icon: Icons.messages, href: '/dashboard/messages' },
         { label: 'الإشعارات', icon: Icons.notification, href: '/dashboard/notifications' },
       ]},
@@ -298,6 +377,7 @@ const getMenuByRole = (role: string): MenuGroup[] => {
         { label: 'تذاكر الدعم', icon: Icons.support, href: '/dashboard/support' },
         { label: 'المؤسسات', icon: Icons.schools, href: '/dashboard/schools' },
         { label: 'الإشعارات', icon: Icons.notification, href: '/dashboard/push-notifications' },
+        { label: 'سجل الأخطاء', icon: Icons.errorLog, href: '/dashboard/error-logs' },
       ]},
     ];
   }
