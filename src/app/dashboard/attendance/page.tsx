@@ -1,175 +1,247 @@
 'use client';
 import { useState, useEffect } from 'react';
 
-const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
+const getHeaders = (): Record<string, string> => {
+  try {
+    const token = localStorage.getItem('matin_token');
+    if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };
+    const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
+    return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') };
+  } catch { return { 'Content-Type': 'application/json' }; }
+};
+
+const GOLD = '#C9A84C';
+const BG = '#0B0B16';
+const CARD_BG = 'rgba(255,255,255,0.04)';
+const BORDER = 'rgba(255,255,255,0.08)';
+
+const STATUS_MAP: Record<string, { label: string; color: string; bg: string }> = {
+  present: { label: 'حاضر',  color: '#10B981', bg: 'rgba(16,185,129,0.15)' },
+  absent:  { label: 'غائب',  color: '#EF4444', bg: 'rgba(239,68,68,0.15)' },
+  late:    { label: 'متأخر', color: '#F59E0B', bg: 'rgba(245,158,11,0.15)' },
+  excused: { label: 'بعذر',  color: '#3B82F6', bg: 'rgba(59,130,246,0.15)' },
+};
 
 export default function AttendancePage() {
-  const [classes, setClasses] = useState<any[]>([]);
-  const [students, setStudents] = useState<any[]>([]);
-  const [attendance, setAttendance] = useState<any>({});
-  const [selectedClass, setSelectedClass] = useState('');
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [records, setRecords] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterClass, setFilterClass] = useState('');
+  const [filterStatus, setFilterStatus] = useState('');
+  const [filterDate, setFilterDate] = useState(new Date().toISOString().split('T')[0]);
+  const [showModal, setShowModal] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
   const [saving, setSaving] = useState(false);
-  const [msg, setMsg] = useState('');
-  const [user, setUser] = useState<any>(null);
+  const [form, setForm] = useState({
+    student_name: '', class_name: '',
+    date: new Date().toISOString().split('T')[0],
+    status: 'present', notes: '', arrival_time: '', notified_parent: false,
+  });
 
-  useEffect(() => {
-    const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
-    setUser(u);
-    fetchClasses();
-  }, []);
+  useEffect(() => { fetchRecords(); }, [filterDate, filterClass]);
 
-  const fetchClasses = async () => {
+  const fetchRecords = async () => {
+    setLoading(true);
     try {
-      const res = await fetch('/api/classes', { headers: getHeaders() });
+      const params = new URLSearchParams();
+      if (filterDate) params.set('date', filterDate);
+      if (filterClass) params.set('class', filterClass);
+      const res = await fetch('/api/attendance?' + params.toString(), { headers: getHeaders() });
       const data = await res.json();
-      setClasses(Array.isArray(data) ? data : []);
-    } catch {} finally { setLoading(false); }
-  };
-
-  const fetchStudents = async (classId: string) => {
-    try {
-      const res = await fetch(`/api/students?class_id=${classId}`, { headers: getHeaders() });
-      const data = await res.json();
-      setStudents(Array.isArray(data) ? data : []);
-      // جلب الحضور الموجود لهذا اليوم
-      const attRes = await fetch(`/api/attendance?class_id=${classId}&date=${selectedDate}`, { headers: getHeaders() });
-      const attData = await attRes.json();
-      const attMap: any = {};
-      if (Array.isArray(attData)) {
-        attData.forEach((a: any) => { attMap[a.student_id] = a.status; });
-      }
-      setAttendance(attMap);
-    } catch {}
-  };
-
-  const handleClassChange = (classId: string) => {
-    setSelectedClass(classId);
-    if (classId) fetchStudents(classId);
-    else { setStudents([]); setAttendance({}); }
-  };
-
-  const handleDateChange = (date: string) => {
-    setSelectedDate(date);
-    if (selectedClass) {
-      setTimeout(() => fetchStudents(selectedClass), 100);
-    }
-  };
-
-  const toggleStatus = (studentId: string) => {
-    const current = attendance[studentId] || 'PRESENT';
-    const order = ['PRESENT', 'ABSENT', 'LATE', 'EXCUSED'];
-    const next = order[(order.indexOf(current) + 1) % order.length];
-    setAttendance({ ...attendance, [studentId]: next });
+      setRecords(Array.isArray(data) ? data : []);
+    } catch { setRecords([]); } finally { setLoading(false); }
   };
 
   const handleSave = async () => {
-    if (!selectedClass || students.length === 0) return;
-    setSaving(true); setMsg('');
+    if (!form.student_name || !form.class_name) return alert('ادخل اسم الطالب والفصل');
+    setSaving(true);
     try {
-      const records = students.map((s: any) => ({
-        student_id: s.id,
-        class_id: selectedClass,
-        date: selectedDate,
-        status: attendance[s.id] || 'PRESENT'
-      }));
-      const res = await fetch('/api/attendance', {
-        method: 'POST', headers: getHeaders(),
-        body: JSON.stringify({ records })
-      });
-      const data = await res.json();
-      if (res.ok) setMsg('تم حفظ الحضور بنجاح ✓');
-      else setMsg(data.error || 'فشل');
-    } catch { setMsg('خطأ بالاتصال'); } finally { setSaving(false); }
+      const method = editItem ? 'PUT' : 'POST';
+      const url = editItem ? '/api/attendance?id=' + editItem.id : '/api/attendance';
+      const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify(form) });
+      if (res.ok) {
+        setShowModal(false); setEditItem(null);
+        setForm({ student_name: '', class_name: '', date: new Date().toISOString().split('T')[0], status: 'present', notes: '', arrival_time: '', notified_parent: false });
+        fetchRecords();
+      } else { const e = await res.json(); alert(e.error || 'فشل الحفظ'); }
+    } catch { } finally { setSaving(false); }
   };
 
-  const statusConfig: any = {
-    PRESENT: { label: 'حاضر', color: '#10B981', bg: 'rgba(16,185,129,0.15)', icon: '✓' },
-    ABSENT: { label: 'غائب', color: '#EF4444', bg: 'rgba(239,68,68,0.15)', icon: '✕' },
-    LATE: { label: 'متأخر', color: '#F59E0B', bg: 'rgba(245,158,11,0.15)', icon: '⏰' },
-    EXCUSED: { label: 'معذور', color: '#3B82F6', bg: 'rgba(59,130,246,0.15)', icon: '📋' },
+  const handleDelete = async (id: number) => {
+    if (!confirm('هل انت متاكد من الحذف؟')) return;
+    try { await fetch('/api/attendance?id=' + id, { method: 'DELETE', headers: getHeaders() }); fetchRecords(); } catch { }
   };
 
-  const inputStyle = { width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: '#fff', fontSize: 14, fontFamily: 'IBM Plex Sans Arabic, sans-serif', outline: 'none', direction: 'rtl' as const };
-  const canEdit = ['super_admin', 'owner', 'admin', 'teacher'].includes(user?.role);
+  const openEdit = (item: any) => {
+    setEditItem(item);
+    setForm({ student_name: item.student_name || '', class_name: item.class_name || '', date: item.date || '', status: item.status || 'present', notes: item.notes || '', arrival_time: item.arrival_time || '', notified_parent: item.notified_parent || false });
+    setShowModal(true);
+  };
 
-  if (loading) return <div style={{ padding: 40, textAlign: 'center', color: '#C9A227' }}>جاري التحميل...</div>;
+  const exportCSV = () => {
+    const headers = ['الطالب', 'الفصل', 'التاريخ', 'الحالة', 'وقت الوصول', 'ملاحظات'];
+    const rows = filtered.map((r: any) => [r.student_name, r.class_name, r.date, STATUS_MAP[r.status]?.label || r.status, r.arrival_time || '', r.notes || '']);
+    const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'حضور_' + filterDate + '.csv'; a.click();
+  };
+
+  const filtered = records.filter((r: any) => {
+    const matchSearch = !searchTerm || r.student_name?.includes(searchTerm) || r.class_name?.includes(searchTerm);
+    const matchStatus = !filterStatus || r.status === filterStatus;
+    return matchSearch && matchStatus;
+  });
+
+  const stats = {
+    total: filtered.length,
+    present: filtered.filter((r: any) => r.status === 'present').length,
+    absent: filtered.filter((r: any) => r.status === 'absent').length,
+    late: filtered.filter((r: any) => r.status === 'late').length,
+    excused: filtered.filter((r: any) => r.status === 'excused').length,
+  };
+  const presentPct = stats.total ? Math.round((stats.present / stats.total) * 100) : 0;
+
+  const inp: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid ' + BORDER, borderRadius: 8, padding: '10px 14px', color: 'white', fontSize: 14, outline: 'none', boxSizing: 'border-box' };
+  const lbl: React.CSSProperties = { display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6 };
 
   return (
-    <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-      <h1 style={{ fontSize: 24, fontWeight: 700, color: '#C9A227', margin: '0 0 24px' }}>📋 الحضور والغياب</h1>
-
-      {/* فلتر الفصل والتاريخ */}
-      <div style={{ display: 'flex', gap: 16, marginBottom: 24, flexWrap: 'wrap' }}>
-        <div style={{ flex: 1, minWidth: 200 }}>
-          <label style={{ color: '#9CA3AF', fontSize: 13, marginBottom: 6, display: 'block' }}>اختر الفصل</label>
-          <select style={{...inputStyle, cursor: 'pointer'}} value={selectedClass} onChange={e => handleClassChange(e.target.value)}>
-            <option value="">-- اختر فصل --</option>
-            {classes.map(c => <option key={c.id} value={c.id}>{c.name_ar || c.name} {c.grade ? `(${c.grade})` : ''}</option>)}
-          </select>
+    <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
+        <div>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>📋 الحضور والغياب</h1>
+          <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>تسجيل ومتابعة حضور الطلاب يومياً</p>
         </div>
-        <div style={{ flex: 1, minWidth: 200 }}>
-          <label style={{ color: '#9CA3AF', fontSize: 13, marginBottom: 6, display: 'block' }}>التاريخ</label>
-          <input type="date" style={inputStyle} value={selectedDate} onChange={e => handleDateChange(e.target.value)} />
+        <div style={{ display: 'flex', gap: 12 }}>
+          <button onClick={exportCSV} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid ' + BORDER, borderRadius: 10, padding: '10px 18px', color: 'white', cursor: 'pointer', fontSize: 14 }}>📥 تصدير Excel</button>
+          <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ تسجيل حضور</button>
         </div>
       </div>
 
-      {msg && <div style={{ padding: 12, background: msg.includes('✓') ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)', border: `1px solid ${msg.includes('✓') ? 'rgba(16,185,129,0.3)' : 'rgba(239,68,68,0.3)'}`, borderRadius: 10, color: msg.includes('✓') ? '#10B981' : '#EF4444', marginBottom: 16, fontSize: 14 }}>{msg}</div>}
-
-      {!selectedClass ? (
-        <div style={{ textAlign: 'center', padding: 60, background: 'rgba(255,255,255,0.02)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)' }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>📋</div>
-          <h3 style={{ color: '#fff', fontSize: 18, margin: '0 0 8px' }}>اختر فصل لتسجيل الحضور</h3>
-        </div>
-      ) : students.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: 60, background: 'rgba(255,255,255,0.02)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)' }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>👥</div>
-          <h3 style={{ color: '#fff', fontSize: 18, margin: '0 0 8px' }}>لا يوجد طلاب في هذا الفصل</h3>
-        </div>
-      ) : (
-        <>
-          {/* إحصائيات سريعة */}
-          <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
-            {Object.entries(statusConfig).map(([key, cfg]: any) => {
-              const count = students.filter(s => (attendance[s.id] || 'PRESENT') === key).length;
-              return (
-                <div key={key} style={{ padding: '8px 16px', background: cfg.bg, borderRadius: 10, color: cfg.color, fontSize: 13, fontWeight: 600 }}>
-                  {cfg.icon} {cfg.label}: {count}
-                </div>
-              );
-            })}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 16, marginBottom: 28 }}>
+        {[
+          { label: 'اجمالي الطلاب', value: stats.total, color: GOLD, icon: '👥' },
+          { label: 'حاضرون', value: stats.present, color: '#10B981', icon: '✅' },
+          { label: 'غائبون', value: stats.absent, color: '#EF4444', icon: '❌' },
+          { label: 'متأخرون', value: stats.late, color: '#F59E0B', icon: '⏰' },
+          { label: 'بعذر', value: stats.excused, color: '#3B82F6', icon: '📄' },
+          { label: 'نسبة الحضور', value: presentPct + '%', color: presentPct >= 80 ? '#10B981' : '#EF4444', icon: '📊' },
+        ].map((s, i) => (
+          <div key={i} style={{ background: CARD_BG, border: '1px solid ' + BORDER, borderRadius: 14, padding: '18px 20px' }}>
+            <div style={{ fontSize: 24, marginBottom: 8 }}>{s.icon}</div>
+            <div style={{ fontSize: 26, fontWeight: 800, color: s.color }}>{s.value}</div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>{s.label}</div>
           </div>
+        ))}
+      </div>
 
-          {/* قائمة الطلاب */}
-          <div style={{ background: 'rgba(255,255,255,0.02)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)', overflow: 'hidden' }}>
-            {students.map((s: any, i: number) => {
-              const status = attendance[s.id] || 'PRESENT';
-              const cfg = statusConfig[status];
-              return (
-                <div key={s.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 20px', borderBottom: i < students.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <span style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(201,162,39,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: '#C9A227' }}>{i + 1}</span>
-                    <span style={{ color: '#fff', fontSize: 14, fontWeight: 600 }}>{s.name || s.student_id}</span>
-                  </div>
-                  {canEdit ? (
-                    <button onClick={() => toggleStatus(s.id)} style={{ padding: '6px 20px', background: cfg.bg, color: cfg.color, border: `1px solid ${cfg.color}30`, borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif', minWidth: 90 }}>
-                      {cfg.icon} {cfg.label}
-                    </button>
-                  ) : (
-                    <span style={{ padding: '6px 20px', background: cfg.bg, color: cfg.color, borderRadius: 8, fontSize: 13, fontWeight: 600 }}>{cfg.icon} {cfg.label}</span>
-                  )}
-                </div>
-              );
-            })}
+      <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
+        <input type="date" value={filterDate} onChange={e => setFilterDate(e.target.value)} style={{ ...inp, width: 180 }} />
+        <input placeholder="بحث عن طالب او فصل..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} style={{ ...inp, width: 260 }} />
+        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} style={{ ...inp, width: 160 }}>
+          <option value="">جميع الحالات</option>
+          {Object.entries(STATUS_MAP).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
+        </select>
+        <input placeholder="الفصل..." value={filterClass} onChange={e => setFilterClass(e.target.value)} style={{ ...inp, width: 160 }} />
+      </div>
+
+      <div style={{ background: CARD_BG, border: '1px solid ' + BORDER, borderRadius: 16, overflow: 'hidden' }}>
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>جاري التحميل...</div>
+        ) : filtered.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: 60 }}>
+            <div style={{ fontSize: 48, marginBottom: 16 }}>📋</div>
+            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 16 }}>لا توجد سجلات حضور لهذا اليوم</p>
+            <button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ تسجيل اول حضور</button>
           </div>
+        ) : (
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr style={{ borderBottom: '1px solid ' + BORDER }}>
+                  {['الطالب', 'الفصل', 'التاريخ', 'وقت الوصول', 'الحالة', 'اشعار ولي الامر', 'ملاحظات', 'اجراءات'].map(h => (
+                    <th key={h} style={{ padding: '14px 16px', textAlign: 'right', color: 'rgba(255,255,255,0.5)', fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap' }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((r: any, i: number) => {
+                  const st = STATUS_MAP[r.status] || { label: r.status, color: '#9CA3AF', bg: 'rgba(156,163,175,0.15)' };
+                  return (
+                    <tr key={r.id || i} style={{ borderBottom: '1px solid ' + BORDER }}>
+                      <td style={{ padding: '14px 16px', color: 'white', fontWeight: 600 }}>{r.student_name}</td>
+                      <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.7)' }}>{r.class_name}</td>
+                      <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>{r.date}</td>
+                      <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>{r.arrival_time || '—'}</td>
+                      <td style={{ padding: '14px 16px' }}>
+                        <span style={{ background: st.bg, color: st.color, padding: '4px 12px', borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{st.label}</span>
+                      </td>
+                      <td style={{ padding: '14px 16px' }}>
+                        <span style={{ color: r.notified_parent ? '#10B981' : 'rgba(255,255,255,0.3)', fontSize: 13 }}>{r.notified_parent ? '✅ تم' : '—'}</span>
+                      </td>
+                      <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>{r.notes || '—'}</td>
+                      <td style={{ padding: '14px 16px' }}>
+                        <div style={{ display: 'flex', gap: 8 }}>
+                          <button onClick={() => openEdit(r)} style={{ background: 'rgba(201,168,76,0.15)', border: '1px solid rgba(201,168,76,0.3)', borderRadius: 8, padding: '6px 12px', color: GOLD, cursor: 'pointer', fontSize: 12 }}>تعديل</button>
+                          <button onClick={() => handleDelete(r.id)} style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, padding: '6px 12px', color: '#EF4444', cursor: 'pointer', fontSize: 12 }}>حذف</button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
 
-          {canEdit && (
-            <button onClick={handleSave} disabled={saving} style={{ marginTop: 20, padding: '14px 40px', background: 'linear-gradient(135deg, #10B981, #059669)', color: '#fff', border: 'none', borderRadius: 12, fontSize: 16, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif', opacity: saving ? 0.5 : 1 }}>
-              {saving ? 'جاري الحفظ...' : '✓ حفظ الحضور'}
-            </button>
-          )}
-        </>
+      {showModal && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
+          <div style={{ background: '#12121F', border: '1px solid ' + BORDER, borderRadius: 20, padding: 32, width: '100%', maxWidth: 520, maxHeight: '90vh', overflowY: 'auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل سجل الحضور' : 'تسجيل حضور جديد'}</h2>
+              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 22, cursor: 'pointer' }}>✕</button>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div style={{ gridColumn: '1/-1' }}>
+                <label style={lbl}>اسم الطالب *</label>
+                <input value={form.student_name} onChange={e => setForm({ ...form, student_name: e.target.value })} placeholder="ادخل اسم الطالب" style={inp} />
+              </div>
+              <div>
+                <label style={lbl}>الفصل *</label>
+                <input value={form.class_name} onChange={e => setForm({ ...form, class_name: e.target.value })} placeholder="مثال: الاول أ" style={inp} />
+              </div>
+              <div>
+                <label style={lbl}>التاريخ</label>
+                <input type="date" value={form.date} onChange={e => setForm({ ...form, date: e.target.value })} style={inp} />
+              </div>
+              <div>
+                <label style={lbl}>الحالة</label>
+                <select value={form.status} onChange={e => setForm({ ...form, status: e.target.value })} style={inp}>
+                  {Object.entries(STATUS_MAP).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
+                </select>
+              </div>
+              <div>
+                <label style={lbl}>وقت الوصول</label>
+                <input type="time" value={form.arrival_time} onChange={e => setForm({ ...form, arrival_time: e.target.value })} style={inp} />
+              </div>
+              <div style={{ gridColumn: '1/-1' }}>
+                <label style={lbl}>ملاحظات</label>
+                <textarea value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} placeholder="اي ملاحظات اضافية..." style={{ ...inp, height: 80, resize: 'vertical' as const }} />
+              </div>
+              <div style={{ gridColumn: '1/-1', display: 'flex', alignItems: 'center', gap: 10 }}>
+                <input type="checkbox" id="notified" checked={form.notified_parent} onChange={e => setForm({ ...form, notified_parent: e.target.checked })} style={{ width: 18, height: 18, cursor: 'pointer' }} />
+                <label htmlFor="notified" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14, cursor: 'pointer' }}>تم اشعار ولي الامر</label>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
+              <button onClick={handleSave} disabled={saving} style={{ flex: 1, background: GOLD, border: 'none', borderRadius: 10, padding: 12, color: '#0B0B16', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 15, opacity: saving ? 0.7 : 1 }}>
+                {saving ? 'جاري الحفظ...' : editItem ? 'حفظ التعديلات' : 'تسجيل الحضور'}
+              </button>
+              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ flex: 1, background: 'rgba(255,255,255,0.06)', border: '1px solid ' + BORDER, borderRadius: 10, padding: 12, color: 'white', cursor: 'pointer', fontSize: 15 }}>الغاء</button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
