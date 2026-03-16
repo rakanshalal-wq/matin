@@ -47,8 +47,11 @@ export default function QuestionBankPage() {
   });
   const [useAI, setUseAI] = useState(false);
   const [importSubject, setImportSubject] = useState('لغتي');
-  const [importGrade, setImportGrade] = useState('1');
+  const [importGrade, setImportGrade] = useState('الأول الابتدائي');
+  const [importTrack, setImportTrack] = useState('عام');
+  const [importStage, setImportStage] = useState('الابتدائية');
   const [importReplace, setImportReplace] = useState(false);
+  const [filterTrack, setFilterTrack] = useState('');
   const [importFile, setImportFile] = useState<File | null>(null);
   const [importResult, setImportResult] = useState<any>(null);
 
@@ -125,6 +128,8 @@ export default function QuestionBankPage() {
       formData.append('file', importFile);
       formData.append('subject', importSubject);
       formData.append('grade', importGrade);
+      formData.append('track', importTrack);
+      formData.append('stage', importStage);
       formData.append('replace', importReplace ? 'true' : 'false');
       const res = await fetch('/api/question-bank/import', {
         method: 'POST',
@@ -158,6 +163,7 @@ export default function QuestionBankPage() {
     if (filterDiff && q.difficulty !== filterDiff) return false;
     if (filterSemester && q.semester !== filterSemester) return false;
     if (filterLesson && !q.lesson?.includes(filterLesson)) return false;
+    if (filterTrack && q.track !== filterTrack) return false;
     if (search && !q.question_text?.includes(search) && !q.text_ar?.includes(search)) return false;
     return true;
   });
@@ -217,6 +223,16 @@ export default function QuestionBankPage() {
           <option value="">كل الفصول</option>
           <option value="1">الفصل الأول</option>
           <option value="2">الفصل الثاني</option>
+        </select>
+        <select style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '13px', outline: 'none', direction: 'rtl' }} value={filterTrack} onChange={e => setFilterTrack(e.target.value)}>
+          <option value="">كل المسارات</option>
+          <option value="عام">عام (ابتدائي / متوسط)</option>
+          <option value="مشترك (جميع المسارات)">أول ثانوي — مشترك</option>
+          <option value="المسار العام">المسار العام</option>
+          <option value="مسار علوم الحاسب والهندسة">علوم الحاسب والهندسة</option>
+          <option value="مسار الصحة والحياة">الصحة والحياة</option>
+          <option value="مسار إدارة الأعمال">إدارة الأعمال</option>
+          <option value="المسار الشرعي">المسار الشرعي</option>
         </select>
         <select style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '13px', outline: 'none', direction: 'rtl' }} value={filterLesson} onChange={e => setFilterLesson(e.target.value)}>
           <option value="">كل الدروس</option>
@@ -345,22 +361,54 @@ export default function QuestionBankPage() {
             <div style={{ color: '#C9A227', fontSize: '18px', fontWeight: 700, marginBottom: '20px' }}>📥 استيراد أسئلة من Excel</div>
 
             {/* إعدادات الاستيراد */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
               <div>
-                <label style={{ color: '#94a3b8', fontSize: '12px', display: 'block', marginBottom: '6px' }}>المادة الدراسية *</label>
-                <select value={importSubject} onChange={e => setImportSubject(e.target.value)}
+                <label style={{ color: '#94a3b8', fontSize: '12px', display: 'block', marginBottom: '6px' }}>المرحلة الدراسية</label>
+                <select value={importStage} onChange={e => {
+                  setImportStage(e.target.value);
+                  if (e.target.value === 'الابتدائية') { setImportGrade('الأول الابتدائي'); setImportTrack('عام'); }
+                  else if (e.target.value === 'المتوسطة') { setImportGrade('الأول المتوسط'); setImportTrack('عام'); }
+                  else { setImportGrade('أول ثانوي (مشترك)'); setImportTrack('مشترك (جميع المسارات)'); }
+                }}
                   style={{ width: '100%', padding: '8px 10px', borderRadius: '8px', background: '#0f172a', border: '1px solid #334155', color: '#f1f5f9', fontSize: '13px' }}>
-                  {['لغتي','الرياضيات','العلوم','الدراسات الإسلامية','اللغة العربية','اللغة الإنجليزية','التربية الوطنية','الاجتماعيات','الفيزياء','الكيمياء','الأحياء','أخرى'].map(s => (
-                    <option key={s} value={s}>{s}</option>
-                  ))}
+                  <option value="الابتدائية">الابتدائية</option>
+                  <option value="المتوسطة">المتوسطة</option>
+                  <option value="الثانوية">الثانوية</option>
                 </select>
               </div>
               <div>
                 <label style={{ color: '#94a3b8', fontSize: '12px', display: 'block', marginBottom: '6px' }}>الصف الدراسي *</label>
                 <select value={importGrade} onChange={e => setImportGrade(e.target.value)}
                   style={{ width: '100%', padding: '8px 10px', borderRadius: '8px', background: '#0f172a', border: '1px solid #334155', color: '#f1f5f9', fontSize: '13px' }}>
-                  {[['1','الأول الابتدائي'],['2','الثاني الابتدائي'],['3','الثالث الابتدائي'],['4','الرابع الابتدائي'],['5','الخامس الابتدائي'],['6','السادس الابتدائي'],['7','الأول المتوسط'],['8','الثاني المتوسط'],['9','الثالث المتوسط'],['10','الأول الثانوي'],['11','الثاني الثانوي'],['12','الثالث الثانوي']].map(([v,l]) => (
-                    <option key={v} value={v}>{l}</option>
+                  {importStage === 'الابتدائية' && ['الأول الابتدائي','الثاني الابتدائي','الثالث الابتدائي','الرابع الابتدائي','الخامس الابتدائي','السادس الابتدائي'].map(g => <option key={g} value={g}>{g}</option>)}
+                  {importStage === 'المتوسطة' && ['الأول المتوسط','الثاني المتوسط','الثالث المتوسط'].map(g => <option key={g} value={g}>{g}</option>)}
+                  {importStage === 'الثانوية' && ['أول ثانوي (مشترك)','ثاني ثانوي','ثالث ثانوي'].map(g => <option key={g} value={g}>{g}</option>)}
+                </select>
+              </div>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
+              <div>
+                <label style={{ color: '#94a3b8', fontSize: '12px', display: 'block', marginBottom: '6px' }}>المسار الدراسي</label>
+                <select value={importTrack} onChange={e => setImportTrack(e.target.value)}
+                  style={{ width: '100%', padding: '8px 10px', borderRadius: '8px', background: '#0f172a', border: '1px solid #334155', color: '#f1f5f9', fontSize: '13px' }}>
+                  {importStage !== 'الثانوية' && <option value="عام">عام</option>}
+                  {importStage === 'الثانوية' && <>
+                    <option value="مشترك (جميع المسارات)">مشترك (جميع المسارات)</option>
+                    <option value="المسار العام">المسار العام</option>
+                    <option value="مسار علوم الحاسب والهندسة">علوم الحاسب والهندسة</option>
+                    <option value="مسار الصحة والحياة">الصحة والحياة</option>
+                    <option value="مسار إدارة الأعمال">إدارة الأعمال</option>
+                    <option value="المسار الشرعي">المسار الشرعي</option>
+                  </>
+                  }
+                </select>
+              </div>
+              <div>
+                <label style={{ color: '#94a3b8', fontSize: '12px', display: 'block', marginBottom: '6px' }}>المادة الدراسية *</label>
+                <select value={importSubject} onChange={e => setImportSubject(e.target.value)}
+                  style={{ width: '100%', padding: '8px 10px', borderRadius: '8px', background: '#0f172a', border: '1px solid #334155', color: '#f1f5f9', fontSize: '13px' }}>
+                  {['لغتي الخالدة','الرياضيات','العلوم','الدراسات الإسلامية','القرآن الكريم','اللغة الإنجليزية','التربية الوطنية','التاريخ','الجغرافيا','الفيزياء','الكيمياء','الأحياء','علم البيانات','الهندسة','مبادئ المحاسبة','مبادئ الإدارة','الاقتصاد','التفسير وعلوم القرآن','الحديث وعلومه','الفقه وأصوله','أخرى'].map(sub => (
+                    <option key={sub} value={sub}>{sub}</option>
                   ))}
                 </select>
               </div>
