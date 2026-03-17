@@ -1,6 +1,6 @@
 'use client';
 
-import { Award, BookOpen, Bus, GraduationCap, Laptop, Package } from "lucide-react";
+import { Award, BookOpen, Bus, GraduationCap, Laptop, Package, BarChart3, CheckCircle, ChevronLeft, Megaphone, RotateCcw, Shield, ShoppingBag, Star, Store, Tag, TrendingUp, Truck, Users, Zap } from "lucide-react";
 
 // ===== DESIGN: Dark Premium — Black/Gold, Cairo font, asymmetric sections =====
 

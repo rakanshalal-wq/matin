@@ -7,7 +7,7 @@
 import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Banknote, Bell, BookOpen, Building2, CreditCard, Key, Landmark, Lock, MessageCircle, Phone, Shield, Smartphone } from "lucide-react";
+import { Banknote, Bell, BookOpen, Building2, CreditCard, Key, Landmark, Lock, MessageCircle, Phone, Shield, Smartphone, ArrowLeft, CheckCircle } from "lucide-react";
 
 function useScrollAnimation() {
   useEffect(() => {

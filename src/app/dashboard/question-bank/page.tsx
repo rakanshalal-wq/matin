@@ -1,5 +1,5 @@
 'use client';
-import { BarChart3, Book, BookOpen, Bot, Check, CheckCircle, Circle, Download, Lightbulb, Mailbox, Plus, Search, Trash2, XCircle } from "lucide-react";
+import { BarChart3, Book, BookOpen, Bot, Check, CheckCircle, Circle, Download, Lightbulb, Mailbox, Plus, Search, Trash2, XCircle, File } from "lucide-react";
 import { useState, useEffect, useRef } from 'react';
 
 const getHeaders = (): Record<string, string> => {

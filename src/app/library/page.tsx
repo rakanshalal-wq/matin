@@ -1,6 +1,6 @@
 'use client';
 
-import { Flower2, GraduationCap, School } from "lucide-react";
+import { Flower2, GraduationCap, School, BarChart3, BookMarked, BookOpen, CheckCircle, ChevronLeft, FileText, Headphones, RefreshCw, Search, Star, Users, Video } from "lucide-react";
 
 // ===== DESIGN: Dark Premium — Black/Gold, Cairo font =====
 

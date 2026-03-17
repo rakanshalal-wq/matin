@@ -1,5 +1,5 @@
 'use client';
-import { AlertTriangle, BarChart3, BookOpen, CheckCircle, ClipboardList, Download, Settings } from "lucide-react";
+import { AlertTriangle, BarChart3, BookOpen, CheckCircle, ClipboardList, Download, Settings, File } from "lucide-react";
 
 import { useState, useRef } from 'react';
 import Link from 'next/link';

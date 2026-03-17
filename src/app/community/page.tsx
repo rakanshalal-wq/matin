@@ -1,6 +1,6 @@
 'use client';
 
-import { BookOpen, Drama, Handshake, Heart, Laptop, MessageCircle, Microscope, Palette, PenTool, RefreshCw, Sprout, Trophy } from "lucide-react";
+import { BookOpen, Drama, Handshake, Heart, Laptop, MessageCircle, Microscope, Palette, PenTool, RefreshCw, Sprout, Trophy, Bell, Brain, CheckCircle, ChevronLeft, Globe, Lock, MessageSquare, Shield, UserCheck, Users } from "lucide-react";
 
 // ===== DESIGN: Dark Premium — Black/Gold, Cairo font =====
 
