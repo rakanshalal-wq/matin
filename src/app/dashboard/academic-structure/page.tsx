@@ -1,4 +1,5 @@
 'use client';
+import { Book, BookOpen, Check, Pencil, School, Search, Target, Trash2 } from "lucide-react";
 import { useState, useEffect } from 'react';
 
 // ─── ثوابت التصميم ───────────────────────────────────────────────
@@ -124,7 +125,7 @@ export default function AcademicStructurePage() {
       });
       const d = await r.json();
       if (!r.ok) return showToast(d.error || 'فشل الحفظ', 'err');
-      showToast('تم الحفظ بنجاح ✓');
+      showToast('تم الحفظ بنجاح <Check className="w-5 h-5 inline-block" />');
       closeModal();
       load();
     } catch { showToast('خطأ في الاتصال', 'err'); }
@@ -137,7 +138,7 @@ export default function AcademicStructurePage() {
       const r = await fetch(`/api/academic-structure?type=${type}&id=${id}`, {
         method: 'DELETE', headers: getH(), credentials: 'include',
       });
-      if (r.ok) { showToast('تم الحذف ✓'); load(); }
+      if (r.ok) { showToast('تم الحذف <Check className="w-5 h-5 inline-block" />'); load(); }
       else showToast('فشل الحذف', 'err');
     } catch { showToast('خطأ', 'err'); }
   };
@@ -166,16 +167,16 @@ export default function AcademicStructurePage() {
 
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-black text-white mb-1">🏫 الهيكل الأكاديمي</h1>
+        <h1 className="text-3xl font-black text-white mb-1"><School className="w-5 h-5 inline-block" /> الهيكل الأكاديمي</h1>
         <p className="text-gray-400 text-sm">المراحل والصفوف والمواد وفق وزارة التعليم السعودية — قابل للتخصيص</p>
       </div>
 
       {/* Tabs */}
       <div className="flex gap-2 mb-6">
         {[
-          { key: 'stages', label: '📚 المراحل والصفوف' },
-          { key: 'catalog', label: '📖 المواد الدراسية' },
-          { key: 'tracks', label: '🎯 المسارات' },
+          { key: 'stages', label: '<BookOpen className="w-5 h-5 inline-block" /> المراحل والصفوف' },
+          { key: 'catalog', label: '<Book className="w-5 h-5 inline-block" /> المواد الدراسية' },
+          { key: 'tracks', label: '<Target className="w-5 h-5 inline-block" /> المسارات' },
         ].map((t) => (
           <button key={t.key} onClick={() => setTab(t.key as any)}
             style={{
@@ -216,11 +217,11 @@ export default function AcademicStructurePage() {
                         <div className="flex gap-2">
                           <button onClick={() => openModal('editStage', stage)}
                             style={{ ...btn('rgba(255,255,255,0.08)', '#ccc'), padding: '6px 12px', fontSize: 12 }}>
-                            ✏️
+                            <Pencil className="w-5 h-5 inline-block" />️
                           </button>
                           <button onClick={() => del('stage', stage.id)}
                             style={{ ...btn(`${RED}22`, RED), padding: '6px 12px', fontSize: 12 }}>
-                            🗑️
+                            <Trash2 className="w-5 h-5 inline-block" />️
                           </button>
                         </div>
                       </div>
@@ -242,11 +243,11 @@ export default function AcademicStructurePage() {
                               <div className="flex gap-1">
                                 <button onClick={() => openModal('editGrade', g)}
                                   style={{ ...btn('rgba(255,255,255,0.06)', '#aaa'), padding: '3px 8px', fontSize: 11 }}>
-                                  ✏️
+                                  <Pencil className="w-5 h-5 inline-block" />️
                                 </button>
                                 <button onClick={() => del('grade', g.id)}
                                   style={{ ...btn(`${RED}15`, RED), padding: '3px 8px', fontSize: 11 }}>
-                                  🗑️
+                                  <Trash2 className="w-5 h-5 inline-block" />️
                                 </button>
                               </div>
                             </div>
@@ -266,7 +267,7 @@ export default function AcademicStructurePage() {
               <div className="flex flex-wrap gap-3 items-center justify-between mb-4">
                 <div className="flex gap-3 flex-wrap">
                   <input value={search} onChange={e => setSearch(e.target.value)}
-                    placeholder="🔍 بحث عن مادة..." style={{ ...inp, width: 200 }} />
+                    placeholder="<Search className="w-5 h-5 inline-block" /> بحث عن مادة..." style={{ ...inp, width: 200 }} />
                   <select value={filterStage} onChange={e => setFilterStage(e.target.value)}
                     style={{ ...inp, width: 160 }}>
                     <option value="">كل المراحل</option>
@@ -327,11 +328,11 @@ export default function AcademicStructurePage() {
                           <div className="flex gap-2 justify-end">
                             <button onClick={() => openModal('editCatalog', s)}
                               style={{ ...btn('rgba(255,255,255,0.06)', '#ccc'), padding: '5px 10px', fontSize: 12 }}>
-                              ✏️
+                              <Pencil className="w-5 h-5 inline-block" />️
                             </button>
                             <button onClick={() => del('catalog', s.id)}
                               style={{ ...btn(`${RED}15`, RED), padding: '5px 10px', fontSize: 12 }}>
-                              🗑️
+                              <Trash2 className="w-5 h-5 inline-block" />️
                             </button>
                           </div>
                         </td>
@@ -371,11 +372,11 @@ export default function AcademicStructurePage() {
                         <div className="flex gap-1">
                           <button onClick={() => openModal('editTrack', t)}
                             style={{ ...btn('rgba(255,255,255,0.06)', '#ccc'), padding: '5px 10px', fontSize: 12 }}>
-                            ✏️
+                            <Pencil className="w-5 h-5 inline-block" />️
                           </button>
                           <button onClick={() => del('track', t.id)}
                             style={{ ...btn(`${RED}15`, RED), padding: '5px 10px', fontSize: 12 }}>
-                            🗑️
+                            <Trash2 className="w-5 h-5 inline-block" />️
                           </button>
                         </div>
                       </div>

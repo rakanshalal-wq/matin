@@ -1,4 +1,5 @@
 'use client';
+import { ClipboardList, Lock, Settings } from "lucide-react";
 import { useState, useEffect } from 'react';
 const getH=():Record<string,string>=>{try{const t=localStorage.getItem('matin_token');if(t)return{'Content-Type':'application/json','Authorization':'Bearer '+t};const u=JSON.parse(localStorage.getItem('matin_user')||'{}');return{'Content-Type':'application/json','x-user-id':String(u.id||'')}}catch{return{'Content-Type':'application/json'}}};
 const GOLD='#C9A84C',BG='#0B0B16',CB='rgba(255,255,255,0.04)',BR='rgba(255,255,255,0.08)';
@@ -21,11 +22,11 @@ export default function SecurityPage(){
   const lbl:React.CSSProperties={display:'block',color:'rgba(255,255,255,0.6)',fontSize:13,marginBottom:6};
   const SC:Record<string,string>={success:'#10B981',failed:'#EF4444',warning:'#F59E0B',info:'#3B82F6'};
   const filteredLogs=logs.filter(l=>!filterStatus||l.status===filterStatus);
-  const tabs=[{id:'logs',l:'سجل الأحداث',i:'📋'},{id:'sessions',l:'الجلسات النشطة',i:'🔐'},{id:'settings',l:'إعدادات الأمان',i:'⚙️'}];
+  const tabs=[{id:'logs',l:'سجل الأحداث',i:'<ClipboardList className="w-5 h-5 inline-block" />'},{id:'sessions',l:'الجلسات النشطة',i:'<Lock className="w-5 h-5 inline-block" />'},{id:'settings',l:'إعدادات الأمان',i:'<Settings className="w-5 h-5 inline-block" />️'}];
   return(
     <div style={{minHeight:'100vh',background:BG,padding:'32px 24px',direction:'rtl',fontFamily:'Cairo, sans-serif'}}>
       <div style={{marginBottom:32}}>
-        <h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}>🔒 الأمان وحماية النظام</h1>
+        <h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}><Lock className="w-5 h-5 inline-block" /> الأمان وحماية النظام</h1>
         <p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>مراقبة الأمان وإدارة الجلسات والصلاحيات</p>
       </div>
       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',gap:16,marginBottom:28}}>
@@ -90,7 +91,7 @@ export default function SecurityPage(){
       )}
       {activeTab==='settings'&&(
         <div style={{background:CB,border:'1px solid '+BR,borderRadius:16,padding:32,maxWidth:560}}>
-          <h3 style={{color:'white',fontSize:18,fontWeight:700,marginBottom:24}}>⚙️ إعدادات الأمان</h3>
+          <h3 style={{color:'white',fontSize:18,fontWeight:700,marginBottom:24}}><Settings className="w-5 h-5 inline-block" />️ إعدادات الأمان</h3>
           <div style={{display:'flex',flexDirection:'column',gap:20}}>
             {[{k:'two_factor',l:'المصادقة الثنائية',d:'طبقة حماية إضافية عند الدخول'},{k:'require_uppercase',l:'أحرف كبيرة في كلمة المرور',d:'إلزامية حرف كبير واحد على الأقل'},{k:'require_numbers',l:'أرقام في كلمة المرور',d:'إلزامية رقم واحد على الأقل'},{k:'require_special',l:'رموز خاصة في كلمة المرور',d:'إلزامية رمز خاص مثل @#$'}].map(({k,l,d})=>(
               <div key={k} style={{display:'flex',justifyContent:'space-between',alignItems:'center',background:'rgba(255,255,255,0.03)',borderRadius:12,padding:'14px 18px'}}>

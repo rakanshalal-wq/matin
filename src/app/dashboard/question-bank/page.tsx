@@ -1,4 +1,5 @@
 'use client';
+import { BarChart3, Book, BookOpen, Bot, Check, CheckCircle, Circle, Download, Lightbulb, Mailbox, Plus, Search, Trash2, XCircle } from "lucide-react";
 import { useState, useEffect, useRef } from 'react';
 
 const getHeaders = (): Record<string, string> => {
@@ -11,9 +12,9 @@ const getHeaders = (): Record<string, string> => {
 };
 
 const diffConfig: any = {
-  easy: { label: 'سهل', color: '#10B981', bg: 'rgba(16,185,129,0.15)', icon: '🟢' },
-  medium: { label: 'متوسط', color: '#F59E0B', bg: 'rgba(245,158,11,0.15)', icon: '🟡' },
-  hard: { label: 'صعب', color: '#EF4444', bg: 'rgba(239,68,68,0.15)', icon: '🔴' },
+  easy: { label: 'سهل', color: '#10B981', bg: 'rgba(16,185,129,0.15)', icon: '<Circle className="w-5 h-5 inline-block" />' },
+  medium: { label: 'متوسط', color: '#F59E0B', bg: 'rgba(245,158,11,0.15)', icon: '<Circle className="w-5 h-5 inline-block" />' },
+  hard: { label: 'صعب', color: '#EF4444', bg: 'rgba(239,68,68,0.15)', icon: '<Circle className="w-5 h-5 inline-block" />' },
 };
 
 const typeLabels: any = {
@@ -104,7 +105,7 @@ export default function QuestionBankPage() {
       });
       const data = await res.json();
       if (!res.ok) { setMsg(data.error || 'فشل الإضافة'); return; }
-      setMsg('✅ تم إضافة السؤال بنجاح');
+      setMsg('<CheckCircle className="w-5 h-5 inline-block" /> تم إضافة السؤال بنجاح');
       fetchAll();
       setShowAdd(false); setEditItem(null);
     } catch { setMsg('خطأ في الاتصال'); } finally { setSaving(false); }
@@ -129,7 +130,7 @@ export default function QuestionBankPage() {
   };
   const handleFileSelect = (file: File) => {
     if (!file.name.match(/\.(xlsx|xls)$/i)) {
-      setImportProgress('❌ يجب أن يكون الملف بصيغة Excel (.xlsx أو .xls)');
+      setImportProgress('<XCircle className="w-5 h-5 inline-block" /> يجب أن يكون الملف بصيغة Excel (.xlsx أو .xls)');
       return;
     }
     setImportFile(file);
@@ -138,9 +139,9 @@ export default function QuestionBankPage() {
   };
 
   const handleImport = async () => {
-    if (!importFile) { setImportProgress('❌ يرجى اختيار ملف Excel'); return; }
-    if (!importSubject) { setImportProgress('❌ يرجى تحديد المادة الدراسية'); return; }
-    if (!importGrade) { setImportProgress('❌ يرجى تحديد الصف الدراسي'); return; }
+    if (!importFile) { setImportProgress('<XCircle className="w-5 h-5 inline-block" /> يرجى اختيار ملف Excel'); return; }
+    if (!importSubject) { setImportProgress('<XCircle className="w-5 h-5 inline-block" /> يرجى تحديد المادة الدراسية'); return; }
+    if (!importGrade) { setImportProgress('<XCircle className="w-5 h-5 inline-block" /> يرجى تحديد الصف الدراسي'); return; }
     setImporting(true);
     setImportProgress('جاري معالجة الملف...');
     setImportResult(null);
@@ -159,7 +160,7 @@ export default function QuestionBankPage() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setImportProgress('❌ ' + (data.error || 'فشل الاستيراد'));
+        setImportProgress('<XCircle className="w-5 h-5 inline-block" /> ' + (data.error || 'فشل الاستيراد'));
         return;
       }
       setImportProgress('');
@@ -168,7 +169,7 @@ export default function QuestionBankPage() {
       if (fileInputRef.current) fileInputRef.current.value = '';
       fetchAll();
     } catch {
-      setImportProgress('❌ خطأ في الاتصال');
+      setImportProgress('<XCircle className="w-5 h-5 inline-block" /> خطأ في الاتصال');
     } finally {
       setImporting(false);
     }
@@ -206,13 +207,13 @@ export default function QuestionBankPage() {
     <div style={s.page}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
         <div>
-          <div style={{ color: '#C9A227', fontSize: '24px', fontWeight: 800 }}>📚 بنك الأسئلة</div>
+          <div style={{ color: '#C9A227', fontSize: '24px', fontWeight: 800 }}><BookOpen className="w-5 h-5 inline-block" /> بنك الأسئلة</div>
           <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', marginTop: '4px' }}>{questions.length} سؤال</div>
         </div>
         {canEdit && (
           <div style={{ display: 'flex', gap: '10px' }}>
-            <button style={s.btn('#C9A227')} onClick={() => setShowImport(true)}>📥 استيراد Excel</button>
-            <button style={s.btn('#10B981')} onClick={() => setShowAdd(true)}>➕ إضافة سؤال</button>
+            <button style={s.btn('#C9A227')} onClick={() => setShowImport(true)}><Download className="w-5 h-5 inline-block" /> استيراد Excel</button>
+            <button style={s.btn('#10B981')} onClick={() => setShowAdd(true)}><Plus className="w-5 h-5 inline-block" /> إضافة سؤال</button>
           </div>
         )}
       </div>
@@ -233,12 +234,12 @@ export default function QuestionBankPage() {
       </div>
 
       <div style={{ display: 'flex', gap: '12px', marginBottom: '20px', flexWrap: 'wrap' }}>
-        <input style={{ padding: '8px 16px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '13px', outline: 'none', direction: 'rtl', flex: 1, minWidth: '200px', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }} placeholder="🔍 ابحث في الأسئلة..." value={search} onChange={e => setSearch(e.target.value)} />
+        <input style={{ padding: '8px 16px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '13px', outline: 'none', direction: 'rtl', flex: 1, minWidth: '200px', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }} placeholder="<Search className="w-5 h-5 inline-block" /> ابحث في الأسئلة..." value={search} onChange={e => setSearch(e.target.value)} />
         <select style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '13px', outline: 'none', direction: 'rtl' }} value={filterDiff} onChange={e => setFilterDiff(e.target.value)}>
           <option value="">كل المستويات</option>
-          <option value="easy">🟢 سهل</option>
-          <option value="medium">🟡 متوسط</option>
-          <option value="hard">🔴 صعب</option>
+          <option value="easy"><Circle className="w-5 h-5 inline-block" /> سهل</option>
+          <option value="medium"><Circle className="w-5 h-5 inline-block" /> متوسط</option>
+          <option value="hard"><Circle className="w-5 h-5 inline-block" /> صعب</option>
         </select>
         <select style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '13px', outline: 'none', direction: 'rtl' }} value={filterSemester} onChange={e => setFilterSemester(e.target.value)}>
           <option value="">كل الفصول</option>
@@ -267,7 +268,7 @@ export default function QuestionBankPage() {
         <div style={{ textAlign: 'center', color: '#C9A227', padding: '40px' }}>جاري التحميل...</div>
       ) : filtered.length === 0 ? (
         <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.3)', padding: '60px' }}>
-          <div style={{ fontSize: '48px', marginBottom: '16px' }}>📭</div>
+          <div style={{ fontSize: '48px', marginBottom: '16px' }}><Mailbox className="w-5 h-5 inline-block" /></div>
           <div>لا توجد أسئلة. ابدأ بإضافة أسئلة أو استيراد ملف Excel</div>
         </div>
       ) : (
@@ -287,7 +288,7 @@ export default function QuestionBankPage() {
                     <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '10px' }}>
                       {opts.map((opt: string, oi: number) => (
                         <span key={oi} style={{ padding: '4px 12px', borderRadius: '6px', fontSize: '13px', background: opt === q.correct_answer ? 'rgba(16,185,129,0.2)' : 'rgba(255,255,255,0.05)', border: opt === q.correct_answer ? '1px solid #10B981' : '1px solid rgba(255,255,255,0.1)', color: opt === q.correct_answer ? '#10B981' : 'rgba(255,255,255,0.7)' }}>
-                          {['أ', 'ب', 'ج', 'د'][oi]}. {opt}{opt === q.correct_answer && ' ✓'}
+                          {['أ', 'ب', 'ج', 'د'][oi]}. {opt}{opt === q.correct_answer && ' <Check className="w-5 h-5 inline-block" />'}
                         </span>
                       ))}
                     </div>
@@ -295,13 +296,13 @@ export default function QuestionBankPage() {
                   <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                     <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: '20px', fontSize: '11px', background: `${diff.color}20`, border: `1px solid ${diff.color}40`, color: diff.color }}>{diff.icon} {diff.label}</span>
                     <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: '20px', fontSize: '11px', background: 'rgba(107,114,128,0.2)', border: '1px solid rgba(107,114,128,0.4)', color: '#9CA3AF' }}>{typeLabels[q.question_type] || q.question_type}</span>
-                    {q.lesson && <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: '20px', fontSize: '11px', background: 'rgba(139,92,246,0.2)', border: '1px solid rgba(139,92,246,0.4)', color: '#8B5CF6' }}>📖 {q.lesson}</span>}
+                    {q.lesson && <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: '20px', fontSize: '11px', background: 'rgba(139,92,246,0.2)', border: '1px solid rgba(139,92,246,0.4)', color: '#8B5CF6' }}><Book className="w-5 h-5 inline-block" /> {q.lesson}</span>}
                     {q.semester && <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: '20px', fontSize: '11px', background: 'rgba(59,130,246,0.2)', border: '1px solid rgba(59,130,246,0.4)', color: '#3B82F6' }}>الفصل {q.semester}</span>}
-                    {q.ai_analyzed && <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: '20px', fontSize: '11px', background: 'rgba(139,92,246,0.2)', border: '1px solid rgba(139,92,246,0.4)', color: '#8B5CF6' }}>🤖 AI</span>}
+                    {q.ai_analyzed && <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: '20px', fontSize: '11px', background: 'rgba(139,92,246,0.2)', border: '1px solid rgba(139,92,246,0.4)', color: '#8B5CF6' }}><Bot className="w-5 h-5 inline-block" /> AI</span>}
                   </div>
-                  {q.explanation && <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px', marginTop: '8px', fontStyle: 'italic' }}>💡 {q.explanation}</div>}
+                  {q.explanation && <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px', marginTop: '8px', fontStyle: 'italic' }}><Lightbulb className="w-5 h-5 inline-block" /> {q.explanation}</div>}
                 </div>
-                {canEdit && <button onClick={() => handleDelete(q.id)} style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer', fontSize: '16px', padding: '4px', flexShrink: 0 }}>🗑️</button>}
+                {canEdit && <button onClick={() => handleDelete(q.id)} style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer', fontSize: '16px', padding: '4px', flexShrink: 0 }}><Trash2 className="w-5 h-5 inline-block" />️</button>}
               </div>
             </div>
           );
@@ -311,8 +312,8 @@ export default function QuestionBankPage() {
       {showAdd && (
         <div style={s.modal} onClick={() => setShowAdd(false)}>
           <div style={s.modalBox} onClick={e => e.stopPropagation()}>
-            <div style={{ color: '#C9A227', fontSize: '18px', fontWeight: 700, marginBottom: '20px' }}>➕ إضافة سؤال جديد</div>
-            {msg && <div style={{ color: msg.includes('✅') ? '#10B981' : '#EF4444', marginBottom: '12px', fontSize: '14px' }}>{msg}</div>}
+            <div style={{ color: '#C9A227', fontSize: '18px', fontWeight: 700, marginBottom: '20px' }}><Plus className="w-5 h-5 inline-block" /> إضافة سؤال جديد</div>
+            {msg && <div style={{ color: msg.includes('<CheckCircle className="w-5 h-5 inline-block" />') ? '#10B981' : '#EF4444', marginBottom: '12px', fontSize: '14px' }}>{msg}</div>}
             <label style={s.label}>نص السؤال *</label>
             <textarea style={{ ...s.input, minHeight: '80px', resize: 'vertical' }} placeholder="اكتب السؤال هنا..." value={form.question_text} onChange={e => setForm({ ...form, question_text: e.target.value })} />
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
@@ -328,9 +329,9 @@ export default function QuestionBankPage() {
               <div>
                 <label style={s.label}>مستوى الصعوبة</label>
                 <select style={{ ...s.input, marginBottom: 0 }} value={form.difficulty} onChange={e => setForm({ ...form, difficulty: e.target.value })}>
-                  <option value="easy">🟢 سهل</option>
-                  <option value="medium">🟡 متوسط</option>
-                  <option value="hard">🔴 صعب</option>
+                  <option value="easy"><Circle className="w-5 h-5 inline-block" /> سهل</option>
+                  <option value="medium"><Circle className="w-5 h-5 inline-block" /> متوسط</option>
+                  <option value="hard"><Circle className="w-5 h-5 inline-block" /> صعب</option>
                 </select>
               </div>
             </div>
@@ -370,7 +371,7 @@ export default function QuestionBankPage() {
             <input style={s.input} placeholder="شرح الإجابة..." value={form.explanation} onChange={e => setForm({ ...form, explanation: e.target.value })} />
             <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '8px' }}>
               <button style={s.btn('#6B7280')} onClick={() => setShowAdd(false)}>إلغاء</button>
-              <button style={s.btn('#10B981')} onClick={handleAdd} disabled={saving}>{saving ? 'جاري الحفظ...' : '✅ حفظ السؤال'}</button>
+              <button style={s.btn('#10B981')} onClick={handleAdd} disabled={saving}>{saving ? 'جاري الحفظ...' : '<CheckCircle className="w-5 h-5 inline-block" /> حفظ السؤال'}</button>
             </div>
           </div>
         </div>
@@ -379,7 +380,7 @@ export default function QuestionBankPage() {
       {showImport && (
         <div style={s.modal} onClick={() => !importing && setShowImport(false)}>
           <div style={{...s.modalBox, maxWidth: '560px', maxHeight: '90vh', overflowY: 'auto'}} onClick={e => e.stopPropagation()}>
-            <div style={{ color: '#C9A227', fontSize: '18px', fontWeight: 700, marginBottom: '20px' }}>📥 استيراد أسئلة من Excel</div>
+            <div style={{ color: '#C9A227', fontSize: '18px', fontWeight: 700, marginBottom: '20px' }}><Download className="w-5 h-5 inline-block" /> استيراد أسئلة من Excel</div>
 
             {/* إعدادات الاستيراد */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
@@ -453,13 +454,13 @@ export default function QuestionBankPage() {
             >
               {importFile ? (
                 <>
-                  <div style={{ fontSize: '32px', marginBottom: '6px' }}>✅</div>
+                  <div style={{ fontSize: '32px', marginBottom: '6px' }}><CheckCircle className="w-5 h-5 inline-block" /></div>
                   <div style={{ color: '#22c55e', fontWeight: 600, fontSize: '14px' }}>{importFile.name}</div>
                   <div style={{ color: '#64748b', fontSize: '12px', marginTop: '4px' }}>{(importFile.size/1024).toFixed(1)} KB - انقر لتغيير الملف</div>
                 </>
               ) : (
                 <>
-                  <div style={{ fontSize: '36px', marginBottom: '8px' }}>📊</div>
+                  <div style={{ fontSize: '36px', marginBottom: '8px' }}><BarChart3 className="w-5 h-5 inline-block" /></div>
                   <div style={{ fontSize: '14px', color: '#C9A227', fontWeight: 600 }}>اسحب ملف Excel هنا أو انقر للاختيار</div>
                   <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '6px' }}>يدعم: .xlsx, .xls - جميع هياكل ملفات متين</div>
                 </>
@@ -470,7 +471,7 @@ export default function QuestionBankPage() {
 
             {/* رسالة الحالة */}
             {importProgress && (
-              <div style={{ background: importProgress.includes('❌') ? 'rgba(239,68,68,0.1)' : 'rgba(201,162,39,0.1)', border: `1px solid ${importProgress.includes('❌') ? '#ef4444' : '#C9A227'}40`, borderRadius: '8px', padding: '10px 14px', marginBottom: '16px', color: importProgress.includes('❌') ? '#ef4444' : '#C9A227', fontSize: '13px' }}>
+              <div style={{ background: importProgress.includes('<XCircle className="w-5 h-5 inline-block" />') ? 'rgba(239,68,68,0.1)' : 'rgba(201,162,39,0.1)', border: `1px solid ${importProgress.includes('<XCircle className="w-5 h-5 inline-block" />') ? '#ef4444' : '#C9A227'}40`, borderRadius: '8px', padding: '10px 14px', marginBottom: '16px', color: importProgress.includes('<XCircle className="w-5 h-5 inline-block" />') ? '#ef4444' : '#C9A227', fontSize: '13px' }}>
                 {importProgress}
               </div>
             )}
@@ -478,7 +479,7 @@ export default function QuestionBankPage() {
             {/* نتائج الاستيراد */}
             {importResult && (
               <div style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '10px', padding: '16px', marginBottom: '16px' }}>
-                <div style={{ color: '#22c55e', fontWeight: 700, marginBottom: '12px', fontSize: '14px' }}>✅ {importResult.message}</div>
+                <div style={{ color: '#22c55e', fontWeight: 700, marginBottom: '12px', fontSize: '14px' }}><CheckCircle className="w-5 h-5 inline-block" /> {importResult.message}</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '8px', marginBottom: '12px' }}>
                   {[['الكل', importResult.bankStats?.total, '#3b82f6'],['سهل', importResult.bankStats?.easy, '#22c55e'],['متوسط', importResult.bankStats?.medium, '#f59e0b'],['صعب', importResult.bankStats?.hard, '#ef4444']].map(([l,v,c]) => (
                     <div key={l as string} style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '6px', padding: '8px', textAlign: 'center' }}>
@@ -499,7 +500,7 @@ export default function QuestionBankPage() {
             <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
               <button style={s.btn('#6B7280')} onClick={() => { setShowImport(false); setImportResult(null); setImportFile(null); setImportProgress(''); }} disabled={importing}>إغلاق</button>
               <button style={s.btn('#C9A227')} onClick={handleImport} disabled={importing || !importFile}>
-                {importing ? '⏳ جاري الاستيراد...' : '📥 استيراد الأسئلة'}
+                {importing ? '⏳ جاري الاستيراد...' : '<Download className="w-5 h-5 inline-block" /> استيراد الأسئلة'}
               </button>
             </div>
           </div>

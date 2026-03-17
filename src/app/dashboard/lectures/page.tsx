@@ -1,4 +1,5 @@
 'use client';
+import { BarChart3, BookOpen, Bot, Calendar, Check, CheckCircle, Circle, Clapperboard, ClipboardList, File, FileText, Gamepad2, Link, Mic, Mic2, Monitor, Pencil, Plus, Save, Trash2, Video } from "lucide-react";
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
@@ -12,12 +13,12 @@ const getHeaders = (): Record<string, string> => {
 };
 
 const LECTURE_TYPES = [
-  { value: 'video', label: 'فيديو مسجل', icon: '🎬' },
-  { value: 'live', label: 'بث مباشر', icon: '🔴' },
-  { value: 'document', label: 'ملف/وثيقة', icon: '📄' },
-  { value: 'audio', label: 'تسجيل صوتي', icon: '🎙' },
-  { value: 'presentation', label: 'عرض تقديمي', icon: '📊' },
-  { value: 'interactive', label: 'تفاعلي', icon: '🎮' },
+  { value: 'video', label: 'فيديو مسجل', icon: '<Clapperboard className="w-5 h-5 inline-block" />' },
+  { value: 'live', label: 'بث مباشر', icon: '<Circle className="w-5 h-5 inline-block" />' },
+  { value: 'document', label: 'ملف/وثيقة', icon: '<File className="w-5 h-5 inline-block" />' },
+  { value: 'audio', label: 'تسجيل صوتي', icon: '<Mic2 className="w-5 h-5 inline-block" />' },
+  { value: 'presentation', label: 'عرض تقديمي', icon: '<BarChart3 className="w-5 h-5 inline-block" />' },
+  { value: 'interactive', label: 'تفاعلي', icon: '<Gamepad2 className="w-5 h-5 inline-block" />' },
 ];
 
 export default function LecturesPage() {
@@ -88,7 +89,7 @@ export default function LecturesPage() {
       const res = await fetch('/api/lectures', {
         method: 'POST', headers: getHeaders(), body: JSON.stringify(form),
       });
-      if (res.ok) { fetchAll(); setTab('list'); alert('✅ تم إنشاء المحاضرة'); }
+      if (res.ok) { fetchAll(); setTab('list'); alert('<CheckCircle className="w-5 h-5 inline-block" /> تم إنشاء المحاضرة'); }
       else { const e = await res.json(); alert(e.error || 'خطأ'); }
     } catch { alert('خطأ'); } finally { setCreateLoading(false); }
   };
@@ -100,7 +101,7 @@ export default function LecturesPage() {
       const res = await fetch('/api/live-sessions', {
         method: 'POST', headers: getHeaders(), body: JSON.stringify(liveForm),
       });
-      if (res.ok) { fetchAll(); alert('✅ تم إنشاء جلسة البث'); }
+      if (res.ok) { fetchAll(); alert('<CheckCircle className="w-5 h-5 inline-block" /> تم إنشاء جلسة البث'); }
       else { const e = await res.json(); alert(e.error || 'خطأ'); }
     } catch { alert('خطأ'); } finally { setLiveLoading(false); }
   };
@@ -115,7 +116,7 @@ export default function LecturesPage() {
     try {
       const res = await fetch(`/api/lectures/${id}/ai-summary`, { method: 'POST', headers: getHeaders() });
       const data = await res.json();
-      if (data.summary) alert(`📝 ملخص الذكاء الاصطناعي:\n\n${data.summary}`);
+      if (data.summary) alert(`<FileText className="w-5 h-5 inline-block" /> ملخص الذكاء الاصطناعي:\n\n${data.summary}`);
       else alert('لم يتمكن الذكاء الاصطناعي من توليد الملخص');
     } catch { alert('خطأ'); }
   };
@@ -126,12 +127,12 @@ export default function LecturesPage() {
       {/* الهيدر */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28, flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ color: '#fff', fontSize: 24, fontWeight: 800, margin: 0 }}>🎤 المحاضرات والتعلم الإلكتروني</h1>
+          <h1 style={{ color: '#fff', fontSize: 24, fontWeight: 800, margin: 0 }}><Mic className="w-5 h-5 inline-block" /> المحاضرات والتعلم الإلكتروني</h1>
           <p style={{ color: '#9CA3AF', fontSize: 14, margin: '4px 0 0' }}>إدارة المحاضرات والدورات والبث المباشر</p>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
           <button onClick={() => setTab('live')} style={{ background: 'linear-gradient(135deg, #EF4444, #F87171)', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 700 }}>
-            🔴 بث مباشر
+            <Circle className="w-5 h-5 inline-block" /> بث مباشر
           </button>
           <button onClick={() => setTab('create')} style={{ background: 'linear-gradient(135deg, #C9A227, #f0c040)', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 700 }}>
             + محاضرة جديدة
@@ -142,10 +143,10 @@ export default function LecturesPage() {
       {/* التبويبات */}
       <div style={{ display: 'flex', gap: 4, marginBottom: 24, background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: 4 }}>
         {[
-          { key: 'list', label: '📋 المحاضرات', count: lectures.length },
-          { key: 'courses', label: '📚 الدورات', count: courses.length },
-          { key: 'live', label: '🔴 البث المباشر', count: liveSessions.length },
-          { key: 'create', label: '➕ إضافة محاضرة', count: null },
+          { key: 'list', label: '<ClipboardList className="w-5 h-5 inline-block" /> المحاضرات', count: lectures.length },
+          { key: 'courses', label: '<BookOpen className="w-5 h-5 inline-block" /> الدورات', count: courses.length },
+          { key: 'live', label: '<Circle className="w-5 h-5 inline-block" /> البث المباشر', count: liveSessions.length },
+          { key: 'create', label: '<Plus className="w-5 h-5 inline-block" /> إضافة محاضرة', count: null },
         ].map(t => (
           <button key={t.key} onClick={() => setTab(t.key as any)} style={{
             background: tab === t.key ? 'rgba(201,162,39,0.2)' : 'transparent',
@@ -168,10 +169,10 @@ export default function LecturesPage() {
           {/* إحصائيات */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 24 }}>
             {[
-              { label: 'إجمالي المحاضرات', value: lectures.length, icon: '🎬', color: '#3B82F6' },
-              { label: 'فيديو مسجل', value: lectures.filter(l => l.type === 'video').length, icon: '📹', color: '#8B5CF6' },
-              { label: 'بث مباشر', value: liveSessions.filter(l => l.status === 'live').length, icon: '🔴', color: '#EF4444' },
-              { label: 'الدورات', value: courses.length, icon: '📚', color: '#10B981' },
+              { label: 'إجمالي المحاضرات', value: lectures.length, icon: '<Clapperboard className="w-5 h-5 inline-block" />', color: '#3B82F6' },
+              { label: 'فيديو مسجل', value: lectures.filter(l => l.type === 'video').length, icon: '<Video className="w-5 h-5 inline-block" />', color: '#8B5CF6' },
+              { label: 'بث مباشر', value: liveSessions.filter(l => l.status === 'live').length, icon: '<Circle className="w-5 h-5 inline-block" />', color: '#EF4444' },
+              { label: 'الدورات', value: courses.length, icon: '<BookOpen className="w-5 h-5 inline-block" />', color: '#10B981' },
             ].map((s, i) => (
               <div key={i} style={{ background: `${s.color}10`, border: `1px solid ${s.color}25`, borderRadius: 14, padding: '16px 20px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -189,7 +190,7 @@ export default function LecturesPage() {
             <div style={{ textAlign: 'center', padding: '48px', color: '#9CA3AF' }}>⏳ جاري التحميل...</div>
           ) : lectures.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '64px', background: 'rgba(255,255,255,0.02)', borderRadius: 20, border: '1px dashed rgba(255,255,255,0.1)' }}>
-              <div style={{ fontSize: 64, marginBottom: 16 }}>🎤</div>
+              <div style={{ fontSize: 64, marginBottom: 16 }}><Mic className="w-5 h-5 inline-block" /></div>
               <div style={{ color: '#fff', fontSize: 18, fontWeight: 700 }}>لا توجد محاضرات بعد</div>
               <button onClick={() => setTab('create')} style={{ marginTop: 20, background: '#C9A227', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 10, cursor: 'pointer', fontWeight: 700 }}>
                 + إضافة محاضرة
@@ -219,7 +220,7 @@ export default function LecturesPage() {
                     </div>
                     <div style={{ padding: '14px 16px' }}>
                       <h3 style={{ color: '#fff', fontSize: 14, fontWeight: 700, margin: '0 0 6px' }}>{lec.title}</h3>
-                      {lec.subject && <div style={{ color: '#9CA3AF', fontSize: 12, marginBottom: 4 }}>📚 {lec.subject} {lec.grade ? `• ${lec.grade}` : ''}</div>}
+                      {lec.subject && <div style={{ color: '#9CA3AF', fontSize: 12, marginBottom: 4 }}><BookOpen className="w-5 h-5 inline-block" /> {lec.subject} {lec.grade ? `• ${lec.grade}` : ''}</div>}
                       {lec.description && <div style={{ color: '#6B7280', fontSize: 12, lineHeight: 1.5 }}>{lec.description?.substring(0, 80)}...</div>}
                       <div style={{ display: 'flex', gap: 6, marginTop: 12 }}>
                         {lec.video_url && (
@@ -228,10 +229,10 @@ export default function LecturesPage() {
                           </a>
                         )}
                         <button onClick={() => generateAISummary(lec.id)} style={{ background: 'rgba(124,58,237,0.15)', color: '#A78BFA', border: 'none', fontSize: 12, padding: '7px 10px', borderRadius: 8, cursor: 'pointer', fontWeight: 600 }}>
-                          🤖 ملخص AI
+                          <Bot className="w-5 h-5 inline-block" /> ملخص AI
                         </button>
                         <button onClick={() => deleteLecture(lec.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', fontSize: 12, padding: '7px 10px', borderRadius: 8, cursor: 'pointer' }}>
-                          🗑
+                          <Trash2 className="w-5 h-5 inline-block" />
                         </button>
                       </div>
                     </div>
@@ -250,7 +251,7 @@ export default function LecturesPage() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
           {/* إنشاء جلسة بث */}
           <div style={{ background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 16, padding: '24px' }}>
-            <h3 style={{ color: '#EF4444', fontSize: 16, fontWeight: 700, marginBottom: 20 }}>🔴 جلسة بث مباشر جديدة</h3>
+            <h3 style={{ color: '#EF4444', fontSize: 16, fontWeight: 700, marginBottom: 20 }}><Circle className="w-5 h-5 inline-block" /> جلسة بث مباشر جديدة</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div>
                 <label style={{ color: '#9CA3AF', fontSize: 12, display: 'block', marginBottom: 6 }}>عنوان الجلسة *</label>
@@ -297,17 +298,17 @@ export default function LecturesPage() {
                 color: '#fff', border: 'none', padding: '12px', borderRadius: 10,
                 cursor: liveLoading ? 'not-allowed' : 'pointer', fontSize: 14, fontWeight: 700,
               }}>
-                {liveLoading ? '⏳ جاري الإنشاء...' : '🔴 إنشاء جلسة البث'}
+                {liveLoading ? '⏳ جاري الإنشاء...' : '<Circle className="w-5 h-5 inline-block" /> إنشاء جلسة البث'}
               </button>
             </div>
           </div>
 
           {/* الجلسات المجدولة */}
           <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, padding: '24px' }}>
-            <h3 style={{ color: '#fff', fontSize: 16, fontWeight: 700, marginBottom: 20 }}>📅 الجلسات المجدولة</h3>
+            <h3 style={{ color: '#fff', fontSize: 16, fontWeight: 700, marginBottom: 20 }}><Calendar className="w-5 h-5 inline-block" /> الجلسات المجدولة</h3>
             {liveSessions.length === 0 ? (
               <div style={{ textAlign: 'center', padding: '32px 0', color: '#6B7280' }}>
-                <div style={{ fontSize: 40, marginBottom: 10 }}>📅</div>
+                <div style={{ fontSize: 40, marginBottom: 10 }}><Calendar className="w-5 h-5 inline-block" /></div>
                 <div>لا توجد جلسات مجدولة</div>
               </div>
             ) : liveSessions.map((session: any, i: number) => (
@@ -315,17 +316,17 @@ export default function LecturesPage() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                      {session.status === 'live' && <span style={{ background: 'rgba(239,68,68,0.2)', color: '#EF4444', fontSize: 11, padding: '2px 8px', borderRadius: 20, fontWeight: 700 }}>🔴 مباشر الآن</span>}
-                      {session.status === 'scheduled' && <span style={{ background: 'rgba(59,130,246,0.15)', color: '#3B82F6', fontSize: 11, padding: '2px 8px', borderRadius: 20, fontWeight: 700 }}>📅 مجدول</span>}
-                      {session.status === 'ended' && <span style={{ background: 'rgba(156,163,175,0.15)', color: '#9CA3AF', fontSize: 11, padding: '2px 8px', borderRadius: 20, fontWeight: 700 }}>✓ انتهى</span>}
+                      {session.status === 'live' && <span style={{ background: 'rgba(239,68,68,0.2)', color: '#EF4444', fontSize: 11, padding: '2px 8px', borderRadius: 20, fontWeight: 700 }}><Circle className="w-5 h-5 inline-block" /> مباشر الآن</span>}
+                      {session.status === 'scheduled' && <span style={{ background: 'rgba(59,130,246,0.15)', color: '#3B82F6', fontSize: 11, padding: '2px 8px', borderRadius: 20, fontWeight: 700 }}><Calendar className="w-5 h-5 inline-block" /> مجدول</span>}
+                      {session.status === 'ended' && <span style={{ background: 'rgba(156,163,175,0.15)', color: '#9CA3AF', fontSize: 11, padding: '2px 8px', borderRadius: 20, fontWeight: 700 }}><Check className="w-5 h-5 inline-block" /> انتهى</span>}
                     </div>
                     <div style={{ color: '#E2E8F0', fontSize: 14, fontWeight: 700 }}>{session.title}</div>
                     {session.scheduled_at && (
                       <div style={{ color: '#9CA3AF', fontSize: 12, marginTop: 4 }}>
-                        📅 {new Date(session.scheduled_at).toLocaleString('ar-SA')}
+                        <Calendar className="w-5 h-5 inline-block" /> {new Date(session.scheduled_at).toLocaleString('ar-SA')}
                       </div>
                     )}
-                    {session.platform && <div style={{ color: '#9CA3AF', fontSize: 12 }}>🖥 {session.platform}</div>}
+                    {session.platform && <div style={{ color: '#9CA3AF', fontSize: 12 }}><Monitor className="w-5 h-5 inline-block" /> {session.platform}</div>}
                   </div>
                   {session.meeting_link && (
                     <a href={session.meeting_link} target="_blank" rel="noreferrer" style={{
@@ -333,7 +334,7 @@ export default function LecturesPage() {
                       color: session.status === 'live' ? '#EF4444' : '#3B82F6',
                       fontSize: 12, padding: '7px 12px', borderRadius: 8, textDecoration: 'none', fontWeight: 600,
                     }}>
-                      {session.status === 'live' ? '🔴 انضم الآن' : '🔗 الرابط'}
+                      {session.status === 'live' ? '<Circle className="w-5 h-5 inline-block" /> انضم الآن' : '<Link className="w-5 h-5 inline-block" /> الرابط'}
                     </a>
                   )}
                 </div>
@@ -349,7 +350,7 @@ export default function LecturesPage() {
       {tab === 'create' && (
         <div style={{ maxWidth: 700, margin: '0 auto' }}>
           <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, padding: '28px' }}>
-            <h3 style={{ color: '#fff', fontSize: 18, fontWeight: 700, marginBottom: 24 }}>➕ إضافة محاضرة جديدة</h3>
+            <h3 style={{ color: '#fff', fontSize: 18, fontWeight: 700, marginBottom: 24 }}><Plus className="w-5 h-5 inline-block" /> إضافة محاضرة جديدة</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {/* نوع المحاضرة */}
               <div>
@@ -409,7 +410,7 @@ export default function LecturesPage() {
                 {[
                   { key: 'is_free', label: 'محاضرة مجانية' },
                   { key: 'allow_download', label: 'السماح بالتحميل' },
-                  { key: 'ai_summary', label: '🤖 توليد ملخص AI تلقائياً' },
+                  { key: 'ai_summary', label: '<Bot className="w-5 h-5 inline-block" /> توليد ملخص AI تلقائياً' },
                 ].map(opt => (
                   <label key={opt.key} style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
                     <input type="checkbox" checked={(form as any)[opt.key]} onChange={e => setForm({ ...form, [opt.key]: e.target.checked })} />
@@ -423,7 +424,7 @@ export default function LecturesPage() {
                 color: '#fff', border: 'none', padding: '14px', borderRadius: 12,
                 cursor: createLoading ? 'not-allowed' : 'pointer', fontSize: 15, fontWeight: 700,
               }}>
-                {createLoading ? '⏳ جاري الحفظ...' : '💾 حفظ المحاضرة'}
+                {createLoading ? '⏳ جاري الحفظ...' : '<Save className="w-5 h-5 inline-block" /> حفظ المحاضرة'}
               </button>
             </div>
           </div>
@@ -442,7 +443,7 @@ export default function LecturesPage() {
           </div>
           {courses.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '64px', background: 'rgba(255,255,255,0.02)', borderRadius: 20, border: '1px dashed rgba(255,255,255,0.1)' }}>
-              <div style={{ fontSize: 64, marginBottom: 16 }}>📚</div>
+              <div style={{ fontSize: 64, marginBottom: 16 }}><BookOpen className="w-5 h-5 inline-block" /></div>
               <div style={{ color: '#fff', fontSize: 18, fontWeight: 700 }}>لا توجد دورات بعد</div>
               <div style={{ color: '#9CA3AF', marginTop: 8 }}>أنشئ دورة وأضف لها المحاضرات</div>
             </div>
@@ -451,14 +452,14 @@ export default function LecturesPage() {
               {courses.map((c: any) => (
                 <div key={c.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}>
                   <div style={{ height: 140, background: 'linear-gradient(135deg, #1a2d4a, #06060E)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {c.thumbnail ? <img src={c.thumbnail} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 48 }}>📚</span>}
+                    {c.thumbnail ? <img src={c.thumbnail} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 48 }}><BookOpen className="w-5 h-5 inline-block" /></span>}
                   </div>
                   <div style={{ padding: '14px 16px' }}>
                     <h3 style={{ color: '#fff', fontSize: 15, fontWeight: 700, margin: '0 0 6px' }}>{c.title}</h3>
-                    {c.subject && <div style={{ color: '#9CA3AF', fontSize: 12 }}>📚 {c.subject}</div>}
+                    {c.subject && <div style={{ color: '#9CA3AF', fontSize: 12 }}><BookOpen className="w-5 h-5 inline-block" /> {c.subject}</div>}
                     <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
                       <span style={{ background: c.is_published ? 'rgba(16,185,129,0.15)' : 'rgba(156,163,175,0.15)', color: c.is_published ? '#10B981' : '#9CA3AF', fontSize: 11, padding: '3px 10px', borderRadius: 20, fontWeight: 700 }}>
-                        {c.is_published ? '✓ منشور' : '📝 مسودة'}
+                        {c.is_published ? '<Check className="w-5 h-5 inline-block" /> منشور' : '<FileText className="w-5 h-5 inline-block" /> مسودة'}
                       </span>
                       <span style={{ color: '#9CA3AF', fontSize: 12 }}>{c.lectures_count || 0} محاضرة</span>
                     </div>
@@ -475,7 +476,7 @@ export default function LecturesPage() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, overflowY: 'auto', padding: 20 }}>
           <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 520, direction: 'rtl', margin: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>{editItem ? '✏️ تعديل المحاضرة' : '+ إضافة محاضرة'}</h2>
+              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>{editItem ? '<Pencil className="w-5 h-5 inline-block" />️ تعديل المحاضرة' : '+ إضافة محاضرة'}</h2>
               <button onClick={() => { setShowModal(false); setErrMsg(''); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
             </div>
             {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}

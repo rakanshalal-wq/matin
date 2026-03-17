@@ -1,4 +1,5 @@
 'use client';
+import { AlertTriangle, BarChart3, CheckCircle, Download, FileText, Medal, TrendingUp, Trophy, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 
 const getHeaders = (): Record<string, string> => {
@@ -115,21 +116,21 @@ export default function GradesPage() {
     <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>📊 الدرجات والتقييم</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><BarChart3 className="w-5 h-5 inline-block" /> الدرجات والتقييم</h1>
           <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>متابعة درجات الطلاب وتحليل الاداء الاكاديمي</p>
         </div>
         <div style={{ display: 'flex', gap: 12 }}>
-          <button onClick={exportCSV} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid ' + BORDER, borderRadius: 10, padding: '10px 18px', color: 'white', cursor: 'pointer', fontSize: 14 }}>📥 تصدير كشف الدرجات</button>
+          <button onClick={exportCSV} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid ' + BORDER, borderRadius: 10, padding: '10px 18px', color: 'white', cursor: 'pointer', fontSize: 14 }}><Download className="w-5 h-5 inline-block" /> تصدير كشف الدرجات</button>
           <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ اضافة درجة</button>
         </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 28 }}>
         {[
-          { label: 'اجمالي السجلات', value: filtered.length, color: GOLD, icon: '📝' },
-          { label: 'متوسط الدرجات', value: avgScore + '%', color: getGradeColor(avgScore), icon: '📈' },
-          { label: 'الراسبون', value: failCount, color: '#EF4444', icon: '⚠️' },
-          { label: 'الناجحون', value: filtered.length - failCount, color: '#10B981', icon: '✅' },
+          { label: 'اجمالي السجلات', value: filtered.length, color: GOLD, icon: '<FileText className="w-5 h-5 inline-block" />' },
+          { label: 'متوسط الدرجات', value: avgScore + '%', color: getGradeColor(avgScore), icon: '<TrendingUp className="w-5 h-5 inline-block" />' },
+          { label: 'الراسبون', value: failCount, color: '#EF4444', icon: '<AlertTriangle className="w-5 h-5 inline-block" />️' },
+          { label: 'الناجحون', value: filtered.length - failCount, color: '#10B981', icon: '<CheckCircle className="w-5 h-5 inline-block" />' },
         ].map((s, i) => (
           <div key={i} style={{ background: CARD_BG, border: '1px solid ' + BORDER, borderRadius: 14, padding: '18px 20px' }}>
             <div style={{ fontSize: 24, marginBottom: 8 }}>{s.icon}</div>
@@ -141,13 +142,13 @@ export default function GradesPage() {
 
       {topStudents.length > 0 && (
         <div style={{ background: CARD_BG, border: '1px solid ' + BORDER, borderRadius: 14, padding: 20, marginBottom: 24 }}>
-          <h3 style={{ color: GOLD, fontSize: 15, fontWeight: 700, margin: '0 0 16px' }}>🏆 المتفوقون</h3>
+          <h3 style={{ color: GOLD, fontSize: 15, fontWeight: 700, margin: '0 0 16px' }}><Trophy className="w-5 h-5 inline-block" /> المتفوقون</h3>
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
             {topStudents.map((s: any, i: number) => {
               const pct = Math.round((s.score / s.max_score) * 100);
               return (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, background: 'rgba(255,255,255,0.04)', borderRadius: 10, padding: '10px 16px' }}>
-                  <span style={{ fontSize: 20 }}>{['🥇', '🥈', '🥉'][i]}</span>
+                  <span style={{ fontSize: 20 }}>{['<Medal className="w-5 h-5 inline-block" />', '<Medal className="w-5 h-5 inline-block" />', '<Medal className="w-5 h-5 inline-block" />'][i]}</span>
                   <div>
                     <div style={{ color: 'white', fontWeight: 600, fontSize: 14 }}>{s.student_name}</div>
                     <div style={{ color: getGradeColor(pct), fontSize: 13 }}>{pct}% — {s.subject}</div>
@@ -176,7 +177,7 @@ export default function GradesPage() {
           <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>جاري التحميل...</div>
         ) : filtered.length === 0 ? (
           <div style={{ textAlign: 'center', padding: 60 }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>📊</div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}><BarChart3 className="w-5 h-5 inline-block" /></div>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 16 }}>لا توجد درجات مسجلة</p>
             <button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ اضافة اول درجة</button>
           </div>
@@ -233,7 +234,7 @@ export default function GradesPage() {
           <div style={{ background: '#12121F', border: '1px solid ' + BORDER, borderRadius: 20, padding: 32, width: '100%', maxWidth: 520, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
               <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل الدرجة' : 'اضافة درجة جديدة'}</h2>
-              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 22, cursor: 'pointer' }}>✕</button>
+              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 22, cursor: 'pointer' }}><X className="w-5 h-5 inline-block" /></button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ gridColumn: '1/-1' }}>

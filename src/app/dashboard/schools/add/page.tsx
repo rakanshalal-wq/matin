@@ -1,4 +1,5 @@
 'use client';
+import { AlertTriangle, CheckCircle, File, FileText, MapPin, Phone, Plus, School, User } from "lucide-react";
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -80,7 +81,7 @@ export default function AddSchoolPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>➕ إضافة مدرسة جديدة</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><Plus className="w-5 h-5 inline-block" /> إضافة مدرسة جديدة</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>أضف مدرسة أو جامعة أو معهد جديد للمنصة</p>
         </div>
         <Link href="/dashboard/schools" style={{
@@ -106,7 +107,7 @@ export default function AddSchoolPage() {
           marginBottom: 24,
           color: '#EF4444',
         }}>
-          ⚠️ {error}
+          <AlertTriangle className="w-5 h-5 inline-block" />️ {error}
         </div>
       )}
 
@@ -121,7 +122,7 @@ export default function AddSchoolPage() {
           marginBottom: 24,
         }}>
           <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
-            🏫 معلومات المدرسة الأساسية
+            <School className="w-5 h-5 inline-block" /> معلومات المدرسة الأساسية
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
             <div>
@@ -166,7 +167,7 @@ export default function AddSchoolPage() {
           marginBottom: 24,
         }}>
           <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
-            📞 معلومات التواصل
+            <Phone className="w-5 h-5 inline-block" /> معلومات التواصل
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
             <div>
@@ -193,7 +194,7 @@ export default function AddSchoolPage() {
           marginBottom: 24,
         }}>
           <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
-            📍 العنوان
+            <MapPin className="w-5 h-5 inline-block" /> العنوان
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
             <div>
@@ -220,7 +221,7 @@ export default function AddSchoolPage() {
           marginBottom: 24,
         }}>
           <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
-            👤 معلومات المالك / المدير
+            <User className="w-5 h-5 inline-block" /> معلومات المالك / المدير
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
             <div>
@@ -247,7 +248,7 @@ export default function AddSchoolPage() {
           marginBottom: 24,
         }}>
           <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
-            📄 معلومات الترخيص
+            <File className="w-5 h-5 inline-block" /> معلومات الترخيص
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
             <div>
@@ -278,7 +279,7 @@ export default function AddSchoolPage() {
           marginBottom: 24,
         }}>
           <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
-            📝 ملاحظات
+            <FileText className="w-5 h-5 inline-block" /> ملاحظات
           </h2>
           <textarea
             name="notes"
@@ -313,7 +314,7 @@ export default function AddSchoolPage() {
             cursor: loading ? 'not-allowed' : 'pointer',
             fontSize: 16,
           }}>
-            {loading ? '⏳ جاري الحفظ...' : '✅ حفظ المدرسة'}
+            {loading ? '⏳ جاري الحفظ...' : '<CheckCircle className="w-5 h-5 inline-block" /> حفظ المدرسة'}
           </button>
         </div>
       </form>

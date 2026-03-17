@@ -1,4 +1,5 @@
 'use client';
+import { BarChart3, BookOpen, Bot, Calendar, Check, CheckCircle, Circle, ClipboardList, Eye, FileText, GraduationCap, HelpCircle, Landmark, Link, Megaphone, Pencil, Percent, Plus, Save, Settings, Sparkles, Trash2, Users, X, XCircle } from "lucide-react";
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
@@ -20,12 +21,12 @@ const STATUS_MAP: Record<string, { label: string; color: string; bg: string }> =
 };
 
 const QUESTION_TYPES = [
-  { value: 'MCQ', label: 'اختيار من متعدد', icon: '🔘' },
-  { value: 'TRUE_FALSE', label: 'صح أو خطأ', icon: '✅' },
-  { value: 'SHORT_ANSWER', label: 'إجابة قصيرة', icon: '✏️' },
-  { value: 'ESSAY', label: 'مقالي', icon: '📝' },
-  { value: 'FILL_BLANK', label: 'ملء الفراغ', icon: '📋' },
-  { value: 'MATCHING', label: 'مطابقة', icon: '🔗' },
+  { value: 'MCQ', label: 'اختيار من متعدد', icon: '<Circle className="w-5 h-5 inline-block" />' },
+  { value: 'TRUE_FALSE', label: 'صح أو خطأ', icon: '<CheckCircle className="w-5 h-5 inline-block" />' },
+  { value: 'SHORT_ANSWER', label: 'إجابة قصيرة', icon: '<Pencil className="w-5 h-5 inline-block" />️' },
+  { value: 'ESSAY', label: 'مقالي', icon: '<FileText className="w-5 h-5 inline-block" />' },
+  { value: 'FILL_BLANK', label: 'ملء الفراغ', icon: '<ClipboardList className="w-5 h-5 inline-block" />' },
+  { value: 'MATCHING', label: 'مطابقة', icon: '<Link className="w-5 h-5 inline-block" />' },
 ];
 
 export default function SmartExamsPage() {
@@ -96,7 +97,7 @@ export default function SmartExamsPage() {
         headers: getHeaders(),
         body: JSON.stringify({ ...form, questions }),
       });
-      if (res.ok) { fetchExams(); setTab('list'); setQuestions([]); setForm({ ...form, title_ar: '', subject: '' }); alert('✅ تم إنشاء الاختبار'); }
+      if (res.ok) { fetchExams(); setTab('list'); setQuestions([]); setForm({ ...form, title_ar: '', subject: '' }); alert('<CheckCircle className="w-5 h-5 inline-block" /> تم إنشاء الاختبار'); }
       else { const e = await res.json(); alert(e.error || 'خطأ'); }
     } catch { alert('خطأ في الاتصال'); }
   };
@@ -151,7 +152,7 @@ export default function SmartExamsPage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'فشل تحديث الاختبار');
-      setEditOk('تم تحديث الاختبار بنجاح ✓');
+      setEditOk('تم تحديث الاختبار بنجاح <Check className="w-5 h-5 inline-block" />');
       setTimeout(() => { setShowModal(false); setEditOk(''); fetchExams(); }, 1500);
     } catch (e: any) { setEditErr(e.message); }
     finally { setEditLoading(false); }
@@ -169,7 +170,7 @@ export default function SmartExamsPage() {
       {/* الهيدر */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28, flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ color: '#fff', fontSize: 24, fontWeight: 800, margin: 0 }}>📝 الاختبارات الذكية</h1>
+          <h1 style={{ color: '#fff', fontSize: 24, fontWeight: 800, margin: 0 }}><FileText className="w-5 h-5 inline-block" /> الاختبارات الذكية</h1>
           <p style={{ color: '#9CA3AF', fontSize: 14, margin: '4px 0 0' }}>إنشاء وإدارة الاختبارات مع دعم الذكاء الاصطناعي</p>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
@@ -177,7 +178,7 @@ export default function SmartExamsPage() {
             background: 'linear-gradient(135deg, #7C3AED, #A78BFA)',
             color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 700,
           }}>
-            🤖 توليد بالذكاء الاصطناعي
+            <Bot className="w-5 h-5 inline-block" /> توليد بالذكاء الاصطناعي
           </button>
           <button onClick={() => setTab('create')} style={{
             background: 'linear-gradient(135deg, #C9A227, #f0c040)',
@@ -191,10 +192,10 @@ export default function SmartExamsPage() {
       {/* التبويبات */}
       <div style={{ display: 'flex', gap: 4, marginBottom: 24, background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: 4 }}>
         {[
-          { key: 'list', label: '📋 الاختبارات', count: exams.length },
-          { key: 'create', label: '➕ إنشاء اختبار', count: null },
-          { key: 'bank', label: '🏦 بنك الأسئلة', count: null },
-          { key: 'results', label: '📊 النتائج والتحليل', count: null },
+          { key: 'list', label: '<ClipboardList className="w-5 h-5 inline-block" /> الاختبارات', count: exams.length },
+          { key: 'create', label: '<Plus className="w-5 h-5 inline-block" /> إنشاء اختبار', count: null },
+          { key: 'bank', label: '<Landmark className="w-5 h-5 inline-block" /> بنك الأسئلة', count: null },
+          { key: 'results', label: '<BarChart3 className="w-5 h-5 inline-block" /> النتائج والتحليل', count: null },
         ].map(t => (
           <button key={t.key} onClick={() => setTab(t.key as any)} style={{
             background: tab === t.key ? 'rgba(201,162,39,0.2)' : 'transparent',
@@ -217,10 +218,10 @@ export default function SmartExamsPage() {
           {/* إحصائيات سريعة */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 24 }}>
             {[
-              { label: 'إجمالي الاختبارات', value: exams.length, icon: '📝', color: '#3B82F6' },
+              { label: 'إجمالي الاختبارات', value: exams.length, icon: '<FileText className="w-5 h-5 inline-block" />', color: '#3B82F6' },
               { label: 'جاري الآن', value: exams.filter(e => e.status === 'ACTIVE').length, icon: '⏱', color: '#EF4444' },
-              { label: 'منشور', value: exams.filter(e => e.status === 'PUBLISHED').length, icon: '📢', color: '#3B82F6' },
-              { label: 'منتهي', value: exams.filter(e => e.status === 'COMPLETED').length, icon: '✅', color: '#10B981' },
+              { label: 'منشور', value: exams.filter(e => e.status === 'PUBLISHED').length, icon: '<Megaphone className="w-5 h-5 inline-block" />', color: '#3B82F6' },
+              { label: 'منتهي', value: exams.filter(e => e.status === 'COMPLETED').length, icon: '<CheckCircle className="w-5 h-5 inline-block" />', color: '#10B981' },
             ].map((s, i) => (
               <div key={i} style={{ background: `${s.color}10`, border: `1px solid ${s.color}25`, borderRadius: 14, padding: '16px 20px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -238,7 +239,7 @@ export default function SmartExamsPage() {
             <div style={{ textAlign: 'center', padding: '48px', color: '#9CA3AF' }}>⏳ جاري التحميل...</div>
           ) : exams.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '64px', background: 'rgba(255,255,255,0.02)', borderRadius: 20, border: '1px dashed rgba(255,255,255,0.1)' }}>
-              <div style={{ fontSize: 64, marginBottom: 16 }}>📝</div>
+              <div style={{ fontSize: 64, marginBottom: 16 }}><FileText className="w-5 h-5 inline-block" /></div>
               <div style={{ color: '#fff', fontSize: 18, fontWeight: 700 }}>لا توجد اختبارات بعد</div>
               <div style={{ color: '#9CA3AF', marginTop: 8 }}>أنشئ اختبارك الأول أو استخدم الذكاء الاصطناعي</div>
               <button onClick={() => setTab('create')} style={{ marginTop: 20, background: '#C9A227', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 10, cursor: 'pointer', fontWeight: 700 }}>
@@ -255,22 +256,22 @@ export default function SmartExamsPage() {
                       <div style={{ flex: 1 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
                           <span style={{ background: st.bg, color: st.color, fontSize: 11, padding: '3px 10px', borderRadius: 20, fontWeight: 700 }}>{st.label}</span>
-                          {exam.ai_generated && <span style={{ background: 'rgba(124,58,237,0.15)', color: '#A78BFA', fontSize: 11, padding: '3px 10px', borderRadius: 20, fontWeight: 700 }}>🤖 AI</span>}
-                          {exam.ai_proctoring && <span style={{ background: 'rgba(239,68,68,0.15)', color: '#EF4444', fontSize: 11, padding: '3px 10px', borderRadius: 20, fontWeight: 700 }}>👁 مراقبة AI</span>}
+                          {exam.ai_generated && <span style={{ background: 'rgba(124,58,237,0.15)', color: '#A78BFA', fontSize: 11, padding: '3px 10px', borderRadius: 20, fontWeight: 700 }}><Bot className="w-5 h-5 inline-block" /> AI</span>}
+                          {exam.ai_proctoring && <span style={{ background: 'rgba(239,68,68,0.15)', color: '#EF4444', fontSize: 11, padding: '3px 10px', borderRadius: 20, fontWeight: 700 }}><Eye className="w-5 h-5 inline-block" /> مراقبة AI</span>}
                         </div>
                         <h3 style={{ color: '#fff', fontSize: 17, fontWeight: 700, margin: '0 0 6px' }}>{exam.title_ar || exam.title}</h3>
                         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-                          {exam.subject && <span style={{ color: '#9CA3AF', fontSize: 13 }}>📚 {exam.subject}</span>}
-                          {exam.grade && <span style={{ color: '#9CA3AF', fontSize: 13 }}>🎓 {exam.grade}</span>}
+                          {exam.subject && <span style={{ color: '#9CA3AF', fontSize: 13 }}><BookOpen className="w-5 h-5 inline-block" /> {exam.subject}</span>}
+                          {exam.grade && <span style={{ color: '#9CA3AF', fontSize: 13 }}><GraduationCap className="w-5 h-5 inline-block" /> {exam.grade}</span>}
                           {exam.duration && <span style={{ color: '#9CA3AF', fontSize: 13 }}>⏱ {exam.duration} دقيقة</span>}
-                          {exam.total_marks && <span style={{ color: '#9CA3AF', fontSize: 13 }}>💯 {exam.total_marks} درجة</span>}
-                          {exam.questions_count !== undefined && <span style={{ color: '#9CA3AF', fontSize: 13 }}>❓ {exam.questions_count} سؤال</span>}
-                          {exam.scheduled_at && <span style={{ color: '#9CA3AF', fontSize: 13 }}>📅 {new Date(exam.scheduled_at).toLocaleDateString('ar-SA')}</span>}
+                          {exam.total_marks && <span style={{ color: '#9CA3AF', fontSize: 13 }}><Percent className="w-5 h-5 inline-block" /> {exam.total_marks} درجة</span>}
+                          {exam.questions_count !== undefined && <span style={{ color: '#9CA3AF', fontSize: 13 }}><HelpCircle className="w-5 h-5 inline-block" /> {exam.questions_count} سؤال</span>}
+                          {exam.scheduled_at && <span style={{ color: '#9CA3AF', fontSize: 13 }}><Calendar className="w-5 h-5 inline-block" /> {new Date(exam.scheduled_at).toLocaleDateString('ar-SA')}</span>}
                         </div>
                       </div>
                       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                         {exam.status === 'DRAFT' && (
-                          <button onClick={() => updateExamStatus(exam.id, 'PUBLISHED')} style={{ background: 'rgba(59,130,246,0.15)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>📢 نشر</button>
+                          <button onClick={() => updateExamStatus(exam.id, 'PUBLISHED')} style={{ background: 'rgba(59,130,246,0.15)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Megaphone className="w-5 h-5 inline-block" /> نشر</button>
                         )}
                         {exam.status === 'PUBLISHED' && (
                           <button onClick={() => updateExamStatus(exam.id, 'ACTIVE')} style={{ background: 'rgba(239,68,68,0.15)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>▶ تشغيل</button>
@@ -278,9 +279,9 @@ export default function SmartExamsPage() {
                         {exam.status === 'ACTIVE' && (
                           <button onClick={() => updateExamStatus(exam.id, 'COMPLETED')} style={{ background: 'rgba(16,185,129,0.15)', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>⏹ إنهاء</button>
                         )}
-                        <button onClick={() => { setSelectedExam(exam); fetchResults(exam.id); setModalType('results'); setShowModal(true); }} style={{ background: 'rgba(201,162,39,0.15)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>📊 النتائج</button>
-                        <button onClick={() => openEditModal(exam)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.25)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>✏️ تعديل</button>
-                        <button onClick={() => deleteExam(exam.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.2)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>🗑</button>
+                        <button onClick={() => { setSelectedExam(exam); fetchResults(exam.id); setModalType('results'); setShowModal(true); }} style={{ background: 'rgba(201,162,39,0.15)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><BarChart3 className="w-5 h-5 inline-block" /> النتائج</button>
+                        <button onClick={() => openEditModal(exam)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.25)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Pencil className="w-5 h-5 inline-block" />️ تعديل</button>
+                        <button onClick={() => deleteExam(exam.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.2)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Trash2 className="w-5 h-5 inline-block" /></button>
                       </div>
                     </div>
                   </div>
@@ -299,7 +300,7 @@ export default function SmartExamsPage() {
 
           {/* معلومات الاختبار */}
           <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, padding: '24px' }}>
-            <h3 style={{ color: '#fff', fontSize: 16, fontWeight: 700, marginBottom: 20 }}>📋 معلومات الاختبار</h3>
+            <h3 style={{ color: '#fff', fontSize: 16, fontWeight: 700, marginBottom: 20 }}><ClipboardList className="w-5 h-5 inline-block" /> معلومات الاختبار</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               {[
                 { label: 'عنوان الاختبار *', key: 'title_ar', placeholder: 'مثال: اختبار الفصل الأول - رياضيات' },
@@ -343,12 +344,12 @@ export default function SmartExamsPage() {
               </div>
               {/* خيارات متقدمة */}
               <div style={{ background: 'rgba(255,255,255,0.02)', borderRadius: 10, padding: '14px' }}>
-                <div style={{ color: '#9CA3AF', fontSize: 12, fontWeight: 700, marginBottom: 10 }}>⚙️ خيارات متقدمة</div>
+                <div style={{ color: '#9CA3AF', fontSize: 12, fontWeight: 700, marginBottom: 10 }}><Settings className="w-5 h-5 inline-block" />️ خيارات متقدمة</div>
                 {[
                   { key: 'shuffle_questions', label: 'ترتيب عشوائي للأسئلة' },
                   { key: 'allow_review', label: 'السماح بمراجعة الإجابات' },
                   { key: 'show_answers_after', label: 'عرض الإجابات بعد الانتهاء' },
-                  { key: 'ai_proctoring', label: '🤖 تفعيل المراقبة بالذكاء الاصطناعي' },
+                  { key: 'ai_proctoring', label: '<Bot className="w-5 h-5 inline-block" /> تفعيل المراقبة بالذكاء الاصطناعي' },
                 ].map(opt => (
                   <label key={opt.key} style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', marginBottom: 8 }}>
                     <input type="checkbox" checked={(form as any)[opt.key]} onChange={e => setForm({ ...form, [opt.key]: e.target.checked })} />
@@ -363,7 +364,7 @@ export default function SmartExamsPage() {
           <div>
             {/* توليد AI */}
             <div style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.15), rgba(124,58,237,0.05))', border: '1px solid rgba(124,58,237,0.3)', borderRadius: 16, padding: '20px', marginBottom: 16 }}>
-              <h3 style={{ color: '#A78BFA', fontSize: 15, fontWeight: 700, marginBottom: 14 }}>🤖 توليد أسئلة بالذكاء الاصطناعي</h3>
+              <h3 style={{ color: '#A78BFA', fontSize: 15, fontWeight: 700, marginBottom: 14 }}><Bot className="w-5 h-5 inline-block" /> توليد أسئلة بالذكاء الاصطناعي</h3>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
                 <input value={aiForm.subject} onChange={e => setAiForm({ ...aiForm, subject: e.target.value })} placeholder="المادة *"
                   style={{ padding: '9px 12px', borderRadius: 8, border: '1px solid rgba(124,58,237,0.3)', background: 'rgba(124,58,237,0.1)', color: '#fff', fontSize: 13 }} />
@@ -387,17 +388,17 @@ export default function SmartExamsPage() {
                   flex: 1, background: aiLoading ? 'rgba(124,58,237,0.3)' : 'linear-gradient(135deg, #7C3AED, #A78BFA)',
                   color: '#fff', border: 'none', padding: '9px', borderRadius: 8, cursor: aiLoading ? 'not-allowed' : 'pointer', fontSize: 13, fontWeight: 700,
                 }}>
-                  {aiLoading ? '⏳ جاري التوليد...' : '✨ توليد الأسئلة'}
+                  {aiLoading ? '⏳ جاري التوليد...' : '<Sparkles className="w-5 h-5 inline-block" /> توليد الأسئلة'}
                 </button>
               </div>
               {generatedQuestions.length > 0 && (
-                <div style={{ marginTop: 10, color: '#10B981', fontSize: 13 }}>✅ تم توليد {generatedQuestions.length} سؤال وإضافتها للاختبار</div>
+                <div style={{ marginTop: 10, color: '#10B981', fontSize: 13 }}><CheckCircle className="w-5 h-5 inline-block" /> تم توليد {generatedQuestions.length} سؤال وإضافتها للاختبار</div>
               )}
             </div>
 
             {/* إضافة سؤال يدوي */}
             <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, padding: '20px' }}>
-              <h3 style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginBottom: 14 }}>✏️ إضافة سؤال يدوي</h3>
+              <h3 style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginBottom: 14 }}><Pencil className="w-5 h-5 inline-block" />️ إضافة سؤال يدوي</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <select value={currentQ.type} onChange={e => setCurrentQ({ ...currentQ, type: e.target.value })}
                   style={{ padding: '9px 12px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: '#1a2d4a', color: '#fff', fontSize: 13 }}>
@@ -469,7 +470,7 @@ export default function SmartExamsPage() {
               color: '#fff', border: 'none', padding: '14px', borderRadius: 12,
               cursor: 'pointer', fontSize: 15, fontWeight: 700,
             }}>
-              💾 حفظ الاختبار ({questions.length} سؤال)
+              <Save className="w-5 h-5 inline-block" /> حفظ الاختبار ({questions.length} سؤال)
             </button>
           </div>
         </div>
@@ -493,10 +494,10 @@ export default function SmartExamsPage() {
               {/* ملخص النتائج */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 24 }}>
                 {[
-                  { label: 'المشاركون', value: results.length, icon: '👥', color: '#3B82F6' },
-                  { label: 'متوسط الدرجات', value: `${Math.round(results.reduce((s, r) => s + (r.score || 0), 0) / results.length)}%`, icon: '📊', color: '#C9A227' },
-                  { label: 'الناجحون', value: results.filter(r => r.passed).length, icon: '✅', color: '#10B981' },
-                  { label: 'الراسبون', value: results.filter(r => !r.passed).length, icon: '❌', color: '#EF4444' },
+                  { label: 'المشاركون', value: results.length, icon: '<Users className="w-5 h-5 inline-block" />', color: '#3B82F6' },
+                  { label: 'متوسط الدرجات', value: `${Math.round(results.reduce((s, r) => s + (r.score || 0), 0) / results.length)}%`, icon: '<BarChart3 className="w-5 h-5 inline-block" />', color: '#C9A227' },
+                  { label: 'الناجحون', value: results.filter(r => r.passed).length, icon: '<CheckCircle className="w-5 h-5 inline-block" />', color: '#10B981' },
+                  { label: 'الراسبون', value: results.filter(r => !r.passed).length, icon: '<XCircle className="w-5 h-5 inline-block" />', color: '#EF4444' },
                 ].map((s, i) => (
                   <div key={i} style={{ background: `${s.color}10`, border: `1px solid ${s.color}25`, borderRadius: 14, padding: '16px 20px' }}>
                     <div style={{ color: '#9CA3AF', fontSize: 12 }}>{s.label}</div>
@@ -531,7 +532,7 @@ export default function SmartExamsPage() {
                         <td style={{ padding: '12px 16px', color: '#9CA3AF', fontSize: 13 }}>{r.time_taken ? `${r.time_taken} دقيقة` : '-'}</td>
                         <td style={{ padding: '12px 16px' }}>
                           <span style={{ background: r.passed ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)', color: r.passed ? '#10B981' : '#EF4444', fontSize: 11, padding: '3px 10px', borderRadius: 20, fontWeight: 700 }}>
-                            {r.passed ? '✓ ناجح' : '✗ راسب'}
+                            {r.passed ? '<Check className="w-5 h-5 inline-block" /> ناجح' : '<X className="w-5 h-5 inline-block" /> راسب'}
                           </span>
                         </td>
                         <td style={{ padding: '12px 16px', color: '#9CA3AF', fontSize: 12 }}>{r.submitted_at ? new Date(r.submitted_at).toLocaleDateString('ar-SA') : '-'}</td>
@@ -544,7 +545,7 @@ export default function SmartExamsPage() {
           )}
           {selectedExam && results.length === 0 && (
             <div style={{ textAlign: 'center', padding: '48px', color: '#9CA3AF' }}>
-              <div style={{ fontSize: 48, marginBottom: 12 }}>📊</div>
+              <div style={{ fontSize: 48, marginBottom: 12 }}><BarChart3 className="w-5 h-5 inline-block" /></div>
               <div>لا توجد نتائج لهذا الاختبار بعد</div>
             </div>
           )}
@@ -556,8 +557,8 @@ export default function SmartExamsPage() {
         <div style={{ position:'fixed',inset:0,zIndex:9999,background:'rgba(0,0,0,0.75)',backdropFilter:'blur(4px)',display:'flex',alignItems:'center',justifyContent:'center',padding:20 }} onClick={() => setShowModal(false)}>
           <div style={{ background:'#0F0F1A',border:'1px solid rgba(255,255,255,0.08)',borderRadius:20,width:'100%',maxWidth:540,maxHeight:'90vh',overflowY:'auto',boxShadow:'0 24px 80px rgba(0,0,0,0.6)',direction:'rtl',fontFamily:'IBM Plex Sans Arabic, sans-serif' }} onClick={e=>e.stopPropagation()}>
             <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center',padding:'20px 24px',borderBottom:'1px solid rgba(255,255,255,0.07)' }}>
-              <h3 style={{ color:'#EEEEF5',fontSize:17,fontWeight:700,margin:0 }}>✏️ تعديل الاختبار</h3>
-              <button onClick={() => setShowModal(false)} style={{ background:'rgba(255,255,255,0.05)',border:'none',borderRadius:8,padding:'6px 10px',cursor:'pointer',color:'rgba(238,238,245,0.6)',fontSize:16 }}>✕</button>
+              <h3 style={{ color:'#EEEEF5',fontSize:17,fontWeight:700,margin:0 }}><Pencil className="w-5 h-5 inline-block" />️ تعديل الاختبار</h3>
+              <button onClick={() => setShowModal(false)} style={{ background:'rgba(255,255,255,0.05)',border:'none',borderRadius:8,padding:'6px 10px',cursor:'pointer',color:'rgba(238,238,245,0.6)',fontSize:16 }}><X className="w-5 h-5 inline-block" /></button>
             </div>
             <div style={{ padding:24 }}>
               {editErr && <div style={{ background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.3)',borderRadius:8,padding:'10px 14px',color:'#EF4444',fontSize:13,marginBottom:12 }}>{editErr}</div>}

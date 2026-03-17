@@ -1,4 +1,5 @@
 'use client';
+import { Save, Settings } from "lucide-react";
 import { useState, useEffect } from 'react';
 const getH = (): Record<string,string> => { try { const t = localStorage.getItem('matin_token'); if(t) return {'Content-Type':'application/json','Authorization':'Bearer '+t}; const u=JSON.parse(localStorage.getItem('matin_user')||'{}'); return {'Content-Type':'application/json','x-user-id':String(u.id||'')}; } catch { return {'Content-Type':'application/json'}; }};
 const GOLD='#C9A84C',BG='#0B0B16',CB='rgba(255,255,255,0.04)',BR='rgba(255,255,255,0.08)';
@@ -37,7 +38,7 @@ export default function BackupPage() {
   return (
     <div style={{minHeight:'100vh',background:BG,padding:'32px 24px',direction:'rtl',fontFamily:'Cairo, sans-serif'}}>
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:32,flexWrap:'wrap',gap:16}}>
-        <div><h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}>💾 النسخ الاحتياطي</h1><p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>إدارة النسخ الاحتياطية واستعادة البيانات</p></div>
+        <div><h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}><Save className="w-5 h-5 inline-block" /> النسخ الاحتياطي</h1><p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>إدارة النسخ الاحتياطية واستعادة البيانات</p></div>
         <button onClick={createBackup} disabled={creating} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 20px',color:'#0B0B16',fontWeight:700,cursor:creating?'not-allowed':'pointer',fontSize:14,opacity:creating?0.7:1}}>
           {creating?'جاري الإنشاء...':'+ نسخة احتياطية الآن'}
         </button>
@@ -85,7 +86,7 @@ export default function BackupPage() {
       )}
       {activeTab==='schedule' && (
         <div style={{background:CB,border:'1px solid '+BR,borderRadius:16,padding:32,maxWidth:500}}>
-          <h3 style={{color:'white',fontSize:18,fontWeight:700,marginBottom:24}}>⚙️ إعدادات الجدولة التلقائية</h3>
+          <h3 style={{color:'white',fontSize:18,fontWeight:700,marginBottom:24}}><Settings className="w-5 h-5 inline-block" />️ إعدادات الجدولة التلقائية</h3>
           <div style={{display:'flex',flexDirection:'column',gap:20}}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',background:'rgba(255,255,255,0.03)',borderRadius:12,padding:'16px 20px'}}>
               <div><div style={{color:'white',fontWeight:600}}>تفعيل النسخ التلقائي</div><div style={{color:'rgba(255,255,255,0.4)',fontSize:13,marginTop:4}}>نسخ احتياطي تلقائي دوري</div></div>
@@ -111,7 +112,7 @@ export default function BackupPage() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#0B0B16', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 420, direction: 'rtl' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>💾 إنشاء نسخة احتياطية</h2>
+              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}><Save className="w-5 h-5 inline-block" /> إنشاء نسخة احتياطية</h2>
               <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
             </div>
             <div style={{ marginBottom: 16 }}>

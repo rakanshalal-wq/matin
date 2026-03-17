@@ -1,4 +1,5 @@
 'use client';
+import { Bot, ChevronRight, Settings, User } from "lucide-react";
 import { useState, useRef, useEffect } from 'react';
 
 interface Message {
@@ -110,7 +111,7 @@ export default function AIChatPage() {
       {/* Header */}
       <div style={{ background: 'linear-gradient(135deg, #1e3a5f, #2d5a8e)', color: 'white', padding: '20px 24px', display: 'flex', alignItems: 'center', gap: '15px' }}>
         <div style={{ width: '45px', height: '45px', borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px' }}>
-          🤖
+          <Bot className="w-5 h-5 inline-block" />
         </div>
         <div>
           <h1 style={{ margin: 0, fontSize: '20px', fontWeight: 'bold' }}>المساعد الذكي</h1>
@@ -128,7 +129,7 @@ export default function AIChatPage() {
           <div key={i} style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-start' : 'flex-end', gap: '10px' }}>
             {msg.role === 'user' && (
               <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#1e3a5f', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '14px', flexShrink: 0 }}>
-                👤
+                <User className="w-5 h-5 inline-block" />
               </div>
             )}
             <div style={{
@@ -149,7 +150,7 @@ export default function AIChatPage() {
             </div>
             {msg.role === 'assistant' && (
               <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'linear-gradient(135deg, #4caf50, #2e7d32)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '14px', flexShrink: 0 }}>
-                🤖
+                <Bot className="w-5 h-5 inline-block" />
               </div>
             )}
           </div>
@@ -201,7 +202,7 @@ export default function AIChatPage() {
           disabled={loading || !input.trim()}
           style={{ width: '48px', height: '48px', borderRadius: '50%', background: input.trim() ? '#1e3a5f' : '#e0e0e0', color: 'white', border: 'none', fontSize: '20px', cursor: input.trim() ? 'pointer' : 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s' }}
         >
-          ➤
+          <ChevronRight className="w-5 h-5 inline-block" />
         </button>
       </div>
 
@@ -217,7 +218,7 @@ export default function AIChatPage() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#0F0F1A', border: '1px solid rgba(139,92,246,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 440, direction: 'rtl' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <h2 style={{ color: '#8B5CF6', fontSize: 18, fontWeight: 700, margin: 0 }}>⚙️ إعدادات المساعد الذكي</h2>
+              <h2 style={{ color: '#8B5CF6', fontSize: 18, fontWeight: 700, margin: 0 }}><Settings className="w-5 h-5 inline-block" />️ إعدادات المساعد الذكي</h2>
               <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
             </div>
             {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}

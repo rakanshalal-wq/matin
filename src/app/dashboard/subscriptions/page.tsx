@@ -1,11 +1,12 @@
 'use client';
+import { Check, CheckCircle, ClipboardList, Diamond, GraduationCap, Mailbox, Package, School, Trophy, User, XCircle } from "lucide-react";
 import { useState, useEffect } from 'react';
 const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 
 const plans = [
   { id: 'basic', name: 'أساسي', price: 0, period: 'مجاني', color: '#6B7280', icon: '🆓', students: 50, teachers: 5, schools: 1, features: ['مدرسة واحدة', '5 معلمين', '50 طالب', 'الحضور والغياب', 'الدرجات الأساسية'] },
   { id: 'advanced', name: 'متقدم', price: 299, period: 'شهرياً', color: '#3B82F6', icon: '⭐', students: 500, teachers: 20, schools: 5, features: ['5 مدارس', '20 معلم', '500 طالب', 'بنك أسئلة AI', 'مراقبة اختبارات', 'التقارير المتقدمة', 'الدعم الفني'] },
-  { id: 'enterprise', name: 'مؤسسي', price: 599, period: 'شهرياً', color: '#C9A227', icon: '🏆', students: -1, teachers: -1, schools: -1, features: ['مدارس غير محدودة', 'معلمين غير محدود', 'طلاب غير محدود', 'كل الميزات', 'دعم 24/7', 'مدير حساب خاص', 'API مخصص'] },
+  { id: 'enterprise', name: 'مؤسسي', price: 599, period: 'شهرياً', color: '#C9A227', icon: '<Trophy className="w-5 h-5 inline-block" />', students: -1, teachers: -1, schools: -1, features: ['مدارس غير محدودة', 'معلمين غير محدود', 'طلاب غير محدود', 'كل الميزات', 'دعم 24/7', 'مدير حساب خاص', 'API مخصص'] },
 ];
 
 export default function SubscriptionsPage() {
@@ -51,14 +52,14 @@ export default function SubscriptionsPage() {
       });
       const data = await res.json();
       if (res.ok) {
-        setMsg(`✅ تم الترقية إلى باقة "${plans.find(p => p.id === planId)?.name}" بنجاح`);
+        setMsg(`<CheckCircle className="w-5 h-5 inline-block" /> تم الترقية إلى باقة "${plans.find(p => p.id === planId)?.name}" بنجاح`);
         setMsgType('success');
         fetchData(user);
       } else {
-        setMsg(`❌ ${data.error || 'فشل الترقية'}`);
+        setMsg(`<XCircle className="w-5 h-5 inline-block" /> ${data.error || 'فشل الترقية'}`);
         setMsgType('error');
       }
-    } catch { setMsg('❌ خطأ في الاتصال'); setMsgType('error'); } finally {
+    } catch { setMsg('<XCircle className="w-5 h-5 inline-block" /> خطأ في الاتصال'); setMsgType('error'); } finally {
       setUpgrading('');
       setTimeout(() => setMsg(''), 4000);
     }
@@ -73,7 +74,7 @@ export default function SubscriptionsPage() {
     <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}>💎 الباقات والاشتراكات</h1>
+          <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}><Diamond className="w-5 h-5 inline-block" /> الباقات والاشتراكات</h1>
           <p style={{ color: '#9CA3AF', marginTop: 6, fontSize: 14 }}>
             باقتك الحالية: <span style={{ color: currentPlanData?.color || '#C9A227', fontWeight: 700 }}>{currentPlanData?.name || 'أساسي'}</span>
           </p>
@@ -88,8 +89,8 @@ export default function SubscriptionsPage() {
       {/* Tabs */}
       <div style={{ display: 'flex', gap: 8, marginBottom: 24, flexWrap: 'wrap' }}>
         {[
-          { id: 'plans', label: '📦 الباقات المتاحة' },
-          { id: 'history', label: `📋 سجل المدفوعات (${subscriptions.length})` },
+          { id: 'plans', label: '<Package className="w-5 h-5 inline-block" /> الباقات المتاحة' },
+          { id: 'history', label: `<ClipboardList className="w-5 h-5 inline-block" /> سجل المدفوعات (${subscriptions.length})` },
         ].map(tab => (
           <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{
             padding: '10px 20px', borderRadius: 10, border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: 14,
@@ -113,7 +114,7 @@ export default function SubscriptionsPage() {
               }}>
                 {isCurrent && (
                   <div style={{ position: 'absolute', top: -12, right: 20, background: plan.color, color: plan.id === 'basic' ? 'white' : '#06060E', padding: '4px 14px', borderRadius: 20, fontSize: 12, fontWeight: 700 }}>
-                    ✓ باقتك الحالية
+                    <Check className="w-5 h-5 inline-block" /> باقتك الحالية
                   </div>
                 )}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
@@ -131,20 +132,20 @@ export default function SubscriptionsPage() {
                   <div style={{ color: '#9CA3AF', fontSize: 13, marginBottom: 8 }}>الحدود:</div>
                   <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                     <span style={{ padding: '4px 10px', background: 'rgba(255,255,255,0.05)', borderRadius: 6, color: 'rgba(255,255,255,0.7)', fontSize: 12 }}>
-                      🏫 {plan.schools === -1 ? 'غير محدود' : plan.schools} مدرسة
+                      <School className="w-5 h-5 inline-block" /> {plan.schools === -1 ? 'غير محدود' : plan.schools} مدرسة
                     </span>
                     <span style={{ padding: '4px 10px', background: 'rgba(255,255,255,0.05)', borderRadius: 6, color: 'rgba(255,255,255,0.7)', fontSize: 12 }}>
-                      👨‍🏫 {plan.teachers === -1 ? 'غير محدود' : plan.teachers} معلم
+                      <User className="w-5 h-5 inline-block" />‍<School className="w-5 h-5 inline-block" /> {plan.teachers === -1 ? 'غير محدود' : plan.teachers} معلم
                     </span>
                     <span style={{ padding: '4px 10px', background: 'rgba(255,255,255,0.05)', borderRadius: 6, color: 'rgba(255,255,255,0.7)', fontSize: 12 }}>
-                      🎓 {plan.students === -1 ? 'غير محدود' : plan.students} طالب
+                      <GraduationCap className="w-5 h-5 inline-block" /> {plan.students === -1 ? 'غير محدود' : plan.students} طالب
                     </span>
                   </div>
                 </div>
                 <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 20px', display: 'flex', flexDirection: 'column', gap: 6 }}>
                   {plan.features.map((f, i) => (
                     <li key={i} style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ color: plan.color }}>✓</span> {f}
+                      <span style={{ color: plan.color }}><Check className="w-5 h-5 inline-block" /></span> {f}
                     </li>
                   ))}
                 </ul>
@@ -159,7 +160,7 @@ export default function SubscriptionsPage() {
                     fontFamily: 'IBM Plex Sans Arabic, sans-serif',
                   }}
                 >
-                  {isCurrent ? '✓ باقتك الحالية' : upgrading === plan.id ? '⏳ جاري الترقية...' : plan.price === 0 ? 'اختر هذه الباقة' : `ترقية إلى ${plan.name}`}
+                  {isCurrent ? '<Check className="w-5 h-5 inline-block" /> باقتك الحالية' : upgrading === plan.id ? '⏳ جاري الترقية...' : plan.price === 0 ? 'اختر هذه الباقة' : `ترقية إلى ${plan.name}`}
                 </button>
               </div>
             );
@@ -172,7 +173,7 @@ export default function SubscriptionsPage() {
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, overflow: 'hidden' }}>
           {subscriptions.length === 0 ? (
             <div style={{ padding: 60, textAlign: 'center' }}>
-              <div style={{ fontSize: 48, marginBottom: 16 }}>📭</div>
+              <div style={{ fontSize: 48, marginBottom: 16 }}><Mailbox className="w-5 h-5 inline-block" /></div>
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16 }}>لا توجد مدفوعات بعد</p>
             </div>
           ) : (
@@ -192,7 +193,7 @@ export default function SubscriptionsPage() {
                     <td style={{ padding: '12px 16px', textAlign: 'center', color: '#C9A227', fontWeight: 700, fontSize: 14 }}>{s.amount} ر.س</td>
                     <td style={{ padding: '12px 16px', textAlign: 'center' }}>
                       <span style={{ padding: '4px 12px', borderRadius: 20, fontSize: 12, fontWeight: 600, background: s.status === 'paid' ? 'rgba(16,185,129,0.1)' : 'rgba(245,158,11,0.1)', color: s.status === 'paid' ? '#10B981' : '#F59E0B' }}>
-                        {s.status === 'paid' ? '✓ مدفوع' : '⏳ معلق'}
+                        {s.status === 'paid' ? '<Check className="w-5 h-5 inline-block" /> مدفوع' : '⏳ معلق'}
                       </span>
                     </td>
                     <td style={{ padding: '12px 16px', textAlign: 'center', color: '#9CA3AF', fontSize: 13 }}>

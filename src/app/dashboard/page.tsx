@@ -1,4 +1,5 @@
 'use client';
+import { AlertTriangle, BarChart3, Bell, BookOpen, Bot, Briefcase, Building2, Calendar, Check, CheckCircle, ClipboardList, Coins, Eye, FileText, FolderKanban, Globe, GraduationCap, Hand, Link, Mail, Megaphone, Mic, Pencil, School, Settings, ShoppingCart, Sprout, TrendingUp, User, XCircle, Zap } from "lucide-react";
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
@@ -12,12 +13,12 @@ const getHeaders = (): Record<string, string> => {
 };
 
 const INSTITUTION_TYPES: Record<string, { label: string; icon: string; color: string }> = {
-  school: { label: 'مدرسة', icon: '🏫', color: '#3B82F6' },
-  university: { label: 'جامعة', icon: '🎓', color: '#8B5CF6' },
-  institute: { label: 'معهد', icon: '🏛', color: '#10B981' },
-  kindergarten: { label: 'حضانة', icon: '🌱', color: '#F59E0B' },
-  training_center: { label: 'مركز تدريب', icon: '💼', color: '#EF4444' },
-  college: { label: 'كلية', icon: '📚', color: '#06B6D4' },
+  school: { label: 'مدرسة', icon: '<School className="w-5 h-5 inline-block" />', color: '#3B82F6' },
+  university: { label: 'جامعة', icon: '<GraduationCap className="w-5 h-5 inline-block" />', color: '#8B5CF6' },
+  institute: { label: 'معهد', icon: '<Building2 className="w-5 h-5 inline-block" />', color: '#10B981' },
+  kindergarten: { label: 'حضانة', icon: '<Sprout className="w-5 h-5 inline-block" />', color: '#F59E0B' },
+  training_center: { label: 'مركز تدريب', icon: '<Briefcase className="w-5 h-5 inline-block" />', color: '#EF4444' },
+  college: { label: 'كلية', icon: '<BookOpen className="w-5 h-5 inline-block" />', color: '#06B6D4' },
 };
 
 const StatCard = ({ title, value, icon, color, sub, link }: any) => (
@@ -197,7 +198,7 @@ export default function DashboardHome() {
             )}
             <div>
               <div style={{ color: '#C9A227', fontSize: 13, fontWeight: 600, marginBottom: 4 }}>
-                {greeting()}، {user?.name?.split(' ')[0] || 'مرحباً'} 👋
+                {greeting()}، {user?.name?.split(' ')[0] || 'مرحباً'} <Hand className="w-5 h-5 inline-block" />
               </div>
               <div style={{ color: '#fff', fontSize: 22, fontWeight: 800 }}>
                 {school?.name_ar || school?.name || 'مؤسستك التعليمية'}
@@ -208,11 +209,11 @@ export default function DashboardHome() {
                 </span>
                 {school?.subscription_status === 'active' ? (
                   <span style={{ background: 'rgba(16,185,129,0.15)', color: '#10B981', fontSize: 11, padding: '2px 10px', borderRadius: 20, fontWeight: 600 }}>
-                    ✓ اشتراك نشط
+                    <Check className="w-5 h-5 inline-block" /> اشتراك نشط
                   </span>
                 ) : (
                   <span style={{ background: 'rgba(239,68,68,0.15)', color: '#EF4444', fontSize: 11, padding: '2px 10px', borderRadius: 20, fontWeight: 600 }}>
-                    ⚠ اشتراك منتهي
+                    <AlertTriangle className="w-5 h-5 inline-block" /> اشتراك منتهي
                   </span>
                 )}
                 {school?.code && (
@@ -235,13 +236,13 @@ export default function DashboardHome() {
                 background: 'rgba(201,162,39,0.15)', color: '#C9A227', fontSize: 12, padding: '6px 14px',
                 borderRadius: 8, textDecoration: 'none', fontWeight: 600, border: '1px solid rgba(201,162,39,0.3)',
               }}>
-                🌐 صفحة المؤسسة
+                <Globe className="w-5 h-5 inline-block" /> صفحة المؤسسة
               </Link>
               <Link href="/dashboard/settings" style={{
                 background: 'rgba(255,255,255,0.05)', color: '#9CA3AF', fontSize: 12, padding: '6px 14px',
                 borderRadius: 8, textDecoration: 'none', fontWeight: 600, border: '1px solid rgba(255,255,255,0.1)',
               }}>
-                ⚙️ الإعدادات
+                <Settings className="w-5 h-5 inline-block" />️ الإعدادات
               </Link>
             </div>
           </div>
@@ -252,12 +253,12 @@ export default function DashboardHome() {
       {/* الإحصائيات الرئيسية */}
       {/* ══════════════════════════════════════════ */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 28 }}>
-        <StatCard title="إجمالي الطلاب" value={stats.students || stats.total_students || 0} icon="👨‍🎓" color="#3B82F6" sub={`+${stats.new_students || 0} هذا الشهر`} link="/dashboard/students" />
-        <StatCard title="المعلمون" value={stats.teachers || stats.total_teachers || 0} icon="👩‍🏫" color="#8B5CF6" sub="نشطون" link="/dashboard/teachers" />
-        <StatCard title="الفصول" value={stats.classes || stats.total_classes || 0} icon="🏛" color="#10B981" sub="فصل دراسي" link="/dashboard/classes" />
-        <StatCard title="الحضور اليوم" value={`${stats.attendance_rate || 0}%`} icon="✋" color="#F59E0B" sub="معدل الحضور" link="/dashboard/attendance" />
-        <StatCard title="الاختبارات" value={stats.exams || 0} icon="📝" color="#EF4444" sub="هذا الفصل" link="/dashboard/exams" />
-        <StatCard title="طلبات الانضمام" value={stats.pending_admissions || pendingAdmissions.length || 0} icon="📋" color="#06B6D4" sub="بانتظار المراجعة" link="/dashboard/admission" />
+        <StatCard title="إجمالي الطلاب" value={stats.students || stats.total_students || 0} icon="<User className="w-5 h-5 inline-block" />‍<GraduationCap className="w-5 h-5 inline-block" />" color="#3B82F6" sub={`+${stats.new_students || 0} هذا الشهر`} link="/dashboard/students" />
+        <StatCard title="المعلمون" value={stats.teachers || stats.total_teachers || 0} icon="<User className="w-5 h-5 inline-block" />‍<School className="w-5 h-5 inline-block" />" color="#8B5CF6" sub="نشطون" link="/dashboard/teachers" />
+        <StatCard title="الفصول" value={stats.classes || stats.total_classes || 0} icon="<Building2 className="w-5 h-5 inline-block" />" color="#10B981" sub="فصل دراسي" link="/dashboard/classes" />
+        <StatCard title="الحضور اليوم" value={`${stats.attendance_rate || 0}%`} icon="<Hand className="w-5 h-5 inline-block" />" color="#F59E0B" sub="معدل الحضور" link="/dashboard/attendance" />
+        <StatCard title="الاختبارات" value={stats.exams || 0} icon="<FileText className="w-5 h-5 inline-block" />" color="#EF4444" sub="هذا الفصل" link="/dashboard/exams" />
+        <StatCard title="طلبات الانضمام" value={stats.pending_admissions || pendingAdmissions.length || 0} icon="<ClipboardList className="w-5 h-5 inline-block" />" color="#06B6D4" sub="بانتظار المراجعة" link="/dashboard/admission" />
       </div>
 
       {/* ══════════════════════════════════════════ */}
@@ -271,17 +272,17 @@ export default function DashboardHome() {
         marginBottom: 28,
       }}>
         <div style={{ color: '#9CA3AF', fontSize: 12, fontWeight: 700, marginBottom: 16, textTransform: 'uppercase', letterSpacing: 1 }}>
-          ⚡ إجراءات سريعة
+          <Zap className="w-5 h-5 inline-block" /> إجراءات سريعة
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 10 }}>
-          <QuickAction label="إضافة طالب" icon="👨‍🎓" href="/dashboard/students" color="#3B82F6" />
-          <QuickAction label="إضافة معلم" icon="👩‍🏫" href="/dashboard/teachers" color="#8B5CF6" />
-          <QuickAction label="اختبار جديد" icon="📝" href="/dashboard/exams" color="#EF4444" />
-          <QuickAction label="محاضرة جديدة" icon="🎤" href="/dashboard/lectures" color="#10B981" />
-          <QuickAction label="إرسال إشعار" icon="🔔" href="/dashboard/notifications" color="#F59E0B" />
-          <QuickAction label="تقرير مالي" icon="💰" href="/dashboard/finance" color="#C9A227" />
-          <QuickAction label="جدول الحصص" icon="📅" href="/dashboard/schedules" color="#06B6D4" />
-          <QuickAction label="المساعد الذكي" icon="🤖" href="/dashboard/ai-assistant" color="#A78BFA" />
+          <QuickAction label="إضافة طالب" icon="<User className="w-5 h-5 inline-block" />‍<GraduationCap className="w-5 h-5 inline-block" />" href="/dashboard/students" color="#3B82F6" />
+          <QuickAction label="إضافة معلم" icon="<User className="w-5 h-5 inline-block" />‍<School className="w-5 h-5 inline-block" />" href="/dashboard/teachers" color="#8B5CF6" />
+          <QuickAction label="اختبار جديد" icon="<FileText className="w-5 h-5 inline-block" />" href="/dashboard/exams" color="#EF4444" />
+          <QuickAction label="محاضرة جديدة" icon="<Mic className="w-5 h-5 inline-block" />" href="/dashboard/lectures" color="#10B981" />
+          <QuickAction label="إرسال إشعار" icon="<Bell className="w-5 h-5 inline-block" />" href="/dashboard/notifications" color="#F59E0B" />
+          <QuickAction label="تقرير مالي" icon="<Coins className="w-5 h-5 inline-block" />" href="/dashboard/finance" color="#C9A227" />
+          <QuickAction label="جدول الحصص" icon="<Calendar className="w-5 h-5 inline-block" />" href="/dashboard/schedules" color="#06B6D4" />
+          <QuickAction label="المساعد الذكي" icon="<Bot className="w-5 h-5 inline-block" />" href="/dashboard/ai-assistant" color="#A78BFA" />
         </div>
       </div>
 
@@ -293,12 +294,12 @@ export default function DashboardHome() {
         {/* طلبات الانضمام المعلقة */}
         <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, padding: '20px 24px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <div style={{ color: '#fff', fontSize: 15, fontWeight: 700 }}>📋 طلبات الانضمام</div>
+            <div style={{ color: '#fff', fontSize: 15, fontWeight: 700 }}><ClipboardList className="w-5 h-5 inline-block" /> طلبات الانضمام</div>
             <Link href="/dashboard/admission" style={{ color: '#C9A227', fontSize: 12, textDecoration: 'none' }}>عرض الكل ←</Link>
           </div>
           {pendingAdmissions.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '24px 0', color: '#6B7280' }}>
-              <div style={{ fontSize: 32, marginBottom: 8 }}>✅</div>
+              <div style={{ fontSize: 32, marginBottom: 8 }}><CheckCircle className="w-5 h-5 inline-block" /></div>
               <div style={{ fontSize: 13 }}>لا توجد طلبات معلقة</div>
             </div>
           ) : pendingAdmissions.map((a: any, i: number) => (
@@ -317,12 +318,12 @@ export default function DashboardHome() {
         {/* الاختبارات القادمة */}
         <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, padding: '20px 24px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <div style={{ color: '#fff', fontSize: 15, fontWeight: 700 }}>📝 الاختبارات القادمة</div>
+            <div style={{ color: '#fff', fontSize: 15, fontWeight: 700 }}><FileText className="w-5 h-5 inline-block" /> الاختبارات القادمة</div>
             <Link href="/dashboard/exams" style={{ color: '#C9A227', fontSize: 12, textDecoration: 'none' }}>عرض الكل ←</Link>
           </div>
           {upcomingExams.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '24px 0', color: '#6B7280' }}>
-              <div style={{ fontSize: 32, marginBottom: 8 }}>📅</div>
+              <div style={{ fontSize: 32, marginBottom: 8 }}><Calendar className="w-5 h-5 inline-block" /></div>
               <div style={{ fontSize: 13 }}>لا توجد اختبارات قادمة</div>
             </div>
           ) : upcomingExams.map((e: any, i: number) => (
@@ -337,7 +338,7 @@ export default function DashboardHome() {
                   color: e.status === 'ACTIVE' ? '#EF4444' : e.status === 'PUBLISHED' ? '#3B82F6' : '#9CA3AF',
                   fontSize: 11, padding: '3px 8px', borderRadius: 6, fontWeight: 600,
                 }}>
-                  {e.status === 'ACTIVE' ? '⏱ جاري' : e.status === 'PUBLISHED' ? '📢 منشور' : '📝 مسودة'}
+                  {e.status === 'ACTIVE' ? '⏱ جاري' : e.status === 'PUBLISHED' ? '<Megaphone className="w-5 h-5 inline-block" /> منشور' : '<FileText className="w-5 h-5 inline-block" /> مسودة'}
                 </div>
                 {e.scheduled_at && (
                   <div style={{ color: '#6B7280', fontSize: 11, marginTop: 2 }}>
@@ -363,17 +364,17 @@ export default function DashboardHome() {
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
             <div>
-              <div style={{ color: '#C9A227', fontSize: 14, fontWeight: 700, marginBottom: 6 }}>🌐 الرابط العام للمؤسسة</div>
+              <div style={{ color: '#C9A227', fontSize: 14, fontWeight: 700, marginBottom: 6 }}><Globe className="w-5 h-5 inline-block" /> الرابط العام للمؤسسة</div>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 <div style={{ background: 'rgba(0,0,0,0.3)', borderRadius: 8, padding: '6px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ color: '#9CA3AF', fontSize: 12 }}>matin.ink/school/</span>
                   <span style={{ color: '#fff', fontSize: 12, fontWeight: 700 }}>{school.code}</span>
-                  <button onClick={() => navigator.clipboard.writeText(`https://matin.ink/school/${school.code}`)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#C9A227', fontSize: 14 }}>📋</button>
+                  <button onClick={() => navigator.clipboard.writeText(`https://matin.ink/school/${school.code}`)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#C9A227', fontSize: 14 }}><ClipboardList className="w-5 h-5 inline-block" /></button>
                 </div>
                 {school.custom_domain && (
                   <div style={{ background: 'rgba(16,185,129,0.1)', borderRadius: 8, padding: '6px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ color: '#10B981', fontSize: 12 }}>🔗 {school.custom_domain}</span>
-                    {school.domain_verified && <span style={{ color: '#10B981', fontSize: 11 }}>✓ مُتحقق</span>}
+                    <span style={{ color: '#10B981', fontSize: 12 }}><Link className="w-5 h-5 inline-block" /> {school.custom_domain}</span>
+                    {school.domain_verified && <span style={{ color: '#10B981', fontSize: 11 }}><Check className="w-5 h-5 inline-block" /> مُتحقق</span>}
                   </div>
                 )}
               </div>
@@ -383,19 +384,19 @@ export default function DashboardHome() {
                 background: 'rgba(201,162,39,0.15)', color: '#C9A227', fontSize: 13, padding: '8px 18px',
                 borderRadius: 10, textDecoration: 'none', fontWeight: 600, border: '1px solid rgba(201,162,39,0.3)',
               }}>
-                👁 معاينة الصفحة
+                <Eye className="w-5 h-5 inline-block" /> معاينة الصفحة
               </a>
               <Link href="/dashboard/school-page" style={{
                 background: 'rgba(59,130,246,0.15)', color: '#3B82F6', fontSize: 13, padding: '8px 18px',
                 borderRadius: 10, textDecoration: 'none', fontWeight: 600, border: '1px solid rgba(59,130,246,0.3)',
               }}>
-                ✏️ تعديل الصفحة
+                <Pencil className="w-5 h-5 inline-block" />️ تعديل الصفحة
               </Link>
               <Link href="/dashboard/settings" style={{
                 background: 'rgba(255,255,255,0.05)', color: '#9CA3AF', fontSize: 13, padding: '8px 18px',
                 borderRadius: 10, textDecoration: 'none', fontWeight: 600, border: '1px solid rgba(255,255,255,0.1)',
               }}>
-                🔗 ربط دومين
+                <Link className="w-5 h-5 inline-block" /> ربط دومين
               </Link>
             </div>
           </div>
@@ -407,22 +408,22 @@ export default function DashboardHome() {
       {/* ══════════════════════════════════════════ */}
       <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, padding: '20px 24px' }}>
         <div style={{ color: '#9CA3AF', fontSize: 12, fontWeight: 700, marginBottom: 16, textTransform: 'uppercase', letterSpacing: 1 }}>
-          🗂 الأقسام الرئيسية
+          <FolderKanban className="w-5 h-5 inline-block" /> الأقسام الرئيسية
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 12 }}>
           {[
-            { label: 'الطلاب', icon: '👨‍🎓', href: '/dashboard/students', color: '#3B82F6', count: stats.students || 0 },
-            { label: 'المعلمون', icon: '👩‍🏫', href: '/dashboard/teachers', color: '#8B5CF6', count: stats.teachers || 0 },
-            { label: 'الفصول', icon: '🏛', href: '/dashboard/classes', color: '#10B981', count: stats.classes || 0 },
-            { label: 'الاختبارات', icon: '📝', href: '/dashboard/exams', color: '#EF4444', count: stats.exams || 0 },
-            { label: 'المحاضرات', icon: '🎤', href: '/dashboard/lectures', color: '#F59E0B', count: null },
-            { label: 'الحضور', icon: '✋', href: '/dashboard/attendance', color: '#06B6D4', count: null },
-            { label: 'الدرجات', icon: '📊', href: '/dashboard/grades', color: '#A78BFA', count: null },
-            { label: 'المالية', icon: '💰', href: '/dashboard/finance', color: '#C9A227', count: null },
-            { label: 'الرسائل', icon: '✉️', href: '/dashboard/messages', color: '#34D399', count: null },
-            { label: 'التقارير', icon: '📈', href: '/dashboard/reports', color: '#FB923C', count: null },
-            { label: 'المتجر', icon: '🛒', href: '/dashboard/store', color: '#E879F9', count: null },
-            { label: 'المساعد AI', icon: '🤖', href: '/dashboard/ai-assistant', color: '#818CF8', count: null },
+            { label: 'الطلاب', icon: '<User className="w-5 h-5 inline-block" />‍<GraduationCap className="w-5 h-5 inline-block" />', href: '/dashboard/students', color: '#3B82F6', count: stats.students || 0 },
+            { label: 'المعلمون', icon: '<User className="w-5 h-5 inline-block" />‍<School className="w-5 h-5 inline-block" />', href: '/dashboard/teachers', color: '#8B5CF6', count: stats.teachers || 0 },
+            { label: 'الفصول', icon: '<Building2 className="w-5 h-5 inline-block" />', href: '/dashboard/classes', color: '#10B981', count: stats.classes || 0 },
+            { label: 'الاختبارات', icon: '<FileText className="w-5 h-5 inline-block" />', href: '/dashboard/exams', color: '#EF4444', count: stats.exams || 0 },
+            { label: 'المحاضرات', icon: '<Mic className="w-5 h-5 inline-block" />', href: '/dashboard/lectures', color: '#F59E0B', count: null },
+            { label: 'الحضور', icon: '<Hand className="w-5 h-5 inline-block" />', href: '/dashboard/attendance', color: '#06B6D4', count: null },
+            { label: 'الدرجات', icon: '<BarChart3 className="w-5 h-5 inline-block" />', href: '/dashboard/grades', color: '#A78BFA', count: null },
+            { label: 'المالية', icon: '<Coins className="w-5 h-5 inline-block" />', href: '/dashboard/finance', color: '#C9A227', count: null },
+            { label: 'الرسائل', icon: '<Mail className="w-5 h-5 inline-block" />️', href: '/dashboard/messages', color: '#34D399', count: null },
+            { label: 'التقارير', icon: '<TrendingUp className="w-5 h-5 inline-block" />', href: '/dashboard/reports', color: '#FB923C', count: null },
+            { label: 'المتجر', icon: '<ShoppingCart className="w-5 h-5 inline-block" />', href: '/dashboard/store', color: '#E879F9', count: null },
+            { label: 'المساعد AI', icon: '<Bot className="w-5 h-5 inline-block" />', href: '/dashboard/ai-assistant', color: '#818CF8', count: null },
           ].map((item, i) => (
             <Link key={i} href={item.href} style={{ textDecoration: 'none' }}>
               <div style={{
@@ -453,7 +454,7 @@ export default function DashboardHome() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 440, direction: 'rtl' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>📋 مراجعة طلب الانضمام</h2>
+              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}><ClipboardList className="w-5 h-5 inline-block" /> مراجعة طلب الانضمام</h2>
               <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
             </div>
             {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}
@@ -462,8 +463,8 @@ export default function DashboardHome() {
               <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>الصف: {selectedAdmission.grade || selectedAdmission.class_name || 'غير محدد'}</div>
             </div>
             <div style={{ display: 'flex', gap: 10 }}>
-              <button onClick={async () => { await handleApproveAdmission(selectedAdmission.id); setShowModal(false); }} disabled={saving} style={{ flex: 1, background: 'rgba(16,185,129,0.15)', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 10, padding: '12px 0', cursor: saving ? 'not-allowed' : 'pointer', fontWeight: 700, fontSize: 14 }}>{saving ? 'جاري...' : '✅ قبول'}</button>
-              <button onClick={async () => { await handleRejectAdmission(selectedAdmission.id); setShowModal(false); }} disabled={saving} style={{ flex: 1, background: 'rgba(239,68,68,0.15)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 10, padding: '12px 0', cursor: saving ? 'not-allowed' : 'pointer', fontWeight: 700, fontSize: 14 }}>{saving ? 'جاري...' : '❌ رفض'}</button>
+              <button onClick={async () => { await handleApproveAdmission(selectedAdmission.id); setShowModal(false); }} disabled={saving} style={{ flex: 1, background: 'rgba(16,185,129,0.15)', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 10, padding: '12px 0', cursor: saving ? 'not-allowed' : 'pointer', fontWeight: 700, fontSize: 14 }}>{saving ? 'جاري...' : '<CheckCircle className="w-5 h-5 inline-block" /> قبول'}</button>
+              <button onClick={async () => { await handleRejectAdmission(selectedAdmission.id); setShowModal(false); }} disabled={saving} style={{ flex: 1, background: 'rgba(239,68,68,0.15)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 10, padding: '12px 0', cursor: saving ? 'not-allowed' : 'pointer', fontWeight: 700, fontSize: 14 }}>{saving ? 'جاري...' : '<XCircle className="w-5 h-5 inline-block" /> رفض'}</button>
               <button onClick={() => setShowModal(false)} style={{ padding: '12px 16px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: 13 }}>إلغاء</button>
             </div>
           </div>

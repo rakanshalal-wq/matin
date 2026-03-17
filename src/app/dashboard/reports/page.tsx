@@ -1,4 +1,5 @@
 'use client';
+import { BarChart3, BookOpen, CheckCircle, Clock, Coins, Download, File, FileText, GraduationCap, Hand, Key, School, Search, TrendingUp, User } from "lucide-react";
 const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
 
@@ -31,7 +32,7 @@ export default function ReportsPage() {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a'); a.href = url; a.download = `report_${activeReport}.${format}`; a.click();
         URL.revokeObjectURL(url);
-        setExportMsg('✅ تم تصدير التقرير');
+        setExportMsg('<CheckCircle className="w-5 h-5 inline-block" /> تم تصدير التقرير');
       } else {
         const d = await res.json();
         setErrMsg(d.error || 'فشل التصدير');
@@ -69,10 +70,10 @@ export default function ReportsPage() {
   };
 
   const reportTypes = [
-    { id: 'school_overview', label: '📊 نظرة عامة', desc: 'إحصائيات شاملة للمدرسة' },
-    { id: 'student_performance', label: '🎓 أداء الطلاب', desc: 'متوسط الدرجات والأداء الأكاديمي' },
-    { id: 'attendance_report', label: '✋ تقرير الحضور', desc: 'إحصائيات الحضور والغياب' },
-    { id: 'financial_report', label: '💰 التقرير المالي', desc: 'الإيرادات والمدفوعات' },
+    { id: 'school_overview', label: '<BarChart3 className="w-5 h-5 inline-block" /> نظرة عامة', desc: 'إحصائيات شاملة للمدرسة' },
+    { id: 'student_performance', label: '<GraduationCap className="w-5 h-5 inline-block" /> أداء الطلاب', desc: 'متوسط الدرجات والأداء الأكاديمي' },
+    { id: 'attendance_report', label: '<Hand className="w-5 h-5 inline-block" /> تقرير الحضور', desc: 'إحصائيات الحضور والغياب' },
+    { id: 'financial_report', label: '<Coins className="w-5 h-5 inline-block" /> التقرير المالي', desc: 'الإيرادات والمدفوعات' },
   ];
 
   const renderOverview = () => {
@@ -81,11 +82,11 @@ export default function ReportsPage() {
       <div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
           {[
-            { label: 'الطلاب', value: data.students || 0, icon: '🎓', color: '#3B82F6' },
-            { label: 'المعلمين', value: data.teachers || 0, icon: '👨‍🏫', color: '#10B981' },
-            { label: 'الفصول', value: data.classes || 0, icon: '🏫', color: '#C9A227' },
-            { label: 'الاختبارات', value: data.exams || 0, icon: '📝', color: '#8B5CF6' },
-            { label: 'المحاضرات', value: data.lectures || 0, icon: '📚', color: '#F59E0B' },
+            { label: 'الطلاب', value: data.students || 0, icon: '<GraduationCap className="w-5 h-5 inline-block" />', color: '#3B82F6' },
+            { label: 'المعلمين', value: data.teachers || 0, icon: '<User className="w-5 h-5 inline-block" />‍<School className="w-5 h-5 inline-block" />', color: '#10B981' },
+            { label: 'الفصول', value: data.classes || 0, icon: '<School className="w-5 h-5 inline-block" />', color: '#C9A227' },
+            { label: 'الاختبارات', value: data.exams || 0, icon: '<FileText className="w-5 h-5 inline-block" />', color: '#8B5CF6' },
+            { label: 'المحاضرات', value: data.lectures || 0, icon: '<BookOpen className="w-5 h-5 inline-block" />', color: '#F59E0B' },
           ].map((s, i) => (
             <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 20, textAlign: 'center' }}>
               <div style={{ fontSize: 32, marginBottom: 8 }}>{s.icon}</div>
@@ -96,7 +97,7 @@ export default function ReportsPage() {
         </div>
         {data.attendance && data.attendance.length > 0 && (
           <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 20 }}>
-            <h3 style={{ color: '#C9A227', fontSize: 16, fontWeight: 700, margin: '0 0 16px' }}>✋ إحصائيات الحضور</h3>
+            <h3 style={{ color: '#C9A227', fontSize: 16, fontWeight: 700, margin: '0 0 16px' }}><Hand className="w-5 h-5 inline-block" /> إحصائيات الحضور</h3>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               {data.attendance.map((a: any, i: number) => {
                 const isPresent = a.status === 'PRESENT' || a.status === 'present';
@@ -200,10 +201,10 @@ export default function ReportsPage() {
       <div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 24 }}>
           {[
-            { label: 'إجمالي الإيرادات', value: `${(data.total_revenue || 0).toLocaleString()} ر.س`, icon: '💰', color: '#10B981' },
-            { label: 'المدفوعات المكتملة', value: data.paid_count || 0, icon: '✅', color: '#3B82F6' },
+            { label: 'إجمالي الإيرادات', value: `${(data.total_revenue || 0).toLocaleString()} ر.س`, icon: '<Coins className="w-5 h-5 inline-block" />', color: '#10B981' },
+            { label: 'المدفوعات المكتملة', value: data.paid_count || 0, icon: '<CheckCircle className="w-5 h-5 inline-block" />', color: '#3B82F6' },
             { label: 'المدفوعات المعلقة', value: data.pending_count || 0, icon: '⏳', color: '#F59E0B' },
-            { label: 'المشتركون النشطون', value: data.active_subscriptions || 0, icon: '🔑', color: '#8B5CF6' },
+            { label: 'المشتركون النشطون', value: data.active_subscriptions || 0, icon: '<Key className="w-5 h-5 inline-block" />', color: '#8B5CF6' },
           ].map((s, i) => (
             <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 20, textAlign: 'center' }}>
               <div style={{ fontSize: 32, marginBottom: 8 }}>{s.icon}</div>
@@ -215,7 +216,7 @@ export default function ReportsPage() {
         {data.recent_payments && data.recent_payments.length > 0 && (
           <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, overflow: 'hidden' }}>
             <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-              <h3 style={{ color: '#C9A227', fontSize: 16, fontWeight: 700, margin: 0 }}>🕐 آخر المدفوعات</h3>
+              <h3 style={{ color: '#C9A227', fontSize: 16, fontWeight: 700, margin: 0 }}><Clock className="w-5 h-5 inline-block" /> آخر المدفوعات</h3>
             </div>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
@@ -233,7 +234,7 @@ export default function ReportsPage() {
                     <td style={{ padding: '10px 16px', textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>{parseFloat(p.amount || 0).toLocaleString()} ر.س</td>
                     <td style={{ padding: '10px 16px', textAlign: 'center' }}>
                       <span style={{ padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600, background: p.status === 'paid' ? 'rgba(16,185,129,0.1)' : 'rgba(245,158,11,0.1)', color: p.status === 'paid' ? '#10B981' : '#F59E0B' }}>
-                        {p.status === 'paid' ? '✅ مدفوع' : '⏳ معلق'}
+                        {p.status === 'paid' ? '<CheckCircle className="w-5 h-5 inline-block" /> مدفوع' : '⏳ معلق'}
                       </span>
                     </td>
                     <td style={{ padding: '10px 16px', textAlign: 'center', color: '#9CA3AF', fontSize: 12 }}>{p.created_at ? new Date(p.created_at).toLocaleDateString('ar-SA') : '-'}</td>
@@ -250,7 +251,7 @@ export default function ReportsPage() {
   return (
     <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
       <div style={{ marginBottom: 24 }}>
-        <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}>📈 التقارير والإحصائيات</h1>
+        <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}><TrendingUp className="w-5 h-5 inline-block" /> التقارير والإحصائيات</h1>
         <p style={{ color: '#9CA3AF', fontSize: 14, margin: '6px 0 0' }}>تقارير شاملة من بيانات المنصة الحقيقية</p>
       </div>
 
@@ -264,9 +265,9 @@ export default function ReportsPage() {
           <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>إلى:</label>
           <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '8px 12px', color: '#fff', fontSize: 13, outline: 'none' }} />
         </div>
-        <button onClick={handleFilteredFetch} style={{ background: 'rgba(59,130,246,0.15)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 8, padding: '8px 16px', cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>🔍 تصفية</button>
-        <button onClick={() => handleExport('csv')} disabled={saving} style={{ background: 'rgba(16,185,129,0.15)', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 8, padding: '8px 16px', cursor: saving ? 'not-allowed' : 'pointer', fontSize: 13, fontWeight: 600, opacity: saving ? 0.7 : 1 }}>📥 CSV</button>
-        <button onClick={() => handleExport('pdf')} disabled={saving} style={{ background: 'rgba(239,68,68,0.15)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, padding: '8px 16px', cursor: saving ? 'not-allowed' : 'pointer', fontSize: 13, fontWeight: 600, opacity: saving ? 0.7 : 1 }}>📄 PDF</button>
+        <button onClick={handleFilteredFetch} style={{ background: 'rgba(59,130,246,0.15)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 8, padding: '8px 16px', cursor: 'pointer', fontSize: 13, fontWeight: 600 }}><Search className="w-5 h-5 inline-block" /> تصفية</button>
+        <button onClick={() => handleExport('csv')} disabled={saving} style={{ background: 'rgba(16,185,129,0.15)', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 8, padding: '8px 16px', cursor: saving ? 'not-allowed' : 'pointer', fontSize: 13, fontWeight: 600, opacity: saving ? 0.7 : 1 }}><Download className="w-5 h-5 inline-block" /> CSV</button>
+        <button onClick={() => handleExport('pdf')} disabled={saving} style={{ background: 'rgba(239,68,68,0.15)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, padding: '8px 16px', cursor: saving ? 'not-allowed' : 'pointer', fontSize: 13, fontWeight: 600, opacity: saving ? 0.7 : 1 }}><File className="w-5 h-5 inline-block" /> PDF</button>
         {exportMsg && <span style={{ color: '#10B981', fontSize: 13 }}>{exportMsg}</span>}
         {errMsg && <span style={{ color: '#EF4444', fontSize: 13 }}>{errMsg}</span>}
       </div>

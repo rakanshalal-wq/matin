@@ -1,4 +1,5 @@
 'use client';
+import { Building2, Calendar, Check, MapPin, School, Trash2, User, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 
 const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
@@ -75,12 +76,12 @@ export default function SchedulesPage() {
     <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#C9A227', margin: 0 }}>📅 الجدول الدراسي</h1>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#C9A227', margin: 0 }}><Calendar className="w-5 h-5 inline-block" /> الجدول الدراسي</h1>
           <p style={{ color: '#9CA3AF', fontSize: 14, margin: '4px 0 0' }}>{filtered.length} حصة</p>
         </div>
         {canAdd && (
           <button onClick={() => setShowAdd(!showAdd)} style={{ padding: '10px 24px', background: showAdd ? '#374151' : 'linear-gradient(135deg, #C9A227, #E8C547)', color: showAdd ? '#fff' : '#000', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-            {showAdd ? '✕ إلغاء' : '+ إضافة حصة'}
+            {showAdd ? '<X className="w-5 h-5 inline-block" /> إلغاء' : '+ إضافة حصة'}
           </button>
         )}
       </div>
@@ -134,7 +135,7 @@ export default function SchedulesPage() {
           </div>
           {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 12, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}
           <button onClick={handleAdd} disabled={saving} style={{ marginTop: 20, padding: '12px 32px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#000', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif', opacity: saving ? 0.5 : 1 }}>
-            {saving ? 'جاري الحفظ...' : '✓ حفظ الحصة'}
+            {saving ? 'جاري الحفظ...' : '<Check className="w-5 h-5 inline-block" /> حفظ الحصة'}
           </button>
         </div>
       )}
@@ -142,7 +143,7 @@ export default function SchedulesPage() {
       {/* عرض الجدول حسب الأيام */}
       {filtered.length === 0 ? (
         <div style={{ textAlign: 'center', padding: 60, background: 'rgba(255,255,255,0.02)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)' }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>📅</div>
+          <div style={{ fontSize: 48, marginBottom: 16 }}><Calendar className="w-5 h-5 inline-block" /></div>
           <h3 style={{ color: '#fff', fontSize: 18, margin: '0 0 8px' }}>لا توجد حصص بعد</h3>
         </div>
       ) : (
@@ -160,12 +161,12 @@ export default function SchedulesPage() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                       <span style={{ color: dayColors[dayIdx], fontSize: 14, fontWeight: 700, minWidth: 100 }}>{s.start_time} - {s.end_time}</span>
                       <span style={{ color: '#fff', fontSize: 14 }}>{s.subject_name || 'بدون مادة'}</span>
-                      <span style={{ color: '#9CA3AF', fontSize: 12 }}>👨‍🏫 {s.teacher_name || 'بدون معلم'}</span>
-                      <span style={{ color: '#9CA3AF', fontSize: 12 }}>🏛️ {s.class_name || ''}</span>
-                      {s.room && <span style={{ color: '#6B7280', fontSize: 12 }}>📍 {s.room}</span>}
+                      <span style={{ color: '#9CA3AF', fontSize: 12 }}><User className="w-5 h-5 inline-block" />‍<School className="w-5 h-5 inline-block" /> {s.teacher_name || 'بدون معلم'}</span>
+                      <span style={{ color: '#9CA3AF', fontSize: 12 }}><Building2 className="w-5 h-5 inline-block" />️ {s.class_name || ''}</span>
+                      {s.room && <span style={{ color: '#6B7280', fontSize: 12 }}><MapPin className="w-5 h-5 inline-block" /> {s.room}</span>}
                     </div>
                     {canAdd && (
-                      <button onClick={() => handleDelete(s.id)} style={{ padding: '4px 12px', background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 6, fontSize: 11, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>🗑️</button>
+                      <button onClick={() => handleDelete(s.id)} style={{ padding: '4px 12px', background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 6, fontSize: 11, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}><Trash2 className="w-5 h-5 inline-block" />️</button>
                     )}
                   </div>
                 ))}

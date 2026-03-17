@@ -1,4 +1,5 @@
 'use client';
+import { CheckCircle, ClipboardList, Mailbox, Megaphone, Palette, Plug, Save, Settings, ShoppingCart, XCircle } from "lucide-react";
 const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
 
@@ -12,19 +13,19 @@ interface Setting {
 }
 
 const categoryLabels: Record<string, string> = {
-  general: '⚙️ عام',
-  design: '🎨 التصميم',
-  integrations: '🔌 التكاملات',
-  ads: '📢 الإعلانات',
-  store: '🛒 المتجر',
+  general: '<Settings className="w-5 h-5 inline-block" />️ عام',
+  design: '<Palette className="w-5 h-5 inline-block" /> التصميم',
+  integrations: '<Plug className="w-5 h-5 inline-block" /> التكاملات',
+  ads: '<Megaphone className="w-5 h-5 inline-block" /> الإعلانات',
+  store: '<ShoppingCart className="w-5 h-5 inline-block" /> المتجر',
 };
 
 const categoryIcons: Record<string, string> = {
-  general: '⚙️',
-  design: '🎨',
-  integrations: '🔌',
-  ads: '📢',
-  store: '🛒',
+  general: '<Settings className="w-5 h-5 inline-block" />️',
+  design: '<Palette className="w-5 h-5 inline-block" />',
+  integrations: '<Plug className="w-5 h-5 inline-block" />',
+  ads: '<Megaphone className="w-5 h-5 inline-block" />',
+  store: '<ShoppingCart className="w-5 h-5 inline-block" />',
 };
 
 export default function SettingsPage() {
@@ -67,14 +68,14 @@ export default function SettingsPage() {
         body: JSON.stringify({ key, value: editValues[key] || '' })
       });
       if (res.ok) {
-        setMsg(`✅ تم حفظ "${key}" بنجاح`);
+        setMsg(`<CheckCircle className="w-5 h-5 inline-block" /> تم حفظ "${key}" بنجاح`);
         setMsgType('success');
         fetchSettings();
       } else {
-        setMsg('❌ فشل الحفظ');
+        setMsg('<XCircle className="w-5 h-5 inline-block" /> فشل الحفظ');
         setMsgType('error');
       }
-    } catch (e: any) { setMsg('❌ ' + (e.message || 'خطأ في الاتصال')); setMsgType('error'); } finally {
+    } catch (e: any) { setMsg('<XCircle className="w-5 h-5 inline-block" /> ' + (e.message || 'خطأ في الاتصال')); setMsgType('error'); } finally {
       setSaving(null);
       setTimeout(() => setMsg(''), 3000);
     }
@@ -94,7 +95,7 @@ export default function SettingsPage() {
         if (res.ok) success++;
       } catch {}
     }
-    setMsg(`✅ تم حفظ ${success} إعداد بنجاح`);
+    setMsg(`<CheckCircle className="w-5 h-5 inline-block" /> تم حفظ ${success} إعداد بنجاح`);
     setMsgType('success');
     setSaving(null);
     setTimeout(() => setMsg(''), 3000);
@@ -116,7 +117,7 @@ export default function SettingsPage() {
     <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
       {/* الهيدر */}
       <div style={{ marginBottom: 28 }}>
-        <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}>⚙️ إعدادات المنصة</h1>
+        <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}><Settings className="w-5 h-5 inline-block" />️ إعدادات المنصة</h1>
         <p style={{ color: '#9CA3AF', fontSize: 14, margin: '6px 0 0' }}>تحكم في جميع إعدادات منصة متين</p>
       </div>
 
@@ -141,7 +142,7 @@ export default function SettingsPage() {
                 fontSize: 14, fontWeight: activeCategory === cat ? 700 : 500, cursor: 'pointer', textAlign: 'right',
                 fontFamily: 'IBM Plex Sans Arabic, sans-serif',
               }}>
-                {categoryLabels[cat] || `${categoryIcons[cat] || '📋'} ${cat}`}
+                {categoryLabels[cat] || `${categoryIcons[cat] || '<ClipboardList className="w-5 h-5 inline-block" />'} ${cat}`}
               </button>
             ))}
           </div>
@@ -160,13 +161,13 @@ export default function SettingsPage() {
                 cursor: saving === 'all' ? 'not-allowed' : 'pointer', opacity: saving === 'all' ? 0.7 : 1,
                 fontFamily: 'IBM Plex Sans Arabic, sans-serif',
               }}>
-                {saving === 'all' ? '⏳ جاري الحفظ...' : '💾 حفظ الكل'}
+                {saving === 'all' ? '⏳ جاري الحفظ...' : '<Save className="w-5 h-5 inline-block" /> حفظ الكل'}
               </button>
             </div>
 
             {filteredSettings.length === 0 ? (
               <div style={{ textAlign: 'center', padding: 40, color: 'rgba(255,255,255,0.4)' }}>
-                <div style={{ fontSize: 40, marginBottom: 12 }}>📭</div>
+                <div style={{ fontSize: 40, marginBottom: 12 }}><Mailbox className="w-5 h-5 inline-block" /></div>
                 <p>لا توجد إعدادات في هذه الفئة</p>
               </div>
             ) : (
@@ -184,7 +185,7 @@ export default function SettingsPage() {
                         cursor: saving === s.key ? 'not-allowed' : 'pointer', opacity: saving === s.key ? 0.7 : 1,
                         fontFamily: 'IBM Plex Sans Arabic, sans-serif',
                       }}>
-                        {saving === s.key ? '⏳' : '💾 حفظ'}
+                        {saving === s.key ? '⏳' : '<Save className="w-5 h-5 inline-block" /> حفظ'}
                       </button>
                     </div>
                     {s.key.includes('color') ? (
@@ -214,7 +215,7 @@ export default function SettingsPage() {
                             fontFamily: 'IBM Plex Sans Arabic, sans-serif',
                           }}
                         >
-                          {editValues[s.key] === 'true' ? '✅ مفعّل' : '❌ معطّل'}
+                          {editValues[s.key] === 'true' ? '<CheckCircle className="w-5 h-5 inline-block" /> مفعّل' : '<XCircle className="w-5 h-5 inline-block" /> معطّل'}
                         </button>
                       </div>
                     ) : (

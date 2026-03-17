@@ -1,4 +1,5 @@
 'use client';
+import { BookOpen, CheckCircle, Eye, GraduationCap, Pencil, Plus, Search, User, X } from "lucide-react";
   const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -122,7 +123,7 @@ export default function CollegesPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>🎓 الكليات والأقسام</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><GraduationCap className="w-5 h-5 inline-block" /> الكليات والأقسام</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة الكليات والأقسام العلمية داخل الجامعات والمعاهد</p>
         </div>
         <button onClick={() => { setEditItem(null); setFormData({
@@ -146,17 +147,17 @@ export default function CollegesPage() {
           alignItems: 'center',
           gap: 8,
         }}>
-          ➕ إضافة كلية/قسم
+          <Plus className="w-5 h-5 inline-block" /> إضافة كلية/قسم
         </button>
       </div>
 
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
-          { label: 'إجمالي الكليات', value: stats.total, icon: '🎓', color: '#C9A227' },
-          { label: 'الكليات النشطة', value: stats.active, icon: '✅', color: '#10B981' },
-          { label: 'الأقسام العلمية', value: stats.departments, icon: '📚', color: '#3B82F6' },
-          { label: 'إجمالي الطلاب', value: stats.students.toLocaleString(), icon: '👨‍🎓', color: '#8B5CF6' },
+          { label: 'إجمالي الكليات', value: stats.total, icon: '<GraduationCap className="w-5 h-5 inline-block" />', color: '#C9A227' },
+          { label: 'الكليات النشطة', value: stats.active, icon: '<CheckCircle className="w-5 h-5 inline-block" />', color: '#10B981' },
+          { label: 'الأقسام العلمية', value: stats.departments, icon: '<BookOpen className="w-5 h-5 inline-block" />', color: '#3B82F6' },
+          { label: 'إجمالي الطلاب', value: stats.students.toLocaleString(), icon: '<User className="w-5 h-5 inline-block" />‍<GraduationCap className="w-5 h-5 inline-block" />', color: '#8B5CF6' },
         ].map((stat, i) => (
           <div key={i} style={{
             background: 'rgba(255,255,255,0.03)',
@@ -183,7 +184,7 @@ export default function CollegesPage() {
       }}>
         <input
           type="text"
-          placeholder="🔍 بحث بالاسم أو الجامعة..."
+          placeholder="<Search className="w-5 h-5 inline-block" /> بحث بالاسم أو الجامعة..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           style={{ ...inputStyle, maxWidth: 400 }}
@@ -203,7 +204,7 @@ export default function CollegesPage() {
           </div>
         ) : filteredColleges.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <p style={{ fontSize: 48, marginBottom: 16 }}>🎓</p>
+            <p style={{ fontSize: 48, marginBottom: 16 }}><GraduationCap className="w-5 h-5 inline-block" /></p>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد كليات أو أقسام</p>
             <button onClick={() => setShowAddModal(true)} style={{
               marginTop: 16,
@@ -215,7 +216,7 @@ export default function CollegesPage() {
               fontWeight: 700,
               cursor: 'pointer',
             }}>
-              ➕ إضافة أول كلية
+              <Plus className="w-5 h-5 inline-block" /> إضافة أول كلية
             </button>
           </div>
         ) : (
@@ -242,7 +243,7 @@ export default function CollegesPage() {
                         borderRadius: 10,
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         fontSize: 20,
-                      }}>🎓</div>
+                      }}><GraduationCap className="w-5 h-5 inline-block" /></div>
                       <div>
                         <p style={{ color: 'white', fontWeight: 600, margin: 0 }}>{college.name}</p>
                         <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, margin: 0 }}>{college.name_en}</p>
@@ -275,7 +276,7 @@ export default function CollegesPage() {
                         border: 'none',
                         cursor: 'pointer',
                         fontSize: 12,
-                      }}>👁️ عرض</button>
+                      }}><Eye className="w-5 h-5 inline-block" />️ عرض</button>
                       <button onClick={() => { setEditItem(college); setFormData({ school_id: String(college.school_id || ""), name: college.name || "", name_en: college.name_en || "", type: college.type || "college", dean_name: college.dean_name || "", email: college.email || "", phone: college.phone || "", description: "" }); setShowAddModal(true); setErrMsg(""); }} style={{
                         background: 'rgba(201,162,39,0.1)',
                         color: '#C9A227',
@@ -284,7 +285,7 @@ export default function CollegesPage() {
                         border: 'none',
                         cursor: 'pointer',
                         fontSize: 12,
-                      }}>✏️ تعديل</button>
+                      }}><Pencil className="w-5 h-5 inline-block" />️ تعديل</button>
                     </div>
                   </td>
                 </tr>
@@ -317,7 +318,7 @@ export default function CollegesPage() {
             border: '1px solid rgba(201,162,39,0.2)',
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: '#C9A227', fontSize: 22, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل' : '➕ إضافة كلية/قسم جديد'}</h2>
+              <h2 style={{ color: '#C9A227', fontSize: 22, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل' : '<Plus className="w-5 h-5 inline-block" /> إضافة كلية/قسم جديد'}</h2>
               <button onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{
                 background: 'rgba(255,255,255,0.1)',
                 border: 'none',
@@ -326,7 +327,7 @@ export default function CollegesPage() {
                 borderRadius: 8,
                 cursor: 'pointer',
                 fontSize: 18,
-              }}>✕</button>
+              }}><X className="w-5 h-5 inline-block" /></button>
             </div>
 
             <form onSubmit={handleSubmit}>
@@ -447,7 +448,7 @@ export default function CollegesPage() {
                   fontWeight: 700,
                   cursor: saving ? 'not-allowed' : 'pointer',
                 }}>
-                  {saving ? '⏳ جاري الحفظ...' : '✅ حفظ'}
+                  {saving ? '⏳ جاري الحفظ...' : '<CheckCircle className="w-5 h-5 inline-block" /> حفظ'}
                 </button>
               </div>
             </form>

@@ -1,4 +1,5 @@
 'use client';
+import { Check, Settings, X } from "lucide-react";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
@@ -9,7 +10,7 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
       <div style={{ background:'#0F0F1A',border:'1px solid rgba(255,255,255,0.08)',borderRadius:20,width:'100%',maxWidth:520,maxHeight:'90vh',overflowY:'auto',boxShadow:'0 24px 80px rgba(0,0,0,0.6)' }} onClick={e=>e.stopPropagation()}>
         <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center',padding:'20px 24px',borderBottom:'1px solid rgba(255,255,255,0.07)' }}>
           <h3 style={{ color:'#EEEEF5',fontSize:17,fontWeight:700,margin:0 }}>{title}</h3>
-          <button onClick={onClose} style={{ background:'rgba(255,255,255,0.05)',border:'none',borderRadius:8,padding:'6px 10px',cursor:'pointer',color:'rgba(238,238,245,0.6)',fontSize:16 }}>✕</button>
+          <button onClick={onClose} style={{ background:'rgba(255,255,255,0.05)',border:'none',borderRadius:8,padding:'6px 10px',cursor:'pointer',color:'rgba(238,238,245,0.6)',fontSize:16 }}><X className="w-5 h-5 inline-block" /></button>
         </div>
         <div style={{ padding:24 }}>{children}</div>
       </div>
@@ -179,7 +180,7 @@ export default function SchoolOwnerDashboard() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'فشل تنفيذ الإجراء');
-      setAdmOk(action === 'approve' ? 'تم قبول الطلب بنجاح ✓' : 'تم رفض الطلب');
+      setAdmOk(action === 'approve' ? 'تم قبول الطلب بنجاح <Check className="w-5 h-5 inline-block" />' : 'تم رفض الطلب');
       setTimeout(() => { setShowAdmModal(false); setAdmOk(''); loadAll(user); }, 1500);
     } catch (e: any) { setAdmErr(e.message); }
     finally { setAdmLoading(false); }
@@ -202,7 +203,7 @@ export default function SchoolOwnerDashboard() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'فشل حفظ البيانات');
-      setSchoolOk('تم تحديث بيانات المدرسة بنجاح ✓');
+      setSchoolOk('تم تحديث بيانات المدرسة بنجاح <Check className="w-5 h-5 inline-block" />');
       setTimeout(() => { setShowSchoolModal(false); setSchoolOk(''); loadAll(user); }, 1500);
     } catch (e: any) { setSchoolErr(e.message); }
     finally { setSchoolLoading(false); }
@@ -529,7 +530,7 @@ export default function SchoolOwnerDashboard() {
       {/* ── زر تعديل المدرسة ── */}
       <div style={{ marginTop: 20, display: 'flex', justifyContent: 'flex-end' }}>
         <button onClick={openSchoolModal} style={{ background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.25)', borderRadius: 10, padding: '10px 20px', color: '#C9A84C', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 14 }}>
-          ⚙️ تعديل بيانات المدرسة
+          <Settings className="w-5 h-5 inline-block" />️ تعديل بيانات المدرسة
         </button>
       </div>
 
@@ -551,7 +552,7 @@ export default function SchoolOwnerDashboard() {
               {admLoading ? '...' : 'رفض الطلب'}
             </button>
             <button onClick={() => handleAdmission('approve')} disabled={admLoading} style={{ flex: 1, padding: '10px', background: admLoading ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg,#10B981,#059669)', border: 'none', borderRadius: 10, color: admLoading ? 'rgba(238,238,245,0.3)' : '#fff', cursor: admLoading ? 'not-allowed' : 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 14 }}>
-              {admLoading ? 'جارٍ التنفيذ...' : 'قبول الطلب ✓'}
+              {admLoading ? 'جارٍ التنفيذ...' : 'قبول الطلب <Check className="w-5 h-5 inline-block" />'}
             </button>
           </div>
         </Modal>

@@ -1,4 +1,5 @@
 'use client';
+import { Building, CheckCircle, CreditCard, Crown, Lock, Mail, MessageCircle, Package, Save, Settings, Smartphone } from "lucide-react";
 import { useState, useEffect } from 'react';
 
 const getHeaders = (): Record<string, string> => {
@@ -93,14 +94,14 @@ export default function PlatformSettingsPage() {
   );
 
   const tabs = [
-    { id: 'general', label: 'عام', icon: '⚙️' },
-    { id: 'auth', label: 'المصادقة', icon: '🔐' },
-    { id: 'email', label: 'البريد', icon: '📧' },
-    { id: 'sms', label: 'الرسائل', icon: '📱' },
-    { id: 'whatsapp', label: 'واتساب', icon: '💬' },
-    { id: 'payment', label: 'الدفع', icon: '💳' },
-    { id: 'plans', label: 'الباقات', icon: '📦' },
-    { id: 'limits', label: 'الحدود', icon: '🔒' },
+    { id: 'general', label: 'عام', icon: '<Settings className="w-5 h-5 inline-block" />️' },
+    { id: 'auth', label: 'المصادقة', icon: '<Lock className="w-5 h-5 inline-block" />' },
+    { id: 'email', label: 'البريد', icon: '<Mail className="w-5 h-5 inline-block" />' },
+    { id: 'sms', label: 'الرسائل', icon: '<Smartphone className="w-5 h-5 inline-block" />' },
+    { id: 'whatsapp', label: 'واتساب', icon: '<MessageCircle className="w-5 h-5 inline-block" />' },
+    { id: 'payment', label: 'الدفع', icon: '<CreditCard className="w-5 h-5 inline-block" />' },
+    { id: 'plans', label: 'الباقات', icon: '<Package className="w-5 h-5 inline-block" />' },
+    { id: 'limits', label: 'الحدود', icon: '<Lock className="w-5 h-5 inline-block" />' },
   ];
 
   return (
@@ -109,10 +110,10 @@ export default function PlatformSettingsPage() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <a href="/dashboard/super-admin" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: 14 }}>← العودة للوحة التحكم</a>
-            <h1 style={{ color: 'white', fontSize: 22, fontWeight: 800, margin: 0 }}>⚙️ إعدادات المنصة</h1>
+            <h1 style={{ color: 'white', fontSize: 22, fontWeight: 800, margin: 0 }}><Settings className="w-5 h-5 inline-block" />️ إعدادات المنصة</h1>
           </div>
           <button onClick={saveSettings} disabled={saving} style={{ padding: '12px 32px', border: 'none', borderRadius: 10, cursor: saving ? 'wait' : 'pointer', fontWeight: 700, fontSize: 15, fontFamily: 'inherit', background: saved ? '#10B981' : 'linear-gradient(135deg, #C9A227, #D4B03D)', color: saved ? 'white' : '#06060E' }}>
-            {saving ? 'جاري الحفظ...' : saved ? '✅ تم الحفظ' : '💾 حفظ التغييرات'}
+            {saving ? 'جاري الحفظ...' : saved ? '<CheckCircle className="w-5 h-5 inline-block" /> تم الحفظ' : '<Save className="w-5 h-5 inline-block" /> حفظ التغييرات'}
           </button>
         </div>
       </div>
@@ -136,7 +137,7 @@ export default function PlatformSettingsPage() {
         <div style={{ flex: 1 }}>
           {activeTab === 'general' && (
             <Card>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}>⚙️ الإعدادات العامة</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}><Settings className="w-5 h-5 inline-block" />️ الإعدادات العامة</h2>
               <InputField label="اسم المنصة" value={settings.platform_name || ''} onChange={v => updateSetting('platform_name', v)} dir="rtl" />
               <Toggle label="وضع الصيانة" desc="يظهر للزوار صفحة صيانة" value={settings.maintenance_mode === 'true'} onChange={v => updateSetting('maintenance_mode', String(v))} />
               <Toggle label="السماح بالتسجيل" desc="السماح بإنشاء حسابات جديدة" value={settings.registration_enabled === 'true'} onChange={v => updateSetting('registration_enabled', String(v))} />
@@ -144,11 +145,11 @@ export default function PlatformSettingsPage() {
           )}
           {activeTab === 'auth' && (
             <Card>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}>🔐 إعدادات المصادقة</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}><Lock className="w-5 h-5 inline-block" /> إعدادات المصادقة</h2>
               <Toggle label="تفعيل OTP (رمز التحقق)" desc="إرسال رمز تحقق عند تسجيل الدخول" value={settings.otp_enabled === 'true'} onChange={v => updateSetting('otp_enabled', String(v))} />
               {settings.otp_enabled === 'true' && (
                 <>
-                  <SelectField label="طريقة الإرسال" value={settings.otp_method || 'email'} onChange={v => updateSetting('otp_method', v)} options={[{ value: 'email', label: '📧 بريد إلكتروني' }, { value: 'sms', label: '📱 رسالة نصية' }, { value: 'whatsapp', label: '💬 واتساب' }]} />
+                  <SelectField label="طريقة الإرسال" value={settings.otp_method || 'email'} onChange={v => updateSetting('otp_method', v)} options={[{ value: 'email', label: '<Mail className="w-5 h-5 inline-block" /> بريد إلكتروني' }, { value: 'sms', label: '<Smartphone className="w-5 h-5 inline-block" /> رسالة نصية' }, { value: 'whatsapp', label: '<MessageCircle className="w-5 h-5 inline-block" /> واتساب' }]} />
                   <InputField label="مدة صلاحية الرمز (دقائق)" value={settings.otp_expiry_minutes || '5'} onChange={v => updateSetting('otp_expiry_minutes', v)} type="number" />
                 </>
               )}
@@ -156,7 +157,7 @@ export default function PlatformSettingsPage() {
           )}
           {activeTab === 'email' && (
             <Card>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}>📧 إعدادات البريد الإلكتروني</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}><Mail className="w-5 h-5 inline-block" /> إعدادات البريد الإلكتروني</h2>
               <SelectField label="مزود الخدمة" value={settings.email_provider || 'resend'} onChange={v => updateSetting('email_provider', v)} options={[{ value: 'resend', label: 'Resend' }, { value: 'sendgrid', label: 'SendGrid' }, { value: 'mailgun', label: 'Mailgun' }]} />
               <InputField label="مفتاح API" value={settings.email_api_key || ''} onChange={v => updateSetting('email_api_key', v)} type="password" placeholder="re_xxxxxxxxxxxxxxxx" />
               <InputField label="إيميل المرسل" value={settings.email_from || ''} onChange={v => updateSetting('email_from', v)} placeholder="noreply@matin.ink" />
@@ -165,7 +166,7 @@ export default function PlatformSettingsPage() {
           )}
           {activeTab === 'sms' && (
             <Card>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}>📱 إعدادات الرسائل النصية</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}><Smartphone className="w-5 h-5 inline-block" /> إعدادات الرسائل النصية</h2>
               <Toggle label="تفعيل SMS" desc="إرسال رسائل نصية للمستخدمين" value={settings.sms_enabled === 'true'} onChange={v => updateSetting('sms_enabled', String(v))} />
               {settings.sms_enabled === 'true' && (
                 <>
@@ -178,7 +179,7 @@ export default function PlatformSettingsPage() {
           )}
           {activeTab === 'whatsapp' && (
             <Card>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}>💬 إعدادات واتساب</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}><MessageCircle className="w-5 h-5 inline-block" /> إعدادات واتساب</h2>
               <Toggle label="تفعيل واتساب" desc="إرسال إشعارات عبر واتساب" value={settings.whatsapp_enabled === 'true'} onChange={v => updateSetting('whatsapp_enabled', String(v))} />
               {settings.whatsapp_enabled === 'true' && (
                 <>
@@ -190,7 +191,7 @@ export default function PlatformSettingsPage() {
           )}
           {activeTab === 'payment' && (
             <Card>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}>💳 إعدادات بوابة الدفع</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}><CreditCard className="w-5 h-5 inline-block" /> إعدادات بوابة الدفع</h2>
               <Toggle label="تفعيل بوابة الدفع" desc="استقبال مدفوعات إلكترونية" value={settings.payment_enabled === 'true'} onChange={v => updateSetting('payment_enabled', String(v))} />
               {settings.payment_enabled === 'true' && (
                 <>
@@ -204,11 +205,11 @@ export default function PlatformSettingsPage() {
           )}
           {activeTab === 'plans' && (
             <Card>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}>📦 أسعار الباقات</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}><Package className="w-5 h-5 inline-block" /> أسعار الباقات</h2>
               {['free', 'basic', 'pro', 'enterprise'].map(plan => {
                 const names: Record<string, string> = { free: 'المجانية', basic: 'الأساسية', pro: 'الاحترافية', enterprise: 'المؤسسات' };
                 const colors: Record<string, string> = { free: '#94A3B8', basic: '#3B82F6', pro: '#C9A227', enterprise: '#8B5CF6' };
-                const icons: Record<string, string> = { free: '🆓', basic: '⭐', pro: '👑', enterprise: '🏢' };
+                const icons: Record<string, string> = { free: '🆓', basic: '⭐', pro: '<Crown className="w-5 h-5 inline-block" />', enterprise: '<Building className="w-5 h-5 inline-block" />' };
                 return (
                   <div key={plan} style={{ padding: 20, marginBottom: 16, background: 'rgba(255,255,255,0.02)', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
@@ -226,7 +227,7 @@ export default function PlatformSettingsPage() {
           )}
           {activeTab === 'limits' && (
             <Card>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}>🔒 حدود الباقات</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}><Lock className="w-5 h-5 inline-block" /> حدود الباقات</h2>
               {['free', 'basic', 'pro', 'enterprise'].map(plan => {
                 const names: Record<string, string> = { free: 'المجانية', basic: 'الأساسية', pro: 'الاحترافية', enterprise: 'المؤسسات' };
                 return (

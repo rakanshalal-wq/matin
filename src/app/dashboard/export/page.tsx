@@ -1,4 +1,5 @@
 'use client';
+import { BarChart3, BookOpen, Bus, Calendar, ClipboardList, Coins, Download, FileText, GraduationCap, Save, School, Settings, Upload, User } from "lucide-react";
 import { useState } from 'react';
 
 interface ExportOption {
@@ -17,17 +18,17 @@ export default function ExportPage() {
   const [success, setSuccess] = useState('');
 
   const exportOptions: ExportOption[] = [
-    { id: 'students', title: 'بيانات الطلاب', description: 'تصدير قائمة الطلاب مع معلوماتهم الكاملة', icon: '👨‍🎓', formats: ['csv', 'xlsx', 'pdf'] },
-    { id: 'teachers', title: 'بيانات المعلمين', description: 'تصدير قائمة المعلمين والموظفين', icon: '👨‍🏫', formats: ['csv', 'xlsx', 'pdf'] },
-    { id: 'attendance', title: 'سجلات الحضور', description: 'تصدير سجلات الحضور والغياب', icon: '📋', formats: ['csv', 'xlsx', 'pdf'] },
-    { id: 'grades', title: 'الدرجات والنتائج', description: 'تصدير درجات الطلاب والتقارير الأكاديمية', icon: '📊', formats: ['csv', 'xlsx', 'pdf'] },
-    { id: 'exams', title: 'الاختبارات', description: 'تصدير بيانات الاختبارات والنتائج', icon: '📝', formats: ['csv', 'xlsx', 'pdf'] },
-    { id: 'finance', title: 'التقارير المالية', description: 'تصدير المدفوعات والفواتير والإيرادات', icon: '💰', formats: ['csv', 'xlsx', 'pdf'] },
-    { id: 'schedules', title: 'الجداول الدراسية', description: 'تصدير الجداول والحصص', icon: '📅', formats: ['csv', 'xlsx', 'pdf'] },
-    { id: 'transport', title: 'بيانات النقل', description: 'تصدير مسارات الباصات والركاب', icon: '🚌', formats: ['csv', 'xlsx'] },
-    { id: 'library', title: 'المكتبة', description: 'تصدير قائمة الكتب والاستعارات', icon: '📚', formats: ['csv', 'xlsx'] },
+    { id: 'students', title: 'بيانات الطلاب', description: 'تصدير قائمة الطلاب مع معلوماتهم الكاملة', icon: '<User className="w-5 h-5 inline-block" />‍<GraduationCap className="w-5 h-5 inline-block" />', formats: ['csv', 'xlsx', 'pdf'] },
+    { id: 'teachers', title: 'بيانات المعلمين', description: 'تصدير قائمة المعلمين والموظفين', icon: '<User className="w-5 h-5 inline-block" />‍<School className="w-5 h-5 inline-block" />', formats: ['csv', 'xlsx', 'pdf'] },
+    { id: 'attendance', title: 'سجلات الحضور', description: 'تصدير سجلات الحضور والغياب', icon: '<ClipboardList className="w-5 h-5 inline-block" />', formats: ['csv', 'xlsx', 'pdf'] },
+    { id: 'grades', title: 'الدرجات والنتائج', description: 'تصدير درجات الطلاب والتقارير الأكاديمية', icon: '<BarChart3 className="w-5 h-5 inline-block" />', formats: ['csv', 'xlsx', 'pdf'] },
+    { id: 'exams', title: 'الاختبارات', description: 'تصدير بيانات الاختبارات والنتائج', icon: '<FileText className="w-5 h-5 inline-block" />', formats: ['csv', 'xlsx', 'pdf'] },
+    { id: 'finance', title: 'التقارير المالية', description: 'تصدير المدفوعات والفواتير والإيرادات', icon: '<Coins className="w-5 h-5 inline-block" />', formats: ['csv', 'xlsx', 'pdf'] },
+    { id: 'schedules', title: 'الجداول الدراسية', description: 'تصدير الجداول والحصص', icon: '<Calendar className="w-5 h-5 inline-block" />', formats: ['csv', 'xlsx', 'pdf'] },
+    { id: 'transport', title: 'بيانات النقل', description: 'تصدير مسارات الباصات والركاب', icon: '<Bus className="w-5 h-5 inline-block" />', formats: ['csv', 'xlsx'] },
+    { id: 'library', title: 'المكتبة', description: 'تصدير قائمة الكتب والاستعارات', icon: '<BookOpen className="w-5 h-5 inline-block" />', formats: ['csv', 'xlsx'] },
     { id: 'behavior', title: 'السلوك والانضباط', description: 'تصدير سجلات السلوك والملاحظات', icon: '⭐', formats: ['csv', 'xlsx', 'pdf'] },
-    { id: 'full_backup', title: 'نسخة احتياطية كاملة', description: 'تصدير جميع بيانات المدرسة', icon: '💾', formats: ['json'] },
+    { id: 'full_backup', title: 'نسخة احتياطية كاملة', description: 'تصدير جميع بيانات المدرسة', icon: '<Save className="w-5 h-5 inline-block" />', formats: ['json'] },
   ];
 
   const handleExport = async () => {
@@ -75,7 +76,7 @@ export default function ExportPage() {
     <div dir="rtl" style={{ padding: '24px', maxWidth: '1200px', margin: '0 auto' }}>
       {/* Header */}
       <div style={{ marginBottom: '30px' }}>
-        <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: '#1e3a5f', margin: '0 0 8px' }}>📤 تصدير البيانات</h1>
+        <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: '#1e3a5f', margin: '0 0 8px' }}><Upload className="w-5 h-5 inline-block" /> تصدير البيانات</h1>
         <p style={{ color: '#666', margin: 0, fontSize: '15px' }}>تصدير بيانات المدرسة بصيغ متعددة (CSV, Excel, PDF, JSON)</p>
       </div>
 
@@ -118,7 +119,7 @@ export default function ExportPage() {
       {/* Export Settings */}
       {selectedExport && (
         <div style={{ background: 'white', borderRadius: '16px', padding: '24px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
-          <h3 style={{ margin: '0 0 20px', fontSize: '18px', color: '#1e3a5f' }}>⚙️ إعدادات التصدير</h3>
+          <h3 style={{ margin: '0 0 20px', fontSize: '18px', color: '#1e3a5f' }}><Settings className="w-5 h-5 inline-block" />️ إعدادات التصدير</h3>
           
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '24px' }}>
             {/* Format */}
@@ -175,7 +176,7 @@ export default function ExportPage() {
               gap: '8px'
             }}
           >
-            {loading ? '⏳ جاري التصدير...' : '📥 تصدير الآن'}
+            {loading ? '⏳ جاري التصدير...' : '<Download className="w-5 h-5 inline-block" /> تصدير الآن'}
           </button>
         </div>
       )}

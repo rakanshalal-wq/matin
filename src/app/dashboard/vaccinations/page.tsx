@@ -1,4 +1,5 @@
 'use client';
+import { AlertTriangle, Ban, CheckCircle, Pencil, Plus, Save, Search, Siren, Syringe, Trash2, X } from "lucide-react";
   const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
 
@@ -65,7 +66,7 @@ export default function VaccinationsPage() {
       {/* Alert Boxes */}
       {stats.overdue > 0 && (
         <div style={{ background: 'rgba(185,28,28,0.15)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 12, padding: '16px 20px', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: 24 }}>🚨</span>
+          <span style={{ fontSize: 24 }}><Siren className="w-5 h-5 inline-block" /></span>
           <div>
             <div style={{ color: '#EF4444', fontWeight: 700, fontSize: 15 }}>تنبيه! يوجد {stats.overdue} تطعيم متأخر</div>
             <div style={{ color: 'rgba(239,68,68,0.8)', fontSize: 13, marginTop: 2 }}>يرجى متابعة التطعيمات المتأخرة فوراً</div>
@@ -76,21 +77,21 @@ export default function VaccinationsPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>💉 التطعيمات</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><Syringe className="w-5 h-5 inline-block" /> التطعيمات</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>متابعة تطعيمات الطلاب والجرعات المطلوبة</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ student_name: '', vaccine_name: '', dose_number: '1', date: '', next_dose_date: '', administered_by: '', status: 'completed' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
-          ➕ تسجيل تطعيم
+          <Plus className="w-5 h-5 inline-block" /> تسجيل تطعيم
         </button>
       </div>
 
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
-          { label: 'إجمالي التطعيمات', value: stats.total, icon: '💉', color: '#C9A227' },
-          { label: 'مكتمل', value: stats.completed, icon: '✅', color: '#10B981' },
+          { label: 'إجمالي التطعيمات', value: stats.total, icon: '<Syringe className="w-5 h-5 inline-block" />', color: '#C9A227' },
+          { label: 'مكتمل', value: stats.completed, icon: '<CheckCircle className="w-5 h-5 inline-block" />', color: '#10B981' },
           { label: 'بانتظار جرعة', value: stats.pending, icon: '⏳', color: '#F59E0B' },
-          { label: 'متأخر', value: stats.overdue, icon: '🚨', color: '#EF4444' },
+          { label: 'متأخر', value: stats.overdue, icon: '<Siren className="w-5 h-5 inline-block" />', color: '#EF4444' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
             <div style={{ fontSize: 28 }}>{stat.icon}</div>
@@ -102,7 +103,7 @@ export default function VaccinationsPage() {
 
       {/* Search */}
       <div style={{ marginBottom: 20 }}>
-        <input placeholder="🔍 بحث بالاسم أو التطعيم..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
+        <input placeholder="<Search className="w-5 h-5 inline-block" /> بحث بالاسم أو التطعيم..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
       </div>
 
       {/* Table */}
@@ -111,7 +112,7 @@ export default function VaccinationsPage() {
           <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
         ) : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>💉</div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}><Syringe className="w-5 h-5 inline-block" /></div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد تطعيمات مسجلة</p>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "تسجيل تطعيم" لإضافة تطعيم جديد</p>
           </div>
@@ -129,7 +130,7 @@ export default function VaccinationsPage() {
                 <tr key={item.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', background: item.status === 'pending' && isOverdue(item.next_dose_date) ? 'rgba(185,28,28,0.05)' : item.status === 'pending' && isDueNow(item.next_dose_date) ? 'rgba(245,158,11,0.03)' : 'transparent' }}>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(16,185,129,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>💉</div>
+                      <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(16,185,129,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><Syringe className="w-5 h-5 inline-block" /></div>
                       <div style={{ color: 'white', fontWeight: 600, fontSize: 14 }}>{item.student_name}</div>
                     </div>
                   </td>
@@ -144,8 +145,8 @@ export default function VaccinationsPage() {
                     {item.next_dose_date ? (
                       <span style={{ color: isOverdue(item.next_dose_date) ? '#EF4444' : isDueNow(item.next_dose_date) ? '#F59E0B' : 'rgba(255,255,255,0.6)', fontWeight: isOverdue(item.next_dose_date) || isDueNow(item.next_dose_date) ? 700 : 400, fontSize: 13 }}>
                         {new Date(item.next_dose_date).toLocaleDateString('ar-SA')}
-                        {isOverdue(item.next_dose_date) && ' ⛔ متأخر'}
-                        {isDueNow(item.next_dose_date) && ' ⚠️ قريباً'}
+                        {isOverdue(item.next_dose_date) && ' <Ban className="w-5 h-5 inline-block" /> متأخر'}
+                        {isDueNow(item.next_dose_date) && ' <AlertTriangle className="w-5 h-5 inline-block" />️ قريباً'}
                       </span>
                     ) : '—'}
                   </td>
@@ -157,8 +158,8 @@ export default function VaccinationsPage() {
                   </td>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>✏️ تعديل</button>
-                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>🗑️ حذف</button>
+                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Pencil className="w-5 h-5 inline-block" />️ تعديل</button>
+                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Trash2 className="w-5 h-5 inline-block" />️ حذف</button>
                     </div>
                   </td>
                 </tr>
@@ -173,8 +174,8 @@ export default function VaccinationsPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? '✏️ تعديل تطعيم' : '➕ تسجيل تطعيم جديد'}</h2>
-              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>✕</button>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? '<Pencil className="w-5 h-5 inline-block" />️ تعديل تطعيم' : '<Plus className="w-5 h-5 inline-block" /> تسجيل تطعيم جديد'}</h2>
+              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}><X className="w-5 h-5 inline-block" /></button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ gridColumn: 'span 2' }}>
@@ -222,7 +223,7 @@ export default function VaccinationsPage() {
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
-              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? '💾 تحديث' : '➕ تسجيل'}</button>
+              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? '<Save className="w-5 h-5 inline-block" /> تحديث' : '<Plus className="w-5 h-5 inline-block" /> تسجيل'}</button>
             </div>
           </div>
         </div>

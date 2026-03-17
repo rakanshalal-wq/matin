@@ -1,4 +1,5 @@
 "use client";
+import { Bell, BookOpen, Bot, Building2, CheckCircle, ClipboardList, CreditCard, FlaskConical, GraduationCap, Hospital, Key, Link, Lock, Mail, MailOpen, Map, MessageCircle, Package, Pencil, Save, Shirt, ShoppingBag, Smartphone, Video, XCircle, Zap } from "lucide-react";
 import { useState, useEffect } from "react";
 
 type Integration = {
@@ -15,37 +16,37 @@ type Integration = {
 
 const INTEGRATIONS: Integration[] = [
   // ===== دفع =====
-  { key: "payment_gateway_1", name: "بوابة الدفع الرئيسية",  category: "دفع",           icon: "💳", desc: "قبول مدى، فيزا، ماستركارد",                           fields: ["publishable_key","secret_key"],                       testable: true,  requiresLicense: false },
-  { key: "payment_gateway_2", name: "بوابة الدفع البديلة",   category: "دفع",           icon: "💳", desc: "بوابة دفع احتياطية متكاملة",                          fields: ["api_key","entity_id"],                                testable: false, requiresLicense: false },
-  { key: "payment_wallet",    name: "المحفظة الإلكترونية",   category: "دفع",           icon: "📱", desc: "الدفع عبر المحفظة الإلكترونية",                       fields: ["api_key","merchant_id"],                              testable: false, requiresLicense: false },
-  { key: "payment_bnpl_1",    name: "الدفع على أقساط",       category: "دفع",           icon: "🛍️", desc: "اشتري الآن وادفع لاحقاً",                             fields: ["public_key","secret_key","merchant_code"],            testable: false, requiresLicense: false },
-  { key: "payment_bnpl_2",    name: "التقسيط بدون فوائد",    category: "دفع",           icon: "🛍️", desc: "تقسيط ميسّر بدون فوائد",                              fields: ["api_token"],                                          testable: false, requiresLicense: false },
+  { key: "payment_gateway_1", name: "بوابة الدفع الرئيسية",  category: "دفع",           icon: "<CreditCard className="w-5 h-5 inline-block" />", desc: "قبول مدى، فيزا، ماستركارد",                           fields: ["publishable_key","secret_key"],                       testable: true,  requiresLicense: false },
+  { key: "payment_gateway_2", name: "بوابة الدفع البديلة",   category: "دفع",           icon: "<CreditCard className="w-5 h-5 inline-block" />", desc: "بوابة دفع احتياطية متكاملة",                          fields: ["api_key","entity_id"],                                testable: false, requiresLicense: false },
+  { key: "payment_wallet",    name: "المحفظة الإلكترونية",   category: "دفع",           icon: "<Smartphone className="w-5 h-5 inline-block" />", desc: "الدفع عبر المحفظة الإلكترونية",                       fields: ["api_key","merchant_id"],                              testable: false, requiresLicense: false },
+  { key: "payment_bnpl_1",    name: "الدفع على أقساط",       category: "دفع",           icon: "<ShoppingBag className="w-5 h-5 inline-block" />️", desc: "اشتري الآن وادفع لاحقاً",                             fields: ["public_key","secret_key","merchant_code"],            testable: false, requiresLicense: false },
+  { key: "payment_bnpl_2",    name: "التقسيط بدون فوائد",    category: "دفع",           icon: "<ShoppingBag className="w-5 h-5 inline-block" />️", desc: "تقسيط ميسّر بدون فوائد",                              fields: ["api_token"],                                          testable: false, requiresLicense: false },
   // ===== رسائل =====
-  { key: "taqnyat",           name: "تقنيات SMS",            category: "رسائل",         icon: "📨", desc: "رسائل SMS سعودية",                                    fields: ["api_key","sender"],                                   testable: false, requiresLicense: false },
-  { key: "unifonic",          name: "Unifonic",              category: "رسائل",         icon: "📨", desc: "رسائل SMS عربية",                                      fields: ["app_id","sender_id"],                                 testable: false, requiresLicense: false },
-  { key: "whatsapp",          name: "واتساب Business",       category: "رسائل",         icon: "💬", desc: "إرسال رسائل واتساب تلقائية",                          fields: ["access_token","phone_number_id"],                     testable: true,  requiresLicense: false },
-  { key: "resend",            name: "Resend Email",          category: "رسائل",         icon: "📧", desc: "إرسال إيميلات احترافية",                              fields: ["api_key","from_email","from_name"],                   testable: true,  requiresLicense: false },
+  { key: "taqnyat",           name: "تقنيات SMS",            category: "رسائل",         icon: "<MailOpen className="w-5 h-5 inline-block" />", desc: "رسائل SMS سعودية",                                    fields: ["api_key","sender"],                                   testable: false, requiresLicense: false },
+  { key: "unifonic",          name: "Unifonic",              category: "رسائل",         icon: "<MailOpen className="w-5 h-5 inline-block" />", desc: "رسائل SMS عربية",                                      fields: ["app_id","sender_id"],                                 testable: false, requiresLicense: false },
+  { key: "whatsapp",          name: "واتساب Business",       category: "رسائل",         icon: "<MessageCircle className="w-5 h-5 inline-block" />", desc: "إرسال رسائل واتساب تلقائية",                          fields: ["access_token","phone_number_id"],                     testable: true,  requiresLicense: false },
+  { key: "resend",            name: "Resend Email",          category: "رسائل",         icon: "<Mail className="w-5 h-5 inline-block" />", desc: "إرسال إيميلات احترافية",                              fields: ["api_key","from_email","from_name"],                   testable: true,  requiresLicense: false },
   // ===== إشعارات =====
-  { key: "firebase",          name: "Firebase Push",         category: "إشعارات",       icon: "🔔", desc: "إشعارات الجوال",                                      fields: ["server_key","project_id"],                           testable: true,  requiresLicense: false },
+  { key: "firebase",          name: "Firebase Push",         category: "إشعارات",       icon: "<Bell className="w-5 h-5 inline-block" />", desc: "إشعارات الجوال",                                      fields: ["server_key","project_id"],                           testable: true,  requiresLicense: false },
   // ===== تعليم =====
-  { key: "zoom",              name: "Zoom",                  category: "تعليم",         icon: "📹", desc: "اجتماعات ومحاضرات مباشرة",                            fields: ["api_key","api_secret"],                               testable: false, requiresLicense: false },
-  { key: "googlemeet",        name: "Google Meet",           category: "تعليم",         icon: "📹", desc: "اجتماعات مجانية",                                     fields: ["client_id","client_secret"],                          testable: false, requiresLicense: false },
-  { key: "moodle",            name: "Moodle",                category: "تعليم",         icon: "📚", desc: "نظام إدارة التعلم",                                   fields: ["url","token"],                                        testable: false, requiresLicense: false },
+  { key: "zoom",              name: "Zoom",                  category: "تعليم",         icon: "<Video className="w-5 h-5 inline-block" />", desc: "اجتماعات ومحاضرات مباشرة",                            fields: ["api_key","api_secret"],                               testable: false, requiresLicense: false },
+  { key: "googlemeet",        name: "Google Meet",           category: "تعليم",         icon: "<Video className="w-5 h-5 inline-block" />", desc: "اجتماعات مجانية",                                     fields: ["client_id","client_secret"],                          testable: false, requiresLicense: false },
+  { key: "moodle",            name: "Moodle",                category: "تعليم",         icon: "<BookOpen className="w-5 h-5 inline-block" />", desc: "نظام إدارة التعلم",                                   fields: ["url","token"],                                        testable: false, requiresLicense: false },
   // ===== شحن =====
-  { key: "aramex",            name: "أرامكس",                category: "شحن",           icon: "📦", desc: "شركة شحن أرامكس",                                     fields: ["username","password","account_number","account_pin"], testable: false, requiresLicense: false },
-  { key: "smsa",              name: "SMSA",                  category: "شحن",           icon: "📦", desc: "شركة شحن SMSA",                                       fields: ["api_key","passkey","sender_city"],                    testable: false, requiresLicense: false },
+  { key: "aramex",            name: "أرامكس",                category: "شحن",           icon: "<Package className="w-5 h-5 inline-block" />", desc: "شركة شحن أرامكس",                                     fields: ["username","password","account_number","account_pin"], testable: false, requiresLicense: false },
+  { key: "smsa",              name: "SMSA",                  category: "شحن",           icon: "<Package className="w-5 h-5 inline-block" />", desc: "شركة شحن SMSA",                                       fields: ["api_key","passkey","sender_city"],                    testable: false, requiresLicense: false },
   // ===== ذكاء اصطناعي =====
-  { key: "openai",            name: "OpenAI",                category: "ذكاء اصطناعي", icon: "🤖", desc: "GPT-4 للمساعد الذكي",                                 fields: ["api_key"],                                            testable: false, requiresLicense: false },
+  { key: "openai",            name: "OpenAI",                category: "ذكاء اصطناعي", icon: "<Bot className="w-5 h-5 inline-block" />", desc: "GPT-4 للمساعد الذكي",                                 fields: ["api_key"],                                            testable: false, requiresLicense: false },
   // ===== خرائط =====
-  { key: "google_maps",       name: "Google Maps",           category: "خرائط",         icon: "🗺️", desc: "خرائط وتتبع الباصات",                                 fields: ["api_key"],                                            testable: false, requiresLicense: false },
+  { key: "google_maps",       name: "Google Maps",           category: "خرائط",         icon: "<Map className="w-5 h-5 inline-block" />️", desc: "خرائط وتتبع الباصات",                                 fields: ["api_key"],                                            testable: false, requiresLicense: false },
   // ===== حكومي — يحتاج ترخيص رسمي =====
-  { key: "noor",    name: "نور",    category: "حكومي", icon: "🏛️", desc: "نظام نور للتعليم — ربط بيانات الطلاب والمعلمين",     fields: ["api_key","school_code"],                  testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً رسمياً من وزارة التعليم" },
-  { key: "nafath",  name: "نفاذ",  category: "حكومي", icon: "🔐", desc: "التحقق من الهوية الوطنية — تسجيل دخول آمن",          fields: ["client_id","client_secret","service_id"], testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً عبر منصة اعتماد (وزارة الاتصالات)" },
-  { key: "absher",  name: "أبشر",  category: "حكومي", icon: "🏛️", desc: "بوابة الخدمات الحكومية",                             fields: ["api_key"],                                testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً من وزارة الداخلية" },
-  { key: "sehatey", name: "صحتي",  category: "حكومي", icon: "🏥", desc: "السجلات الصحية للطلاب",                              fields: ["api_key"],                                testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً من وزارة الصحة" },
-  { key: "qiwa",    name: "قوى",   category: "حكومي", icon: "👔", desc: "إدارة العقود والرواتب",                              fields: ["api_key","establishment_id"],             testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً من وزارة الموارد البشرية" },
-  { key: "muqeem",  name: "مقيم",  category: "حكومي", icon: "🏛️", desc: "بيانات المقيمين",                                   fields: ["api_key"],                                testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً من الجوازات" },
-  { key: "faris",   name: "فارس",  category: "حكومي", icon: "🎓", desc: "نظام شؤون المعلمين",                                 fields: ["api_key","school_code"],                  testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً من وزارة التعليم" },
+  { key: "noor",    name: "نور",    category: "حكومي", icon: "<Building2 className="w-5 h-5 inline-block" />️", desc: "نظام نور للتعليم — ربط بيانات الطلاب والمعلمين",     fields: ["api_key","school_code"],                  testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً رسمياً من وزارة التعليم" },
+  { key: "nafath",  name: "نفاذ",  category: "حكومي", icon: "<Lock className="w-5 h-5 inline-block" />", desc: "التحقق من الهوية الوطنية — تسجيل دخول آمن",          fields: ["client_id","client_secret","service_id"], testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً عبر منصة اعتماد (وزارة الاتصالات)" },
+  { key: "absher",  name: "أبشر",  category: "حكومي", icon: "<Building2 className="w-5 h-5 inline-block" />️", desc: "بوابة الخدمات الحكومية",                             fields: ["api_key"],                                testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً من وزارة الداخلية" },
+  { key: "sehatey", name: "صحتي",  category: "حكومي", icon: "<Hospital className="w-5 h-5 inline-block" />", desc: "السجلات الصحية للطلاب",                              fields: ["api_key"],                                testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً من وزارة الصحة" },
+  { key: "qiwa",    name: "قوى",   category: "حكومي", icon: "<Shirt className="w-5 h-5 inline-block" />", desc: "إدارة العقود والرواتب",                              fields: ["api_key","establishment_id"],             testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً من وزارة الموارد البشرية" },
+  { key: "muqeem",  name: "مقيم",  category: "حكومي", icon: "<Building2 className="w-5 h-5 inline-block" />️", desc: "بيانات المقيمين",                                   fields: ["api_key"],                                testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً من الجوازات" },
+  { key: "faris",   name: "فارس",  category: "حكومي", icon: "<GraduationCap className="w-5 h-5 inline-block" />", desc: "نظام شؤون المعلمين",                                 fields: ["api_key","school_code"],                  testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً من وزارة التعليم" },
 ];
 
 const FIELD_LABELS: Record<string, string> = {
@@ -173,7 +174,7 @@ export default function IntegrationsPage() {
         body: JSON.stringify({ action: "test" }),
       });
       const data = await res.json();
-      setTestResult(prev => ({ ...prev, [key]: { success: data.success, message: data.message || (data.success ? "الاتصال يعمل ✅" : "فشل الاتصال ❌") } }));
+      setTestResult(prev => ({ ...prev, [key]: { success: data.success, message: data.message || (data.success ? "الاتصال يعمل <CheckCircle className="w-5 h-5 inline-block" />" : "فشل الاتصال <XCircle className="w-5 h-5 inline-block" />") } }));
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : "خطأ غير معروف";
       setTestResult(prev => ({ ...prev, [key]: { success: false, message: msg } }));
@@ -232,7 +233,7 @@ export default function IntegrationsPage() {
             <div className="flex gap-2 pt-1">
               <button onClick={() => handleSave(integration.key)} disabled={isSaving}
                 className="flex-1 bg-yellow-400 text-gray-900 py-2 rounded-lg text-sm font-bold hover:bg-yellow-300 disabled:opacity-50 transition-colors">
-                {isSaving ? "جاري الحفظ..." : "💾 حفظ وتفعيل"}
+                {isSaving ? "جاري الحفظ..." : "<Save className="w-5 h-5 inline-block" /> حفظ وتفعيل"}
               </button>
               <button onClick={() => setEditing(null)}
                 className="px-3 py-2 border border-[#2a3550] rounded-lg text-sm text-gray-400 hover:text-white hover:border-gray-400 transition-colors">
@@ -245,12 +246,12 @@ export default function IntegrationsPage() {
             <button
               onClick={() => { setInputValues(prev => ({ ...prev, [integration.key]: savedKeys[integration.key] || {} })); setEditing(integration.key); }}
               className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${isConnected ? "bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border border-emerald-500/30" : "bg-yellow-400 text-gray-900 hover:bg-yellow-300"}`}>
-              {isConnected ? "✏️ تعديل" : "🔗 ربط الآن"}
+              {isConnected ? "<Pencil className="w-5 h-5 inline-block" />️ تعديل" : "<Link className="w-5 h-5 inline-block" /> ربط الآن"}
             </button>
             {isConnected && integration.testable && (
               <button onClick={() => handleTest(integration.key)} disabled={isTesting}
                 className="px-3 py-2 border border-blue-500/30 rounded-lg text-sm text-blue-400 hover:bg-blue-500/10 transition-colors disabled:opacity-50">
-                {isTesting ? "⏳" : "🧪 اختبار"}
+                {isTesting ? "⏳" : "<FlaskConical className="w-5 h-5 inline-block" /> اختبار"}
               </button>
             )}
             {isConnected && (
@@ -280,7 +281,7 @@ export default function IntegrationsPage() {
         {!isConnected && (
           <div className="absolute top-3 left-3">
             <span className="text-xs bg-orange-500/20 text-orange-400 border border-orange-500/30 px-2 py-0.5 rounded-full font-medium">
-              🏛️ يحتاج ترخيص
+              <Building2 className="w-5 h-5 inline-block" />️ يحتاج ترخيص
             </span>
           </div>
         )}
@@ -302,7 +303,7 @@ export default function IntegrationsPage() {
         <p className="text-sm text-gray-400 leading-relaxed">{integration.desc}</p>
         {!isConnected && (
           <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-3 text-xs text-orange-300 leading-relaxed">
-            <span className="font-bold">📋 متطلب الترخيص: </span>{integration.licenseNote}
+            <span className="font-bold"><ClipboardList className="w-5 h-5 inline-block" /> متطلب الترخيص: </span>{integration.licenseNote}
           </div>
         )}
         {isEditing ? (
@@ -322,7 +323,7 @@ export default function IntegrationsPage() {
             <div className="flex gap-2 pt-1">
               <button onClick={() => handleSave(integration.key)} disabled={isSaving}
                 className="flex-1 bg-orange-400 text-gray-900 py-2 rounded-lg text-sm font-bold hover:bg-orange-300 disabled:opacity-50 transition-colors">
-                {isSaving ? "جاري الحفظ..." : isConnected ? "💾 حفظ التعديلات" : "🔗 تفعيل بعد الترخيص"}
+                {isSaving ? "جاري الحفظ..." : isConnected ? "<Save className="w-5 h-5 inline-block" /> حفظ التعديلات" : "<Link className="w-5 h-5 inline-block" /> تفعيل بعد الترخيص"}
               </button>
               <button onClick={() => setEditing(null)}
                 className="px-3 py-2 border border-[#2a3550] rounded-lg text-sm text-gray-400 hover:text-white transition-colors">
@@ -335,7 +336,7 @@ export default function IntegrationsPage() {
             <button
               onClick={() => { setInputValues(prev => ({ ...prev, [integration.key]: savedKeys[integration.key] || {} })); setEditing(integration.key); }}
               className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all border ${isConnected ? "bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border-emerald-500/30" : "border-orange-500/40 text-orange-400 hover:bg-orange-500/10"}`}>
-              {isConnected ? "✏️ تعديل" : "🔑 إدخال مفاتيح الترخيص"}
+              {isConnected ? "<Pencil className="w-5 h-5 inline-block" />️ تعديل" : "<Key className="w-5 h-5 inline-block" /> إدخال مفاتيح الترخيص"}
             </button>
             {isConnected && (
               <button onClick={() => handleDisconnect(integration.key)} disabled={isDisc}
@@ -355,7 +356,7 @@ export default function IntegrationsPage() {
       <div className="mb-8">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-1">⚡ التكاملات والربط</h1>
+            <h1 className="text-3xl font-bold text-white mb-1"><Zap className="w-5 h-5 inline-block" /> التكاملات والربط</h1>
             <p className="text-gray-400">اربط منصتك بالخدمات الخارجية — مفتاح واحد يشتغل لكل المدارس</p>
           </div>
           <div className="flex items-center gap-3">
@@ -374,7 +375,7 @@ export default function IntegrationsPage() {
       {/* لوحة التعليمات */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4">
-          <h3 className="text-blue-400 font-bold mb-2">✅ التكاملات الجاهزة — تفعّل فوراً</h3>
+          <h3 className="text-blue-400 font-bold mb-2"><CheckCircle className="w-5 h-5 inline-block" /> التكاملات الجاهزة — تفعّل فوراً</h3>
           <div className="text-sm text-gray-300 space-y-1">
             <p>1. اضغط <strong>"ربط الآن"</strong> على أي تكامل</p>
             <p>2. أدخل الـ API Key من موقع الخدمة</p>
@@ -382,7 +383,7 @@ export default function IntegrationsPage() {
           </div>
         </div>
         <div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-4">
-          <h3 className="text-orange-400 font-bold mb-2">🏛️ التكاملات الحكومية — تحتاج ترخيص رسمي</h3>
+          <h3 className="text-orange-400 font-bold mb-2"><Building2 className="w-5 h-5 inline-block" />️ التكاملات الحكومية — تحتاج ترخيص رسمي</h3>
           <div className="text-sm text-gray-300 space-y-1">
             <p>الحقول جاهزة في المنصة بالكامل.</p>
             <p>بعد حصولك على الترخيص، اضغط <strong>"إدخال مفاتيح الترخيص"</strong></p>
@@ -403,7 +404,7 @@ export default function IntegrationsPage() {
 
       {loading && (
         <div className="text-center py-20 text-gray-400">
-          <div className="text-4xl mb-3 animate-pulse">⚡</div>
+          <div className="text-4xl mb-3 animate-pulse"><Zap className="w-5 h-5 inline-block" /></div>
           <p>جاري تحميل التكاملات...</p>
         </div>
       )}

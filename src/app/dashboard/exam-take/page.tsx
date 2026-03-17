@@ -1,4 +1,5 @@
 'use client';
+import { AlertTriangle, Ban, Check, FileText, Frown, Lock, PartyPopper, Rocket } from "lucide-react";
 import { useState, useEffect, useCallback } from 'react';
 
 const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
@@ -151,7 +152,7 @@ export default function ExamTakePage() {
   if (phase === 'loading') return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0C0E17', fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' as const }}>
       <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 48, marginBottom: 16 }}>📝</div>
+        <div style={{ fontSize: 48, marginBottom: 16 }}><FileText className="w-5 h-5 inline-block" /></div>
         <p style={{ color: msg ? '#EF4444' : '#C9A227', fontSize: 16 }}>{msg || 'جاري تحميل الاختبار...'}</p>
       </div>
     </div>
@@ -161,10 +162,10 @@ export default function ExamTakePage() {
   if (phase === 'ready') return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0C0E17', fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' as const }}>
       <div style={{ textAlign: 'center', maxWidth: 500, padding: 40 }}>
-        <div style={{ fontSize: 64, marginBottom: 20 }}>🔒</div>
+        <div style={{ fontSize: 64, marginBottom: 20 }}><Lock className="w-5 h-5 inline-block" /></div>
         <h1 style={{ color: '#C9A227', fontSize: 24, fontWeight: 700, margin: '0 0 16px' }}>جاهز للاختبار؟</h1>
         <div style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 12, padding: 16, marginBottom: 24, textAlign: 'right' }}>
-          <p style={{ color: '#EF4444', fontSize: 14, margin: '0 0 8px', fontWeight: 700 }}>⚠️ تعليمات مهمة:</p>
+          <p style={{ color: '#EF4444', fontSize: 14, margin: '0 0 8px', fontWeight: 700 }}><AlertTriangle className="w-5 h-5 inline-block" />️ تعليمات مهمة:</p>
           <p style={{ color: '#D4D4D8', fontSize: 13, margin: '0 0 4px' }}>• الاختبار سيفتح بوضع ملء الشاشة</p>
           <p style={{ color: '#D4D4D8', fontSize: 13, margin: '0 0 4px' }}>• ممنوع الخروج من الشاشة أو فتح تبويب ثاني</p>
           <p style={{ color: '#D4D4D8', fontSize: 13, margin: '0 0 4px' }}>• ممنوع النسخ واللصق وكليك يمين</p>
@@ -172,7 +173,7 @@ export default function ExamTakePage() {
           <p style={{ color: '#D4D4D8', fontSize: 13, margin: 0 }}>• {questions.length} سؤال — {formatTime(timeLeft)}</p>
         </div>
         <button onClick={enterFullscreen} style={{ padding: '14px 40px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#000', border: 'none', borderRadius: 12, fontSize: 18, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-          🚀 ابدأ الاختبار
+          <Rocket className="w-5 h-5 inline-block" /> ابدأ الاختبار
         </button>
       </div>
     </div>
@@ -182,7 +183,7 @@ export default function ExamTakePage() {
   if (phase === 'result') return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0C0E17', fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' as const }}>
       <div style={{ textAlign: 'center', maxWidth: 400, padding: 40 }}>
-        <div style={{ fontSize: 80, marginBottom: 20 }}>{terminated ? '🚫' : result?.percentage >= 50 ? '🎉' : '😞'}</div>
+        <div style={{ fontSize: 80, marginBottom: 20 }}>{terminated ? '<Ban className="w-5 h-5 inline-block" />' : result?.percentage >= 50 ? '<PartyPopper className="w-5 h-5 inline-block" />' : '<Frown className="w-5 h-5 inline-block" />'}</div>
         <h1 style={{ color: terminated ? '#EF4444' : result?.percentage >= 50 ? '#10B981' : '#F59E0B', fontSize: 28, margin: '0 0 12px' }}>
           {terminated ? 'تم إنهاء الاختبار' : `${result?.correct || 0} / ${result?.total || 0}`}
         </h1>
@@ -204,10 +205,10 @@ export default function ExamTakePage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 24px', background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <span style={{ color: isUrgent ? '#EF4444' : '#C9A227', fontSize: 20, fontWeight: 700, fontFamily: 'monospace' }}>⏱️ {formatTime(timeLeft)}</span>
-          {violations > 0 && <span style={{ padding: '4px 12px', background: 'rgba(239,68,68,0.15)', color: '#EF4444', borderRadius: 20, fontSize: 12 }}>⚠️ مخالفات: {violations}/5</span>}
+          {violations > 0 && <span style={{ padding: '4px 12px', background: 'rgba(239,68,68,0.15)', color: '#EF4444', borderRadius: 20, fontSize: 12 }}><AlertTriangle className="w-5 h-5 inline-block" />️ مخالفات: {violations}/5</span>}
         </div>
         <span style={{ color: '#9CA3AF', fontSize: 13 }}>سؤال {currentQ + 1} من {questions.length}</span>
-        <button onClick={finishExam} style={{ padding: '8px 20px', background: 'rgba(16,185,129,0.1)', color: '#10B981', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 8, fontSize: 13, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>✓ تسليم</button>
+        <button onClick={finishExam} style={{ padding: '8px 20px', background: 'rgba(16,185,129,0.1)', color: '#10B981', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 8, fontSize: 13, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}><Check className="w-5 h-5 inline-block" /> تسليم</button>
       </div>
 
       {/* شريط التقدم */}
@@ -248,7 +249,7 @@ export default function ExamTakePage() {
               </button>
             ) : (
               <button onClick={finishExam} style={{ padding: '10px 24px', background: 'linear-gradient(135deg, #10B981, #059669)', color: '#fff', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-                ✓ تسليم الاختبار
+                <Check className="w-5 h-5 inline-block" /> تسليم الاختبار
               </button>
             )}
           </div>

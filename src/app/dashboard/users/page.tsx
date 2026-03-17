@@ -1,4 +1,5 @@
 'use client';
+import { CheckCircle, Crown, GraduationCap, Pencil, School, Search, Trash2, User, Users, Wrench, XCircle } from "lucide-react";
   const getHeaders = (): Record<string, string> => ({ 'Content-Type': 'application/json' });
 import { useState, useEffect } from 'react';
 
@@ -122,7 +123,7 @@ export default function UsersPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>👥 إدارة المستخدمين</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><Users className="w-5 h-5 inline-block" /> إدارة المستخدمين</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة جميع المستخدمين والموافقة على الطلبات</p>
         </div>
       </div>
@@ -130,10 +131,10 @@ export default function UsersPage() {
       {/* الإحصائيات */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 24 }}>
         {[
-          { label: 'إجمالي المستخدمين', value: stats.total, icon: '👥', color: '#3B82F6' },
+          { label: 'إجمالي المستخدمين', value: stats.total, icon: '<Users className="w-5 h-5 inline-block" />', color: '#3B82F6' },
           { label: 'بانتظار الموافقة', value: stats.pending, icon: '⏳', color: '#F59E0B' },
-          { label: 'مستخدمين نشطين', value: stats.active, icon: '✅', color: '#10B981' },
-          { label: 'ملاك المدارس', value: stats.owners, icon: '🏫', color: '#8B5CF6' },
+          { label: 'مستخدمين نشطين', value: stats.active, icon: '<CheckCircle className="w-5 h-5 inline-block" />', color: '#10B981' },
+          { label: 'ملاك المدارس', value: stats.owners, icon: '<School className="w-5 h-5 inline-block" />', color: '#8B5CF6' },
         ].map((s, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 20 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -152,7 +153,7 @@ export default function UsersPage() {
         <input
           value={search}
           onChange={e => setSearch(e.target.value)}
-          placeholder="🔍 بحث بالاسم أو الإيميل أو الجوال..."
+          placeholder="<Search className="w-5 h-5 inline-block" /> بحث بالاسم أو الإيميل أو الجوال..."
           style={{ flex: 1, minWidth: 250, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none' }}
         />
         <select value={roleFilter} onChange={e => setRoleFilter(e.target.value)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none', cursor: 'pointer' }}>
@@ -177,7 +178,7 @@ export default function UsersPage() {
         <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>⏳ جاري التحميل...</div>
       ) : filtered.length === 0 ? (
         <div style={{ textAlign: 'center', padding: 60 }}>
-          <div style={{ fontSize: 64, marginBottom: 16 }}>👥</div>
+          <div style={{ fontSize: 64, marginBottom: 16 }}><Users className="w-5 h-5 inline-block" /></div>
           <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 16 }}>لا يوجد مستخدمين</div>
         </div>
       ) : (
@@ -197,7 +198,7 @@ export default function UsersPage() {
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                       <div style={{ width: 40, height: 40, borderRadius: 10, background: `rgba(${(roleColors[u.role] || '#6B7280').slice(1).match(/../g)?.map((h: string) => parseInt(h,16)).join(',')},0.15)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>
-                        {u.role === 'super_admin' ? '👑' : u.role === 'owner' ? '🏫' : u.role === 'admin' ? '🔧' : u.role === 'teacher' ? '👨‍🏫' : u.role === 'parent' ? '👨‍👧' : u.role === 'student' ? '🎓' : '👤'}
+                        {u.role === 'super_admin' ? '<Crown className="w-5 h-5 inline-block" />' : u.role === 'owner' ? '<School className="w-5 h-5 inline-block" />' : u.role === 'admin' ? '<Wrench className="w-5 h-5 inline-block" />' : u.role === 'teacher' ? '<User className="w-5 h-5 inline-block" />‍<School className="w-5 h-5 inline-block" />' : u.role === 'parent' ? '<User className="w-5 h-5 inline-block" />‍<User className="w-5 h-5 inline-block" />' : u.role === 'student' ? '<GraduationCap className="w-5 h-5 inline-block" />' : '<User className="w-5 h-5 inline-block" />'}
                       </div>
                       <div>
                         <div style={{ color: 'white', fontWeight: 600, fontSize: 14 }}>{u.name}</div>
@@ -241,12 +242,12 @@ export default function UsersPage() {
                             onClick={() => handleAction(u.id, 'approve')}
                             disabled={actionLoading === u.id}
                             style={{ background: 'rgba(16,185,129,0.1)', color: '#10B981', border: 'none', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}
-                          >✅ موافقة</button>
+                          ><CheckCircle className="w-5 h-5 inline-block" /> موافقة</button>
                           <button
                             onClick={() => handleAction(u.id, 'reject')}
                             disabled={actionLoading === u.id}
                             style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}
-                          >❌ رفض</button>
+                          ><XCircle className="w-5 h-5 inline-block" /> رفض</button>
                         </>
                       )}
                       {u.status === 'active' && u.role !== 'super_admin' && (
@@ -268,14 +269,14 @@ export default function UsersPage() {
                           onClick={() => handleAction(u.id, 'approve')}
                           disabled={actionLoading === u.id}
                           style={{ background: 'rgba(16,185,129,0.1)', color: '#10B981', border: 'none', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}
-                        >✅ موافقة</button>
+                        ><CheckCircle className="w-5 h-5 inline-block" /> موافقة</button>
                       )}
                       {u.role !== 'super_admin' && (
                         <button
                           onClick={() => handleDelete(u.id, u.name)}
                           disabled={actionLoading === u.id}
                           style={{ background: 'rgba(239,68,68,0.08)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}
-                        >🗑️ حذف</button>
+                        ><Trash2 className="w-5 h-5 inline-block" />️ حذف</button>
                       )}
                     </div>
                   </td>
@@ -290,7 +291,7 @@ export default function UsersPage() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 460, direction: 'rtl' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>{editItem ? '✏️ تعديل المستخدم' : '+ إضافة مستخدم'}</h2>
+              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>{editItem ? '<Pencil className="w-5 h-5 inline-block" />️ تعديل المستخدم' : '+ إضافة مستخدم'}</h2>
               <button onClick={() => { setShowModal(false); setErrMsg(''); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
             </div>
             {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}

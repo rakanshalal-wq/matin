@@ -1,4 +1,5 @@
 'use client';
+import { Check, X } from "lucide-react";
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Icon, ICONS, G, DARK, CARD, BORDER, Spinner } from '@/components/ui-icons';
@@ -20,7 +21,7 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
       <div style={{ background:'#0F0F1A',border:'1px solid rgba(255,255,255,0.08)',borderRadius:20,width:'100%',maxWidth:520,maxHeight:'90vh',overflowY:'auto',boxShadow:'0 24px 80px rgba(0,0,0,0.6)' }} onClick={e=>e.stopPropagation()}>
         <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center',padding:'20px 24px',borderBottom:'1px solid rgba(255,255,255,0.07)' }}>
           <h3 style={{ color:'#EEEEF5',fontSize:17,fontWeight:700,margin:0 }}>{title}</h3>
-          <button onClick={onClose} style={{ background:'rgba(255,255,255,0.05)',border:'none',borderRadius:8,padding:'6px 10px',cursor:'pointer',color:'rgba(238,238,245,0.6)',fontSize:16 }}>✕</button>
+          <button onClick={onClose} style={{ background:'rgba(255,255,255,0.05)',border:'none',borderRadius:8,padding:'6px 10px',cursor:'pointer',color:'rgba(238,238,245,0.6)',fontSize:16 }}><X className="w-5 h-5 inline-block" /></button>
         </div>
         <div style={{ padding:24 }}>{children}</div>
       </div>
@@ -87,7 +88,7 @@ export default function ParentDashboard() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'فشل إرسال الرسالة');
-      setMsgOk('تم إرسال الرسالة بنجاح ✓');
+      setMsgOk('تم إرسال الرسالة بنجاح <Check className="w-5 h-5 inline-block" />');
       setTimeout(() => { setShowMsgModal(false); setMsgOk(''); setMsgForm({ subject: '', body: '', teacher_id: '' }); }, 1500);
     } catch (e: any) { setMsgErr(e.message); }
     finally { setMsgLoading(false); }
@@ -105,7 +106,7 @@ export default function ParentDashboard() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'فشل إرسال طلب الإجازة');
-      setLeaveOk('تم إرسال طلب الإجازة بنجاح ✓');
+      setLeaveOk('تم إرسال طلب الإجازة بنجاح <Check className="w-5 h-5 inline-block" />');
       setTimeout(() => { setShowLeaveModal(false); setLeaveOk(''); setLeaveForm({ reason: '', from_date: '', to_date: '' }); }, 1500);
     } catch (e: any) { setLeaveErr(e.message); }
     finally { setLeaveLoading(false); }

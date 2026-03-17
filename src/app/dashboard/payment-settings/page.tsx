@@ -1,4 +1,5 @@
 "use client";
+import { CheckCircle, ClipboardList, CreditCard, Link, Lock, Pencil, Save, XCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 
 interface GatewayField {
@@ -110,7 +111,7 @@ export default function PaymentSettingsPage() {
       <div className="mb-8">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-1">💳 إعدادات بوابة الدفع</h1>
+            <h1 className="text-3xl font-bold text-white mb-1"><CreditCard className="w-5 h-5 inline-block" /> إعدادات بوابة الدفع</h1>
             <p className="text-gray-400">اربط بوابة الدفع الخاصة بمؤسستك — الأموال تذهب مباشرة لحسابك البنكي</p>
           </div>
           <div className="flex gap-3">
@@ -133,13 +134,13 @@ export default function PaymentSettingsPage() {
             ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
             : "bg-red-500/10 text-red-400 border-red-500/30"
         }`}>
-          {message.type === "success" ? "✅" : "❌"} {message.text}
+          {message.type === "success" ? "<CheckCircle className="w-5 h-5 inline-block" />" : "<XCircle className="w-5 h-5 inline-block" />"} {message.text}
         </div>
       )}
 
       {/* تعليمات */}
       <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-5 mb-8">
-        <h3 className="text-blue-400 font-bold mb-3 text-base">📋 كيف يعمل النظام</h3>
+        <h3 className="text-blue-400 font-bold mb-3 text-base"><ClipboardList className="w-5 h-5 inline-block" /> كيف يعمل النظام</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-300">
           <div className="flex gap-3">
             <span className="text-blue-400 font-bold text-lg">1</span>
@@ -168,7 +169,7 @@ export default function PaymentSettingsPage() {
       {/* بوابات الدفع */}
       {loading ? (
         <div className="text-center py-20 text-gray-400">
-          <div className="text-4xl mb-3 animate-pulse">💳</div>
+          <div className="text-4xl mb-3 animate-pulse"><CreditCard className="w-5 h-5 inline-block" /></div>
           <p>جاري التحميل...</p>
         </div>
       ) : (
@@ -242,7 +243,7 @@ export default function PaymentSettingsPage() {
                         disabled={isSaving}
                         className="flex-1 bg-yellow-400 text-gray-900 py-2.5 rounded-xl text-sm font-bold hover:bg-yellow-300 disabled:opacity-50 transition-colors"
                       >
-                        {isSaving ? "⏳ جاري الحفظ..." : "💾 حفظ وتفعيل"}
+                        {isSaving ? "⏳ جاري الحفظ..." : "<Save className="w-5 h-5 inline-block" /> حفظ وتفعيل"}
                       </button>
                       <button
                         onClick={() => setEditing(null)}
@@ -265,7 +266,7 @@ export default function PaymentSettingsPage() {
                           : "bg-yellow-400 text-gray-900 hover:bg-yellow-300"
                       }`}
                     >
-                      {gateway.is_active ? "✏️ تعديل الإعدادات" : "🔗 ربط الآن"}
+                      {gateway.is_active ? "<Pencil className="w-5 h-5 inline-block" />️ تعديل الإعدادات" : "<Link className="w-5 h-5 inline-block" /> ربط الآن"}
                     </button>
                     {gateway.is_active && (
                       <button
@@ -287,7 +288,7 @@ export default function PaymentSettingsPage() {
       {/* تنبيه أمان */}
       <div className="mt-8 bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4">
         <p className="text-yellow-400 text-sm font-medium">
-          🔒 جميع مفاتيح API تُحفظ مشفّرة في قاعدة البيانات ولا تظهر بالكامل بعد الحفظ.
+          <Lock className="w-5 h-5 inline-block" /> جميع مفاتيح API تُحفظ مشفّرة في قاعدة البيانات ولا تظهر بالكامل بعد الحفظ.
           لا تشارك هذه المفاتيح مع أي شخص.
         </p>
       </div>

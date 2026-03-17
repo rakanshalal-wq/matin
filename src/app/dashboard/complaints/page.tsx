@@ -1,4 +1,5 @@
 'use client';
+import { Angry, CheckCircle, Circle, ClipboardList, FileText, HelpCircle, Lightbulb, Pencil, Plus, Save, Search, Siren, ThumbsUp, Trash2, Unlock, X } from "lucide-react";
   const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
 
@@ -53,7 +54,7 @@ export default function ComplaintsPage() {
   };
 
   const typeLabels: any = { complaint: 'شكوى', suggestion: 'اقتراح', inquiry: 'استفسار', report: 'بلاغ' };
-  const typeIcons: any = { complaint: '😤', suggestion: '💡', inquiry: '❓', report: '📋' };
+  const typeIcons: any = { complaint: '<Angry className="w-5 h-5 inline-block" />', suggestion: '<Lightbulb className="w-5 h-5 inline-block" />', inquiry: '<HelpCircle className="w-5 h-5 inline-block" />', report: '<ClipboardList className="w-5 h-5 inline-block" />' };
   const typeColors: any = { complaint: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' }, suggestion: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, inquiry: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, report: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' } };
   const categoryLabels: any = { general: 'عام', academic: 'أكاديمي', financial: 'مالي', transport: 'نقل', facilities: 'مرافق', staff: 'موظفين', food: 'تغذية', safety: 'أمان', technical: 'تقني' };
   const priorityLabels: any = { low: 'منخفض', medium: 'متوسط', high: 'مرتفع', urgent: 'عاجل' };
@@ -68,7 +69,7 @@ export default function ComplaintsPage() {
       {/* Urgent Alert */}
       {highPriority > 0 && (
         <div style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 12, padding: '16px 20px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: 24 }}>🚨</span>
+          <span style={{ fontSize: 24 }}><Siren className="w-5 h-5 inline-block" /></span>
           <div>
             <div style={{ color: '#EF4444', fontWeight: 700, fontSize: 15 }}>يوجد {highPriority} شكوى/بلاغ بأولوية عالية أو عاجلة</div>
             <div style={{ color: 'rgba(239,68,68,0.8)', fontSize: 13, marginTop: 2 }}>يرجى المعالجة فوراً</div>
@@ -79,21 +80,21 @@ export default function ComplaintsPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>📝 الشكاوى والاقتراحات</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><FileText className="w-5 h-5 inline-block" /> الشكاوى والاقتراحات</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>متابعة شكاوى واقتراحات واستفسارات المستخدمين</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ person_name: '', type: 'complaint', category: 'general', subject: '', description: '', priority: 'medium', assigned_to: '', status: 'open' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
-          ➕ إضافة جديد
+          <Plus className="w-5 h-5 inline-block" /> إضافة جديد
         </button>
       </div>
 
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
-          { label: 'الإجمالي', value: stats.total, icon: '📝', color: '#C9A227' },
-          { label: 'مفتوحة', value: stats.open, icon: '🔓', color: '#EF4444' },
+          { label: 'الإجمالي', value: stats.total, icon: '<FileText className="w-5 h-5 inline-block" />', color: '#C9A227' },
+          { label: 'مفتوحة', value: stats.open, icon: '<Unlock className="w-5 h-5 inline-block" />', color: '#EF4444' },
           { label: 'قيد المعالجة', value: stats.inProgress, icon: '⏳', color: '#F59E0B' },
-          { label: 'تم الحل', value: stats.resolved, icon: '✅', color: '#10B981' },
+          { label: 'تم الحل', value: stats.resolved, icon: '<CheckCircle className="w-5 h-5 inline-block" />', color: '#10B981' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
             <div style={{ fontSize: 28 }}>{stat.icon}</div>
@@ -105,7 +106,7 @@ export default function ComplaintsPage() {
 
       {/* Search */}
       <div style={{ marginBottom: 20 }}>
-        <input placeholder="🔍 بحث بالاسم أو الموضوع أو المسؤول..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
+        <input placeholder="<Search className="w-5 h-5 inline-block" /> بحث بالاسم أو الموضوع أو المسؤول..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
       </div>
 
       {/* Table */}
@@ -114,9 +115,9 @@ export default function ComplaintsPage() {
           <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
         ) : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>📝</div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}><FileText className="w-5 h-5 inline-block" /></div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد شكاوى أو اقتراحات</p>
-            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>الحمد لله! كل شيء تمام 👍</p>
+            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>الحمد لله! كل شيء تمام <ThumbsUp className="w-5 h-5 inline-block" /></p>
           </div>
         ) : (
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -132,7 +133,7 @@ export default function ComplaintsPage() {
                 <tr key={item.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', background: item.priority === 'urgent' && item.status === 'open' ? 'rgba(239,68,68,0.05)' : item.priority === 'high' && item.status === 'open' ? 'rgba(245,158,11,0.03)' : 'transparent' }}>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{ width: 40, height: 40, borderRadius: 10, background: typeColors[item.type]?.bg || 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{typeIcons[item.type] || '📝'}</div>
+                      <div style={{ width: 40, height: 40, borderRadius: 10, background: typeColors[item.type]?.bg || 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{typeIcons[item.type] || '<FileText className="w-5 h-5 inline-block" />'}</div>
                       <div style={{ color: 'white', fontWeight: 600, fontSize: 14 }}>{item.person_name}</div>
                     </div>
                   </td>
@@ -148,7 +149,7 @@ export default function ComplaintsPage() {
                   <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>{categoryLabels[item.category] || item.category}</td>
                   <td style={{ padding: '14px 16px' }}>
                     <span style={{ background: priorityColors[item.priority]?.bg, color: priorityColors[item.priority]?.color, padding: '4px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600 }}>
-                      {item.priority === 'urgent' && '🔴 '}{priorityLabels[item.priority] || item.priority}
+                      {item.priority === 'urgent' && '<Circle className="w-5 h-5 inline-block" /> '}{priorityLabels[item.priority] || item.priority}
                     </span>
                   </td>
                   <td style={{ padding: '14px 16px', color: item.assigned_to ? '#C9A227' : 'rgba(255,255,255,0.3)', fontWeight: item.assigned_to ? 600 : 400, fontSize: 13 }}>{item.assigned_to || 'غير محدد'}</td>
@@ -160,8 +161,8 @@ export default function ComplaintsPage() {
                   <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.5)', fontSize: 12 }}>{item.created_at ? new Date(item.created_at).toLocaleDateString('ar-SA') : '—'}</td>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>✏️ تعديل</button>
-                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>🗑️ حذف</button>
+                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Pencil className="w-5 h-5 inline-block" />️ تعديل</button>
+                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Trash2 className="w-5 h-5 inline-block" />️ حذف</button>
                     </div>
                   </td>
                 </tr>
@@ -176,8 +177,8 @@ export default function ComplaintsPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? '✏️ تعديل' : '➕ إضافة شكوى/اقتراح'}</h2>
-              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>✕</button>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? '<Pencil className="w-5 h-5 inline-block" />️ تعديل' : '<Plus className="w-5 h-5 inline-block" /> إضافة شكوى/اقتراح'}</h2>
+              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}><X className="w-5 h-5 inline-block" /></button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ gridColumn: 'span 2' }}>
@@ -187,10 +188,10 @@ export default function ComplaintsPage() {
               <div>
                 <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>النوع</label>
                 <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} style={inputStyle}>
-                  <option value="complaint">شكوى 😤</option>
-                  <option value="suggestion">اقتراح 💡</option>
-                  <option value="inquiry">استفسار ❓</option>
-                  <option value="report">بلاغ 📋</option>
+                  <option value="complaint">شكوى <Angry className="w-5 h-5 inline-block" /></option>
+                  <option value="suggestion">اقتراح <Lightbulb className="w-5 h-5 inline-block" /></option>
+                  <option value="inquiry">استفسار <HelpCircle className="w-5 h-5 inline-block" /></option>
+                  <option value="report">بلاغ <ClipboardList className="w-5 h-5 inline-block" /></option>
                 </select>
               </div>
               <div>
@@ -217,7 +218,7 @@ export default function ComplaintsPage() {
                   <option value="low">منخفض</option>
                   <option value="medium">متوسط</option>
                   <option value="high">مرتفع</option>
-                  <option value="urgent">عاجل 🔴</option>
+                  <option value="urgent">عاجل <Circle className="w-5 h-5 inline-block" /></option>
                 </select>
               </div>
               <div>
@@ -241,7 +242,7 @@ export default function ComplaintsPage() {
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
-              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? '💾 تحديث' : '➕ إضافة'}</button>
+              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? '<Save className="w-5 h-5 inline-block" /> تحديث' : '<Plus className="w-5 h-5 inline-block" /> إضافة'}</button>
             </div>
           </div>
         </div>

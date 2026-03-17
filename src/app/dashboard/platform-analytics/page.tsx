@@ -1,4 +1,5 @@
 'use client';
+import { BarChart3, Bug, CheckCircle, ClipboardList, Crown, Diamond, GraduationCap, Headphones, KeyRound, RefreshCw, Save, School, Trophy, User, Users, Zap } from "lucide-react";
 import { useState, useEffect } from 'react';
 
 export default function PlatformAnalyticsPage() {
@@ -19,11 +20,11 @@ export default function PlatformAnalyticsPage() {
   };
 
   const cards = stats ? [
-    { label: 'المدارس النشطة', value: stats.schools || 0, icon: '🏫', color: '#C9A227' },
-    { label: 'ملاك المدارس', value: stats.owners || 0, icon: '👑', color: '#8B5CF6' },
-    { label: 'إجمالي الطلاب', value: stats.students || 0, icon: '👨‍🎓', color: '#3B82F6' },
-    { label: 'إجمالي المعلمين', value: stats.teachers || 0, icon: '👩‍🏫', color: '#10B981' },
-    { label: 'المستخدمون النشطون', value: stats.active_users || 0, icon: '✅', color: '#06B6D4' },
+    { label: 'المدارس النشطة', value: stats.schools || 0, icon: '<School className="w-5 h-5 inline-block" />', color: '#C9A227' },
+    { label: 'ملاك المدارس', value: stats.owners || 0, icon: '<Crown className="w-5 h-5 inline-block" />', color: '#8B5CF6' },
+    { label: 'إجمالي الطلاب', value: stats.students || 0, icon: '<User className="w-5 h-5 inline-block" />‍<GraduationCap className="w-5 h-5 inline-block" />', color: '#3B82F6' },
+    { label: 'إجمالي المعلمين', value: stats.teachers || 0, icon: '<User className="w-5 h-5 inline-block" />‍<School className="w-5 h-5 inline-block" />', color: '#10B981' },
+    { label: 'المستخدمون النشطون', value: stats.active_users || 0, icon: '<CheckCircle className="w-5 h-5 inline-block" />', color: '#06B6D4' },
     { label: 'طلبات معلقة', value: stats.pending || 0, icon: '⏳', color: '#F59E0B' },
   ] : [];
 
@@ -31,12 +32,12 @@ export default function PlatformAnalyticsPage() {
     <div style={{ padding: 24, background: '#06060E', minHeight: '100vh', fontFamily: 'Arial' }} dir="rtl">
       <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h1 style={{ color: '#C9A227', fontSize: 24, fontWeight: 800, margin: 0 }}>📊 إحصاءات المنصة</h1>
+          <h1 style={{ color: '#C9A227', fontSize: 24, fontWeight: 800, margin: 0 }}><BarChart3 className="w-5 h-5 inline-block" /> إحصاءات المنصة</h1>
           <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>نظرة شاملة على متين — مرئي للمؤسس فقط</p>
         </div>
         <button onClick={fetchStats}
           style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', borderRadius: 8, padding: '8px 16px', cursor: 'pointer', fontSize: 13 }}>
-          🔄 تحديث
+          <RefreshCw className="w-5 h-5 inline-block" /> تحديث
         </button>
       </div>
 
@@ -63,7 +64,7 @@ export default function PlatformAnalyticsPage() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             {/* الباقات */}
             <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.08)', padding: 20 }}>
-              <h3 style={{ color: 'white', margin: '0 0 16px 0', fontSize: 16 }}>💎 توزيع الباقات</h3>
+              <h3 style={{ color: 'white', margin: '0 0 16px 0', fontSize: 16 }}><Diamond className="w-5 h-5 inline-block" /> توزيع الباقات</h3>
               {[
                 { label: 'مجاني', limit: '200 طالب', color: '#6B7280' },
                 { label: 'متقدم — 299 ر.س', limit: '1000 طالب', color: '#C9A227' },
@@ -81,7 +82,7 @@ export default function PlatformAnalyticsPage() {
 
             {/* القواعد الذهبية */}
             <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.08)', padding: 20 }}>
-              <h3 style={{ color: 'white', margin: '0 0 16px 0', fontSize: 16 }}>🏆 القواعد الذهبية</h3>
+              <h3 style={{ color: 'white', margin: '0 0 16px 0', fontSize: 16 }}><Trophy className="w-5 h-5 inline-block" /> القواعد الذهبية</h3>
               {[
                 'مالك المنصة لا يرى بيانات المدارس',
                 'كل مدرسة معزولة 100%',
@@ -91,7 +92,7 @@ export default function PlatformAnalyticsPage() {
                 'التسجيلات لا تحذف — دليل دائم',
               ].map((rule, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0', borderBottom: i < 5 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
-                  <span style={{ color: '#10B981', fontSize: 16 }}>✅</span>
+                  <span style={{ color: '#10B981', fontSize: 16 }}><CheckCircle className="w-5 h-5 inline-block" /></span>
                   <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>{rule}</span>
                 </div>
               ))}
@@ -99,17 +100,17 @@ export default function PlatformAnalyticsPage() {
 
             {/* روابط سريعة */}
             <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.08)', padding: 20, gridColumn: '1 / -1' }}>
-              <h3 style={{ color: 'white', margin: '0 0 16px 0', fontSize: 16 }}>⚡ روابط سريعة</h3>
+              <h3 style={{ color: 'white', margin: '0 0 16px 0', fontSize: 16 }}><Zap className="w-5 h-5 inline-block" /> روابط سريعة</h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
                 {[
-                  { label: 'إدارة المدارس', href: '/dashboard/schools', icon: '🏫' },
-                  { label: 'المستخدمون', href: '/dashboard/users', icon: '👥' },
-                  { label: 'الاشتراكات', href: '/dashboard/subscriptions', icon: '💎' },
-                  { label: 'سجل العمليات', href: '/dashboard/activity-log', icon: '📋' },
-                  { label: 'مفاتيح الطوارئ', href: '/dashboard/emergency-keys', icon: '🗝️' },
-                  { label: 'الدعم الفني', href: '/dashboard/support', icon: '🎧' },
-                  { label: 'النسخ الاحتياطي', href: '/dashboard/backup', icon: '💾' },
-                  { label: 'سجل الأخطاء', href: '/dashboard/error-logs', icon: '🐛' },
+                  { label: 'إدارة المدارس', href: '/dashboard/schools', icon: '<School className="w-5 h-5 inline-block" />' },
+                  { label: 'المستخدمون', href: '/dashboard/users', icon: '<Users className="w-5 h-5 inline-block" />' },
+                  { label: 'الاشتراكات', href: '/dashboard/subscriptions', icon: '<Diamond className="w-5 h-5 inline-block" />' },
+                  { label: 'سجل العمليات', href: '/dashboard/activity-log', icon: '<ClipboardList className="w-5 h-5 inline-block" />' },
+                  { label: 'مفاتيح الطوارئ', href: '/dashboard/emergency-keys', icon: '<KeyRound className="w-5 h-5 inline-block" />️' },
+                  { label: 'الدعم الفني', href: '/dashboard/support', icon: '<Headphones className="w-5 h-5 inline-block" />' },
+                  { label: 'النسخ الاحتياطي', href: '/dashboard/backup', icon: '<Save className="w-5 h-5 inline-block" />' },
+                  { label: 'سجل الأخطاء', href: '/dashboard/error-logs', icon: '<Bug className="w-5 h-5 inline-block" />' },
                 ].map((link, i) => (
                   <a key={i} href={link.href}
                     style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '14px 16px', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10, transition: 'all 0.2s' }}>

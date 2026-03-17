@@ -1,6 +1,6 @@
 'use client';
 
-import { BookOpen, Search, BookMarked, BarChart3, RefreshCw, ChevronLeft, CheckCircle, GraduationCap, Users, Star, FileText, Headphones, Video } from "lucide-react";
+import { Flower2, GraduationCap, School } from "lucide-react";
 
 // ===== DESIGN: Dark Premium — Black/Gold, Cairo font =====
 
@@ -217,9 +217,9 @@ export default function LibraryPage() {
             </div>
             <div className="grid md:grid-cols-3 gap-5">
               {[
-                { emoji: "🏫", title: "المدارس", items: ["كتب وزارة التعليم الكاملة", "مراجع ومذكرات مساعدة", "أسئلة الاختبارات السابقة", "محتوى إثرائي للمتفوقين"] },
-                { emoji: "🎓", title: "الجامعات والمعاهد", items: ["مراجع أكاديمية متخصصة", "أبحاث ودوريات علمية", "مكتبة رسائل الماجستير", "محتوى تدريبي مهني"] },
-                { emoji: "🌸", title: "رياض الأطفال", items: ["قصص تفاعلية مصورة", "أناشيد وأغاني تعليمية", "ألعاب تعليمية رقمية", "محتوى لأولياء الأمور"] },
+                { emoji: "<School className="w-6 h-6" />", title: "المدارس", items: ["كتب وزارة التعليم الكاملة", "مراجع ومذكرات مساعدة", "أسئلة الاختبارات السابقة", "محتوى إثرائي للمتفوقين"] },
+                { emoji: "<GraduationCap className="w-6 h-6" />", title: "الجامعات والمعاهد", items: ["مراجع أكاديمية متخصصة", "أبحاث ودوريات علمية", "مكتبة رسائل الماجستير", "محتوى تدريبي مهني"] },
+                { emoji: "<Flower2 className="w-6 h-6" />", title: "رياض الأطفال", items: ["قصص تفاعلية مصورة", "أناشيد وأغاني تعليمية", "ألعاب تعليمية رقمية", "محتوى لأولياء الأمور"] },
               ].map((item, i) => (
                 <div key={i} className="p-6 rounded-2xl border border-white/10 bg-[#111] hover:border-[rgba(212,168,67,0.2)] transition-all">
                   <div className="text-4xl mb-4">{item.emoji}</div>

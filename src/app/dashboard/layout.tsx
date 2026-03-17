@@ -1,4 +1,5 @@
 'use client';
+import { Heart } from "lucide-react";
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/Sidebar';
@@ -145,7 +146,7 @@ export default function DashboardLayout({
           background: 'rgba(255,255,255,0.01)'
         }}>
           <p style={{ color: 'rgba(238,238,245,0.25)', fontSize: screenSize === 'mobile' ? 11 : 12, margin: 0, fontWeight: 500 }}>© 2026 متين - جميع الحقوق محفوظة</p>
-          <p style={{ color: 'rgba(238,238,245,0.25)', fontSize: screenSize === 'mobile' ? 11 : 12, margin: 0, fontWeight: 500 }}>صنع بـ ❤️ في المملكة العربية السعودية</p>
+          <p style={{ color: 'rgba(238,238,245,0.25)', fontSize: screenSize === 'mobile' ? 11 : 12, margin: 0, fontWeight: 500 }}>صنع بـ <Heart className="w-5 h-5 inline-block" />️ في المملكة العربية السعودية</p>
         </footer>
       </div>
     </div>

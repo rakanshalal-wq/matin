@@ -1,4 +1,5 @@
 'use client';
+import { AlertTriangle, BadgeDollarSign, Briefcase, CheckCircle, Handshake, Megaphone, Pencil, Plus, Save, Search, Shirt, Trash2, User, X, XCircle } from "lucide-react";
   const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
 
@@ -55,7 +56,7 @@ export default function CommissionsPage() {
 
   const typeLabels: any = { fixed: 'مبلغ ثابت', percentage: 'نسبة مئوية', tiered: 'متدرّج', bonus: 'مكافأة' };
   const roleLabels: any = { sales_rep: 'مندوب مبيعات', referral: 'مُحيل', partner: 'شريك', employee: 'موظف', affiliate: 'مسوّق بالعمولة' };
-  const roleIcons: any = { sales_rep: '🧑‍💼', referral: '🤝', partner: '🤝', employee: '👔', affiliate: '📢' };
+  const roleIcons: any = { sales_rep: '<User className="w-5 h-5 inline-block" />‍<Briefcase className="w-5 h-5 inline-block" />', referral: '<Handshake className="w-5 h-5 inline-block" />', partner: '<Handshake className="w-5 h-5 inline-block" />', employee: '<Shirt className="w-5 h-5 inline-block" />', affiliate: '<Megaphone className="w-5 h-5 inline-block" />' };
   const statusLabels: any = { paid: 'تم الصرف', pending: 'معلّق', processing: 'جاري المعالجة', cancelled: 'ملغي' };
   const statusColors: any = { paid: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, pending: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, processing: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, cancelled: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' } };
   const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
@@ -69,7 +70,7 @@ export default function CommissionsPage() {
       {/* Pending Alert */}
       {totalPending > 0 && (
         <div style={{ background: 'rgba(245,158,11,0.15)', border: '1px solid rgba(245,158,11,0.3)', borderRadius: 12, padding: '16px 20px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: 24 }}>⚠️</span>
+          <span style={{ fontSize: 24 }}><AlertTriangle className="w-5 h-5 inline-block" />️</span>
           <div>
             <div style={{ color: '#F59E0B', fontWeight: 700, fontSize: 15 }}>يوجد عمولات معلّقة بمبلغ {formatMoney(totalPending)} ر.س</div>
             <div style={{ color: 'rgba(245,158,11,0.8)', fontSize: 13, marginTop: 2 }}>يرجى مراجعة العمولات المعلّقة وصرفها</div>
@@ -80,21 +81,21 @@ export default function CommissionsPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>💸 العمولات</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><BadgeDollarSign className="w-5 h-5 inline-block" /> العمولات</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة عمولات المندوبين والشركاء</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ person_name: '', role: '', type: 'fixed', amount: '', percentage: '', source: '', month: '', status: 'pending' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
-          ➕ إضافة عمولة
+          <Plus className="w-5 h-5 inline-block" /> إضافة عمولة
         </button>
       </div>
 
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
-          { label: 'إجمالي السجلات', value: stats.total.toString(), icon: '💸', color: '#C9A227', suffix: '' },
-          { label: 'تم الصرف', value: formatMoney(stats.paid), icon: '✅', color: '#10B981', suffix: ' ر.س' },
+          { label: 'إجمالي السجلات', value: stats.total.toString(), icon: '<BadgeDollarSign className="w-5 h-5 inline-block" />', color: '#C9A227', suffix: '' },
+          { label: 'تم الصرف', value: formatMoney(stats.paid), icon: '<CheckCircle className="w-5 h-5 inline-block" />', color: '#10B981', suffix: ' ر.س' },
           { label: 'معلّق', value: formatMoney(stats.pending), icon: '⏳', color: '#F59E0B', suffix: ' ر.س' },
-          { label: 'ملغي', value: stats.cancelled.toString(), icon: '❌', color: '#EF4444', suffix: '' },
+          { label: 'ملغي', value: stats.cancelled.toString(), icon: '<XCircle className="w-5 h-5 inline-block" />', color: '#EF4444', suffix: '' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
             <div style={{ fontSize: 28 }}>{stat.icon}</div>
@@ -106,7 +107,7 @@ export default function CommissionsPage() {
 
       {/* Search */}
       <div style={{ marginBottom: 20 }}>
-        <input placeholder="🔍 بحث بالاسم أو الدور أو المصدر..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
+        <input placeholder="<Search className="w-5 h-5 inline-block" /> بحث بالاسم أو الدور أو المصدر..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
       </div>
 
       {/* Table */}
@@ -115,7 +116,7 @@ export default function CommissionsPage() {
           <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
         ) : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>💸</div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}><BadgeDollarSign className="w-5 h-5 inline-block" /></div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد عمولات مسجلة</p>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "إضافة عمولة" لتسجيل عمولة جديدة</p>
           </div>
@@ -133,7 +134,7 @@ export default function CommissionsPage() {
                 <tr key={item.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(201,162,39,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{roleIcons[item.role] || '💸'}</div>
+                      <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(201,162,39,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{roleIcons[item.role] || '<BadgeDollarSign className="w-5 h-5 inline-block" />'}</div>
                       <div style={{ color: 'white', fontWeight: 600, fontSize: 14 }}>{item.person_name}</div>
                     </div>
                   </td>
@@ -161,8 +162,8 @@ export default function CommissionsPage() {
                   </td>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>✏️ تعديل</button>
-                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>🗑️ حذف</button>
+                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Pencil className="w-5 h-5 inline-block" />️ تعديل</button>
+                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Trash2 className="w-5 h-5 inline-block" />️ حذف</button>
                     </div>
                   </td>
                 </tr>
@@ -177,8 +178,8 @@ export default function CommissionsPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? '✏️ تعديل عمولة' : '➕ إضافة عمولة جديدة'}</h2>
-              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>✕</button>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? '<Pencil className="w-5 h-5 inline-block" />️ تعديل عمولة' : '<Plus className="w-5 h-5 inline-block" /> إضافة عمولة جديدة'}</h2>
+              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}><X className="w-5 h-5 inline-block" /></button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ gridColumn: 'span 2' }}>
@@ -189,11 +190,11 @@ export default function CommissionsPage() {
                 <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>الدور</label>
                 <select value={form.role} onChange={e => setForm({ ...form, role: e.target.value })} style={inputStyle}>
                   <option value="">— اختر —</option>
-                  <option value="sales_rep">مندوب مبيعات 🧑‍💼</option>
-                  <option value="referral">مُحيل 🤝</option>
-                  <option value="partner">شريك 🤝</option>
-                  <option value="employee">موظف 👔</option>
-                  <option value="affiliate">مسوّق بالعمولة 📢</option>
+                  <option value="sales_rep">مندوب مبيعات <User className="w-5 h-5 inline-block" />‍<Briefcase className="w-5 h-5 inline-block" /></option>
+                  <option value="referral">مُحيل <Handshake className="w-5 h-5 inline-block" /></option>
+                  <option value="partner">شريك <Handshake className="w-5 h-5 inline-block" /></option>
+                  <option value="employee">موظف <Shirt className="w-5 h-5 inline-block" /></option>
+                  <option value="affiliate">مسوّق بالعمولة <Megaphone className="w-5 h-5 inline-block" /></option>
                 </select>
               </div>
               <div>
@@ -236,7 +237,7 @@ export default function CommissionsPage() {
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
-              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? '💾 تحديث' : '➕ إضافة'}</button>
+              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? '<Save className="w-5 h-5 inline-block" /> تحديث' : '<Plus className="w-5 h-5 inline-block" /> إضافة'}</button>
             </div>
           </div>
         </div>

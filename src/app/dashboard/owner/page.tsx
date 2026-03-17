@@ -1,4 +1,5 @@
 'use client';
+import { AlertTriangle, BadgeDollarSign, BarChart3, Bell, Bot, Building2, Check, CheckCircle, Coins, Headphones, Lock, Megaphone, Package, Pencil, Scale, School, Settings, ShoppingCart, Sparkles, Ticket, TrendingUp, Trophy, Users, X, Zap } from "lucide-react";
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 
@@ -13,18 +14,18 @@ const BLUE = '#3B82F6';
 const PURPLE = '#8B5CF6';
 
 const TABS = [
-  { id: 'overview',       label: 'نظرة عامة',          icon: '🏛' },
-  { id: 'finance',        label: 'المالية والإيرادات',  icon: '💰' },
-  { id: 'institutions',   label: 'مراقبة المؤسسات',    icon: '🏫' },
-  { id: 'taxes',          label: 'الضرائب السيادية',   icon: '⚖️' },
-  { id: 'subscriptions',  label: 'الاشتراكات والباقات', icon: '📦' },
-  { id: 'ads',            label: 'الإعلانات السيادية',  icon: '📣' },
-  { id: 'coupons',        label: 'الكوبونات',           icon: '🎟' },
-  { id: 'store',          label: 'المتجر والعمولات',    icon: '🛒' },
-  { id: 'notifications',  label: 'الإشعارات الجماعية', icon: '🔔' },
-  { id: 'ai_auditor',     label: 'AI Auditor',          icon: '🤖' },
-  { id: 'audit_log',      label: 'سجل الأمان',         icon: '🔐' },
-  { id: 'support',        label: 'الدعم الفني',         icon: '🎧' },
+  { id: 'overview',       label: 'نظرة عامة',          icon: '<Building2 className="w-5 h-5 inline-block" />' },
+  { id: 'finance',        label: 'المالية والإيرادات',  icon: '<Coins className="w-5 h-5 inline-block" />' },
+  { id: 'institutions',   label: 'مراقبة المؤسسات',    icon: '<School className="w-5 h-5 inline-block" />' },
+  { id: 'taxes',          label: 'الضرائب السيادية',   icon: '<Scale className="w-5 h-5 inline-block" />️' },
+  { id: 'subscriptions',  label: 'الاشتراكات والباقات', icon: '<Package className="w-5 h-5 inline-block" />' },
+  { id: 'ads',            label: 'الإعلانات السيادية',  icon: '<Megaphone className="w-5 h-5 inline-block" />' },
+  { id: 'coupons',        label: 'الكوبونات',           icon: '<Ticket className="w-5 h-5 inline-block" />' },
+  { id: 'store',          label: 'المتجر والعمولات',    icon: '<ShoppingCart className="w-5 h-5 inline-block" />' },
+  { id: 'notifications',  label: 'الإشعارات الجماعية', icon: '<Bell className="w-5 h-5 inline-block" />' },
+  { id: 'ai_auditor',     label: 'AI Auditor',          icon: '<Bot className="w-5 h-5 inline-block" />' },
+  { id: 'audit_log',      label: 'سجل الأمان',         icon: '<Lock className="w-5 h-5 inline-block" />' },
+  { id: 'support',        label: 'الدعم الفني',         icon: '<Headphones className="w-5 h-5 inline-block" />' },
 ];
 
 const StatCard = ({ title, value, sub, color, icon }: any) => (
@@ -64,7 +65,7 @@ const Btn = ({ label, color, onClick, disabled }: any) => (
 
 const Toast = ({ msg, onClose }: any) => msg ? (
   <div style={{ position: 'fixed', bottom: 24, left: '50%', transform: 'translateX(-50%)', background: '#1a1a2e', border: `1px solid ${GOLD}40`, borderRadius: 12, padding: '12px 24px', color: '#EEEEF5', fontSize: 13, fontWeight: 600, zIndex: 9999, boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }}>
-    {msg} <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'rgba(238,238,245,0.4)', cursor: 'pointer', marginRight: 8 }}>✕</button>
+    {msg} <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'rgba(238,238,245,0.4)', cursor: 'pointer', marginRight: 8 }}><X className="w-5 h-5 inline-block" /></button>
   </div>
 ) : null;
 
@@ -159,7 +160,7 @@ export default function OwnerDashboard() {
     try {
       const r = await fetch(`/api/join-requests`, { method: 'PUT', headers: getH(), body: JSON.stringify({ id, action }) });
       const d = await r.json();
-      if (r.ok) { showToast(action === 'approve' ? 'تم قبول المؤسسة ✓' : 'تم رفض المؤسسة'); loadAll(); }
+      if (r.ok) { showToast(action === 'approve' ? 'تم قبول المؤسسة <Check className="w-5 h-5 inline-block" />' : 'تم رفض المؤسسة'); loadAll(); }
       else showToast(d.error || 'فشل');
     } catch { showToast('خطأ في الشبكة'); }
   };
@@ -177,7 +178,7 @@ export default function OwnerDashboard() {
     try {
       const r = await fetch('/api/coupons', { method: 'POST', headers: getH(), body: JSON.stringify(newCoupon) });
       const d = await r.json();
-      if (r.ok) { showToast('تم إنشاء الكوبون ✓'); setNewCoupon({ code: '', discount: '', type: 'percentage', max_uses: '', expires_at: '' }); loadAll(); }
+      if (r.ok) { showToast('تم إنشاء الكوبون <Check className="w-5 h-5 inline-block" />'); setNewCoupon({ code: '', discount: '', type: 'percentage', max_uses: '', expires_at: '' }); loadAll(); }
       else showToast(d.error || 'فشل');
     } catch { showToast('خطأ'); }
   };
@@ -198,7 +199,7 @@ export default function OwnerDashboard() {
       const url = editItem?.type === 'plan' ? `/api/plans?id=${editItem.id}` : '/api/plans';
       const r = await fetch(url, { method, headers: getH(), body: JSON.stringify(planForm) });
       const d = await r.json();
-      if (r.ok) { showToast(method === 'PUT' ? 'تم تعديل الباقة ✓' : 'تم إنشاء الباقة ✓'); setPlanForm({ name: '', price: '', student_limit: '', features: '' }); setEditItem(null); loadAll(); }
+      if (r.ok) { showToast(method === 'PUT' ? 'تم تعديل الباقة <Check className="w-5 h-5 inline-block" />' : 'تم إنشاء الباقة <Check className="w-5 h-5 inline-block" />'); setPlanForm({ name: '', price: '', student_limit: '', features: '' }); setEditItem(null); loadAll(); }
       else { showToast(d.error || 'فشل'); setErrMsg(d.error || 'فشل'); }
     } catch (e: any) { showToast('خطأ'); setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
   };
@@ -219,7 +220,7 @@ export default function OwnerDashboard() {
       const url = editItem?.type === 'ad' ? `/api/advertisements?id=${editItem.id}` : '/api/advertisements';
       const r = await fetch(url, { method, headers: getH(), body: JSON.stringify(adForm) });
       const d = await r.json();
-      if (r.ok) { showToast(method === 'PUT' ? 'تم تعديل الإعلان ✓' : 'تم نشر الإعلان ✓'); setAdForm({ title: '', body: '', start_date: '', end_date: '' }); setEditItem(null); loadAll(); }
+      if (r.ok) { showToast(method === 'PUT' ? 'تم تعديل الإعلان <Check className="w-5 h-5 inline-block" />' : 'تم نشر الإعلان <Check className="w-5 h-5 inline-block" />'); setAdForm({ title: '', body: '', start_date: '', end_date: '' }); setEditItem(null); loadAll(); }
       else { showToast(d.error || 'فشل'); setErrMsg(d.error || 'فشل'); }
     } catch (e: any) { showToast('خطأ'); setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
   };
@@ -237,7 +238,7 @@ export default function OwnerDashboard() {
     try {
       const r = await fetch('/api/push-notifications', { method: 'POST', headers: getH(), body: JSON.stringify(notifForm) });
       const d = await r.json();
-      if (r.ok) { showToast('تم إرسال الإشعار ✓'); setNotifForm({ title: '', message: '', target: 'all' }); }
+      if (r.ok) { showToast('تم إرسال الإشعار <Check className="w-5 h-5 inline-block" />'); setNotifForm({ title: '', message: '', target: 'all' }); }
       else showToast(d.error || 'فشل');
     } catch { showToast('خطأ'); }
   };
@@ -247,7 +248,7 @@ export default function OwnerDashboard() {
     if (!reply) return;
     try {
       const r = await fetch('/api/support', { method: 'PUT', headers: getH(), body: JSON.stringify({ id, reply, status: 'in_progress' }) });
-      if (r.ok) { showToast('تم إرسال الرد ✓'); loadAll(); }
+      if (r.ok) { showToast('تم إرسال الرد <Check className="w-5 h-5 inline-block" />'); loadAll(); }
     } catch { showToast('خطأ'); }
   };
 
@@ -304,14 +305,14 @@ export default function OwnerDashboard() {
           {/* ===== نظرة عامة ===== */}
           {activeTab === 'overview' && (
             <div>
-              <SectionTitle title="نظرة عامة" icon="🏛" desc="إحصائيات شاملة للمنصة — تتحدث تلقائياً من قاعدة البيانات" />
+              <SectionTitle title="نظرة عامة" icon="<Building2 className="w-5 h-5 inline-block" />" desc="إحصائيات شاملة للمنصة — تتحدث تلقائياً من قاعدة البيانات" />
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 32 }}>
-                <StatCard title="إجمالي المؤسسات" value={stats.total_schools ?? schools.length} sub="مؤسسة مسجلة" color={GOLD} icon="🏫" />
-                <StatCard title="إجمالي المستخدمين" value={stats.total_users ?? '—'} sub="مستخدم نشط" color={BLUE} icon="👥" />
-                <StatCard title="الإيرادات الشهرية" value={stats.monthly_revenue ? `${stats.monthly_revenue} ر.س` : '—'} color={GREEN} icon="💰" />
+                <StatCard title="إجمالي المؤسسات" value={stats.total_schools ?? schools.length} sub="مؤسسة مسجلة" color={GOLD} icon="<School className="w-5 h-5 inline-block" />" />
+                <StatCard title="إجمالي المستخدمين" value={stats.total_users ?? '—'} sub="مستخدم نشط" color={BLUE} icon="<Users className="w-5 h-5 inline-block" />" />
+                <StatCard title="الإيرادات الشهرية" value={stats.monthly_revenue ? `${stats.monthly_revenue} ر.س` : '—'} color={GREEN} icon="<Coins className="w-5 h-5 inline-block" />" />
                 <StatCard title="طلبات انتظار" value={joinRequests.length} sub="تحتاج مراجعة" color="#F59E0B" icon="⏳" />
-                <StatCard title="الضرائب السيادية" value={stats.total_taxes ? `${stats.total_taxes} ر.س` : '—'} sub="هذا الشهر" color={PURPLE} icon="⚖️" />
-                <StatCard title="تذاكر دعم مفتوحة" value={support.filter((s: any) => s.status === 'open').length} color={RED} icon="🎧" />
+                <StatCard title="الضرائب السيادية" value={stats.total_taxes ? `${stats.total_taxes} ر.س` : '—'} sub="هذا الشهر" color={PURPLE} icon="<Scale className="w-5 h-5 inline-block" />️" />
+                <StatCard title="تذاكر دعم مفتوحة" value={support.filter((s: any) => s.status === 'open').length} color={RED} icon="<Headphones className="w-5 h-5 inline-block" />" />
               </div>
 
               {/* طلبات الانضمام المعلقة */}
@@ -355,12 +356,12 @@ export default function OwnerDashboard() {
           {/* ===== المالية والإيرادات ===== */}
           {activeTab === 'finance' && (
             <div>
-              <SectionTitle title="المالية والإيرادات" icon="💰" desc="إجمالي الإيرادات والمتأخرات" />
+              <SectionTitle title="المالية والإيرادات" icon="<Coins className="w-5 h-5 inline-block" />" desc="إجمالي الإيرادات والمتأخرات" />
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 28 }}>
-                <StatCard title="إيرادات هذا الشهر" value={stats.monthly_revenue ? `${stats.monthly_revenue} ر.س` : '—'} color={GREEN} icon="📈" />
-                <StatCard title="إيرادات هذا العام" value={stats.yearly_revenue ? `${stats.yearly_revenue} ر.س` : '—'} color={GOLD} icon="🏆" />
-                <StatCard title="المتأخرات" value={stats.overdue_amount ? `${stats.overdue_amount} ر.س` : '—'} color={RED} icon="⚠️" />
-                <StatCard title="عمولات المتاجر" value={stats.store_commissions ? `${stats.store_commissions} ر.س` : '—'} color={PURPLE} icon="🛒" />
+                <StatCard title="إيرادات هذا الشهر" value={stats.monthly_revenue ? `${stats.monthly_revenue} ر.س` : '—'} color={GREEN} icon="<TrendingUp className="w-5 h-5 inline-block" />" />
+                <StatCard title="إيرادات هذا العام" value={stats.yearly_revenue ? `${stats.yearly_revenue} ر.س` : '—'} color={GOLD} icon="<Trophy className="w-5 h-5 inline-block" />" />
+                <StatCard title="المتأخرات" value={stats.overdue_amount ? `${stats.overdue_amount} ر.س` : '—'} color={RED} icon="<AlertTriangle className="w-5 h-5 inline-block" />️" />
+                <StatCard title="عمولات المتاجر" value={stats.store_commissions ? `${stats.store_commissions} ر.س` : '—'} color={PURPLE} icon="<ShoppingCart className="w-5 h-5 inline-block" />" />
               </div>
 
               {/* المؤسسات المتأخرة */}
@@ -396,8 +397,8 @@ export default function OwnerDashboard() {
               </div>
 
               <div style={{ display: 'flex', gap: 12 }}>
-                <Link href="/dashboard/reports" style={{ background: `${GREEN}15`, color: GREEN, border: `1px solid ${GREEN}30`, borderRadius: 10, padding: '12px 24px', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>📊 تقارير مالية</Link>
-                <Link href="/dashboard/taxes" style={{ background: `${PURPLE}15`, color: PURPLE, border: `1px solid ${PURPLE}30`, borderRadius: 10, padding: '12px 24px', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>⚖️ الضرائب التفصيلية</Link>
+                <Link href="/dashboard/reports" style={{ background: `${GREEN}15`, color: GREEN, border: `1px solid ${GREEN}30`, borderRadius: 10, padding: '12px 24px', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}><BarChart3 className="w-5 h-5 inline-block" /> تقارير مالية</Link>
+                <Link href="/dashboard/taxes" style={{ background: `${PURPLE}15`, color: PURPLE, border: `1px solid ${PURPLE}30`, borderRadius: 10, padding: '12px 24px', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}><Scale className="w-5 h-5 inline-block" />️ الضرائب التفصيلية</Link>
               </div>
             </div>
           )}
@@ -405,7 +406,7 @@ export default function OwnerDashboard() {
           {/* ===== مراقبة المؤسسات ===== */}
           {activeTab === 'institutions' && (
             <div>
-              <SectionTitle title="مراقبة المؤسسات" icon="🏫" desc="جميع المؤسسات المسجلة في المنصة" />
+              <SectionTitle title="مراقبة المؤسسات" icon="<School className="w-5 h-5 inline-block" />" desc="جميع المؤسسات المسجلة في المنصة" />
               {schools.length === 0 ? (
                 <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 13, textAlign: 'center', padding: '40px 0' }}>لا توجد مؤسسات</div>
               ) : (
@@ -446,10 +447,10 @@ export default function OwnerDashboard() {
           {/* ===== الضرائب السيادية ===== */}
           {activeTab === 'taxes' && (
             <div>
-              <SectionTitle title="الضرائب السيادية" icon="⚖️" desc="استقطاع نسبة مئوية آلية من كل عملية مالية" />
+              <SectionTitle title="الضرائب السيادية" icon="<Scale className="w-5 h-5 inline-block" />️" desc="استقطاع نسبة مئوية آلية من كل عملية مالية" />
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 28 }}>
-                <StatCard title="الضريبة هذا الشهر" value={stats.monthly_tax ? `${stats.monthly_tax} ر.س` : '—'} color={GOLD} icon="⚡" />
-                <StatCard title="الضريبة هذا العام" value={stats.yearly_tax ? `${stats.yearly_tax} ر.س` : '—'} color={PURPLE} icon="📊" />
+                <StatCard title="الضريبة هذا الشهر" value={stats.monthly_tax ? `${stats.monthly_tax} ر.س` : '—'} color={GOLD} icon="<Zap className="w-5 h-5 inline-block" />" />
+                <StatCard title="الضريبة هذا العام" value={stats.yearly_tax ? `${stats.yearly_tax} ر.س` : '—'} color={PURPLE} icon="<BarChart3 className="w-5 h-5 inline-block" />" />
               </div>
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24, marginBottom: 24 }}>
                 <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>سجل الضرائب</h3>
@@ -478,14 +479,14 @@ export default function OwnerDashboard() {
                   </table>
                 )}
               </div>
-              <Link href="/dashboard/taxes" style={{ background: `${GOLD}15`, color: GOLD, border: `1px solid ${GOLD}30`, borderRadius: 10, padding: '10px 24px', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>⚖️ إدارة الضرائب التفصيلية</Link>
+              <Link href="/dashboard/taxes" style={{ background: `${GOLD}15`, color: GOLD, border: `1px solid ${GOLD}30`, borderRadius: 10, padding: '10px 24px', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}><Scale className="w-5 h-5 inline-block" />️ إدارة الضرائب التفصيلية</Link>
             </div>
           )}
 
           {/* ===== الاشتراكات والباقات ===== */}
           {activeTab === 'subscriptions' && (
             <div>
-              <SectionTitle title="الاشتراكات والباقات" icon="📦" desc="إنشاء وتعديل الباقات والحدود والأسعار" />
+              <SectionTitle title="الاشتراكات والباقات" icon="<Package className="w-5 h-5 inline-block" />" desc="إنشاء وتعديل الباقات والحدود والأسعار" />
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 20, marginBottom: 28 }}>
                 {plans.map((plan: any) => (
                   <div key={plan.id} style={{ background: `${GOLD}06`, border: `1px solid ${GOLD}20`, borderRadius: 16, padding: 20 }}>
@@ -527,7 +528,7 @@ export default function OwnerDashboard() {
                     <input value={planForm.features} onChange={e => setPlanForm({ ...planForm, features: e.target.value })} placeholder="مثال: AI + متجر + تقارير" style={inputStyle} />
                   </div>
                 </div>
-                <Btn label={saving ? 'جاري الحفظ...' : editItem?.type === 'plan' ? '✏️ تعديل الباقة' : '✨ إنشاء الباقة'} color={GOLD} onClick={handleCreatePlan} disabled={saving} />
+                <Btn label={saving ? 'جاري الحفظ...' : editItem?.type === 'plan' ? '<Pencil className="w-5 h-5 inline-block" />️ تعديل الباقة' : '<Sparkles className="w-5 h-5 inline-block" /> إنشاء الباقة'} color={GOLD} onClick={handleCreatePlan} disabled={saving} />
               </div>
             </div>
           )}
@@ -535,7 +536,7 @@ export default function OwnerDashboard() {
           {/* ===== الإعلانات السيادية ===== */}
           {activeTab === 'ads' && (
             <div>
-              <SectionTitle title="الإعلانات السيادية" icon="📣" desc="إعلانات متين الرسمية تظهر في جميع لوحات التحكم" />
+              <SectionTitle title="الإعلانات السيادية" icon="<Megaphone className="w-5 h-5 inline-block" />" desc="إعلانات متين الرسمية تظهر في جميع لوحات التحكم" />
               <div style={{ background: CARD, border: `1px solid ${GOLD}20`, borderRadius: 16, padding: 24, marginBottom: 24 }}>
                 <h3 style={{ color: GOLD, fontSize: 15, fontWeight: 700, marginBottom: 16 }}>إنشاء إعلان سيادي جديد</h3>
                 <div style={{ display: 'grid', gap: 16, marginBottom: 16 }}>
@@ -558,7 +559,7 @@ export default function OwnerDashboard() {
                     </div>
                   </div>
                 </div>
-                <Btn label={saving ? 'جاري الحفظ...' : editItem?.type === 'ad' ? '✏️ تعديل الإعلان' : '📣 نشر الإعلان السيادي'} color={GOLD} onClick={handleCreateAd} disabled={saving} />
+                <Btn label={saving ? 'جاري الحفظ...' : editItem?.type === 'ad' ? '<Pencil className="w-5 h-5 inline-block" />️ تعديل الإعلان' : '<Megaphone className="w-5 h-5 inline-block" /> نشر الإعلان السيادي'} color={GOLD} onClick={handleCreateAd} disabled={saving} />
               </div>
 
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
@@ -594,7 +595,7 @@ export default function OwnerDashboard() {
           {/* ===== الكوبونات ===== */}
           {activeTab === 'coupons' && (
             <div>
-              <SectionTitle title="الكوبونات" icon="🎟" desc="إنشاء كودات خصم للمؤسسات" />
+              <SectionTitle title="الكوبونات" icon="<Ticket className="w-5 h-5 inline-block" />" desc="إنشاء كودات خصم للمؤسسات" />
               <div style={{ background: CARD, border: `1px solid ${GOLD}20`, borderRadius: 16, padding: 24, marginBottom: 24 }}>
                 <h3 style={{ color: GOLD, fontSize: 15, fontWeight: 700, marginBottom: 16 }}>إنشاء كوبون جديد</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16, marginBottom: 16 }}>
@@ -622,7 +623,7 @@ export default function OwnerDashboard() {
                     <input type="date" value={newCoupon.expires_at} onChange={e => setNewCoupon({ ...newCoupon, expires_at: e.target.value })} style={inputStyle} />
                   </div>
                 </div>
-                <Btn label="🎟 إنشاء الكوبون" color={GOLD} onClick={handleCreateCoupon} />
+                <Btn label="<Ticket className="w-5 h-5 inline-block" /> إنشاء الكوبون" color={GOLD} onClick={handleCreateCoupon} />
               </div>
 
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
@@ -660,10 +661,10 @@ export default function OwnerDashboard() {
           {/* ===== المتجر والعمولات ===== */}
           {activeTab === 'store' && (
             <div>
-              <SectionTitle title="المتجر والعمولات" icon="🛒" desc="الإشراف على متاجر المؤسسات وعمولات المبيعات" />
+              <SectionTitle title="المتجر والعمولات" icon="<ShoppingCart className="w-5 h-5 inline-block" />" desc="الإشراف على متاجر المؤسسات وعمولات المبيعات" />
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 28 }}>
-                <StatCard title="عمولات هذا الشهر" value={stats.store_commissions ? `${stats.store_commissions} ر.س` : '—'} color={GREEN} icon="💸" />
-                <StatCard title="إجمالي المبيعات" value={stats.total_sales ? `${stats.total_sales} ر.س` : '—'} color={BLUE} icon="📊" />
+                <StatCard title="عمولات هذا الشهر" value={stats.store_commissions ? `${stats.store_commissions} ر.س` : '—'} color={GREEN} icon="<BadgeDollarSign className="w-5 h-5 inline-block" />" />
+                <StatCard title="إجمالي المبيعات" value={stats.total_sales ? `${stats.total_sales} ر.س` : '—'} color={BLUE} icon="<BarChart3 className="w-5 h-5 inline-block" />" />
               </div>
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
                 <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>أحدث العمولات</h3>
@@ -696,7 +697,7 @@ export default function OwnerDashboard() {
           {/* ===== الإشعارات الجماعية ===== */}
           {activeTab === 'notifications' && (
             <div>
-              <SectionTitle title="الإشعارات الجماعية" icon="🔔" desc="إرسال إشعارات لجميع المستخدمين أو فئة محددة" />
+              <SectionTitle title="الإشعارات الجماعية" icon="<Bell className="w-5 h-5 inline-block" />" desc="إرسال إشعارات لجميع المستخدمين أو فئة محددة" />
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
                 <h3 style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>إرسال إشعار جماعي</h3>
                 <div style={{ display: 'grid', gap: 16, marginBottom: 16 }}>
@@ -718,7 +719,7 @@ export default function OwnerDashboard() {
                     <label style={{ color: 'rgba(238,238,245,0.6)', fontSize: 12, fontWeight: 600, display: 'block', marginBottom: 6 }}>نص الإشعار</label>
                     <textarea value={notifForm.message} onChange={e => setNotifForm({ ...notifForm, message: e.target.value })} placeholder="اكتب نص الإشعار هنا..." style={{ ...inputStyle, minHeight: 80, resize: 'vertical' }} />
                   </div>
-                  <Btn label="🔔 إرسال الإشعار" color={GOLD} onClick={handleSendNotification} />
+                  <Btn label="<Bell className="w-5 h-5 inline-block" /> إرسال الإشعار" color={GOLD} onClick={handleSendNotification} />
                 </div>
               </div>
             </div>
@@ -727,9 +728,9 @@ export default function OwnerDashboard() {
           {/* ===== AI Auditor ===== */}
           {activeTab === 'ai_auditor' && (
             <div>
-              <SectionTitle title="AI Auditor — المفتش الرقمي الآلي" icon="🤖" desc="ذكاء اصطناعي يراقب السجلات والدرجات والحضور" />
+              <SectionTitle title="AI Auditor — المفتش الرقمي الآلي" icon="<Bot className="w-5 h-5 inline-block" />" desc="ذكاء اصطناعي يراقب السجلات والدرجات والحضور" />
               <div style={{ background: `${BLUE}06`, border: `1px solid ${BLUE}20`, borderRadius: 16, padding: 24, textAlign: 'center' }}>
-                <div style={{ fontSize: 48, marginBottom: 16 }}>🤖</div>
+                <div style={{ fontSize: 48, marginBottom: 16 }}><Bot className="w-5 h-5 inline-block" /></div>
                 <div style={{ color: '#EEEEF5', fontSize: 16, fontWeight: 700, marginBottom: 8 }}>AI Auditor</div>
                 <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 13, marginBottom: 20 }}>نظام المراقبة الذكي يعمل في الخلفية ويرصد الأنماط المشبوهة تلقائياً</div>
                 <Link href="/dashboard/super-admin/platform-settings" style={{ background: `${BLUE}15`, color: BLUE, border: `1px solid ${BLUE}30`, borderRadius: 10, padding: '10px 24px', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>إعدادات AI Auditor</Link>
@@ -740,9 +741,9 @@ export default function OwnerDashboard() {
           {/* ===== سجل الأمان ===== */}
           {activeTab === 'audit_log' && (
             <div>
-              <SectionTitle title="سجل الأمان — Audit Log" icon="🔐" desc="كل حركة في النظام موثقة — غير قابل للحذف" />
+              <SectionTitle title="سجل الأمان — Audit Log" icon="<Lock className="w-5 h-5 inline-block" />" desc="كل حركة في النظام موثقة — غير قابل للحذف" />
               <div style={{ background: `${RED}06`, border: `1px solid ${RED}15`, borderRadius: 12, padding: 14, marginBottom: 24, display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span style={{ fontSize: 18 }}>🔒</span>
+                <span style={{ fontSize: 18 }}><Lock className="w-5 h-5 inline-block" /></span>
                 <span style={{ color: 'rgba(238,238,245,0.7)', fontSize: 13 }}>هذا السجل محمي ومشفر — لا يمكن لأي مستخدم حذف أو تعديل أي سجل</span>
               </div>
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
@@ -775,11 +776,11 @@ export default function OwnerDashboard() {
           {/* ===== الدعم الفني ===== */}
           {activeTab === 'support' && (
             <div>
-              <SectionTitle title="الدعم الفني" icon="🎧" desc="تذاكر الدعم من المؤسسات" />
+              <SectionTitle title="الدعم الفني" icon="<Headphones className="w-5 h-5 inline-block" />" desc="تذاكر الدعم من المؤسسات" />
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 28 }}>
-                <StatCard title="تذاكر مفتوحة" value={support.filter((s: any) => s.status === 'open').length} color={RED} icon="🎫" />
-                <StatCard title="قيد المعالجة" value={support.filter((s: any) => s.status === 'in_progress').length} color="#F59E0B" icon="⚙️" />
-                <StatCard title="محلولة" value={support.filter((s: any) => s.status === 'resolved').length} color={GREEN} icon="✅" />
+                <StatCard title="تذاكر مفتوحة" value={support.filter((s: any) => s.status === 'open').length} color={RED} icon="<Ticket className="w-5 h-5 inline-block" />" />
+                <StatCard title="قيد المعالجة" value={support.filter((s: any) => s.status === 'in_progress').length} color="#F59E0B" icon="<Settings className="w-5 h-5 inline-block" />️" />
+                <StatCard title="محلولة" value={support.filter((s: any) => s.status === 'resolved').length} color={GREEN} icon="<CheckCircle className="w-5 h-5 inline-block" />" />
               </div>
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
                 {support.length === 0 ? (

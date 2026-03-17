@@ -1,4 +1,5 @@
 'use client';
+import { Calendar, Check, ClipboardList, DoorOpen, Pencil, School, Trash2, User } from "lucide-react";
 import { useState, useEffect } from 'react';
 
 // ─── ثوابت التصميم ───────────────────────────────────────────────
@@ -194,7 +195,7 @@ export default function WeeklySchedulePage() {
       });
       const d = await r.json();
       if (!r.ok) return showToast(d.error || 'فشل الحفظ', 'err');
-      showToast('تمت إضافة الحصة ✓');
+      showToast('تمت إضافة الحصة <Check className="w-5 h-5 inline-block" />');
       setModal(null);
       loadSchedule();
     } catch { showToast('خطأ في الاتصال', 'err'); }
@@ -210,7 +211,7 @@ export default function WeeklySchedulePage() {
       });
       const d = await r.json();
       if (!r.ok) return showToast(d.error || 'فشل التعديل', 'err');
-      showToast('تم التعديل ✓');
+      showToast('تم التعديل <Check className="w-5 h-5 inline-block" />');
       setModal(null);
       loadSchedule();
     } catch { showToast('خطأ', 'err'); }
@@ -222,7 +223,7 @@ export default function WeeklySchedulePage() {
       const r = await fetch(`/api/weekly-schedule?id=${id}`, {
         method: 'DELETE', headers: getH(), credentials: 'include',
       });
-      if (r.ok) { showToast('تم الحذف ✓'); loadSchedule(); }
+      if (r.ok) { showToast('تم الحذف <Check className="w-5 h-5 inline-block" />'); loadSchedule(); }
       else showToast('فشل الحذف', 'err');
     } catch { showToast('خطأ', 'err'); }
   };
@@ -242,7 +243,7 @@ export default function WeeklySchedulePage() {
       });
       const d = await r.json();
       if (!r.ok) return showToast(d.error || 'فشل', 'err');
-      showToast('تم حفظ أوقات الحصص ✓');
+      showToast('تم حفظ أوقات الحصص <Check className="w-5 h-5 inline-block" />');
       setModal(null);
       loadPeriods();
     } catch { showToast('خطأ', 'err'); }
@@ -267,7 +268,7 @@ export default function WeeklySchedulePage() {
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-3xl font-black text-white mb-1">📅 الجدول الأسبوعي</h1>
+          <h1 className="text-3xl font-black text-white mb-1"><Calendar className="w-5 h-5 inline-block" /> الجدول الأسبوعي</h1>
           <p className="text-gray-400 text-sm">إدارة جدول الحصص — قابل للتخصيص الكامل</p>
         </div>
         <button onClick={openEditPeriods}
@@ -281,8 +282,8 @@ export default function WeeklySchedulePage() {
         {/* عرض */}
         <div className="flex rounded-xl overflow-hidden" style={{ border: `1px solid ${BORDER}` }}>
           {[
-            { key: 'class', label: '🏫 حسب الفصل' },
-            { key: 'teacher', label: '👨‍🏫 حسب المعلم' },
+            { key: 'class', label: '<School className="w-5 h-5 inline-block" /> حسب الفصل' },
+            { key: 'teacher', label: '<User className="w-5 h-5 inline-block" />‍<School className="w-5 h-5 inline-block" /> حسب المعلم' },
           ].map((v) => (
             <button key={v.key} onClick={() => setView(v.key as any)}
               style={{
@@ -325,7 +326,7 @@ export default function WeeklySchedulePage() {
       {/* الجدول */}
       {(!selectedClass && view === 'class') || (!selectedTeacher && view === 'teacher') ? (
         <div className="text-center py-20 text-gray-500">
-          <div className="text-5xl mb-4">📋</div>
+          <div className="text-5xl mb-4"><ClipboardList className="w-5 h-5 inline-block" /></div>
           <p>اختر {view === 'class' ? 'فصلاً' : 'معلماً'} لعرض الجدول</p>
         </div>
       ) : loading ? (
@@ -379,18 +380,18 @@ export default function WeeklySchedulePage() {
                               <div className="text-xs text-gray-400">{slot.teacher_name}</div>
                             )}
                             {slot.room && (
-                              <div className="text-xs text-gray-500 mt-0.5">🚪 {slot.room}</div>
+                              <div className="text-xs text-gray-500 mt-0.5"><DoorOpen className="w-5 h-5 inline-block" /> {slot.room}</div>
                             )}
                             {/* أزرار التعديل والحذف */}
                             <div className="absolute inset-0 rounded-xl flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
                               style={{ background: 'rgba(0,0,0,0.7)' }}>
                               <button onClick={() => openEdit(slot)}
                                 style={{ ...btn('rgba(255,255,255,0.15)', '#fff'), padding: '4px 8px', fontSize: 11 }}>
-                                ✏️
+                                <Pencil className="w-5 h-5 inline-block" />️
                               </button>
                               <button onClick={() => deleteSlot(slot.id)}
                                 style={{ ...btn(`${RED}33`, RED), padding: '4px 8px', fontSize: 11 }}>
-                                🗑️
+                                <Trash2 className="w-5 h-5 inline-block" />️
                               </button>
                             </div>
                           </div>

@@ -1,4 +1,5 @@
 'use client';
+import { Check, Coins, CreditCard, Package, Receipt, Trophy } from "lucide-react";
 import { useState, useEffect } from 'react';
 
 const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
@@ -6,7 +7,7 @@ const getHeaders = (): Record<string, string> => { try { const token = localStor
 const pkgConfig: any = {
   basic: { name: 'أساسي', price: 0, color: '#6B7280', icon: '🆓', features: ['مدرسة واحدة', '5 معلمين', '50 طالب'] },
   advanced: { name: 'متقدم', price: 299, color: '#C9A227', icon: '⭐', features: ['5 مدارس', '20 معلم', '500 طالب', 'بنك أسئلة AI', 'مراقبة اختبارات'] },
-  enterprise: { name: 'مؤسسي', price: 599, color: '#8B5CF6', icon: '🏆', features: ['مدارس غير محدودة', 'معلمين غير محدود', 'طلاب غير محدود', 'كل الميزات', 'دعم فني أولوية', 'تقارير متقدمة'] },
+  enterprise: { name: 'مؤسسي', price: 599, color: '#8B5CF6', icon: '<Trophy className="w-5 h-5 inline-block" />', features: ['مدارس غير محدودة', 'معلمين غير محدود', 'طلاب غير محدود', 'كل الميزات', 'دعم فني أولوية', 'تقارير متقدمة'] },
 };
 
 export default function FinancePage() {
@@ -84,7 +85,7 @@ export default function FinancePage() {
 
   return (
     <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-      <h1 style={{ fontSize: 24, fontWeight: 700, color: '#C9A227', margin: '0 0 24px' }}>💰 المالية والاشتراكات</h1>
+      <h1 style={{ fontSize: 24, fontWeight: 700, color: '#C9A227', margin: '0 0 24px' }}><Coins className="w-5 h-5 inline-block" /> المالية والاشتراكات</h1>
 
       {msg && <div style={{ padding: 12, background: msg.includes('فاتورة') || msg.includes('تم') ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)', border: `1px solid ${msg.includes('فاتورة') || msg.includes('تم') ? 'rgba(16,185,129,0.3)' : 'rgba(239,68,68,0.3)'}`, borderRadius: 10, color: msg.includes('فاتورة') || msg.includes('تم') ? '#10B981' : '#EF4444', marginBottom: 16, fontSize: 14 }}>{msg}</div>}
 
@@ -117,7 +118,7 @@ export default function FinancePage() {
       </div>
 
       {/* الباقات */}
-      <h2 style={{ color: '#fff', fontSize: 18, fontWeight: 700, margin: '0 0 16px' }}>📦 الباقات المتاحة</h2>
+      <h2 style={{ color: '#fff', fontSize: 18, fontWeight: 700, margin: '0 0 16px' }}><Package className="w-5 h-5 inline-block" /> الباقات المتاحة</h2>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16, marginBottom: 30 }}>
         {Object.entries(pkgConfig).map(([key, pkg]: any) => {
           const isCurrent = key === currentPkg;
@@ -132,7 +133,7 @@ export default function FinancePage() {
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
                 {pkg.features.map((f: string, i: number) => (
-                  <span key={i} style={{ color: '#D4D4D8', fontSize: 13 }}>✓ {f}</span>
+                  <span key={i} style={{ color: '#D4D4D8', fontSize: 13 }}><Check className="w-5 h-5 inline-block" /> {f}</span>
                 ))}
               </div>
               {!isCurrent && key !== 'basic' && (
@@ -141,7 +142,7 @@ export default function FinancePage() {
                 </button>
               )}
               {isCurrent && key !== 'basic' && (
-                <div style={{ padding: 10, textAlign: 'center', color: '#6B7280', fontSize: 13 }}>باقتك الحالية ✓</div>
+                <div style={{ padding: 10, textAlign: 'center', color: '#6B7280', fontSize: 13 }}>باقتك الحالية <Check className="w-5 h-5 inline-block" /></div>
               )}
             </div>
           );
@@ -149,7 +150,7 @@ export default function FinancePage() {
       </div>
 
       {/* سجل المدفوعات */}
-      <h2 style={{ color: '#fff', fontSize: 18, fontWeight: 700, margin: '0 0 16px' }}>🧾 سجل المدفوعات</h2>
+      <h2 style={{ color: '#fff', fontSize: 18, fontWeight: 700, margin: '0 0 16px' }}><Receipt className="w-5 h-5 inline-block" /> سجل المدفوعات</h2>
       {payments.length === 0 ? (
         <div style={{ textAlign: 'center', padding: 40, background: 'rgba(255,255,255,0.02)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)' }}>
           <p style={{ color: '#6B7280', fontSize: 14 }}>لا توجد مدفوعات بعد</p>
@@ -179,7 +180,7 @@ export default function FinancePage() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 440, direction: 'rtl' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>💳 إضافة دفعة</h2>
+              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}><CreditCard className="w-5 h-5 inline-block" /> إضافة دفعة</h2>
               <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
             </div>
             <div style={{ marginBottom: 16 }}>

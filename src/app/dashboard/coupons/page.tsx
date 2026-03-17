@@ -1,4 +1,5 @@
 'use client';
+import { Ban, CheckCircle, ClipboardList, Dice5, Lock, Pencil, Plus, Save, Search, Tag, Trash2, X } from "lucide-react";
   const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
 
@@ -72,21 +73,21 @@ export default function CouponsPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>🏷️ كوبونات الخصم</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><Tag className="w-5 h-5 inline-block" />️ كوبونات الخصم</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة أكواد الخصم والعروض الترويجية</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ code: '', description: '', discount_type: 'percentage', discount_value: '', max_uses: '100', used_count: '0', start_date: '', end_date: '', status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
-          ➕ إنشاء كوبون
+          <Plus className="w-5 h-5 inline-block" /> إنشاء كوبون
         </button>
       </div>
 
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
-          { label: 'إجمالي الكوبونات', value: stats.total, icon: '🏷️', color: '#C9A227' },
-          { label: 'نشط', value: stats.active, icon: '✅', color: '#10B981' },
-          { label: 'منتهي', value: stats.expired, icon: '⛔', color: '#EF4444' },
-          { label: 'مستنفد', value: stats.fullyUsed, icon: '🔒', color: '#6B7280' },
+          { label: 'إجمالي الكوبونات', value: stats.total, icon: '<Tag className="w-5 h-5 inline-block" />️', color: '#C9A227' },
+          { label: 'نشط', value: stats.active, icon: '<CheckCircle className="w-5 h-5 inline-block" />', color: '#10B981' },
+          { label: 'منتهي', value: stats.expired, icon: '<Ban className="w-5 h-5 inline-block" />', color: '#EF4444' },
+          { label: 'مستنفد', value: stats.fullyUsed, icon: '<Lock className="w-5 h-5 inline-block" />', color: '#6B7280' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
             <div style={{ fontSize: 28 }}>{stat.icon}</div>
@@ -98,7 +99,7 @@ export default function CouponsPage() {
 
       {/* Search */}
       <div style={{ marginBottom: 20 }}>
-        <input placeholder="🔍 بحث بالكود أو الوصف..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
+        <input placeholder="<Search className="w-5 h-5 inline-block" /> بحث بالكود أو الوصف..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
       </div>
 
       {/* Table */}
@@ -107,7 +108,7 @@ export default function CouponsPage() {
           <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
         ) : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>🏷️</div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}><Tag className="w-5 h-5 inline-block" />️</div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد كوبونات خصم</p>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "إنشاء كوبون" لإضافة كوبون جديد</p>
           </div>
@@ -125,7 +126,7 @@ export default function CouponsPage() {
                 <tr key={item.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', background: isExpired(item.end_date) ? 'rgba(107,114,128,0.03)' : isFullyUsed(item) ? 'rgba(107,114,128,0.03)' : 'transparent' }}>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(201,162,39,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>🏷️</div>
+                      <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(201,162,39,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><Tag className="w-5 h-5 inline-block" />️</div>
                       <span style={{ color: '#C9A227', fontWeight: 800, fontSize: 15, fontFamily: 'monospace', letterSpacing: 1, direction: 'ltr' as any }}>{item.code}</span>
                     </div>
                   </td>
@@ -148,19 +149,19 @@ export default function CouponsPage() {
                   <td style={{ padding: '14px 16px' }}>
                     <span style={{ color: isExpired(item.end_date) ? '#EF4444' : 'rgba(255,255,255,0.6)', fontWeight: isExpired(item.end_date) ? 700 : 400, fontSize: 13 }}>
                       {item.end_date ? new Date(item.end_date).toLocaleDateString('ar-SA') : '—'}
-                      {isExpired(item.end_date) && ' ⛔'}
+                      {isExpired(item.end_date) && ' <Ban className="w-5 h-5 inline-block" />'}
                     </span>
                   </td>
                   <td style={{ padding: '14px 16px' }}>
                     <span style={{ background: isExpired(item.end_date) || isFullyUsed(item) ? 'rgba(107,114,128,0.1)' : statusColors[item.status]?.bg || 'rgba(107,114,128,0.1)', color: isExpired(item.end_date) || isFullyUsed(item) ? '#6B7280' : statusColors[item.status]?.color || '#6B7280', padding: '4px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600 }}>
-                      {isExpired(item.end_date) ? 'منتهي' : isFullyUsed(item) ? 'مستنفد 🔒' : statusLabels[item.status] || item.status}
+                      {isExpired(item.end_date) ? 'منتهي' : isFullyUsed(item) ? 'مستنفد <Lock className="w-5 h-5 inline-block" />' : statusLabels[item.status] || item.status}
                     </span>
                   </td>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <button onClick={() => { navigator.clipboard.writeText(item.code); alert('تم نسخ الكود!'); }} style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>📋 نسخ</button>
-                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>✏️</button>
-                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>🗑️</button>
+                      <button onClick={() => { navigator.clipboard.writeText(item.code); alert('تم نسخ الكود!'); }} style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><ClipboardList className="w-5 h-5 inline-block" /> نسخ</button>
+                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Pencil className="w-5 h-5 inline-block" />️</button>
+                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Trash2 className="w-5 h-5 inline-block" />️</button>
                     </div>
                   </td>
                 </tr>
@@ -175,15 +176,15 @@ export default function CouponsPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? '✏️ تعديل كوبون' : '➕ إنشاء كوبون جديد'}</h2>
-              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>✕</button>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? '<Pencil className="w-5 h-5 inline-block" />️ تعديل كوبون' : '<Plus className="w-5 h-5 inline-block" /> إنشاء كوبون جديد'}</h2>
+              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}><X className="w-5 h-5 inline-block" /></button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ gridColumn: 'span 2' }}>
                 <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>كود الخصم *</label>
                 <div style={{ display: 'flex', gap: 8 }}>
                   <input value={form.code} onChange={e => setForm({ ...form, code: e.target.value.toUpperCase() })} style={{ ...inputStyle, fontFamily: 'monospace', letterSpacing: 2, fontSize: 16 }} placeholder="MATIN-XXXXX" />
-                  <button onClick={generateCode} style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: 'none', borderRadius: 8, padding: '12px 16px', cursor: 'pointer', fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap' }}>🎲 توليد</button>
+                  <button onClick={generateCode} style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: 'none', borderRadius: 8, padding: '12px 16px', cursor: 'pointer', fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap' }}><Dice5 className="w-5 h-5 inline-block" /> توليد</button>
                 </div>
               </div>
               <div>
@@ -228,7 +229,7 @@ export default function CouponsPage() {
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
-              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? '💾 تحديث' : '➕ إنشاء'}</button>
+              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? '<Save className="w-5 h-5 inline-block" /> تحديث' : '<Plus className="w-5 h-5 inline-block" /> إنشاء'}</button>
             </div>
           </div>
         </div>

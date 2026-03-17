@@ -1,4 +1,5 @@
 'use client';
+import { Bird, Camera, CheckCircle, Eye, FileText, Ghost, Pencil, Phone, Plus, Rocket, Save, School, Smartphone, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 
 const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
@@ -38,7 +39,7 @@ export default function SchoolPageEditor() {
       const res = await fetch('/api/school-page', { method: 'PUT', headers: getHeaders(), body: JSON.stringify(form) });
       if (res.ok) {
         await fetchPages();
-        setSuccess('تم الحفظ ✅');
+        setSuccess('تم الحفظ <CheckCircle className="w-5 h-5 inline-block" />');
         setTimeout(() => setSuccess(''), 3000);
       }
     } catch (e) { console.error(e); }
@@ -61,10 +62,10 @@ export default function SchoolPageEditor() {
     <div style={{ fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>🏫 صفحة المدرسة</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><School className="w-5 h-5 inline-block" /> صفحة المدرسة</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>تخصيص الصفحة العامة لمدرستك</p>
         </div>
-        <button onClick={() => setShowAdd(true)} style={{ background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>➕ إنشاء صفحة</button>
+        <button onClick={() => setShowAdd(true)} style={{ background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><Plus className="w-5 h-5 inline-block" /> إنشاء صفحة</button>
       </div>
 
       {success && <div style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: 12, padding: '12px 20px', marginBottom: 24, color: '#22C55E', fontWeight: 600 }}>{success}</div>}
@@ -73,7 +74,7 @@ export default function SchoolPageEditor() {
         <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.5)', padding: 60 }}>جاري التحميل...</div>
       ) : pages.length === 0 && !selected ? (
         <div style={{ textAlign: 'center', padding: 60 }}>
-          <div style={{ fontSize: 64, marginBottom: 16 }}>🏫</div>
+          <div style={{ fontSize: 64, marginBottom: 16 }}><School className="w-5 h-5 inline-block" /></div>
           <h3 style={{ color: 'white', marginBottom: 8 }}>لا توجد صفحة بعد</h3>
           <p style={{ color: 'rgba(255,255,255,0.5)' }}>أنشئ صفحة عامة لمدرستك</p>
         </div>
@@ -83,12 +84,12 @@ export default function SchoolPageEditor() {
             <div key={page.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 20 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                 <h3 style={{ color: 'white', fontWeight: 700, margin: 0 }}>{page.school_name}</h3>
-                <span style={{ background: page.is_published ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)', color: page.is_published ? '#22C55E' : '#EF4444', fontSize: 12, fontWeight: 700, padding: '4px 10px', borderRadius: 20 }}>{page.is_published ? '✅ منشور' : '⭕ مخفي'}</span>
+                <span style={{ background: page.is_published ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)', color: page.is_published ? '#22C55E' : '#EF4444', fontSize: 12, fontWeight: 700, padding: '4px 10px', borderRadius: 20 }}>{page.is_published ? '<CheckCircle className="w-5 h-5 inline-block" /> منشور' : '⭕ مخفي'}</span>
               </div>
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, margin: '0 0 16px' }}>matin.ink/school/{page.slug}</p>
               <div style={{ display: 'flex', gap: 8 }}>
-                <button onClick={() => openEditor(page)} style={{ flex: 1, background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', borderRadius: 8, padding: '8px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>✏️ تعديل</button>
-                <a href={`/school/${page.slug}`} target="_blank" rel="noreferrer" style={{ flex: 1, background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 8, padding: '8px', fontSize: 13, fontWeight: 700, cursor: 'pointer', textDecoration: 'none', textAlign: 'center' }}>👁️ معاينة</a>
+                <button onClick={() => openEditor(page)} style={{ flex: 1, background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', borderRadius: 8, padding: '8px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}><Pencil className="w-5 h-5 inline-block" />️ تعديل</button>
+                <a href={`/school/${page.slug}`} target="_blank" rel="noreferrer" style={{ flex: 1, background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 8, padding: '8px', fontSize: 13, fontWeight: 700, cursor: 'pointer', textDecoration: 'none', textAlign: 'center' }}><Eye className="w-5 h-5 inline-block" />️ معاينة</a>
               </div>
             </div>
           ))}
@@ -100,7 +101,7 @@ export default function SchoolPageEditor() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
             {/* المعلومات الأساسية */}
             <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 24 }}>
-              <h3 style={{ color: '#C9A227', fontWeight: 700, marginBottom: 20 }}>📝 المعلومات الأساسية</h3>
+              <h3 style={{ color: '#C9A227', fontWeight: 700, marginBottom: 20 }}><FileText className="w-5 h-5 inline-block" /> المعلومات الأساسية</h3>
               {[
                 { key: 'school_name', label: 'اسم المدرسة' },
                 { key: 'description', label: 'وصف المدرسة' },
@@ -119,7 +120,7 @@ export default function SchoolPageEditor() {
             {/* التواصل والسوشيال */}
             <div>
               <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 24, marginBottom: 20 }}>
-                <h3 style={{ color: '#C9A227', fontWeight: 700, marginBottom: 20 }}>📞 معلومات التواصل</h3>
+                <h3 style={{ color: '#C9A227', fontWeight: 700, marginBottom: 20 }}><Phone className="w-5 h-5 inline-block" /> معلومات التواصل</h3>
                 {[
                   { key: 'phone', label: 'الجوال' },
                   { key: 'email', label: 'البريد الإلكتروني' },
@@ -133,11 +134,11 @@ export default function SchoolPageEditor() {
               </div>
 
               <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 24, marginBottom: 20 }}>
-                <h3 style={{ color: '#C9A227', fontWeight: 700, marginBottom: 20 }}>📱 التواصل الاجتماعي</h3>
+                <h3 style={{ color: '#C9A227', fontWeight: 700, marginBottom: 20 }}><Smartphone className="w-5 h-5 inline-block" /> التواصل الاجتماعي</h3>
                 {[
-                  { key: 'social_twitter', label: '🐦 تويتر' },
-                  { key: 'social_instagram', label: '📸 انستقرام' },
-                  { key: 'social_snapchat', label: '👻 سناب شات' },
+                  { key: 'social_twitter', label: '<Bird className="w-5 h-5 inline-block" /> تويتر' },
+                  { key: 'social_instagram', label: '<Camera className="w-5 h-5 inline-block" /> انستقرام' },
+                  { key: 'social_snapchat', label: '<Ghost className="w-5 h-5 inline-block" /> سناب شات' },
                 ].map(f => (
                   <div key={f.key} style={{ marginBottom: 16 }}>
                     <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>{f.label}</label>
@@ -156,9 +157,9 @@ export default function SchoolPageEditor() {
 
               <div style={{ display: 'flex', gap: 12 }}>
                 <button onClick={handleSave} disabled={saving} style={{ flex: 1, background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 800, cursor: 'pointer' }}>
-                  {saving ? '⏳ جاري الحفظ...' : '💾 حفظ التغييرات'}
+                  {saving ? '⏳ جاري الحفظ...' : '<Save className="w-5 h-5 inline-block" /> حفظ التغييرات'}
                 </button>
-                <a href={`/school/${selected.slug}`} target="_blank" rel="noreferrer" style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 12, padding: '14px 20px', fontSize: 14, fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center' }}>👁️ معاينة</a>
+                <a href={`/school/${selected.slug}`} target="_blank" rel="noreferrer" style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 12, padding: '14px 20px', fontSize: 14, fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center' }}><Eye className="w-5 h-5 inline-block" />️ معاينة</a>
               </div>
             </div>
           </div>
@@ -170,8 +171,8 @@ export default function SchoolPageEditor() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
           <div style={{ background: '#1B263B', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: 32, width: '100%', maxWidth: 440 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontWeight: 800, margin: 0 }}>🏫 إنشاء صفحة جديدة</h2>
-              <button onClick={() => setShowAdd(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 24, cursor: 'pointer' }}>✕</button>
+              <h2 style={{ color: 'white', fontWeight: 800, margin: 0 }}><School className="w-5 h-5 inline-block" /> إنشاء صفحة جديدة</h2>
+              <button onClick={() => setShowAdd(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 24, cursor: 'pointer' }}><X className="w-5 h-5 inline-block" /></button>
             </div>
             <div style={{ marginBottom: 16 }}>
               <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>اسم المدرسة *</label>
@@ -184,7 +185,7 @@ export default function SchoolPageEditor() {
                 <input value={newSlug} onChange={e => setNewSlug(e.target.value.toLowerCase().replace(/\s/g, '-'))} placeholder="al-nujoom" style={{ ...inputStyle, flex: 1 }} dir="ltr" />
               </div>
             </div>
-            <button onClick={handleCreate} style={{ width: '100%', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 800, cursor: 'pointer' }}>🚀 إنشاء الصفحة</button>
+            <button onClick={handleCreate} style={{ width: '100%', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 800, cursor: 'pointer' }}><Rocket className="w-5 h-5 inline-block" /> إنشاء الصفحة</button>
           </div>
         </div>
       )}
