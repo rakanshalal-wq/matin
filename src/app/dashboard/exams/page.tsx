@@ -1,5 +1,5 @@
 'use client';
-import { BarChart3, BookOpen, Bot, Calendar, Check, CheckCircle, Circle, ClipboardList, Eye, FileText, GraduationCap, HelpCircle, Landmark, Link, Megaphone, Pencil, Percent, Plus, Save, Settings, Sparkles, Trash2, Users, X, XCircle } from "lucide-react";
+import { BarChart3, BookOpen, Bot, Calendar, Check, CheckCircle, Circle, ClipboardList, Eye, FileText, GraduationCap, HelpCircle, Landmark, Link as LinkIcon, Megaphone, Pencil, Percent, Plus, Save, Settings, Sparkles, Trash2, Users, X, XCircle } from "lucide-react";
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
