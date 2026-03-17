@@ -29,7 +29,7 @@ const btn = (bg: string, color = '#000') => ({
 });
 
 // ─── مساعد Headers ───────────────────────────────────────────────
-function getH() {
+function getH(): Record<string, string> {
   try {
     const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
     return { 'Content-Type': 'application/json', Authorization: `Bearer ${u.token || ''}` };
