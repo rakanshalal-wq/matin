@@ -22,7 +22,7 @@ interface Plan {
 const defaultPlans: Plan[] = [
   {
     id: 'free', name: 'Free', name_ar: 'مجانية', price: 0, priceYearly: 0,
-    color: '#6B7280', icon: '<Gift className="w-5 h-5 inline-block" />', maxStudents: 30, maxTeachers: 5,
+    color: '#6B7280', icon: "ICON_Gift", maxStudents: 30, maxTeachers: 5,
     features: ['إدارة الطلاب والمعلمين', 'الحضور والغياب', 'الدرجات', 'الرسائل', 'الجدول الدراسي', 'الواجبات'],
     notIncluded: ['الاختبارات الذكية', 'المكتبة الرقمية', 'المتجر', 'الذكاء الاصطناعي', 'النقل', 'الكافتيريا']
   },
@@ -34,13 +34,13 @@ const defaultPlans: Plan[] = [
   },
   {
     id: 'pro', name: 'Pro', name_ar: 'احترافية', price: 299, priceYearly: 2990,
-    color: '#C9A227', icon: '<Crown className="w-5 h-5 inline-block" />', maxStudents: 500, maxTeachers: 50, popular: true,
+    color: '#C9A227', icon: "ICON_Crown", maxStudents: 500, maxTeachers: 50, popular: true,
     features: ['كل ميزات الأساسية', 'المتجر الإلكتروني', 'الذكاء الاصطناعي', 'تصدير البيانات', 'المجتمع والتواصل', 'إدارة الموظفين والرواتب', 'نظام الإجازات'],
     notIncluded: ['النقل والباصات', 'الكافتيريا', 'العيادة الصحية', 'API للمؤسسات']
   },
   {
     id: 'enterprise', name: 'Enterprise', name_ar: 'مؤسسية', price: 999, priceYearly: 9990,
-    color: '#8B5CF6', icon: '<Building className="w-5 h-5 inline-block" />', maxStudents: -1, maxTeachers: -1,
+    color: '#8B5CF6', icon: "ICON_Building", maxStudents: -1, maxTeachers: -1,
     features: ['كل ميزات الاحترافية', 'النقل والباصات + GPS', 'الكافتيريا', 'العيادة الصحية', 'التطعيمات', 'تطبيق السائق', 'API للمؤسسات', 'العلامة البيضاء', 'دعم فني أولوية'],
     notIncluded: []
   }
@@ -100,7 +100,7 @@ export default function SubscribePage() {
         const updatedUser = { ...user, package: planId };
         localStorage.setItem('matin_user', JSON.stringify(updatedUser));
         setCurrentPlan(planId);
-        alert('تم الاشتراك بنجاح! <PartyPopper className="w-5 h-5 inline-block" />');
+        alert('تم الاشتراك بنجاح! [PartyPopper]');
         if (requiredFeature && requiredFeature.startsWith('/')) {
           window.location.href = requiredFeature;
         }
@@ -192,12 +192,12 @@ export default function SubscribePage() {
                 
                 {plan.features.map((f, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: '#D1D5DB', marginBottom: 6 }}>
-                    <span style={{ color: '#10B981' }}><Check className="w-5 h-5 inline-block" /></span> {f}
+                    <span style={{ color: '#10B981' }}>Check</span> {f}
                   </div>
                 ))}
                 {plan.notIncluded.map((f, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: '#4B5563', marginBottom: 6 }}>
-                    <span style={{ color: '#EF4444' }}><X className="w-5 h-5 inline-block" /></span> {f}
+                    <span style={{ color: '#EF4444' }}>[X]</span> {f}
                   </div>
                 ))}
               </div>
@@ -213,7 +213,7 @@ export default function SubscribePage() {
                   opacity: loading ? 0.5 : 1
                 }}
               >
-                {isCurrentPlan ? '<Check className="w-5 h-5 inline-block" /> باقتك الحالية' : loading ? 'جاري المعالجة...' : 'اشترك الآن'}
+                {isCurrentPlan ? 'Check باقتك الحالية' : loading ? 'جاري المعالجة...' : 'اشترك الآن'}
               </button>
             </div>
           );

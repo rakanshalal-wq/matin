@@ -51,10 +51,10 @@ export default function IntegrationsPage() {
 
   const getTypeIcon = (type: string) => {
     const icons: Record<string, string> = {
-      auth: '<Lock className="w-5 h-5 inline-block" />', payment: '<CreditCard className="w-5 h-5 inline-block" />', sms: '<Smartphone className="w-5 h-5 inline-block" />', messaging: '<MessageCircle className="w-5 h-5 inline-block" />',
-      maps: '<Map className="w-5 h-5 inline-block" />️', education: '<BookOpen className="w-5 h-5 inline-block" />', government: '<Building2 className="w-5 h-5 inline-block" />️'
+      auth: "ICON_Lock", payment: "ICON_CreditCard", sms: "ICON_Smartphone", messaging: "ICON_MessageCircle",
+      maps: 'Map️', education: "ICON_BookOpen", government: '[Building2]️'
     };
-    return icons[type] || '<Plug className="w-5 h-5 inline-block" />';
+    return icons[type] || "ICON_Plug";
   };
 
   const getTypeLabel = (type: string) => {
@@ -132,13 +132,13 @@ export default function IntegrationsPage() {
                       : 'bg-green-50 text-green-600 hover:bg-green-100'
                   }`}
                 >
-                  {integration.is_active ? '<Circle className="w-5 h-5 inline-block" /> تعطيل' : '<Circle className="w-5 h-5 inline-block" /> تفعيل'}
+                  {integration.is_active ? 'Circle تعطيل' : 'Circle تفعيل'}
                 </button>
                 <button
                   onClick={() => { setEditingId(editingId === integration.id ? null : integration.id); setApiKey(''); }}
                   className="py-2 px-4 rounded-lg text-sm font-medium bg-blue-50 text-blue-600 hover:bg-blue-100"
                 >
-                  <Settings className="w-5 h-5 inline-block" />️ إعداد
+                  Settings️ إعداد
                 </button>
               </div>
             </div>
@@ -148,7 +148,7 @@ export default function IntegrationsPage() {
 
       {integrations.length === 0 && (
         <div className="text-center py-16 bg-white rounded-xl shadow">
-          <p className="text-6xl mb-4"><Plug className="w-5 h-5 inline-block" /></p>
+          <p className="text-6xl mb-4">Plug</p>
           <p className="text-xl text-gray-500">لا توجد تكاملات مسجلة</p>
         </div>
       )}

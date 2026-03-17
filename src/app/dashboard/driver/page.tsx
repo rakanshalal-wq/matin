@@ -119,7 +119,7 @@ export default function DriverDashboard() {
       const res = await fetch('/api/transport', { method: 'POST', headers: getHeaders(), body: JSON.stringify({ ...startForm, status: 'active', start_time: new Date().toISOString() }) });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'فشل بدء الرحلة');
-      setStartOk('تم بدء الرحلة بنجاح <Check className="w-5 h-5 inline-block" />');
+      setStartOk('تم بدء الرحلة بنجاح Check');
       setTimeout(() => { setShowStart(false); setStartOk(''); loadData(); }, 1500);
     } catch (e: any) { setStartErr(e.message); }
     finally { setStartLoading(false); }
@@ -149,7 +149,7 @@ export default function DriverDashboard() {
       const res = await fetch('/api/transport/location', { method: 'POST', headers: getHeaders(), body: JSON.stringify({ ...locForm, trip_id: activeTrip?.id, timestamp: new Date().toISOString() }) });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'فشل تحديث الموقع');
-      setLocOk('تم تحديث الموقع بنجاح <Check className="w-5 h-5 inline-block" />');
+      setLocOk('تم تحديث الموقع بنجاح Check');
       setTimeout(() => { setShowLoc(false); setLocOk(''); }, 1500);
     } catch (e: any) { setLocErr(e.message); }
     finally { setLocLoading(false); }
@@ -175,7 +175,7 @@ export default function DriverDashboard() {
       const res = await fetch('/api/messages', { method: 'POST', headers: getHeaders(), body: JSON.stringify({ content: msgForm.message, recipient_type: msgForm.recipient, trip_id: activeTrip?.id }) });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'فشل إرسال الرسالة');
-      setMsgOk('تم إرسال الرسالة بنجاح <Check className="w-5 h-5 inline-block" />');
+      setMsgOk('تم إرسال الرسالة بنجاح [Check]');
       setTimeout(() => { setShowMsg(false); setMsgOk(''); setMsgForm({ message: '', recipient: 'all' }); }, 1500);
     } catch (e: any) { setMsgErr(e.message); }
     finally { setMsgLoading(false); }
@@ -386,7 +386,7 @@ export default function DriverDashboard() {
                     {s.full_name||s.name}
                   </button>
                 ))}
-                {students.filter(s=>!s.boarded).length===0 && <p style={{ color:'rgba(238,238,245,0.3)',fontSize:14,textAlign:'center',padding:'20px 0' }}>جميع الطلاب ركبوا الحافلة <Check className="w-5 h-5 inline-block" /></p>}
+                {students.filter(s=>!s.boarded).length===0 && <p style={{ color:'rgba(238,238,245,0.3)',fontSize:14,textAlign:'center',padding:'20px 0' }}>جميع الطلاب ركبوا الحافلة [Check]</p>}
               </div>
             </div>
           ) : (
@@ -396,7 +396,7 @@ export default function DriverDashboard() {
               <div style={{ display:'flex',gap:10 }}>
                 <button onClick={()=>setBoardStudent(null)} style={{ flex:1,padding:'10px',background:'rgba(255,255,255,0.05)',border:`1px solid ${BORDER}`,borderRadius:10,color:'rgba(238,238,245,0.7)',cursor:'pointer',fontFamily:'inherit' }}>رجوع</button>
                 <button onClick={handleBoard} disabled={boardLoading} style={{...mkBtn('#10B981',boardLoading),flex:1,justifyContent:'center',padding:'10px'}}>
-                  {boardLoading?'جارٍ التسجيل...':'تأكيد الركوب <Check className="w-5 h-5 inline-block" />'}
+                  {boardLoading?'جارٍ التسجيل...':'تأكيد الركوب Check'}
                 </button>
               </div>
             </div>

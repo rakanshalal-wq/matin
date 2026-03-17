@@ -87,7 +87,7 @@ export default function InboxPage() {
       {/* Unread Alert */}
       {stats.unread > 0 && (
         <div style={{ background: 'rgba(59,130,246,0.12)', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 12, padding: '16px 20px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: 24 }}><MailOpen className="w-5 h-5 inline-block" /></span>
+          <span style={{ fontSize: 24 }}>MailOpen</span>
           <div>
             <div style={{ color: '#3B82F6', fontWeight: 700, fontSize: 15 }}>لديك {stats.unread} رسالة غير مقروءة</div>
             <div style={{ color: 'rgba(59,130,246,0.8)', fontSize: 13, marginTop: 2 }}>اضغط على الرسالة لقراءتها</div>
@@ -98,21 +98,21 @@ export default function InboxPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><Mail className="w-5 h-5 inline-block" /> البريد الداخلي</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>Mail البريد الداخلي</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>نظام المراسلات الداخلية بين المستخدمين</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ sender: '', receiver: '', subject: '', body: '', is_read: false, is_starred: false, status: 'sent' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
-          <Plus className="w-5 h-5 inline-block" /> رسالة جديدة
+          Plus رسالة جديدة
         </button>
       </div>
 
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
-          { label: 'إجمالي الرسائل', value: stats.total, icon: '<Mail className="w-5 h-5 inline-block" />', color: '#C9A227' },
-          { label: 'غير مقروءة', value: stats.unread, icon: '<MailOpen className="w-5 h-5 inline-block" />', color: '#3B82F6' },
+          { label: 'إجمالي الرسائل', value: stats.total, icon: "ICON_Mail", color: '#C9A227' },
+          { label: 'غير مقروءة', value: stats.unread, icon: "ICON_MailOpen", color: '#3B82F6' },
           { label: 'مميزة', value: stats.starred, icon: '⭐', color: '#F59E0B' },
-          { label: 'مرسلة', value: stats.sent, icon: '<Upload className="w-5 h-5 inline-block" />', color: '#10B981' },
+          { label: 'مرسلة', value: stats.sent, icon: "ICON_Upload", color: '#10B981' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
             <div style={{ fontSize: 28 }}>{stat.icon}</div>
@@ -124,7 +124,7 @@ export default function InboxPage() {
 
       {/* Search */}
       <div style={{ marginBottom: 20 }}>
-        <input placeholder="<Search className="w-5 h-5 inline-block" /> بحث بالمرسل أو المستقبل أو الموضوع..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
+        <input placeholder="Search بحث بالمرسل أو المستقبل أو الموضوع..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
       </div>
 
       {/* Email List */}
@@ -133,7 +133,7 @@ export default function InboxPage() {
           <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
         ) : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}><Mail className="w-5 h-5 inline-block" /></div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}>Mail</div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>صندوق البريد فارغ</p>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "رسالة جديدة" لإرسال رسالة</p>
           </div>
@@ -144,7 +144,7 @@ export default function InboxPage() {
             
             {/* Star */}
             <button onClick={(e) => { e.stopPropagation(); toggleStar(item); }} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 18, padding: '4px 8px', marginLeft: 8 }}>
-              {item.is_starred ? '⭐' : '<Star className="w-5 h-5 inline-block" />'}
+              {item.is_starred ? '⭐' : "ICON_Star"}
             </button>
 
             {/* Unread Dot */}
@@ -153,7 +153,7 @@ export default function InboxPage() {
             </div>
 
             {/* Avatar */}
-            <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(201,162,39,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, marginLeft: 12, flexShrink: 0 }}><Mail className="w-5 h-5 inline-block" /></div>
+            <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(201,162,39,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, marginLeft: 12, flexShrink: 0 }}>Mail</div>
 
             {/* Content */}
             <div style={{ flex: 1, marginRight: 14, overflow: 'hidden' }}>
@@ -170,8 +170,8 @@ export default function InboxPage() {
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6, flexShrink: 0 }}>
               <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11 }}>{timeAgo(item.created_at)}</span>
               <div style={{ display: 'flex', gap: 6 }}>
-                <button onClick={(e) => { e.stopPropagation(); handleEdit(item); }} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 6, padding: '3px 8px', cursor: 'pointer', fontSize: 11 }}><Pencil className="w-5 h-5 inline-block" />️</button>
-                <button onClick={(e) => { e.stopPropagation(); handleDelete(item.id); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 6, padding: '3px 8px', cursor: 'pointer', fontSize: 11 }}><Trash2 className="w-5 h-5 inline-block" />️</button>
+                <button onClick={(e) => { e.stopPropagation(); handleEdit(item); }} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 6, padding: '3px 8px', cursor: 'pointer', fontSize: 11 }}>Pencil️</button>
+                <button onClick={(e) => { e.stopPropagation(); handleDelete(item.id); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 6, padding: '3px 8px', cursor: 'pointer', fontSize: 11 }}>Trash2️</button>
               </div>
             </div>
           </div>
@@ -183,8 +183,8 @@ export default function InboxPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}><Mail className="w-5 h-5 inline-block" /> {viewItem.subject || '(بدون موضوع)'}</h2>
-              <button onClick={() => setViewItem(null)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}><X className="w-5 h-5 inline-block" /></button>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>Mail {viewItem.subject || '(بدون موضوع)'}</h2>
+              <button onClick={() => setViewItem(null)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
             </div>
             <div style={{ display: 'flex', gap: 16, marginBottom: 16, padding: '12px 16px', background: 'rgba(255,255,255,0.03)', borderRadius: 10 }}>
               <div><span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>من: </span><span style={{ color: 'white', fontWeight: 600 }}>{viewItem.sender}</span></div>
@@ -201,8 +201,8 @@ export default function InboxPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? '<Pencil className="w-5 h-5 inline-block" />️ تعديل رسالة' : '<Mail className="w-5 h-5 inline-block" />️ رسالة جديدة'}</h2>
-              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}><X className="w-5 h-5 inline-block" /></button>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil️ تعديل رسالة' : 'Mail️ رسالة جديدة'}</h2>
+              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
@@ -226,7 +226,7 @@ export default function InboxPage() {
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
-              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? '<Save className="w-5 h-5 inline-block" /> تحديث' : '<Upload className="w-5 h-5 inline-block" /> إرسال'}</button>
+              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Upload إرسال'}</button>
             </div>
           </div>
         </div>

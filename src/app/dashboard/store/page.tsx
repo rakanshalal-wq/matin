@@ -61,28 +61,28 @@ export default function StoreDashboard() {
   const inputStyle: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none', boxSizing: 'border-box' };
 
   const statusColor: any = { pending: '#F59E0B', processing: '#3B82F6', delivered: '#22C55E', cancelled: '#EF4444' };
-  const statusLabel: any = { pending: '⏳ جديد', processing: '<RefreshCw className="w-5 h-5 inline-block" /> قيد التنفيذ', delivered: '<CheckCircle className="w-5 h-5 inline-block" /> تم التسليم', cancelled: '<XCircle className="w-5 h-5 inline-block" /> ملغي' };
+  const statusLabel: any = { pending: '⏳ جديد', processing: 'RefreshCw قيد التنفيذ', delivered: 'CheckCircle تم التسليم', cancelled: 'XCircle ملغي' };
 
   return (
     <div style={{ fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><ShoppingCart className="w-5 h-5 inline-block" /> إدارة المتجر</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>ShoppingCart إدارة المتجر</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>المنتجات والطلبات</p>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
-          <a href="/store" target="_blank" rel="noreferrer" style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 10, padding: '10px 18px', textDecoration: 'none', fontWeight: 700, fontSize: 14 }}><Eye className="w-5 h-5 inline-block" />️ المتجر</a>
-          <button onClick={openAdd} style={{ background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', padding: '10px 20px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><Plus className="w-5 h-5 inline-block" /> منتج جديد</button>
+          <a href="/store" target="_blank" rel="noreferrer" style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 10, padding: '10px 18px', textDecoration: 'none', fontWeight: 700, fontSize: 14 }}>Eye️ المتجر</a>
+          <button onClick={openAdd} style={{ background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', padding: '10px 20px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>Plus منتج جديد</button>
         </div>
       </div>
 
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
-          { label: 'المنتجات', value: products.length, icon: '<Package className="w-5 h-5 inline-block" />', color: '#C9A227' },
-          { label: 'الطلبات', value: orders.length, icon: '<ShoppingCart className="w-5 h-5 inline-block" />', color: '#3B82F6' },
+          { label: 'المنتجات', value: products.length, icon: "ICON_Package", color: '#C9A227' },
+          { label: 'الطلبات', value: orders.length, icon: "ICON_ShoppingCart", color: '#3B82F6' },
           { label: 'طلبات جديدة', value: orders.filter(o => o.status === 'pending').length, icon: '⏳', color: '#F59E0B' },
-          { label: 'الإيرادات', value: totalRevenue.toFixed(0) + ' ر.س', icon: '<Coins className="w-5 h-5 inline-block" />', color: '#22C55E' },
+          { label: 'الإيرادات', value: totalRevenue.toFixed(0) + ' ر.س', icon: "ICON_Coins", color: '#22C55E' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -96,7 +96,7 @@ export default function StoreDashboard() {
 
       {/* Tabs */}
       <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
-        {[{ key: 'products', label: '<Package className="w-5 h-5 inline-block" /> المنتجات', count: products.length }, { key: 'orders', label: '<ShoppingCart className="w-5 h-5 inline-block" /> الطلبات', count: orders.length }].map(tab => (
+        {[{ key: 'products', label: 'Package المنتجات', count: products.length }, { key: 'orders', label: '[ShoppingCart] الطلبات', count: orders.length }].map(tab => (
           <button key={tab.key} onClick={() => setActiveTab(tab.key as any)} style={{ background: activeTab === tab.key ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'rgba(255,255,255,0.05)', color: activeTab === tab.key ? '#06060E' : 'rgba(255,255,255,0.7)', border: 'none', borderRadius: 20, padding: '8px 20px', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
             {tab.label} ({tab.count})
           </button>
@@ -110,7 +110,7 @@ export default function StoreDashboard() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
               {products.map(product => (
                 <div key={product.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, overflow: 'hidden' }}>
-                  {product.image ? <div style={{ height: 140, background: `url(${product.image}) center/cover` }} /> : <div style={{ height: 140, background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 40 }}><Package className="w-5 h-5 inline-block" /></div>}
+                  {product.image ? <div style={{ height: 140, background: `url(${product.image}) center/cover` }} /> : <div style={{ height: 140, background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 40 }}>Package</div>}
                   <div style={{ padding: 16 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                       <h3 style={{ color: 'white', fontWeight: 700, margin: 0, fontSize: 15 }}>{product.name}</h3>
@@ -121,8 +121,8 @@ export default function StoreDashboard() {
                       <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>مخزون: {product.stock}</span>
                     </div>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <button onClick={() => openEdit(product)} style={{ flex: 1, background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', borderRadius: 8, padding: '7px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}><Pencil className="w-5 h-5 inline-block" />️ تعديل</button>
-                      <button onClick={() => handleDelete(product.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, padding: '7px 12px', fontSize: 13, cursor: 'pointer' }}><Trash2 className="w-5 h-5 inline-block" />️</button>
+                      <button onClick={() => openEdit(product)} style={{ flex: 1, background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', borderRadius: 8, padding: '7px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>Pencil️ تعديل</button>
+                      <button onClick={() => handleDelete(product.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, padding: '7px 12px', fontSize: 13, cursor: 'pointer' }}>Trash2️</button>
                     </div>
                   </div>
                 </div>
@@ -150,7 +150,7 @@ export default function StoreDashboard() {
                       <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.6)', fontSize: 13 }}>{order.customer_phone || '-'}</td>
                       <td style={{ padding: '14px 16px', color: '#22C55E', fontWeight: 700 }}>{parseFloat(order.total).toFixed(2)} ر.س</td>
                       <td style={{ padding: '14px 16px' }}>
-                        <span style={{ background: order.payment_status === 'paid' ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)', color: order.payment_status === 'paid' ? '#22C55E' : '#EF4444', fontSize: 12, padding: '4px 10px', borderRadius: 20, fontWeight: 700 }}>{order.payment_status === 'paid' ? '<CheckCircle className="w-5 h-5 inline-block" /> مدفوع' : '⏳ غير مدفوع'}</span>
+                        <span style={{ background: order.payment_status === 'paid' ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)', color: order.payment_status === 'paid' ? '#22C55E' : '#EF4444', fontSize: 12, padding: '4px 10px', borderRadius: 20, fontWeight: 700 }}>{order.payment_status === 'paid' ? '[CheckCircle] مدفوع' : '⏳ غير مدفوع'}</span>
                       </td>
                       <td style={{ padding: '14px 16px' }}>
                         <span style={{ background: `${statusColor[order.status]}20`, color: statusColor[order.status], fontSize: 12, padding: '4px 10px', borderRadius: 20, fontWeight: 700 }}>{statusLabel[order.status] || order.status}</span>
@@ -159,9 +159,9 @@ export default function StoreDashboard() {
                       <td style={{ padding: '14px 16px' }}>
                         <select onChange={e => handleOrderStatus(order.id, e.target.value)} defaultValue={order.status} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: 'white', padding: '6px 10px', fontSize: 12, cursor: 'pointer' }}>
                           <option value="pending">⏳ جديد</option>
-                          <option value="processing"><RefreshCw className="w-5 h-5 inline-block" /> قيد التنفيذ</option>
-                          <option value="delivered"><CheckCircle className="w-5 h-5 inline-block" /> تم التسليم</option>
-                          <option value="cancelled"><XCircle className="w-5 h-5 inline-block" /> ملغي</option>
+                          <option value="processing">RefreshCw قيد التنفيذ</option>
+                          <option value="delivered">CheckCircle تم التسليم</option>
+                          <option value="cancelled">XCircle ملغي</option>
                         </select>
                       </td>
                     </tr>
@@ -179,8 +179,8 @@ export default function StoreDashboard() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
           <div style={{ background: '#1B263B', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: 32, width: '100%', maxWidth: 500, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontWeight: 800, margin: 0 }}>{editing ? '<Pencil className="w-5 h-5 inline-block" />️ تعديل منتج' : '<Plus className="w-5 h-5 inline-block" /> منتج جديد'}</h2>
-              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 24, cursor: 'pointer' }}><X className="w-5 h-5 inline-block" /></button>
+              <h2 style={{ color: 'white', fontWeight: 800, margin: 0 }}>{editing ? 'Pencil️ تعديل منتج' : 'Plus منتج جديد'}</h2>
+              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 24, cursor: 'pointer' }}>X</button>
             </div>
             {[{ key: 'name', label: 'اسم المنتج *' }, { key: 'description', label: 'الوصف' }, { key: 'price', label: 'السعر * (ر.س)' }, { key: 'sale_price', label: 'سعر التخفيض (اختياري)' }, { key: 'image', label: 'رابط الصورة' }, { key: 'category', label: 'الفئة' }, { key: 'stock', label: 'الكمية في المخزون' }].map(f => (
               <div key={f.key} style={{ marginBottom: 16 }}>
@@ -189,7 +189,7 @@ export default function StoreDashboard() {
               </div>
             ))}
             <button onClick={handleSave} disabled={saving} style={{ width: '100%', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 800, cursor: 'pointer', marginTop: 8 }}>
-              {saving ? '⏳ جاري الحفظ...' : '<Save className="w-5 h-5 inline-block" /> حفظ'}
+              {saving ? '⏳ جاري الحفظ...' : 'Save حفظ'}
             </button>
           </div>
         </div>

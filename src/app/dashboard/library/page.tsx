@@ -20,11 +20,11 @@ export default function LibraryPage() {
   return (
     <div style={{minHeight:'100vh',background:BG,padding:'32px 24px',direction:'rtl',fontFamily:'Cairo, sans-serif'}}>
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:32,flexWrap:'wrap',gap:16}}>
-        <div><h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}><BookOpen className="w-5 h-5 inline-block" /> المكتبة المدرسية</h1><p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>ادارة الكتب والاستعارات</p></div>
+        <div><h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}>BookOpen المكتبة المدرسية</h1><p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>ادارة الكتب والاستعارات</p></div>
         <button onClick={()=>{setEditItem(null);setShowModal(true);}} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 20px',color:'#0B0B16',fontWeight:700,cursor:'pointer',fontSize:14}}>+ اضافة كتاب</button>
       </div>
       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:16,marginBottom:28}}>
-        {[{l:'اجمالي الكتب',v:books.length,c:GOLD,i:'<BookOpen className="w-5 h-5 inline-block" />'},{l:'متاح',v:books.filter((r:any)=>r.status==='available').length,c:'#10B981',i:'<CheckCircle className="w-5 h-5 inline-block" />'},{l:'مستعار',v:books.filter((r:any)=>r.status==='borrowed').length,c:'#F59E0B',i:'<Book className="w-5 h-5 inline-block" />'},{l:'مفقود',v:books.filter((r:any)=>r.status==='lost').length,c:'#EF4444',i:'<HelpCircle className="w-5 h-5 inline-block" />'}].map((s,i)=>(
+        {[{l:'اجمالي الكتب',v:books.length,c:GOLD,i:"ICON_BookOpen"},{l:'متاح',v:books.filter((r:any)=>r.status==='available').length,c:'#10B981',i:"ICON_CheckCircle"},{l:'مستعار',v:books.filter((r:any)=>r.status==='borrowed').length,c:'#F59E0B',i:"ICON_Book"},{l:'مفقود',v:books.filter((r:any)=>r.status==='lost').length,c:'#EF4444',i:"ICON_HelpCircle"}].map((s,i)=>(
           <div key={i} style={{background:CB,border:'1px solid '+BR,borderRadius:14,padding:'18px 20px'}}><div style={{fontSize:24,marginBottom:8}}>{s.i}</div><div style={{fontSize:26,fontWeight:800,color:s.c}}>{s.v}</div><div style={{fontSize:13,color:'rgba(255,255,255,0.5)',marginTop:4}}>{s.l}</div></div>
         ))}
       </div>
@@ -36,7 +36,7 @@ export default function LibraryPage() {
       </div>
       <div style={{background:CB,border:'1px solid '+BR,borderRadius:16,overflow:'hidden'}}>
         {loading?<div style={{textAlign:'center',padding:60,color:'rgba(255,255,255,0.4)'}}>جاري التحميل...</div>:filtered.length===0?
-          <div style={{textAlign:'center',padding:60}}><div style={{fontSize:48,marginBottom:16}}><BookOpen className="w-5 h-5 inline-block" /></div><p style={{color:'rgba(255,255,255,0.4)',fontSize:16}}>لا توجد كتب مسجلة</p><button onClick={()=>setShowModal(true)} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 24px',color:'#0B0B16',fontWeight:700,cursor:'pointer',marginTop:16}}>+ اضافة اول كتاب</button></div>:
+          <div style={{textAlign:'center',padding:60}}><div style={{fontSize:48,marginBottom:16}}>BookOpen</div><p style={{color:'rgba(255,255,255,0.4)',fontSize:16}}>لا توجد كتب مسجلة</p><button onClick={()=>setShowModal(true)} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 24px',color:'#0B0B16',fontWeight:700,cursor:'pointer',marginTop:16}}>+ اضافة اول كتاب</button></div>:
           <div style={{overflowX:'auto'}}><table style={{width:'100%',borderCollapse:'collapse'}}>
             <thead><tr style={{borderBottom:'1px solid '+BR}}>{['العنوان','المؤلف','الفئة','الكمية','المتاح','الحالة','اجراءات'].map(h=><th key={h} style={{padding:'14px 16px',textAlign:'right',color:'rgba(255,255,255,0.5)',fontSize:13,fontWeight:600,whiteSpace:'nowrap'}}>{h}</th>)}</tr></thead>
             <tbody>{filtered.map((r:any,i:number)=>{const st=STATUS_MAP[r.status]||{label:r.status,color:'#9CA3AF',bg:'rgba(156,163,175,0.15)'};return(
@@ -53,7 +53,7 @@ export default function LibraryPage() {
       </div>
       {showModal&&<div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:1000,padding:20}}>
         <div style={{background:'#12121F',border:'1px solid '+BR,borderRadius:20,padding:32,width:'100%',maxWidth:520,maxHeight:'90vh',overflowY:'auto'}}>
-          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:24}}><h2 style={{color:'white',fontSize:20,fontWeight:700,margin:0}}>{editItem?'تعديل الكتاب':'اضافة كتاب جديد'}</h2><button onClick={()=>{setShowModal(false);setEditItem(null);}} style={{background:'none',border:'none',color:'rgba(255,255,255,0.5)',fontSize:22,cursor:'pointer'}}><X className="w-5 h-5 inline-block" /></button></div>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:24}}><h2 style={{color:'white',fontSize:20,fontWeight:700,margin:0}}>{editItem?'تعديل الكتاب':'اضافة كتاب جديد'}</h2><button onClick={()=>{setShowModal(false);setEditItem(null);}} style={{background:'none',border:'none',color:'rgba(255,255,255,0.5)',fontSize:22,cursor:'pointer'}}>X</button></div>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
             <div style={{gridColumn:'1/-1'}}><label style={lbl}>عنوان الكتاب *</label><input value={form.title} onChange={e=>setForm({...form,title:e.target.value})} placeholder="ادخل عنوان الكتاب" style={inp}/></div>
             <div><label style={lbl}>المؤلف</label><input value={form.author} onChange={e=>setForm({...form,author:e.target.value})} placeholder="اسم المؤلف" style={inp}/></div>

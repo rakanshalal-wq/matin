@@ -23,7 +23,7 @@ export default function Page(){
   return(
     <div style={{minHeight:'100vh',background:BG,padding:'32px 24px',direction:'rtl',fontFamily:'Cairo, sans-serif'}}>
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:32,flexWrap:'wrap',gap:16}}>
-        <div><h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}><GraduationCap className="w-5 h-5 inline-block" /> المدربون الخارجيون</h1><p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>إدارة المدربين الخارجيين والمحاضرين الزائرين</p></div>
+        <div><h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}>GraduationCap المدربون الخارجيون</h1><p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>إدارة المدربين الخارجيين والمحاضرين الزائرين</p></div>
         <button onClick={openAdd} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 20px',color:'#0B0B16',fontWeight:700,cursor:'pointer',fontSize:14}}>+ إضافة</button>
       </div>
       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:16,marginBottom:28}}>

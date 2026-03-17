@@ -104,10 +104,10 @@ export default function CommunityPage() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
             {[
-              { icon: "<PenTool className="w-6 h-6" />️", title: "النشر", desc: "نص أو صور أو ملفات" },
-              { icon: "<Heart className="w-6 h-6" />️", title: "اللايك", desc: "تفاعل سريع مع المنشورات" },
-              { icon: "<MessageCircle className="w-6 h-6" />", title: "التعليق", desc: "نقاشات تحت كل منشور" },
-              { icon: "<RefreshCw className="w-6 h-6" />", title: "إعادة النشر", desc: "مشاركة المحتوى المفيد" },
+              { icon: "PenTool️", title: "النشر", desc: "نص أو صور أو ملفات" },
+              { icon: "Heart️", title: "اللايك", desc: "تفاعل سريع مع المنشورات" },
+              { icon: "ICON_MessageCircle", title: "التعليق", desc: "نقاشات تحت كل منشور" },
+              { icon: "ICON_RefreshCw", title: "إعادة النشر", desc: "مشاركة المحتوى المفيد" },
             ].map((item, i) => (
               <div key={i} className="p-5 rounded-xl border border-white/8 bg-[#111] text-center hover:border-[rgba(212,168,67,0.2)] transition-all">
                 <div className="text-3xl mb-3">{item.icon}</div>
@@ -176,7 +176,7 @@ export default function CommunityPage() {
             <div className="p-6 rounded-2xl border border-white/8 bg-[#111]">
               <h4 className="font-bold mb-4 text-[#D4A843]">أمثلة على الأندية</h4>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                {["<Microscope className="w-6 h-6" /> نادي العلوم", "<Palette className="w-6 h-6" /> نادي الفنون", "<Laptop className="w-6 h-6" /> نادي البرمجة", "<BookOpen className="w-6 h-6" /> نادي القراءة", "<Trophy className="w-6 h-6" /> النادي الرياضي", "<Drama className="w-6 h-6" /> نادي المسرح", "<Sprout className="w-6 h-6" /> نادي البيئة", "<Handshake className="w-6 h-6" /> نادي التطوع"].map((item, i) => (
+                {["Microscope نادي العلوم", "Palette نادي الفنون", "Laptop نادي البرمجة", "BookOpen نادي القراءة", "Trophy النادي الرياضي", "Drama نادي المسرح", "Sprout نادي البيئة", "Handshake نادي التطوع"].map((item, i) => (
                   <div key={i} className="px-3 py-2 rounded-lg bg-[#0d0d0d] border border-white/5 text-sm text-gray-300 text-center">
                     {item}
                   </div>

@@ -162,11 +162,11 @@ export default function CommunityPage() {
   };
 
   const tabs = [
-    { id: 'feed', label: '<Newspaper className="w-5 h-5 inline-block" /> المنشورات' },
+    { id: 'feed', label: 'Newspaper المنشورات' },
     ...(isAdmin ? [
-      { id: 'reports', label: '<Siren className="w-5 h-5 inline-block" /> البلاغات' },
-      { id: 'blocked', label: '<Ban className="w-5 h-5 inline-block" /> المحظورون' },
-      { id: 'stats', label: '<BarChart3 className="w-5 h-5 inline-block" /> الإحصائيات' },
+      { id: 'reports', label: 'Siren البلاغات' },
+      { id: 'blocked', label: 'Ban المحظورون' },
+      { id: 'stats', label: 'BarChart3 الإحصائيات' },
     ] : []),
   ];
 
@@ -177,21 +177,21 @@ export default function CommunityPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><Globe className="w-5 h-5 inline-block" /> الملتقى المجتمعي</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>Globe الملتقى المجتمعي</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>تواصل مع زملائك وشارك أفكارك</p>
         </div>
         <button onClick={() => setShowNewPost(true)} style={{ padding: '12px 24px', background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', border: 'none', borderRadius: 10, color: '#06060E', fontSize: 15, fontWeight: 700, cursor: 'pointer' }}>
-          <Pencil className="w-5 h-5 inline-block" />️ منشور جديد
+          Pencil️ منشور جديد
         </button>
       </div>
 
       {/* الإحصائيات */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
-          { label: 'إجمالي المنشورات', value: stats.total, icon: '<FileText className="w-5 h-5 inline-block" />', color: '#3B82F6' },
-          { label: 'منشورات اليوم', value: stats.today, icon: '<Calendar className="w-5 h-5 inline-block" />', color: '#10B981' },
-          { label: 'منشوراتي', value: stats.myPosts, icon: '<User className="w-5 h-5 inline-block" />', color: '#C9A227' },
-          ...(isAdmin ? [{ label: 'المثبّتة', value: stats.pinned, icon: '<Pin className="w-5 h-5 inline-block" />', color: '#8B5CF6' }] : []),
+          { label: 'إجمالي المنشورات', value: stats.total, icon: "ICON_FileText", color: '#3B82F6' },
+          { label: 'منشورات اليوم', value: stats.today, icon: "ICON_Calendar", color: '#10B981' },
+          { label: 'منشوراتي', value: stats.myPosts, icon: "ICON_User", color: '#C9A227' },
+          ...(isAdmin ? [{ label: 'المثبّتة', value: stats.pinned, icon: "ICON_Pin", color: '#8B5CF6' }] : []),
         ].map((s, i) => (
           <div key={i} style={cardStyle}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -232,14 +232,14 @@ export default function CommunityPage() {
               <textarea value={newPost} onChange={e => setNewPost(e.target.value)} placeholder="شارك أفكارك مع المجتمع..." style={{ width: '100%', minHeight: 120, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: 16, color: 'white', fontSize: 15, resize: 'vertical', outline: 'none', direction: 'rtl', boxSizing: 'border-box' }} />
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 12 }}>
                 <button onClick={() => { setShowNewPost(false); setNewPost(''); setNewPostTitle(''); }} style={{ padding: '10px 20px', background: 'rgba(255,255,255,0.08)', border: 'none', borderRadius: 8, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
-                <button onClick={savePost} disabled={!newPost.trim()} style={{ padding: '10px 24px', background: newPost.trim() ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'rgba(255,255,255,0.1)', border: 'none', borderRadius: 8, color: newPost.trim() ? '#06060E' : 'rgba(255,255,255,0.3)', fontWeight: 700, cursor: newPost.trim() ? 'pointer' : 'default', fontSize: 14 }}>{saving ? '⏳...' : editPost ? '<Save className="w-5 h-5 inline-block" /> حفظ' : 'نشر'}</button>
+                <button onClick={savePost} disabled={!newPost.trim()} style={{ padding: '10px 24px', background: newPost.trim() ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'rgba(255,255,255,0.1)', border: 'none', borderRadius: 8, color: newPost.trim() ? '#06060E' : 'rgba(255,255,255,0.3)', fontWeight: 700, cursor: newPost.trim() ? 'pointer' : 'default', fontSize: 14 }}>{saving ? '⏳...' : editPost ? 'Save حفظ' : 'نشر'}</button>
               </div>
             </div>
           )}
 
           {/* فلاتر البحث */}
           <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
-            <input value={searchText} onChange={e => setSearchText(e.target.value)} placeholder="<Search className="w-5 h-5 inline-block" /> ابحث في المنشورات..." style={{ flex: 1, minWidth: 200, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '10px 14px', color: 'white', fontSize: 14, outline: 'none', direction: 'rtl' }} />
+            <input value={searchText} onChange={e => setSearchText(e.target.value)} placeholder="Search ابحث في المنشورات..." style={{ flex: 1, minWidth: 200, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '10px 14px', color: 'white', fontSize: 14, outline: 'none', direction: 'rtl' }} />
             {['all', 'mine', ...(isAdmin ? ['pinned'] : [])].map(f => (
               <button key={f} onClick={() => setFilterType(f)} style={{ padding: '10px 18px', background: filterType === f ? 'rgba(201,162,39,0.2)' : 'rgba(255,255,255,0.05)', border: '1px solid ' + (filterType === f ? 'rgba(201,162,39,0.5)' : 'rgba(255,255,255,0.1)'), borderRadius: 10, color: filterType === f ? '#C9A227' : 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>
                 {f === 'all' ? 'الكل' : f === 'mine' ? 'منشوراتي' : 'المثبّتة'}
@@ -252,14 +252,14 @@ export default function CommunityPage() {
             <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.5)' }}>جاري التحميل...</div>
           ) : filteredPosts.length === 0 ? (
             <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>
-              <div style={{ fontSize: 48, marginBottom: 16 }}><Globe className="w-5 h-5 inline-block" /></div>
+              <div style={{ fontSize: 48, marginBottom: 16 }}>Globe</div>
               <div style={{ fontSize: 18, fontWeight: 600 }}>لا توجد منشورات</div>
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {filteredPosts.map((post: any) => (
                 <div key={post.id} style={{ ...cardStyle, border: post.pinned ? '1px solid rgba(201,162,39,0.4)' : '1px solid rgba(255,255,255,0.08)' }}>
-                  {post.pinned && <div style={{ color: '#C9A227', fontSize: 12, fontWeight: 700, marginBottom: 8 }}><Pin className="w-5 h-5 inline-block" /> منشور مثبّت</div>}
+                  {post.pinned && <div style={{ color: '#C9A227', fontSize: 12, fontWeight: 700, marginBottom: 8 }}>Pin منشور مثبّت</div>}
                   {/* رأس المنشور */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -273,10 +273,10 @@ export default function CommunityPage() {
                     </div>
                     <div style={{ display: 'flex', gap: 8 }}>
                       {isAdmin && (
-                        <button onClick={() => pinPost(post.id, post.pinned)} title={post.pinned ? 'إلغاء التثبيت' : 'تثبيت'} style={{ background: 'none', border: 'none', color: post.pinned ? '#C9A227' : 'rgba(255,255,255,0.3)', cursor: 'pointer', fontSize: 16 }}><Pin className="w-5 h-5 inline-block" /></button>
+                        <button onClick={() => pinPost(post.id, post.pinned)} title={post.pinned ? 'إلغاء التثبيت' : 'تثبيت'} style={{ background: 'none', border: 'none', color: post.pinned ? '#C9A227' : 'rgba(255,255,255,0.3)', cursor: 'pointer', fontSize: 16 }}>Pin</button>
                       )}
                       {(post.user_id === currentUser?.id || isAdmin) && (
-                        <button onClick={() => deletePost(post.id)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer', fontSize: 18 }}><Trash2 className="w-5 h-5 inline-block" /></button>
+                        <button onClick={() => deletePost(post.id)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer', fontSize: 18 }}>Trash2</button>
                       )}
                     </div>
                   </div>
@@ -285,10 +285,10 @@ export default function CommunityPage() {
                   {/* أزرار التفاعل */}
                   <div style={{ display: 'flex', gap: 16, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                     <button onClick={() => toggleLike(post.id)} style={{ background: 'none', border: 'none', color: post.user_liked ? '#EF4444' : 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: 14, display: 'flex', alignItems: 'center', gap: 6 }}>
-                      {post.user_liked ? '<Heart className="w-5 h-5 inline-block" />️' : '<Heart className="w-5 h-5 inline-block" />'} {post.likes_count || 0}
+                      {post.user_liked ? 'Heart️' : "ICON_Heart"} {post.likes_count || 0}
                     </button>
                     <button onClick={() => toggleComments(post.id)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: 14, display: 'flex', alignItems: 'center', gap: 6 }}>
-                      <MessageCircle className="w-5 h-5 inline-block" /> {post.comments_count || 0}
+                      MessageCircle {post.comments_count || 0}
                     </button>
                   </div>
                   {/* التعليقات */}
@@ -324,10 +324,10 @@ export default function CommunityPage() {
       {/* تبويب البلاغات - للمدير فقط */}
       {activeTab === 'reports' && isAdmin && (
         <div>
-          <h2 style={{ color: 'white', fontWeight: 700, marginBottom: 16 }}><Siren className="w-5 h-5 inline-block" /> البلاغات المُرسلة</h2>
+          <h2 style={{ color: 'white', fontWeight: 700, marginBottom: 16 }}>Siren البلاغات المُرسلة</h2>
           {reports.length === 0 ? (
             <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>
-              <div style={{ fontSize: 48, marginBottom: 12 }}><CheckCircle className="w-5 h-5 inline-block" /></div>
+              <div style={{ fontSize: 48, marginBottom: 12 }}>CheckCircle</div>
               <div>لا توجد بلاغات حالياً</div>
             </div>
           ) : (
@@ -353,10 +353,10 @@ export default function CommunityPage() {
       {/* تبويب المحظورون - للمدير فقط */}
       {activeTab === 'blocked' && isAdmin && (
         <div>
-          <h2 style={{ color: 'white', fontWeight: 700, marginBottom: 16 }}><Ban className="w-5 h-5 inline-block" /> المستخدمون المحظورون</h2>
+          <h2 style={{ color: 'white', fontWeight: 700, marginBottom: 16 }}>Ban المستخدمون المحظورون</h2>
           {blocked.length === 0 ? (
             <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>
-              <div style={{ fontSize: 48, marginBottom: 12 }}><CheckCircle className="w-5 h-5 inline-block" /></div>
+              <div style={{ fontSize: 48, marginBottom: 12 }}>CheckCircle</div>
               <div>لا يوجد مستخدمون محظورون</div>
             </div>
           ) : (
@@ -375,15 +375,15 @@ export default function CommunityPage() {
       {/* تبويب الإحصائيات - للمدير فقط */}
       {activeTab === 'stats' && isAdmin && (
         <div>
-          <h2 style={{ color: 'white', fontWeight: 700, marginBottom: 16 }}><BarChart3 className="w-5 h-5 inline-block" /> إحصائيات المجتمع</h2>
+          <h2 style={{ color: 'white', fontWeight: 700, marginBottom: 16 }}>BarChart3 إحصائيات المجتمع</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
             {[
-              { label: 'إجمالي المنشورات', value: posts.length, icon: '<FileText className="w-5 h-5 inline-block" />', color: '#3B82F6' },
-              { label: 'إجمالي التفاعلات', value: posts.reduce((a, p) => a + (p.likes_count || 0), 0), icon: '<Heart className="w-5 h-5 inline-block" />️', color: '#EF4444' },
-              { label: 'إجمالي التعليقات', value: posts.reduce((a, p) => a + (p.comments_count || 0), 0), icon: '<MessageCircle className="w-5 h-5 inline-block" />', color: '#10B981' },
-              { label: 'منشورات اليوم', value: posts.filter(p => new Date(p.created_at).toDateString() === new Date().toDateString()).length, icon: '<Calendar className="w-5 h-5 inline-block" />', color: '#C9A227' },
-              { label: 'المنشورات المثبّتة', value: posts.filter(p => p.pinned).length, icon: '<Pin className="w-5 h-5 inline-block" />', color: '#8B5CF6' },
-              { label: 'متوسط التفاعل', value: posts.length ? (posts.reduce((a, p) => a + (p.likes_count || 0), 0) / posts.length).toFixed(1) : 0, icon: '<TrendingUp className="w-5 h-5 inline-block" />', color: '#F59E0B' },
+              { label: 'إجمالي المنشورات', value: posts.length, icon: "ICON_FileText", color: '#3B82F6' },
+              { label: 'إجمالي التفاعلات', value: posts.reduce((a, p) => a + (p.likes_count || 0), 0), icon: 'Heart️', color: '#EF4444' },
+              { label: 'إجمالي التعليقات', value: posts.reduce((a, p) => a + (p.comments_count || 0), 0), icon: "ICON_MessageCircle", color: '#10B981' },
+              { label: 'منشورات اليوم', value: posts.filter(p => new Date(p.created_at).toDateString() === new Date().toDateString()).length, icon: "ICON_Calendar", color: '#C9A227' },
+              { label: 'المنشورات المثبّتة', value: posts.filter(p => p.pinned).length, icon: "ICON_Pin", color: '#8B5CF6' },
+              { label: 'متوسط التفاعل', value: posts.length ? (posts.reduce((a, p) => a + (p.likes_count || 0), 0) / posts.length).toFixed(1) : 0, icon: "ICON_TrendingUp", color: '#F59E0B' },
             ].map((s, i) => (
               <div key={i} style={cardStyle}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>

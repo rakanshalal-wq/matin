@@ -102,21 +102,21 @@ export default function StudentFeesPage() {
     <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><Coins className="w-5 h-5 inline-block" /> الرسوم الدراسية</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>Coins الرسوم الدراسية</h1>
           <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>متابعة رسوم الطلاب والمدفوعات</p>
         </div>
         <div style={{ display: 'flex', gap: 12 }}>
-          <button onClick={exportCSV} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid ' + BORDER, borderRadius: 10, padding: '10px 18px', color: 'white', cursor: 'pointer', fontSize: 14 }}><Download className="w-5 h-5 inline-block" /> تصدير</button>
+          <button onClick={exportCSV} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid ' + BORDER, borderRadius: 10, padding: '10px 18px', color: 'white', cursor: 'pointer', fontSize: 14 }}>Download تصدير</button>
           <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ اضافة رسوم</button>
         </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 28 }}>
         {[
-          { label: 'اجمالي الرسوم', value: totalAmount.toLocaleString() + ' ر.س', color: GOLD, icon: '<Banknote className="w-5 h-5 inline-block" />' },
-          { label: 'المحصّل', value: totalPaid.toLocaleString() + ' ر.س', color: '#10B981', icon: '<CheckCircle className="w-5 h-5 inline-block" />' },
+          { label: 'اجمالي الرسوم', value: totalAmount.toLocaleString() + ' ر.س', color: GOLD, icon: "ICON_Banknote" },
+          { label: 'المحصّل', value: totalPaid.toLocaleString() + ' ر.س', color: '#10B981', icon: "ICON_CheckCircle" },
           { label: 'المتبقي', value: totalPending.toLocaleString() + ' ر.س', color: '#EF4444', icon: '⏳' },
-          { label: 'متاخرو الدفع', value: overdueCount, color: '#F59E0B', icon: '<AlertTriangle className="w-5 h-5 inline-block" />️' },
+          { label: 'متاخرو الدفع', value: overdueCount, color: '#F59E0B', icon: 'AlertTriangle️' },
         ].map((s, i) => (
           <div key={i} style={{ background: CARD_BG, border: '1px solid ' + BORDER, borderRadius: 14, padding: '18px 20px' }}>
             <div style={{ fontSize: 24, marginBottom: 8 }}>{s.icon}</div>
@@ -139,7 +139,7 @@ export default function StudentFeesPage() {
           <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>جاري التحميل...</div>
         ) : filtered.length === 0 ? (
           <div style={{ textAlign: 'center', padding: 60 }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}><Coins className="w-5 h-5 inline-block" /></div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}>Coins</div>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 16 }}>لا توجد رسوم مسجلة</p>
             <button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ اضافة رسوم</button>
           </div>
@@ -189,7 +189,7 @@ export default function StudentFeesPage() {
           <div style={{ background: '#12121F', border: '1px solid ' + BORDER, borderRadius: 20, padding: 32, width: '100%', maxWidth: 520, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
               <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل الرسوم' : 'اضافة رسوم جديدة'}</h2>
-              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 22, cursor: 'pointer' }}><X className="w-5 h-5 inline-block" /></button>
+              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 22, cursor: 'pointer' }}>X</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ gridColumn: '1/-1' }}>

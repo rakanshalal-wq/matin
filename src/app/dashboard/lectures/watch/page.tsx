@@ -89,7 +89,7 @@ export default function WatchLecturePage() {
     setResult(attendanceStatus);
 
     if (attendanceStatus === 'present') {
-      setMsg(`أحسنت! ${correct}/5 — تم تسجيل حضورك <Check className="w-5 h-5 inline-block" />`);
+      setMsg(`أحسنت! ${correct}/5 — تم تسجيل حضورك [Check]`);
     } else if (attendanceStatus === 'retry') {
       setMsg(`${correct}/5 — تحتاج تعيد المحاولة`);
     } else {
@@ -151,7 +151,7 @@ export default function WatchLecturePage() {
       {/* === مرحلة المشاهدة === */}
       {phase === 'watching' && lecture && (
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: '#C9A227', margin: '0 0 8px' }}><Video className="w-5 h-5 inline-block" /> {lecture.title}</h1>
+          <h1 style={{ fontSize: 22, fontWeight: 700, color: '#C9A227', margin: '0 0 8px' }}>Video {lecture.title}</h1>
           <p style={{ color: '#9CA3AF', fontSize: 14, margin: '0 0 24px' }}>شاهد المحاضرة كاملة بدون تقديم أو ترجيع — بعدها 5 أسئلة</p>
 
           {/* شاشة الفيديو */}
@@ -162,7 +162,7 @@ export default function WatchLecturePage() {
               </video>
             ) : (
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: 64, marginBottom: 10 }}><Video className="w-5 h-5 inline-block" /></div>
+                <div style={{ fontSize: 64, marginBottom: 10 }}>Video</div>
                 <p style={{ color: '#6B7280', fontSize: 16 }}>المحاضرة جارية...</p>
                 <p style={{ color: '#C9A227', fontSize: 32, fontWeight: 700, fontFamily: 'monospace' }}>{formatTime(elapsed)}</p>
               </div>
@@ -172,7 +172,7 @@ export default function WatchLecturePage() {
             <div style={{ position: 'absolute' as const, bottom: 0, left: 0, right: 0, padding: '8px 16px', background: 'rgba(0,0,0,0.7)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ color: '#C9A227', fontSize: 13 }}>⏱️ {formatTime(elapsed)} / {lecture.duration_minutes || 45} دقيقة</span>
-                <span style={{ color: '#10B981', fontSize: 13 }}><BarChart3 className="w-5 h-5 inline-block" /> {progress}%</span>
+                <span style={{ color: '#10B981', fontSize: 13 }}>[BarChart3] {progress}%</span>
               </div>
               <div style={{ width: '100%', height: 4, background: 'rgba(255,255,255,0.1)', borderRadius: 2, marginTop: 6 }}>
                 <div style={{ width: `${progress}%`, height: '100%', background: 'linear-gradient(90deg, #C9A227, #10B981)', borderRadius: 2, transition: 'width 1s' }}></div>
@@ -181,7 +181,7 @@ export default function WatchLecturePage() {
           </div>
 
           <div style={{ padding: 14, background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 12, fontSize: 13, color: '#EF4444' }}>
-            <Lock className="w-5 h-5 inline-block" /> لا يمكن تقديم أو ترجيع المحاضرة — شاهدها كاملة للوصول للأسئلة
+            Lock لا يمكن تقديم أو ترجيع المحاضرة — شاهدها كاملة للوصول للأسئلة
           </div>
 
           {/* زر تخطي للاختبار — للتجربة فقط */}
@@ -194,7 +194,7 @@ export default function WatchLecturePage() {
       {/* === مرحلة الأسئلة === */}
       {phase === 'quiz' && (
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: '#C9A227', margin: '0 0 8px' }}><HelpCircle className="w-5 h-5 inline-block" /> أسئلة المحاضرة</h1>
+          <h1 style={{ fontSize: 22, fontWeight: 700, color: '#C9A227', margin: '0 0 8px' }}>[HelpCircle] أسئلة المحاضرة</h1>
           <p style={{ color: '#9CA3AF', fontSize: 14, margin: '0 0 24px' }}>أجب على 5 أسئلة — 3 صحيحة = حاضر</p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -218,7 +218,7 @@ export default function WatchLecturePage() {
           </div>
 
           <button onClick={submitQuiz} disabled={Object.keys(answers).length < 5 || saving} style={{ marginTop: 24, padding: '14px 40px', background: Object.keys(answers).length < 5 ? '#374151' : 'linear-gradient(135deg, #C9A227, #E8C547)', color: Object.keys(answers).length < 5 ? '#6B7280' : '#000', border: 'none', borderRadius: 12, fontSize: 16, fontWeight: 700, cursor: 'pointer', ...inputStyle }}>
-            {saving ? '⏳ جاري الحفظ...' : `<Check className="w-5 h-5 inline-block" /> تسليم الإجابات (${Object.keys(answers).length}/5)`}
+            {saving ? '⏳ جاري الحفظ...' : `Check تسليم الإجابات (${Object.keys(answers).length}/5)`}
           </button>
         </div>
       )}
@@ -227,7 +227,7 @@ export default function WatchLecturePage() {
       {phase === 'result' && (
         <div style={{ textAlign: 'center', padding: 40 }}>
           <div style={{ fontSize: 80, marginBottom: 20 }}>
-            {result === 'present' ? '<PartyPopper className="w-5 h-5 inline-block" />' : result === 'retry' ? '<RefreshCw className="w-5 h-5 inline-block" />' : '<Frown className="w-5 h-5 inline-block" />'}
+            {result === 'present' ? "ICON_PartyPopper" : result === 'retry' ? "ICON_RefreshCw" : "ICON_Frown"}
           </div>
           <h1 style={{ fontSize: 28, fontWeight: 700, color: result === 'present' ? '#10B981' : result === 'retry' ? '#F59E0B' : '#EF4444', margin: '0 0 12px' }}>
             {score} / 5
@@ -243,7 +243,7 @@ export default function WatchLecturePage() {
               return (
                 <div key={q.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 16px', background: correct ? 'rgba(16,185,129,0.08)' : 'rgba(239,68,68,0.08)', borderRadius: 10, border: `1px solid ${correct ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)'}` }}>
                   <span style={{ color: '#fff', fontSize: 13 }}>س{i + 1}: {q.question_text.substring(0, 30)}...</span>
-                  <span style={{ color: correct ? '#10B981' : '#EF4444', fontSize: 16 }}>{correct ? '<Check className="w-5 h-5 inline-block" />' : '<X className="w-5 h-5 inline-block" />'}</span>
+                  <span style={{ color: correct ? '#10B981' : '#EF4444', fontSize: 16 }}>{correct ? "ICON_Check" : "ICON_X"}</span>
                 </div>
               );
             })}
@@ -251,7 +251,7 @@ export default function WatchLecturePage() {
 
           {result === 'retry' && (
             <button onClick={() => { setAnswers({}); setPhase('quiz'); }} style={{ marginTop: 24, padding: '12px 32px', background: 'linear-gradient(135deg, #F59E0B, #FBBF24)', color: '#000', border: 'none', borderRadius: 12, fontSize: 15, fontWeight: 700, cursor: 'pointer', ...inputStyle }}>
-              <RefreshCw className="w-5 h-5 inline-block" /> إعادة المحاولة
+              RefreshCw إعادة المحاولة
             </button>
           )}
 

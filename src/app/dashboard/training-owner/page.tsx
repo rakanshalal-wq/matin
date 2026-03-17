@@ -371,7 +371,7 @@ export default function TrainingOwnerDashboard() {
               {school.custom_domain && (
                 <div style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 8, padding: '6px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ color: '#10B981', fontSize: 12 }}>{school.custom_domain}</span>
-                  {school.domain_verified && <span style={{ color: '#10B981', fontSize: 11, fontWeight: 700 }}><Check className="w-5 h-5 inline-block" /> متحقق</span>}
+                  {school.domain_verified && <span style={{ color: '#10B981', fontSize: 11, fontWeight: 700 }}>[Check] متحقق</span>}
                 </div>
               )}
             </div>
@@ -388,7 +388,7 @@ export default function TrainingOwnerDashboard() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,168,76,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 440, direction: 'rtl' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <h2 style={{ color: '#C9A84C', fontSize: 18, fontWeight: 700, margin: 0 }}><ClipboardList className="w-5 h-5 inline-block" /> مراجعة طلب الانضمام</h2>
+              <h2 style={{ color: '#C9A84C', fontSize: 18, fontWeight: 700, margin: 0 }}>ClipboardList مراجعة طلب الانضمام</h2>
               <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
             </div>
             {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}
@@ -397,8 +397,8 @@ export default function TrainingOwnerDashboard() {
               <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>المستوى: {selectedReq.grade || selectedReq.level || 'غير محدد'}</div>
             </div>
             <div style={{ display: 'flex', gap: 10 }}>
-              <button onClick={async () => { await handleApproveAdmission(selectedReq.id); setShowModal(false); }} disabled={saving} style={{ flex: 1, background: 'rgba(16,185,129,0.15)', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 10, padding: '12px 0', cursor: saving ? 'not-allowed' : 'pointer', fontWeight: 700, fontSize: 14 }}>{saving ? 'جاري...' : '<CheckCircle className="w-5 h-5 inline-block" /> قبول'}</button>
-              <button onClick={async () => { await handleRejectAdmission(selectedReq.id); setShowModal(false); }} disabled={saving} style={{ flex: 1, background: 'rgba(239,68,68,0.15)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 10, padding: '12px 0', cursor: saving ? 'not-allowed' : 'pointer', fontWeight: 700, fontSize: 14 }}>{saving ? 'جاري...' : '<XCircle className="w-5 h-5 inline-block" /> رفض'}</button>
+              <button onClick={async () => { await handleApproveAdmission(selectedReq.id); setShowModal(false); }} disabled={saving} style={{ flex: 1, background: 'rgba(16,185,129,0.15)', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 10, padding: '12px 0', cursor: saving ? 'not-allowed' : 'pointer', fontWeight: 700, fontSize: 14 }}>{saving ? 'جاري...' : 'CheckCircle قبول'}</button>
+              <button onClick={async () => { await handleRejectAdmission(selectedReq.id); setShowModal(false); }} disabled={saving} style={{ flex: 1, background: 'rgba(239,68,68,0.15)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 10, padding: '12px 0', cursor: saving ? 'not-allowed' : 'pointer', fontWeight: 700, fontSize: 14 }}>{saving ? 'جاري...' : 'XCircle رفض'}</button>
               <button onClick={() => setShowModal(false)} style={{ padding: '12px 16px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: 13 }}>إلغاء</button>
             </div>
           </div>

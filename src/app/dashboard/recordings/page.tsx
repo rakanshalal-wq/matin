@@ -61,21 +61,21 @@ export default function RecordingsPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><Video className="w-5 h-5 inline-block" /> التسجيلات</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>Video التسجيلات</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>أرشيف تسجيلات المحاضرات والبثوث المباشرة</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ title: '', subject: '', teacher_name: '', class_name: '', duration: '', file_url: '', file_size: '', views_count: '0', date: '', status: 'available' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
-          <Plus className="w-5 h-5 inline-block" /> إضافة تسجيل
+          Plus إضافة تسجيل
         </button>
       </div>
 
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
-          { label: 'إجمالي التسجيلات', value: stats.total, icon: '<Video className="w-5 h-5 inline-block" />', color: '#C9A227' },
-          { label: 'متاح', value: stats.available, icon: '<CheckCircle className="w-5 h-5 inline-block" />', color: '#10B981' },
+          { label: 'إجمالي التسجيلات', value: stats.total, icon: "ICON_Video", color: '#C9A227' },
+          { label: 'متاح', value: stats.available, icon: "ICON_CheckCircle", color: '#10B981' },
           { label: 'جاري المعالجة', value: stats.processing, icon: '⏳', color: '#F59E0B' },
-          { label: 'إجمالي المشاهدات', value: stats.totalViews, icon: '<Eye className="w-5 h-5 inline-block" />️', color: '#8B5CF6' },
+          { label: 'إجمالي المشاهدات', value: stats.totalViews, icon: 'Eye️', color: '#8B5CF6' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
             <div style={{ fontSize: 28 }}>{stat.icon}</div>
@@ -87,7 +87,7 @@ export default function RecordingsPage() {
 
       {/* Search */}
       <div style={{ marginBottom: 20 }}>
-        <input placeholder="<Search className="w-5 h-5 inline-block" /> بحث بالعنوان أو المادة أو المعلم..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
+        <input placeholder="Search بحث بالعنوان أو المادة أو المعلم..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
       </div>
 
       {/* Table */}
@@ -96,7 +96,7 @@ export default function RecordingsPage() {
           <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
         ) : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}><Video className="w-5 h-5 inline-block" /></div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}>Video</div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد تسجيلات</p>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "إضافة تسجيل" لرفع تسجيل جديد</p>
           </div>
@@ -114,7 +114,7 @@ export default function RecordingsPage() {
                 <tr key={item.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(139,92,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><Video className="w-5 h-5 inline-block" /></div>
+                      <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(139,92,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>Video</div>
                       <div style={{ color: 'white', fontWeight: 600, fontSize: 14 }}>{item.title}</div>
                     </div>
                   </td>
@@ -129,7 +129,7 @@ export default function RecordingsPage() {
                   <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.6)', fontSize: 13 }}>{item.file_size || '—'}</td>
                   <td style={{ padding: '14px 16px' }}>
                     <span style={{ color: '#8B5CF6', fontWeight: 700, fontSize: 14 }}>{item.views_count || 0}</span>
-                    <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}> <Eye className="w-5 h-5 inline-block" />️</span>
+                    <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}> Eye️</span>
                   </td>
                   <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.6)', fontSize: 13 }}>{item.date ? new Date(item.date).toLocaleDateString('ar-SA') : '—'}</td>
                   <td style={{ padding: '14px 16px' }}>
@@ -142,8 +142,8 @@ export default function RecordingsPage() {
                       {item.file_url && (
                         <button onClick={() => window.open(item.file_url, '_blank')} style={{ background: 'rgba(16,185,129,0.1)', color: '#10B981', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>▶️ تشغيل</button>
                       )}
-                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Pencil className="w-5 h-5 inline-block" />️</button>
-                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Trash2 className="w-5 h-5 inline-block" />️</button>
+                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Pencil️</button>
+                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Trash2️</button>
                     </div>
                   </td>
                 </tr>
@@ -158,8 +158,8 @@ export default function RecordingsPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? '<Pencil className="w-5 h-5 inline-block" />️ تعديل تسجيل' : '<Plus className="w-5 h-5 inline-block" /> إضافة تسجيل جديد'}</h2>
-              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}><X className="w-5 h-5 inline-block" /></button>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil️ تعديل تسجيل' : 'Plus إضافة تسجيل جديد'}</h2>
+              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ gridColumn: 'span 2' }}>
@@ -210,7 +210,7 @@ export default function RecordingsPage() {
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
-              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? '<Save className="w-5 h-5 inline-block" /> تحديث' : '<Plus className="w-5 h-5 inline-block" /> إضافة'}</button>
+              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
             </div>
           </div>
         </div>

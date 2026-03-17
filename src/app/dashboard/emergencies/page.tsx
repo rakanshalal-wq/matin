@@ -64,7 +64,7 @@ export default function EmergenciesPage() {
       {/* Alert Box for Critical Cases */}
       {stats.critical > 0 && (
         <div style={{ background: 'rgba(185,28,28,0.15)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 12, padding: '16px 20px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: 24 }}><Siren className="w-5 h-5 inline-block" /></span>
+          <span style={{ fontSize: 24 }}>Siren</span>
           <div>
             <div style={{ color: '#EF4444', fontWeight: 700, fontSize: 15 }}>تنبيه! يوجد {stats.critical} حالة حرجة</div>
             <div style={{ color: 'rgba(239,68,68,0.8)', fontSize: 13, marginTop: 2 }}>يرجى متابعة الحالات الحرجة فوراً</div>
@@ -75,21 +75,21 @@ export default function EmergenciesPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><Ambulance className="w-5 h-5 inline-block" /> الحالات الطارئة</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>Ambulance الحالات الطارئة</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>تسجيل ومتابعة الحالات الطارئة والإصابات</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ student_name: '', type: 'injury', description: '', action_taken: '', reported_by: '', severity: 'medium', date: '', status: 'open' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
-          <Plus className="w-5 h-5 inline-block" /> تسجيل حالة طارئة
+          Plus تسجيل حالة طارئة
         </button>
       </div>
 
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
-          { label: 'إجمالي الحالات', value: stats.total, icon: '<Ambulance className="w-5 h-5 inline-block" />', color: '#C9A227' },
-          { label: 'مفتوحة', value: stats.open, icon: '<Circle className="w-5 h-5 inline-block" />', color: '#EF4444' },
-          { label: 'تم الحل', value: stats.resolved, icon: '<CheckCircle className="w-5 h-5 inline-block" />', color: '#10B981' },
-          { label: 'حرجة', value: stats.critical, icon: '<Siren className="w-5 h-5 inline-block" />', color: '#DC2626' },
+          { label: 'إجمالي الحالات', value: stats.total, icon: "ICON_Ambulance", color: '#C9A227' },
+          { label: 'مفتوحة', value: stats.open, icon: "ICON_Circle", color: '#EF4444' },
+          { label: 'تم الحل', value: stats.resolved, icon: "ICON_CheckCircle", color: '#10B981' },
+          { label: 'حرجة', value: stats.critical, icon: "ICON_Siren", color: '#DC2626' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
             <div style={{ fontSize: 28 }}>{stat.icon}</div>
@@ -101,7 +101,7 @@ export default function EmergenciesPage() {
 
       {/* Search */}
       <div style={{ marginBottom: 20 }}>
-        <input placeholder="<Search className="w-5 h-5 inline-block" /> بحث بالاسم أو المبلّغ..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
+        <input placeholder="Search بحث بالاسم أو المبلّغ..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
       </div>
 
       {/* Table */}
@@ -110,7 +110,7 @@ export default function EmergenciesPage() {
           <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
         ) : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}><Ambulance className="w-5 h-5 inline-block" /></div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}>Ambulance</div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد حالات طارئة مسجلة</p>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>الحمد لله على السلامة!</p>
           </div>
@@ -128,7 +128,7 @@ export default function EmergenciesPage() {
                 <tr key={item.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', background: item.severity === 'critical' ? 'rgba(185,28,28,0.05)' : item.severity === 'high' ? 'rgba(239,68,68,0.03)' : 'transparent' }}>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{ width: 40, height: 40, borderRadius: 10, background: severityColors[item.severity]?.bg || 'rgba(245,158,11,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><Ambulance className="w-5 h-5 inline-block" /></div>
+                      <div style={{ width: 40, height: 40, borderRadius: 10, background: severityColors[item.severity]?.bg || 'rgba(245,158,11,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>Ambulance</div>
                       <div style={{ color: 'white', fontWeight: 600, fontSize: 14 }}>{item.student_name}</div>
                     </div>
                   </td>
@@ -149,8 +149,8 @@ export default function EmergenciesPage() {
                   </td>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Pencil className="w-5 h-5 inline-block" />️ تعديل</button>
-                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Trash2 className="w-5 h-5 inline-block" />️ حذف</button>
+                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Pencil️ تعديل</button>
+                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Trash2️ حذف</button>
                     </div>
                   </td>
                 </tr>
@@ -165,8 +165,8 @@ export default function EmergenciesPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? '<Pencil className="w-5 h-5 inline-block" />️ تعديل حالة' : '<Plus className="w-5 h-5 inline-block" /> تسجيل حالة طارئة'}</h2>
-              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}><X className="w-5 h-5 inline-block" /></button>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil️ تعديل حالة' : 'Plus تسجيل حالة طارئة'}</h2>
+              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ gridColumn: 'span 2' }}>
@@ -224,7 +224,7 @@ export default function EmergenciesPage() {
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
-              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? '<Save className="w-5 h-5 inline-block" /> تحديث' : '<Plus className="w-5 h-5 inline-block" /> تسجيل'}</button>
+              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus تسجيل'}</button>
             </div>
           </div>
         </div>

@@ -26,7 +26,7 @@ export default function SpecialNeedsPage(){
   return(
     <div style={{minHeight:'100vh',background:BG,padding:'32px 24px',direction:'rtl',fontFamily:'Cairo, sans-serif'}}>
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:32,flexWrap:'wrap',gap:16}}>
-        <div><h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}><Accessibility className="w-5 h-5 inline-block" /> ذوو الاحتياجات الخاصة</h1><p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>إدارة ملفات الطلاب ذوي الاحتياجات الخاصة وخطط الدعم</p></div>
+        <div><h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}>Accessibility ذوو الاحتياجات الخاصة</h1><p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>إدارة ملفات الطلاب ذوي الاحتياجات الخاصة وخطط الدعم</p></div>
         <button onClick={openAdd} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 20px',color:'#0B0B16',fontWeight:700,cursor:'pointer',fontSize:14}}>+ إضافة طالب</button>
       </div>
       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(140px,1fr))',gap:14,marginBottom:28}}>
@@ -67,7 +67,7 @@ export default function SpecialNeedsPage(){
                 <span style={{background:`${sl?.c||'#9CA3AF'}22`,color:sl?.c||'#9CA3AF',padding:'4px 10px',borderRadius:20,fontSize:12}}>دعم {sl?.l||s.support_level}</span>
               </div>
               {s.accommodations&&<div style={{color:'rgba(255,255,255,0.6)',fontSize:13,marginBottom:8}}><span style={{color:'rgba(255,255,255,0.4)'}}>التسهيلات: </span>{s.accommodations}</div>}
-              {s.iep_date&&<div style={{color:'rgba(255,255,255,0.4)',fontSize:12}}><Calendar className="w-5 h-5 inline-block" /> خطة IEP: {new Date(s.iep_date).toLocaleDateString('ar-SA')}</div>}
+              {s.iep_date&&<div style={{color:'rgba(255,255,255,0.4)',fontSize:12}}>Calendar خطة IEP: {new Date(s.iep_date).toLocaleDateString('ar-SA')}</div>}
             </div>
           );
         })}

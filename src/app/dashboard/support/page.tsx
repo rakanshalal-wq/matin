@@ -74,7 +74,7 @@ export default function SupportPage() {
     closed: tickets.filter(t => t.status === 'closed').length,
   };
 
-  const typeLabels: Record<string, string> = { complaint: '<Angry className="w-5 h-5 inline-block" /> شكوى', suggestion: '<Lightbulb className="w-5 h-5 inline-block" /> اقتراح', inquiry: '<HelpCircle className="w-5 h-5 inline-block" /> استفسار', technical: '<Wrench className="w-5 h-5 inline-block" /> مشكلة تقنية' };
+  const typeLabels: Record<string, string> = { complaint: 'Angry شكوى', suggestion: 'Lightbulb اقتراح', inquiry: 'HelpCircle استفسار', technical: 'Wrench مشكلة تقنية' };
   const priorityLabels: Record<string, { label: string; color: string }> = {
     low: { label: 'منخفضة', color: '#10B981' },
     medium: { label: 'متوسطة', color: '#F59E0B' },
@@ -82,10 +82,10 @@ export default function SupportPage() {
     urgent: { label: 'عاجلة', color: '#DC2626' },
   };
   const statusLabels: Record<string, { label: string; color: string; bg: string }> = {
-    open: { label: '<Unlock className="w-5 h-5 inline-block" /> مفتوحة', color: '#3B82F6', bg: 'rgba(59,130,246,0.1)' },
-    in_progress: { label: '<Settings className="w-5 h-5 inline-block" />️ قيد المعالجة', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' },
-    closed: { label: '<CheckCircle className="w-5 h-5 inline-block" /> مغلقة', color: '#10B981', bg: 'rgba(16,185,129,0.1)' },
-    rejected: { label: '<XCircle className="w-5 h-5 inline-block" /> مرفوضة', color: '#EF4444', bg: 'rgba(239,68,68,0.1)' },
+    open: { label: 'Unlock مفتوحة', color: '#3B82F6', bg: 'rgba(59,130,246,0.1)' },
+    in_progress: { label: 'Settings️ قيد المعالجة', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' },
+    closed: { label: 'CheckCircle مغلقة', color: '#10B981', bg: 'rgba(16,185,129,0.1)' },
+    rejected: { label: 'XCircle مرفوضة', color: '#EF4444', bg: 'rgba(239,68,68,0.1)' },
   };
 
   const inputStyle: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'IBM Plex Sans Arabic, sans-serif' };
@@ -97,11 +97,11 @@ export default function SupportPage() {
       {/* الهيدر */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}><Headphones className="w-5 h-5 inline-block" /> الدعم الفني</h1>
+          <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}>Headphones الدعم الفني</h1>
           <p style={{ color: '#9CA3AF', fontSize: 14, margin: '6px 0 0' }}>تذاكر الدعم والشكاوى والاستفسارات</p>
         </div>
         <button onClick={() => setShowAdd(!showAdd)} style={{ padding: '10px 24px', background: showAdd ? '#374151' : 'linear-gradient(135deg, #C9A227, #E8C547)', color: showAdd ? '#fff' : '#000', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-          {showAdd ? '<X className="w-5 h-5 inline-block" /> إلغاء' : '+ تذكرة جديدة'}
+          {showAdd ? '[X] إلغاء' : '+ تذكرة جديدة'}
         </button>
       </div>
 
@@ -111,10 +111,10 @@ export default function SupportPage() {
       {/* إحصائيات */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 12, marginBottom: 24 }}>
         {[
-          { label: 'الكل', value: stats.total, color: '#C9A227', icon: '<ClipboardList className="w-5 h-5 inline-block" />' },
-          { label: 'مفتوحة', value: stats.open, color: '#3B82F6', icon: '<Unlock className="w-5 h-5 inline-block" />' },
-          { label: 'قيد المعالجة', value: stats.inProgress, color: '#F59E0B', icon: '<Settings className="w-5 h-5 inline-block" />️' },
-          { label: 'مغلقة', value: stats.closed, color: '#10B981', icon: '<CheckCircle className="w-5 h-5 inline-block" />' },
+          { label: 'الكل', value: stats.total, color: '#C9A227', icon: "ICON_ClipboardList" },
+          { label: 'مفتوحة', value: stats.open, color: '#3B82F6', icon: "ICON_Unlock" },
+          { label: 'قيد المعالجة', value: stats.inProgress, color: '#F59E0B', icon: 'Settings️' },
+          { label: 'مغلقة', value: stats.closed, color: '#10B981', icon: "ICON_CheckCircle" },
         ].map((s, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 16, textAlign: 'center' }}>
             <div style={{ fontSize: 24, marginBottom: 6 }}>{s.icon}</div>
@@ -127,7 +127,7 @@ export default function SupportPage() {
       {/* فورم الإضافة */}
       {showAdd && (
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 24, marginBottom: 24 }}>
-          <h3 style={{ color: '#C9A227', fontSize: 18, margin: '0 0 20px', fontWeight: 700 }}><Plus className="w-5 h-5 inline-block" /> تذكرة جديدة</h3>
+          <h3 style={{ color: '#C9A227', fontSize: 18, margin: '0 0 20px', fontWeight: 700 }}>Plus تذكرة جديدة</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             <div style={{ gridColumn: '1 / -1' }}>
               <label style={{ color: '#9CA3AF', fontSize: 13, marginBottom: 6, display: 'block' }}>الموضوع *</label>
@@ -157,14 +157,14 @@ export default function SupportPage() {
             </div>
           </div>
           <button onClick={handleSave} disabled={saving} style={{ marginTop: 16, padding: '12px 32px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#000', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif', opacity: saving ? 0.5 : 1 }}>
-            {saving ? '⏳ جاري الإرسال...' : '<Upload className="w-5 h-5 inline-block" /> إرسال التذكرة'}
+            {saving ? '⏳ جاري الإرسال...' : 'Upload إرسال التذكرة'}
           </button>
         </div>
       )}
 
       {/* فلاتر */}
       <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
-        <input type="text" placeholder="<Search className="w-5 h-5 inline-block" /> بحث..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 300 }} />
+        <input type="text" placeholder="Search بحث..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 300 }} />
         <select style={{ ...inputStyle, maxWidth: 200, cursor: 'pointer' }} value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
           <option value="all">كل الحالات</option>
           <option value="open">مفتوحة</option>
@@ -176,7 +176,7 @@ export default function SupportPage() {
       {/* قائمة التذاكر */}
       {filtered.length === 0 ? (
         <div style={{ textAlign: 'center', padding: 60, background: 'rgba(255,255,255,0.02)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)' }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}><Headphones className="w-5 h-5 inline-block" /></div>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>Headphones</div>
           <h3 style={{ color: '#fff', fontSize: 18, margin: '0 0 8px' }}>لا توجد تذاكر</h3>
           <p style={{ color: '#9CA3AF', fontSize: 14 }}>أضف تذكرة جديدة للدعم الفني</p>
         </div>
@@ -196,24 +196,24 @@ export default function SupportPage() {
                     </div>
                     {ticket.description && <p style={{ color: '#9CA3AF', fontSize: 13, margin: 0 }}>{ticket.description}</p>}
                     <div style={{ display: 'flex', gap: 16, marginTop: 8, flexWrap: 'wrap' }}>
-                      <span style={{ color: '#6B7280', fontSize: 12 }}><User className="w-5 h-5 inline-block" /> {ticket.name || 'مجهول'}</span>
-                      <span style={{ color: '#6B7280', fontSize: 12 }}><ClipboardList className="w-5 h-5 inline-block" /> {typeLabels[ticket.type] || ticket.type}</span>
-                      <span style={{ color: '#6B7280', fontSize: 12 }}><Calendar className="w-5 h-5 inline-block" /> {ticket.created_at ? new Date(ticket.created_at).toLocaleDateString('ar-SA') : ''}</span>
+                      <span style={{ color: '#6B7280', fontSize: 12 }}>User {ticket.name || 'مجهول'}</span>
+                      <span style={{ color: '#6B7280', fontSize: 12 }}>ClipboardList {typeLabels[ticket.type] || ticket.type}</span>
+                      <span style={{ color: '#6B7280', fontSize: 12 }}>Calendar {ticket.created_at ? new Date(ticket.created_at).toLocaleDateString('ar-SA') : ''}</span>
                     </div>
                   </div>
                   <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                     {ticket.status === 'open' && (
                       <button onClick={() => handleUpdateStatus(ticket.id, 'in_progress')} style={{ padding: '6px 12px', background: 'rgba(245,158,11,0.1)', color: '#F59E0B', border: '1px solid rgba(245,158,11,0.2)', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-                        <Settings className="w-5 h-5 inline-block" />️ معالجة
+                        Settings️ معالجة
                       </button>
                     )}
                     {ticket.status !== 'closed' && (
                       <button onClick={() => handleUpdateStatus(ticket.id, 'closed')} style={{ padding: '6px 12px', background: 'rgba(16,185,129,0.1)', color: '#10B981', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-                        <CheckCircle className="w-5 h-5 inline-block" /> إغلاق
+                        CheckCircle إغلاق
                       </button>
                     )}
                     <button onClick={() => handleDelete(ticket.id)} style={{ padding: '6px 12px', background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-                      <Trash2 className="w-5 h-5 inline-block" />️
+                      Trash2️
                     </button>
                   </div>
                 </div>

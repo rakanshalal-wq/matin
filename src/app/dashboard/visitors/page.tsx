@@ -63,19 +63,19 @@ export default function VisitorsPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><Users className="w-5 h-5 inline-block" /> الزوار</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>Users الزوار</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة زوار المدرسة والموقع</p>
         </div>
-        <button onClick={() => { setEditItem(null); setFormData({ name: '', phone: '', national_id: '', purpose: '', school_id: '', notes: '' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><Plus className="w-5 h-5 inline-block" /> إضافة زائر</button>
+        <button onClick={() => { setEditItem(null); setFormData({ name: '', phone: '', national_id: '', purpose: '', school_id: '', notes: '' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>Plus إضافة زائر</button>
       </div>
 
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
-          { label: 'زوار المدرسة', value: visitors.length, icon: '<School className="w-5 h-5 inline-block" />', color: '#C9A227' },
-          { label: 'زوار الموقع', value: guestUsers.length, icon: '<Globe className="w-5 h-5 inline-block" />', color: '#3B82F6' },
-          { label: 'اليوم', value: [...visitors, ...guestUsers].filter(v => new Date(v.created_at).toDateString() === new Date().toDateString()).length, icon: '<Calendar className="w-5 h-5 inline-block" />', color: '#22C55E' },
-          { label: 'الإجمالي', value: visitors.length + guestUsers.length, icon: '<Users className="w-5 h-5 inline-block" />', color: '#8B5CF6' },
+          { label: 'زوار المدرسة', value: visitors.length, icon: "ICON_School", color: '#C9A227' },
+          { label: 'زوار الموقع', value: guestUsers.length, icon: "ICON_Globe", color: '#3B82F6' },
+          { label: 'اليوم', value: [...visitors, ...guestUsers].filter(v => new Date(v.created_at).toDateString() === new Date().toDateString()).length, icon: "ICON_Calendar", color: '#22C55E' },
+          { label: 'الإجمالي', value: visitors.length + guestUsers.length, icon: "ICON_Users", color: '#8B5CF6' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -89,7 +89,7 @@ export default function VisitorsPage() {
 
       {/* Tabs */}
       <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
-        {[{ key: 'school', label: '<School className="w-5 h-5 inline-block" /> زوار المدرسة', count: visitors.length }, { key: 'guests', label: '<Globe className="w-5 h-5 inline-block" /> زوار الموقع', count: guestUsers.length }].map(tab => (
+        {[{ key: 'school', label: 'School زوار المدرسة', count: visitors.length }, { key: 'guests', label: 'Globe زوار الموقع', count: guestUsers.length }].map(tab => (
           <button key={tab.key} onClick={() => setActiveTab(tab.key as any)} style={{ background: activeTab === tab.key ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'rgba(255,255,255,0.05)', color: activeTab === tab.key ? '#06060E' : 'rgba(255,255,255,0.7)', border: 'none', borderRadius: 20, padding: '8px 20px', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
             {tab.label} ({tab.count})
           </button>
@@ -97,7 +97,7 @@ export default function VisitorsPage() {
       </div>
 
       {/* Search */}
-      <input value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder="<Search className="w-5 h-5 inline-block" /> بحث..." style={{ ...inputStyle, marginBottom: 20, maxWidth: 400 }} />
+      <input value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder="Search بحث..." style={{ ...inputStyle, marginBottom: 20, maxWidth: 400 }} />
 
       {/* Table */}
       {loading ? (
@@ -123,8 +123,8 @@ export default function VisitorsPage() {
                   {activeTab === 'school' && (
                     <td style={{ padding: '14px 16px' }}>
                       <div style={{ display: 'flex', gap: 6 }}>
-                        <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', borderRadius: 8, padding: '6px 12px', fontSize: 12, cursor: 'pointer' }}><Pencil className="w-5 h-5 inline-block" />️ تعديل</button>
-                        <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, padding: '6px 12px', fontSize: 12, cursor: 'pointer' }}><Trash2 className="w-5 h-5 inline-block" />️ حذف</button>
+                        <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', borderRadius: 8, padding: '6px 12px', fontSize: 12, cursor: 'pointer' }}>Pencil️ تعديل</button>
+                        <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, padding: '6px 12px', fontSize: 12, cursor: 'pointer' }}>Trash2️ حذف</button>
                       </div>
                     </td>
                   )}
@@ -143,8 +143,8 @@ export default function VisitorsPage() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
           <div style={{ background: '#1B263B', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: 32, width: '100%', maxWidth: 480 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontWeight: 800, margin: 0 }}>{editItem ? 'تعديل' : '<Plus className="w-5 h-5 inline-block" /> إضافة زائر'}</h2>
-              <button onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 24, cursor: 'pointer' }}><X className="w-5 h-5 inline-block" /></button>
+              <h2 style={{ color: 'white', fontWeight: 800, margin: 0 }}>{editItem ? 'تعديل' : 'Plus إضافة زائر'}</h2>
+              <button onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 24, cursor: 'pointer' }}>X</button>
             </div>
             {[{ key: 'name', label: 'الاسم *', ph: 'اسم الزائر' }, { key: 'phone', label: 'الجوال', ph: '05xxxxxxxx' }, { key: 'national_id', label: 'رقم الهوية', ph: '1xxxxxxxxx' }, { key: 'purpose', label: 'الغرض', ph: 'سبب الزيارة' }, { key: 'notes', label: 'ملاحظات', ph: 'أي ملاحظات إضافية' }].map(f => (
               <div key={f.key} style={{ marginBottom: 16 }}>
@@ -153,7 +153,7 @@ export default function VisitorsPage() {
               </div>
             ))}
             <button onClick={handleSave} disabled={saving} style={{ width: '100%', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 800, cursor: 'pointer', marginTop: 8 }}>
-              {saving ? '⏳ جاري الحفظ...' : editItem ? '<Save className="w-5 h-5 inline-block" /> حفظ التعديلات' : '<Save className="w-5 h-5 inline-block" /> حفظ'}
+              {saving ? '⏳ جاري الحفظ...' : editItem ? 'Save حفظ التعديلات' : 'Save حفظ'}
             </button>
           </div>
         </div>

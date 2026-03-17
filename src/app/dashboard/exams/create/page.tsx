@@ -313,7 +313,7 @@ export default function CreateExamPage() {
                           </div>
                         </div>
                         <div style={{ width: 24, height: 24, borderRadius: 6, background: isSelected ? '#C9A227' : 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 14, color: isSelected ? '#06060E' : 'transparent' }}>
-                          <Check className="w-5 h-5 inline-block" />
+                          [Check]
                         </div>
                       </div>
                     </div>
@@ -430,7 +430,7 @@ export default function CreateExamPage() {
               ← السابق
             </button>
             <button onClick={handleSave} disabled={saving} style={{ background: '#C9A227', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 32px', fontWeight: 700, fontSize: 15, cursor: saving ? 'not-allowed' : 'pointer', opacity: saving ? 0.7 : 1 }}>
-              {saving ? 'جاري الحفظ...' : '<CheckCircle className="w-5 h-5 inline-block" /> نشر الاختبار'}
+              {saving ? 'جاري الحفظ...' : 'CheckCircle نشر الاختبار'}
             </button>
           </div>
         </div>

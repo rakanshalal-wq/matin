@@ -26,7 +26,7 @@ export default function TasksPage() {
   return (
     <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
-        <div><h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><CheckCircle className="w-5 h-5 inline-block" /> إدارة المهام</h1><p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>تتبع وإدارة مهام الفريق</p></div>
+        <div><h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>CheckCircle إدارة المهام</h1><p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>تتبع وإدارة مهام الفريق</p></div>
         <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ مهمة جديدة</button>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: 16, marginBottom: 28 }}>
@@ -38,10 +38,10 @@ export default function TasksPage() {
       </div>
       <div style={{ display: 'grid', gap: 12 }}>
         {loading ? <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>جاري التحميل...</div> :
-          filtered.length === 0 ? <div style={{ textAlign: 'center', padding: 60 }}><div style={{ fontSize: 48, marginBottom: 16 }}><CheckCircle className="w-5 h-5 inline-block" /></div><p style={{ color: 'rgba(255,255,255,0.4)' }}>لا توجد مهام</p><button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ إضافة مهمة</button></div> :
+          filtered.length === 0 ? <div style={{ textAlign: 'center', padding: 60 }}><div style={{ fontSize: 48, marginBottom: 16 }}>CheckCircle</div><p style={{ color: 'rgba(255,255,255,0.4)' }}>لا توجد مهام</p><button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ إضافة مهمة</button></div> :
           filtered.map((t: any, i: number) => { const p = PRIORITY_MAP[t.priority] || PRIORITY_MAP.medium; const s = STATUS_MAP[t.status] || STATUS_MAP.todo; const overdue = t.due_date && new Date(t.due_date) < new Date() && t.status !== 'done'; return (
             <div key={t.id || i} style={{ background: CB, border: `1px solid ${overdue ? 'rgba(239,68,68,0.3)' : BR}`, borderRadius: 14, padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 16 }}>
-              <button onClick={() => toggleStatus(t)} style={{ width: 28, height: 28, borderRadius: '50%', border: '2px solid', borderColor: t.status === 'done' ? '#10B981' : BR, background: t.status === 'done' ? '#10B981' : 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: 14, flexShrink: 0 }}>{t.status === 'done' ? '<Check className="w-5 h-5 inline-block" />' : ''}</button>
+              <button onClick={() => toggleStatus(t)} style={{ width: 28, height: 28, borderRadius: '50%', border: '2px solid', borderColor: t.status === 'done' ? '#10B981' : BR, background: t.status === 'done' ? '#10B981' : 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: 14, flexShrink: 0 }}>{t.status === 'done' ? "ICON_Check" : ''}</button>
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
                   <span style={{ fontSize: 15, fontWeight: 600, color: t.status === 'done' ? 'rgba(255,255,255,0.4)' : 'white', textDecoration: t.status === 'done' ? 'line-through' : 'none' }}>{t.title}</span>
@@ -51,8 +51,8 @@ export default function TasksPage() {
                 </div>
                 {t.description && <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>{t.description}</div>}
                 <div style={{ display: 'flex', gap: 12, marginTop: 6, fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>
-                  {t.assigned_to && <span><User className="w-5 h-5 inline-block" /> {t.assigned_to}</span>}
-                  {t.due_date && <span style={{ color: overdue ? '#EF4444' : 'rgba(255,255,255,0.4)' }}><Calendar className="w-5 h-5 inline-block" /> {new Date(t.due_date).toLocaleDateString('ar-SA')}</span>}
+                  {t.assigned_to && <span>User {t.assigned_to}</span>}
+                  {t.due_date && <span style={{ color: overdue ? '#EF4444' : 'rgba(255,255,255,0.4)' }}>Calendar {new Date(t.due_date).toLocaleDateString('ar-SA')}</span>}
                 </div>
               </div>
               <div style={{ display: 'flex', gap: 8 }}>
@@ -64,7 +64,7 @@ export default function TasksPage() {
       </div>
       {showModal && <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
         <div style={{ background: '#12121F', border: '1px solid ' + BR, borderRadius: 20, padding: 32, width: '100%', maxWidth: 480 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}><h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل المهمة' : 'مهمة جديدة'}</h2><button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 22, cursor: 'pointer' }}><X className="w-5 h-5 inline-block" /></button></div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}><h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل المهمة' : 'مهمة جديدة'}</h2><button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 22, cursor: 'pointer' }}>X</button></div>
           <div style={{ display: 'grid', gap: 16 }}>
             <div><label style={lbl}>العنوان *</label><input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} style={inp} /></div>
             <div><label style={lbl}>الوصف</label><textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} style={{ ...inp, height: 70, resize: 'vertical' as const }} /></div>

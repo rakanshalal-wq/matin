@@ -69,14 +69,14 @@ export default function Page() {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 24 }}>
         <div style={{ background: CARD_BG, border: '1px solid ' + BORDER, borderRadius: 14, padding: '18px 20px' }}>
-          <div style={{ fontSize: 24, marginBottom: 8 }}><ClipboardList className="w-5 h-5 inline-block" /></div>
+          <div style={{ fontSize: 24, marginBottom: 8 }}>ClipboardList</div>
           <div style={{ fontSize: 26, fontWeight: 800, color: GOLD }}>{items.length}</div>
           <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>الاجمالي</div>
         </div>
         
       </div>
 
-      <input placeholder="<Search className="w-5 h-5 inline-block" /> بحث..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} style={{ ...inp, width: 300, marginBottom: 20 }} />
+      <input placeholder="Search بحث..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} style={{ ...inp, width: 300, marginBottom: 20 }} />
 
       <div style={{ background: CARD_BG, border: '1px solid ' + BORDER, borderRadius: 16, overflow: 'hidden' }}>
         {loading ? (
@@ -121,7 +121,7 @@ export default function Page() {
           <div style={{ background: '#12121F', border: '1px solid ' + BORDER, borderRadius: 20, padding: 32, width: '100%', maxWidth: 520, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
               <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل' : 'اضافة جديد'} — الطلاب الموهوبون</h2>
-              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 22, cursor: 'pointer' }}><X className="w-5 h-5 inline-block" /></button>
+              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 22, cursor: 'pointer' }}>X</button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               {Object.keys(form).filter(k => k !== 'id' && k !== 'school_id' && k !== 'created_at' && k !== 'updated_at').map(k => (

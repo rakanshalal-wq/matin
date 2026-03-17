@@ -181,7 +181,7 @@ export default function TaxesPage() {
 
       {/* Filters */}
       <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 20, marginBottom: 24, display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
-        <input style={{ ...inputStyle, maxWidth: 280 }} placeholder="<Search className="w-5 h-5 inline-block" /> بحث بالاسم أو الوصف..." value={search} onChange={e => setSearch(e.target.value)} />
+        <input style={{ ...inputStyle, maxWidth: 280 }} placeholder="[Search] بحث بالاسم أو الوصف..." value={search} onChange={e => setSearch(e.target.value)} />
         <select style={{ ...inputStyle, maxWidth: 200 }} value={filterType} onChange={e => { setFilterType(e.target.value); setPage(1); }}>
           <option value="">كل الأنواع</option>
           {TAX_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
@@ -201,7 +201,7 @@ export default function TaxesPage() {
           <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.3)' }}>جاري التحميل...</div>
         ) : filtered.length === 0 ? (
           <div style={{ textAlign: 'center', padding: 60 }}>
-            <div style={{ fontSize: 40, marginBottom: 12 }}><Building2 className="w-5 h-5 inline-block" />️</div>
+            <div style={{ fontSize: 40, marginBottom: 12 }}>[Building2]️</div>
             <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 15 }}>لا توجد ضرائب مسجّلة</div>
             <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: GOLD, color: '#000', border: 'none', borderRadius: 10, padding: '10px 24px', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>إضافة أول ضريبة</button>
           </div>

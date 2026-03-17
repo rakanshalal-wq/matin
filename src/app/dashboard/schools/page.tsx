@@ -57,9 +57,9 @@ export default function SchoolsPage() {
     try {
       await fetch(`/api/schools?id=${id}`, { method: 'DELETE', headers: getHeaders() });
       setSchools(schools.filter(s => s.id !== id));
-      setMsg('<CheckCircle className="w-5 h-5 inline-block" /> تم حذف المدرسة');
+      setMsg('CheckCircle تم حذف المدرسة');
       setMsgType('success');
-    } catch { setMsg('<XCircle className="w-5 h-5 inline-block" /> فشل الحذف'); setMsgType('error'); }
+    } catch { setMsg('XCircle فشل الحذف'); setMsgType('error'); }
     setTimeout(() => setMsg(''), 3000);
   };
 
@@ -72,10 +72,10 @@ export default function SchoolsPage() {
       });
       if (res.ok) {
         setSchools(schools.map(s => s.id === id ? { ...s, status: 'ACTIVE' } : s));
-        setMsg('<CheckCircle className="w-5 h-5 inline-block" /> تم تفعيل المدرسة');
+        setMsg('CheckCircle تم تفعيل المدرسة');
         setMsgType('success');
       }
-    } catch { setMsg('<XCircle className="w-5 h-5 inline-block" /> فشل التفعيل'); setMsgType('error'); }
+    } catch { setMsg('XCircle فشل التفعيل'); setMsgType('error'); }
     setTimeout(() => setMsg(''), 3000);
   };
 
@@ -96,7 +96,7 @@ export default function SchoolsPage() {
       {/* الهيدر */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#C9A227', margin: 0 }}><School className="w-5 h-5 inline-block" /> المدارس والمؤسسات</h1>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#C9A227', margin: 0 }}>School المدارس والمؤسسات</h1>
           <p style={{ color: '#9CA3AF', fontSize: 14, margin: '4px 0 0' }}>
             {schools.length} مؤسسة مسجلة | {schools.filter(s => s.status === 'ACTIVE').length} نشطة
           </p>
@@ -107,7 +107,7 @@ export default function SchoolsPage() {
             color: showAdd ? '#fff' : '#000', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'pointer',
             fontFamily: 'IBM Plex Sans Arabic, sans-serif'
           }}>
-            {showAdd ? '<X className="w-5 h-5 inline-block" /> إلغاء' : '+ إضافة مؤسسة'}
+            {showAdd ? '[X] إلغاء' : '+ إضافة مؤسسة'}
           </button>
         )}
       </div>
@@ -121,7 +121,7 @@ export default function SchoolsPage() {
       {showAdd && (
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 24, marginBottom: 24 }}>
           <h3 style={{ color: '#C9A227', fontSize: 18, margin: '0 0 20px', fontWeight: 700 }}>
-            {editSchool ? '<Pencil className="w-5 h-5 inline-block" />️ تعديل المؤسسة' : '<Plus className="w-5 h-5 inline-block" /> إضافة مؤسسة جديدة'}
+            {editSchool ? 'Pencil️ تعديل المؤسسة' : 'Plus إضافة مؤسسة جديدة'}
           </h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
             <div style={{ gridColumn: '1 / -1' }}>
@@ -157,7 +157,7 @@ export default function SchoolsPage() {
           </div>
           <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
             <button onClick={handleSave} disabled={saving} style={{ padding: '12px 32px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#000', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif', opacity: saving ? 0.5 : 1 }}>
-              {saving ? '⏳ جاري الحفظ...' : editSchool ? '<Check className="w-5 h-5 inline-block" /> تحديث المؤسسة' : '<Check className="w-5 h-5 inline-block" /> حفظ المؤسسة'}
+              {saving ? '⏳ جاري الحفظ...' : editSchool ? 'Check تحديث المؤسسة' : 'Check حفظ المؤسسة'}
             </button>
             <button onClick={() => { setShowAdd(false); setEditSchool(null); }} style={{ padding: '12px 24px', background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, fontSize: 14, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
               إلغاء
@@ -170,7 +170,7 @@ export default function SchoolsPage() {
       <div style={{ marginBottom: 20 }}>
         <input
           type="text"
-          placeholder="<Search className="w-5 h-5 inline-block" /> بحث بالاسم أو المدينة أو البريد..."
+          placeholder="Search بحث بالاسم أو المدينة أو البريد..."
           value={search}
           onChange={e => setSearch(e.target.value)}
           style={{ ...inputStyle, maxWidth: 400 }}
@@ -180,7 +180,7 @@ export default function SchoolsPage() {
       {/* قائمة المدارس */}
       {filtered.length === 0 ? (
         <div style={{ textAlign: 'center', padding: 60, background: 'rgba(255,255,255,0.02)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)' }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}><School className="w-5 h-5 inline-block" /></div>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>School</div>
           <h3 style={{ color: '#fff', fontSize: 18, margin: '0 0 8px' }}>{search ? 'لا توجد نتائج' : 'لا توجد مؤسسات بعد'}</h3>
           <p style={{ color: '#9CA3AF', fontSize: 14 }}>{search ? 'جرب بحثاً مختلفاً' : 'أضف أول مؤسسة بالضغط على "إضافة مؤسسة"'}</p>
         </div>
@@ -198,27 +198,27 @@ export default function SchoolsPage() {
                   background: school.status === 'ACTIVE' ? 'rgba(16,185,129,0.1)' : school.status === 'SUSPENDED' ? 'rgba(239,68,68,0.1)' : 'rgba(245,158,11,0.1)',
                   color: school.status === 'ACTIVE' ? '#10B981' : school.status === 'SUSPENDED' ? '#EF4444' : '#F59E0B'
                 }}>
-                  {school.status === 'ACTIVE' ? '<Check className="w-5 h-5 inline-block" /> نشطة' : school.status === 'SUSPENDED' ? '<Ban className="w-5 h-5 inline-block" /> موقوفة' : '⏳ تجريبية'}
+                  {school.status === 'ACTIVE' ? 'Check نشطة' : school.status === 'SUSPENDED' ? 'Ban موقوفة' : '⏳ تجريبية'}
                 </span>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 5, marginBottom: 14 }}>
-                {school.city && <span style={{ color: '#9CA3AF', fontSize: 13 }}><MapPin className="w-5 h-5 inline-block" /> {school.city}</span>}
-                {school.phone && <span style={{ color: '#9CA3AF', fontSize: 13 }}><Smartphone className="w-5 h-5 inline-block" /> {school.phone}</span>}
-                {school.email && <span style={{ color: '#9CA3AF', fontSize: 13, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}><Mail className="w-5 h-5 inline-block" />️ {school.email}</span>}
-                {school.owner_name && <span style={{ color: '#9CA3AF', fontSize: 13 }}><User className="w-5 h-5 inline-block" /> {school.owner_name}</span>}
+                {school.city && <span style={{ color: '#9CA3AF', fontSize: 13 }}>MapPin {school.city}</span>}
+                {school.phone && <span style={{ color: '#9CA3AF', fontSize: 13 }}>Smartphone {school.phone}</span>}
+                {school.email && <span style={{ color: '#9CA3AF', fontSize: 13, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Mail️ {school.email}</span>}
+                {school.owner_name && <span style={{ color: '#9CA3AF', fontSize: 13 }}>User {school.owner_name}</span>}
               </div>
               {canAdd && (
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                   <button onClick={() => handleEdit(school)} style={{ padding: '6px 14px', background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.2)', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-                    <Pencil className="w-5 h-5 inline-block" />️ تعديل
+                    Pencil️ تعديل
                   </button>
                   {school.status !== 'ACTIVE' && user?.role === 'super_admin' && (
                     <button onClick={() => handleApprove(school.id)} style={{ padding: '6px 14px', background: 'rgba(16,185,129,0.1)', color: '#10B981', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-                      <CheckCircle className="w-5 h-5 inline-block" /> تفعيل
+                      CheckCircle تفعيل
                     </button>
                   )}
                   <button onClick={() => handleDelete(school.id)} style={{ padding: '6px 14px', background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-                    <Trash2 className="w-5 h-5 inline-block" />️ حذف
+                    Trash2️ حذف
                   </button>
                 </div>
               )}

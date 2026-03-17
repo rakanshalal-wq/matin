@@ -57,7 +57,7 @@ export default function ScholarshipsPage() {
 
   const typeLabels: any = { full_scholarship: 'منحة كاملة', partial_scholarship: 'منحة جزئية', discount: 'خصم', sibling_discount: 'خصم أخوة', employee_discount: 'خصم موظفين', excellence: 'تميز أكاديمي', need_based: 'حاجة مادية', sports: 'منحة رياضية' };
   const typeColors: any = { full_scholarship: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, partial_scholarship: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, discount: { bg: 'rgba(201,162,39,0.1)', color: '#C9A227' }, sibling_discount: { bg: 'rgba(139,92,246,0.1)', color: '#8B5CF6' }, employee_discount: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, excellence: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, need_based: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' }, sports: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' } };
-  const typeIcons: any = { full_scholarship: '<GraduationCap className="w-5 h-5 inline-block" />', partial_scholarship: '<BookMarked className="w-5 h-5 inline-block" />', discount: '<Tag className="w-5 h-5 inline-block" />️', sibling_discount: '<User className="w-5 h-5 inline-block" />‍<User className="w-5 h-5 inline-block" />‍<User className="w-5 h-5 inline-block" />‍<User className="w-5 h-5 inline-block" />', employee_discount: '<Shirt className="w-5 h-5 inline-block" />', excellence: '⭐', need_based: '<HandHeart className="w-5 h-5 inline-block" />', sports: '<Trophy className="w-5 h-5 inline-block" />' };
+  const typeIcons: any = { full_scholarship: "ICON_GraduationCap", partial_scholarship: "ICON_BookMarked", discount: 'Tag️', sibling_discount: 'User‍User‍User‍User', employee_discount: "ICON_Shirt", excellence: '⭐', need_based: "ICON_HandHeart", sports: "ICON_Trophy" };
   const statusLabels: any = { active: 'نشط', expired: 'منتهي', suspended: 'موقف', pending: 'قيد المراجعة' };
   const statusColors: any = { active: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, expired: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280' }, suspended: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' }, pending: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' } };
 
@@ -70,21 +70,21 @@ export default function ScholarshipsPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><GraduationCap className="w-5 h-5 inline-block" /> المنح والخصومات</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>GraduationCap المنح والخصومات</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة المنح الدراسية وخصومات الرسوم</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ student_name: '', type: 'discount', percentage: '', amount: '', reason: '', start_date: '', end_date: '', status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
-          <Plus className="w-5 h-5 inline-block" /> إضافة منحة/خصم
+          Plus إضافة منحة/خصم
         </button>
       </div>
 
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
-          { label: 'إجمالي المنح', value: stats.total.toString(), icon: '<GraduationCap className="w-5 h-5 inline-block" />', color: '#C9A227', suffix: '' },
-          { label: 'نشطة', value: stats.active.toString(), icon: '<CheckCircle className="w-5 h-5 inline-block" />', color: '#10B981', suffix: '' },
-          { label: 'منتهية', value: stats.expired.toString(), icon: '<Folder className="w-5 h-5 inline-block" />', color: '#6B7280', suffix: '' },
-          { label: 'إجمالي المبالغ', value: formatMoney(stats.totalAmount), icon: '<Coins className="w-5 h-5 inline-block" />', color: '#3B82F6', suffix: ' ر.س' },
+          { label: 'إجمالي المنح', value: stats.total.toString(), icon: "ICON_GraduationCap", color: '#C9A227', suffix: '' },
+          { label: 'نشطة', value: stats.active.toString(), icon: "ICON_CheckCircle", color: '#10B981', suffix: '' },
+          { label: 'منتهية', value: stats.expired.toString(), icon: "ICON_Folder", color: '#6B7280', suffix: '' },
+          { label: 'إجمالي المبالغ', value: formatMoney(stats.totalAmount), icon: "ICON_Coins", color: '#3B82F6', suffix: ' ر.س' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
             <div style={{ fontSize: 28 }}>{stat.icon}</div>
@@ -96,7 +96,7 @@ export default function ScholarshipsPage() {
 
       {/* Search */}
       <div style={{ marginBottom: 20 }}>
-        <input placeholder="<Search className="w-5 h-5 inline-block" /> بحث بالاسم أو السبب..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
+        <input placeholder="Search بحث بالاسم أو السبب..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
       </div>
 
       {/* Table */}
@@ -105,7 +105,7 @@ export default function ScholarshipsPage() {
           <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
         ) : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}><GraduationCap className="w-5 h-5 inline-block" /></div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}>GraduationCap</div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد منح أو خصومات</p>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "إضافة منحة/خصم" لإنشاء منحة جديدة</p>
           </div>
@@ -123,7 +123,7 @@ export default function ScholarshipsPage() {
                 <tr key={item.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', background: isExpired(item.end_date) ? 'rgba(107,114,128,0.03)' : 'transparent' }}>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{ width: 40, height: 40, borderRadius: 10, background: typeColors[item.type]?.bg || 'rgba(201,162,39,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{typeIcons[item.type] || '<GraduationCap className="w-5 h-5 inline-block" />'}</div>
+                      <div style={{ width: 40, height: 40, borderRadius: 10, background: typeColors[item.type]?.bg || 'rgba(201,162,39,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{typeIcons[item.type] || "ICON_GraduationCap"}</div>
                       <div style={{ color: 'white', fontWeight: 600, fontSize: 14 }}>{item.student_name}</div>
                     </div>
                   </td>
@@ -150,7 +150,7 @@ export default function ScholarshipsPage() {
                   <td style={{ padding: '14px 16px' }}>
                     <span style={{ color: isExpired(item.end_date) ? '#EF4444' : 'rgba(255,255,255,0.6)', fontWeight: isExpired(item.end_date) ? 700 : 400, fontSize: 13 }}>
                       {item.end_date ? new Date(item.end_date).toLocaleDateString('ar-SA') : '—'}
-                      {isExpired(item.end_date) && ' <Ban className="w-5 h-5 inline-block" />'}
+                      {isExpired(item.end_date) && ' Ban'}
                     </span>
                   </td>
                   <td style={{ padding: '14px 16px' }}>
@@ -160,8 +160,8 @@ export default function ScholarshipsPage() {
                   </td>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Pencil className="w-5 h-5 inline-block" />️ تعديل</button>
-                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Trash2 className="w-5 h-5 inline-block" />️ حذف</button>
+                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Pencil️ تعديل</button>
+                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Trash2️ حذف</button>
                     </div>
                   </td>
                 </tr>
@@ -176,8 +176,8 @@ export default function ScholarshipsPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? '<Pencil className="w-5 h-5 inline-block" />️ تعديل منحة' : '<Plus className="w-5 h-5 inline-block" /> إضافة منحة/خصم'}</h2>
-              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}><X className="w-5 h-5 inline-block" /></button>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil️ تعديل منحة' : 'Plus إضافة منحة/خصم'}</h2>
+              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ gridColumn: 'span 2' }}>
@@ -187,14 +187,14 @@ export default function ScholarshipsPage() {
               <div>
                 <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>النوع</label>
                 <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} style={inputStyle}>
-                  <option value="full_scholarship">منحة كاملة <GraduationCap className="w-5 h-5 inline-block" /></option>
-                  <option value="partial_scholarship">منحة جزئية <BookMarked className="w-5 h-5 inline-block" /></option>
-                  <option value="discount">خصم <Tag className="w-5 h-5 inline-block" />️</option>
-                  <option value="sibling_discount">خصم أخوة <User className="w-5 h-5 inline-block" />‍<User className="w-5 h-5 inline-block" />‍<User className="w-5 h-5 inline-block" />‍<User className="w-5 h-5 inline-block" /></option>
-                  <option value="employee_discount">خصم موظفين <Shirt className="w-5 h-5 inline-block" /></option>
+                  <option value="full_scholarship">منحة كاملة GraduationCap</option>
+                  <option value="partial_scholarship">منحة جزئية BookMarked</option>
+                  <option value="discount">خصم Tag️</option>
+                  <option value="sibling_discount">خصم أخوة User‍User‍User‍User</option>
+                  <option value="employee_discount">خصم موظفين Shirt</option>
                   <option value="excellence">تميز أكاديمي ⭐</option>
-                  <option value="need_based">حاجة مادية <HandHeart className="w-5 h-5 inline-block" /></option>
-                  <option value="sports">منحة رياضية <Trophy className="w-5 h-5 inline-block" /></option>
+                  <option value="need_based">حاجة مادية HandHeart</option>
+                  <option value="sports">منحة رياضية Trophy</option>
                 </select>
               </div>
               <div>
@@ -229,7 +229,7 @@ export default function ScholarshipsPage() {
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
-              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? '<Save className="w-5 h-5 inline-block" /> تحديث' : '<Plus className="w-5 h-5 inline-block" /> إضافة'}</button>
+              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
             </div>
           </div>
         </div>

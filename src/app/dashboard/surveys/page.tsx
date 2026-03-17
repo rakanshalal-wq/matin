@@ -21,17 +21,17 @@ export default function SurveysPage() {
   return (
     <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
-        <div><h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><BarChart3 className="w-5 h-5 inline-block" /> الاستبيانات</h1><p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>إنشاء وإدارة استبيانات الرأي والتقييم</p></div>
+        <div><h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>BarChart3 الاستبيانات</h1><p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>إنشاء وإدارة استبيانات الرأي والتقييم</p></div>
         <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ إنشاء استبيان</button>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: 16, marginBottom: 28 }}>
-        {[{ l: 'الإجمالي', v: surveys.length, c: GOLD, i: '<BarChart3 className="w-5 h-5 inline-block" />' }, { l: 'نشطة', v: surveys.filter((s: any) => s.status === 'active').length, c: '#10B981', i: '<CheckCircle className="w-5 h-5 inline-block" />' }, { l: 'مسودات', v: surveys.filter((s: any) => s.status === 'draft').length, c: '#9CA3AF', i: '<FileText className="w-5 h-5 inline-block" />' }, { l: 'مغلقة', v: surveys.filter((s: any) => s.status === 'closed').length, c: '#EF4444', i: '<Lock className="w-5 h-5 inline-block" />' }].map((s, i) => (
+        {[{ l: 'الإجمالي', v: surveys.length, c: GOLD, i: "ICON_BarChart3" }, { l: 'نشطة', v: surveys.filter((s: any) => s.status === 'active').length, c: '#10B981', i: "ICON_CheckCircle" }, { l: 'مسودات', v: surveys.filter((s: any) => s.status === 'draft').length, c: '#9CA3AF', i: "ICON_FileText" }, { l: 'مغلقة', v: surveys.filter((s: any) => s.status === 'closed').length, c: '#EF4444', i: "ICON_Lock" }].map((s, i) => (
           <div key={i} style={{ background: CB, border: '1px solid ' + BR, borderRadius: 14, padding: '18px 20px' }}><div style={{ fontSize: 24, marginBottom: 8 }}>{s.i}</div><div style={{ fontSize: 26, fontWeight: 800, color: s.c }}>{s.v}</div><div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>{s.l}</div></div>
         ))}
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(320px,1fr))', gap: 16 }}>
         {loading ? <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)', gridColumn: '1/-1' }}>جاري التحميل...</div> :
-          surveys.length === 0 ? <div style={{ textAlign: 'center', padding: 60, gridColumn: '1/-1' }}><div style={{ fontSize: 48, marginBottom: 16 }}><BarChart3 className="w-5 h-5 inline-block" /></div><p style={{ color: 'rgba(255,255,255,0.4)' }}>لا توجد استبيانات</p><button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>إنشاء أول استبيان</button></div> :
+          surveys.length === 0 ? <div style={{ textAlign: 'center', padding: 60, gridColumn: '1/-1' }}><div style={{ fontSize: 48, marginBottom: 16 }}>BarChart3</div><p style={{ color: 'rgba(255,255,255,0.4)' }}>لا توجد استبيانات</p><button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>إنشاء أول استبيان</button></div> :
           surveys.map((s: any, i: number) => { const st = STATUS_MAP[s.status] || STATUS_MAP.draft; return (
             <div key={s.id || i} style={{ background: CB, border: '1px solid ' + BR, borderRadius: 16, padding: 20 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
@@ -39,9 +39,9 @@ export default function SurveysPage() {
                 <span style={{ background: `${st.c}22`, color: st.c, padding: '4px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600, marginRight: 8, whiteSpace: 'nowrap' }}>{st.l}</span>
               </div>
               <div style={{ display: 'flex', gap: 16, marginBottom: 16, fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
-                <span><Users className="w-5 h-5 inline-block" /> {s.target_role === 'all' ? 'الجميع' : s.target_role}</span>
-                <span><FileText className="w-5 h-5 inline-block" /> {s.responses_count || 0} استجابة</span>
-                {s.anonymous && <span><Lock className="w-5 h-5 inline-block" /> مجهول</span>}
+                <span>Users {s.target_role === 'all' ? 'الجميع' : s.target_role}</span>
+                <span>FileText {s.responses_count || 0} استجابة</span>
+                {s.anonymous && <span>Lock مجهول</span>}
               </div>
               {s.deadline && <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginBottom: 12 }}>⏰ ينتهي: {new Date(s.deadline).toLocaleDateString('ar-SA')}</div>}
               <div style={{ display: 'flex', gap: 8 }}>
@@ -53,7 +53,7 @@ export default function SurveysPage() {
       </div>
       {showModal && <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
         <div style={{ background: '#12121F', border: '1px solid ' + BR, borderRadius: 20, padding: 32, width: '100%', maxWidth: 480 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}><h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل الاستبيان' : 'استبيان جديد'}</h2><button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 22, cursor: 'pointer' }}><X className="w-5 h-5 inline-block" /></button></div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}><h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل الاستبيان' : 'استبيان جديد'}</h2><button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 22, cursor: 'pointer' }}>X</button></div>
           <div style={{ display: 'grid', gap: 16 }}>
             <div><label style={lbl}>العنوان *</label><input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} style={inp} /></div>
             <div><label style={lbl}>الوصف</label><textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} style={{ ...inp, height: 70, resize: 'vertical' as const }} /></div>

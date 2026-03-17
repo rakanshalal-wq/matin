@@ -52,7 +52,7 @@ export default function LiveStreamPage() {
   };
 
   const platformLabels: any = { zoom: 'Zoom', teams: 'Microsoft Teams', meet: 'Google Meet', youtube: 'YouTube Live', custom: 'منصة خاصة' };
-  const platformIcons: any = { zoom: '<Video className="w-5 h-5 inline-block" />', teams: '<Users className="w-5 h-5 inline-block" />', meet: '<Circle className="w-5 h-5 inline-block" />', youtube: '▶️', custom: '<Monitor className="w-5 h-5 inline-block" />️' };
+  const platformIcons: any = { zoom: "ICON_Video", teams: "ICON_Users", meet: "ICON_Circle", youtube: '▶️', custom: 'Monitor️' };
   const platformColors: any = { zoom: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, teams: { bg: 'rgba(139,92,246,0.1)', color: '#8B5CF6' }, meet: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, youtube: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' }, custom: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' } };
   const statusLabels: any = { scheduled: 'مجدول', live: 'مباشر الآن', ended: 'انتهى', cancelled: 'ملغي' };
   const statusColors: any = { scheduled: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, live: { bg: 'rgba(16,185,129,0.15)', color: '#10B981' }, ended: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280' }, cancelled: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' } };
@@ -66,7 +66,7 @@ export default function LiveStreamPage() {
         <div style={{ background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 12, padding: '16px 20px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
           <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#EF4444', boxShadow: '0 0 8px rgba(239,68,68,0.6)' }} />
           <div>
-            <div style={{ color: '#10B981', fontWeight: 700, fontSize: 15 }}><Circle className="w-5 h-5 inline-block" /> يوجد {stats.live} بث مباشر الآن!</div>
+            <div style={{ color: '#10B981', fontWeight: 700, fontSize: 15 }}>Circle يوجد {stats.live} بث مباشر الآن!</div>
             <div style={{ color: 'rgba(16,185,129,0.8)', fontSize: 13, marginTop: 2 }}>اضغط على زر "انضم" للدخول إلى البث</div>
           </div>
         </div>
@@ -75,21 +75,21 @@ export default function LiveStreamPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><Satellite className="w-5 h-5 inline-block" /> البث المباشر</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>Satellite البث المباشر</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة البث المباشر للمحاضرات والفعاليات</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ title: '', subject: '', teacher_name: '', class_name: '', platform: 'zoom', link: '', date: '', duration: '', viewers_count: '0', status: 'scheduled' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
-          <Plus className="w-5 h-5 inline-block" /> جدولة بث جديد
+          Plus جدولة بث جديد
         </button>
       </div>
 
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
-          { label: 'إجمالي البثوث', value: stats.total, icon: '<Satellite className="w-5 h-5 inline-block" />', color: '#C9A227' },
-          { label: 'مباشر الآن', value: stats.live, icon: '<Circle className="w-5 h-5 inline-block" />', color: '#10B981' },
-          { label: 'مجدول', value: stats.scheduled, icon: '<Calendar className="w-5 h-5 inline-block" />', color: '#3B82F6' },
-          { label: 'إجمالي المشاهدات', value: stats.totalViewers, icon: '<Eye className="w-5 h-5 inline-block" />️', color: '#8B5CF6' },
+          { label: 'إجمالي البثوث', value: stats.total, icon: "ICON_Satellite", color: '#C9A227' },
+          { label: 'مباشر الآن', value: stats.live, icon: "ICON_Circle", color: '#10B981' },
+          { label: 'مجدول', value: stats.scheduled, icon: "ICON_Calendar", color: '#3B82F6' },
+          { label: 'إجمالي المشاهدات', value: stats.totalViewers, icon: 'Eye️', color: '#8B5CF6' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
             <div style={{ fontSize: 28 }}>{stat.icon}</div>
@@ -101,7 +101,7 @@ export default function LiveStreamPage() {
 
       {/* Search */}
       <div style={{ marginBottom: 20 }}>
-        <input placeholder="<Search className="w-5 h-5 inline-block" /> بحث بالعنوان أو المادة أو المعلم..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
+        <input placeholder="Search بحث بالعنوان أو المادة أو المعلم..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
       </div>
 
       {/* Table */}
@@ -110,7 +110,7 @@ export default function LiveStreamPage() {
           <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
         ) : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}><Satellite className="w-5 h-5 inline-block" /></div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}>Satellite</div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد بثوث مباشرة</p>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "جدولة بث جديد" لإنشاء بث</p>
           </div>
@@ -128,7 +128,7 @@ export default function LiveStreamPage() {
                 <tr key={item.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', background: item.status === 'live' ? 'rgba(16,185,129,0.05)' : 'transparent' }}>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{ width: 40, height: 40, borderRadius: 10, background: platformColors[item.platform]?.bg || 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{platformIcons[item.platform] || '<Satellite className="w-5 h-5 inline-block" />'}</div>
+                      <div style={{ width: 40, height: 40, borderRadius: 10, background: platformColors[item.platform]?.bg || 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{platformIcons[item.platform] || "ICON_Satellite"}</div>
                       <div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                           <span style={{ color: 'white', fontWeight: 600, fontSize: 14 }}>{item.title}</span>
@@ -149,23 +149,23 @@ export default function LiveStreamPage() {
                   <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.6)', fontSize: 13 }}>{item.date ? new Date(item.date).toLocaleString('ar-SA', { dateStyle: 'short', timeStyle: 'short' }) : '—'}</td>
                   <td style={{ padding: '14px 16px' }}>
                     <span style={{ color: '#8B5CF6', fontWeight: 700, fontSize: 14 }}>{item.viewers_count || 0}</span>
-                    <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}> <Eye className="w-5 h-5 inline-block" />️</span>
+                    <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}> Eye️</span>
                   </td>
                   <td style={{ padding: '14px 16px' }}>
                     <span style={{ background: statusColors[item.status]?.bg || 'rgba(107,114,128,0.1)', color: statusColors[item.status]?.color || '#6B7280', padding: '4px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600 }}>
-                      {item.status === 'live' && '<Circle className="w-5 h-5 inline-block" /> '}{statusLabels[item.status] || item.status}
+                      {item.status === 'live' && 'Circle '}{statusLabels[item.status] || item.status}
                     </span>
                   </td>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', gap: 8 }}>
                       {item.link && item.status === 'live' && (
-                        <button onClick={() => window.open(item.link, '_blank')} style={{ background: 'rgba(16,185,129,0.15)', color: '#10B981', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 700 }}><Circle className="w-5 h-5 inline-block" /> انضم</button>
+                        <button onClick={() => window.open(item.link, '_blank')} style={{ background: 'rgba(16,185,129,0.15)', color: '#10B981', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 700 }}>Circle انضم</button>
                       )}
                       {item.link && item.status !== 'live' && (
-                        <button onClick={() => window.open(item.link, '_blank')} style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Link className="w-5 h-5 inline-block" /> رابط</button>
+                        <button onClick={() => window.open(item.link, '_blank')} style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Link رابط</button>
                       )}
-                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Pencil className="w-5 h-5 inline-block" />️</button>
-                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Trash2 className="w-5 h-5 inline-block" />️</button>
+                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Pencil️</button>
+                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Trash2️</button>
                     </div>
                   </td>
                 </tr>
@@ -180,8 +180,8 @@ export default function LiveStreamPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? '<Pencil className="w-5 h-5 inline-block" />️ تعديل بث' : '<Plus className="w-5 h-5 inline-block" /> جدولة بث جديد'}</h2>
-              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}><X className="w-5 h-5 inline-block" /></button>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil️ تعديل بث' : 'Plus جدولة بث جديد'}</h2>
+              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ gridColumn: 'span 2' }}>
@@ -191,11 +191,11 @@ export default function LiveStreamPage() {
               <div>
                 <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>المنصة</label>
                 <select value={form.platform} onChange={e => setForm({ ...form, platform: e.target.value })} style={inputStyle}>
-                  <option value="zoom">Zoom <Video className="w-5 h-5 inline-block" /></option>
-                  <option value="teams">Microsoft Teams <Users className="w-5 h-5 inline-block" /></option>
-                  <option value="meet">Google Meet <Circle className="w-5 h-5 inline-block" /></option>
+                  <option value="zoom">Zoom Video</option>
+                  <option value="teams">Microsoft Teams Users</option>
+                  <option value="meet">Google Meet Circle</option>
                   <option value="youtube">YouTube Live ▶️</option>
-                  <option value="custom">منصة خاصة <Monitor className="w-5 h-5 inline-block" />️</option>
+                  <option value="custom">منصة خاصة Monitor️</option>
                 </select>
               </div>
               <div>
@@ -226,7 +226,7 @@ export default function LiveStreamPage() {
                 <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>الحالة</label>
                 <select value={form.status} onChange={e => setForm({ ...form, status: e.target.value })} style={inputStyle}>
                   <option value="scheduled">مجدول</option>
-                  <option value="live">مباشر الآن <Circle className="w-5 h-5 inline-block" /></option>
+                  <option value="live">مباشر الآن Circle</option>
                   <option value="ended">انتهى</option>
                   <option value="cancelled">ملغي</option>
                 </select>
@@ -238,7 +238,7 @@ export default function LiveStreamPage() {
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
-              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? '<Save className="w-5 h-5 inline-block" /> تحديث' : '<Plus className="w-5 h-5 inline-block" /> جدولة'}</button>
+              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus جدولة'}</button>
             </div>
           </div>
         </div>

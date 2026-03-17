@@ -81,12 +81,12 @@ export default function StorePage() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
             {[
-              { icon: "<BookOpen className="w-6 h-6" />", title: "مستلزمات مدرسية", desc: "كتب، أدوات، زي مدرسي، حقائب" },
-              { icon: "<Laptop className="w-6 h-6" />", title: "منتجات رقمية", desc: "كورسات، ملفات، قوالب، اشتراكات" },
-              { icon: "<GraduationCap className="w-6 h-6" />", title: "خدمات أكاديمية", desc: "دروس خصوصية، إرشاد، تدريب" },
-              { icon: "<Package className="w-6 h-6" />", title: "خدمات المقصف", desc: "وجبات، مشروبات، طلبات مسبقة" },
-              { icon: "<Bus className="w-6 h-6" />", title: "خدمات النقل", desc: "اشتراكات الحافلة، رسوم المسارات" },
-              { icon: "<Award className="w-6 h-6" />", title: "الأنشطة والفعاليات", desc: "رحلات، بطولات، أنشطة لاصفية" },
+              { icon: "ICON_BookOpen", title: "مستلزمات مدرسية", desc: "كتب، أدوات، زي مدرسي، حقائب" },
+              { icon: "ICON_Laptop", title: "منتجات رقمية", desc: "كورسات، ملفات، قوالب، اشتراكات" },
+              { icon: "ICON_GraduationCap", title: "خدمات أكاديمية", desc: "دروس خصوصية، إرشاد، تدريب" },
+              { icon: "ICON_Package", title: "خدمات المقصف", desc: "وجبات، مشروبات، طلبات مسبقة" },
+              { icon: "ICON_Bus", title: "خدمات النقل", desc: "اشتراكات الحافلة، رسوم المسارات" },
+              { icon: "ICON_Award", title: "الأنشطة والفعاليات", desc: "رحلات، بطولات، أنشطة لاصفية" },
             ].map((item, i) => (
               <div key={i} className="p-5 rounded-xl border border-white/8 bg-[#111] hover:border-[rgba(212,168,67,0.2)] transition-all text-center">
                 <div className="text-3xl mb-3">{item.icon}</div>

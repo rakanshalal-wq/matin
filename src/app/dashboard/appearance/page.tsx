@@ -89,7 +89,7 @@ export default function AppearancePage() {
         </div>
         <button onClick={handleSave} disabled={saving}
           className={`px-6 py-3 rounded-xl font-bold text-white transition-all ${saved ? "bg-green-600" : "bg-blue-600 hover:bg-blue-700"} disabled:opacity-50`}>
-          {saving ? "جاري الحفظ..." : saved ? "<Check className="w-5 h-5 inline-block" /> تم الحفظ" : "حفظ التغييرات"}
+          {saving ? "جاري الحفظ..." : saved ? "[Check] تم الحفظ" : "حفظ التغييرات"}
         </button>
       </div>
 

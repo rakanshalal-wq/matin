@@ -23,7 +23,7 @@ export default function ActivityLogPage() {
   return (
     <div style={{minHeight:'100vh',background:BG,padding:'32px 24px',direction:'rtl',fontFamily:'Cairo, sans-serif'}}>
       <div style={{marginBottom:32}}>
-        <h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}><ClipboardList className="w-5 h-5 inline-block" /> سجل الأنشطة</h1>
+        <h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}>ClipboardList سجل الأنشطة</h1>
         <p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>تتبع جميع الأنشطة والعمليات في النظام</p>
       </div>
       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:16,marginBottom:28}}>

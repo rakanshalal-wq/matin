@@ -28,19 +28,19 @@ const integrationGroups = [
     items: [
       {
         name: "نور",
-        emoji: "<Building2 className="w-6 h-6" />",
+        emoji: "ICON_Building2",
         desc: "التحقق من بيانات الطلاب والمعلمين من نظام نور التعليمي الحكومي",
         features: ["التحقق من الهوية الوطنية", "ربط بيانات الطلاب", "إرسال التقارير الرسمية"]
       },
       {
         name: "نفاذ",
-        emoji: "<Lock className="w-6 h-6" />",
+        emoji: "ICON_Lock",
         desc: "المصادقة الحكومية الموحدة لتسجيل الدخول الآمن بالهوية الوطنية",
         features: ["تسجيل دخول بالهوية الوطنية", "المصادقة الثنائية الحكومية", "توثيق المستخدمين"]
       },
       {
         name: "وزارة التعليم",
-        emoji: "<BookOpen className="w-6 h-6" />",
+        emoji: "ICON_BookOpen",
         desc: "إرسال التقارير والبيانات الرسمية لوزارة التعليم تلقائياً",
         features: ["تقارير الحضور الرسمية", "بيانات الدرجات", "إحصائيات المؤسسة"]
       },
@@ -53,25 +53,25 @@ const integrationGroups = [
     items: [
       {
         name: "STC Pay",
-        emoji: "<CreditCard className="w-6 h-6" />",
+        emoji: "ICON_CreditCard",
         desc: "الدفع الآمن والسريع عبر محفظة STC Pay السعودية",
         features: ["دفع فوري", "تحقق آمن", "سجل المعاملات"]
       },
       {
         name: "مدى",
-        emoji: "<Landmark className="w-6 h-6" />",
+        emoji: "ICON_Landmark",
         desc: "قبول بطاقات مدى الصادرة من البنوك السعودية",
         features: ["بطاقات مدى", "دفع آمن", "تقارير مالية"]
       },
       {
         name: "Apple Pay",
-        emoji: "<Smartphone className="w-6 h-6" />",
+        emoji: "ICON_Smartphone",
         desc: "الدفع السريع عبر Apple Pay للأجهزة الآبل",
         features: ["دفع بلمسة واحدة", "تشفير عالٍ", "موافقة فورية"]
       },
       {
         name: "Visa / Mastercard",
-        emoji: "<Banknote className="w-6 h-6" />",
+        emoji: "ICON_Banknote",
         desc: "قبول جميع بطاقات Visa وMastercard الائتمانية والمدفوعة مسبقاً",
         features: ["بطاقات ائتمانية", "بطاقات مدفوعة مسبقاً", "دفع آمن 3D Secure"]
       },
@@ -84,19 +84,19 @@ const integrationGroups = [
     items: [
       {
         name: "واتساب Business",
-        emoji: "<MessageCircle className="w-6 h-6" />",
+        emoji: "ICON_MessageCircle",
         desc: "إشعارات فورية عبر واتساب لأولياء الأمور والطلاب والمعلمين",
         features: ["إشعارات الحضور", "الدرجات والتقارير", "رسائل مخصصة"]
       },
       {
         name: "Firebase",
-        emoji: "<Bell className="w-6 h-6" />",
+        emoji: "ICON_Bell",
         desc: "Push Notifications للتطبيق المحمول على iOS وAndroid",
         features: ["إشعارات فورية", "تخصيص الإشعارات", "إحصائيات التفاعل"]
       },
       {
         name: "Unifonic",
-        emoji: "<Phone className="w-6 h-6" />",
+        emoji: "ICON_Phone",
         desc: "رسائل SMS للتنبيهات والتحقق من الهوية",
         features: ["رسائل OTP", "تنبيهات الغياب", "إشعارات الاختبارات"]
       },
@@ -109,13 +109,13 @@ const integrationGroups = [
     items: [
       {
         name: "Cloudflare",
-        emoji: "<Shield className="w-6 h-6" />",
+        emoji: "ICON_Shield",
         desc: "حماية من الهجمات الإلكترونية وتسريع الموقع عالمياً",
         features: ["DDoS Protection", "WAF", "CDN عالمي"]
       },
       {
         name: "Google Authenticator",
-        emoji: "<Key className="w-6 h-6" />",
+        emoji: "ICON_Key",
         desc: "تطبيق المصادقة الثنائية الأكثر أماناً وانتشاراً",
         features: ["TOTP", "رموز احتياطية", "مزامنة آمنة"]
       },

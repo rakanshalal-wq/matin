@@ -125,7 +125,7 @@ export default function ImportQuestionsPage() {
           </Link>
         </div>
         <h1 style={{ color: '#f1f5f9', fontSize: '24px', fontWeight: 'bold', margin: '0 0 8px 0' }}>
-          <Download className="w-5 h-5 inline-block" /> استيراد أسئلة من Excel
+          Download استيراد أسئلة من Excel
         </h1>
         <p style={{ color: '#94a3b8', margin: 0, fontSize: '14px' }}>
           ارفع ملف Excel من ملفات منصة متين التعليمية وستُضاف الأسئلة تلقائياً لبنك الأسئلة
@@ -141,7 +141,7 @@ export default function ImportQuestionsPage() {
             border: '1px solid #334155', marginBottom: '16px'
           }}>
             <h3 style={{ color: '#f1f5f9', margin: '0 0 16px 0', fontSize: '16px' }}>
-              <Settings className="w-5 h-5 inline-block" />️ إعدادات الاستيراد
+              [Settings]️ إعدادات الاستيراد
             </h3>
 
             {/* المادة */}
@@ -237,7 +237,7 @@ export default function ImportQuestionsPage() {
             />
             {file ? (
               <>
-                <div style={{ fontSize: '40px', marginBottom: '8px' }}><CheckCircle className="w-5 h-5 inline-block" /></div>
+                <div style={{ fontSize: '40px', marginBottom: '8px' }}>CheckCircle</div>
                 <div style={{ color: '#22c55e', fontWeight: 'bold', marginBottom: '4px' }}>
                   {file.name}
                 </div>
@@ -250,7 +250,7 @@ export default function ImportQuestionsPage() {
               </>
             ) : (
               <>
-                <div style={{ fontSize: '48px', marginBottom: '12px' }}><BarChart3 className="w-5 h-5 inline-block" /></div>
+                <div style={{ fontSize: '48px', marginBottom: '12px' }}>BarChart3</div>
                 <div style={{ color: '#f1f5f9', fontWeight: 'bold', marginBottom: '8px', fontSize: '15px' }}>
                   اسحب ملف Excel هنا أو انقر للاختيار
                 </div>
@@ -267,7 +267,7 @@ export default function ImportQuestionsPage() {
               background: '#2d1b1b', border: '1px solid #ef4444', borderRadius: '8px',
               padding: '12px', color: '#ef4444', fontSize: '13px', marginBottom: '16px'
             }}>
-              <AlertTriangle className="w-5 h-5 inline-block" />️ {error}
+              AlertTriangle️ {error}
             </div>
           )}
 
@@ -291,7 +291,7 @@ export default function ImportQuestionsPage() {
                 جاري الاستيراد...
               </>
             ) : (
-              <><Download className="w-5 h-5 inline-block" /> استيراد الأسئلة</>
+              <>Download استيراد الأسئلة</>
             )}
           </button>
         </div>
@@ -305,7 +305,7 @@ export default function ImportQuestionsPage() {
               padding: '20px', marginBottom: '16px'
             }}>
               <h3 style={{ color: '#22c55e', margin: '0 0 16px 0', fontSize: '16px' }}>
-                <CheckCircle className="w-5 h-5 inline-block" /> {result.message}
+                CheckCircle {result.message}
               </h3>
 
               {/* إحصائيات الاستيراد */}
@@ -327,7 +327,7 @@ export default function ImportQuestionsPage() {
               {result.bankStats && (
                 <div style={{ marginBottom: '16px' }}>
                   <div style={{ color: '#94a3b8', fontSize: '12px', marginBottom: '8px' }}>
-                    <BarChart3 className="w-5 h-5 inline-block" /> إجمالي البنك بعد الاستيراد:
+                    BarChart3 إجمالي البنك بعد الاستيراد:
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '6px' }}>
                     {[
@@ -351,7 +351,7 @@ export default function ImportQuestionsPage() {
               {result.sheets && result.sheets.length > 0 && (
                 <div>
                   <div style={{ color: '#94a3b8', fontSize: '12px', marginBottom: '8px' }}>
-                    <ClipboardList className="w-5 h-5 inline-block" /> تفاصيل الاستيراد:
+                    ClipboardList تفاصيل الاستيراد:
                   </div>
                   {result.sheets.map((s, i) => (
                     <div key={i} style={{
@@ -374,7 +374,7 @@ export default function ImportQuestionsPage() {
               {result.errors && result.errors.length > 0 && (
                 <div style={{ marginTop: '12px' }}>
                   <div style={{ color: '#f59e0b', fontSize: '12px', marginBottom: '6px' }}>
-                    <AlertTriangle className="w-5 h-5 inline-block" />️ تحذيرات:
+                    AlertTriangle️ تحذيرات:
                   </div>
                   {result.errors.map((e, i) => (
                     <div key={i} style={{ color: '#94a3b8', fontSize: '11px', marginBottom: '2px' }}>
@@ -391,7 +391,7 @@ export default function ImportQuestionsPage() {
                   background: '#1e3a5f', color: '#3b82f6', textDecoration: 'none',
                   textAlign: 'center', fontSize: '13px', fontWeight: '500'
                 }}>
-                  <BookOpen className="w-5 h-5 inline-block" /> عرض البنك
+                  BookOpen عرض البنك
                 </Link>
                 <button
                   onClick={() => { setResult(null); setFile(null); }}
@@ -401,7 +401,7 @@ export default function ImportQuestionsPage() {
                     cursor: 'pointer', fontSize: '13px'
                   }}
                 >
-                  <Download className="w-5 h-5 inline-block" /> استيراد آخر
+                  Download استيراد آخر
                 </button>
               </div>
             </div>
@@ -413,7 +413,7 @@ export default function ImportQuestionsPage() {
             border: '1px solid #334155'
           }}>
             <h3 style={{ color: '#f1f5f9', margin: '0 0 16px 0', fontSize: '15px' }}>
-              <ClipboardList className="w-5 h-5 inline-block" /> تعليمات الاستخدام
+              [ClipboardList] تعليمات الاستخدام
             </h3>
 
             <div style={{ marginBottom: '16px' }}>

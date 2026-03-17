@@ -26,7 +26,7 @@ export default function SubjectsPage(){
   return(
     <div style={{minHeight:'100vh',background:BG,padding:'32px 24px',direction:'rtl',fontFamily:'Cairo, sans-serif'}}>
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:32,flexWrap:'wrap',gap:16}}>
-        <div><h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}><BookOpen className="w-5 h-5 inline-block" /> المواد الدراسية</h1><p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>إدارة جميع المواد الدراسية لكل المراحل والمسارات</p></div>
+        <div><h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}>BookOpen المواد الدراسية</h1><p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>إدارة جميع المواد الدراسية لكل المراحل والمسارات</p></div>
         <button onClick={openAdd} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 20px',color:'#0B0B16',fontWeight:700,cursor:'pointer',fontSize:14}}>+ إضافة مادة</button>
       </div>
       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:16,marginBottom:28}}>
@@ -58,7 +58,7 @@ export default function SubjectsPage(){
                   <td style={{padding:'12px 16px'}}><span style={{background:'rgba(59,130,246,0.15)',color:'#3B82F6',padding:'3px 10px',borderRadius:20,fontSize:12}}>{s.stage||'—'}</span></td>
                   <td style={{padding:'12px 16px',color:'rgba(255,255,255,0.6)',fontSize:13}}>{s.track||'—'}</td>
                   <td style={{padding:'12px 16px',color:'white',fontWeight:600,textAlign:'center'}}>{s.weekly_hours||'—'}</td>
-                  <td style={{padding:'12px 16px',textAlign:'center'}}><span style={{color:s.is_mandatory!==false?'#10B981':'#6B7280',fontSize:16}}>{s.is_mandatory!==false?'<Check className="w-5 h-5 inline-block" />':'—'}</span></td>
+                  <td style={{padding:'12px 16px',textAlign:'center'}}><span style={{color:s.is_mandatory!==false?'#10B981':'#6B7280',fontSize:16}}>{s.is_mandatory!==false?"ICON_Check":'—'}</span></td>
                   <td style={{padding:'12px 16px'}}>
                     <div style={{display:'flex',gap:6}}>
                       <button onClick={()=>openEdit(s)} style={{background:'rgba(59,130,246,0.1)',border:'1px solid rgba(59,130,246,0.2)',borderRadius:6,padding:'5px 10px',color:'#3B82F6',cursor:'pointer',fontSize:12}}>تعديل</button>

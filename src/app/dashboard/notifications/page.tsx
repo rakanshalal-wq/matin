@@ -52,7 +52,7 @@ export default function NotificationsPage() {
   };
 
   const typeLabels: any = { info: 'معلومة', success: 'نجاح', warning: 'تحذير', urgent: 'عاجل', reminder: 'تذكير', system: 'نظام' };
-  const typeIcons: any = { info: 'ℹ️', success: '<CheckCircle className="w-5 h-5 inline-block" />', warning: '<AlertTriangle className="w-5 h-5 inline-block" />️', urgent: '<Siren className="w-5 h-5 inline-block" />', reminder: '⏰', system: '<Settings className="w-5 h-5 inline-block" />️' };
+  const typeIcons: any = { info: 'ℹ️', success: "ICON_CheckCircle", warning: 'AlertTriangle️', urgent: "ICON_Siren", reminder: '⏰', system: '[Settings]️' };
   const typeColors: any = { info: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, success: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, warning: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, urgent: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' }, reminder: { bg: 'rgba(139,92,246,0.1)', color: '#8B5CF6' }, system: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280' } };
   const audienceLabels: any = { all: 'الجميع', students: 'الطلاب', teachers: 'المعلمين', parents: 'أولياء الأمور', employees: 'الموظفين', admins: 'المدراء' };
   const statusLabels: any = { active: 'نشط', archived: 'مؤرشف' };
@@ -76,7 +76,7 @@ export default function NotificationsPage() {
       {/* Urgent Alert */}
       {stats.urgent > 0 && (
         <div style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 12, padding: '16px 20px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: 24 }}><Siren className="w-5 h-5 inline-block" /></span>
+          <span style={{ fontSize: 24 }}>Siren</span>
           <div>
             <div style={{ color: '#EF4444', fontWeight: 700, fontSize: 15 }}>يوجد {stats.urgent} إشعار عاجل</div>
             <div style={{ color: 'rgba(239,68,68,0.8)', fontSize: 13, marginTop: 2 }}>يرجى مراجعة الإشعارات العاجلة فوراً</div>
@@ -87,21 +87,21 @@ export default function NotificationsPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><Bell className="w-5 h-5 inline-block" /> الإشعارات</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>Bell الإشعارات</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة وإرسال الإشعارات لجميع المستخدمين</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ title: '', message: '', type: 'info', target_audience: 'all', is_read: false, status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
-          <Plus className="w-5 h-5 inline-block" /> إشعار جديد
+          Plus إشعار جديد
         </button>
       </div>
 
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
-          { label: 'إجمالي الإشعارات', value: stats.total, icon: '<Bell className="w-5 h-5 inline-block" />', color: '#C9A227' },
-          { label: 'غير مقروء', value: stats.unread, icon: '<Mailbox className="w-5 h-5 inline-block" />', color: '#3B82F6' },
-          { label: 'عاجل', value: stats.urgent, icon: '<Siren className="w-5 h-5 inline-block" />', color: '#EF4444' },
-          { label: 'اليوم', value: stats.today, icon: '<Calendar className="w-5 h-5 inline-block" />', color: '#10B981' },
+          { label: 'إجمالي الإشعارات', value: stats.total, icon: "ICON_Bell", color: '#C9A227' },
+          { label: 'غير مقروء', value: stats.unread, icon: "ICON_Mailbox", color: '#3B82F6' },
+          { label: 'عاجل', value: stats.urgent, icon: "ICON_Siren", color: '#EF4444' },
+          { label: 'اليوم', value: stats.today, icon: "ICON_Calendar", color: '#10B981' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
             <div style={{ fontSize: 28 }}>{stat.icon}</div>
@@ -113,7 +113,7 @@ export default function NotificationsPage() {
 
       {/* Search */}
       <div style={{ marginBottom: 20 }}>
-        <input placeholder="<Search className="w-5 h-5 inline-block" /> بحث بالعنوان أو المحتوى..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
+        <input placeholder="Search بحث بالعنوان أو المحتوى..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
       </div>
 
       {/* Notifications List */}
@@ -122,7 +122,7 @@ export default function NotificationsPage() {
           <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12 }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
         ) : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12 }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}><Bell className="w-5 h-5 inline-block" /></div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}>[Bell]</div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد إشعارات</p>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "إشعار جديد" لإرسال إشعار</p>
           </div>
@@ -130,7 +130,7 @@ export default function NotificationsPage() {
           <div key={item.id} style={{ background: !item.is_read ? 'rgba(59,130,246,0.05)' : 'rgba(255,255,255,0.03)', border: `1px solid ${!item.is_read ? 'rgba(59,130,246,0.15)' : 'rgba(255,255,255,0.08)'}`, borderRadius: 12, padding: '16px 20px', borderRight: `4px solid ${typeColors[item.type]?.color || '#3B82F6'}` }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div style={{ display: 'flex', gap: 14, flex: 1 }}>
-                <div style={{ width: 44, height: 44, borderRadius: 12, background: typeColors[item.type]?.bg || 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, flexShrink: 0 }}>{typeIcons[item.type] || '<Bell className="w-5 h-5 inline-block" />'}</div>
+                <div style={{ width: 44, height: 44, borderRadius: 12, background: typeColors[item.type]?.bg || 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, flexShrink: 0 }}>{typeIcons[item.type] || "ICON_Bell"}</div>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
                     <span style={{ color: 'white', fontWeight: !item.is_read ? 700 : 500, fontSize: 15 }}>{item.title}</span>
@@ -139,14 +139,14 @@ export default function NotificationsPage() {
                   </div>
                   <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, margin: '6px 0' }}>{item.message || '—'}</p>
                   <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginTop: 8 }}>
-                    <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}><Users className="w-5 h-5 inline-block" /> {audienceLabels[item.target_audience] || item.target_audience}</span>
-                    <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}><Clock className="w-5 h-5 inline-block" /> {item.created_at ? timeAgo(item.created_at) : '—'}</span>
+                    <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>Users {audienceLabels[item.target_audience] || item.target_audience}</span>
+                    <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>Clock {item.created_at ? timeAgo(item.created_at) : '—'}</span>
                   </div>
                 </div>
               </div>
               <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
-                <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Pencil className="w-5 h-5 inline-block" />️</button>
-                <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><Trash2 className="w-5 h-5 inline-block" />️</button>
+                <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Pencil️</button>
+                <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Trash2️</button>
               </div>
             </div>
           </div>
@@ -158,8 +158,8 @@ export default function NotificationsPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? '<Pencil className="w-5 h-5 inline-block" />️ تعديل إشعار' : '<Plus className="w-5 h-5 inline-block" /> إشعار جديد'}</h2>
-              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}><X className="w-5 h-5 inline-block" /></button>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil️ تعديل إشعار' : 'Plus إشعار جديد'}</h2>
+              <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ gridColumn: 'span 2' }}>
@@ -170,22 +170,22 @@ export default function NotificationsPage() {
                 <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>النوع</label>
                 <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} style={inputStyle}>
                   <option value="info">معلومة ℹ️</option>
-                  <option value="success">نجاح <CheckCircle className="w-5 h-5 inline-block" /></option>
-                  <option value="warning">تحذير <AlertTriangle className="w-5 h-5 inline-block" />️</option>
-                  <option value="urgent">عاجل <Siren className="w-5 h-5 inline-block" /></option>
+                  <option value="success">نجاح CheckCircle</option>
+                  <option value="warning">تحذير AlertTriangle️</option>
+                  <option value="urgent">عاجل Siren</option>
                   <option value="reminder">تذكير ⏰</option>
-                  <option value="system">نظام <Settings className="w-5 h-5 inline-block" />️</option>
+                  <option value="system">نظام Settings️</option>
                 </select>
               </div>
               <div>
                 <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>الفئة المستهدفة</label>
                 <select value={form.target_audience} onChange={e => setForm({ ...form, target_audience: e.target.value })} style={inputStyle}>
-                  <option value="all">الجميع <Users className="w-5 h-5 inline-block" /></option>
-                  <option value="students">الطلاب <GraduationCap className="w-5 h-5 inline-block" /></option>
-                  <option value="teachers">المعلمين <User className="w-5 h-5 inline-block" />‍<School className="w-5 h-5 inline-block" /></option>
-                  <option value="parents">أولياء الأمور <User className="w-5 h-5 inline-block" />‍<User className="w-5 h-5 inline-block" />‍<User className="w-5 h-5 inline-block" /></option>
-                  <option value="employees">الموظفين <Shirt className="w-5 h-5 inline-block" /></option>
-                  <option value="admins">المدراء <Building className="w-5 h-5 inline-block" /></option>
+                  <option value="all">الجميع Users</option>
+                  <option value="students">الطلاب GraduationCap</option>
+                  <option value="teachers">المعلمين User‍School</option>
+                  <option value="parents">أولياء الأمور User‍User‍User</option>
+                  <option value="employees">الموظفين Shirt</option>
+                  <option value="admins">المدراء Building</option>
                 </select>
               </div>
               <div style={{ gridColumn: 'span 2' }}>
@@ -202,7 +202,7 @@ export default function NotificationsPage() {
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
-              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? '<Save className="w-5 h-5 inline-block" /> تحديث' : '<Bell className="w-5 h-5 inline-block" /> إرسال'}</button>
+              <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Bell إرسال'}</button>
             </div>
           </div>
         </div>

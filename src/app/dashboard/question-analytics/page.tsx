@@ -12,11 +12,11 @@ const getHeaders = (): Record<string, string> => {
 };
 
 const qualityConfig: Record<string, { color: string; bg: string; icon: string; desc: string }> = {
-  'ممتاز':      { color: '#10B981', bg: 'rgba(16,185,129,0.15)',  icon: '<Star className="w-5 h-5 inline-block" />', desc: 'سؤال مميز - معدل إجابة صحيحة مثالي' },
-  'جيد - سهل': { color: '#3B82F6', bg: 'rgba(59,130,246,0.15)',  icon: '<CheckCircle className="w-5 h-5 inline-block" />', desc: 'سؤال جيد - مناسب للمراجعة' },
-  'جيد - صعب': { color: '#8B5CF6', bg: 'rgba(139,92,246,0.15)', icon: '<Dumbbell className="w-5 h-5 inline-block" />', desc: 'سؤال تحدي - مناسب للطلاب المتقدمين' },
-  'سهل جداً':  { color: '#F59E0B', bg: 'rgba(245,158,11,0.15)', icon: '<AlertTriangle className="w-5 h-5 inline-block" />️', desc: 'سهل جداً - لا يميز بين الطلاب' },
-  'صعب جداً':  { color: '#EF4444', bg: 'rgba(239,68,68,0.15)',  icon: '<Circle className="w-5 h-5 inline-block" />', desc: 'صعب جداً - قد يكون مربكاً أو غامضاً' },
+  'ممتاز':      { color: '#10B981', bg: 'rgba(16,185,129,0.15)',  icon: "ICON_Star", desc: 'سؤال مميز - معدل إجابة صحيحة مثالي' },
+  'جيد - سهل': { color: '#3B82F6', bg: 'rgba(59,130,246,0.15)',  icon: "ICON_CheckCircle", desc: 'سؤال جيد - مناسب للمراجعة' },
+  'جيد - صعب': { color: '#8B5CF6', bg: 'rgba(139,92,246,0.15)', icon: "ICON_Dumbbell", desc: 'سؤال تحدي - مناسب للطلاب المتقدمين' },
+  'سهل جداً':  { color: '#F59E0B', bg: 'rgba(245,158,11,0.15)', icon: 'AlertTriangle️', desc: 'سهل جداً - لا يميز بين الطلاب' },
+  'صعب جداً':  { color: '#EF4444', bg: 'rgba(239,68,68,0.15)',  icon: "ICON_Circle", desc: 'صعب جداً - قد يكون مربكاً أو غامضاً' },
   'غير محلل':  { color: '#6B7280', bg: 'rgba(107,114,128,0.1)', icon: '⏳', desc: 'يحتاج على الأقل 5 إجابات للتحليل' },
 };
 
@@ -76,13 +76,13 @@ export default function QuestionAnalyticsPage() {
       });
       const data = await res.json();
       if (data.success) {
-        setMsg(`<CheckCircle className="w-5 h-5 inline-block" /> تم تحليل ${data.analyzed} سؤال بنجاح`);
+        setMsg(`[CheckCircle] تم تحليل ${data.analyzed} سؤال بنجاح`);
         loadData();
       } else {
-        setMsg('<XCircle className="w-5 h-5 inline-block" /> ' + (data.error || 'فشل التحليل'));
+        setMsg('XCircle ' + (data.error || 'فشل التحليل'));
       }
     } catch (e) {
-      setMsg('<XCircle className="w-5 h-5 inline-block" /> خطأ في الاتصال');
+      setMsg('XCircle خطأ في الاتصال');
     }
     setAnalyzing(false);
   };
@@ -102,7 +102,7 @@ export default function QuestionAnalyticsPage() {
   if (loading) return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
       <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 40, marginBottom: 16 }}><Brain className="w-5 h-5 inline-block" /></div>
+        <div style={{ fontSize: 40, marginBottom: 16 }}>Brain</div>
         <div style={{ color: '#8B5CF6', fontWeight: 700, fontSize: 18 }}>جاري تحميل بيانات التحليل...</div>
       </div>
     </div>
@@ -114,7 +114,7 @@ export default function QuestionAnalyticsPage() {
       <div style={{ marginBottom: 24, background: 'linear-gradient(135deg, rgba(139,92,246,0.1), rgba(59,130,246,0.1))', border: '1px solid rgba(139,92,246,0.2)', borderRadius: 16, padding: '20px 24px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
           <div>
-            <h1 style={{ fontSize: 22, fontWeight: 800, color: 'white', margin: 0 }}><Brain className="w-5 h-5 inline-block" /> تحليل جودة الأسئلة</h1>
+            <h1 style={{ fontSize: 22, fontWeight: 800, color: 'white', margin: 0 }}>Brain تحليل جودة الأسئلة</h1>
             <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, margin: '4px 0 0' }}>
               يحلل الذكاء الاصطناعي جودة كل سؤال بناءً على أداء الطلاب الفعلي
             </p>
@@ -125,12 +125,12 @@ export default function QuestionAnalyticsPage() {
               disabled={analyzing}
               style={{ padding: '10px 20px', background: analyzing ? '#6B7280' : 'linear-gradient(135deg, #8B5CF6, #3B82F6)', color: 'white', border: 'none', borderRadius: 10, cursor: analyzing ? 'not-allowed' : 'pointer', fontWeight: 700, fontFamily: 'inherit', fontSize: 14 }}
             >
-              {analyzing ? '⏳ جاري التحليل...' : '<RefreshCw className="w-5 h-5 inline-block" /> إعادة تحليل جميع الأسئلة'}
+              {analyzing ? '⏳ جاري التحليل...' : 'RefreshCw إعادة تحليل جميع الأسئلة'}
             </button>
           )}
         </div>
         {msg && (
-          <div style={{ marginTop: 12, padding: '8px 14px', background: msg.startsWith('<CheckCircle className="w-5 h-5 inline-block" />') ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)', borderRadius: 8, color: msg.startsWith('<CheckCircle className="w-5 h-5 inline-block" />') ? '#10B981' : '#EF4444', fontSize: 14 }}>
+          <div style={{ marginTop: 12, padding: '8px 14px', background: msg.startsWith("ICON_CheckCircle") ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)', borderRadius: 8, color: msg.startsWith("ICON_CheckCircle") ? '#10B981' : '#EF4444', fontSize: 14 }}>
             {msg}
           </div>
         )}
@@ -139,11 +139,11 @@ export default function QuestionAnalyticsPage() {
       {/* إحصائيات سريعة */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12, marginBottom: 24 }}>
         {[
-          { label: 'إجمالي الأسئلة', value: stats.total || 0, color: '#3B82F6', icon: '<Package className="w-5 h-5 inline-block" />' },
-          { label: 'تم تحليلها', value: stats.analyzed || 0, color: '#8B5CF6', icon: '<Bot className="w-5 h-5 inline-block" />' },
-          { label: 'أسئلة ممتازة', value: stats.excellent || 0, color: '#10B981', icon: '<Star className="w-5 h-5 inline-block" />' },
-          { label: 'سهلة جداً', value: stats.veryEasy || 0, color: '#F59E0B', icon: '<AlertTriangle className="w-5 h-5 inline-block" />️' },
-          { label: 'صعبة جداً', value: stats.veryHard || 0, color: '#EF4444', icon: '<Circle className="w-5 h-5 inline-block" />' },
+          { label: 'إجمالي الأسئلة', value: stats.total || 0, color: '#3B82F6', icon: "ICON_Package" },
+          { label: 'تم تحليلها', value: stats.analyzed || 0, color: '#8B5CF6', icon: "ICON_Bot" },
+          { label: 'أسئلة ممتازة', value: stats.excellent || 0, color: '#10B981', icon: "ICON_Star" },
+          { label: 'سهلة جداً', value: stats.veryEasy || 0, color: '#F59E0B', icon: 'AlertTriangle️' },
+          { label: 'صعبة جداً', value: stats.veryHard || 0, color: '#EF4444', icon: "ICON_Circle" },
         ].map((s, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${s.color}30`, borderRadius: 12, padding: '14px 16px' }}>
             <div style={{ fontSize: 22, marginBottom: 4 }}>{s.icon}</div>
@@ -155,7 +155,7 @@ export default function QuestionAnalyticsPage() {
 
       {/* شرح مستويات الجودة */}
       <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: '16px 20px', marginBottom: 24 }}>
-        <h3 style={{ color: 'white', fontSize: 14, fontWeight: 700, margin: '0 0 12px' }}><BarChart3 className="w-5 h-5 inline-block" /> مستويات جودة الأسئلة</h3>
+        <h3 style={{ color: 'white', fontSize: 14, fontWeight: 700, margin: '0 0 12px' }}>[BarChart3] مستويات جودة الأسئلة</h3>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
           {Object.entries(qualityConfig).map(([label, cfg]) => (
             <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 12px', background: cfg.bg, borderRadius: 8, border: `1px solid ${cfg.color}30` }}>
@@ -174,7 +174,7 @@ export default function QuestionAnalyticsPage() {
         <input
           value={search}
           onChange={e => setSearch(e.target.value)}
-          placeholder="<Search className="w-5 h-5 inline-block" /> ابحث في الأسئلة..."
+          placeholder="Search ابحث في الأسئلة..."
           style={{ flex: 1, minWidth: 200, padding: '10px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'white', fontFamily: 'inherit', fontSize: 14, outline: 'none' }}
         />
         <select
@@ -205,7 +205,7 @@ export default function QuestionAnalyticsPage() {
           onClick={loadData}
           style={{ padding: '10px 18px', background: 'rgba(59,130,246,0.15)', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 10, color: '#3B82F6', cursor: 'pointer', fontFamily: 'inherit', fontSize: 13, fontWeight: 600 }}
         >
-          <RefreshCw className="w-5 h-5 inline-block" /> تحديث
+          RefreshCw تحديث
         </button>
       </div>
 
@@ -217,7 +217,7 @@ export default function QuestionAnalyticsPage() {
       {/* قائمة الأسئلة */}
       {filtered.length === 0 ? (
         <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.3)' }}>
-          <div style={{ fontSize: 40, marginBottom: 12 }}><Search className="w-5 h-5 inline-block" /></div>
+          <div style={{ fontSize: 40, marginBottom: 12 }}>[Search]</div>
           <div>لا توجد أسئلة تطابق البحث</div>
         </div>
       ) : (
@@ -236,17 +236,17 @@ export default function QuestionAnalyticsPage() {
                     <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                       {q.subject && (
                         <span style={{ padding: '2px 8px', background: 'rgba(59,130,246,0.1)', borderRadius: 6, color: '#3B82F6', fontSize: 11 }}>
-                          <BookOpen className="w-5 h-5 inline-block" /> {q.subject}
+                          BookOpen {q.subject}
                         </span>
                       )}
                       {q.grade && (
                         <span style={{ padding: '2px 8px', background: 'rgba(139,92,246,0.1)', borderRadius: 6, color: '#8B5CF6', fontSize: 11 }}>
-                          <GraduationCap className="w-5 h-5 inline-block" /> {q.grade}
+                          GraduationCap {q.grade}
                         </span>
                       )}
                       {q.difficulty && (
                         <span style={{ padding: '2px 8px', background: 'rgba(255,255,255,0.05)', borderRadius: 6, color: 'rgba(255,255,255,0.5)', fontSize: 11 }}>
-                          {q.difficulty === 'easy' ? '<Circle className="w-5 h-5 inline-block" /> سهل' : q.difficulty === 'hard' ? '<Circle className="w-5 h-5 inline-block" /> صعب' : '<Circle className="w-5 h-5 inline-block" /> متوسط'}
+                          {q.difficulty === 'easy' ? 'Circle سهل' : q.difficulty === 'hard' ? 'Circle صعب' : '[Circle] متوسط'}
                         </span>
                       )}
                     </div>
