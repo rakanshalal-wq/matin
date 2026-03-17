@@ -140,10 +140,28 @@ function Btn({ children, onClick, variant = 'primary', size = 'md', disabled = f
 // ─── StatCard ─────────────────────────────────────────────────────────────────
 function StatCard({ label, value, sub, color = G }: { label: string; value: string | number; sub?: string; color?: string }) {
   return (
-    <div className="rounded-2xl p-5" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
-      <div className="text-xs text-gray-400 mb-2 font-medium">{label}</div>
-      <div className="text-3xl font-black" style={{ color }}>{typeof value === 'number' ? num(value) : value}</div>
-      {sub && <div className="text-xs text-gray-500 mt-1">{sub}</div>}
+    <div className="rounded-2xl p-5" style={{
+      background: `linear-gradient(135deg, ${color}18 0%, ${color}08 100%)`,
+      border: `1px solid ${color}40`,
+      position: 'relative',
+      overflow: 'hidden',
+      transition: 'all 0.25s',
+    }}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)';
+        (e.currentTarget as HTMLElement).style.boxShadow = `0 12px 40px ${color}22`;
+        (e.currentTarget as HTMLElement).style.borderColor = `${color}70`;
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+        (e.currentTarget as HTMLElement).style.boxShadow = 'none';
+        (e.currentTarget as HTMLElement).style.borderColor = `${color}40`;
+      }}
+    >
+      <div style={{ position: 'absolute', top: 0, right: 0, width: 60, height: 60, background: `${color}12`, borderRadius: '0 16px 0 60px' }} />
+      <div className="text-xs mb-2.5 font-semibold" style={{ color: 'rgba(238,238,245,0.5)' }}>{label}</div>
+      <div className="font-black" style={{ color: '#fff', fontSize: 34, lineHeight: 1, letterSpacing: -1 }}>{typeof value === 'number' ? num(value) : value}</div>
+      {sub && <div className="text-xs mt-2 font-bold" style={{ color }}>↑ {sub}</div>}
     </div>
   );
 }
