@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactElement } from "react";
 
 /* ═══════════════════════════════════════════════════════════
    MATIN — صفحة التكاملات
@@ -20,7 +20,7 @@ type Integration = {
 };
 
 /* ─── أيقونات SVG احترافية ─── */
-const ICONS: Record<string, JSX.Element> = {
+const ICONS: Record<string, ReactElement> = {
   payment:    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>,
   wallet:     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M20 12V22H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h16v4"/><path d="M20 12a2 2 0 0 0-2 2 2 2 0 0 0 2 2h4v-4z"/></svg>,
   bnpl:       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>,
@@ -41,7 +41,7 @@ const ICONS: Record<string, JSX.Element> = {
   graduate:   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>,
 };
 
-function IntIcon({ iconKey, size = 22, color = 'currentColor' }: { iconKey: string; size?: number; color?: string }) {
+function IntIcon({ iconKey, size = 22, color = 'currentColor' }: { iconKey: string; size?: number; color?: string }): ReactElement {
   const icon = ICONS[iconKey] || ICONS.gov;
   return (
     <span style={{ width: size, height: size, color, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
