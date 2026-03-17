@@ -2,6 +2,7 @@
 import { Building2, CheckCircle, Circle, Diamond, GraduationCap, Pencil, School, User } from "lucide-react";
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import IconRenderer from "@/components/IconRenderer";
 const getH = () => { const t = typeof window !== 'undefined' ? localStorage.getItem('matin_token') : null; return { 'Content-Type': 'application/json', ...(t ? { Authorization: `Bearer ${t}` } : {}) }; };
 export default function SuperAdminDashboard() {
   const router = useRouter();
@@ -73,7 +74,7 @@ export default function SuperAdminDashboard() {
           { label: 'الاشتراكات النشطة', value: stats.active_subscriptions || 0, color: '#C9A227', icon: "ICON_Diamond" },
         ].map((s, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${s.color}25`, borderRadius: 14, padding: 20 }}>
-            <div style={{ fontSize: 28, marginBottom: 8 }}>{s.icon}</div>
+            <div style={{ fontSize: 28, marginBottom: 8 }}><IconRenderer name={s.icon} /></div>
             <div style={{ color: s.color, fontSize: 28, fontWeight: 800 }}>{(s.value || 0).toLocaleString()}</div>
             <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, marginTop: 4 }}>{s.label}</div>
           </div>

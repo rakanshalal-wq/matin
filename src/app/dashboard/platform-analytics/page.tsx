@@ -1,6 +1,7 @@
 'use client';
 import { BarChart3, Bug, CheckCircle, ClipboardList, Crown, Diamond, GraduationCap, Headphones, KeyRound, RefreshCw, Save, School, Trophy, User, Users, Zap } from "lucide-react";
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 export default function PlatformAnalyticsPage() {
   const [stats, setStats] = useState<any>(null);
@@ -50,7 +51,7 @@ export default function PlatformAnalyticsPage() {
             {cards.map((card, i) => (
               <div key={i} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 16, padding: 24, border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', gap: 16 }}>
                 <div style={{ width: 56, height: 56, borderRadius: 16, background: `${card.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28 }}>
-                  {card.icon}
+                  <IconRenderer name={card.icon} />
                 </div>
                 <div>
                   <div style={{ color: card.color, fontSize: 32, fontWeight: 800 }}>{card.value.toLocaleString('ar')}</div>
@@ -114,7 +115,7 @@ export default function PlatformAnalyticsPage() {
                 ].map((link, i) => (
                   <a key={i} href={link.href}
                     style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '14px 16px', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10, transition: 'all 0.2s' }}>
-                    <span style={{ fontSize: 20 }}>{link.icon}</span>
+                    <span style={{ fontSize: 20 }}><IconRenderer name={link.icon} /></span>
                     <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>{link.label}</span>
                   </a>
                 ))}

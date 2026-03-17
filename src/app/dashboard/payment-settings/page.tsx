@@ -1,6 +1,7 @@
 "use client";
 import { CheckCircle, ClipboardList, CreditCard, Link, Lock, Pencil, Save, XCircle } from "lucide-react";
 import { useState, useEffect } from "react";
+import IconRenderer from "@/components/IconRenderer";
 
 interface GatewayField {
   key: string;

@@ -2,6 +2,7 @@
 import { AlertTriangle, Banknote, CheckCircle, Coins, Pencil, Plus, Save, Search, Trash2, User, X } from "lucide-react";
   const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 export default function SalariesPage() {
   const [data, setData] = useState<any[]>([]);
@@ -98,7 +99,7 @@ export default function SalariesPage() {
           { label: 'معلّق', value: formatMoney(stats.pending), icon: '⏳', color: '#F59E0B', suffix: ' ر.س' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
-            <div style={{ fontSize: 28 }}>{stat.icon}</div>
+            <div style={{ fontSize: 28 }}><IconRenderer name={stat.icon} /></div>
             <div style={{ fontSize: 22, fontWeight: 800, color: stat.color, marginTop: 4, direction: 'ltr' as any, textAlign: 'right' as any }}>{stat.value}<span style={{ fontSize: 13, fontWeight: 400 }}>{stat.suffix}</span></div>
             <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>{stat.label}</div>
           </div>

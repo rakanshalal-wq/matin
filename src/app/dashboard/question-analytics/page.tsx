@@ -1,6 +1,7 @@
 'use client';
 import { AlertTriangle, BarChart3, BookOpen, Bot, Brain, CheckCircle, Circle, Dumbbell, GraduationCap, Package, RefreshCw, Search, Star, XCircle } from "lucide-react";
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 const getHeaders = (): Record<string, string> => {
   try {
@@ -146,7 +147,7 @@ export default function QuestionAnalyticsPage() {
           { label: 'صعبة جداً', value: stats.veryHard || 0, color: '#EF4444', icon: "ICON_Circle" },
         ].map((s, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${s.color}30`, borderRadius: 12, padding: '14px 16px' }}>
-            <div style={{ fontSize: 22, marginBottom: 4 }}>{s.icon}</div>
+            <div style={{ fontSize: 22, marginBottom: 4 }}><IconRenderer name={s.icon} /></div>
             <div style={{ color: s.color, fontSize: 24, fontWeight: 800 }}>{s.value}</div>
             <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{s.label}</div>
           </div>
@@ -159,7 +160,7 @@ export default function QuestionAnalyticsPage() {
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
           {Object.entries(qualityConfig).map(([label, cfg]) => (
             <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 12px', background: cfg.bg, borderRadius: 8, border: `1px solid ${cfg.color}30` }}>
-              <span>{cfg.icon}</span>
+              <span><IconRenderer name={cfg.icon} /></span>
               <div>
                 <div style={{ color: cfg.color, fontSize: 12, fontWeight: 700 }}>{label}</div>
                 <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11 }}>{cfg.desc}</div>
@@ -275,7 +276,7 @@ export default function QuestionAnalyticsPage() {
                     
                     {/* مستوى الجودة */}
                     <div style={{ padding: '6px 14px', background: cfg.bg, borderRadius: 20, border: `1px solid ${cfg.color}40`, textAlign: 'center' }}>
-                      <div style={{ fontSize: 16 }}>{cfg.icon}</div>
+                      <div style={{ fontSize: 16 }}><IconRenderer name={cfg.icon} /></div>
                       <div style={{ color: cfg.color, fontSize: 11, fontWeight: 700, marginTop: 2 }}>{q.quality_label}</div>
                     </div>
                   </div>

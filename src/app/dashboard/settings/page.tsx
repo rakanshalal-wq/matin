@@ -2,6 +2,7 @@
 import { CheckCircle, ClipboardList, Mailbox, Megaphone, Palette, Plug, Save, Settings, ShoppingCart, XCircle } from "lucide-react";
 const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 interface Setting {
   id: number;
@@ -142,7 +143,10 @@ export default function SettingsPage() {
                 fontSize: 14, fontWeight: activeCategory === cat ? 700 : 500, cursor: 'pointer', textAlign: 'right',
                 fontFamily: 'IBM Plex Sans Arabic, sans-serif',
               }}>
-                {categoryLabels[cat] || `${categoryIcons[cat] || "ICON_ClipboardList"} ${cat}`}
+                <span style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'flex-end' }}>
+                  <span>{categoryLabels[cat]?.replace(/^\S+\s*/, '') || cat}</span>
+                  <IconRenderer name={categoryIcons[cat] || "ICON_ClipboardList"} size={18} />
+                </span>
               </button>
             ))}
           </div>

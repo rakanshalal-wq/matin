@@ -2,6 +2,7 @@
 import { CheckCircle, Crown, GraduationCap, Pencil, School, Search, Trash2, User, Users, Wrench, XCircle } from "lucide-react";
   const getHeaders = (): Record<string, string> => ({ 'Content-Type': 'application/json' });
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 export default function UsersPage() {
   const [users, setUsers] = useState<any[]>([]);
@@ -142,7 +143,7 @@ export default function UsersPage() {
                 <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, marginBottom: 6 }}>{s.label}</div>
                 <div style={{ color: 'white', fontSize: 28, fontWeight: 800 }}>{s.value}</div>
               </div>
-              <div style={{ width: 48, height: 48, borderRadius: 12, background: `rgba(${s.color === '#3B82F6' ? '59,130,246' : s.color === '#F59E0B' ? '245,158,11' : s.color === '#10B981' ? '16,185,129' : '139,92,246'},0.1)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>{s.icon}</div>
+              <div style={{ width: 48, height: 48, borderRadius: 12, background: `rgba(${s.color === '#3B82F6' ? '59,130,246' : s.color === '#F59E0B' ? '245,158,11' : s.color === '#10B981' ? '16,185,129' : '139,92,246'},0.1)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}><IconRenderer name={s.icon} /></div>
             </div>
           </div>
         ))}

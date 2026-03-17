@@ -1,6 +1,7 @@
 'use client';
 
 import { BookOpen, Drama, Handshake, Heart, Laptop, MessageCircle, Microscope, Palette, PenTool, RefreshCw, Sprout, Trophy, Bell, Brain, CheckCircle, ChevronLeft, Globe, Lock, MessageSquare, Shield, UserCheck, Users } from "lucide-react";
+import IconRenderer from "@/components/IconRenderer";
 
 // ===== DESIGN: Dark Premium — Black/Gold, Cairo font =====
 
@@ -104,13 +105,13 @@ export default function CommunityPage() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
             {[
-              { icon: "PenTool️", title: "النشر", desc: "نص أو صور أو ملفات" },
-              { icon: "Heart️", title: "اللايك", desc: "تفاعل سريع مع المنشورات" },
+              { icon: "ICON_PenTool", title: "النشر", desc: "نص أو صور أو ملفات" },
+              { icon: "ICON_Heart", title: "اللايك", desc: "تفاعل سريع مع المنشورات" },
               { icon: "ICON_MessageCircle", title: "التعليق", desc: "نقاشات تحت كل منشور" },
               { icon: "ICON_RefreshCw", title: "إعادة النشر", desc: "مشاركة المحتوى المفيد" },
             ].map((item, i) => (
               <div key={i} className="p-5 rounded-xl border border-white/8 bg-[#111] text-center hover:border-[rgba(212,168,67,0.2)] transition-all">
-                <div className="text-3xl mb-3">{item.icon}</div>
+                <div className="text-3xl mb-3"><IconRenderer name={item.icon} /></div>
                 <h4 className="font-bold text-sm mb-1">{item.title}</h4>
                 <p className="text-gray-500 text-xs">{item.desc}</p>
               </div>
@@ -198,7 +199,7 @@ export default function CommunityPage() {
             <div className="grid md:grid-cols-3 gap-5">
               {[
                 {
-                  icon: <BookOpen size={22} className="text-[#D4A843]" />,
+                  icon: "ICON_BookOpen",
                   title: "نشر مواد تعليمية",
                   items: [
                     "ملفات PDF وعروض تقديمية",
@@ -208,7 +209,7 @@ export default function CommunityPage() {
                   ],
                 },
                 {
-                  icon: <MessageSquare size={22} className="text-[#D4A843]" />,
+                  icon: "ICON_MessageSquare",
                   title: "التواصل مع أولياء الأمور",
                   items: [
                     "غرف تواصل مباشر مع ولي الأمر",
@@ -218,7 +219,7 @@ export default function CommunityPage() {
                   ],
                 },
                 {
-                  icon: <Bell size={22} className="text-[#D4A843]" />,
+                  icon: "ICON_Bell",
                   title: "الإشعارات والتنبيهات",
                   items: [
                     "إشعار لطلابه عند نشر مادة جديدة",
@@ -230,7 +231,7 @@ export default function CommunityPage() {
               ].map((item, i) => (
                 <div key={i} className="p-6 rounded-2xl border border-white/10 bg-[#111]">
                   <div className="w-10 h-10 rounded-lg bg-[rgba(212,168,67,0.1)] flex items-center justify-center mb-4">
-                    {item.icon}
+                    <IconRenderer name={item.icon} />
                   </div>
                   <h4 className="font-bold mb-4">{item.title}</h4>
                   <ul className="space-y-2">

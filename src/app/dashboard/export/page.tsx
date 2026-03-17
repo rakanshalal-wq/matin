@@ -1,6 +1,7 @@
 'use client';
 import { BarChart3, BookOpen, Bus, Calendar, ClipboardList, Coins, Download, FileText, GraduationCap, Save, School, Settings, Upload, User } from "lucide-react";
 import { useState } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 interface ExportOption {
   id: string;
@@ -102,7 +103,7 @@ export default function ExportPage() {
               boxShadow: selectedExport === option.id ? '0 4px 12px rgba(30,58,95,0.15)' : '0 2px 8px rgba(0,0,0,0.04)'
             }}
           >
-            <div style={{ fontSize: '32px', marginBottom: '10px' }}>{option.icon}</div>
+            <div style={{ fontSize: '32px', marginBottom: '10px' }}><IconRenderer name={option.icon} /></div>
             <h3 style={{ margin: '0 0 6px', fontSize: '16px', color: '#1e3a5f' }}>{option.title}</h3>
             <p style={{ margin: '0 0 10px', fontSize: '13px', color: '#888' }}>{option.description}</p>
             <div style={{ display: 'flex', gap: '6px' }}>

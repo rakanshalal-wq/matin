@@ -1,6 +1,7 @@
 'use client';
 
 import { Award, BookOpen, Bus, GraduationCap, Laptop, Package, BarChart3, CheckCircle, ChevronLeft, Megaphone, RotateCcw, Shield, ShoppingBag, Star, Store, Tag, TrendingUp, Truck, Users, Zap } from "lucide-react";
+import IconRenderer from "@/components/IconRenderer";
 
 // ===== DESIGN: Dark Premium — Black/Gold, Cairo font, asymmetric sections =====
 
@@ -89,7 +90,7 @@ export default function StorePage() {
               { icon: "ICON_Award", title: "الأنشطة والفعاليات", desc: "رحلات، بطولات، أنشطة لاصفية" },
             ].map((item, i) => (
               <div key={i} className="p-5 rounded-xl border border-white/8 bg-[#111] hover:border-[rgba(212,168,67,0.2)] transition-all text-center">
-                <div className="text-3xl mb-3">{item.icon}</div>
+                <div className="text-3xl mb-3"><IconRenderer name={item.icon} /></div>
                 <h4 className="font-bold text-sm mb-1">{item.title}</h4>
                 <p className="text-gray-500 text-xs leading-relaxed">{item.desc}</p>
               </div>
@@ -200,19 +201,19 @@ export default function StorePage() {
             <div className="grid md:grid-cols-3 gap-5">
               {[
                 {
-                  icon: <RotateCcw size={22} className="text-[#D4A843]" />,
+                  icon: "ICON_RotateCcw",
                   title: "خلال 7 أيام",
                   desc: "استرداد كامل للمنتجات المادية غير المستخدمة خلال 7 أيام من الاستلام",
                   tag: "منتجات مادية",
                 },
                 {
-                  icon: <Shield size={22} className="text-[#D4A843]" />,
+                  icon: "ICON_Shield",
                   title: "منتجات رقمية",
                   desc: "لا يُقبل الاسترداد بعد تحميل المنتج الرقمي أو الوصول إليه",
                   tag: "منتجات رقمية",
                 },
                 {
-                  icon: <CheckCircle size={22} className="text-[#D4A843]" />,
+                  icon: "ICON_CheckCircle",
                   title: "خدمات",
                   desc: "الاسترداد قبل 48 ساعة من موعد الخدمة — بعدها لا يُقبل إلا بعذر موثق",
                   tag: "خدمات",
@@ -220,7 +221,7 @@ export default function StorePage() {
               ].map((item, i) => (
                 <div key={i} className="p-6 rounded-2xl border border-white/10 bg-[#111]">
                   <div className="w-10 h-10 rounded-lg bg-[rgba(212,168,67,0.1)] flex items-center justify-center mb-4">
-                    {item.icon}
+                    <IconRenderer name={item.icon} />
                   </div>
                   <span className="text-xs text-[#D4A843] font-semibold mb-2 block">{item.tag}</span>
                   <h4 className="font-bold mb-2">{item.title}</h4>
@@ -295,15 +296,15 @@ export default function StorePage() {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {[
-                { icon: <BarChart3 size={20} />, title: "إجمالي المبيعات", desc: "يومياً وشهرياً وسنوياً مع رسوم بيانية" },
-                { icon: <TrendingUp size={20} />, title: "أكثر المنتجات مبيعاً", desc: "ترتيب المنتجات حسب الإيراد والكمية" },
-                { icon: <Users size={20} />, title: "تحليل المشترين", desc: "من اشترى ماذا وكم مرة" },
-                { icon: <Tag size={20} />, title: "الأرباح الصافية", desc: "بعد خصم عمولة متين وتكاليف الشحن" },
-                { icon: <RotateCcw size={20} />, title: "المرتجعات", desc: "عدد ونسبة المرتجعات لكل منتج" },
-                { icon: <Star size={20} />, title: "متوسط التقييم", desc: "للمتجر ككل ولكل منتج على حدة" },
+                { icon: "ICON_BarChart3", title: "إجمالي المبيعات", desc: "يومياً وشهرياً وسنوياً مع رسوم بيانية" },
+                { icon: "ICON_TrendingUp", title: "أكثر المنتجات مبيعاً", desc: "ترتيب المنتجات حسب الإيراد والكمية" },
+                { icon: "ICON_Users", title: "تحليل المشترين", desc: "من اشترى ماذا وكم مرة" },
+                { icon: "ICON_Tag", title: "الأرباح الصافية", desc: "بعد خصم عمولة متين وتكاليف الشحن" },
+                { icon: "ICON_RotateCcw", title: "المرتجعات", desc: "عدد ونسبة المرتجعات لكل منتج" },
+                { icon: "ICON_Star", title: "متوسط التقييم", desc: "للمتجر ككل ولكل منتج على حدة" },
               ].map((item, i) => (
                 <div key={i} className="p-5 rounded-xl border border-white/8 bg-[#111] hover:border-[rgba(212,168,67,0.2)] transition-all">
-                  <div className="text-[#D4A843] mb-3">{item.icon}</div>
+                  <div className="text-[#D4A843] mb-3"><IconRenderer name={item.icon} /></div>
                   <h4 className="font-bold text-sm mb-1">{item.title}</h4>
                   <p className="text-gray-500 text-xs leading-relaxed">{item.desc}</p>
                 </div>

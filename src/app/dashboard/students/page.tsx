@@ -1,6 +1,7 @@
 'use client';
 import { Eye, GraduationCap, Pencil, Plus, Save, Search, Trash2, User, X } from "lucide-react";
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 
@@ -86,7 +87,7 @@ export default function StudentsPage() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 24 }}>
         {[{ label: 'إجمالي الطلاب', value: students.length, icon: "ICON_GraduationCap", color: '#C9A227' }, { label: 'ذكور', value: students.filter(s => s.gender === 'MALE').length, icon: "ICON_User", color: '#3B82F6' }, { label: 'إناث', value: students.filter(s => s.gender === 'FEMALE').length, icon: "ICON_User", color: '#EC4899' }].map((s, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><span style={{ fontSize: 28 }}>{s.icon}</span><span style={{ fontSize: 28, fontWeight: 800, color: s.color }}>{s.value}</span></div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><span style={{ fontSize: 28 }}><IconRenderer name={s.icon} /></span><span style={{ fontSize: 28, fontWeight: 800, color: s.color }}>{s.value}</span></div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginTop: 8 }}>{s.label}</p>
           </div>
         ))}

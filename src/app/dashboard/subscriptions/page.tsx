@@ -1,6 +1,7 @@
 'use client';
 import { Check, CheckCircle, ClipboardList, Diamond, GraduationCap, Mailbox, Package, School, Trophy, User, XCircle } from "lucide-react";
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 
 const plans = [
@@ -118,7 +119,7 @@ export default function SubscriptionsPage() {
                   </div>
                 )}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-                  <span style={{ fontSize: 32 }}>{plan.icon}</span>
+                  <span style={{ fontSize: 32 }}><IconRenderer name={plan.icon} /></span>
                   <div>
                     <h3 style={{ color: plan.color, fontSize: 20, fontWeight: 800, margin: 0 }}>{plan.name}</h3>
                     <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>{plan.period}</div>

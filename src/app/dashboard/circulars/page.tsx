@@ -2,6 +2,7 @@
 import { BookOpen, Building, Calendar, CheckCircle, Circle, Coins, File, FileText, GraduationCap, Megaphone, Palmtree, PartyPopper, PenTool, Pencil, Plus, Save, School, ScrollText, Search, Shield, Shirt, Siren, Trash2, User, Users, X } from "lucide-react";
   const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 export default function CircularsPage() {
   const [data, setData] = useState<any[]>([]);
@@ -96,7 +97,7 @@ export default function CircularsPage() {
           { label: 'عاجل', value: stats.urgent, icon: "ICON_Siren", color: '#EF4444' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
-            <div style={{ fontSize: 28 }}>{stat.icon}</div>
+            <div style={{ fontSize: 28 }}><IconRenderer name={stat.icon} /></div>
             <div style={{ fontSize: 26, fontWeight: 800, color: stat.color, marginTop: 4 }}>{stat.value}</div>
             <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>{stat.label}</div>
           </div>
@@ -124,7 +125,7 @@ export default function CircularsPage() {
             onMouseLeave={e => (e.currentTarget.style.background = item.priority === 'urgent' ? 'rgba(239,68,68,0.04)' : 'rgba(255,255,255,0.03)')}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div style={{ display: 'flex', gap: 14, flex: 1 }}>
-                <div style={{ width: 48, height: 48, borderRadius: 12, background: typeColors[item.type]?.bg || 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, flexShrink: 0 }}>{typeIcons[item.type] || "ICON_File"}</div>
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: typeColors[item.type]?.bg || 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, flexShrink: 0 }}><IconRenderer name={typeIcons[item.type] || "ICON_File"} /></div>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' }}>
                     <span style={{ color: 'white', fontWeight: 700, fontSize: 16 }}>{item.title}</span>
@@ -155,7 +156,7 @@ export default function CircularsPage() {
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 650, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span style={{ fontSize: 28 }}>{typeIcons[viewItem.type] || "ICON_File"}</span>
+                <span style={{ fontSize: 28 }}><IconRenderer name={typeIcons[viewItem.type] || "ICON_File"} /></span>
                 <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{viewItem.title}</h2>
               </div>
               <button onClick={() => setViewItem(null)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>

@@ -2,6 +2,7 @@
 import { AlertTriangle, BadgeDollarSign, BarChart3, Bell, Bot, Building2, Check, CheckCircle, Coins, Headphones, Lock, Megaphone, Package, Pencil, Scale, School, Settings, ShoppingCart, Sparkles, Ticket, TrendingUp, Trophy, Users, X, Zap } from "lucide-react";
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
+import IconRenderer from "@/components/IconRenderer";
 
 const GOLD = '#C9A84C';
 const GOLD2 = '#E2C46A';
@@ -294,7 +295,7 @@ export default function OwnerDashboard() {
               fontSize: 13, fontWeight: activeTab === tab.id ? 700 : 500, cursor: 'pointer',
               display: 'flex', alignItems: 'center', gap: 10, transition: 'all 0.2s',
             }}>
-              <span>{tab.icon}</span><span>{tab.label}</span>
+              <span><IconRenderer name={tab.icon} /></span><span>{tab.label}</span>
             </button>
           ))}
         </div>

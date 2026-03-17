@@ -2,6 +2,7 @@
 import { AlertTriangle, Bell, Building, Calendar, CheckCircle, Clock, GraduationCap, Mailbox, Pencil, Plus, Save, School, Search, Settings, Shirt, Siren, Trash2, User, Users, X } from "lucide-react";
   const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 export default function NotificationsPage() {
   const [data, setData] = useState<any[]>([]);
@@ -104,7 +105,7 @@ export default function NotificationsPage() {
           { label: 'اليوم', value: stats.today, icon: "ICON_Calendar", color: '#10B981' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
-            <div style={{ fontSize: 28 }}>{stat.icon}</div>
+            <div style={{ fontSize: 28 }}><IconRenderer name={stat.icon} /></div>
             <div style={{ fontSize: 26, fontWeight: 800, color: stat.color, marginTop: 4 }}>{stat.value}</div>
             <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>{stat.label}</div>
           </div>
@@ -130,7 +131,7 @@ export default function NotificationsPage() {
           <div key={item.id} style={{ background: !item.is_read ? 'rgba(59,130,246,0.05)' : 'rgba(255,255,255,0.03)', border: `1px solid ${!item.is_read ? 'rgba(59,130,246,0.15)' : 'rgba(255,255,255,0.08)'}`, borderRadius: 12, padding: '16px 20px', borderRight: `4px solid ${typeColors[item.type]?.color || '#3B82F6'}` }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div style={{ display: 'flex', gap: 14, flex: 1 }}>
-                <div style={{ width: 44, height: 44, borderRadius: 12, background: typeColors[item.type]?.bg || 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, flexShrink: 0 }}>{typeIcons[item.type] || "ICON_Bell"}</div>
+                <div style={{ width: 44, height: 44, borderRadius: 12, background: typeColors[item.type]?.bg || 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, flexShrink: 0 }}><IconRenderer name={typeIcons[item.type] || "ICON_Bell"} /></div>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
                     <span style={{ color: 'white', fontWeight: !item.is_read ? 700 : 500, fontSize: 15 }}>{item.title}</span>

@@ -2,6 +2,7 @@
 import { Angry, CheckCircle, Circle, ClipboardList, FileText, HelpCircle, Lightbulb, Pencil, Plus, Save, Search, Siren, ThumbsUp, Trash2, Unlock, X } from "lucide-react";
   const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 export default function ComplaintsPage() {
   const [data, setData] = useState<any[]>([]);
@@ -97,7 +98,7 @@ export default function ComplaintsPage() {
           { label: 'تم الحل', value: stats.resolved, icon: "ICON_CheckCircle", color: '#10B981' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
-            <div style={{ fontSize: 28 }}>{stat.icon}</div>
+            <div style={{ fontSize: 28 }}><IconRenderer name={stat.icon} /></div>
             <div style={{ fontSize: 26, fontWeight: 800, color: stat.color, marginTop: 4 }}>{stat.value}</div>
             <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>{stat.label}</div>
           </div>
@@ -133,7 +134,7 @@ export default function ComplaintsPage() {
                 <tr key={item.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', background: item.priority === 'urgent' && item.status === 'open' ? 'rgba(239,68,68,0.05)' : item.priority === 'high' && item.status === 'open' ? 'rgba(245,158,11,0.03)' : 'transparent' }}>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{ width: 40, height: 40, borderRadius: 10, background: typeColors[item.type]?.bg || 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{typeIcons[item.type] || "ICON_FileText"}</div>
+                      <div style={{ width: 40, height: 40, borderRadius: 10, background: typeColors[item.type]?.bg || 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><IconRenderer name={typeIcons[item.type] || "ICON_FileText"} /></div>
                       <div style={{ color: 'white', fontWeight: 600, fontSize: 14 }}>{item.person_name}</div>
                     </div>
                   </td>

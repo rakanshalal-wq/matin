@@ -2,6 +2,7 @@
 import { CheckCircle, Coins, Pencil, Plus, Save, Search, Trash2, Wrench, X } from "lucide-react";
   const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 export default function BusMaintenancePage() {
   const [items, setItems] = useState<any[]>([]);
@@ -71,7 +72,7 @@ export default function BusMaintenancePage() {
           { label: 'إجمالي التكلفة', value: `${totalCost.toLocaleString()} ر.س`, icon: "ICON_Coins", color: '#3B82F6' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><span style={{ fontSize: 28 }}>{stat.icon}</span><span style={{ fontSize: 22, fontWeight: 800, color: stat.color }}>{stat.value}</span></div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><span style={{ fontSize: 28 }}><IconRenderer name={stat.icon} /></span><span style={{ fontSize: 22, fontWeight: 800, color: stat.color }}>{stat.value}</span></div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginTop: 8 }}>{stat.label}</p>
           </div>
         ))}

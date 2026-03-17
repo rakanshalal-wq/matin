@@ -1,6 +1,7 @@
 "use client";
 import { Bell, BookOpen, Bot, Building2, CheckCircle, ClipboardList, CreditCard, FlaskConical, GraduationCap, Hospital, Key, Link, Lock, Mail, MailOpen, Map, MessageCircle, Package, Pencil, Save, Shirt, ShoppingBag, Smartphone, Video, XCircle, Zap } from "lucide-react";
 import { useState, useEffect } from "react";
+import IconRenderer from "@/components/IconRenderer";
 
 type Integration = {
   key: string;
@@ -199,7 +200,7 @@ export default function IntegrationsPage() {
         className={`rounded-2xl border p-5 flex flex-col gap-3 transition-all ${isConnected ? "border-emerald-500/50 bg-emerald-500/5" : "border-[#2a3550] bg-[#1a2540] hover:border-yellow-400/30"}`}>
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-3xl">{integration.icon}</span>
+            <span className="text-3xl"><IconRenderer name={integration.icon} /></span>
             <div>
               <h3 className="font-bold text-white text-base">{integration.name}</h3>
               <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${catColor}`}>{integration.category}</span>
@@ -286,7 +287,7 @@ export default function IntegrationsPage() {
           </div>
         )}
         <div className={`flex items-start gap-3 ${!isConnected ? "pt-5" : ""}`}>
-          <span className="text-3xl">{integration.icon}</span>
+          <span className="text-3xl"><IconRenderer name={integration.icon} /></span>
           <div className="flex-1">
             <div className="flex items-center justify-between gap-2">
               <h3 className="font-bold text-white text-base">{integration.name}</h3>

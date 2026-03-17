@@ -2,6 +2,7 @@
 import { Calendar, Circle, Eye, Link, Monitor, Pencil, Plus, Satellite, Save, Search, Trash2, Users, Video, X } from "lucide-react";
   const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 export default function LiveStreamPage() {
   const [data, setData] = useState<any[]>([]);
@@ -92,7 +93,7 @@ export default function LiveStreamPage() {
           { label: 'إجمالي المشاهدات', value: stats.totalViewers, icon: 'Eye️', color: '#8B5CF6' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
-            <div style={{ fontSize: 28 }}>{stat.icon}</div>
+            <div style={{ fontSize: 28 }}><IconRenderer name={stat.icon} /></div>
             <div style={{ fontSize: 26, fontWeight: 800, color: stat.color, marginTop: 4 }}>{stat.value}</div>
             <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>{stat.label}</div>
           </div>
@@ -128,7 +129,7 @@ export default function LiveStreamPage() {
                 <tr key={item.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', background: item.status === 'live' ? 'rgba(16,185,129,0.05)' : 'transparent' }}>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{ width: 40, height: 40, borderRadius: 10, background: platformColors[item.platform]?.bg || 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{platformIcons[item.platform] || "ICON_Satellite"}</div>
+                      <div style={{ width: 40, height: 40, borderRadius: 10, background: platformColors[item.platform]?.bg || 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><IconRenderer name={platformIcons[item.platform] || "ICON_Satellite"} /></div>
                       <div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                           <span style={{ color: 'white', fontWeight: 600, fontSize: 14 }}>{item.title}</span>

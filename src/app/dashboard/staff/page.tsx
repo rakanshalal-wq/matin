@@ -1,6 +1,7 @@
 'use client';
 import { ClipboardList, GraduationCap, Key, Pencil, Plus, Save, School, Search, Trash2, User, Users, Wrench, X } from "lucide-react";
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 export default function StaffPage() {
   const [users, setUsers] = useState<any[]>([]);
@@ -118,7 +119,7 @@ export default function StaffPage() {
                 <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, marginBottom: 6 }}>{s.label}</div>
                 <div style={{ color: 'white', fontSize: 28, fontWeight: 800 }}>{s.value}</div>
               </div>
-              <div style={{ fontSize: 28 }}>{s.icon}</div>
+              <div style={{ fontSize: 28 }}><IconRenderer name={s.icon} /></div>
             </div>
           </div>
         ))}

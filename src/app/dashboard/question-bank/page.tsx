@@ -1,6 +1,7 @@
 'use client';
 import { BarChart3, Book, BookOpen, Bot, Check, CheckCircle, Circle, Download, Lightbulb, Mailbox, Plus, Search, Trash2, XCircle, File } from "lucide-react";
 import { useState, useEffect, useRef } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 const getHeaders = (): Record<string, string> => {
   try {
@@ -294,7 +295,7 @@ export default function QuestionBankPage() {
                     </div>
                   )}
                   <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                    <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: '20px', fontSize: '11px', background: `${diff.color}20`, border: `1px solid ${diff.color}40`, color: diff.color }}>{diff.icon} {diff.label}</span>
+                    <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: '20px', fontSize: '11px', background: `${diff.color}20`, border: `1px solid ${diff.color}40`, color: diff.color }}><IconRenderer name={diff.icon} /> {diff.label}</span>
                     <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: '20px', fontSize: '11px', background: 'rgba(107,114,128,0.2)', border: '1px solid rgba(107,114,128,0.4)', color: '#9CA3AF' }}>{typeLabels[q.question_type] || q.question_type}</span>
                     {q.lesson && <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: '20px', fontSize: '11px', background: 'rgba(139,92,246,0.2)', border: '1px solid rgba(139,92,246,0.4)', color: '#8B5CF6' }}>Book {q.lesson}</span>}
                     {q.semester && <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: '20px', fontSize: '11px', background: 'rgba(59,130,246,0.2)', border: '1px solid rgba(59,130,246,0.4)', color: '#3B82F6' }}>الفصل {q.semester}</span>}

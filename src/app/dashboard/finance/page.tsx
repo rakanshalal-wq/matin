@@ -1,6 +1,7 @@
 'use client';
 import { Check, Coins, CreditCard, Package, Receipt, Trophy } from "lucide-react";
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 
@@ -125,7 +126,7 @@ export default function FinancePage() {
           return (
             <div key={key} style={{ background: isCurrent ? `${pkg.color}10` : 'rgba(255,255,255,0.03)', border: `2px solid ${isCurrent ? pkg.color : 'rgba(255,255,255,0.08)'}`, borderRadius: 16, padding: 24, position: 'relative' as const }}>
               {isCurrent && <div style={{ position: 'absolute' as const, top: -12, right: 20, padding: '4px 14px', background: pkg.color, color: '#fff', borderRadius: 20, fontSize: 11, fontWeight: 700 }}>الحالية</div>}
-              <div style={{ fontSize: 32, marginBottom: 8 }}>{pkg.icon}</div>
+              <div style={{ fontSize: 32, marginBottom: 8 }}><IconRenderer name={pkg.icon} /></div>
               <h3 style={{ color: '#fff', fontSize: 20, fontWeight: 700, margin: '0 0 4px' }}>{pkg.name}</h3>
               <p style={{ color: pkg.color, fontSize: 28, fontWeight: 700, margin: '0 0 16px' }}>
                 {pkg.price === 0 ? 'مجاناً' : `${pkg.price} ريال`}

@@ -2,6 +2,7 @@
 import { BarChart3, BookOpen, Bot, Calendar, Check, CheckCircle, Circle, Clapperboard, ClipboardList, File, FileText, Gamepad2, Link as LinkIcon, Mic, Mic2, Monitor, Pencil, Plus, Save, Trash2, Video } from "lucide-react";
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import IconRenderer from "@/components/IconRenderer";
 
 const getHeaders = (): Record<string, string> => {
   try {
@@ -180,7 +181,7 @@ export default function LecturesPage() {
                     <div style={{ color: '#9CA3AF', fontSize: 12 }}>{s.label}</div>
                     <div style={{ color: '#fff', fontSize: 28, fontWeight: 800 }}>{s.value}</div>
                   </div>
-                  <span style={{ fontSize: 28 }}>{s.icon}</span>
+                  <span style={{ fontSize: 28 }}><IconRenderer name={s.icon} /></span>
                 </div>
               </div>
             ))}
@@ -207,10 +208,10 @@ export default function LecturesPage() {
                       {lec.thumbnail ? (
                         <img src={lec.thumbnail} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       ) : (
-                        <span style={{ fontSize: 48 }}>{typeConf.icon}</span>
+                        <span style={{ fontSize: 48 }}><IconRenderer name={typeConf.icon} /></span>
                       )}
                       <div style={{ position: 'absolute', top: 8, right: 8, background: 'rgba(0,0,0,0.6)', borderRadius: 8, padding: '3px 8px', fontSize: 11, color: '#fff' }}>
-                        {typeConf.icon} {typeConf.label}
+                        <IconRenderer name={typeConf.icon} /> {typeConf.label}
                       </div>
                       {lec.duration > 0 && (
                         <div style={{ position: 'absolute', bottom: 8, left: 8, background: 'rgba(0,0,0,0.6)', borderRadius: 6, padding: '2px 8px', fontSize: 11, color: '#fff' }}>
@@ -362,7 +363,7 @@ export default function LecturesPage() {
                       border: form.type === t.value ? '1px solid rgba(201,162,39,0.4)' : '1px solid rgba(255,255,255,0.08)',
                       borderRadius: 10, padding: '10px 8px', cursor: 'pointer', textAlign: 'center',
                     }}>
-                      <div style={{ fontSize: 20 }}>{t.icon}</div>
+                      <div style={{ fontSize: 20 }}><IconRenderer name={t.icon} /></div>
                       <div style={{ color: form.type === t.value ? '#C9A227' : '#9CA3AF', fontSize: 11, marginTop: 4 }}>{t.label}</div>
                     </button>
                   ))}
@@ -494,7 +495,7 @@ export default function LecturesPage() {
             <div style={{ marginBottom: 14 }}>
               <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>نوع المحاضرة</label>
               <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13 }}>
-                {LECTURE_TYPES.map(t => <option key={t.value} value={t.value}>{t.icon} {t.label}</option>)}
+                {LECTURE_TYPES.map(t => <option key={t.value} value={t.value}><IconRenderer name={t.icon} /> {t.label}</option>)}
               </select>
             </div>
             <div style={{ marginBottom: 20 }}>

@@ -2,6 +2,7 @@
 import { Angry, Calendar, CheckCircle, ClipboardList, Headphones, HelpCircle, Lightbulb, Plus, Search, Settings, Trash2, Unlock, Upload, User, Wrench, X, XCircle } from "lucide-react";
 const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 export default function SupportPage() {
   const [tickets, setTickets] = useState<any[]>([]);
@@ -117,7 +118,7 @@ export default function SupportPage() {
           { label: 'مغلقة', value: stats.closed, color: '#10B981', icon: "ICON_CheckCircle" },
         ].map((s, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 16, textAlign: 'center' }}>
-            <div style={{ fontSize: 24, marginBottom: 6 }}>{s.icon}</div>
+            <div style={{ fontSize: 24, marginBottom: 6 }}><IconRenderer name={s.icon} /></div>
             <div style={{ color: s.color, fontSize: 24, fontWeight: 800 }}>{s.value}</div>
             <div style={{ color: '#9CA3AF', fontSize: 12, marginTop: 4 }}>{s.label}</div>
           </div>

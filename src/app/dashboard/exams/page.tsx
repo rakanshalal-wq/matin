@@ -2,6 +2,7 @@
 import { BarChart3, BookOpen, Bot, Calendar, Check, CheckCircle, Circle, ClipboardList, Eye, FileText, GraduationCap, HelpCircle, Landmark, Link as LinkIcon, Megaphone, Pencil, Percent, Plus, Save, Settings, Sparkles, Trash2, Users, X, XCircle } from "lucide-react";
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import IconRenderer from "@/components/IconRenderer";
 
 const getHeaders = (): Record<string, string> => {
   try {
@@ -229,7 +230,7 @@ export default function SmartExamsPage() {
                     <div style={{ color: '#9CA3AF', fontSize: 12 }}>{s.label}</div>
                     <div style={{ color: '#fff', fontSize: 28, fontWeight: 800 }}>{s.value}</div>
                   </div>
-                  <span style={{ fontSize: 28 }}>{s.icon}</span>
+                  <span style={{ fontSize: 28 }}><IconRenderer name={s.icon} /></span>
                 </div>
               </div>
             ))}
@@ -402,7 +403,7 @@ export default function SmartExamsPage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <select value={currentQ.type} onChange={e => setCurrentQ({ ...currentQ, type: e.target.value })}
                   style={{ padding: '9px 12px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: '#1a2d4a', color: '#fff', fontSize: 13 }}>
-                  {QUESTION_TYPES.map(t => <option key={t.value} value={t.value}>{t.icon} {t.label}</option>)}
+                  {QUESTION_TYPES.map(t => <option key={t.value} value={t.value}><IconRenderer name={t.icon} /> {t.label}</option>)}
                 </select>
                 <textarea value={currentQ.text} onChange={e => setCurrentQ({ ...currentQ, text: e.target.value })}
                   placeholder="نص السؤال *" rows={2}
@@ -502,7 +503,7 @@ export default function SmartExamsPage() {
                   <div key={i} style={{ background: `${s.color}10`, border: `1px solid ${s.color}25`, borderRadius: 14, padding: '16px 20px' }}>
                     <div style={{ color: '#9CA3AF', fontSize: 12 }}>{s.label}</div>
                     <div style={{ color: '#fff', fontSize: 28, fontWeight: 800 }}>{s.value}</div>
-                    <span style={{ fontSize: 20 }}>{s.icon}</span>
+                    <span style={{ fontSize: 20 }}><IconRenderer name={s.icon} /></span>
                   </div>
                 ))}
               </div>

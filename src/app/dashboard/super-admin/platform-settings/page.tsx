@@ -1,6 +1,7 @@
 'use client';
 import { Building, CheckCircle, CreditCard, Crown, Lock, Mail, MessageCircle, Package, Save, Settings, Smartphone } from "lucide-react";
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 const getHeaders = (): Record<string, string> => {
   return { 'Content-Type': 'application/json' };
@@ -121,7 +122,7 @@ export default function PlatformSettingsPage() {
         <div style={{ width: 200, flexShrink: 0 }}>
           {tabs.map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ width: '100%', padding: '12px 16px', border: 'none', borderRadius: 10, cursor: 'pointer', marginBottom: 6, textAlign: 'right', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 10, background: activeTab === tab.id ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'transparent', color: activeTab === tab.id ? '#06060E' : 'rgba(255,255,255,0.6)' }}>
-              <span>{tab.icon}</span> {tab.label}
+              <span><IconRenderer name={tab.icon} /></span> {tab.label}
             </button>
           ))}
           <div style={{ marginTop: 24, padding: 16, background: 'rgba(255,255,255,0.02)', borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)' }}>

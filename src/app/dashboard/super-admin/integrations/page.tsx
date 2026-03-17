@@ -1,6 +1,7 @@
 'use client';
 import { BookOpen, Building2, Circle, CreditCard, Lock, Map, MessageCircle, Plug, Settings, Smartphone } from "lucide-react";
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 interface Integration {
   id: string;

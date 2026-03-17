@@ -1,6 +1,7 @@
 'use client';
 import { Building, Check, Crown, Gift, PartyPopper, X } from "lucide-react";
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 
@@ -170,7 +171,7 @@ export default function SubscribePage() {
               )}
               
               <div style={{ textAlign: 'center', marginBottom: 20 }}>
-                <div style={{ fontSize: 36, marginBottom: 8 }}>{plan.icon}</div>
+                <div style={{ fontSize: 36, marginBottom: 8 }}><IconRenderer name={plan.icon} /></div>
                 <h3 style={{ color: plan.color, fontSize: 20, fontWeight: 800, margin: '0 0 4px' }}>{plan.name_ar}</h3>
                 <p style={{ color: '#6B7280', fontSize: 12, margin: 0 }}>{plan.name}</p>
               </div>

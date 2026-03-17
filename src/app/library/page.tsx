@@ -1,6 +1,7 @@
 'use client';
 
 import { Flower2, GraduationCap, School, BarChart3, BookMarked, BookOpen, CheckCircle, ChevronLeft, FileText, Headphones, RefreshCw, Search, Star, Users, Video } from "lucide-react";
+import IconRenderer from "@/components/IconRenderer";
 
 // ===== DESIGN: Dark Premium — Black/Gold, Cairo font =====
 
@@ -222,7 +223,7 @@ export default function LibraryPage() {
                 { emoji: "ICON_Flower2", title: "رياض الأطفال", items: ["قصص تفاعلية مصورة", "أناشيد وأغاني تعليمية", "ألعاب تعليمية رقمية", "محتوى لأولياء الأمور"] },
               ].map((item, i) => (
                 <div key={i} className="p-6 rounded-2xl border border-white/10 bg-[#111] hover:border-[rgba(212,168,67,0.2)] transition-all">
-                  <div className="text-4xl mb-4">{item.emoji}</div>
+                  <div className="text-4xl mb-4"><IconRenderer name={item.emoji} /></div>
                   <h4 className="font-bold mb-4">{item.title}</h4>
                   <ul className="space-y-2">
                     {item.items.map((li, j) => (

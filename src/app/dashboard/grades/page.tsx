@@ -1,6 +1,7 @@
 'use client';
 import { AlertTriangle, BarChart3, CheckCircle, Download, FileText, Medal, TrendingUp, Trophy, X } from "lucide-react";
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 const getHeaders = (): Record<string, string> => {
   try {
@@ -133,7 +134,7 @@ export default function GradesPage() {
           { label: 'الناجحون', value: filtered.length - failCount, color: '#10B981', icon: "ICON_CheckCircle" },
         ].map((s, i) => (
           <div key={i} style={{ background: CARD_BG, border: '1px solid ' + BORDER, borderRadius: 14, padding: '18px 20px' }}>
-            <div style={{ fontSize: 24, marginBottom: 8 }}>{s.icon}</div>
+            <div style={{ fontSize: 24, marginBottom: 8 }}><IconRenderer name={s.icon} /></div>
             <div style={{ fontSize: 26, fontWeight: 800, color: s.color }}>{s.value}</div>
             <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>{s.label}</div>
           </div>

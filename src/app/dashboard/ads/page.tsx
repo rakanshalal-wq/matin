@@ -2,6 +2,7 @@
 import { BookOpen, Check, CheckCircle, Eye, Globe, GraduationCap, Megaphone, Mouse, Pencil, Plus, Save, School, Trash2, Users, X } from "lucide-react";
 const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 export default function AdsPage() {
   const [ads, setAds] = useState<any[]>([]);
@@ -122,7 +123,7 @@ export default function AdsPage() {
           { label: 'إجمالي النقرات', value: ads.reduce((s, a) => s + (a.clicks || 0), 0), color: '#8B5CF6', icon: 'Mouse️' },
         ].map((s, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 16, textAlign: 'center' }}>
-            <div style={{ fontSize: 24, marginBottom: 6 }}>{s.icon}</div>
+            <div style={{ fontSize: 24, marginBottom: 6 }}><IconRenderer name={s.icon} /></div>
             <div style={{ color: s.color, fontSize: 22, fontWeight: 800 }}>{s.value.toLocaleString()}</div>
             <div style={{ color: '#9CA3AF', fontSize: 12, marginTop: 4 }}>{s.label}</div>
           </div>

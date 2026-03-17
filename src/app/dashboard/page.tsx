@@ -2,6 +2,7 @@
 import { AlertTriangle, BarChart3, Bell, BookOpen, Bot, Briefcase, Building2, Calendar, Check, CheckCircle, ClipboardList, Coins, Eye, FileText, FolderKanban, Globe, GraduationCap, Hand, Link as LinkIcon, Mail, Megaphone, Mic, Pencil, School, Settings, ShoppingCart, Sprout, TrendingUp, User, XCircle, Zap } from "lucide-react";
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import IconRenderer from "@/components/IconRenderer";
 
 const getHeaders = (): Record<string, string> => {
   try {
@@ -193,7 +194,7 @@ export default function DashboardHome() {
               <img src={school.logo_url || school.logo} alt="" style={{ width: 64, height: 64, borderRadius: 16, objectFit: 'cover', border: '2px solid rgba(201,162,39,0.3)' }} />
             ) : (
               <div style={{ width: 64, height: 64, borderRadius: 16, background: `${instType.color}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, border: `2px solid ${instType.color}30` }}>
-                {instType.icon}
+                <IconRenderer name={instType.icon} />
               </div>
             )}
             <div>
@@ -205,7 +206,7 @@ export default function DashboardHome() {
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 6 }}>
                 <span style={{ background: `${instType.color}20`, color: instType.color, fontSize: 11, padding: '2px 10px', borderRadius: 20, fontWeight: 600 }}>
-                  {instType.icon} {instType.label}
+                  <IconRenderer name={instType.icon} /> {instType.label}
                 </span>
                 {school?.subscription_status === 'active' ? (
                   <span style={{ background: 'rgba(16,185,129,0.15)', color: '#10B981', fontSize: 11, padding: '2px 10px', borderRadius: 20, fontWeight: 600 }}>
@@ -438,7 +439,7 @@ export default function DashboardHome() {
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = `${item.color}20`; (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = `${item.color}10`; (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; }}
               >
-                <div style={{ fontSize: 24, marginBottom: 6 }}>{item.icon}</div>
+                <div style={{ fontSize: 24, marginBottom: 6 }}><IconRenderer name={item.icon} /></div>
                 <div style={{ color: '#E2E8F0', fontSize: 12, fontWeight: 600 }}>{item.label}</div>
                 {item.count !== null && (
                   <div style={{ color: item.color, fontSize: 16, fontWeight: 800, marginTop: 4 }}>{item.count}</div>

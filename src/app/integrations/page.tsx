@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Banknote, Bell, BookOpen, Building2, CreditCard, Key, Landmark, Lock, MessageCircle, Phone, Shield, Smartphone, ArrowLeft, CheckCircle } from "lucide-react";
+import IconRenderer from "@/components/IconRenderer";
 
 function useScrollAnimation() {
   useEffect(() => {
@@ -157,7 +158,7 @@ export default function Integrations() {
                 <div key={i} className="matin-card p-6 fade-in-up" style={{ transitionDelay: `${i * 80}ms` }}>
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style={{ background: `${group.color}15` }}>
-                      {item.emoji}
+                      <IconRenderer name={item.emoji} />
                     </div>
                     <div>
                       <h3 className="text-white font-bold">{item.name}</h3>

@@ -3,6 +3,7 @@ import { BookOpen, CheckCircle, Eye, GraduationCap, Pencil, Plus, Search, User, 
   const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import IconRenderer from "@/components/IconRenderer";
 
 interface College {
   id: number;
@@ -166,7 +167,7 @@ export default function CollegesPage() {
             padding: 20,
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: 28 }}>{stat.icon}</span>
+              <span style={{ fontSize: 28 }}><IconRenderer name={stat.icon} /></span>
               <span style={{ fontSize: 28, fontWeight: 800, color: stat.color }}>{stat.value}</span>
             </div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginTop: 8 }}>{stat.label}</p>

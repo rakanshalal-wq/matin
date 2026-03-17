@@ -2,6 +2,7 @@
 import { BarChart3, BookOpen, CheckCircle, Clock, Coins, Download, File, FileText, GraduationCap, Hand, Key, School, Search, TrendingUp, User } from "lucide-react";
 const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 export default function ReportsPage() {
   const [activeReport, setActiveReport] = useState('school_overview');
@@ -89,7 +90,7 @@ export default function ReportsPage() {
             { label: 'المحاضرات', value: data.lectures || 0, icon: "ICON_BookOpen", color: '#F59E0B' },
           ].map((s, i) => (
             <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 20, textAlign: 'center' }}>
-              <div style={{ fontSize: 32, marginBottom: 8 }}>{s.icon}</div>
+              <div style={{ fontSize: 32, marginBottom: 8 }}><IconRenderer name={s.icon} /></div>
               <div style={{ color: s.color, fontSize: 28, fontWeight: 800 }}>{(s.value || 0).toLocaleString()}</div>
               <div style={{ color: '#9CA3AF', fontSize: 13, marginTop: 4 }}>{s.label}</div>
             </div>
@@ -207,7 +208,7 @@ export default function ReportsPage() {
             { label: 'المشتركون النشطون', value: data.active_subscriptions || 0, icon: "ICON_Key", color: '#8B5CF6' },
           ].map((s, i) => (
             <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 20, textAlign: 'center' }}>
-              <div style={{ fontSize: 32, marginBottom: 8 }}>{s.icon}</div>
+              <div style={{ fontSize: 32, marginBottom: 8 }}><IconRenderer name={s.icon} /></div>
               <div style={{ color: s.color, fontSize: 22, fontWeight: 800 }}>{s.value}</div>
               <div style={{ color: '#9CA3AF', fontSize: 13, marginTop: 4 }}>{s.label}</div>
             </div>

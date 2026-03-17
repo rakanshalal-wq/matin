@@ -2,6 +2,7 @@
 import { Ban, BarChart3, Calendar, CheckCircle, FileText, Globe, Heart, MessageCircle, Newspaper, Pencil, Pin, Save, Search, Siren, Trash2, TrendingUp, User } from "lucide-react";
 const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 export default function CommunityPage() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -195,7 +196,7 @@ export default function CommunityPage() {
         ].map((s, i) => (
           <div key={i} style={cardStyle}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span style={{ fontSize: 28 }}>{s.icon}</span>
+              <span style={{ fontSize: 28 }}><IconRenderer name={s.icon} /></span>
               <div>
                 <div style={{ fontSize: 24, fontWeight: 800, color: s.color }}>{s.value}</div>
                 <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>{s.label}</div>
@@ -387,7 +388,7 @@ export default function CommunityPage() {
             ].map((s, i) => (
               <div key={i} style={cardStyle}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <span style={{ fontSize: 32 }}>{s.icon}</span>
+                  <span style={{ fontSize: 32 }}><IconRenderer name={s.icon} /></span>
                   <div>
                     <div style={{ fontSize: 28, fontWeight: 800, color: s.color }}>{s.value}</div>
                     <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>{s.label}</div>

@@ -2,6 +2,7 @@
 import { Banknote, Calendar, CheckCircle, Circle, ClipboardList, Clock, CreditCard, GraduationCap, Landmark, Mailbox, PartyPopper, Smartphone, User, XCircle, Zap } from "lucide-react";
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import IconRenderer from "@/components/IconRenderer";
 
 const STATUS_CFG: Record<string, any> = {
   pending: { label: 'معلّقة', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)', icon: '⏳' },
@@ -153,7 +154,7 @@ export default function ParentPaymentsPage() {
                   <div style={{ textAlign: 'center', minWidth: 120 }}>
                     <div style={{ color: cfg.color, fontSize: 28, fontWeight: 900 }}>{Number(inv.total).toLocaleString()}</div>
                     <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, marginBottom: 8 }}>ريال</div>
-                    <span style={{ display: 'inline-block', padding: '4px 12px', borderRadius: 20, fontSize: 12, fontWeight: 700, background: cfg.bg, color: cfg.color, border: `1px solid ${cfg.color}40` }}>{cfg.icon} {cfg.label}</span>
+                    <span style={{ display: 'inline-block', padding: '4px 12px', borderRadius: 20, fontSize: 12, fontWeight: 700, background: cfg.bg, color: cfg.color, border: `1px solid ${cfg.color}40` }}><IconRenderer name={cfg.icon} /> {cfg.label}</span>
                     {canPay && <div style={{ marginTop: 10 }}><button style={{ padding: '8px 20px', borderRadius: 8, cursor: 'pointer', background: 'linear-gradient(135deg,#8B5CF6,#6D28D9)', border: 'none', color: 'white', fontSize: 13, fontWeight: 700, width: '100%' }}>CreditCard ادفع الآن</button></div>}
                   </div>
                 </div>
@@ -200,7 +201,7 @@ export default function ParentPaymentsPage() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
                 {METHODS.filter(m => gateways.includes(m.key)).map(m => (
                   <button key={m.key} onClick={() => setPaymentMethod(m.key)} style={{ padding: 12, borderRadius: 12, cursor: 'pointer', textAlign: 'right', background: paymentMethod === m.key ? 'rgba(139,92,246,0.15)' : 'rgba(255,255,255,0.04)', border: `1px solid ${paymentMethod === m.key ? 'rgba(139,92,246,0.5)' : 'rgba(255,255,255,0.1)'}` }}>
-                    <div style={{ fontSize: 22, marginBottom: 4 }}>{m.icon}</div>
+                    <div style={{ fontSize: 22, marginBottom: 4 }}><IconRenderer name={m.icon} /></div>
                     <div style={{ color: 'white', fontSize: 13, fontWeight: 700 }}>{m.label}</div>
                     <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11 }}>{m.desc}</div>
                   </button>

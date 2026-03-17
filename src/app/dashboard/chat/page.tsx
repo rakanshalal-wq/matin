@@ -2,6 +2,7 @@
 import { Building, CheckCircle, Lock, Megaphone, MessageCircle, Pencil, Plus, Save, School, Search, Trash2, Users, X } from "lucide-react";
   const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
+import IconRenderer from "@/components/IconRenderer";
 
 export default function ChatPage() {
   const [data, setData] = useState<any[]>([]);
@@ -92,7 +93,7 @@ export default function ChatPage() {
           { label: 'محادثات خاصة', value: stats.direct, icon: "ICON_Lock", color: '#8B5CF6' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
-            <div style={{ fontSize: 28 }}>{stat.icon}</div>
+            <div style={{ fontSize: 28 }}><IconRenderer name={stat.icon} /></div>
             <div style={{ fontSize: 26, fontWeight: 800, color: stat.color, marginTop: 4 }}>{stat.value}</div>
             <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>{stat.label}</div>
           </div>
@@ -121,7 +122,7 @@ export default function ChatPage() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ display: 'flex', gap: 14, alignItems: 'center', flex: 1 }}>
                 <div style={{ position: 'relative' as any }}>
-                  <div style={{ width: 50, height: 50, borderRadius: 14, background: typeColors[item.type]?.bg || 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>{typeIcons[item.type] || "ICON_MessageCircle"}</div>
+                  <div style={{ width: 50, height: 50, borderRadius: 14, background: typeColors[item.type]?.bg || 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}><IconRenderer name={typeIcons[item.type] || "ICON_MessageCircle"} /></div>
                   <div style={{ position: 'absolute' as any, bottom: -2, left: -2, width: 14, height: 14, borderRadius: '50%', background: statusColors[item.status] || '#6B7280', border: '2px solid #06060E' }} />
                 </div>
                 <div style={{ flex: 1 }}>
