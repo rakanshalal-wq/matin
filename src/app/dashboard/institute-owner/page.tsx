@@ -10,13 +10,13 @@ const getHeaders = () => {
 const StatCard = ({ title, value, color, sub, link }: any) => (
   <Link href={link || '#'} style={{ textDecoration: 'none' }}>
     <div
-      style={{ background: 'linear-gradient(135deg,rgba(255,255,255,0.03) 0%,rgba(255,255,255,0.01) 100%)', border: `1px solid ${color}25`, borderRadius: 14, padding: '20px 24px', cursor: 'pointer', transition: 'all 0.2s', position: 'relative', overflow: 'hidden' }}
+      style={{ background: `linear-gradient(135deg, ${color}18 0%, ${color}08 100%)`, border: `1px solid ${color}40`, borderRadius: 16, padding: '20px 24px', cursor: 'pointer', transition: 'all 0.2s', position: 'relative', overflow: 'hidden' }}
       onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = `0 8px 32px ${color}18`; el.style.borderColor = `${color}50`; }}
       onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(0)'; el.style.boxShadow = 'none'; el.style.borderColor = `${color}25`; }}
     >
       <div style={{ position: 'absolute', top: 0, right: 0, width: 80, height: 80, background: `${color}08`, borderRadius: '0 14px 0 80px' }} />
-      <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, marginBottom: 8, fontWeight: 500 }}>{title}</div>
-      <div style={{ color: '#fff', fontSize: 30, fontWeight: 800, lineHeight: 1 }}>{value}</div>
+      <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12, marginBottom: 10, fontWeight: 600 }}>{title}</div>
+      <div style={{ color: '#fff', fontSize: 34, fontWeight: 900, letterSpacing: -1, lineHeight: 1 }}>{value}</div>
       {sub && <div style={{ color, fontSize: 11, marginTop: 6, fontWeight: 600 }}>{sub}</div>}
     </div>
   </Link>
