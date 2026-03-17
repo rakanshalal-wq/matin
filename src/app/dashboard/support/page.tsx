@@ -26,7 +26,7 @@ export default function SupportPage() {
   };
 
   const handleSave = async () => {
-    if (!form.title) { setErrMsg('أدخل عنوان التذكرة'); return; }
+    if (!form.subject) { setErrMsg('أدخل عنوان التذكرة'); return; }
     setSaving(true); setErrMsg('');
     try {
       const method = editItem ? 'PUT' : 'POST';
@@ -34,13 +34,13 @@ export default function SupportPage() {
       const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify(form) });
       const data = await res.json();
       if (!res.ok) { setErrMsg(data.error || 'فشل الحفظ'); return; }
-      setShowAdd(false); setEditItem(null); setForm({ title: '', description: '', priority: 'medium', status: 'open' }); setErrMsg('');
+      setShowAdd(false); setEditItem(null); setForm({ subject: '', description: '', type: 'complaint', priority: 'medium' }); setErrMsg('');
       fetchTickets();
     } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
   };
   const handleEdit = (item: any) => {
     setEditItem(item);
-    setForm({ ...{ title: '', description: '', priority: 'medium', status: 'open' }, ...item });
+    setForm({ ...{ subject: '', description: '', type: 'complaint', priority: 'medium' }, ...item });
     setErrMsg('');
     setShowAdd(true);
   };

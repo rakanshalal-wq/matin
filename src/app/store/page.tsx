@@ -1,93 +1,453 @@
 'use client';
-import Link from 'next/link';
+import { ShoppingBag, Package, Star, RotateCcw, BarChart3, Megaphone, ChevronLeft, CheckCircle, Store, Tag, Truck, Shield, TrendingUp, Users, Zap } from "lucide-react";
+
+// ===== DESIGN: Dark Premium — Black/Gold, Cairo font, asymmetric sections =====
+
 export default function StorePage() {
   return (
-    <div style={{ background: '#06060E', minHeight: '100vh', color: '#EEEEF5', fontFamily: "'IBM Plex Sans Arabic', 'Tajawal', sans-serif", direction: 'rtl', overflowX: 'hidden' }}>
-      <style>{`
-        :root { --gold: #C9A84C; --gold-2: #E8C96D; --border: rgba(201,168,76,0.15); --text: #EEEEF5; --text-2: rgba(238,238,245,0.6); }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        .nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(6,6,14,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); padding:0 40px; height:64px; display:flex; align-items:center; justify-content:space-between; }
-        .nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
-        .nav-logo-mark { width:34px; height:34px; background:var(--gold); border-radius:9px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:16px; color:#060C18; }
-        .nav-logo-text { font-size:18px; font-weight:800; color:var(--text); }
-        .nav-links { display:flex; align-items:center; gap:8px; }
-        .btn-ghost { padding:8px 20px; border-radius:9px; background:transparent; border:1px solid var(--border); color:var(--text-2); font-size:13.5px; font-weight:500; text-decoration:none; }
-        .btn-primary { padding:8px 20px; border-radius:9px; background:var(--gold); color:#000; font-size:13.5px; font-weight:700; text-decoration:none; }
-        .hero { position:relative; padding:140px 40px 80px; text-align:center; overflow:hidden; }
-        .hero-grid { position:absolute; inset:0; z-index:0; background-image:linear-gradient(rgba(201,168,76,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.025) 1px, transparent 1px); background-size:80px 80px; mask-image:radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 100%); }
-        .hero-glow { position:absolute; top:-200px; left:50%; transform:translateX(-50%); width:1100px; height:700px; background:radial-gradient(ellipse, rgba(201,168,76,0.15) 0%, rgba(201,168,76,0.08) 40%, transparent 70%); pointer-events:none; z-index:0; }
-        .hero-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.25); color:var(--gold); padding:6px 16px; border-radius:100px; font-size:12.5px; font-weight:600; margin-bottom:40px; }
-        .badge-dot { width:7px; height:7px; border-radius:50%; background:var(--gold); animation:pulse 2s infinite; }
-        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
-        .hero h1 { font-size:clamp(36px,5vw,64px); font-weight:900; line-height:1.15; position:relative; z-index:1; }
-        .hero h1 .gold { display:block; background:linear-gradient(90deg, var(--gold) 0%, var(--gold-2) 40%, #F5D78E 70%, var(--gold-2) 100%); background-size:200% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:shimmer 4s linear infinite; }
-        @keyframes shimmer { 0%{background-position:0% center} 100%{background-position:200% center} }
-        .hero p { font-size:18px; color:var(--text-2); max-width:600px; margin:24px auto 0; position:relative; z-index:1; line-height:1.7; }
-        .section { padding:80px 40px; max-width:1280px; margin:0 auto; }
-        .section-label { font-size:12px; font-weight:700; letter-spacing:2px; color:var(--gold); text-transform:uppercase; margin-bottom:16px; }
-        .section-title { font-size:clamp(28px,3.5vw,42px); font-weight:900; margin-bottom:16px; }
-        .section-desc { font-size:16px; color:var(--text-2); max-width:600px; line-height:1.7; margin-bottom:48px; }
-        .features-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:24px; }
-        .feature-card { background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:16px; padding:32px; transition:all 0.3s; }
-        .feature-card:hover { border-color:var(--gold); background:rgba(201,168,76,0.05); transform:translateY(-4px); }
-        .feature-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:24px; margin-bottom:20px; }
-        .feature-title { font-size:17px; font-weight:700; margin-bottom:10px; }
-        .feature-desc { font-size:14px; color:var(--text-2); line-height:1.7; }
-        .divider { height:1px; background:var(--border); margin:0 40px; }
-        .cta-section { padding:80px 40px; text-align:center; }
-        .cta-box { background:rgba(201,168,76,0.06); border:1px solid rgba(201,168,76,0.2); border-radius:24px; padding:64px 40px; max-width:700px; margin:0 auto; }
-        .btn-hero { display:inline-flex; align-items:center; gap:10px; background:var(--gold); color:#000; padding:15px 32px; border-radius:12px; font-size:15px; font-weight:700; text-decoration:none; margin-top:32px; }
-        .footer { padding:40px; border-top:1px solid var(--border); text-align:center; color:var(--text-2); font-size:13px; }
-      `}</style>
-      <nav className="nav">
-        <Link href="/" className="nav-logo"><div className="nav-logo-mark">م</div><span className="nav-logo-text">متين</span></Link>
-        <div className="nav-links">
-          <Link href="/features" className="btn-ghost">المميزات</Link>
-          <Link href="/pricing" className="btn-ghost">الأسعار</Link>
-          <Link href="/login" className="btn-ghost">تسجيل الدخول</Link>
-          <Link href="/register" className="btn-primary">ابدأ مجاناً</Link>
-        </div>
-      </nav>
-      <section className="hero">
-        <div className="hero-grid"></div><div className="hero-glow"></div>
-        <div style={{ position:'relative', zIndex:1 }}>
-          <div className="hero-badge"><span className="badge-dot"></span>متجر متين</div>
-          <h1>متجر المستلزمات التعليمية<span className="gold">داخل المنصة</span></h1>
-          <p>متجر إلكتروني متكامل داخل منصة متين — الطلاب وأولياء الأمور يشترون المستلزمات المدرسية بسهولة وأمان.</p>
-        </div>
-      </section>
-      <div className="divider"></div>
-      <section className="section">
-        <div className="section-label">مميزات المتجر</div>
-        <div className="section-title">تسوق مدرسي ذكي</div>
-        <div className="section-desc">من الكتب إلى الزي المدرسي — كل ما يحتاجه الطالب في مكان واحد.</div>
-        <div className="features-grid">
-          {[
-            { icon: '📚', title: 'الكتب والمراجع', desc: 'شراء الكتب الدراسية والمراجع التعليمية مباشرة من المتجر بأسعار مدروسة.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '👕', title: 'الزي المدرسي', desc: 'طلب الزي المدرسي بالمقاسات الصحيحة مع التوصيل للمنزل.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '🎒', title: 'المستلزمات', desc: 'جميع المستلزمات المدرسية — أقلام، دفاتر، حقائب — في متجر واحد.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '💳', title: 'دفع آمن', desc: 'الدفع عبر بوابات الدفع السعودية المعتمدة — موياسر، مدى، STC Pay.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '🚚', title: 'توصيل للمنزل', desc: 'توصيل المشتريات للمنزل أو استلامها من المدرسة — حسب اختيار ولي الأمر.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '📊', title: 'إدارة المخزون', desc: 'المدرسة تدير مخزون المتجر وتتابع المبيعات من لوحة التحكم.', color: 'rgba(201,168,76,0.12)' },
-          ].map((f, i) => (
-            <div key={i} className="feature-card">
-              <div className="feature-icon" style={{ background: f.color }}>{f.icon}</div>
-              <div className="feature-title">{f.title}</div>
-              <div className="feature-desc">{f.desc}</div>
+    <main className="bg-[#0a0a0a] text-white min-h-screen" style={{ fontFamily: 'Cairo, sans-serif' }}>
+
+      {/* ======== HERO ======== */}
+      <section className="relative pt-28 pb-20 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#111] to-[#0a0a0a]" />
+        <div className="absolute top-1/3 right-1/4 w-96 h-96 rounded-full bg-[rgba(212,168,67,0.05)] blur-[120px] pointer-events-none" />
+        <div className="container relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full border border-[rgba(212,168,67,0.3)] bg-[rgba(212,168,67,0.05)]">
+              <ShoppingBag size={16} className="text-[#D4A843]" />
+              <span className="text-[#D4A843] text-sm font-semibold">الباب الثاني عشر</span>
             </div>
-          ))}
+            <h1 className="text-4xl md:text-6xl font-black mb-6 leading-tight">
+              <span className="text-white">المتجر </span>
+              <span className="text-gold-gradient">الإلكتروني</span>
+            </h1>
+            <p className="text-gray-400 text-lg leading-relaxed max-w-2xl mx-auto">
+              امتداد رقمي لكل مؤسسة — ليس مجرد قائمة منتجات، بل بيئة تجارية متكاملة داخل المنصة تربط المؤسسة بمنتسبيها.
+            </p>
+          </div>
         </div>
       </section>
-      <div className="divider"></div>
-      <section className="cta-section">
-        <div className="cta-box">
-          <div style={{ fontSize:'12px', fontWeight:700, letterSpacing:'2px', color:'var(--gold)', textTransform:'uppercase', marginBottom:'16px' }}>ابدأ الآن</div>
-          <h2 style={{ fontSize:'32px', fontWeight:900, marginBottom:'16px' }}>متجر مدرسي احترافي</h2>
-          <p style={{ fontSize:'15px', color:'var(--text-2)', lineHeight:1.7 }}>أضف متجراً إلكترونياً لمدرستك وابدأ البيع فوراً بدون أي تعقيد تقني.</p>
-          <Link href="/register" className="btn-hero">ابدأ تجربتك المجانية ←</Link>
+
+      {/* ======== نمطا المتجر ======== */}
+      <section className="py-16 border-t border-white/5">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-black mb-3">نمطا المتجر</h2>
+            <p className="text-gray-500">كل مؤسسة تختار النمط المناسب لها</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="p-8 rounded-2xl border border-white/10 bg-[#111] hover:border-[rgba(212,168,67,0.3)] transition-all">
+              <div className="w-12 h-12 rounded-xl bg-[rgba(212,168,67,0.1)] flex items-center justify-center mb-5">
+                <Package size={24} className="text-[#D4A843]" />
+              </div>
+              <h3 className="text-xl font-bold mb-3">النمط العادي</h3>
+              <p className="text-gray-400 text-sm leading-relaxed mb-4">قوالب متين الرسمية الجاهزة — تُفعَّل بنقرة واحدة وتعمل فوراً بدون أي إعداد تقني.</p>
+              <ul className="space-y-2">
+                {["قوالب جاهزة ومعتمدة", "إعداد سريع خلال دقائق", "تصميم موحد ومحترف", "مناسب للمدارس والحضانات"].map((item, i) => (
+                  <li key={i} className="flex items-center gap-2 text-sm text-gray-300">
+                    <CheckCircle size={14} className="text-[#D4A843] shrink-0" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="p-8 rounded-2xl border border-[rgba(212,168,67,0.3)] bg-[#111] relative">
+              <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#D4A843] text-black text-xs font-bold">متقدم</div>
+              <div className="w-12 h-12 rounded-xl bg-[rgba(212,168,67,0.15)] flex items-center justify-center mb-5">
+                <Store size={24} className="text-[#D4A843]" />
+              </div>
+              <h3 className="text-xl font-bold mb-3">النمط المتقدم</h3>
+              <p className="text-gray-400 text-sm leading-relaxed mb-4">تخصيص كامل للمتجر — هوية بصرية خاصة، تصنيفات مخصصة، وتجربة تسوق فريدة لمنتسبي المؤسسة.</p>
+              <ul className="space-y-2">
+                {["هوية بصرية خاصة بالمؤسسة", "تصنيفات وفئات مخصصة", "صفحات منتج مخصصة", "مناسب للجامعات والمعاهد"].map((item, i) => (
+                  <li key={i} className="flex items-center gap-2 text-sm text-gray-300">
+                    <CheckCircle size={14} className="text-[#D4A843] shrink-0" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       </section>
-      <footer className="footer"><p>© {new Date().getFullYear()} منصة متين التعليمية. جميع الحقوق محفوظة.</p></footer>
-    </div>
+
+      {/* ======== أنواع المنتجات ======== */}
+      <section className="py-16 bg-[#0d0d0d]">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-black mb-3">أنواع المنتجات</h2>
+            <p className="text-gray-500">كل ما يحتاجه منتسبو المؤسسة في مكان واحد</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+            {[
+              { icon: "📚", title: "مستلزمات مدرسية", desc: "كتب، أدوات، زي مدرسي، حقائب" },
+              { icon: "💻", title: "منتجات رقمية", desc: "كورسات، ملفات، قوالب، اشتراكات" },
+              { icon: "🎓", title: "خدمات أكاديمية", desc: "دروس خصوصية، إرشاد، تدريب" },
+              { icon: "🍱", title: "خدمات المقصف", desc: "وجبات، مشروبات، طلبات مسبقة" },
+              { icon: "🚌", title: "خدمات النقل", desc: "اشتراكات الحافلة، رسوم المسارات" },
+              { icon: "🏆", title: "الأنشطة والفعاليات", desc: "رحلات، بطولات، أنشطة لاصفية" },
+            ].map((item, i) => (
+              <div key={i} className="p-5 rounded-xl border border-white/8 bg-[#111] hover:border-[rgba(212,168,67,0.2)] transition-all text-center">
+                <div className="text-3xl mb-3">{item.icon}</div>
+                <h4 className="font-bold text-sm mb-1">{item.title}</h4>
+                <p className="text-gray-500 text-xs leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ======== خطوات إنشاء منتج ======== */}
+      <section className="py-16">
+        <div className="container">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-black mb-3">كيف يُنشئ مالك المؤسسة منتجاً</h2>
+              <p className="text-gray-500">خطوات بسيطة وسريعة</p>
+            </div>
+            <div className="relative">
+              <div className="absolute right-6 top-0 bottom-0 w-px bg-gradient-to-b from-[#D4A843] via-[rgba(212,168,67,0.3)] to-transparent hidden md:block" />
+              <div className="space-y-6">
+                {[
+                  { step: "01", title: "اسم المنتج والوصف", desc: "أدخل اسم المنتج ووصفاً واضحاً يساعد المشتري على الفهم السريع" },
+                  { step: "02", title: "التصنيف والفئة", desc: "اختر الفئة المناسبة (مستلزمات / رقمي / خدمة) لتسهيل البحث" },
+                  { step: "03", title: "السعر والمخزون", desc: "حدد السعر بالريال وكمية المخزون المتاحة، مع خيار السعر المخفض" },
+                  { step: "04", title: "رفع الصور", desc: "أضف صور واضحة للمنتج (حتى 5 صور) بصيغة JPG أو PNG" },
+                  { step: "05", title: "إعدادات الشحن", desc: "حدد طريقة الاستلام: داخل المؤسسة أو توصيل خارجي مع تحديد التكلفة" },
+                  { step: "06", title: "النشر والتفعيل", desc: "راجع البيانات وانشر المنتج — يظهر فوراً لمنتسبي المؤسسة" },
+                ].map((item, i) => (
+                  <div key={i} className="flex gap-6 items-start pr-0 md:pr-14">
+                    <div className="w-12 h-12 rounded-full bg-[rgba(212,168,67,0.15)] border border-[rgba(212,168,67,0.4)] flex items-center justify-center shrink-0 text-[#D4A843] font-black text-sm">
+                      {item.step}
+                    </div>
+                    <div className="flex-1 p-5 rounded-xl border border-white/8 bg-[#111]">
+                      <h4 className="font-bold mb-1">{item.title}</h4>
+                      <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ======== الشحن والتوصيل ======== */}
+      <section className="py-16 bg-[#0d0d0d]">
+        <div className="container">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-black mb-3">نظام الشحن والتوصيل</h2>
+              <p className="text-gray-500">خيارات مرنة تناسب كل مؤسسة</p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="p-7 rounded-2xl border border-white/10 bg-[#111]">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 rounded-lg bg-[rgba(212,168,67,0.1)] flex items-center justify-center">
+                    <Package size={20} className="text-[#D4A843]" />
+                  </div>
+                  <h3 className="font-bold text-lg">استلام داخل المؤسسة</h3>
+                </div>
+                <ul className="space-y-3">
+                  {[
+                    "الطالب يستلم من مكتب محدد داخل المدرسة",
+                    "إشعار تلقائي عند جاهزية الطلب للاستلام",
+                    "مجاني — بدون رسوم شحن إضافية",
+                    "مناسب للمستلزمات المدرسية والوجبات",
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-gray-300">
+                      <CheckCircle size={14} className="text-[#D4A843] shrink-0 mt-0.5" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="p-7 rounded-2xl border border-white/10 bg-[#111]">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 rounded-lg bg-[rgba(212,168,67,0.1)] flex items-center justify-center">
+                    <Truck size={20} className="text-[#D4A843]" />
+                  </div>
+                  <h3 className="font-bold text-lg">توصيل خارجي</h3>
+                </div>
+                <ul className="space-y-3">
+                  {[
+                    "تحدد المؤسسة تكلفة التوصيل لكل منطقة",
+                    "تتبع الطلب لحظياً عبر التطبيق",
+                    "التوصيل خلال المدة المحددة من المؤسسة",
+                    "مناسب للمنتجات الرقمية والمستلزمات الكبيرة",
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-gray-300">
+                      <CheckCircle size={14} className="text-[#D4A843] shrink-0 mt-0.5" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ======== المرتجعات والاسترداد ======== */}
+      <section className="py-16">
+        <div className="container">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-black mb-3">سياسة المرتجعات والاسترداد</h2>
+              <p className="text-gray-500">حماية للمشتري وضمان للبائع</p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-5">
+              {[
+                {
+                  icon: <RotateCcw size={22} className="text-[#D4A843]" />,
+                  title: "خلال 7 أيام",
+                  desc: "استرداد كامل للمنتجات المادية غير المستخدمة خلال 7 أيام من الاستلام",
+                  tag: "منتجات مادية",
+                },
+                {
+                  icon: <Shield size={22} className="text-[#D4A843]" />,
+                  title: "منتجات رقمية",
+                  desc: "لا يُقبل الاسترداد بعد تحميل المنتج الرقمي أو الوصول إليه",
+                  tag: "منتجات رقمية",
+                },
+                {
+                  icon: <CheckCircle size={22} className="text-[#D4A843]" />,
+                  title: "خدمات",
+                  desc: "الاسترداد قبل 48 ساعة من موعد الخدمة — بعدها لا يُقبل إلا بعذر موثق",
+                  tag: "خدمات",
+                },
+              ].map((item, i) => (
+                <div key={i} className="p-6 rounded-2xl border border-white/10 bg-[#111]">
+                  <div className="w-10 h-10 rounded-lg bg-[rgba(212,168,67,0.1)] flex items-center justify-center mb-4">
+                    {item.icon}
+                  </div>
+                  <span className="text-xs text-[#D4A843] font-semibold mb-2 block">{item.tag}</span>
+                  <h4 className="font-bold mb-2">{item.title}</h4>
+                  <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ======== التقييمات والمراجعات ======== */}
+      <section className="py-16 bg-[#0d0d0d]">
+        <div className="container">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-black mb-3">نظام التقييمات والمراجعات</h2>
+              <p className="text-gray-500">شفافية تبني الثقة بين المؤسسة ومنتسبيها</p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="p-7 rounded-2xl border border-white/10 bg-[#111]">
+                <div className="flex items-center gap-3 mb-5">
+                  <Star size={22} className="text-[#D4A843]" />
+                  <h3 className="font-bold text-lg">كيف يعمل النظام</h3>
+                </div>
+                <ul className="space-y-3">
+                  {[
+                    "فقط من اشترى المنتج يستطيع تقييمه",
+                    "تقييم من 1 إلى 5 نجوم مع تعليق اختياري",
+                    "التقييمات تظهر للجميع على صفحة المنتج",
+                    "المؤسسة تستطيع الرد على التقييمات",
+                    "التقييمات المسيئة تُراجع تلقائياً بالذكاء الاصطناعي",
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-gray-300">
+                      <CheckCircle size={14} className="text-[#D4A843] shrink-0 mt-0.5" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="p-7 rounded-2xl border border-white/10 bg-[#111]">
+                <div className="flex items-center gap-3 mb-5">
+                  <TrendingUp size={22} className="text-[#D4A843]" />
+                  <h3 className="font-bold text-lg">تأثير التقييمات</h3>
+                </div>
+                <ul className="space-y-3">
+                  {[
+                    "المنتجات الأعلى تقييماً تظهر أولاً في البحث",
+                    "تقييم المتجر الإجمالي يظهر في صفحة المؤسسة",
+                    "تنبيه للمؤسسة عند تراجع التقييم عن 3 نجوم",
+                    "إحصائيات التقييمات في لوحة تحكم المتجر",
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-gray-300">
+                      <CheckCircle size={14} className="text-[#D4A843] shrink-0 mt-0.5" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ======== إحصائيات المتجر ======== */}
+      <section className="py-16">
+        <div className="container">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-black mb-3">إحصائيات المتجر لمالك المؤسسة</h2>
+              <p className="text-gray-500">بيانات دقيقة لقرارات أذكى</p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {[
+                { icon: <BarChart3 size={20} />, title: "إجمالي المبيعات", desc: "يومياً وشهرياً وسنوياً مع رسوم بيانية" },
+                { icon: <TrendingUp size={20} />, title: "أكثر المنتجات مبيعاً", desc: "ترتيب المنتجات حسب الإيراد والكمية" },
+                { icon: <Users size={20} />, title: "تحليل المشترين", desc: "من اشترى ماذا وكم مرة" },
+                { icon: <Tag size={20} />, title: "الأرباح الصافية", desc: "بعد خصم عمولة متين وتكاليف الشحن" },
+                { icon: <RotateCcw size={20} />, title: "المرتجعات", desc: "عدد ونسبة المرتجعات لكل منتج" },
+                { icon: <Star size={20} />, title: "متوسط التقييم", desc: "للمتجر ككل ولكل منتج على حدة" },
+              ].map((item, i) => (
+                <div key={i} className="p-5 rounded-xl border border-white/8 bg-[#111] hover:border-[rgba(212,168,67,0.2)] transition-all">
+                  <div className="text-[#D4A843] mb-3">{item.icon}</div>
+                  <h4 className="font-bold text-sm mb-1">{item.title}</h4>
+                  <p className="text-gray-500 text-xs leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ======== الإعلانات في المتجر ======== */}
+      <section className="py-16 bg-[#0d0d0d]">
+        <div className="container">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-black mb-3">نظام الإعلانات</h2>
+              <p className="text-gray-500">نظام إعلاني متكامل بمستويين</p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <div className="p-7 rounded-2xl border border-white/10 bg-[#111]">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-lg bg-[rgba(212,168,67,0.1)] flex items-center justify-center">
+                    <Megaphone size={20} className="text-[#D4A843]" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold">إعلانات المنصة</h3>
+                    <span className="text-xs text-gray-500">يديرها مالك متين</span>
+                  </div>
+                </div>
+                <ul className="space-y-2">
+                  {[
+                    "إجبارية على جميع لوحات التحكم",
+                    "لا يمكن لأي مؤسسة إخفاؤها (إلا الباقة الذهبية)",
+                    "مصدر إيراد مباشر لمتين",
+                    "محتوى تعليمي وتقني فقط",
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-gray-300">
+                      <CheckCircle size={14} className="text-[#D4A843] shrink-0 mt-0.5" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="p-7 rounded-2xl border border-white/10 bg-[#111]">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-lg bg-[rgba(212,168,67,0.1)] flex items-center justify-center">
+                    <Zap size={20} className="text-[#D4A843]" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold">إعلانات المؤسسة</h3>
+                    <span className="text-xs text-gray-500">تديرها المؤسسة</span>
+                  </div>
+                </div>
+                <ul className="space-y-2">
+                  {[
+                    "تظهر لمنتسبي المؤسسة فقط",
+                    "إعلانات الفعاليات والمنتجات والخدمات",
+                    "تحكم كامل في التوقيت والمحتوى",
+                    "إحصائيات الظهور والنقرات",
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-gray-300">
+                      <CheckCircle size={14} className="text-[#D4A843] shrink-0 mt-0.5" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* تسعير الإعلانات */}
+            <div className="p-7 rounded-2xl border border-[rgba(212,168,67,0.2)] bg-[rgba(212,168,67,0.03)]">
+              <h3 className="font-bold text-lg mb-5 text-[#D4A843]">تسعير الإعلانات وإدارة العقود</h3>
+              <div className="grid md:grid-cols-3 gap-4">
+                {[
+                  { model: "بالنقرة (CPC)", desc: "تدفع فقط عند نقر المستخدم على الإعلان — مناسب للمنتجات والخدمات", price: "يبدأ من 0.5 ريال/نقرة" },
+                  { model: "بالظهور (CPM)", desc: "تدفع لكل 1000 ظهور للإعلان — مناسب لزيادة الوعي بالفعاليات", price: "يبدأ من 5 ريال/1000 ظهور" },
+                  { model: "بالفترة الزمنية", desc: "إعلان ثابت لفترة محددة (يوم/أسبوع/شهر) — مناسب للإعلانات الكبرى", price: "يبدأ من 50 ريال/يوم" },
+                ].map((item, i) => (
+                  <div key={i} className="p-4 rounded-xl bg-[#111] border border-white/8">
+                    <h4 className="font-bold text-sm text-[#D4A843] mb-2">{item.model}</h4>
+                    <p className="text-gray-400 text-xs leading-relaxed mb-3">{item.desc}</p>
+                    <span className="text-xs text-gray-500 font-semibold">{item.price}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 p-4 rounded-xl bg-[#111] border border-white/8">
+                <h4 className="font-bold text-sm mb-2">إدارة العقود الإعلانية</h4>
+                <div className="grid md:grid-cols-2 gap-3">
+                  {[
+                    "عقد إلكتروني موقّع عبر توكلنا لكل حملة إعلانية",
+                    "فاتورة ضريبية تلقائية بعد كل دورة دفع",
+                    "لوحة تحكم للحملات: بداية، نهاية، ميزانية، أداء",
+                    "إيقاف الحملة تلقائياً عند انتهاء الميزانية",
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-start gap-2 text-xs text-gray-300">
+                      <CheckCircle size={12} className="text-[#D4A843] shrink-0 mt-0.5" />
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ======== عمولة متين ======== */}
+      <section className="py-16">
+        <div className="container">
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="p-8 rounded-2xl border border-[rgba(212,168,67,0.3)] bg-[rgba(212,168,67,0.03)]">
+              <h2 className="text-2xl font-black mb-4">نموذج الإيراد</h2>
+              <p className="text-gray-400 leading-relaxed mb-6">
+                متين تأخذ عمولة من كل عملية بيع تتم عبر المتجر — نسبة شفافة ومحددة مسبقاً في عقد الاشتراك. كلما نجح متجر مؤسستك، كلما نمت شراكتنا معاً.
+              </p>
+              <div className="grid grid-cols-3 gap-4">
+                {[
+                  { label: "الباقة الأساسية", value: "5%" },
+                  { label: "الباقة الاحترافية", value: "3%" },
+                  { label: "الباقة المؤسسية", value: "2%" },
+                ].map((item, i) => (
+                  <div key={i} className="p-4 rounded-xl bg-[#111] border border-white/8">
+                    <div className="text-2xl font-black text-[#D4A843] mb-1">{item.value}</div>
+                    <div className="text-xs text-gray-500">{item.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ======== CTA ======== */}
+      <section className="py-16 bg-[#0d0d0d]">
+        <div className="container">
+          <div className="max-w-2xl mx-auto text-center">
+            <h2 className="text-3xl font-black mb-4">افتح متجرك الآن</h2>
+            <p className="text-gray-400 mb-8">ابدأ ببيع المنتجات والخدمات لمنتسبي مؤسستك خلال 24 ساعة</p>
+            <a href="https://app.matin.ink/register" className="btn-primary inline-flex items-center gap-2">
+              ابدأ تجربتك المجانية
+              <ChevronLeft size={18} />
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </main>
   );
 }

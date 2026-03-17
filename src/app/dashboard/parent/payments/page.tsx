@@ -67,16 +67,16 @@ export default function ParentPaymentsPage() {
   };
 
   const processPayment = async () => {
-    if (!selectedInvoice || !paymentMethod) { setErrMsg && setErrMsg('اختر طريقة الدفع'); return; }
-    setPaying(true); setErrMsg && setErrMsg('');
+    if (!selectedInvoice || !paymentMethod) { setMsg && setMsg('اختر طريقة الدفع'); return; }
+    setPaying(true); setMsg && setMsg('');
     try {
       const res = await fetch('/api/parent-payments', { method: 'POST', headers: getH(), body: JSON.stringify({ action: 'initiate_payment', invoice_id: selectedInvoice.id, payment_method: paymentMethod }) });
       const result = await res.json();
       if (res.ok) {
         if (result.payment_url) window.location.href = result.payment_url;
         else { setMsg({ text: result.message, type: 'success' }); setSelectedInvoice(null); fetchData(); }
-      } else { setMsg({ text: result.error || 'فشل الدفع', type: 'error' }); setErrMsg && setErrMsg(result.error || 'فشل الدفع'); }
-    } catch (e: any) { setMsg({ text: e.message || 'حدث خطأ', type: 'error' }); setErrMsg && setErrMsg(e.message || 'حدث خطأ'); }
+      } else { setMsg({ text: result.error || 'فشل الدفع', type: 'error' }); setMsg && setMsg(result.error || 'فشل الدفع'); }
+    } catch (e: any) { setMsg({ text: e.message || 'حدث خطأ', type: 'error' }); setMsg && setMsg(e.message || 'حدث خطأ'); }
     setPaying(false);
   };
   const updateInvoice = async (invoiceId: number, updates: any) => {

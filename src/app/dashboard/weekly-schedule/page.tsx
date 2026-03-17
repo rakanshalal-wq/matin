@@ -33,10 +33,12 @@ const SUBJECT_COLORS = [
   '#EC4899', '#14B8A6', '#EF4444', '#6366F1', '#84CC16',
 ];
 
-function getH() {
+function getH(): Record<string, string> {
   try {
     const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
-    return { 'Content-Type': 'application/json', Authorization: `Bearer ${u.token || ''}` };
+    const h: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (u.token) h['Authorization'] = `Bearer ${u.token}`;
+    return h;
   } catch { return { 'Content-Type': 'application/json' }; }
 }
 

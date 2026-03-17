@@ -6,7 +6,6 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: '**' },
     ],
   },
-  // typescript.ignoreBuildErrors أُزيل — أخطاء TypeScript يجب إصلاحها وليس تجاهلها
   headers: async () => [
     {
       source: "/(.*)",

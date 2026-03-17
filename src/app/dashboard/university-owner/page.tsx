@@ -61,6 +61,10 @@ export default function UniversityOwnerDashboard() {
   const [recentActivity, setRecentActivity] = useState<any[]>([]);
   const [loading, setLoading]               = useState(true);
   const [time, setTime]                     = useState(new Date());
+  const [saving, setSaving] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [selectedReq, setSelectedReq] = useState<any>(null);
 
   useEffect(() => { const t = setInterval(() => setTime(new Date()), 1000); return () => clearInterval(t); }, []);
 

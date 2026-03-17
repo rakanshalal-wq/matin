@@ -1,170 +1,263 @@
-import Link from 'next/link';
+'use client';
+/* MATIN DESIGN SYSTEM — About Page
+   Dark Premium SaaS | RTL | Cairo Font
+   Per Constitution v4: 3 roadmap phases, 3 core principles */
 
-/* ═══════════════════════════════════════════════════════
-   صفحة عن متين — وفق الدستور السيادي 3.0
-   الهوية: #06060E خلفية، #C9A84C ذهبي، #EEEEF5 نص
-═══════════════════════════════════════════════════════ */
+import { useEffect } from "react";
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import { ArrowLeft, Shield, Star, Users, Target, Crown, Zap } from "lucide-react";
 
-const PRINCIPLES = [
-  { icon: '🏛️', title: 'السيادة للمنصة', desc: 'متين منصة سيادية سعودية 100%. البيانات تُخزَّن داخل المملكة وفق أعلى معايير الأمان والامتثال لأنظمة هيئة الاتصالات وتقنية المعلومات.' },
-  { icon: '⚡', title: 'التمكين للمؤسسة', desc: 'نمنح كل مؤسسة تعليمية أدوات إدارة احترافية كانت حكراً على الشركات الكبرى. من الروضة للجامعة، كل مؤسسة تستحق أفضل الأدوات.' },
-  { icon: '🔐', title: 'الأمان للمستخدم', desc: 'خصوصية المستخدم خط أحمر. 7 مستويات صلاحيات، تشفير من الطرف للطرف، وسجل تدقيق كامل لكل عملية.' },
+function useScrollAnimation() {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => { entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }); },
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll(".fade-in-up").forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+}
+
+const principles = [
+  {
+    icon: <Crown size={28} />,
+    color: "#D4A843",
+    title: "الضبط والجودة",
+    desc: "متين تضمن بيئة آمنة وعادلة لجميع المستخدمين وفق أعلى معايير الجودة والأمان.",
+  },
+  {
+    icon: <Star size={28} />,
+    color: "#22C55E",
+    title: "التمكين للمؤسسة",
+    desc: "كل مؤسسة تملك استقلاليتها الكاملة ضمن إطار المنصة. نوفر الأدوات، وأنت تقود.",
+  },
+  {
+    icon: <Shield size={28} />,
+    color: "#60A5FA",
+    title: "الأمان للمستخدم",
+    desc: "بيانات كل فرد مصانة ومشفرة ولا تباع ولا تشارك. خصوصيتك خط أحمر لا نتجاوزه.",
+  },
 ];
 
-const ROADMAP = [
-  { phase: 'المرحلة الأولى', year: '2024', title: 'الأساس', items: ['إدارة المدارس الأساسية', 'نظام الحضور والدرجات', 'التواصل مع أولياء الأمور', 'الفوترة الإلكترونية'] },
-  { phase: 'المرحلة الثانية', year: '2025', title: 'التوسع', items: ['التعليم الإلكتروني المتكامل', 'تكاملات نفاذ ونور', 'تطبيقات الجوال', 'الذكاء الاصطناعي الأساسي'] },
-  { phase: 'المرحلة الثالثة', year: '2026', title: 'الابتكار', items: ['AI Career Pathing', 'Matin Coin', 'Skills Passport', 'المحفظة التعليمية الموحدة'] },
-  { phase: 'المرحلة الرابعة', year: '2027', title: 'السيادة', items: ['التوسع الخليجي', 'منصة البيانات التعليمية', 'AI Well-being', 'الشراكات الاستراتيجية'] },
+// Per Constitution v4: exactly 3 phases
+const roadmap = [
+  {
+    phase: "المرحلة الأولى",
+    status: "الحالية",
+    title: "المدارس في المنطقة الوسطى",
+    detail: "إطلاق المنصة وخدمة المدارس في الرياض والمنطقة الوسطى",
+    color: "#D4A843"
+  },
+  {
+    phase: "المرحلة الثانية",
+    status: "قادمة",
+    title: "جميع أنواع المؤسسات في المملكة + تطبيق الجوال",
+    detail: "توسيع المنصة لتشمل الجامعات ورياض الأطفال والحضانات ومعاهد التدريب في جميع مناطق المملكة",
+    color: "#22C55E"
+  },
+  {
+    phase: "المرحلة الثالثة",
+    status: "قادمة",
+    title: "الانتشار الخليجي والتكامل الرسمي مع الوزارات",
+    detail: "التوسع في الإمارات والكويت وقطر والبحرين وعُمان، مع التكامل الرسمي مع وزارة التعليم والموارد البشرية",
+    color: "#60A5FA"
+  },
 ];
 
-const TYPES = [
-  { icon: '🏫', title: 'المدارس', desc: 'ابتدائي، متوسط، ثانوي — حكومي وأهلي' },
-  { icon: '🏛️', title: 'الجامعات', desc: 'إدارة أكاديمية وإدارية متكاملة' },
-  { icon: '🎓', title: 'معاهد التدريب', desc: 'دورات، شهادات، وتتبع الإنجاز' },
-  { icon: '🌱', title: 'رياض الأطفال', desc: 'بيئة آمنة وتواصل مع الأسرة' },
-  { icon: '🏢', title: 'مراكز التعليم', desc: 'مرونة كاملة لكل نموذج تعليمي' },
+const performance = [
+  { metric: "99.9%", label: "وقت التشغيل المضمون" },
+  { metric: "< 200ms", label: "سرعة المعالجة" },
+  { metric: "كل ساعة", label: "النسخ الاحتياطية" },
+  { metric: "< 5 دقائق", label: "وقت الاسترجاع" },
 ];
 
-export default function AboutPage() {
-  const navLinkStyle: React.CSSProperties = { color: 'rgba(238,238,245,0.65)', textDecoration: 'none', fontSize: 14, fontWeight: 500 };
-  const btnGhostStyle: React.CSSProperties = { padding: '8px 18px', borderRadius: 9, border: '1px solid rgba(255,255,255,0.06)', background: 'transparent', color: 'rgba(238,238,245,0.65)', fontSize: 13.5, fontWeight: 500, cursor: 'pointer', textDecoration: 'none' };
-  const btnPrimaryStyle: React.CSSProperties = { padding: '8px 20px', borderRadius: 9, background: '#C9A84C', color: '#000', fontSize: 13.5, fontWeight: 700, border: 'none', cursor: 'pointer', textDecoration: 'none' };
-  const sLabelStyle: React.CSSProperties = { display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11.5, fontWeight: 700, color: '#C9A84C', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 20 };
-  const cardStyle: React.CSSProperties = { background: '#0B0B16', border: '1px solid rgba(201,168,76,0.12)', borderRadius: 16, padding: 28 };
+const securityLayers = [
+  { name: "جدار الحماية" },
+  { name: "TLS 1.3" },
+  { name: "المصادقة الثنائية 2FA" },
+  { name: "تشفير AES-256" },
+  { name: "RBAC متقدم" },
+  { name: "نظام كشف التسلل IDS" },
+  { name: "سجلات المراجعة Audit Logs" },
+  { name: "AI Auditor الذكي" },
+];
+
+export default function About() {
+  useScrollAnimation();
 
   return (
-    <>
-      <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-      <div style={{ background: '#06060E', minHeight: '100vh', color: '#EEEEF5', fontFamily: "'IBM Plex Sans Arabic', sans-serif", direction: 'rtl', paddingTop: 64 }}>
+    <div className="min-h-screen bg-[#0a0a0a] text-white" style={{ fontFamily: 'Cairo, sans-serif' }}>
+      <Navbar />
 
-        {/* NAV */}
-        <nav style={{ position: 'fixed', top: 0, right: 0, left: 0, zIndex: 200, height: 64, display: 'flex', alignItems: 'center', padding: '0 48px', gap: 40, background: 'rgba(6,6,14,0.92)', borderBottom: '1px solid rgba(201,168,76,0.2)' }}>
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#EEEEF5', fontSize: 19, fontWeight: 800 }}>
-            <div style={{ width: 34, height: 34, borderRadius: 9, background: 'linear-gradient(135deg,#C9A84C,#E2C46A)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, fontWeight: 900, color: '#000' }}>م</div>
-            متين
-          </Link>
-          <div style={{ display: 'flex', gap: 28, flex: 1 }}>
-            <Link href="/features" style={navLinkStyle}>المميزات</Link>
-            <Link href="/pricing" style={navLinkStyle}>الأسعار</Link>
-            <Link href="/ai" style={navLinkStyle}>الذكاء الاصطناعي</Link>
-            <Link href="/about" style={{ ...navLinkStyle, color: '#C9A84C' }}>عن متين</Link>
-            <Link href="/contact" style={navLinkStyle}>تواصل معنا</Link>
-          </div>
-          <div style={{ display: 'flex', gap: 8, marginRight: 'auto' }}>
-            <Link href="/login" style={btnGhostStyle}>تسجيل الدخول</Link>
-            <Link href="/register" style={btnPrimaryStyle}>ابدأ مجاناً</Link>
-          </div>
-        </nav>
-
-        {/* HERO */}
-        <section style={{ padding: '80px 24px 60px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', top: -100, left: '50%', transform: 'translateX(-50%)', width: 900, height: 600, background: 'radial-gradient(ellipse,rgba(201,168,76,0.08) 0%,transparent 60%)', pointerEvents: 'none' }} />
-          <div style={sLabelStyle}>من نحن</div>
-          <h1 style={{ fontSize: 'clamp(36px,6vw,64px)', fontWeight: 800, lineHeight: 1.1, letterSpacing: -2, color: '#EEEEF5', margin: 0 }}>
-            منصة{' '}
-            <span style={{ background: 'linear-gradient(90deg,#C9A84C,#E2C46A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>متين</span>
+      {/* Hero */}
+      <section className="pt-32 pb-16 page-hero">
+        <div className="container text-center">
+          <span className="section-label mb-6 inline-flex">عن متين</span>
+          <h1 className="text-4xl md:text-6xl font-black text-white mt-4 mb-6">
+            منصة تعليمية <span className="text-gold-gradient">متكاملة</span>
           </h1>
-          <p style={{ fontSize: 18, color: 'rgba(238,238,245,0.65)', maxWidth: 680, margin: '24px auto 0', lineHeight: 1.8 }}>
-            منصة سعودية سيادية لإدارة المؤسسات التعليمية. نؤمن بأن كل مؤسسة تعليمية — مهما كان حجمها — تستحق أدوات إدارة احترافية تُمكّنها من التميز.
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
+            متين ليست مجرد برنامج إدارة مدارس — بل بنية تحتية رقمية متكاملة لبناء الإنسان السعودي وفق رؤية 2030.
           </p>
-        </section>
+        </div>
+      </section>
 
-        <div style={{ width: '100%', height: 1, background: 'rgba(255,255,255,0.06)' }} />
-
-        {/* PRINCIPLES */}
-        <section style={{ padding: '60px 24px', maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <div style={sLabelStyle}>مبادئنا الثلاثة</div>
-            <h2 style={{ fontSize: 'clamp(24px,3vw,40px)', fontWeight: 800, letterSpacing: -1.5, color: '#EEEEF5' }}>
-              الشعار الذي نعيشه كل يوم
-            </h2>
+      {/* School Image */}
+      <section className="pb-16">
+        <div className="container">
+          <div className="fade-in-up rounded-2xl overflow-hidden border border-white/8 max-h-80">
+            <img
+              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663430723344/NkUVobJTWfHHFdjs4pEyWK/school-building-gFR2seAkEJYsiSPUy7oCTm.webp"
+              alt="مدرسة سعودية حديثة"
+              className="w-full object-cover object-center"
+            />
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 16 }}>
-            {PRINCIPLES.map((p) => (
-              <div key={p.title} style={{ ...cardStyle, borderColor: 'rgba(201,168,76,0.2)' }}>
-                <div style={{ fontSize: 40, marginBottom: 20 }}>{p.icon}</div>
-                <h3 style={{ fontSize: 20, fontWeight: 700, color: '#C9A84C', marginBottom: 12 }}>{p.title}</h3>
-                <p style={{ fontSize: 14, color: 'rgba(238,238,245,0.65)', lineHeight: 1.8 }}>{p.desc}</p>
+        </div>
+      </section>
+
+      {/* Vision & Mission */}
+      <section className="py-16 bg-[#0d0d0d]">
+        <div className="container">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="matin-card p-8 fade-in-up">
+              <div className="w-12 h-12 rounded-xl bg-[rgba(212,168,67,0.1)] flex items-center justify-center mb-4">
+                <Target size={24} className="text-[#D4A843]" />
+              </div>
+              <h2 className="text-2xl font-black text-white mb-4">رؤيتنا</h2>
+              <p className="text-gray-400 leading-relaxed">
+                أن نكون المنصة التعليمية الرقمية الأكثر تكاملاً في المملكة العربية السعودية، ونساهم في تحقيق رؤية 2030 من خلال تمكين المؤسسات التعليمية بأحدث التقنيات.
+              </p>
+            </div>
+            <div className="matin-card p-8 fade-in-up" style={{ transitionDelay: '100ms' }}>
+              <div className="w-12 h-12 rounded-xl bg-[rgba(34,197,94,0.1)] flex items-center justify-center mb-4">
+                <Star size={24} className="text-[#22C55E]" />
+              </div>
+              <h2 className="text-2xl font-black text-white mb-4">رسالتنا</h2>
+              <p className="text-gray-400 leading-relaxed">
+                تمكين كل مؤسسة تعليمية في المملكة من إدارة عملياتها بكفاءة وأمان، وتوفير تجربة تعليمية استثنائية للطلاب وأولياء الأمور والمعلمين.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Principles */}
+      <section className="py-16">
+        <div className="container">
+          <div className="text-center mb-12 fade-in-up">
+            <h2 className="text-3xl font-black text-white">
+              المبادئ <span className="text-gold-gradient">الثلاثة</span>
+            </h2>
+            <p className="text-gray-500 mt-3">غير القابلة للاختراق</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {principles.map((p, i) => (
+              <div key={i} className="matin-card p-8 text-center fade-in-up" style={{ transitionDelay: `${i * 100}ms` }}>
+                <div
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6"
+                  style={{ background: `${p.color}15`, color: p.color }}
+                >
+                  {p.icon}
+                </div>
+                <h3 className="text-white font-black text-xl mb-3">{p.title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{p.desc}</p>
               </div>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <div style={{ width: '100%', height: 1, background: 'rgba(255,255,255,0.06)' }} />
-
-        {/* INSTITUTION TYPES */}
-        <section style={{ padding: '60px 24px', maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <div style={sLabelStyle}>من نخدم</div>
-            <h2 style={{ fontSize: 'clamp(24px,3vw,40px)', fontWeight: 800, letterSpacing: -1.5, color: '#EEEEF5' }}>
-              5 أنواع من المؤسسات التعليمية
+      {/* Security Layers */}
+      <section className="py-16 bg-[#0d0d0d]">
+        <div className="container">
+          <div className="text-center mb-12 fade-in-up">
+            <h2 className="text-3xl font-black text-white">
+              <span className="text-gold-gradient">8 طبقات</span> أمان متكاملة
             </h2>
+            <p className="text-gray-500 mt-3">حماية شاملة لا مثيل لها في المنطقة</p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 12 }}>
-            {TYPES.map((t) => (
-              <div key={t.title} style={{ ...cardStyle, textAlign: 'center', padding: '24px 16px' }}>
-                <div style={{ fontSize: 36, marginBottom: 12 }}>{t.icon}</div>
-                <div style={{ fontSize: 15, fontWeight: 700, color: '#EEEEF5', marginBottom: 8 }}>{t.title}</div>
-                <div style={{ fontSize: 12, color: 'rgba(238,238,245,0.45)', lineHeight: 1.6 }}>{t.desc}</div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {securityLayers.map((layer, i) => (
+              <div key={i} className="matin-card p-4 text-center fade-in-up" style={{ transitionDelay: `${i * 60}ms` }}>
+                <div className="text-white text-sm font-semibold">{layer.name}</div>
               </div>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <div style={{ width: '100%', height: 1, background: 'rgba(255,255,255,0.06)' }} />
-
-        {/* ROADMAP */}
-        <section style={{ padding: '60px 24px', maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <div style={sLabelStyle}>خارطة التطوير</div>
-            <h2 style={{ fontSize: 'clamp(24px,3vw,40px)', fontWeight: 800, letterSpacing: -1.5, color: '#EEEEF5' }}>
-              رحلتنا نحو السيادة التعليمية
+      {/* Performance */}
+      <section className="py-16">
+        <div className="container">
+          <div className="text-center mb-12 fade-in-up">
+            <h2 className="text-3xl font-black text-white">
+              الأداء والموثوقية
             </h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 16 }}>
-            {ROADMAP.map((phase, i) => (
-              <div key={phase.phase} style={{ ...cardStyle, borderColor: i <= 1 ? 'rgba(201,168,76,0.3)' : 'rgba(255,255,255,0.06)', position: 'relative', overflow: 'hidden' }}>
-                {i <= 1 && <div style={{ position: 'absolute', top: 0, right: 0, left: 0, height: 3, background: 'linear-gradient(90deg,#C9A84C,#E2C46A)' }} />}
-                <div style={{ fontSize: 11, fontWeight: 700, color: i <= 1 ? '#C9A84C' : 'rgba(238,238,245,0.35)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>{phase.year}</div>
-                <div style={{ fontSize: 13, color: 'rgba(238,238,245,0.45)', marginBottom: 4 }}>{phase.phase}</div>
-                <h3 style={{ fontSize: 18, fontWeight: 700, color: '#EEEEF5', marginBottom: 16 }}>{phase.title}</h3>
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  {phase.items.map((item) => (
-                    <li key={item} style={{ fontSize: 13, color: 'rgba(238,238,245,0.65)', display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ color: i <= 1 ? '#C9A84C' : 'rgba(238,238,245,0.25)', fontSize: 16 }}>✓</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {performance.map((p, i) => (
+              <div key={i} className="text-center fade-in-up" style={{ transitionDelay: `${i * 80}ms` }}>
+                <div className="stat-number mb-2">{p.metric}</div>
+                <div className="text-gray-500 text-sm">{p.label}</div>
               </div>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* CTA */}
-        <section style={{ padding: '80px 24px', textAlign: 'center' }}>
-          <h2 style={{ fontSize: 'clamp(28px,4vw,44px)', fontWeight: 800, letterSpacing: -1.5, color: '#EEEEF5', marginBottom: 16 }}>
-            انضم إلى{' '}
-            <span style={{ background: 'linear-gradient(90deg,#C9A84C,#E2C46A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>متين</span>
+      {/* Roadmap — 3 Phases per Constitution */}
+      <section className="py-16 bg-[#0d0d0d]">
+        <div className="container max-w-3xl mx-auto">
+          <div className="text-center mb-12 fade-in-up">
+            <h2 className="text-3xl font-black text-white">
+              خارطة <span className="text-gold-gradient">التطوير</span>
+            </h2>
+            <p className="text-gray-500 mt-3">3 مراحل لبناء منصة تعليمية متكاملة</p>
+          </div>
+          <div className="relative">
+            <div className="timeline-line" />
+            <div className="space-y-8 pe-16">
+              {roadmap.map((item, i) => (
+                <div key={i} className="relative fade-in-up" style={{ transitionDelay: `${i * 100}ms` }}>
+                  <div
+                    className="absolute -right-[52px] w-8 h-8 rounded-full flex items-center justify-center border-2"
+                    style={{ background: '#0d0d0d', borderColor: item.color }}
+                  >
+                    <div className="w-3 h-3 rounded-full" style={{ background: item.color }} />
+                  </div>
+                  <div className="matin-card p-5">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-xs font-bold" style={{ color: item.color }}>{item.phase}</span>
+                      {item.status === "الحالية" && (
+                        <span className="badge-green text-xs">الحالية</span>
+                      )}
+                    </div>
+                    <h3 className="text-white font-bold mb-2">{item.title}</h3>
+                    <p className="text-gray-600 text-xs leading-relaxed">{item.detail}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-16">
+        <div className="container text-center">
+          <h2 className="text-3xl font-black text-white mb-4">
+            كن جزءاً من <span className="text-gold-gradient">رحلة متين</span>
           </h2>
-          <p style={{ fontSize: 17, color: 'rgba(238,238,245,0.65)', maxWidth: 500, margin: '0 auto 40px', lineHeight: 1.8 }}>ابدأ رحلتك مع منصة متين اليوم وانضم لمئات المؤسسات التعليمية.</p>
-          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/register" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#C9A84C', color: '#000', padding: '14px 28px', borderRadius: 12, fontSize: 15, fontWeight: 700, textDecoration: 'none' }}>ابدأ مجاناً</Link>
-            <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: 'rgba(238,238,245,0.65)', padding: '14px 28px', borderRadius: 12, fontSize: 15, fontWeight: 500, textDecoration: 'none' }}>تواصل معنا</Link>
-          </div>
-        </section>
+          <p className="text-gray-500 mb-8">انضم لمئات المؤسسات التي تثق بمتين لبناء مستقبل التعليم</p>
+          <a href="https://app.matin.ink/register" className="btn-gold px-8 py-4 rounded-2xl text-base font-bold inline-flex items-center gap-2">
+            ابدأ رحلتك معنا
+            <ArrowLeft size={18} />
+          </a>
+        </div>
+      </section>
 
-        {/* FOOTER */}
-        <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
-          <span style={{ fontSize: 13, color: 'rgba(238,238,245,0.35)' }}>© {new Date().getFullYear()} منصة متين. جميع الحقوق محفوظة.</span>
-          <div style={{ display: 'flex', gap: 24 }}>
-            <Link href="/privacy" style={{ fontSize: 13, color: 'rgba(238,238,245,0.35)', textDecoration: 'none' }}>سياسة الخصوصية</Link>
-            <Link href="/terms" style={{ fontSize: 13, color: 'rgba(238,238,245,0.35)', textDecoration: 'none' }}>الشروط والأحكام</Link>
-            <Link href="/contact" style={{ fontSize: 13, color: 'rgba(238,238,245,0.35)', textDecoration: 'none' }}>تواصل معنا</Link>
-          </div>
-        </footer>
-      </div>
-    </>
+      <Footer />
+    </div>
   );
 }

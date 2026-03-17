@@ -52,6 +52,9 @@ export default function SubscribePage() {
   const [loading, setLoading] = useState(false);
   const [editItem, setEditItem] = useState<any>(null);
   const [errMsg, setErrMsg] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<any>(null);
+  const [saving, setSaving] = useState(false);
   const [reason, setReason] = useState('');
   const [requiredFeature, setRequiredFeature] = useState('');
   const [requiredPlan, setRequiredPlan] = useState('');
@@ -253,7 +256,7 @@ export default function SubscribePage() {
               <div style={{ color: '#fff', fontSize: 28, fontWeight: 800, marginTop: 8 }}>{selectedPlan.price} ر.س / شهر</div>
             </div>
             <div style={{ display: 'flex', gap: 10 }}>
-              <button onClick={handleSubscribe} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg,#C9A227,#E8C547)', border: 'none', borderRadius: 10, padding: '12px 0', color: '#06060E', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري...' : 'تأكيد الاشتراك'}</button>
+              <button onClick={() => handleSubscribe(selectedPlan?.id)} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg,#C9A227,#E8C547)', border: 'none', borderRadius: 10, padding: '12px 0', color: '#06060E', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري...' : 'تأكيد الاشتراك'}</button>
               <button onClick={() => setShowModal(false)} style={{ padding: '12px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
             </div>
           </div>

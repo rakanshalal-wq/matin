@@ -1,132 +1,133 @@
 'use client';
-import Link from 'next/link';
-import { useState } from 'react';
+/* MATIN DESIGN SYSTEM — Contact Page */
 
-/* ═══════════════════════════════════════════════════════
-   صفحة تواصل معنا — وفق الدستور السيادي 3.0
-   الهوية: #06060E خلفية، #C9A84C ذهبي، #EEEEF5 نص
-═══════════════════════════════════════════════════════ */
+import { useEffect } from "react";
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import { Mail, Phone, MapPin, MessageSquare, Clock, ArrowLeft } from "lucide-react";
 
-const CHANNELS = [
-  { icon: '📧', title: 'البريد الإلكتروني', value: 'support@matin.ink', sub: 'نرد خلال 24 ساعة' },
-  { icon: '💬', title: 'واتساب', value: '+966 50 000 0000', sub: 'دعم فني مباشر' },
-  { icon: '📍', title: 'الموقع', value: 'الرياض، المملكة العربية السعودية', sub: 'المقر الرئيسي' },
-  { icon: '⏰', title: 'ساعات العمل', value: 'الأحد — الخميس', sub: '8 صباحاً — 6 مساءً' },
+function useScrollAnimation() {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => { entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }); },
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll(".fade-in-up").forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+}
+
+const contactMethods = [
+  { icon: <MessageSquare size={24} />, color: "#22C55E", title: "واتساب", desc: "تحدث معنا مباشرة", action: "ابدأ المحادثة", href: "https://wa.me/966500000000" },
+  { icon: <Mail size={24} />, color: "#D4A843", title: "البريد الإلكتروني", desc: "hello@matin.ink", action: "أرسل رسالة", href: "mailto:hello@matin.ink" },
+  { icon: <Phone size={24} />, color: "#60A5FA", title: "الهاتف", desc: "+966 50 000 0000", action: "اتصل الآن", href: "tel:+966500000000" },
+  { icon: <Clock size={24} />, color: "#F97316", title: "ساعات العمل", desc: "الأحد - الخميس، 8ص - 6م", action: null, href: null },
 ];
 
-export default function ContactPage() {
-  const [sent, setSent] = useState(false);
-  const [form, setForm] = useState({ name: '', email: '', institution: '', message: '' });
-
-  const navLinkStyle: React.CSSProperties = { color: 'rgba(238,238,245,0.65)', textDecoration: 'none', fontSize: 14, fontWeight: 500 };
-  const inputStyle: React.CSSProperties = { width: '100%', background: '#0B0B16', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '12px 16px', color: '#EEEEF5', fontSize: 14, fontFamily: "'IBM Plex Sans Arabic', sans-serif", outline: 'none', boxSizing: 'border-box' };
-  const labelStyle: React.CSSProperties = { fontSize: 13, fontWeight: 600, color: 'rgba(238,238,245,0.65)', marginBottom: 8, display: 'block' };
+export default function Contact() {
+  useScrollAnimation();
 
   return (
-    <>
-      <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-      <div style={{ background: '#06060E', minHeight: '100vh', color: '#EEEEF5', fontFamily: "'IBM Plex Sans Arabic', sans-serif", direction: 'rtl', paddingTop: 64 }}>
+    <div className="min-h-screen bg-[#0a0a0a] text-white" style={{ fontFamily: 'Cairo, sans-serif' }}>
+      <Navbar />
 
-        {/* NAV */}
-        <nav style={{ position: 'fixed', top: 0, right: 0, left: 0, zIndex: 200, height: 64, display: 'flex', alignItems: 'center', padding: '0 48px', gap: 40, background: 'rgba(6,6,14,0.92)', borderBottom: '1px solid rgba(201,168,76,0.2)' }}>
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#EEEEF5', fontSize: 19, fontWeight: 800 }}>
-            <div style={{ width: 34, height: 34, borderRadius: 9, background: 'linear-gradient(135deg,#C9A84C,#E2C46A)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, fontWeight: 900, color: '#000' }}>م</div>
-            متين
-          </Link>
-          <div style={{ display: 'flex', gap: 28, flex: 1 }}>
-            <Link href="/features" style={navLinkStyle}>المميزات</Link>
-            <Link href="/pricing" style={navLinkStyle}>الأسعار</Link>
-            <Link href="/ai" style={navLinkStyle}>الذكاء الاصطناعي</Link>
-            <Link href="/about" style={navLinkStyle}>عن متين</Link>
-            <Link href="/contact" style={{ ...navLinkStyle, color: '#C9A84C' }}>تواصل معنا</Link>
-          </div>
-          <div style={{ display: 'flex', gap: 8, marginRight: 'auto' }}>
-            <Link href="/login" style={{ padding: '8px 18px', borderRadius: 9, border: '1px solid rgba(255,255,255,0.06)', background: 'transparent', color: 'rgba(238,238,245,0.65)', fontSize: 13.5, fontWeight: 500, textDecoration: 'none' }}>تسجيل الدخول</Link>
-            <Link href="/register" style={{ padding: '8px 20px', borderRadius: 9, background: '#C9A84C', color: '#000', fontSize: 13.5, fontWeight: 700, textDecoration: 'none' }}>ابدأ مجاناً</Link>
-          </div>
-        </nav>
-
-        {/* HERO */}
-        <section style={{ padding: '80px 24px 60px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', top: -100, left: '50%', transform: 'translateX(-50%)', width: 900, height: 600, background: 'radial-gradient(ellipse,rgba(201,168,76,0.08) 0%,transparent 60%)', pointerEvents: 'none' }} />
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11.5, fontWeight: 700, color: '#C9A84C', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 20 }}>تواصل معنا</div>
-          <h1 style={{ fontSize: 'clamp(36px,6vw,64px)', fontWeight: 800, lineHeight: 1.1, letterSpacing: -2, color: '#EEEEF5', margin: 0 }}>
-            نسعد{' '}
-            <span style={{ background: 'linear-gradient(90deg,#C9A84C,#E2C46A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>بتواصلكم</span>
+      <section className="pt-32 pb-16 page-hero">
+        <div className="container text-center">
+          <span className="section-label mb-6 inline-flex">تواصل معنا</span>
+          <h1 className="text-4xl md:text-6xl font-black text-white mt-4 mb-6">
+            نحن هنا <span className="text-gold-gradient">لمساعدتك</span>
           </h1>
-          <p style={{ fontSize: 18, color: 'rgba(238,238,245,0.65)', maxWidth: 600, margin: '20px auto 0', lineHeight: 1.8 }}>
-            فريقنا جاهز للإجابة على استفساراتكم وتقديم العروض التوضيحية لمؤسستكم.
+          <p className="text-gray-400 text-lg max-w-xl mx-auto">
+            فريقنا متاح على مدار الساعة للإجابة على استفساراتك ومساعدتك في البدء.
           </p>
-        </section>
+        </div>
+      </section>
 
-        <div style={{ width: '100%', height: 1, background: 'rgba(255,255,255,0.06)' }} />
+      {/* Contact Methods */}
+      <section className="py-16">
+        <div className="container">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+            {contactMethods.map((method, i) => (
+              <div key={i} className="matin-card p-6 text-center fade-in-up" style={{ transitionDelay: `${i * 80}ms` }}>
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4"
+                  style={{ background: `${method.color}15`, color: method.color }}
+                >
+                  {method.icon}
+                </div>
+                <h3 className="text-white font-bold mb-2">{method.title}</h3>
+                <p className="text-gray-500 text-sm mb-4">{method.desc}</p>
+                {method.action && method.href && (
+                  <a
+                    href={method.href}
+                    className="btn-outline-gold px-4 py-2 rounded-xl text-xs font-bold inline-block"
+                    style={{ color: method.color, borderColor: method.color }}
+                  >
+                    {method.action}
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
 
-        {/* CONTENT */}
-        <section style={{ padding: '60px 24px', maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 40, alignItems: 'start' }}>
-
-          {/* CHANNELS */}
-          <div>
-            <h2 style={{ fontSize: 22, fontWeight: 700, color: '#EEEEF5', marginBottom: 24 }}>قنوات التواصل</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {CHANNELS.map((ch) => (
-                <div key={ch.title} style={{ background: '#0B0B16', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 16 }}>
-                  <div style={{ fontSize: 28, flexShrink: 0 }}>{ch.icon}</div>
+          {/* Contact Form */}
+          <div className="max-w-2xl mx-auto">
+            <div className="matin-card p-8 fade-in-up">
+              <h2 className="text-2xl font-black text-white mb-6">أرسل لنا رسالة</h2>
+              <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <div style={{ fontSize: 12, color: 'rgba(238,238,245,0.4)', marginBottom: 2 }}>{ch.title}</div>
-                    <div style={{ fontSize: 14, fontWeight: 600, color: '#EEEEF5' }}>{ch.value}</div>
-                    <div style={{ fontSize: 12, color: '#C9A84C', marginTop: 2 }}>{ch.sub}</div>
+                    <label className="block text-sm font-semibold text-gray-400 mb-2">الاسم الكامل</label>
+                    <input
+                      type="text"
+                      className="w-full bg-[#1a1a1a] border border-white/8 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#D4A843] transition-colors"
+                      placeholder="محمد أحمد"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-400 mb-2">البريد الإلكتروني</label>
+                    <input
+                      type="email"
+                      className="w-full bg-[#1a1a1a] border border-white/8 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#D4A843] transition-colors"
+                      placeholder="example@school.edu.sa"
+                    />
                   </div>
                 </div>
-              ))}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-400 mb-2">اسم المؤسسة</label>
+                  <input
+                    type="text"
+                    className="w-full bg-[#1a1a1a] border border-white/8 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#D4A843] transition-colors"
+                    placeholder="مدرسة النجاح الأهلية"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-400 mb-2">رقم الجوال</label>
+                  <input
+                    type="tel"
+                    className="w-full bg-[#1a1a1a] border border-white/8 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#D4A843] transition-colors"
+                    placeholder="+966 5X XXX XXXX"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-400 mb-2">رسالتك</label>
+                  <textarea
+                    rows={4}
+                    className="w-full bg-[#1a1a1a] border border-white/8 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#D4A843] transition-colors resize-none"
+                    placeholder="أخبرنا عن مؤسستك واحتياجاتك..."
+                  />
+                </div>
+                <button type="submit" className="btn-gold w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2">
+                  إرسال الرسالة
+                  <ArrowLeft size={18} />
+                </button>
+              </form>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* FORM */}
-          <div style={{ background: '#0B0B16', border: '1px solid rgba(201,168,76,0.15)', borderRadius: 20, padding: 32 }}>
-            {sent ? (
-              <div style={{ textAlign: 'center', padding: '40px 0' }}>
-                <div style={{ fontSize: 56, marginBottom: 20 }}>✅</div>
-                <h3 style={{ fontSize: 22, fontWeight: 700, color: '#C9A84C', marginBottom: 12 }}>تم الإرسال بنجاح!</h3>
-                <p style={{ fontSize: 15, color: 'rgba(238,238,245,0.65)', lineHeight: 1.8 }}>سيتواصل معكم فريقنا خلال 24 ساعة.</p>
-              </div>
-            ) : (
-              <>
-                <h2 style={{ fontSize: 20, fontWeight: 700, color: '#EEEEF5', marginBottom: 24 }}>أرسل رسالتك</h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                  <div>
-                    <label style={labelStyle}>الاسم الكامل</label>
-                    <input type="text" placeholder="اسمك الكامل" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} style={inputStyle} />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>البريد الإلكتروني</label>
-                    <input type="email" placeholder="email@example.com" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} style={inputStyle} />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>اسم المؤسسة</label>
-                    <input type="text" placeholder="اسم مدرستك أو مؤسستك" value={form.institution} onChange={e => setForm({ ...form, institution: e.target.value })} style={inputStyle} />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>الرسالة</label>
-                    <textarea placeholder="اكتب رسالتك هنا..." value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} rows={5} style={{ ...inputStyle, resize: 'none' }} />
-                  </div>
-                  <button onClick={() => setSent(true)} style={{ width: '100%', background: '#C9A84C', color: '#000', border: 'none', borderRadius: 10, padding: '14px', fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: "'IBM Plex Sans Arabic', sans-serif" }}>
-                    إرسال الرسالة
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-        </section>
-
-        {/* FOOTER */}
-        <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
-          <span style={{ fontSize: 13, color: 'rgba(238,238,245,0.35)' }}>© {new Date().getFullYear()} منصة متين. جميع الحقوق محفوظة.</span>
-          <div style={{ display: 'flex', gap: 24 }}>
-            <Link href="/privacy" style={{ fontSize: 13, color: 'rgba(238,238,245,0.35)', textDecoration: 'none' }}>سياسة الخصوصية</Link>
-            <Link href="/terms" style={{ fontSize: 13, color: 'rgba(238,238,245,0.35)', textDecoration: 'none' }}>الشروط والأحكام</Link>
-          </div>
-        </footer>
-      </div>
-    </>
+      <Footer />
+    </div>
   );
 }

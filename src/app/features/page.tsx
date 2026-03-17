@@ -1,174 +1,410 @@
 'use client';
-import Link from 'next/link';
-import { useState } from 'react';
+/* MATIN DESIGN SYSTEM — Features Page
+   Dark Premium SaaS | RTL | Cairo Font
+   Per Constitution v4: 3 lecture types (in-person, online, recorded), 25% absence limit, 7 user levels */
 
-const CATEGORIES = [
+import { useEffect } from "react";
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import Link from 'next/link';
+import {
+  GraduationCap, Shield, BarChart3, Bell, Bus, Utensils,
+  Brain, Users, BookOpen, Calendar, FileText, CreditCard,
+  MapPin, MessageSquare, Lock, Activity, Database, Zap,
+  Star, CheckCircle, ArrowLeft, Heart, Award, TrendingUp,
+  Video, Wifi, PlayCircle, AlertTriangle, Upload, FileSpreadsheet,
+  Layers, BookMarked, FlaskConical, Cpu, Briefcase, Scroll
+} from "lucide-react";
+
+function useScrollAnimation() {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => { entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }); },
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll(".fade-in-up").forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+}
+
+const featureCategories = [
   {
-    id: 'academic', label: 'أكاديمي', color: '#C9A84C',
+    title: "الإدارة الأكاديمية",
+    icon: <GraduationCap size={24} />,
+    color: "#D4A843",
     features: [
-      { icon: '📅', title: 'الجدول الدراسي', desc: 'بناء جداول ذكية تلقائياً مع تجنب التعارضات. دعم الحصص المزدوجة والمختبرات والفصول المتعددة.' },
-      { icon: '✅', title: 'الحضور والغياب', desc: 'تسجيل دقيق مع تنبيهات فورية لأولياء الأمور. تقارير شهرية وسنوية. تكامل مع GPS للتحقق.' },
-      { icon: '📊', title: 'الدرجات والتقييم', desc: 'إدارة شاملة للدرجات والمعدلات. نظام GPA، توزيع الدرجات، التقارير الفصلية والسنوية.' },
-      { icon: '📝', title: 'الاختبارات', desc: 'اختبارات آمنة مع كشف الغش. بنك أسئلة ذكي، توزيع تلقائي، تصحيح فوري، تحليل النتائج.' },
-      { icon: '📚', title: 'الواجبات', desc: 'إدارة الواجبات والتسليمات. تذكيرات تلقائية، تصحيح إلكتروني، تقارير الإنجاز.' },
-      { icon: '🎓', title: 'القبول والتسجيل', desc: 'من الطلب للطالب النشط. نماذج إلكترونية، مراجعة المستندات، قوائم الانتظار، التحقق من نور.' },
+      { title: "الجداول الدراسية الذكية", desc: "إنشاء وتعديل الجداول تلقائياً مع تجنب التعارضات وتوزيع الأعباء" },
+      { title: "إدارة الدرجات", desc: "إدخال وتحليل الدرجات مع حساب المعدلات التراكمية وتقارير الأداء" },
+      { title: "الحضور والغياب", desc: "تسجيل دقيق مع تنبيهات فورية لأولياء الأمور — حد الغياب 25% تلقائي" },
+      { title: "الاختبارات الإلكترونية", desc: "اختبارات آمنة مع كشف الغش وبنك أسئلة متقدم ونتائج فورية" },
+      { title: "الواجبات المنزلية", desc: "إدارة الواجبات والتسليمات مع تتبع الإنجاز وتقييم المعلم" },
+      { title: "المحتوى التعليمي", desc: "رفع ومشاركة المواد والمحاضرات والملفات بصيغ متعددة" },
     ],
   },
   {
-    id: 'elearning', label: 'تعليم إلكتروني', color: '#3B82F6',
+    title: "أنواع المحاضرات الثلاثة",
+    icon: <Video size={24} />,
+    color: "#60A5FA",
+    highlight: true,
     features: [
-      { icon: '💻', title: 'المحاضرات المباشرة', desc: 'فصول افتراضية متكاملة. بث مباشر، تسجيل، غرف جانبية، لوح تفاعلي، استطلاعات فورية.' },
-      { icon: '🎬', title: 'المحتوى المسجل', desc: 'مكتبة محتوى تعليمي. رفع الفيديوهات، تنظيمها، التحكم في الوصول، تتبع المشاهدة.' },
-      { icon: '🧩', title: 'بنك الأسئلة', desc: 'بنك أسئلة ذكي بأنواع متعددة. MCQ، صح/خطأ، مقالي، تطبيقي. تصنيف حسب المادة والصعوبة.' },
-      { icon: '📖', title: 'المناهج الرقمية', desc: 'رفع وتنظيم المناهج الدراسية. كتب إلكترونية، ملفات PDF، روابط خارجية، تنظيم حسب الوحدات.' },
+      {
+        title: "المحاضرة الحضورية",
+        desc: "إدارة الفصول الدراسية التقليدية مع تسجيل الحضور الفوري وإشعار أولياء الأمور",
+        icon: <Users size={18} />
+      },
+      {
+        title: "المحاضرة الأونلاين",
+        desc: "بث مباشر متكامل مع إدارة الطلاب وتسجيل الحضور الرقمي وأدوات التفاعل",
+        icon: <Wifi size={18} />
+      },
+      {
+        title: "المحاضرة المسجلة",
+        desc: "تسجيل المحاضرات ورفعها للمكتبة الرقمية ليتمكن الطلاب من المشاهدة في أي وقت",
+        icon: <PlayCircle size={18} />
+      },
+      { title: "المكتبة الرقمية", desc: "تخزين وتنظيم جميع المحاضرات المسجلة والمواد التعليمية بشكل منظم" },
+      { title: "تتبع المشاهدة", desc: "متابعة مشاهدة الطلاب للمحاضرات المسجلة وتسجيل الإنجاز" },
+      { title: "التفاعل المباشر", desc: "أسئلة وأجوبة وتصويت وتفاعل مباشر في المحاضرات الأونلاين" },
     ],
   },
   {
-    id: 'admin', label: 'إدارة', color: '#10B981',
+    title: "الإدارة المؤسسية",
+    icon: <Users size={24} />,
+    color: "#22C55E",
     features: [
-      { icon: '👥', title: 'إدارة المستخدمين', desc: '7 مستويات صلاحيات: مالك المنصة، مالك المؤسسة، مدير، معلم، طالب، ولي أمر، موظف.' },
-      { icon: '🏫', title: 'إدارة المؤسسات', desc: 'Multi-tenancy كامل. كل مؤسسة بيئة معزولة. إدارة الفروع، الأقسام، الفصول، المباني.' },
-      { icon: '👨‍🏫', title: 'شؤون الموظفين', desc: 'ملفات الموظفين، العقود، الإجازات، الرواتب، التقييم السنوي، التدريب والتطوير.' },
-      { icon: '📋', title: 'التقارير والتحليلات', desc: 'تقارير شاملة قابلة للتخصيص. تصدير PDF/Excel. جداول زمنية تلقائية. تقارير AI ذكية.' },
-      { icon: '🔔', title: 'نظام الإشعارات', desc: 'إشعارات فورية عبر واتساب، SMS، بريد إلكتروني، وإشعارات داخل التطبيق. قوالب جاهزة.' },
-      { icon: '🗂️', title: 'إدارة الوثائق', desc: 'أرشفة رقمية للوثائق. عقود، شهادات، محاضر الاجتماعات. بحث ذكي وتصنيف تلقائي.' },
+      { title: "7 مستويات صلاحيات", desc: "RBAC متقدم: مالك المنصة، موظفو المنصة، مالك المؤسسة، مدير، كادر، معلم، طالب/ولي أمر" },
+      { title: "القبول والتسجيل", desc: "نظام قبول شامل مع التحقق من نظام نور الحكومي وإدارة الطلبات" },
+      { title: "إدارة الفصول", desc: "توزيع الطلاب والمعلمين على الفصول بكفاءة مع إدارة الطاقة الاستيعابية" },
+      { title: "الملفات الشخصية", desc: "ملفات شاملة للطلاب والمعلمين والموظفين مع التاريخ الكامل" },
+      { title: "التقارير الإدارية", desc: "تقارير مفصلة لكل جانب من جوانب المؤسسة بصيغ متعددة" },
+      { title: "إدارة متعددة الفروع", desc: "إدارة مركزية لجميع فروع المؤسسة من لوحة تحكم واحدة" },
     ],
   },
   {
-    id: 'finance', label: 'مالية', color: '#F59E0B',
+    title: "الأمان والحماية",
+    icon: <Shield size={24} />,
+    color: "#60A5FA",
     features: [
-      { icon: '💰', title: 'الرسوم الدراسية', desc: 'إدارة شاملة للرسوم. جداول الأقساط، التذكيرات التلقائية، الإعفاءات، المنح الدراسية.' },
-      { icon: '💳', title: 'الدفع الإلكتروني', desc: 'تكامل مع مدى، Visa، Apple Pay، STC Pay، Tabby للتقسيط، وMoyasar كبوابة دفع.' },
-      { icon: '📑', title: 'الفواتير والإيصالات', desc: 'إصدار فواتير إلكترونية معتمدة. إيصالات فورية، تقارير مالية، تكامل مع أنظمة المحاسبة.' },
-      { icon: '💼', title: 'الرواتب', desc: 'إدارة رواتب الموظفين. الحسابات التلقائية، الخصومات، البدلات، حوالات البنوك.' },
+      { title: "8 طبقات أمان", desc: "جدار حماية، TLS 1.3، 2FA، AES-256، RBAC، IDS، Audit Logs، AI Auditor" },
+      { title: "المصادقة الثنائية", desc: "حماية الحسابات بكلمة مرور + رمز تحقق عبر Google Authenticator" },
+      { title: "تشفير البيانات", desc: "تشفير كامل AES-256 للبيانات المخزنة والمنقولة بـ TLS 1.3" },
+      { title: "سجلات الأمان", desc: "تسجيل كامل لجميع العمليات لا يمكن حذفه — Audit Logs شاملة" },
+      { title: "المراقبة الذكية", desc: "AI Auditor يكتشف الشذوذ والتهديدات فوراً ويُنبّه الفريق التقني" },
+      { title: "عزل البيانات", desc: "Multi-tenancy يضمن عزل كامل لبيانات كل مؤسسة عن الأخرى" },
     ],
   },
   {
-    id: 'ai', label: 'ذكاء اصطناعي', color: '#8B5CF6',
+    title: "الخدمات الإضافية",
+    icon: <Star size={24} />,
+    color: "#F97316",
     features: [
-      { icon: '🎯', title: 'AI Career Pathing', desc: 'توجيه مهني ذكي يحلل مهارات الطالب ويقترح مسارات وظيفية مناسبة بناءً على بيانات حقيقية.' },
-      { icon: '🪙', title: 'Matin Coin', desc: 'اقتصاد داخلي يحفز الطلاب على الإنجاز. تُكسب بالحضور والدرجات وتُصرف في المتجر الداخلي.' },
-      { icon: '💚', title: 'AI Well-being', desc: 'مراقبة ذكية وسرية للصحة النفسية. يكتشف مبكراً علامات الضغط ويرفع تنبيهات للمرشد.' },
-      { icon: '📘', title: 'Skills Passport', desc: 'جواز سفر المهارات يتابع الطالب مدى الحياة. يوثق كل مهارة من الروضة لسوق العمل.' },
-      { icon: '🗂️', title: 'المحفظة التعليمية', desc: 'ملف شامل للطالب ينقل معه بين المؤسسات. كل التاريخ الأكاديمي والمهاري في مكان واحد.' },
+      { title: "النقل المدرسي", desc: "تتبع حي بـ GPS مع إشعارات الركوب والنزول لأولياء الأمور فوراً" },
+      { title: "المقصف الذكي", desc: "إدارة الطلبات والدفع الإلكتروني في المقصف المدرسي" },
+      { title: "الملتقى المجتمعي", desc: "فضاء آمن للتواصل بين الطلاب والمعلمين وأولياء الأمور" },
+      { title: "الصحة النفسية", desc: "مراقبة ذكية وسرية لصحة الطلاب النفسية مع تنبيهات مبكرة" },
+      { title: "الأنشطة اللاصفية", desc: "إدارة الأنشطة والبرامج التدريبية الإضافية والرحلات المدرسية" },
+      { title: "الخدمات الطبية", desc: "تسجيل الحساسيات والملفات الطبية بأمان تام" },
     ],
   },
   {
-    id: 'extra', label: 'خدمات إضافية', color: '#EF4444',
+    title: "الذكاء الاصطناعي",
+    icon: <Brain size={24} />,
+    color: "#EC4899",
     features: [
-      { icon: '🚌', title: 'النقل المدرسي', desc: 'تتبع حي آمن للحافلات بـ GPS. إشعارات الركوب والنزول، خرائط المسارات، تقارير السائقين.' },
-      { icon: '🍽️', title: 'المقصف الذكي', desc: 'إدارة القوائم والطلبات والدفع. طلب مسبق، تتبع الحساسية الغذائية، تقارير المبيعات.' },
-      { icon: '💬', title: 'الملتقى المجتمعي', desc: 'ملتقى آمن للطلاب. منتديات، مجموعات، مشاركة المحتوى، مراقبة ذكية للمحتوى.' },
-      { icon: '🏥', title: 'الصحة المدرسية', desc: 'ملف صحي رقمي لكل طالب. السجلات الصحية، التطعيمات، الحالات المزمنة، طوارئ.' },
-      { icon: '📚', title: 'المكتبة الرقمية', desc: 'كتالوج رقمي كامل. استعارة إلكترونية، تذكير بالإرجاع، تقارير القراءة.' },
-      { icon: '🎭', title: 'الأنشطة والفعاليات', desc: 'إدارة الأنشطة اللاصفية. النوادي، الرياضة، المسابقات، الرحلات، الشهادات.' },
+      { title: "التوجيه المهني الذكي", desc: "تحليل مهارات الطالب واقتراح مسارات وظيفية متوافقة مع رؤية 2030" },
+      { title: "جواز سفر المهارات", desc: "ملف رقمي يتابع الطالب مدى الحياة عبر المؤسسات التعليمية" },
+      { title: "متين كوين", desc: "اقتصاد داخلي يحفز الطلاب على الإنجاز والمشاركة الإيجابية" },
+      { title: "AI Well-being", desc: "مراقبة الصحة النفسية بطريقة سرية وإنسانية مع تدخل مبكر" },
+      { title: "المحفظة التعليمية", desc: "ملف شامل ينتقل مع الطالب بين المؤسسات التعليمية" },
+      { title: "التحليلات التنبؤية", desc: "توقع أداء الطلاب والتدخل المبكر قبل الرسوب" },
+    ],
+  },
+  {
+    title: "التحليلات والتقارير",
+    icon: <BarChart3 size={24} />,
+    color: "#A78BFA",
+    features: [
+      { title: "لوحات تحكم تفاعلية", desc: "رسوم بيانية وإحصائيات حية لكل مستوى من مستويات المنصة" },
+      { title: "تقارير الأداء", desc: "تقارير مفصلة لأداء الطلاب والمعلمين والمؤسسة ككل" },
+      { title: "تقارير الحضور", desc: "إحصائيات الحضور والغياب مع تنبيه عند تجاوز حد 25%" },
+      { title: "التقارير المالية", desc: "متابعة الرسوم والمدفوعات والمتأخرات والإيرادات" },
+      { title: "تقارير وزارة التعليم", desc: "إرسال التقارير الرسمية لوزارة التعليم تلقائياً" },
+      { title: "تصدير البيانات", desc: "تصدير جميع البيانات بصيغ PDF وExcel وCSV" },
     ],
   },
 ];
 
-export default function FeaturesPage() {
-  const [activeCategory, setActiveCategory] = useState('academic');
-  const current = CATEGORIES.find(c => c.id === activeCategory)!;
+// ===== بنك الأسئلة — نظام المسارات =====
+const questionBankTracks = [
+  {
+    stage: "الابتدائية",
+    color: "#22C55E",
+    icon: <BookOpen size={18} />,
+    grades: ["الأول", "الثاني", "الثالث", "الرابع", "الخامس", "السادس"],
+    subjects: ["لغتي الخالدة", "الرياضيات", "العلوم", "الدراسات الإسلامية", "القرآن الكريم", "اللغة الإنجليزية", "التربية الفنية", "التربية البدنية", "المهارات الحياتية"],
+    note: "9 مواد — مشتركة لجميع الصفوف"
+  },
+  {
+    stage: "المتوسطة",
+    color: "#60A5FA",
+    icon: <BookMarked size={18} />,
+    grades: ["الأول", "الثاني", "الثالث"],
+    subjects: ["لغتي الخالدة", "الرياضيات", "العلوم", "الدراسات الإسلامية", "القرآن الكريم", "اللغة الإنجليزية", "التاريخ", "الجغرافيا", "التربية الوطنية", "المهارات الرقمية"],
+    note: "10 مواد — مشتركة لجميع الصفوف"
+  },
+  {
+    stage: "أول ثانوي (مشترك)",
+    color: "#F59E0B",
+    icon: <GraduationCap size={18} />,
+    grades: ["السنة الأولى"],
+    subjects: ["لغتي الخالدة", "الرياضيات", "العلوم", "الدراسات الإسلامية", "اللغة الإنجليزية", "التاريخ", "الجغرافيا", "علم البيئة", "التقنية الرقمية"],
+    note: "سنة تأسيسية مشتركة لجميع المسارات"
+  },
+  {
+    stage: "المسار العام",
+    color: "#8B5CF6",
+    icon: <Layers size={18} />,
+    grades: ["ثاني ثانوي", "ثالث ثانوي"],
+    subjects: ["الكفايات اللغوية", "الدراسات الأدبية", "اللغة الإنجليزية", "الرياضيات", "الفيزياء", "الكيمياء", "الأحياء", "علوم الأرض والفضاء", "الدراسات الإسلامية"],
+    note: "يتيح جميع التخصصات الجامعية"
+  },
+  {
+    stage: "علوم الحاسب والهندسة",
+    color: "#06B6D4",
+    icon: <Cpu size={18} />,
+    grades: ["ثاني ثانوي", "ثالث ثانوي"],
+    subjects: ["الرياضيات", "الفيزياء", "الكيمياء", "علم البيانات", "الهندسة", "انترنت الأشياء", "الذكاء الاصطناعي", "الأمن السيبراني", "هندسة البرمجيات"],
+    note: "يؤهل لتخصصات التقنية والهندسة"
+  },
+  {
+    stage: "الصحة والحياة",
+    color: "#EF4444",
+    icon: <FlaskConical size={18} />,
+    grades: ["ثاني ثانوي", "ثالث ثانوي"],
+    subjects: ["الكيمياء", "الأحياء", "الفيزياء", "أنظمة جسم الإنسان", "التغذية والصحة", "الصحة العامة", "التصميم الهندسي", "اللياقة والثقافة الصحية"],
+    note: "يؤهل لكليات الطب والصحة"
+  },
+  {
+    stage: "إدارة الأعمال",
+    color: "#F97316",
+    icon: <Briefcase size={18} />,
+    grades: ["ثاني ثانوي", "ثالث ثانوي"],
+    subjects: ["الرياضيات", "مبادئ المحاسبة", "مبادئ الإدارة", "الاقتصاد", "القانون", "التسويق", "ريادة الأعمال", "المحاسبة المالية"],
+    note: "يؤهل لكليات الإدارة والاقتصاد"
+  },
+  {
+    stage: "المسار الشرعي",
+    color: "#10B981",
+    icon: <Scroll size={18} />,
+    grades: ["ثاني ثانوي", "ثالث ثانوي"],
+    subjects: ["التفسير وعلوم القرآن", "الحديث وعلومه", "الفقه وأصوله", "العقيدة والمذاهب", "التاريخ الإسلامي", "القانون", "الفقه المقارن", "السيرة النبوية"],
+    note: "يؤهل لكليات الشريعة والدراسات الإسلامية"
+  },
+];
 
-  const navStyle: React.CSSProperties = { position: 'fixed', top: 0, right: 0, left: 0, zIndex: 200, height: 64, display: 'flex', alignItems: 'center', padding: '0 48px', gap: 40, background: 'rgba(6,6,14,0.92)', borderBottom: '1px solid rgba(201,168,76,0.2)' };
-  const logoStyle: React.CSSProperties = { display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#EEEEF5', fontSize: 19, fontWeight: 800 };
-  const logoIconStyle: React.CSSProperties = { width: 34, height: 34, borderRadius: 9, background: 'linear-gradient(135deg,#C9A84C,#E2C46A)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, fontWeight: 900, color: '#000' };
-  const navLinkStyle: React.CSSProperties = { color: 'rgba(238,238,245,0.65)', textDecoration: 'none', fontSize: 14, fontWeight: 500 };
-  const btnGhostStyle: React.CSSProperties = { padding: '8px 18px', borderRadius: 9, border: '1px solid rgba(255,255,255,0.06)', background: 'transparent', color: 'rgba(238,238,245,0.65)', fontSize: 13.5, fontWeight: 500, cursor: 'pointer', textDecoration: 'none' };
-  const btnPrimaryStyle: React.CSSProperties = { padding: '8px 20px', borderRadius: 9, background: '#C9A84C', color: '#000', fontSize: 13.5, fontWeight: 700, border: 'none', cursor: 'pointer', textDecoration: 'none' };
+// Absence limit highlight
+const absenceHighlight = {
+  icon: <AlertTriangle size={24} />,
+  color: "#F97316",
+  title: "نظام الغياب الذكي",
+  desc: "عند تجاوز الطالب حد 25% غياب، يُرسل النظام تنبيهاً فورياً لولي الأمر والإدارة، ويُسجّل الحالة تلقائياً في ملف الطالب.",
+};
+
+export default function Features() {
+  useScrollAnimation();
 
   return (
-    <>
-      <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-      <div style={{ background: '#06060E', minHeight: '100vh', color: '#EEEEF5', fontFamily: "'IBM Plex Sans Arabic', sans-serif", direction: 'rtl', paddingTop: 64 }}>
+    <div className="min-h-screen bg-[#0a0a0a] text-white" style={{ fontFamily: 'Cairo, sans-serif' }}>
+      <Navbar />
 
-        {/* NAV */}
-        <nav style={navStyle}>
-          <Link href="/" style={logoStyle}>
-            <div style={logoIconStyle}>م</div>
-            متين
-          </Link>
-          <div style={{ display: 'flex', gap: 28, flex: 1 }}>
-            <Link href="/features" style={{ ...navLinkStyle, color: '#C9A84C' }}>المميزات</Link>
-            <Link href="/pricing" style={navLinkStyle}>الأسعار</Link>
-            <Link href="/ai" style={navLinkStyle}>الذكاء الاصطناعي</Link>
-            <Link href="/about" style={navLinkStyle}>عن متين</Link>
-            <Link href="/contact" style={navLinkStyle}>تواصل معنا</Link>
-          </div>
-          <div style={{ display: 'flex', gap: 8, marginRight: 'auto' }}>
-            <Link href="/login" style={btnGhostStyle}>تسجيل الدخول</Link>
-            <Link href="/register" style={btnPrimaryStyle}>ابدأ مجاناً</Link>
-          </div>
-        </nav>
-
-        {/* HERO */}
-        <section style={{ padding: '80px 24px 60px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', top: -100, left: '50%', transform: 'translateX(-50%)', width: 900, height: 600, background: 'radial-gradient(ellipse,rgba(201,168,76,0.1) 0%,transparent 60%)', pointerEvents: 'none' }} />
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11.5, fontWeight: 700, color: '#C9A84C', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 20 }}>30+ وحدة متكاملة</div>
-          <h1 style={{ fontSize: 'clamp(36px,6vw,64px)', fontWeight: 800, lineHeight: 1.1, letterSpacing: -2, color: '#EEEEF5', margin: 0 }}>
-            كل ما تحتاجه في{' '}
-            <span style={{ background: 'linear-gradient(90deg,#C9A84C,#E2C46A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>منصة واحدة</span>
+      {/* Hero */}
+      <section className="pt-32 pb-16 page-hero">
+        <div className="container text-center">
+          <span className="section-label mb-6 inline-flex">المميزات الكاملة</span>
+          <h1 className="text-4xl md:text-6xl font-black text-white mt-4 mb-6">
+            أكثر من <span className="text-gold-gradient">30 ميزة</span> متكاملة
           </h1>
-          <p style={{ fontSize: 18, color: 'rgba(238,238,245,0.65)', maxWidth: 600, margin: '20px auto 0', lineHeight: 1.8 }}>
-            من الإدارة الأكاديمية إلى الذكاء الاصطناعي — متين يغطي كل احتياجات مؤسستك التعليمية.
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
+            منصة متين تغطي كل جانب من جوانب إدارة المؤسسة التعليمية، من القبول حتى التخرج، بأمان لا يُساوم عليه.
           </p>
-          <div style={{ display: 'flex', gap: 32, justifyContent: 'center', flexWrap: 'wrap', marginTop: 48 }}>
-            {[{ value: '30+', label: 'وحدة متكاملة' }, { value: '7', label: 'مستويات صلاحيات' }, { value: '5', label: 'أنواع مؤسسات' }, { value: '14+', label: 'تكامل خارجي' }].map((stat) => (
-              <div key={stat.label} style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: 36, fontWeight: 900, color: '#C9A84C', letterSpacing: -2 }}>{stat.value}</div>
-                <div style={{ fontSize: 13, color: 'rgba(238,238,245,0.5)', marginTop: 4 }}>{stat.label}</div>
+        </div>
+      </section>
+
+      {/* Absence Limit Highlight */}
+      <section className="pb-8">
+        <div className="container">
+          <div
+            className="rounded-2xl p-6 fade-in-up flex items-start gap-4"
+            style={{ background: "rgba(249,115,22,0.06)", border: "1px solid rgba(249,115,22,0.2)" }}
+          >
+            <div
+              className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 mt-1"
+              style={{ background: "rgba(249,115,22,0.15)", color: "#F97316" }}
+            >
+              {absenceHighlight.icon}
+            </div>
+            <div>
+              <h3 className="text-white font-bold text-lg mb-1">{absenceHighlight.title}</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">{absenceHighlight.desc}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Feature Categories */}
+      {featureCategories.map((category, catIdx) => (
+        <section key={catIdx} className={`py-16 ${catIdx % 2 === 0 ? "bg-[#0d0d0d]" : ""}`}>
+          <div className="container">
+            <div className="flex items-center gap-3 mb-10 fade-in-up">
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center"
+                style={{ background: `${category.color}15`, color: category.color }}
+              >
+                {category.icon}
+              </div>
+              <h2 className="text-2xl font-black text-white">{category.title}</h2>
+              {category.highlight && (
+                <span
+                  className="text-xs px-3 py-1 rounded-full font-bold"
+                  style={{ background: "rgba(96,165,250,0.15)", color: "#60A5FA", border: "1px solid rgba(96,165,250,0.3)" }}
+                >
+                  جديد في الدستور v4
+                </span>
+              )}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {category.features.map((feature, i) => (
+                <div key={i} className="matin-card p-5 fade-in-up" style={{ transitionDelay: `${i * 60}ms` }}>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle size={18} className="mt-0.5 flex-shrink-0" style={{ color: category.color }} />
+                    <div>
+                      <h3 className="text-white font-bold text-sm mb-1">{feature.title}</h3>
+                      <p className="text-gray-500 text-xs leading-relaxed">{feature.desc}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      ))}
+
+      {/* بنك الأسئلة — نظام المسارات */}
+      <section className="py-20 bg-[#080808]">
+        <div className="container">
+          <div className="text-center mb-12 fade-in-up">
+            <span className="section-label mb-4 inline-flex">بنك الأسئلة الذكي</span>
+            <h2 className="text-3xl md:text-4xl font-black text-white mt-3 mb-4">
+              يدعم <span className="text-gold-gradient">نظام المسارات</span> الجديد
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              بنك أسئلة شامل يغطي جميع المراحل الدراسية وفق هيكل وزارة التعليم السعودية 1445هـ — من الأول الابتدائي حتى الثالث الثانوي بجميع مساراته الخمسة
+            </p>
+          </div>
+
+          {/* طرق إدخال الأسئلة */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-14 fade-in-up">
+            {[
+              {
+                icon: <FileSpreadsheet size={28} />,
+                title: "رفع Excel",
+                desc: "رفع مئات الأسئلة دفعة واحدة عبر نموذج Excel جاهز مع التحقق التلقائي من البيانات",
+                color: "#22C55E",
+                badge: "الأسرع"
+              },
+              {
+                icon: <Brain size={28} />,
+                title: "توليد بالذكاء الاصطناعي",
+                desc: "توليد أسئلة تلقائياً بناءً على المادة والمستوى ومستوى بلوم المطلوب",
+                color: "#EC4899",
+                badge: "الأذكى"
+              },
+              {
+                icon: <FileText size={28} />,
+                title: "إدخال يدوي",
+                desc: "إضافة الأسئلة يدوياً مع دعم الصور والمعادلات الرياضية وتنسيق النص",
+                color: "#60A5FA",
+                badge: "الأدق"
+              }
+            ].map((method, i) => (
+              <div key={i} className="matin-card p-6 fade-in-up text-center" style={{ transitionDelay: `${i * 80}ms` }}>
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{ background: `${method.color}15`, color: method.color }}>
+                  {method.icon}
+                </div>
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <h3 className="text-white font-bold text-lg">{method.title}</h3>
+                  <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{ background: `${method.color}20`, color: method.color }}>{method.badge}</span>
+                </div>
+                <p className="text-gray-500 text-sm leading-relaxed">{method.desc}</p>
               </div>
             ))}
           </div>
-        </section>
 
-        <div style={{ width: '100%', height: 1, background: 'rgba(255,255,255,0.06)' }} />
-
-        {/* CATEGORY TABS */}
-        <section style={{ padding: '40px 24px 0', maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center', marginBottom: 40 }}>
-            {CATEGORIES.map((cat) => (
-              <button key={cat.id} onClick={() => setActiveCategory(cat.id)} style={{ padding: '10px 20px', borderRadius: 100, border: `1px solid ${activeCategory === cat.id ? cat.color : 'rgba(255,255,255,0.06)'}`, background: activeCategory === cat.id ? `${cat.color}20` : 'transparent', color: activeCategory === cat.id ? cat.color : 'rgba(238,238,245,0.5)', fontSize: 13.5, fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s', fontFamily: "'IBM Plex Sans Arabic', sans-serif" }}>
-                {cat.label}
-              </button>
-            ))}
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(320px,1fr))', gap: 16, paddingBottom: 60 }}>
-            {current.features.map((feature) => (
-              <div key={feature.title} style={{ background: '#0B0B16', border: `1px solid ${current.color}20`, borderRadius: 16, padding: 28 }}>
-                <div style={{ fontSize: 36, marginBottom: 16 }}>{feature.icon}</div>
-                <h3 style={{ fontSize: 17, fontWeight: 700, color: current.color, marginBottom: 10 }}>{feature.title}</h3>
-                <p style={{ fontSize: 13.5, color: 'rgba(238,238,245,0.65)', lineHeight: 1.7 }}>{feature.desc}</p>
+          {/* المسارات والمراحل */}
+          <h3 className="text-xl font-black text-white mb-6 fade-in-up">
+            المراحل والمسارات المدعومة
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+            {questionBankTracks.map((track, i) => (
+              <div key={i} className="matin-card p-5 fade-in-up" style={{ transitionDelay: `${i * 50}ms`, borderRight: `3px solid ${track.color}` }}>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${track.color}15`, color: track.color }}>
+                    {track.icon}
+                  </div>
+                  <div>
+                    <h4 className="text-white font-bold text-sm">{track.stage}</h4>
+                    <p className="text-gray-600 text-xs">{track.grades.join(" — ")}</p>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-1 mb-3">
+                  {track.subjects.slice(0, 4).map((subj, j) => (
+                    <span key={j} className="text-xs px-2 py-0.5 rounded-full" style={{ background: `${track.color}10`, color: track.color }}>
+                      {subj}
+                    </span>
+                  ))}
+                  {track.subjects.length > 4 && (
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-gray-800 text-gray-400">
+                      +{track.subjects.length - 4} مادة
+                    </span>
+                  )}
+                </div>
+                <p className="text-gray-600 text-xs border-t border-gray-800 pt-2">{track.note}</p>
               </div>
             ))}
           </div>
-        </section>
 
-        <div style={{ width: '100%', height: 1, background: 'rgba(255,255,255,0.06)' }} />
+          {/* إحصائيات */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 fade-in-up">
+            {[
+              { num: "5", label: "مسارات ثانوية", color: "#C9A84C" },
+              { num: "12", label: "صف دراسي", color: "#60A5FA" },
+              { num: "60+", label: "مادة دراسية", color: "#22C55E" },
+              { num: "6", label: "أنواع أسئلة", color: "#EC4899" },
+            ].map((stat, i) => (
+              <div key={i} className="matin-card p-5 text-center">
+                <div className="text-3xl font-black mb-1" style={{ color: stat.color }}>{stat.num}</div>
+                <div className="text-gray-500 text-sm">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-        {/* CTA */}
-        <section style={{ padding: '80px 24px', textAlign: 'center' }}>
-          <h2 style={{ fontSize: 'clamp(28px,4vw,44px)', fontWeight: 800, letterSpacing: -1.5, color: '#EEEEF5', marginBottom: 16 }}>
-            جاهز لتجربة{' '}
-            <span style={{ background: 'linear-gradient(90deg,#C9A84C,#E2C46A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>متين؟</span>
+      {/* CTA */}
+      <section className="py-16 bg-[#0d0d0d]">
+        <div className="container text-center">
+          <h2 className="text-3xl font-black text-white mb-4">
+            جاهز لتجربة <span className="text-gold-gradient">متين</span>؟
           </h2>
-          <p style={{ fontSize: 17, color: 'rgba(238,238,245,0.65)', maxWidth: 500, margin: '0 auto 40px', lineHeight: 1.8 }}>14 يوم تجريبي مجاني — لا بطاقة ائتمانية مطلوبة.</p>
-          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/register" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#C9A84C', color: '#000', padding: '14px 28px', borderRadius: 12, fontSize: 15, fontWeight: 700, textDecoration: 'none' }}>ابدأ التجربة المجانية</Link>
-            <Link href="/pricing" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: 'rgba(238,238,245,0.65)', padding: '14px 28px', borderRadius: 12, fontSize: 15, fontWeight: 500, textDecoration: 'none' }}>عرض الأسعار</Link>
-          </div>
-        </section>
+          <p className="text-gray-500 mb-8">ابدأ تجربتك المجانية اليوم — لا يلزم بطاقة ائتمانية</p>
+          <a href="https://app.matin.ink/register" className="btn-gold px-8 py-4 rounded-2xl text-base font-bold inline-flex items-center gap-2">
+            ابدأ مجاناً الآن
+            <ArrowLeft size={18} />
+          </a>
+        </div>
+      </section>
 
-        {/* FOOTER */}
-        <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
-          <span style={{ fontSize: 13, color: 'rgba(238,238,245,0.35)' }}>© {new Date().getFullYear()} منصة متين. جميع الحقوق محفوظة.</span>
-          <div style={{ display: 'flex', gap: 24 }}>
-            <Link href="/privacy" style={{ fontSize: 13, color: 'rgba(238,238,245,0.35)', textDecoration: 'none' }}>سياسة الخصوصية</Link>
-            <Link href="/terms" style={{ fontSize: 13, color: 'rgba(238,238,245,0.35)', textDecoration: 'none' }}>الشروط والأحكام</Link>
-            <Link href="/contact" style={{ fontSize: 13, color: 'rgba(238,238,245,0.35)', textDecoration: 'none' }}>تواصل معنا</Link>
-          </div>
-        </footer>
-      </div>
-    </>
+      <Footer />
+    </div>
   );
 }
