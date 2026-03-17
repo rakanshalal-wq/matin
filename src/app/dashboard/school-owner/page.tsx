@@ -2,6 +2,28 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
+/* ── Modal helper ── */
+function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: React.ReactNode }) {
+  return (
+    <div style={{ position:'fixed',inset:0,zIndex:9999,background:'rgba(0,0,0,0.75)',backdropFilter:'blur(4px)',display:'flex',alignItems:'center',justifyContent:'center',padding:20 }} onClick={onClose}>
+      <div style={{ background:'#0F0F1A',border:'1px solid rgba(255,255,255,0.08)',borderRadius:20,width:'100%',maxWidth:520,maxHeight:'90vh',overflowY:'auto',boxShadow:'0 24px 80px rgba(0,0,0,0.6)' }} onClick={e=>e.stopPropagation()}>
+        <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center',padding:'20px 24px',borderBottom:'1px solid rgba(255,255,255,0.07)' }}>
+          <h3 style={{ color:'#EEEEF5',fontSize:17,fontWeight:700,margin:0 }}>{title}</h3>
+          <button onClick={onClose} style={{ background:'rgba(255,255,255,0.05)',border:'none',borderRadius:8,padding:'6px 10px',cursor:'pointer',color:'rgba(238,238,245,0.6)',fontSize:16 }}>✕</button>
+        </div>
+        <div style={{ padding:24 }}>{children}</div>
+      </div>
+    </div>
+  );
+}
+
+const ErrBox = ({ msg }: { msg: string }) => msg ? <div style={{ background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.3)',borderRadius:8,padding:'10px 14px',color:'#EF4444',fontSize:13,marginBottom:12 }}>{msg}</div> : null;
+const OkBox  = ({ msg }: { msg: string }) => msg ? <div style={{ background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.3)',borderRadius:8,padding:'10px 14px',color:'#10B981',fontSize:13,marginBottom:12 }}>{msg}</div> : null;
+
+const INP: React.CSSProperties = { width:'100%',padding:'10px 14px',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' };
+const LBL: React.CSSProperties = { display:'block',color:'rgba(238,238,245,0.7)',fontSize:13,fontWeight:600,marginBottom:6 };
+const FW:  React.CSSProperties = { marginBottom:16 };
+
 const getHeaders = () => {
   const token = typeof window !== 'undefined' ? localStorage.getItem('matin_token') : null;
   return { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}) };
@@ -13,31 +35,31 @@ const getHeaders = () => {
 const StatCard = ({ title, value, color, sub, link }: any) => (
   <Link href={link || '#'} style={{ textDecoration: 'none' }}>
     <div style={{
-      background: `linear-gradient(135deg, ${color}18 0%, ${color}08 100%)`,
-      border: `1px solid ${color}40`,
-      borderRadius: 16,
-      padding: '20px 22px',
+      background: 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)',
+      border: `1px solid ${color}25`,
+      borderRadius: 14,
+      padding: '20px 24px',
       cursor: 'pointer',
-      transition: 'all 0.25s',
+      transition: 'all 0.2s',
       position: 'relative',
       overflow: 'hidden',
       height: '100%',
     }}
       onMouseEnter={e => {
-        (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)';
-        (e.currentTarget as HTMLElement).style.boxShadow = `0 12px 40px ${color}22`;
-        (e.currentTarget as HTMLElement).style.borderColor = `${color}70`;
+        (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+        (e.currentTarget as HTMLElement).style.boxShadow = `0 8px 32px ${color}18`;
+        (e.currentTarget as HTMLElement).style.borderColor = `${color}50`;
       }}
       onMouseLeave={e => {
         (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
         (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-        (e.currentTarget as HTMLElement).style.borderColor = `${color}40`;
+        (e.currentTarget as HTMLElement).style.borderColor = `${color}25`;
       }}
     >
-      <div style={{ position: 'absolute', top: 0, right: 0, width: 70, height: 70, background: `${color}12`, borderRadius: '0 16px 0 70px' }} />
-      <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12, marginBottom: 10, fontWeight: 600 }}>{title}</div>
-      <div style={{ color: '#fff', fontSize: 34, fontWeight: 900, lineHeight: 1, letterSpacing: -1 }}>{value}</div>
-      {sub && <div style={{ color: color, fontSize: 11, marginTop: 8, fontWeight: 700 }}>↑ {sub}</div>}
+      <div style={{ position: 'absolute', top: 0, right: 0, width: 80, height: 80, background: `${color}08`, borderRadius: '0 14px 0 80px' }} />
+      <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, marginBottom: 8, fontWeight: 500 }}>{title}</div>
+      <div style={{ color: '#fff', fontSize: 30, fontWeight: 800, lineHeight: 1 }}>{value}</div>
+      {sub && <div style={{ color: color, fontSize: 11, marginTop: 6, fontWeight: 600 }}>{sub}</div>}
     </div>
   </Link>
 );
@@ -86,6 +108,20 @@ export default function SchoolOwnerDashboard() {
   const [loading, setLoading] = useState(true);
   const [time, setTime] = useState(new Date());
 
+  // ── Admission modal ──
+  const [showAdmModal, setShowAdmModal] = useState(false);
+  const [selAdm, setSelAdm] = useState<any>(null);
+  const [admLoading, setAdmLoading] = useState(false);
+  const [admErr, setAdmErr] = useState('');
+  const [admOk, setAdmOk] = useState('');
+
+  // ── School settings modal ──
+  const [showSchoolModal, setShowSchoolModal] = useState(false);
+  const [schoolForm, setSchoolForm] = useState({ name_ar:'', city:'', phone:'', email:'' });
+  const [schoolLoading, setSchoolLoading] = useState(false);
+  const [schoolErr, setSchoolErr] = useState('');
+  const [schoolOk, setSchoolOk] = useState('');
+
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
@@ -132,6 +168,46 @@ export default function SchoolOwnerDashboard() {
     } catch (e) { console.error(e); } finally { setLoading(false); }
   };
 
+  const handleAdmission = async (action: 'approve' | 'reject') => {
+    if (!selAdm) return;
+    setAdmLoading(true); setAdmErr(''); setAdmOk('');
+    try {
+      const res = await fetch('/api/admission', {
+        method: 'PUT',
+        headers: getHeaders(),
+        body: JSON.stringify({ id: selAdm.id, status: action === 'approve' ? 'approved' : 'rejected' }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'فشل تنفيذ الإجراء');
+      setAdmOk(action === 'approve' ? 'تم قبول الطلب بنجاح ✓' : 'تم رفض الطلب');
+      setTimeout(() => { setShowAdmModal(false); setAdmOk(''); loadAll(user); }, 1500);
+    } catch (e: any) { setAdmErr(e.message); }
+    finally { setAdmLoading(false); }
+  };
+
+  const openSchoolModal = () => {
+    setSchoolForm({ name_ar: school?.name_ar || school?.name || '', city: school?.city || '', phone: school?.phone || '', email: school?.email || '' });
+    setSchoolErr(''); setSchoolOk('');
+    setShowSchoolModal(true);
+  };
+
+  const handleSaveSchool = async () => {
+    if (!schoolForm.name_ar.trim()) { setSchoolErr('اسم المدرسة مطلوب'); return; }
+    setSchoolLoading(true); setSchoolErr(''); setSchoolOk('');
+    try {
+      const res = await fetch('/api/schools', {
+        method: 'PUT',
+        headers: getHeaders(),
+        body: JSON.stringify({ id: school?.id, ...schoolForm }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'فشل حفظ البيانات');
+      setSchoolOk('تم تحديث بيانات المدرسة بنجاح ✓');
+      setTimeout(() => { setShowSchoolModal(false); setSchoolOk(''); loadAll(user); }, 1500);
+    } catch (e: any) { setSchoolErr(e.message); }
+    finally { setSchoolLoading(false); }
+  };
+
   const greeting = () => {
     const h = time.getHours();
     if (h < 12) return 'صباح الخير';
@@ -159,6 +235,7 @@ export default function SchoolOwnerDashboard() {
   );
 
   return (
+    <>
     <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
 
       {/* ══════════════════════════════════════════
@@ -333,9 +410,9 @@ export default function SchoolOwnerDashboard() {
                     <div style={{ color: '#fff', fontSize: 13, fontWeight: 600 }}>{req.student_name || req.name}</div>
                     <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11, marginTop: 2 }}>{req.grade || req.level}</div>
                   </div>
-                  <Link href={`/dashboard/admissions/${req.id}`} style={{ background: 'rgba(245,158,11,0.1)', color: '#F59E0B', fontSize: 11, padding: '4px 10px', borderRadius: 6, textDecoration: 'none', fontWeight: 600, border: '1px solid rgba(245,158,11,0.2)' }}>
+                  <button onClick={() => { setSelAdm(req); setAdmErr(''); setAdmOk(''); setShowAdmModal(true); }} style={{ background: 'rgba(245,158,11,0.1)', color: '#F59E0B', fontSize: 11, padding: '4px 10px', borderRadius: 6, cursor: 'pointer', fontWeight: 600, border: '1px solid rgba(245,158,11,0.2)', fontFamily: 'inherit' }}>
                     مراجعة
-                  </Link>
+                  </button>
                 </div>
               ))}
             </div>
@@ -449,6 +526,52 @@ export default function SchoolOwnerDashboard() {
         </div>
       </div>
 
+      {/* ── زر تعديل المدرسة ── */}
+      <div style={{ marginTop: 20, display: 'flex', justifyContent: 'flex-end' }}>
+        <button onClick={openSchoolModal} style={{ background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.25)', borderRadius: 10, padding: '10px 20px', color: '#C9A84C', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 14 }}>
+          ⚙️ تعديل بيانات المدرسة
+        </button>
+      </div>
+
+
+      {/* ── Admission Modal ── */}
+      {showAdmModal && selAdm && (
+        <Modal title="مراجعة طلب الانضمام" onClose={() => { setShowAdmModal(false); setSelAdm(null); }}>
+          <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: 16, marginBottom: 20 }}>
+            <div style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 8 }}>{selAdm.student_name || selAdm.name || '—'}</div>
+            <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 13 }}>المرحلة: {selAdm.grade || selAdm.level || '—'}</div>
+            {selAdm.parent_name && <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 13 }}>ولي الأمر: {selAdm.parent_name}</div>}
+            {selAdm.phone && <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 13 }}>الهاتف: {selAdm.phone}</div>}
+            {selAdm.created_at && <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 13 }}>تاريخ الطلب: {new Date(selAdm.created_at).toLocaleDateString('ar-SA')}</div>}
+          </div>
+          <ErrBox msg={admErr} />
+          <OkBox msg={admOk} />
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button onClick={() => handleAdmission('reject')} disabled={admLoading} style={{ flex: 1, padding: '10px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 10, color: '#EF4444', cursor: admLoading ? 'not-allowed' : 'pointer', fontFamily: 'inherit', fontWeight: 600, fontSize: 14 }}>
+              {admLoading ? '...' : 'رفض الطلب'}
+            </button>
+            <button onClick={() => handleAdmission('approve')} disabled={admLoading} style={{ flex: 1, padding: '10px', background: admLoading ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg,#10B981,#059669)', border: 'none', borderRadius: 10, color: admLoading ? 'rgba(238,238,245,0.3)' : '#fff', cursor: admLoading ? 'not-allowed' : 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 14 }}>
+              {admLoading ? 'جارٍ التنفيذ...' : 'قبول الطلب ✓'}
+            </button>
+          </div>
+        </Modal>
+      )}
+
+      {/* ── School Settings Modal ── */}
+      {showSchoolModal && (
+        <Modal title="تعديل بيانات المدرسة" onClose={() => setShowSchoolModal(false)}>
+          <div style={FW}><label style={LBL}>اسم المدرسة <span style={{color:'#EF4444'}}>*</span></label><input value={schoolForm.name_ar} onChange={e => setSchoolForm(f => ({...f, name_ar: e.target.value}))} placeholder="مثال: مدرسة الأمل" style={INP} /></div>
+          <div style={FW}><label style={LBL}>المدينة</label><input value={schoolForm.city} onChange={e => setSchoolForm(f => ({...f, city: e.target.value}))} placeholder="الرياض" style={INP} /></div>
+          <div style={FW}><label style={LBL}>رقم الهاتف</label><input value={schoolForm.phone} onChange={e => setSchoolForm(f => ({...f, phone: e.target.value}))} placeholder="05xxxxxxxx" style={INP} /></div>
+          <div style={FW}><label style={LBL}>البريد الإلكتروني</label><input value={schoolForm.email} onChange={e => setSchoolForm(f => ({...f, email: e.target.value}))} placeholder="school@example.com" style={INP} type="email" /></div>
+          <ErrBox msg={schoolErr} />
+          <OkBox msg={schoolOk} />
+          <button onClick={handleSaveSchool} disabled={schoolLoading} style={{ width: '100%', padding: '11px', background: schoolLoading ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg,#C9A84C,#A07830)', border: 'none', borderRadius: 10, color: schoolLoading ? 'rgba(238,238,245,0.3)' : '#000', cursor: schoolLoading ? 'not-allowed' : 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 14 }}>
+            {schoolLoading ? 'جارٍ الحفظ...' : 'حفظ التعديلات'}
+          </button>
+        </Modal>
+      )}
     </div>
+  </>
   );
 }

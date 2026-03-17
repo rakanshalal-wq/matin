@@ -35,6 +35,8 @@ export default function QuestionBankPage() {
   const [showAdd, setShowAdd] = useState(false);
   const [showImport, setShowImport] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
   const [importing, setImporting] = useState(false);
   const [importProgress, setImportProgress] = useState('');
   const [msg, setMsg] = useState('');
@@ -77,6 +79,8 @@ export default function QuestionBankPage() {
   };
 
   const handleAdd = async () => {
+    const method = editItem ? 'PUT' : 'POST';
+    const url = editItem ? `/api/question-bank?id=${editItem.id}` : '/api/question-bank';
     if (!form.question_text.trim()) { setMsg('نص السؤال مطلوب'); return; }
     setSaving(true); setMsg('');
     try {
@@ -93,8 +97,8 @@ export default function QuestionBankPage() {
         explanation: form.explanation,
         marks: 1,
       };
-      const res = await fetch('/api/question-bank', {
-        method: 'POST',
+      const res = await fetch(url, {
+        method,
         headers: { ...getHeaders(), 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
@@ -102,11 +106,28 @@ export default function QuestionBankPage() {
       if (!res.ok) { setMsg(data.error || 'فشل الإضافة'); return; }
       setMsg('✅ تم إضافة السؤال بنجاح');
       fetchAll();
-      setShowAdd(false);
+      setShowAdd(false); setEditItem(null);
     } catch { setMsg('خطأ في الاتصال'); } finally { setSaving(false); }
   };
 
-   const handleFileSelect = (file: File) => {
+   const handleEdit = (item: any) => {
+    setEditItem(item);
+    setForm({
+      question_text: item.text_ar || item.question_text || '',
+      question_type: item.type || 'mcq',
+      difficulty: item.difficulty || 'medium',
+      subject: item.subject || 'لغتي',
+      grade: item.grade || 'الأول الابتدائي',
+      semester: item.semester || '1',
+      lesson: item.lesson || '',
+      options: item.options || ['', '', '', ''],
+      correct_answer: item.answer || '',
+      explanation: item.explanation || '',
+    });
+    setMsg('');
+    setShowAdd(true);
+  };
+  const handleFileSelect = (file: File) => {
     if (!file.name.match(/\.(xlsx|xls)$/i)) {
       setImportProgress('❌ يجب أن يكون الملف بصيغة Excel (.xlsx أو .xls)');
       return;

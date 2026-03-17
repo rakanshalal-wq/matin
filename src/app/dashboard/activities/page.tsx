@@ -8,18 +8,30 @@ export default function ActivitiesPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
   const [formData, setFormData] = useState({ name: '', type: '', description: '', date: '', location: '', organizer: '', status: 'upcoming' });
 
   useEffect(() => { fetchItems(); }, []);
   const fetchItems = async () => { try { const res = await fetch('/api/activities', { headers: getHeaders() }); const data = await res.json(); setItems(Array.isArray(data) ? data : []); } catch (e) { console.error(e); } finally { setLoading(false); } };
 
-  const handleAdd = async () => {
-    if (!formData.name) return alert('أدخل اسم النشاط');
-    setSaving(true);
+  const handleSave = async () => {
+    if (!formData.name) { setErrMsg('أدخل اسم النشاط'); return; }
+    setSaving(true); setErrMsg('');
     try {
-      const res = await fetch('/api/activities', { method: 'POST', headers: getHeaders(), body: JSON.stringify(formData) });
-      if (res.ok) { setShowAddModal(false); setFormData({ name: '', type: '', description: '', date: '', location: '', organizer: '', status: 'upcoming' }); fetchItems(); }
-    } catch (e) { console.error(e); } finally { setSaving(false); }
+      const method = editItem ? 'PUT' : 'POST';
+      const url = editItem ? `/api/activities?id=${editItem.id}` : '/api/activities';
+      const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify(formData) });
+      const data = await res.json();
+      if (!res.ok) { setErrMsg(data.error || 'فشل الحفظ'); return; }
+      setShowAddModal(false); setEditItem(null); setFormData({ name: '', type: '', description: '', date: '', location: '', organizer: '', status: 'upcoming' }); setErrMsg(''); fetchItems();
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
+  };
+  const handleEdit = (item: any) => {
+    setEditItem(item);
+    setFormData({ ...{ name: '', type: '', description: '', date: '', location: '', organizer: '', status: 'upcoming' }, ...item });
+    setErrMsg('');
+    setShowAddModal(true);
   };
 
   const handleDelete = async (id: number) => { if (!confirm('هل أنت متأكد؟')) return; try { await fetch(`/api/activities?id=${id}`, { method: 'DELETE', headers: getHeaders() }); fetchItems(); } catch (e) { console.error(e); } };
@@ -38,7 +50,7 @@ export default function ActivitiesPage() {
           <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>🎭 الأنشطة اللاصفية</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة الأنشطة والفعاليات المدرسية</p>
         </div>
-        <button onClick={() => setShowAddModal(true)} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>➕ إضافة نشاط</button>
+        <button onClick={() => { setEditItem(null); setFormData({ name: '', type: '', description: '', date: '', location: '', organizer: '', status: 'upcoming' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>➕ إضافة نشاط</button>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
@@ -99,7 +111,7 @@ export default function ActivitiesPage() {
                     <td style={{ padding: 16, textAlign: 'center' }}><span style={{ background: badge.bg, color: badge.color, padding: '6px 12px', borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{badge.text}</span></td>
                     <td style={{ padding: 16, textAlign: 'center' }}>
                       <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-                        <button style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>✏️</button>
+                        <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>✏️</button>
                         <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>🗑️</button>
                       </div>
                     </td>
@@ -115,8 +127,8 @@ export default function ActivitiesPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>🎭 إضافة نشاط</h2>
-              <button onClick={() => setShowAddModal(false)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>✕</button>
+              <h2 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل' : 'إضافة نشاط'}</h2>
+              <button onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>✕</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ gridColumn: '1 / -1' }}><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>اسم النشاط *</label><input value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} style={inputStyle} /></div>
@@ -127,8 +139,8 @@ export default function ActivitiesPage() {
               <div style={{ gridColumn: '1 / -1' }}><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>الوصف</label><textarea value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} rows={3} style={{ ...inputStyle, resize: 'vertical' } as any} /></div>
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
-              <button onClick={handleAdd} disabled={saving} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>{saving ? '⏳' : '💾 حفظ'}</button>
-              <button onClick={() => setShowAddModal(false)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إلغاء</button>
+              <button onClick={handleSave} disabled={saving} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>{saving ? '⏳' : '💾 حفظ'}</button>
+              <button onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إلغاء</button>
             </div>
           </div>
         </div>

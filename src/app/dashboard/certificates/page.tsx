@@ -8,19 +8,30 @@ export default function CertificatesPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
   const [formData, setFormData] = useState({ student_name: '', type: 'completion', description: '', issue_date: '' });
 
   useEffect(() => { fetchItems(); }, []);
   const fetchItems = async () => { try { const res = await fetch('/api/certificates', { headers: getHeaders() }); const data = await res.json(); setItems(Array.isArray(data) ? data : []); } catch (e) { console.error(e); } finally { setLoading(false); } };
 
-  const handleAdd = async () => {
-    if (!formData.student_name) return alert('أدخل اسم الطالب');
-    setSaving(true);
+  const handleSave = async () => {
+    if (!formData.student_name) { setErrMsg('أدخل اسم الطالب'); return; }
+    setSaving(true); setErrMsg('');
     try {
-      const res = await fetch('/api/certificates', { method: 'POST', headers: getHeaders(), body: JSON.stringify(formData) });
-      if (res.ok) { setShowAddModal(false); setFormData({ student_name: '', type: 'completion', description: '', issue_date: '' }); fetchItems(); }
-      else { const err = await res.json(); alert(err.error || 'فشل'); }
-    } catch (e) { console.error(e); } finally { setSaving(false); }
+      const method = editItem ? 'PUT' : 'POST';
+      const url = editItem ? `/api/certificates?id=${editItem.id}` : '/api/certificates';
+      const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify(formData) });
+      const data = await res.json();
+      if (!res.ok) { setErrMsg(data.error || 'فشل الحفظ'); return; }
+      setShowAddModal(false); setEditItem(null); setFormData({ student_name: '', type: 'completion', description: '', issue_date: '' }); setErrMsg(''); fetchItems();
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
+  };
+  const handleEdit = (item: any) => {
+    setEditItem(item);
+    setFormData({ ...{ student_name: '', type: 'completion', description: '', issue_date: '' }, ...item });
+    setErrMsg('');
+    setShowAddModal(true);
   };
 
   const handleDelete = async (id: number) => {
@@ -49,7 +60,7 @@ export default function CertificatesPage() {
           <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>🏆 الشهادات</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إصدار وإدارة الشهادات والوثائق الأكاديمية</p>
         </div>
-        <button onClick={() => setShowAddModal(true)} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>➕ إصدار شهادة</button>
+        <button onClick={() => { setEditItem(null); setFormData({ student_name: '', type: 'completion', description: '', issue_date: '' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>➕ إصدار شهادة</button>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
@@ -107,7 +118,7 @@ export default function CertificatesPage() {
                     <td style={{ padding: 16, textAlign: 'center' }}>
                       <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
                         <button style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>🖨️ طباعة</button>
-                        <button style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>✏️ تعديل</button>
+                        <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>✏️ تعديل</button>
                         <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>🗑️ حذف</button>
                       </div>
                     </td>
@@ -124,7 +135,7 @@ export default function CertificatesPage() {
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
               <h2 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>🏆 إصدار شهادة جديدة</h2>
-              <button onClick={() => setShowAddModal(false)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>✕</button>
+              <button onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>✕</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ gridColumn: '1 / -1' }}><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>اسم الطالب *</label><input value={formData.student_name} onChange={e => setFormData({ ...formData, student_name: e.target.value })} placeholder="اسم الطالب" style={inputStyle} /></div>
@@ -133,8 +144,8 @@ export default function CertificatesPage() {
               <div style={{ gridColumn: '1 / -1' }}><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>الوصف</label><textarea value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} placeholder="وصف الشهادة" rows={3} style={{ ...inputStyle, resize: 'vertical' } as any} /></div>
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-start' }}>
-              <button onClick={handleAdd} disabled={saving} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>{saving ? '⏳ جاري الحفظ...' : '💾 إصدار الشهادة'}</button>
-              <button onClick={() => setShowAddModal(false)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إلغاء</button>
+              <button onClick={handleSave} disabled={saving} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>{saving ? '⏳ جاري الحفظ...' : '💾 إصدار الشهادة'}</button>
+              <button onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إلغاء</button>
             </div>
           </div>
         </div>

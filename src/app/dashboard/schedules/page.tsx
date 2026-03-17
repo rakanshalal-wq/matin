@@ -16,6 +16,8 @@ export default function SchedulesPage() {
   const [selectedClass, setSelectedClass] = useState('');
   const [form, setForm] = useState({ day_of_week: '0', start_time: '08:00', end_time: '08:45', room: '', class_id: '', teacher_id: '', course_id: '' });
   const [saving, setSaving] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
   const [msg, setMsg] = useState('');
 
   useEffect(() => {
@@ -44,7 +46,9 @@ export default function SchedulesPage() {
     if (!form.class_id || !form.teacher_id) { setMsg('الفصل والمعلم مطلوبين'); return; }
     setSaving(true); setMsg('');
     try {
-      const res = await fetch('/api/schedules', { method: 'POST', headers: getHeaders(), body: JSON.stringify({...form, day_of_week: parseInt(form.day_of_week)}) });
+      const method = editItem ? 'PUT' : 'POST';
+      const url = editItem ? `/api/schedules?id=${editItem.id}` : '/api/schedules';
+      const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify({...form, day_of_week: parseInt(form.day_of_week)}) });
       const data = await res.json();
       if (!res.ok) { setMsg(data.error || 'فشل'); setSaving(false); return; }
       fetchAll();
@@ -128,6 +132,7 @@ export default function SchedulesPage() {
               <input style={inputStyle} placeholder="مثال: قاعة 101" value={form.room} onChange={e => setForm({...form, room: e.target.value})} />
             </div>
           </div>
+          {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 12, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}
           <button onClick={handleAdd} disabled={saving} style={{ marginTop: 20, padding: '12px 32px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#000', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif', opacity: saving ? 0.5 : 1 }}>
             {saving ? 'جاري الحفظ...' : '✓ حفظ الحصة'}
           </button>

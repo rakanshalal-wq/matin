@@ -14,6 +14,26 @@ const getHeaders = (): Record<string, string> => {
   } catch { return { 'Content-Type': 'application/json' }; }
 };
 
+/* ── Modal ── */
+function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: React.ReactNode }) {
+  return (
+    <div style={{ position:'fixed',inset:0,zIndex:9999,background:'rgba(0,0,0,0.75)',backdropFilter:'blur(4px)',display:'flex',alignItems:'center',justifyContent:'center',padding:20 }} onClick={onClose}>
+      <div style={{ background:'#0F0F1A',border:'1px solid rgba(255,255,255,0.08)',borderRadius:20,width:'100%',maxWidth:520,maxHeight:'90vh',overflowY:'auto',boxShadow:'0 24px 80px rgba(0,0,0,0.6)' }} onClick={e=>e.stopPropagation()}>
+        <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center',padding:'20px 24px',borderBottom:'1px solid rgba(255,255,255,0.07)' }}>
+          <h3 style={{ color:'#EEEEF5',fontSize:17,fontWeight:700,margin:0 }}>{title}</h3>
+          <button onClick={onClose} style={{ background:'rgba(255,255,255,0.05)',border:'none',borderRadius:8,padding:'6px 10px',cursor:'pointer',color:'rgba(238,238,245,0.6)',fontSize:16 }}>✕</button>
+        </div>
+        <div style={{ padding:24 }}>{children}</div>
+      </div>
+    </div>
+  );
+}
+const ErrBox = ({ msg }: { msg: string }) => msg ? <div style={{ background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.3)',borderRadius:8,padding:'10px 14px',color:'#EF4444',fontSize:13,marginBottom:12 }}>{msg}</div> : null;
+const OkBox  = ({ msg }: { msg: string }) => msg ? <div style={{ background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.3)',borderRadius:8,padding:'10px 14px',color:'#10B981',fontSize:13,marginBottom:12 }}>{msg}</div> : null;
+const INP: React.CSSProperties = { width:'100%',padding:'10px 14px',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' };
+const LBL: React.CSSProperties = { display:'block',color:'rgba(238,238,245,0.7)',fontSize:13,fontWeight:600,marginBottom:6 };
+const FW:  React.CSSProperties = { marginBottom:16 };
+
 export default function StudentDashboard() {
   const [user, setUser] = useState<any>(null);
   const [stats, setStats] = useState<any>({});
@@ -22,6 +42,22 @@ export default function StudentDashboard() {
   const [homework, setHomework] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'overview' | 'exams' | 'grades' | 'homework'>('overview');
+
+  // ── Homework submit modal ──
+  const [showHWModal, setShowHWModal] = useState(false);
+  const [selHW, setSelHW] = useState<any>(null);
+  const [hwAnswer, setHwAnswer] = useState('');
+  const [hwLoading, setHwLoading] = useState(false);
+  const [hwErr, setHwErr] = useState('');
+  const [hwOk, setHwOk] = useState('');
+
+  // ── Grade review modal ──
+  const [showGradeModal, setShowGradeModal] = useState(false);
+  const [selGrade, setSelGrade] = useState<any>(null);
+  const [gradeNote, setGradeNote] = useState('');
+  const [gradeLoading, setGradeLoading] = useState(false);
+  const [gradeErr, setGradeErr] = useState('');
+  const [gradeOk, setGradeOk] = useState('');
 
   useEffect(() => {
     const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
@@ -48,6 +84,40 @@ export default function StudentDashboard() {
       setHomework(Array.isArray(hwData) ? hwData : []);
     } catch (e) { console.error(e); }
     finally { setLoading(false); }
+  };
+
+  const handleSubmitHW = async () => {
+    if (!hwAnswer.trim()) { setHwErr('يجب كتابة الإجابة'); return; }
+    setHwLoading(true); setHwErr(''); setHwOk('');
+    try {
+      const res = await fetch('/api/homework', {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify({ homework_id: selHW?.id, answer: hwAnswer, student_id: user?.id }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'فشل تسليم الواجب');
+      setHwOk('تم تسليم الواجب بنجاح ✓');
+      setTimeout(() => { setShowHWModal(false); setHwOk(''); setHwAnswer(''); loadAll(); }, 1500);
+    } catch (e: any) { setHwErr(e.message); }
+    finally { setHwLoading(false); }
+  };
+
+  const handleGradeReview = async () => {
+    if (!gradeNote.trim()) { setGradeErr('يجب كتابة سبب طلب المراجعة'); return; }
+    setGradeLoading(true); setGradeErr(''); setGradeOk('');
+    try {
+      const res = await fetch('/api/grades', {
+        method: 'PUT',
+        headers: getHeaders(),
+        body: JSON.stringify({ grade_id: selGrade?.id, review_request: gradeNote, student_id: user?.id }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'فشل إرسال طلب المراجعة');
+      setGradeOk('تم إرسال طلب المراجعة بنجاح ✓');
+      setTimeout(() => { setShowGradeModal(false); setGradeOk(''); setGradeNote(''); }, 1500);
+    } catch (e: any) { setGradeErr(e.message); }
+    finally { setGradeLoading(false); }
   };
 
   if (loading) return (
@@ -200,7 +270,8 @@ export default function StudentDashboard() {
                 const statusColor = exam.status === 'PUBLISHED' || exam.status === 'ACTIVE' ? '#10B981' : exam.status === 'DRAFT' ? '#F59E0B' : '#6B7280';
                 const statusLabel = exam.status === 'PUBLISHED' || exam.status === 'ACTIVE' ? 'متاح' : exam.status === 'DRAFT' ? 'مسودة' : 'منتهي';
                 return (
-                  <div key={exam.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '14px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div key={exam.id}
+                    style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '14px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
                         <span style={{ color: '#EEEEF5', fontWeight: 700, fontSize: 14 }}>{exam.title_ar || exam.title}</span>
@@ -255,9 +326,15 @@ export default function StudentDashboard() {
                       <div style={{ color: '#EEEEF5', fontWeight: 700, fontSize: 14 }}>{g.subject_name || g.exam_title || 'مادة'}</div>
                       {g.exam_title && <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12, marginTop: 3 }}>{g.exam_title}</div>}
                     </div>
-                    <div style={{ textAlign: 'center' }}>
-                      <div style={{ color, fontSize: 20, fontWeight: 800 }}>{pct}%</div>
-                      <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 11 }}>{g.obtained_marks}/{g.total_marks}</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <div style={{ textAlign: 'center' }}>
+                        <div style={{ color, fontSize: 20, fontWeight: 800 }}>{pct}%</div>
+                        <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 11 }}>{g.obtained_marks}/{g.total_marks}</div>
+                      </div>
+                      <button onClick={() => { setSelGrade(g); setGradeNote(''); setGradeErr(''); setGradeOk(''); setShowGradeModal(true); }}
+                        style={{ padding: '5px 10px', background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', borderRadius: 7, color: '#3B82F6', cursor: 'pointer', fontSize: 11, fontFamily: 'inherit' }}>
+                        مراجعة
+                      </button>
                     </div>
                   </div>
                 );
@@ -290,7 +367,15 @@ export default function StudentDashboard() {
                       </div>
                       {hw.due_date && <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12 }}>موعد التسليم: {new Date(hw.due_date).toLocaleDateString('ar-SA')}</div>}
                     </div>
-                    <div style={{ color: 'rgba(238,238,245,0.3)', fontSize: 12 }}>{hw.subject_name}</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div style={{ color: 'rgba(238,238,245,0.3)', fontSize: 12 }}>{hw.subject_name}</div>
+                      {isActive && (
+                        <button onClick={() => { setSelHW(hw); setHwAnswer(''); setHwErr(''); setHwOk(''); setShowHWModal(true); }}
+                          style={{ padding: '6px 14px', background: G, color: '#000', border: 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 700, fontFamily: 'inherit', fontSize: 12 }}>
+                          تسليم
+                        </button>
+                      )}
+                    </div>
                   </div>
                 );
               })}
@@ -298,6 +383,41 @@ export default function StudentDashboard() {
           )}
         </div>
       )}
+
+      {/* ── HW Submit Modal ── */}
+      {showHWModal && selHW && (
+        <Modal title="تسليم الواجب" onClose={() => setShowHWModal(false)}>
+          <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: 14, marginBottom: 16 }}>
+            <div style={{ color: '#EEEEF5', fontWeight: 700, fontSize: 14 }}>{selHW.title_ar || selHW.title}</div>
+            {selHW.due_date && <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12, marginTop: 4 }}>موعد التسليم: {new Date(selHW.due_date).toLocaleDateString('ar-SA')}</div>}
+          </div>
+          <div style={FW}><label style={LBL}>إجابتك <span style={{color:'#EF4444'}}>*</span></label>
+            <textarea value={hwAnswer} onChange={e => setHwAnswer(e.target.value)} rows={5} placeholder="اكتب إجابتك هنا..." style={{ ...INP, resize: 'vertical', minHeight: 100 }} />
+          </div>
+          <ErrBox msg={hwErr} /><OkBox msg={hwOk} />
+          <button onClick={handleSubmitHW} disabled={hwLoading} style={{ width: '100%', padding: '11px', background: hwLoading ? 'rgba(255,255,255,0.05)' : `linear-gradient(135deg,${G},#A07830)`, border: 'none', borderRadius: 10, color: hwLoading ? 'rgba(238,238,245,0.3)' : '#000', cursor: hwLoading ? 'not-allowed' : 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 14 }}>
+            {hwLoading ? 'جارٍ التسليم...' : 'تسليم الواجب'}
+          </button>
+        </Modal>
+      )}
+
+      {/* ── Grade Review Modal ── */}
+      {showGradeModal && selGrade && (
+        <Modal title="طلب مراجعة الدرجة" onClose={() => setShowGradeModal(false)}>
+          <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: 14, marginBottom: 16 }}>
+            <div style={{ color: '#EEEEF5', fontWeight: 700, fontSize: 14 }}>{selGrade.subject_name || selGrade.exam_title}</div>
+            <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 13, marginTop: 4 }}>الدرجة: {selGrade.obtained_marks}/{selGrade.total_marks} ({selGrade.percentage}%)</div>
+          </div>
+          <div style={FW}><label style={LBL}>سبب طلب المراجعة <span style={{color:'#EF4444'}}>*</span></label>
+            <textarea value={gradeNote} onChange={e => setGradeNote(e.target.value)} rows={4} placeholder="اشرح سبب طلبك لمراجعة الدرجة..." style={{ ...INP, resize: 'vertical', minHeight: 80 }} />
+          </div>
+          <ErrBox msg={gradeErr} /><OkBox msg={gradeOk} />
+          <button onClick={handleGradeReview} disabled={gradeLoading} style={{ width: '100%', padding: '11px', background: gradeLoading ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg,#3B82F6,#1D4ED8)', border: 'none', borderRadius: 10, color: gradeLoading ? 'rgba(238,238,245,0.3)' : '#fff', cursor: gradeLoading ? 'not-allowed' : 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 14 }}>
+            {gradeLoading ? 'جارٍ الإرسال...' : 'إرسال طلب المراجعة'}
+          </button>
+        </Modal>
+      )}
+
     </div>
   );
 }

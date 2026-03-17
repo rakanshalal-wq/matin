@@ -50,6 +50,8 @@ export default function SubscribePage() {
   const [currentPlan, setCurrentPlan] = useState('free');
   const [billing, setBilling] = useState<'monthly' | 'yearly'>('monthly');
   const [loading, setLoading] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
   const [reason, setReason] = useState('');
   const [requiredFeature, setRequiredFeature] = useState('');
   const [requiredPlan, setRequiredPlan] = useState('');
@@ -81,7 +83,7 @@ export default function SubscribePage() {
     setLoading(true);
     try {
       const res = await fetch('/api/plans', {
-        method: 'POST',
+        method: editItem ? 'PUT' : 'POST',
         headers: getHeaders(),
         body: JSON.stringify({ plan_id: planId, billing_cycle: billing })
       });
@@ -101,7 +103,7 @@ export default function SubscribePage() {
       } else {
         alert(data.error || 'فشل في الاشتراك');
       }
-    } catch { alert('حدث خطأ'); } finally { setLoading(false); }
+    } catch (e: any) { setErrMsg ? setErrMsg(e.message || 'حدث خطأ') : null; } finally { setLoading(false); }
   };
 
   const featureLabels: Record<string, string> = {
@@ -237,6 +239,26 @@ export default function SubscribePage() {
           ))}
         </div>
       </div>
+
+      {showModal && selectedPlan && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+          <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 440, direction: 'rtl' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>تأكيد الاشتراك</h2>
+              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
+            </div>
+            {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}
+            <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 10, padding: 16, marginBottom: 20 }}>
+              <div style={{ color: '#C9A227', fontSize: 22, fontWeight: 800 }}>{selectedPlan.name_ar}</div>
+              <div style={{ color: '#fff', fontSize: 28, fontWeight: 800, marginTop: 8 }}>{selectedPlan.price} ر.س / شهر</div>
+            </div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button onClick={handleSubscribe} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg,#C9A227,#E8C547)', border: 'none', borderRadius: 10, padding: '12px 0', color: '#06060E', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري...' : 'تأكيد الاشتراك'}</button>
+              <button onClick={() => setShowModal(false)} style={{ padding: '12px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

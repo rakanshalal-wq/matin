@@ -17,6 +17,10 @@ export default function CommunityPage() {
   const [blocked, setBlocked] = useState<any[]>([]);
   const [searchText, setSearchText] = useState('');
   const [filterType, setFilterType] = useState('all');
+  const [saving, setSaving] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
+  const [editPost, setEditPost] = useState<any>(null);
 
   const isAdmin = ['admin', 'school_owner', 'university_owner', 'institute_owner', 'kindergarten_owner', 'training_owner', 'owner', 'super_admin'].includes(currentUser?.role);
 
@@ -56,13 +60,33 @@ export default function CommunityPage() {
     } catch { setBlocked([]); }
   };
 
-  const createPost = async () => {
-    if (!newPost.trim()) return;
+  const savePost = async () => {
+    if (!newPost.trim()) { setErrMsg('أدخل محتوى المنشور'); return; }
+    setSaving(true); setErrMsg('');
     try {
-      await fetch('/api/social', { method: 'POST', headers: getHeaders(), body: JSON.stringify({ action: 'create_post', content: newPost, title: newPostTitle }) });
-      setNewPost(''); setNewPostTitle(''); setShowNewPost(false);
+      if (editPost) {
+        const res = await fetch(`/api/social?id=${editPost.id}`, { method: 'PUT', headers: getHeaders(), body: JSON.stringify({ content: newPost, title: newPostTitle }) });
+        const data = await res.json();
+        if (!res.ok) { setErrMsg(data.error || 'فشل التعديل'); return; }
+      } else {
+        const method = editPost ? 'PUT' : 'POST';
+      const body = editPost
+        ? JSON.stringify({ action: 'update_post', post_id: editPost, content: newPost, title: newPostTitle })
+        : JSON.stringify({ action: 'create_post', content: newPost, title: newPostTitle });
+      const res = await fetch('/api/social', { method, headers: getHeaders(), body });
+        const data = await res.json();
+        if (!res.ok) { setErrMsg(data.error || 'فشل النشر'); return; }
+      }
+      setNewPost(''); setNewPostTitle(''); setShowNewPost(false); setEditPost(null); setErrMsg('');
       fetchPosts();
-    } catch (error) { console.error('Error:', error); }
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
+  };
+  const handleEditPost = (post: any) => {
+    setEditPost(post);
+    setNewPost(post.content || '');
+    setNewPostTitle(post.title || '');
+    setErrMsg('');
+    setShowNewPost(true);
   };
 
   const toggleLike = async (postId: number) => {
@@ -207,7 +231,7 @@ export default function CommunityPage() {
               <textarea value={newPost} onChange={e => setNewPost(e.target.value)} placeholder="شارك أفكارك مع المجتمع..." style={{ width: '100%', minHeight: 120, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: 16, color: 'white', fontSize: 15, resize: 'vertical', outline: 'none', direction: 'rtl', boxSizing: 'border-box' }} />
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 12 }}>
                 <button onClick={() => { setShowNewPost(false); setNewPost(''); setNewPostTitle(''); }} style={{ padding: '10px 20px', background: 'rgba(255,255,255,0.08)', border: 'none', borderRadius: 8, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
-                <button onClick={createPost} disabled={!newPost.trim()} style={{ padding: '10px 24px', background: newPost.trim() ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'rgba(255,255,255,0.1)', border: 'none', borderRadius: 8, color: newPost.trim() ? '#06060E' : 'rgba(255,255,255,0.3)', fontWeight: 700, cursor: newPost.trim() ? 'pointer' : 'default', fontSize: 14 }}>نشر</button>
+                <button onClick={savePost} disabled={!newPost.trim()} style={{ padding: '10px 24px', background: newPost.trim() ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'rgba(255,255,255,0.1)', border: 'none', borderRadius: 8, color: newPost.trim() ? '#06060E' : 'rgba(255,255,255,0.3)', fontWeight: 700, cursor: newPost.trim() ? 'pointer' : 'default', fontSize: 14 }}>{saving ? '⏳...' : editPost ? '💾 حفظ' : 'نشر'}</button>
               </div>
             </div>
           )}

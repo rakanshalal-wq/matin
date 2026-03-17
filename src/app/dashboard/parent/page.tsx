@@ -5,6 +5,34 @@ import { Icon, ICONS, G, DARK, CARD, BORDER, Spinner } from '@/components/ui-ico
 
 /* ─── Design: Dark #06060E + Gold #C9A84C — متين v5 ─── */
 
+const getHeaders = (): Record<string, string> => {
+  try {
+    const token = localStorage.getItem('matin_token');
+    if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };
+    return { 'Content-Type': 'application/json' };
+  } catch { return { 'Content-Type': 'application/json' }; }
+};
+
+/* ── Modal ── */
+function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: React.ReactNode }) {
+  return (
+    <div style={{ position:'fixed',inset:0,zIndex:9999,background:'rgba(0,0,0,0.75)',backdropFilter:'blur(4px)',display:'flex',alignItems:'center',justifyContent:'center',padding:20 }} onClick={onClose}>
+      <div style={{ background:'#0F0F1A',border:'1px solid rgba(255,255,255,0.08)',borderRadius:20,width:'100%',maxWidth:520,maxHeight:'90vh',overflowY:'auto',boxShadow:'0 24px 80px rgba(0,0,0,0.6)' }} onClick={e=>e.stopPropagation()}>
+        <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center',padding:'20px 24px',borderBottom:'1px solid rgba(255,255,255,0.07)' }}>
+          <h3 style={{ color:'#EEEEF5',fontSize:17,fontWeight:700,margin:0 }}>{title}</h3>
+          <button onClick={onClose} style={{ background:'rgba(255,255,255,0.05)',border:'none',borderRadius:8,padding:'6px 10px',cursor:'pointer',color:'rgba(238,238,245,0.6)',fontSize:16 }}>✕</button>
+        </div>
+        <div style={{ padding:24 }}>{children}</div>
+      </div>
+    </div>
+  );
+}
+const ErrBox = ({ msg }: { msg: string }) => msg ? <div style={{ background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.3)',borderRadius:8,padding:'10px 14px',color:'#EF4444',fontSize:13,marginBottom:12 }}>{msg}</div> : null;
+const OkBox  = ({ msg }: { msg: string }) => msg ? <div style={{ background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.3)',borderRadius:8,padding:'10px 14px',color:'#10B981',fontSize:13,marginBottom:12 }}>{msg}</div> : null;
+const INP: React.CSSProperties = { width:'100%',padding:'10px 14px',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' };
+const LBL: React.CSSProperties = { display:'block',color:'rgba(238,238,245,0.7)',fontSize:13,fontWeight:600,marginBottom:6 };
+const FW:  React.CSSProperties = { marginBottom:16 };
+
 export default function ParentDashboard() {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
@@ -12,29 +40,75 @@ export default function ParentDashboard() {
   const [selectedChild, setSelectedChild] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  // ── Message modal ──
+  const [showMsgModal, setShowMsgModal] = useState(false);
+  const [msgForm, setMsgForm] = useState({ subject: '', body: '', teacher_id: '' });
+  const [msgLoading, setMsgLoading] = useState(false);
+  const [msgErr, setMsgErr] = useState('');
+  const [msgOk, setMsgOk] = useState('');
+
+  // ── Leave request modal ──
+  const [showLeaveModal, setShowLeaveModal] = useState(false);
+  const [leaveForm, setLeaveForm] = useState({ reason: '', from_date: '', to_date: '' });
+  const [leaveLoading, setLeaveLoading] = useState(false);
+  const [leaveErr, setLeaveErr] = useState('');
+  const [leaveOk, setLeaveOk] = useState('');
+
   useEffect(() => {
     const u = localStorage.getItem('matin_user');
     if (!u) { router.push('/login'); return; }
     const parsed = JSON.parse(u);
-    if (parsed.role !== 'parent') { router.push('/login'); return; }
     setUser(parsed);
     fetchData(parsed);
   }, []);
 
   const fetchData = async (u: any) => {
-    const token = localStorage.getItem('matin_token');
-    const headers = { 'Authorization': 'Bearer ' + token };
     try {
-      const res = await fetch('/api/parents', { headers });
+      const res = await fetch('/api/parents', { headers: getHeaders() });
       if (res.ok) {
         const d = await res.json();
-        if (d.children) {
-          setChildren(d.children);
-          if (d.children.length > 0) setSelectedChild(d.children[0]);
-        }
+        const kids = d.children || (Array.isArray(d) ? d : []);
+        setChildren(kids);
+        if (kids.length > 0) setSelectedChild(kids[0]);
       }
-    } catch (e) {}
+    } catch (e) { console.error(e); }
     finally { setLoading(false); }
+  };
+
+  const handleSendMessage = async () => {
+    if (!msgForm.subject.trim()) { setMsgErr('الموضوع مطلوب'); return; }
+    if (!msgForm.body.trim()) { setMsgErr('نص الرسالة مطلوب'); return; }
+    setMsgLoading(true); setMsgErr(''); setMsgOk('');
+    try {
+      const res = await fetch('/api/messages', {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify({ ...msgForm, student_id: selectedChild?.id, parent_id: user?.id }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'فشل إرسال الرسالة');
+      setMsgOk('تم إرسال الرسالة بنجاح ✓');
+      setTimeout(() => { setShowMsgModal(false); setMsgOk(''); setMsgForm({ subject: '', body: '', teacher_id: '' }); }, 1500);
+    } catch (e: any) { setMsgErr(e.message); }
+    finally { setMsgLoading(false); }
+  };
+
+  const handleLeaveRequest = async () => {
+    if (!leaveForm.reason.trim()) { setLeaveErr('سبب الغياب مطلوب'); return; }
+    if (!leaveForm.from_date) { setLeaveErr('تاريخ البداية مطلوب'); return; }
+    setLeaveLoading(true); setLeaveErr(''); setLeaveOk('');
+    try {
+      const res = await fetch('/api/attendance', {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify({ ...leaveForm, student_id: selectedChild?.id, parent_id: user?.id, type: 'leave_request' }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'فشل إرسال طلب الإجازة');
+      setLeaveOk('تم إرسال طلب الإجازة بنجاح ✓');
+      setTimeout(() => { setShowLeaveModal(false); setLeaveOk(''); setLeaveForm({ reason: '', from_date: '', to_date: '' }); }, 1500);
+    } catch (e: any) { setLeaveErr(e.message); }
+    finally { setLeaveLoading(false); }
   };
 
   const logout = () => {
@@ -122,6 +196,18 @@ export default function ParentDashboard() {
             <p style={{ color: 'rgba(238,238,245,0.4)', margin: 0, fontSize: 14 }}>تابع أداء أبنائك من هنا</p>
           </div>
 
+          {/* الإجراءات السريعة */}
+          <div style={{ display: 'flex', gap: 10, marginBottom: 24, flexWrap: 'wrap' }}>
+            <button onClick={() => { setMsgErr(''); setMsgOk(''); setMsgForm({ subject: '', body: '', teacher_id: '' }); setShowMsgModal(true); }}
+              style={{ padding: '10px 18px', background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.25)', borderRadius: 10, color: '#3B82F6', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 13, display: 'flex', alignItems: 'center', gap: 7 }}>
+              <Icon d={ICONS.messages} size={15} color="#3B82F6" /> رسالة للمعلم
+            </button>
+            <button onClick={() => { setLeaveErr(''); setLeaveOk(''); setLeaveForm({ reason: '', from_date: '', to_date: '' }); setShowLeaveModal(true); }}
+              style={{ padding: '10px 18px', background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.25)', borderRadius: 10, color: '#F59E0B', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 13, display: 'flex', alignItems: 'center', gap: 7 }}>
+              <Icon d={ICONS.attendance} size={15} color="#F59E0B" /> طلب إجازة
+            </button>
+          </div>
+
           {/* اختيار الابن */}
           {children.length > 0 && (
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 20, marginBottom: 24 }}>
@@ -190,7 +276,7 @@ export default function ParentDashboard() {
 
           {/* لا يوجد أبناء */}
           {children.length === 0 && (
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: '48px 32px', textAlign: 'center' }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: '48px 32px', textAlign: 'center', marginTop: 24 }}>
               <div style={{ width: 64, height: 64, borderRadius: 16, background: 'rgba(201,168,76,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: G }}>
                 <Icon d={ICONS.parent} size={30} />
               </div>
@@ -200,6 +286,54 @@ export default function ParentDashboard() {
           )}
         </div>
       </div>
+
+      {/* ── Message Modal ── */}
+      {showMsgModal && (
+        <Modal title="إرسال رسالة للمعلم" onClose={() => setShowMsgModal(false)}>
+          {selectedChild && (
+            <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 10, padding: '10px 14px', marginBottom: 16, fontSize: 13, color: 'rgba(238,238,245,0.6)' }}>
+              الطالب: <strong style={{ color: '#EEEEF5' }}>{selectedChild.name}</strong>
+            </div>
+          )}
+          <div style={FW}><label style={LBL}>الموضوع <span style={{color:'#EF4444'}}>*</span></label>
+            <input value={msgForm.subject} onChange={e => setMsgForm(f => ({...f, subject: e.target.value}))} placeholder="مثال: استفسار عن الواجب" style={INP} />
+          </div>
+          <div style={FW}><label style={LBL}>نص الرسالة <span style={{color:'#EF4444'}}>*</span></label>
+            <textarea value={msgForm.body} onChange={e => setMsgForm(f => ({...f, body: e.target.value}))} rows={5} placeholder="اكتب رسالتك هنا..." style={{ ...INP, resize: 'vertical', minHeight: 100 }} />
+          </div>
+          <ErrBox msg={msgErr} /><OkBox msg={msgOk} />
+          <button onClick={handleSendMessage} disabled={msgLoading} style={{ width: '100%', padding: '11px', background: msgLoading ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg,#3B82F6,#1D4ED8)', border: 'none', borderRadius: 10, color: msgLoading ? 'rgba(238,238,245,0.3)' : '#fff', cursor: msgLoading ? 'not-allowed' : 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 14 }}>
+            {msgLoading ? 'جارٍ الإرسال...' : 'إرسال الرسالة'}
+          </button>
+        </Modal>
+      )}
+
+      {/* ── Leave Request Modal ── */}
+      {showLeaveModal && (
+        <Modal title="طلب إجازة للطالب" onClose={() => setShowLeaveModal(false)}>
+          {selectedChild && (
+            <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 10, padding: '10px 14px', marginBottom: 16, fontSize: 13, color: 'rgba(238,238,245,0.6)' }}>
+              الطالب: <strong style={{ color: '#EEEEF5' }}>{selectedChild.name}</strong>
+            </div>
+          )}
+          <div style={FW}><label style={LBL}>سبب الغياب <span style={{color:'#EF4444'}}>*</span></label>
+            <input value={leaveForm.reason} onChange={e => setLeaveForm(f => ({...f, reason: e.target.value}))} placeholder="مثال: مرض، ظروف عائلية..." style={INP} />
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
+            <div><label style={LBL}>من تاريخ <span style={{color:'#EF4444'}}>*</span></label>
+              <input value={leaveForm.from_date} onChange={e => setLeaveForm(f => ({...f, from_date: e.target.value}))} type="date" style={INP} />
+            </div>
+            <div><label style={LBL}>إلى تاريخ</label>
+              <input value={leaveForm.to_date} onChange={e => setLeaveForm(f => ({...f, to_date: e.target.value}))} type="date" style={INP} />
+            </div>
+          </div>
+          <ErrBox msg={leaveErr} /><OkBox msg={leaveOk} />
+          <button onClick={handleLeaveRequest} disabled={leaveLoading} style={{ width: '100%', padding: '11px', background: leaveLoading ? 'rgba(255,255,255,0.05)' : `linear-gradient(135deg,${G},#A07830)`, border: 'none', borderRadius: 10, color: leaveLoading ? 'rgba(238,238,245,0.3)' : '#000', cursor: leaveLoading ? 'not-allowed' : 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 14 }}>
+            {leaveLoading ? 'جارٍ الإرسال...' : 'إرسال طلب الإجازة'}
+          </button>
+        </Modal>
+      )}
+
     </div>
   );
 }

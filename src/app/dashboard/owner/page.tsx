@@ -71,6 +71,10 @@ const Toast = ({ msg, onClose }: any) => msg ? (
 export default function OwnerDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
   const [toast, setToast] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
+  const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // البيانات
@@ -188,12 +192,15 @@ export default function OwnerDashboard() {
 
   const handleCreatePlan = async () => {
     if (!planForm.name || !planForm.price) { showToast('أدخل اسم الباقة والسعر'); return; }
+    setSaving(true); setErrMsg('');
     try {
-      const r = await fetch('/api/plans', { method: 'POST', headers: getH(), body: JSON.stringify(planForm) });
+      const method = editItem?.type === 'plan' ? 'PUT' : 'POST';
+      const url = editItem?.type === 'plan' ? `/api/plans?id=${editItem.id}` : '/api/plans';
+      const r = await fetch(url, { method, headers: getH(), body: JSON.stringify(planForm) });
       const d = await r.json();
-      if (r.ok) { showToast('تم إنشاء الباقة ✓'); setPlanForm({ name: '', price: '', student_limit: '', features: '' }); loadAll(); }
-      else showToast(d.error || 'فشل');
-    } catch { showToast('خطأ'); }
+      if (r.ok) { showToast(method === 'PUT' ? 'تم تعديل الباقة ✓' : 'تم إنشاء الباقة ✓'); setPlanForm({ name: '', price: '', student_limit: '', features: '' }); setEditItem(null); loadAll(); }
+      else { showToast(d.error || 'فشل'); setErrMsg(d.error || 'فشل'); }
+    } catch (e: any) { showToast('خطأ'); setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
   };
 
   const handleDeletePlan = async (id: number) => {
@@ -206,12 +213,15 @@ export default function OwnerDashboard() {
 
   const handleCreateAd = async () => {
     if (!adForm.title || !adForm.body) { showToast('أدخل العنوان والنص'); return; }
+    setSaving(true); setErrMsg('');
     try {
-      const r = await fetch('/api/advertisements', { method: 'POST', headers: getH(), body: JSON.stringify(adForm) });
+      const method = editItem?.type === 'ad' ? 'PUT' : 'POST';
+      const url = editItem?.type === 'ad' ? `/api/advertisements?id=${editItem.id}` : '/api/advertisements';
+      const r = await fetch(url, { method, headers: getH(), body: JSON.stringify(adForm) });
       const d = await r.json();
-      if (r.ok) { showToast('تم نشر الإعلان ✓'); setAdForm({ title: '', body: '', start_date: '', end_date: '' }); loadAll(); }
-      else showToast(d.error || 'فشل');
-    } catch { showToast('خطأ'); }
+      if (r.ok) { showToast(method === 'PUT' ? 'تم تعديل الإعلان ✓' : 'تم نشر الإعلان ✓'); setAdForm({ title: '', body: '', start_date: '', end_date: '' }); setEditItem(null); loadAll(); }
+      else { showToast(d.error || 'فشل'); setErrMsg(d.error || 'فشل'); }
+    } catch (e: any) { showToast('خطأ'); setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
   };
 
   const handleDeleteAd = async (id: number) => {
@@ -488,7 +498,10 @@ export default function OwnerDashboard() {
                     </div>
                     <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12, marginBottom: 8 }}>الحد: {plan.student_limit || 'غير محدود'} طالب</div>
                     {plan.features && <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12, marginBottom: 16 }}>{plan.features}</div>}
-                    <Btn label="حذف" color={RED} onClick={() => handleDeletePlan(plan.id)} />
+                    <div style={{ display: 'flex', gap: 8 }}>
+                      <Btn label="تعديل" color={GOLD} onClick={() => { setEditItem({ type: 'plan', id: plan.id }); setPlanForm({ name: plan.name, price: plan.price, student_limit: plan.student_limit || '', features: plan.features || '' }); }} />
+                      <Btn label="حذف" color={RED} onClick={() => handleDeletePlan(plan.id)} />
+                    </div>
                   </div>
                 ))}
                 {plans.length === 0 && <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 13 }}>لا توجد باقات مسجلة</div>}
@@ -514,7 +527,7 @@ export default function OwnerDashboard() {
                     <input value={planForm.features} onChange={e => setPlanForm({ ...planForm, features: e.target.value })} placeholder="مثال: AI + متجر + تقارير" style={inputStyle} />
                   </div>
                 </div>
-                <Btn label="✨ إنشاء الباقة" color={GOLD} onClick={handleCreatePlan} />
+                <Btn label={saving ? 'جاري الحفظ...' : editItem?.type === 'plan' ? '✏️ تعديل الباقة' : '✨ إنشاء الباقة'} color={GOLD} onClick={handleCreatePlan} disabled={saving} />
               </div>
             </div>
           )}
@@ -545,7 +558,7 @@ export default function OwnerDashboard() {
                     </div>
                   </div>
                 </div>
-                <Btn label="📣 نشر الإعلان السيادي" color={GOLD} onClick={handleCreateAd} />
+                <Btn label={saving ? 'جاري الحفظ...' : editItem?.type === 'ad' ? '✏️ تعديل الإعلان' : '📣 نشر الإعلان السيادي'} color={GOLD} onClick={handleCreateAd} disabled={saving} />
               </div>
 
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
@@ -568,7 +581,7 @@ export default function OwnerDashboard() {
                           <td style={cellStyle}>{ad.start_date ? new Date(ad.start_date).toLocaleDateString('ar-SA') : '—'}</td>
                           <td style={cellStyle}>{ad.end_date ? new Date(ad.end_date).toLocaleDateString('ar-SA') : '—'}</td>
                           <td style={cellStyle}><Badge label={ad.is_active ? 'نشط' : 'غير نشط'} color={ad.is_active ? GREEN : RED} /></td>
-                          <td style={cellStyle}><Btn label="حذف" color={RED} onClick={() => handleDeleteAd(ad.id)} /></td>
+                          <td style={cellStyle}><div style={{ display: 'flex', gap: 6 }}><Btn label="تعديل" color={GOLD} onClick={() => { setEditItem({ type: 'ad', id: ad.id }); setAdForm({ title: ad.title, body: ad.body, start_date: ad.start_date || '', end_date: ad.end_date || '' }); }} /><Btn label="حذف" color={RED} onClick={() => handleDeleteAd(ad.id)} /></div></td>
                         </tr>
                       ))}
                     </tbody>

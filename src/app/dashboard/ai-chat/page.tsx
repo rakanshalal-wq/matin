@@ -17,6 +17,11 @@ export default function AIChatPage() {
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [saving, setSaving] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [settingsForm, setSettingsForm] = useState({ model: 'gpt-4', language: 'ar', max_tokens: '2000' });
+  const [errMsg, setErrMsg] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [suggestions] = useState([
     'أعطني ملخص أداء الطلاب هذا الشهر',
@@ -35,6 +40,28 @@ export default function AIChatPage() {
     scrollToBottom();
   }, [messages]);
 
+  const updateMessage = async (messageId: string, content: string) => {
+    try {
+      const token = document.cookie.split(';').find(c => c.trim().startsWith('token='))?.split('=')[1] 
+        || localStorage.getItem('token') || '';
+      const res = await fetch(`/api/ai/chat?id=${messageId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ content })
+      });
+      if (!res.ok) { const d = await res.json(); setErrMsg(d.error || 'فشل التحديث'); }
+      else setEditItem(null);
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); }
+  };
+  const handleSaveSettings = async () => {
+    setSaving(true); setErrMsg('');
+    try {
+      const token = localStorage.getItem('matin_token') || '';
+      const res = await fetch('/api/ai/settings', { method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, body: JSON.stringify(settingsForm) });
+      if (res.ok) { setShowModal(false); }
+      else { const d = await res.json(); setErrMsg(d.error || 'فشل حفظ الإعدادات'); }
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
+  };
   const sendMessage = async (text?: string) => {
     const messageText = text || input;
     if (!messageText.trim()) return;
@@ -67,7 +94,8 @@ export default function AIChatPage() {
         timestamp: new Date()
       };
       setMessages(prev => [...prev, assistantMessage]);
-    } catch (error) {
+    } catch (error: any) {
+      setErrMsg(error.message || 'حدث خطأ في الاتصال');
       setMessages(prev => [...prev, {
         role: 'assistant',
         content: 'عذراً، حدث خطأ في الاتصال. يرجى المحاولة مرة أخرى.',
@@ -183,6 +211,35 @@ export default function AIChatPage() {
           40% { transform: scale(1); }
         }
       `}</style>
+
+      {/* Settings Modal */}
+      {showModal && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+          <div style={{ background: '#0F0F1A', border: '1px solid rgba(139,92,246,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 440, direction: 'rtl' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+              <h2 style={{ color: '#8B5CF6', fontSize: 18, fontWeight: 700, margin: 0 }}>⚙️ إعدادات المساعد الذكي</h2>
+              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
+            </div>
+            {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}
+            <div style={{ marginBottom: 16 }}>
+              <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>النموذج</label>
+              <select value={settingsForm.model} onChange={e => setSettingsForm({ ...settingsForm, model: e.target.value })} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13 }}>
+                <option value="gpt-4">GPT-4</option>
+                <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                <option value="claude-3">Claude 3</option>
+              </select>
+            </div>
+            <div style={{ marginBottom: 16 }}>
+              <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>الحد الأقصى للرموز</label>
+              <input type="number" value={settingsForm.max_tokens} onChange={e => setSettingsForm({ ...settingsForm, max_tokens: e.target.value })} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13, boxSizing: 'border-box' as const }} />
+            </div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button onClick={handleSaveSettings} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(139,92,246,0.5)' : 'linear-gradient(135deg,#8B5CF6,#A78BFA)', border: 'none', borderRadius: 10, padding: '12px 0', color: '#fff', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري الحفظ...' : 'حفظ الإعدادات'}</button>
+              <button onClick={() => setShowModal(false)} style={{ padding: '12px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

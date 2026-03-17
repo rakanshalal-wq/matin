@@ -7,6 +7,13 @@ export default function ReportsPage() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
+  const [exportMsg, setExportMsg] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
@@ -14,6 +21,43 @@ export default function ReportsPage() {
     fetchReport('school_overview');
   }, []);
 
+  const handleExport = async (format: 'csv' | 'pdf') => {
+    setSaving(true); setErrMsg(''); setExportMsg('');
+    try {
+      const params = new URLSearchParams({ type: activeReport, format, ...(dateFrom && { from: dateFrom }), ...(dateTo && { to: dateTo }) });
+      const res = await fetch(`/api/reports/export?${params}`, { method: 'POST', headers: getHeaders() });
+      if (res.ok) {
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = `report_${activeReport}.${format}`; a.click();
+        URL.revokeObjectURL(url);
+        setExportMsg('✅ تم تصدير التقرير');
+      } else {
+        const d = await res.json();
+        setErrMsg(d.error || 'فشل التصدير');
+      }
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ في التصدير'); } finally { setSaving(false); }
+  };
+  const handleSaveReportConfig = async () => {
+    setSaving(true); setErrMsg('');
+    try {
+      const method = editItem ? 'PUT' : 'POST';
+      const url = editItem ? '/api/reports?id=' + editItem.id : '/api/reports';
+      const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify({ type: activeReport, dateFrom, dateTo }) });
+      if (res.ok) { setShowModal(false); setEditItem(null); setExportMsg('تم حفظ إعدادات التقرير'); }
+      else { const d = await res.json(); setErrMsg(d.error || 'فشل الحفظ'); }
+    } catch (e) { setErrMsg('حدث خطأ'); } finally { setSaving(false); }
+  };
+  const handleFilteredFetch = () => {
+    const params = new URLSearchParams({ type: activeReport, ...(dateFrom && { from: dateFrom }), ...(dateTo && { to: dateTo }) });
+    setLoading(true);
+    setActiveReport(activeReport);
+    fetch(`/api/reports?${params}`, { headers: getHeaders() })
+      .then(r => r.json())
+      .then(d => setData(d))
+      .catch(e => setErrMsg(e.message || 'حدث خطأ'))
+      .finally(() => setLoading(false));
+  };
   const fetchReport = async (type: string) => {
     setLoading(true);
     setActiveReport(type);
@@ -210,6 +254,22 @@ export default function ReportsPage() {
         <p style={{ color: '#9CA3AF', fontSize: 14, margin: '6px 0 0' }}>تقارير شاملة من بيانات المنصة الحقيقية</p>
       </div>
 
+      {/* فلتر التاريخ والتصدير */}
+      <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>من:</label>
+          <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '8px 12px', color: '#fff', fontSize: 13, outline: 'none' }} />
+        </div>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>إلى:</label>
+          <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '8px 12px', color: '#fff', fontSize: 13, outline: 'none' }} />
+        </div>
+        <button onClick={handleFilteredFetch} style={{ background: 'rgba(59,130,246,0.15)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 8, padding: '8px 16px', cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>🔍 تصفية</button>
+        <button onClick={() => handleExport('csv')} disabled={saving} style={{ background: 'rgba(16,185,129,0.15)', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 8, padding: '8px 16px', cursor: saving ? 'not-allowed' : 'pointer', fontSize: 13, fontWeight: 600, opacity: saving ? 0.7 : 1 }}>📥 CSV</button>
+        <button onClick={() => handleExport('pdf')} disabled={saving} style={{ background: 'rgba(239,68,68,0.15)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, padding: '8px 16px', cursor: saving ? 'not-allowed' : 'pointer', fontSize: 13, fontWeight: 600, opacity: saving ? 0.7 : 1 }}>📄 PDF</button>
+        {exportMsg && <span style={{ color: '#10B981', fontSize: 13 }}>{exportMsg}</span>}
+        {errMsg && <span style={{ color: '#EF4444', fontSize: 13 }}>{errMsg}</span>}
+      </div>
       {/* أنواع التقارير */}
       <div style={{ display: 'flex', gap: 8, marginBottom: 24, flexWrap: 'wrap' }}>
         {reportTypes.map(rt => (

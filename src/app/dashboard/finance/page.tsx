@@ -17,6 +17,11 @@ export default function FinancePage() {
   const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState('');
   const [upgrading, setUpgrading] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [paymentForm, setPaymentForm] = useState({ amount: '', method: 'card', description: '' });
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
 
   useEffect(() => {
     const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
@@ -42,7 +47,26 @@ export default function FinancePage() {
     } catch {} finally { setLoading(false); }
   };
 
+  const handleAddPayment = async () => {
+    if (!paymentForm.amount) { return; }
+    setSaving(true);
+    try {
+      const res = await fetch('/api/finance', { method: 'POST', headers: getHeaders(), body: JSON.stringify({ type: 'add_payment', ...paymentForm }) });
+      const data = await res.json();
+      if (res.ok) { setShowModal(false); setPaymentForm({ amount: '', method: 'card', description: '' }); fetchAll(user); }
+      else { /* ignore */ }
+    } catch {} finally { setSaving(false); }
+  };
+  const updateSubscription = async (updates: any) => {
+    try {
+      const res = await fetch('/api/finance?type=subscription', { method: 'PUT', headers: getHeaders(), body: JSON.stringify(updates) });
+      const data = await res.json();
+      if (!res.ok) setErrMsg(data.error || 'فشل التحديث');
+      else fetchAll(user);
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); }
+  };
   const handleUpgrade = async (pkg: string) => {
+    setErrMsg('');
     if (pkg === (subscription?.package || user?.package)) return;
     setUpgrading(pkg); setMsg('');
     try {
@@ -148,6 +172,37 @@ export default function FinancePage() {
               </div>
             );
           })}
+        </div>
+      )}
+
+      {showModal && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+          <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 440, direction: 'rtl' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>💳 إضافة دفعة</h2>
+              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
+            </div>
+            <div style={{ marginBottom: 16 }}>
+              <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>المبلغ *</label>
+              <input type="number" value={paymentForm.amount} onChange={e => setPaymentForm({ ...paymentForm, amount: e.target.value })} placeholder="0.00" style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13, boxSizing: 'border-box' as const }} />
+            </div>
+            <div style={{ marginBottom: 16 }}>
+              <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>طريقة الدفع</label>
+              <select value={paymentForm.method} onChange={e => setPaymentForm({ ...paymentForm, method: e.target.value })} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13 }}>
+                <option value="card">بطاقة ائتمان</option>
+                <option value="bank">تحويل بنكي</option>
+                <option value="cash">نقدي</option>
+              </select>
+            </div>
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>الوصف</label>
+              <input type="text" value={paymentForm.description} onChange={e => setPaymentForm({ ...paymentForm, description: e.target.value })} placeholder="وصف الدفعة..." style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13, boxSizing: 'border-box' as const }} />
+            </div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button onClick={handleAddPayment} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg,#C9A227,#E8C547)', border: 'none', borderRadius: 10, padding: '12px 0', color: '#06060E', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري الحفظ...' : 'تسجيل الدفعة'}</button>
+              <button onClick={() => setShowModal(false)} style={{ padding: '12px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
+            </div>
+          </div>
         </div>
       )}
     </div>

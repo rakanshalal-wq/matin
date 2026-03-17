@@ -14,12 +14,15 @@ export default function PermissionsPage(){
   });
   const [selectedRole,setSelectedRole]=useState('admin');
   const [saving,setSaving]=useState(false);
+  const [showModal,setShowModal]=useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
   const [loading,setLoading]=useState(true);
   useEffect(()=>{fetchPerms();},[]);
   const fetchPerms=async()=>{setLoading(true);try{const r=await fetch('/api/permissions',{headers:getH()});const d=await r.json();if(d.permissions)setPerms(d.permissions)}catch{}finally{setLoading(false)}};
   const toggle=(module:string,action:string)=>{setPerms(p=>({...p,[selectedRole]:{...p[selectedRole],[module]:{...p[selectedRole][module],[action]:!p[selectedRole][module][action]}}}))};
   const toggleAll=(module:string,val:boolean)=>{setPerms(p=>({...p,[selectedRole]:{...p[selectedRole],[module]:Object.fromEntries(ACTIONS.map(a=>[a,val]))}}))};
-  const save=async()=>{setSaving(true);try{await fetch('/api/permissions',{method:'PUT',headers:getH(),body:JSON.stringify({permissions:perms})});alert('تم حفظ الصلاحيات')}catch{}finally{setSaving(false)}};
+  const save=async()=>{setSaving(true);try{await fetch('/api/permissions',{method:'PUT',headers:getH(),body:JSON.stringify({permissions:perms})});setErrMsg('')}catch(e:any){setErrMsg(e.message||'حدث خطأ');}finally{setSaving(false)}};
   const role=ROLES.find(r=>r.id===selectedRole);
   return(
     <div style={{minHeight:'100vh',background:BG,padding:'32px 24px',direction:'rtl',fontFamily:'Cairo, sans-serif'}}>

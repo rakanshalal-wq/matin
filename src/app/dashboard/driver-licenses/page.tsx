@@ -8,19 +8,30 @@ export default function DriverLicensesPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
   const [formData, setFormData] = useState({ driver_name: '', license_number: '', type: '', issue_date: '', expiry_date: '', status: 'active' });
 
   useEffect(() => { fetchItems(); }, []);
   const fetchItems = async () => { try { const res = await fetch('/api/driver-licenses', { headers: getHeaders() }); const data = await res.json(); setItems(Array.isArray(data) ? data : []); } catch (e) { console.error(e); } finally { setLoading(false); } };
 
-  const handleAdd = async () => {
-    if (!formData.driver_name) return alert('أدخل اسم السائق');
-    setSaving(true);
+  const handleSave = async () => {
+    if (!formData.driver_name) { setErrMsg('أدخل اسم السائق'); return; }
+    setSaving(true); setErrMsg('');
     try {
-      const res = await fetch('/api/driver-licenses', { method: 'POST', headers: getHeaders(), body: JSON.stringify(formData) });
-      if (res.ok) { setShowAddModal(false); setFormData({ driver_name: '', license_number: '', type: '', issue_date: '', expiry_date: '', status: 'active' }); fetchItems(); }
-      else { const err = await res.json(); alert(err.error || 'فشل'); }
-    } catch (e) { console.error(e); } finally { setSaving(false); }
+      const method = editItem ? 'PUT' : 'POST';
+      const url = editItem ? `/api/driver-licenses?id=${editItem.id}` : '/api/driver-licenses';
+      const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify(formData) });
+      const data = await res.json();
+      if (!res.ok) { setErrMsg(data.error || 'فشل الحفظ'); return; }
+      setShowAddModal(false); setEditItem(null); setFormData({ driver_name: '', license_number: '', type: '', issue_date: '', expiry_date: '', status: 'active' }); setErrMsg(''); fetchItems();
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
+  };
+  const handleEdit = (item: any) => {
+    setEditItem(item);
+    setFormData({ ...{ driver_name: '', license_number: '', type: '', issue_date: '', expiry_date: '', status: 'active' }, ...item });
+    setErrMsg('');
+    setShowAddModal(true);
   };
 
   const handleDelete = async (id: number) => {
@@ -52,7 +63,7 @@ export default function DriverLicensesPage() {
           <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>🪪 رخص السائقين</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>متابعة رخص القيادة وتواريخ الانتهاء</p>
         </div>
-        <button onClick={() => setShowAddModal(true)} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>➕ إضافة رخصة</button>
+        <button onClick={() => { setEditItem(null); setFormData({ driver_name: '', license_number: '', type: '', issue_date: '', expiry_date: '', status: 'active' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>➕ إضافة رخصة</button>
       </div>
 
       {expiredCount > 0 && (
@@ -127,7 +138,7 @@ export default function DriverLicensesPage() {
                     </td>
                     <td style={{ padding: 16, textAlign: 'center' }}>
                       <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-                        <button style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>✏️ تعديل</button>
+                        <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>✏️ تعديل</button>
                         <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>🗑️ حذف</button>
                       </div>
                     </td>
@@ -143,8 +154,8 @@ export default function DriverLicensesPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>🪪 إضافة رخصة جديدة</h2>
-              <button onClick={() => setShowAddModal(false)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>✕</button>
+              <h2 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل' : '🪪 إضافة رخصة جديدة'}</h2>
+              <button onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>✕</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ gridColumn: '1 / -1' }}><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>اسم السائق *</label><input value={formData.driver_name} onChange={e => setFormData({ ...formData, driver_name: e.target.value })} placeholder="اسم السائق" style={inputStyle} /></div>
@@ -154,8 +165,8 @@ export default function DriverLicensesPage() {
               <div><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>تاريخ الانتهاء</label><input type="date" value={formData.expiry_date} onChange={e => setFormData({ ...formData, expiry_date: e.target.value })} style={inputStyle} /></div>
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-start' }}>
-              <button onClick={handleAdd} disabled={saving} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>{saving ? '⏳ جاري الحفظ...' : '💾 حفظ الرخصة'}</button>
-              <button onClick={() => setShowAddModal(false)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إلغاء</button>
+              <button onClick={handleSave} disabled={saving} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>{saving ? '⏳ جاري الحفظ...' : '💾 حفظ الرخصة'}</button>
+              <button onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إلغاء</button>
             </div>
           </div>
         </div>

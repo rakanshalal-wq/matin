@@ -14,7 +14,11 @@ interface Integration {
 export default function IntegrationsPage() {
   const [integrations, setIntegrations] = useState<Integration[]>([]);
   const [loading, setLoading] = useState(true);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [apiKey, setApiKey] = useState('');
 
   useEffect(() => { fetchIntegrations(); }, []);
@@ -30,15 +34,18 @@ export default function IntegrationsPage() {
   };
 
   const toggleIntegration = async (id: string, currentStatus: boolean) => {
+    setErrMsg('');
     try {
       const token = document.cookie.split('token=')[1]?.split(';')[0] || localStorage.getItem('token');
-      await fetch('/api/integrations', {
-        method: 'POST',
+      const res = await fetch('/api/integrations', {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ integration_id: id, api_key: apiKey || undefined, action: currentStatus ? 'disconnect' : 'connect' })
       });
-      fetchIntegrations();
-    } catch (e) { console.error(e); }
+      const data = await res.json();
+      if (!res.ok) setErrMsg(data.error || 'فشل التحديث');
+      else fetchIntegrations();
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); }
   };
 
   const getTypeIcon = (type: string) => {

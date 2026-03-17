@@ -26,6 +26,8 @@ export default function AppearancePage() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [errMsg, setErrMsg] = useState('');
+  const [showModal, setShowModal] = useState(false);
   const [activeTab, setActiveTab] = useState("template");
 
   useEffect(() => {
@@ -36,17 +38,18 @@ export default function AppearancePage() {
   }, []);
 
   const handleSave = async () => {
-    setSaving(true);
+    setSaving(true); setErrMsg('');
     try {
-      await fetch("/api/appearance", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const token = typeof window !== 'undefined' ? localStorage.getItem('matin_token') || '' : '';
+      const res = await fetch("/api/appearance", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify(settings)
       });
-      setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
-    } catch (e) {}
-    setSaving(false);
+      const data = await res.json();
+      if (res.ok) { setSaved(true); setTimeout(() => setSaved(false), 3000); }
+      else setErrMsg(data.error || 'فشل الحفظ');
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
   };
 
   const applyTemplate = (t: typeof TEMPLATES[0]) => {

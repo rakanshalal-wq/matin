@@ -8,19 +8,30 @@ export default function CounselingPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
   const [formData, setFormData] = useState({ student_name: '', counselor_name: '', type: '', description: '', status: 'open', notes: '' });
 
   useEffect(() => { fetchItems(); }, []);
   const fetchItems = async () => { try { const res = await fetch('/api/counseling', { headers: getHeaders() }); const data = await res.json(); setItems(Array.isArray(data) ? data : []); } catch (e) { console.error(e); } finally { setLoading(false); } };
 
-  const handleAdd = async () => {
-    if (!formData.student_name) return alert('أدخل اسم الطالب');
-    setSaving(true);
+  const handleSave = async () => {
+    if (!formData.student_name) { setErrMsg('أدخل اسم الطالب'); return; }
+    setSaving(true); setErrMsg('');
     try {
-      const res = await fetch('/api/counseling', { method: 'POST', headers: getHeaders(), body: JSON.stringify(formData) });
-      if (res.ok) { setShowAddModal(false); setFormData({ student_name: '', counselor_name: '', type: '', description: '', status: 'open', notes: '' }); fetchItems(); }
-      else { const err = await res.json(); alert(err.error || 'فشل'); }
-    } catch (e) { console.error(e); } finally { setSaving(false); }
+      const method = editItem ? 'PUT' : 'POST';
+      const url = editItem ? `/api/counseling?id=${editItem.id}` : '/api/counseling';
+      const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify(formData) });
+      const data = await res.json();
+      if (!res.ok) { setErrMsg(data.error || 'فشل الحفظ'); return; }
+      setShowAddModal(false); setEditItem(null); setFormData({ student_name: '', counselor_name: '', type: '', description: '', status: 'open', notes: '' }); setErrMsg(''); fetchItems();
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
+  };
+  const handleEdit = (item: any) => {
+    setEditItem(item);
+    setFormData({ ...{ student_name: '', counselor_name: '', type: '', description: '', status: 'open', notes: '' }, ...item });
+    setErrMsg('');
+    setShowAddModal(true);
   };
 
   const handleDelete = async (id: number) => {
@@ -47,7 +58,7 @@ export default function CounselingPage() {
           <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>🧠 الإرشاد النفسي</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>متابعة الحالات الإرشادية والنفسية للطلاب</p>
         </div>
-        <button onClick={() => setShowAddModal(true)} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>➕ إضافة حالة</button>
+        <button onClick={() => { setEditItem(null); setFormData({ student_name: '', counselor_name: '', type: '', description: '', status: 'open', notes: '' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>➕ إضافة حالة</button>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
@@ -109,7 +120,7 @@ export default function CounselingPage() {
                     <td style={{ padding: 16, textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>{item.date ? new Date(item.date).toLocaleDateString('ar-SA') : '—'}</td>
                     <td style={{ padding: 16, textAlign: 'center' }}>
                       <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-                        <button style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>✏️ تعديل</button>
+                        <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>✏️ تعديل</button>
                         <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>🗑️ حذف</button>
                       </div>
                     </td>
@@ -125,8 +136,8 @@ export default function CounselingPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>🧠 إضافة حالة إرشادية</h2>
-              <button onClick={() => setShowAddModal(false)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>✕</button>
+              <h2 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل' : '🧠 إضافة حالة إرشادية'}</h2>
+              <button onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>✕</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div style={{ gridColumn: '1 / -1' }}><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>اسم الطالب *</label><input value={formData.student_name} onChange={e => setFormData({ ...formData, student_name: e.target.value })} placeholder="اسم الطالب" style={inputStyle} /></div>
@@ -137,8 +148,8 @@ export default function CounselingPage() {
               <div style={{ gridColumn: '1 / -1' }}><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>ملاحظات</label><textarea value={formData.notes} onChange={e => setFormData({ ...formData, notes: e.target.value })} placeholder="ملاحظات إضافية" rows={2} style={{ ...inputStyle, resize: 'vertical' } as any} /></div>
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-start' }}>
-              <button onClick={handleAdd} disabled={saving} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>{saving ? '⏳ جاري الحفظ...' : '💾 حفظ الحالة'}</button>
-              <button onClick={() => setShowAddModal(false)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إلغاء</button>
+              <button onClick={handleSave} disabled={saving} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>{saving ? '⏳ جاري الحفظ...' : '💾 حفظ الحالة'}</button>
+              <button onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إلغاء</button>
             </div>
           </div>
         </div>

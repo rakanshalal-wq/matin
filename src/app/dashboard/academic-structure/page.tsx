@@ -32,7 +32,10 @@ const btn = (bg: string, color = '#000') => ({
 function getH(): Record<string, string> {
   try {
     const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
-    return { 'Content-Type': 'application/json', Authorization: `Bearer ${u.token || ''}` };
+    const token = u.token || '';
+    const base: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (token) base['Authorization'] = `Bearer ${token}`;
+    return base;
   } catch { return { 'Content-Type': 'application/json' }; }
 }
 

@@ -24,11 +24,14 @@ export default function ParentPaymentsPage() {
   const [data, setData] = useState<any>(null);
   const [history, setHistory] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'invoices' | 'history'>('invoices');
+  const [saving, setSaving] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<any>(null);
+  const [activeTab, setActiveTab] = useState<'invoices' | 'history'>('invoices');
   const [paymentMethod, setPaymentMethod] = useState('cash');
   const [gateways, setGateways] = useState<string[]>(['cash']);
   const [paying, setPaying] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
   const [msg, setMsg] = useState<any>(null);
   const [filterStatus, setFilterStatus] = useState('all');
 
@@ -64,15 +67,25 @@ export default function ParentPaymentsPage() {
   };
 
   const processPayment = async () => {
-    if (!selectedInvoice || !paymentMethod) return;
-    setPaying(true);
-    const res = await fetch('/api/parent-payments', { method: 'POST', headers: getH(), body: JSON.stringify({ action: 'initiate_payment', invoice_id: selectedInvoice.id, payment_method: paymentMethod }) });
-    const result = await res.json();
-    if (res.ok) {
-      if (result.payment_url) window.location.href = result.payment_url;
-      else { setMsg({ text: result.message, type: 'success' }); setSelectedInvoice(null); fetchData(); }
-    } else setMsg({ text: result.error, type: 'error' });
+    if (!selectedInvoice || !paymentMethod) { setErrMsg && setErrMsg('اختر طريقة الدفع'); return; }
+    setPaying(true); setErrMsg && setErrMsg('');
+    try {
+      const res = await fetch('/api/parent-payments', { method: 'POST', headers: getH(), body: JSON.stringify({ action: 'initiate_payment', invoice_id: selectedInvoice.id, payment_method: paymentMethod }) });
+      const result = await res.json();
+      if (res.ok) {
+        if (result.payment_url) window.location.href = result.payment_url;
+        else { setMsg({ text: result.message, type: 'success' }); setSelectedInvoice(null); fetchData(); }
+      } else { setMsg({ text: result.error || 'فشل الدفع', type: 'error' }); setErrMsg && setErrMsg(result.error || 'فشل الدفع'); }
+    } catch (e: any) { setMsg({ text: e.message || 'حدث خطأ', type: 'error' }); setErrMsg && setErrMsg(e.message || 'حدث خطأ'); }
     setPaying(false);
+  };
+  const updateInvoice = async (invoiceId: number, updates: any) => {
+    try {
+      const res = await fetch(`/api/parent-payments?id=${invoiceId}`, { method: 'PUT', headers: getH(), body: JSON.stringify(updates) });
+      const data = await res.json();
+      if (res.ok) fetchData();
+      else setMsg({ text: data.error || 'فشل التحديث', type: 'error' });
+    } catch (e: any) { setMsg({ text: e.message || 'حدث خطأ', type: 'error' }); }
   };
 
   const filtered = (data?.invoices || []).filter((i: any) => filterStatus === 'all' || i.status === filterStatus);
@@ -199,6 +212,34 @@ export default function ParentPaymentsPage() {
                 {paying ? '⏳ جاري المعالجة...' : `💳 ادفع ${Number(selectedInvoice.total).toLocaleString()} ريال`}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {showModal && selectedInvoice && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+          <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 440, direction: 'rtl' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>💳 تفاصيل الفاتورة</h2>
+              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
+            </div>
+            <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 10, padding: 16, marginBottom: 20 }}>
+              <div style={{ color: '#fff', fontSize: 16, fontWeight: 700, marginBottom: 8 }}>{selectedInvoice.title || selectedInvoice.description || 'فاتورة'}</div>
+              <div style={{ color: '#C9A227', fontSize: 22, fontWeight: 800, marginBottom: 4 }}>{selectedInvoice.amount} ر.س</div>
+              <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>الحالة: {selectedInvoice.status === 'paid' ? '✅ مدفوعة' : selectedInvoice.status === 'pending' ? '⏳ معلقة' : '🔴 متأخرة'}</div>
+              {selectedInvoice.due_date && <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, marginTop: 4 }}>تاريخ الاستحقاق: {new Date(selectedInvoice.due_date).toLocaleDateString('ar-SA')}</div>}
+            </div>
+            {selectedInvoice.status !== 'paid' && (
+              <button onClick={async () => {
+                setSaving(true);
+                try {
+                  const token = typeof window !== 'undefined' ? localStorage.getItem('matin_token') || '' : '';
+                  const res = await fetch('/api/parent-payments?id=' + selectedInvoice.id, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify({ status: 'paid', paid_at: new Date().toISOString() }) });
+                  if (res.ok) { setShowModal(false); }
+                } catch {} finally { setSaving(false); }
+              }} disabled={saving} style={{ width: '100%', background: saving ? 'rgba(16,185,129,0.3)' : 'rgba(16,185,129,0.15)', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 10, padding: '12px 0', cursor: saving ? 'not-allowed' : 'pointer', fontWeight: 700, fontSize: 14, marginBottom: 10 }}>{saving ? 'جاري...' : '✅ تأكيد الدفع'}</button>
+            )}
+            <button onClick={() => setShowModal(false)} style={{ width: '100%', padding: '12px 0', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إغلاق</button>
           </div>
         </div>
       )}

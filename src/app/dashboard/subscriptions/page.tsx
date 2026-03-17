@@ -13,7 +13,11 @@ export default function SubscriptionsPage() {
   const [subscriptions, setSubscriptions] = useState<any[]>([]);
   const [mySubscription, setMySubscription] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
   const [upgrading, setUpgrading] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState('');
   const [msgType, setMsgType] = useState<'success' | 'error'>('success');
   const [user, setUser] = useState<any>(null);
@@ -41,7 +45,7 @@ export default function SubscriptionsPage() {
     setUpgrading(planId); setMsg('');
     try {
       const res = await fetch('/api/finance', {
-        method: 'POST',
+        method: editItem ? 'PUT' : 'POST',
         headers: getHeaders(),
         body: JSON.stringify({ action: 'upgrade', package: planId })
       });

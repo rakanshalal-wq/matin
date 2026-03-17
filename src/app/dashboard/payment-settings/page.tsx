@@ -25,6 +25,10 @@ export default function PaymentSettingsPage() {
   const [editing, setEditing] = useState<string | null>(null);
   const [inputValues, setInputValues] = useState<Record<string, Record<string, string>>>({});
   const [saving, setSaving] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedGateway, setSelectedGateway] = useState<any>(null);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
   const [disconnecting, setDisconnecting] = useState<string | null>(null);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
@@ -57,7 +61,7 @@ export default function PaymentSettingsPage() {
       const config = inputValues[gatewayKey] || {};
 
       const res = await fetch("/api/school-integrations", {
-        method: "POST",
+        method: editItem ? "PUT" : "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ gateway_key: gatewayKey, config, is_active: true }),
       });

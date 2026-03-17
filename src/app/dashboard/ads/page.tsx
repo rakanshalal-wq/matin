@@ -7,6 +7,8 @@ export default function AdsPage() {
   const [loading, setLoading] = useState(true);
   const [showAdd, setShowAdd] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
   const [msg, setMsg] = useState('');
   const [msgType, setMsgType] = useState<'success' | 'error'>('success');
   const [user, setUser] = useState<any>(null);
@@ -39,26 +41,33 @@ export default function AdsPage() {
     } catch (e) { console.error(e); } finally { setLoading(false); }
   };
 
-  const handleAdd = async () => {
-    if (!form.title) { setMsg('عنوان الإعلان مطلوب'); setMsgType('error'); return; }
-    setSaving(true);
+  const handleSave = async () => {
+    if (!form.title) { setErrMsg('عنوان الإعلان مطلوب'); return; }
+    setSaving(true); setErrMsg('');
     try {
-      const res = await fetch('/api/ads', { method: 'POST', headers: getHeaders(), body: JSON.stringify(form) });
+      const method = editItem ? 'PUT' : 'POST';
+      const url = editItem ? `/api/ads?id=${editItem.id}` : '/api/ads';
+      const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify(form) });
       const data = await res.json();
       if (res.ok) {
-        setMsg('✅ تم إضافة الإعلان بنجاح');
+        setMsg(editItem ? '✅ تم تعديل الإعلان' : '✅ تم إضافة الإعلان بنجاح');
         setMsgType('success');
-        setShowAdd(false);
+        setShowAdd(false); setEditItem(null);
         setForm({ title: '', description: '', image_url: '', click_url: '', position: 'top', target_type: 'all', priority: 1, start_date: '', end_date: '', is_active: true });
         fetchAds();
       } else {
-        setMsg(`❌ ${data.error || 'فشل'}`);
-        setMsgType('error');
+        setErrMsg(data.error || 'فشل الحفظ');
       }
-    } catch { setMsg('❌ خطأ في الاتصال'); setMsgType('error'); } finally {
+    } catch { setErrMsg('خطأ في الاتصال'); } finally {
       setSaving(false);
       setTimeout(() => setMsg(''), 4000);
     }
+  };
+  const handleEdit = (ad: any) => {
+    setEditItem(ad);
+    setForm({ title: ad.title || '', description: ad.description || '', image_url: ad.image_url || '', click_url: ad.click_url || '', position: ad.position || 'top', target_type: ad.target_type || 'all', priority: ad.priority || 1, start_date: ad.start_date || '', end_date: ad.end_date || '', is_active: ad.is_active !== false });
+    setErrMsg('');
+    setShowAdd(true);
   };
 
   const handleToggle = async (id: number, is_active: boolean) => {
@@ -122,7 +131,7 @@ export default function AdsPage() {
       {/* فورم الإضافة */}
       {showAdd && (
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 24, marginBottom: 24 }}>
-          <h3 style={{ color: '#C9A227', fontSize: 18, margin: '0 0 20px', fontWeight: 700 }}>➕ إضافة إعلان جديد</h3>
+          <h3 style={{ color: '#C9A227', fontSize: 18, margin: '0 0 20px', fontWeight: 700 }}>{editItem ? '✏️ تعديل الإعلان' : '➕ إضافة إعلان جديد'}</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
             <div style={{ gridColumn: '1 / -1' }}>
               <label style={labelStyle}>عنوان الإعلان *</label>
@@ -167,8 +176,9 @@ export default function AdsPage() {
               <input type="date" style={inputStyle} value={form.end_date} onChange={e => setForm({...form, end_date: e.target.value})} />
             </div>
           </div>
-          <button onClick={handleAdd} disabled={saving} style={{ marginTop: 20, padding: '12px 32px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#000', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif', opacity: saving ? 0.5 : 1 }}>
-            {saving ? '⏳ جاري الحفظ...' : '📢 نشر الإعلان'}
+          {errMsg && <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, padding: '10px 14px', color: '#EF4444', fontSize: 13, marginBottom: 12 }}>{errMsg}</div>}
+          <button onClick={handleSave} disabled={saving} style={{ marginTop: 20, padding: '12px 32px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#000', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif', opacity: saving ? 0.5 : 1 }}>
+            {saving ? '⏳ جاري الحفظ...' : editItem ? '💾 حفظ التعديلات' : '📢 نشر الإعلان'}
           </button>
         </div>
       )}
@@ -206,6 +216,7 @@ export default function AdsPage() {
                   <button onClick={() => handleToggle(ad.id, ad.is_active)} style={{ flex: 1, padding: '7px 12px', background: ad.is_active ? 'rgba(107,114,128,0.1)' : 'rgba(16,185,129,0.1)', color: ad.is_active ? '#6B7280' : '#10B981', border: `1px solid ${ad.is_active ? 'rgba(107,114,128,0.2)' : 'rgba(16,185,129,0.2)'}`, borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
                     {ad.is_active ? '⏸ إيقاف' : '▶️ تفعيل'}
                   </button>
+                  <button onClick={() => handleEdit(ad)} style={{ padding: '7px 14px', background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>✏️</button>
                   <button onClick={() => handleDelete(ad.id)} style={{ padding: '7px 14px', background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
                     🗑️
                   </button>

@@ -9,6 +9,11 @@ export default function UsersPage() {
   const [roleFilter, setRoleFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
   const [actionLoading, setActionLoading] = useState<number | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
+  const [userForm, setUserForm] = useState({ name: '', email: '', role: 'student', phone: '' });
 
   useEffect(() => { fetchUsers(); }, [roleFilter, statusFilter]);
 
@@ -25,6 +30,20 @@ export default function UsersPage() {
     } catch (error) { console.error('Error:', error); } finally { setLoading(false); }
   };
 
+  const handleSaveUser = async () => {
+    if (!userForm.name.trim() || !userForm.email.trim()) { setErrMsg('الاسم والبريد الإلكتروني مطلوبان'); return; }
+    setSaving(true); setErrMsg('');
+    try {
+      const method = editItem ? 'PUT' : 'POST';
+      const body = editItem
+        ? JSON.stringify({ action: 'update_user', user_id: editItem.id, ...userForm })
+        : JSON.stringify({ action: 'create_user', ...userForm });
+      const res = await fetch('/api/auth', { method, headers: getHeaders(), credentials: 'include', body });
+      const data = await res.json();
+      if (res.ok) { setShowModal(false); setEditItem(null); setUserForm({ name: '', email: '', role: 'student', phone: '' }); fetchUsers(); }
+      else setErrMsg(data.error || 'فشل الحفظ');
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
+  };
   const handleAction = async (userId: number, action: string, newStatus?: string) => {
     setActionLoading(userId);
     try {
@@ -264,6 +283,42 @@ export default function UsersPage() {
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {showModal && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+          <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 460, direction: 'rtl' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>{editItem ? '✏️ تعديل المستخدم' : '+ إضافة مستخدم'}</h2>
+              <button onClick={() => { setShowModal(false); setErrMsg(''); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
+            </div>
+            {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}
+            {[
+              { label: 'الاسم الكامل *', key: 'name', type: 'text', placeholder: 'أدخل الاسم' },
+              { label: 'البريد الإلكتروني *', key: 'email', type: 'email', placeholder: 'example@email.com' },
+              { label: 'رقم الهاتف', key: 'phone', type: 'tel', placeholder: '05xxxxxxxx' },
+            ].map(({ label, key, type, placeholder }) => (
+              <div key={key} style={{ marginBottom: 14 }}>
+                <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>{label}</label>
+                <input type={type} value={(userForm as any)[key]} onChange={e => setUserForm({ ...userForm, [key]: e.target.value })} placeholder={placeholder} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13, outline: 'none', boxSizing: 'border-box' as const }} />
+              </div>
+            ))}
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>الدور</label>
+              <select value={userForm.role} onChange={e => setUserForm({ ...userForm, role: e.target.value })} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13 }}>
+                <option value="student">طالب</option>
+                <option value="teacher">معلم</option>
+                <option value="parent">ولي أمر</option>
+                <option value="admin">مدير</option>
+                <option value="driver">سائق</option>
+              </select>
+            </div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button onClick={handleSaveUser} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg,#C9A227,#E8C547)', border: 'none', borderRadius: 10, padding: '12px 0', color: '#06060E', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري الحفظ...' : editItem ? 'حفظ التعديلات' : 'إضافة المستخدم'}</button>
+              <button onClick={() => { setShowModal(false); setErrMsg(''); }} style={{ padding: '12px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
+            </div>
+          </div>
         </div>
       )}
     </div>

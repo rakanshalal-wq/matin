@@ -7,6 +7,8 @@ export default function SupportPage() {
   const [loading, setLoading] = useState(true);
   const [showAdd, setShowAdd] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [msg, setMsg] = useState('');
@@ -23,26 +25,24 @@ export default function SupportPage() {
     } catch (e) { console.error(e); } finally { setLoading(false); }
   };
 
-  const handleAdd = async () => {
-    if (!form.subject) { setMsg('الموضوع مطلوب'); setMsgType('error'); return; }
-    setSaving(true);
+  const handleSave = async () => {
+    if (!form.title) { setErrMsg('أدخل عنوان التذكرة'); return; }
+    setSaving(true); setErrMsg('');
     try {
-      const res = await fetch('/api/support', { method: 'POST', headers: getHeaders(), body: JSON.stringify(form) });
-      if (res.ok) {
-        setMsg('✅ تم إرسال التذكرة بنجاح');
-        setMsgType('success');
-        setShowAdd(false);
-        setForm({ subject: '', description: '', type: 'complaint', priority: 'medium' });
-        fetchTickets();
-      } else {
-        const err = await res.json();
-        setMsg(`❌ ${err.error || 'فشل'}`);
-        setMsgType('error');
-      }
-    } catch { setMsg('❌ خطأ في الاتصال'); setMsgType('error'); } finally {
-      setSaving(false);
-      setTimeout(() => setMsg(''), 4000);
-    }
+      const method = editItem ? 'PUT' : 'POST';
+      const url = editItem ? `/api/support?id=${editItem.id}` : '/api/support';
+      const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify(form) });
+      const data = await res.json();
+      if (!res.ok) { setErrMsg(data.error || 'فشل الحفظ'); return; }
+      setShowAdd(false); setEditItem(null); setForm({ title: '', description: '', priority: 'medium', status: 'open' }); setErrMsg('');
+      fetchTickets();
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
+  };
+  const handleEdit = (item: any) => {
+    setEditItem(item);
+    setForm({ ...{ title: '', description: '', priority: 'medium', status: 'open' }, ...item });
+    setErrMsg('');
+    setShowAdd(true);
   };
 
   const handleUpdateStatus = async (id: number, status: string) => {
@@ -155,7 +155,7 @@ export default function SupportPage() {
               <textarea style={{ ...inputStyle, minHeight: 100, resize: 'vertical' }} placeholder="اشرح المشكلة بالتفصيل..." value={form.description} onChange={e => setForm({...form, description: e.target.value})} />
             </div>
           </div>
-          <button onClick={handleAdd} disabled={saving} style={{ marginTop: 16, padding: '12px 32px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#000', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif', opacity: saving ? 0.5 : 1 }}>
+          <button onClick={handleSave} disabled={saving} style={{ marginTop: 16, padding: '12px 32px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#000', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif', opacity: saving ? 0.5 : 1 }}>
             {saving ? '⏳ جاري الإرسال...' : '📤 إرسال التذكرة'}
           </button>
         </div>

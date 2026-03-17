@@ -9,18 +9,23 @@ export default function Page() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({ title: '', description: '', status: 'active' });
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
 
   useEffect(() => { fetchItems(); }, []);
   const fetchItems = async () => { try { const res = await fetch('/api/error-logs', { headers: getHeaders() }); const data = await res.json(); setItems(Array.isArray(data) ? data : []); } catch (e) { console.error(e); } finally { setLoading(false); } };
 
   const handleAdd = async () => {
-    if (!formData.title) return alert('أدخل البيانات المطلوبة');
-    setSaving(true);
+    if (!formData.title) { setErrMsg('أدخل البيانات المطلوبة'); return; }
+    setSaving(true); setErrMsg('');
     try {
-      const res = await fetch('/api/error-logs', { method: 'POST', headers: getHeaders(), body: JSON.stringify(formData) });
-      if (res.ok) { setShowAddModal(false); setFormData({ title: '', description: '', status: 'active' }); fetchItems(); }
-      else { const err = await res.json(); alert(err.error || 'فشل'); }
-    } catch (e) { console.error(e); } finally { setSaving(false); }
+      const method = editItem ? 'PUT' : 'POST';
+      const url = editItem ? `/api/error-logs?id=${editItem.id}` : '/api/error-logs';
+      const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify(formData) });
+      const data = await res.json();
+      if (res.ok) { setShowAddModal(false); setEditItem(null); setFormData({ title: '', description: '', status: 'active' }); fetchItems(); }
+      else setErrMsg(data.error || 'فشل الحفظ');
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
   };
 
   const handleDelete = async (id: any) => {
@@ -95,6 +100,7 @@ export default function Page() {
                     <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
                       <button style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>👁️ عرض</button>
                       <button style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>✏️ تعديل</button>
+                      <button onClick={() => { setEditItem(item); setFormData({ title: item.title || item.name || '', description: item.description || '', status: item.status || 'active' }); setShowAddModal(true); }} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 6, padding: '4px 10px', cursor: 'pointer', fontSize: 12, fontWeight: 600, marginLeft: 6 }}>تعديل</button>
                       <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>🗑️ حذف</button>
                     </div>
                   </td>

@@ -9,12 +9,27 @@ export default function BackupPage() {
   const [activeTab, setActiveTab] = useState<'backups'|'schedule'>('backups');
   const [schedule, setSchedule] = useState({enabled:true,frequency:'daily',time:'02:00',retention_days:'30'});
   const [savingSchedule, setSavingSchedule] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [backupForm, setBackupForm] = useState({ type: 'full', destination: 'local' });
+  const [errMsg, setErrMsg] = useState('');
+  const [editItem, setEditItem] = useState<any>(null);
   useEffect(()=>{fetchData();},[]);
   const fetchData = async () => { setLoading(true); try { const r=await fetch('/api/backup',{headers:getH()}); const d=await r.json(); setBackups(Array.isArray(d)?d:(d.backups||[])); if(d.schedule) setSchedule(d.schedule); } catch { setBackups([]); } finally { setLoading(false); }};
   const createBackup = async () => { setCreating(true); try { const r=await fetch('/api/backup',{method:'POST',headers:getH(),body:JSON.stringify({type:'manual'})}); if(r.ok){alert('تم إنشاء النسخة الاحتياطية بنجاح');fetchData();} else alert('فشل إنشاء النسخة الاحتياطية'); } catch {} finally { setCreating(false); }};
   const restoreBackup = async (id:number) => { if(!confirm('هل أنت متأكد من الاستعادة؟ سيتم استبدال البيانات الحالية.')) return; try { await fetch('/api/backup?id='+id+'&action=restore',{method:'POST',headers:getH()}); alert('بدأت عملية الاستعادة'); } catch {}};
   const deleteBackup = async (id:number) => { if(!confirm('تأكيد الحذف؟')) return; try { await fetch('/api/backup?id='+id,{method:'DELETE',headers:getH()}); fetchData(); } catch {}};
-  const saveSchedule = async () => { setSavingSchedule(true); try { await fetch('/api/backup',{method:'PUT',headers:getH(),body:JSON.stringify({schedule})}); alert('تم حفظ الجدولة'); } catch {} finally { setSavingSchedule(false); }};
+  const handleCreateBackup = async () => {
+    setSaving(true);
+    try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('matin_token') || '' : '';
+      const res = await fetch('/api/backup', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, body: JSON.stringify(backupForm) });
+      const data = await res.json();
+      if (res.ok) { setShowModal(false); }
+      else { setErrMsg(data.error || 'فشل إنشاء النسخة'); }
+    } catch (e: any) { console.error(e); } finally { setSaving(false); }
+  };
+  const saveSchedule = async () => { setSavingSchedule(true); try { await fetch('/api/backup',{method:'PUT',headers:getH(),body:JSON.stringify({schedule})}); } catch {} finally { setSavingSchedule(false); }};
   const formatSize = (b:number) => { if(!b) return '—'; if(b<1024) return b+' B'; if(b<1048576) return (b/1024).toFixed(1)+' KB'; return (b/1048576).toFixed(1)+' MB'; };
   const inp: React.CSSProperties = {width:'100%',background:'rgba(255,255,255,0.05)',border:'1px solid '+BR,borderRadius:8,padding:'10px 14px',color:'white',fontSize:14,outline:'none',boxSizing:'border-box'};
   const lbl: React.CSSProperties = {display:'block',color:'rgba(255,255,255,0.6)',fontSize:13,marginBottom:6};
@@ -88,6 +103,36 @@ export default function BackupPage() {
             <button onClick={saveSchedule} disabled={savingSchedule} style={{background:GOLD,border:'none',borderRadius:10,padding:14,color:'#0B0B16',fontWeight:700,cursor:savingSchedule?'not-allowed':'pointer',fontSize:15,opacity:savingSchedule?0.7:1}}>
               {savingSchedule?'جاري الحفظ...':'حفظ الإعدادات'}
             </button>
+          </div>
+        </div>
+      )}
+
+      {showModal && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+          <div style={{ background: '#0B0B16', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 420, direction: 'rtl' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>💾 إنشاء نسخة احتياطية</h2>
+              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
+            </div>
+            <div style={{ marginBottom: 16 }}>
+              <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>نوع النسخة</label>
+              <select value={backupForm.type} onChange={e => setBackupForm({ ...backupForm, type: e.target.value })} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13 }}>
+                <option value="full">نسخة كاملة</option>
+                <option value="partial">نسخة جزئية</option>
+                <option value="database">قاعدة البيانات فقط</option>
+              </select>
+            </div>
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>وجهة الحفظ</label>
+              <select value={backupForm.destination} onChange={e => setBackupForm({ ...backupForm, destination: e.target.value })} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13 }}>
+                <option value="local">محلي</option>
+                <option value="cloud">سحابي</option>
+              </select>
+            </div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button onClick={handleCreateBackup} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(201,162,39,0.5)' : '#C9A227', border: 'none', borderRadius: 10, padding: '12px 0', color: '#0B0B16', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري الإنشاء...' : 'إنشاء النسخة'}</button>
+              <button onClick={() => setShowModal(false)} style={{ padding: '12px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
+            </div>
           </div>
         </div>
       )}

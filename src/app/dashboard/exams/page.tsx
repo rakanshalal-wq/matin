@@ -34,7 +34,13 @@ export default function SmartExamsPage() {
   const [loading, setLoading] = useState(true);
   const [selectedExam, setSelectedExam] = useState<any>(null);
   const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState<'create' | 'view' | 'results' | 'ai_generate'>('create');
+  const [modalType, setModalType] = useState<'create' | 'view' | 'results' | 'ai_generate' | 'edit'>('create');
+
+  // ── Edit exam state ──
+  const [editForm, setEditForm] = useState({ title_ar: '', subject: '', grade: '', duration: 60, total_marks: 100, pass_marks: 50, instructions: '', status: 'DRAFT' });
+  const [editLoading, setEditLoading] = useState(false);
+  const [editErr, setEditErr] = useState('');
+  const [editOk, setEditOk] = useState('');
 
   // نموذج إنشاء الاختبار
   const [form, setForm] = useState({
@@ -125,6 +131,30 @@ export default function SmartExamsPage() {
       await fetch(`/api/exams/${id}`, { method: 'DELETE', headers: getHeaders() });
       fetchExams();
     } catch { }
+  };
+
+  const openEditModal = (exam: any) => {
+    setSelectedExam(exam);
+    setEditForm({ title_ar: exam.title_ar || exam.title || '', subject: exam.subject || '', grade: exam.grade || '', duration: exam.duration || 60, total_marks: exam.total_marks || 100, pass_marks: exam.pass_marks || 50, instructions: exam.instructions || '', status: exam.status || 'DRAFT' });
+    setEditErr(''); setEditOk('');
+    setModalType('edit'); setShowModal(true);
+  };
+
+  const handleUpdateExam = async () => {
+    if (!editForm.title_ar.trim()) { setEditErr('عنوان الاختبار مطلوب'); return; }
+    setEditLoading(true); setEditErr(''); setEditOk('');
+    try {
+      const res = await fetch(`/api/exams/${selectedExam?.id}`, {
+        method: 'PUT',
+        headers: getHeaders(),
+        body: JSON.stringify(editForm),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'فشل تحديث الاختبار');
+      setEditOk('تم تحديث الاختبار بنجاح ✓');
+      setTimeout(() => { setShowModal(false); setEditOk(''); fetchExams(); }, 1500);
+    } catch (e: any) { setEditErr(e.message); }
+    finally { setEditLoading(false); }
   };
 
   const addQuestion = () => {
@@ -249,6 +279,7 @@ export default function SmartExamsPage() {
                           <button onClick={() => updateExamStatus(exam.id, 'COMPLETED')} style={{ background: 'rgba(16,185,129,0.15)', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>⏹ إنهاء</button>
                         )}
                         <button onClick={() => { setSelectedExam(exam); fetchResults(exam.id); setModalType('results'); setShowModal(true); }} style={{ background: 'rgba(201,162,39,0.15)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>📊 النتائج</button>
+                        <button onClick={() => openEditModal(exam)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.25)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>✏️ تعديل</button>
                         <button onClick={() => deleteExam(exam.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.2)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>🗑</button>
                       </div>
                     </div>
@@ -517,6 +548,52 @@ export default function SmartExamsPage() {
               <div>لا توجد نتائج لهذا الاختبار بعد</div>
             </div>
           )}
+        </div>
+      )}
+
+      {/* ── Edit Exam Modal ── */}
+      {showModal && modalType === 'edit' && (
+        <div style={{ position:'fixed',inset:0,zIndex:9999,background:'rgba(0,0,0,0.75)',backdropFilter:'blur(4px)',display:'flex',alignItems:'center',justifyContent:'center',padding:20 }} onClick={() => setShowModal(false)}>
+          <div style={{ background:'#0F0F1A',border:'1px solid rgba(255,255,255,0.08)',borderRadius:20,width:'100%',maxWidth:540,maxHeight:'90vh',overflowY:'auto',boxShadow:'0 24px 80px rgba(0,0,0,0.6)',direction:'rtl',fontFamily:'IBM Plex Sans Arabic, sans-serif' }} onClick={e=>e.stopPropagation()}>
+            <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center',padding:'20px 24px',borderBottom:'1px solid rgba(255,255,255,0.07)' }}>
+              <h3 style={{ color:'#EEEEF5',fontSize:17,fontWeight:700,margin:0 }}>✏️ تعديل الاختبار</h3>
+              <button onClick={() => setShowModal(false)} style={{ background:'rgba(255,255,255,0.05)',border:'none',borderRadius:8,padding:'6px 10px',cursor:'pointer',color:'rgba(238,238,245,0.6)',fontSize:16 }}>✕</button>
+            </div>
+            <div style={{ padding:24 }}>
+              {editErr && <div style={{ background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.3)',borderRadius:8,padding:'10px 14px',color:'#EF4444',fontSize:13,marginBottom:12 }}>{editErr}</div>}
+              {editOk  && <div style={{ background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.3)',borderRadius:8,padding:'10px 14px',color:'#10B981',fontSize:13,marginBottom:12 }}>{editOk}</div>}
+              {[{label:'عنوان الاختبار *',key:'title_ar',placeholder:'مثال: اختبار الفصل الأول'},{label:'المادة',key:'subject',placeholder:'مثال: الرياضيات'},{label:'الصف',key:'grade',placeholder:'مثال: الصف الثالث'},{label:'التعليمات',key:'instructions',placeholder:'تعليمات للطلاب'}].map(f => (
+                <div key={f.key} style={{ marginBottom:14 }}>
+                  <label style={{ display:'block',color:'rgba(238,238,245,0.7)',fontSize:13,fontWeight:600,marginBottom:6 }}>{f.label}</label>
+                  <input value={(editForm as any)[f.key]} onChange={e => setEditForm(ef => ({...ef,[f.key]:e.target.value}))} placeholder={f.placeholder}
+                    style={{ width:'100%',padding:'10px 14px',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' }} />
+                </div>
+              ))}
+              <div style={{ display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:12,marginBottom:14 }}>
+                {[{label:'المدة (دقيقة)',key:'duration',type:'number'},{label:'الدرجة الكلية',key:'total_marks',type:'number'},{label:'درجة النجاح',key:'pass_marks',type:'number'}].map(f => (
+                  <div key={f.key}>
+                    <label style={{ display:'block',color:'rgba(238,238,245,0.7)',fontSize:12,fontWeight:600,marginBottom:5 }}>{f.label}</label>
+                    <input type={f.type} value={(editForm as any)[f.key]} onChange={e => setEditForm(ef => ({...ef,[f.key]:+e.target.value}))}
+                      style={{ width:'100%',padding:'9px 12px',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' }} />
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginBottom:16 }}>
+                <label style={{ display:'block',color:'rgba(238,238,245,0.7)',fontSize:13,fontWeight:600,marginBottom:6 }}>الحالة</label>
+                <select value={editForm.status} onChange={e => setEditForm(ef => ({...ef,status:e.target.value}))}
+                  style={{ width:'100%',padding:'10px 14px',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' }}>
+                  <option value='DRAFT'>مسودة</option>
+                  <option value='PUBLISHED'>منشور</option>
+                  <option value='ACTIVE'>جاري الآن</option>
+                  <option value='COMPLETED'>منتهي</option>
+                  <option value='CANCELLED'>ملغي</option>
+                </select>
+              </div>
+              <button onClick={handleUpdateExam} disabled={editLoading} style={{ width:'100%',padding:'11px',background:editLoading?'rgba(255,255,255,0.05)':'linear-gradient(135deg,#C9A227,#f0c040)',border:'none',borderRadius:10,color:editLoading?'rgba(238,238,245,0.3)':'#000',cursor:editLoading?'not-allowed':'pointer',fontFamily:'inherit',fontWeight:700,fontSize:14 }}>
+                {editLoading ? 'جارٍ التحديث...' : 'حفظ التعديلات'}
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

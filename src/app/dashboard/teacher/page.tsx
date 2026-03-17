@@ -29,9 +29,13 @@ export default function TeacherDashboard() {
   const [savingAttendance, setSavingAttendance] = useState(false);
   const [attendanceMsg, setAttendanceMsg] = useState('');
   const [showAddHW, setShowAddHW] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
+  const [showModal, setShowModal] = useState(false);
   const [hwForm, setHwForm] = useState({ title: '', description: '', subject: '', class_name: '', due_date: '', status: 'active' });
   const [savingHW, setSavingHW] = useState(false);
   const [hwMsg, setHwMsg] = useState('');
+  const [hwErrMsg, setHwErrMsg] = useState('');
+  const [editHW, setEditHW] = useState<any>(null);
 
   useEffect(() => {
     const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
@@ -84,17 +88,29 @@ export default function TeacherDashboard() {
     finally { setSavingAttendance(false); }
   };
 
-  const addHomework = async () => {
+  const saveHomework = async () => {
     if (!hwForm.title) { setHwMsg('العنوان مطلوب'); return; }
     setSavingHW(true); setHwMsg('');
     try {
       const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
-      const res = await fetch('/api/homework', { method: 'POST', headers: getHeaders(), body: JSON.stringify({ ...hwForm, teacher_name: u?.name }) });
+      const method = editHW ? 'PUT' : 'POST';
+      const url = editHW ? `/api/homework?id=${editHW.id}` : '/api/homework';
+      const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify({ ...hwForm, teacher_name: u?.name }) });
       const data = await res.json();
-      if (res.ok) { setHomework([data, ...homework]); setHwForm({ title: '', description: '', subject: '', class_name: '', due_date: '', status: 'active' }); setShowAddHW(false); setHwMsg('تم إضافة الواجب'); }
-      else { setHwMsg(data.error || 'فشل'); }
-    } catch { setHwMsg('خطأ'); }
+      if (res.ok) {
+        if (editHW) { setHomework(homework.map((h: any) => h.id === editHW.id ? data : h)); }
+        else { setHomework([data, ...homework]); }
+        setHwForm({ title: '', description: '', subject: '', class_name: '', due_date: '', status: 'active' });
+        setShowAddHW(false); setEditHW(null); setHwMsg(editHW ? 'تم تعديل الواجب' : 'تم إضافة الواجب');
+      } else { setHwMsg(data.error || 'فشل'); }
+    } catch (e: any) { setHwMsg(e.message || 'خطأ'); setHwErrMsg(e.message || 'حدث خطأ'); }
     finally { setSavingHW(false); }
+  };
+  const handleEditHW = (hw: any) => {
+    setEditHW(hw);
+    setHwForm({ title: hw.title || '', description: hw.description || '', subject: hw.subject || '', class_name: hw.class_name || '', due_date: hw.due_date || '', status: hw.status || 'active' });
+    setHwMsg('');
+    setShowAddHW(true);
   };
 
   const deleteHomework = async (id: number) => {
@@ -375,7 +391,7 @@ export default function TeacherDashboard() {
                   <div><label style={labelStyle}>تاريخ التسليم</label><input type="date" value={hwForm.due_date} onChange={e => setHwForm({ ...hwForm, due_date: e.target.value })} style={inpStyle} /></div>
                 </div>
                 <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
-                  <button onClick={addHomework} disabled={savingHW}
+                  <button onClick={saveHomework} disabled={savingHW}
                     style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, justifyContent: 'center', padding: '12px', background: `linear-gradient(135deg, ${G}, #E2C46A)`, color: '#000', border: 'none', borderRadius: 10, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', opacity: savingHW ? 0.7 : 1 }}>
                     {savingHW ? <Spinner size={16} color="#000" /> : <Icon d={ICONS.save} size={16} color="#000" />}
                     {savingHW ? 'جاري الحفظ...' : 'حفظ الواجب'}

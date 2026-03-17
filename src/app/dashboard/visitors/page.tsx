@@ -10,6 +10,8 @@ export default function VisitorsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
   const [formData, setFormData] = useState({ name: '', phone: '', national_id: '', purpose: '', school_id: '', notes: '' });
 
   useEffect(() => { fetchAll(); }, []);
@@ -26,14 +28,23 @@ export default function VisitorsPage() {
     finally { setLoading(false); }
   };
 
-  const handleAdd = async () => {
-    if (!formData.name) return alert('أدخل اسم الزائر');
-    setSaving(true);
+  const handleSave = async () => {
+    if (!formData.name) { setErrMsg('أدخل اسم الزائر'); return; }
+    setSaving(true); setErrMsg('');
     try {
-      const res = await fetch('/api/visitors', { method: 'POST', headers: getHeaders(), body: JSON.stringify(formData) });
-      if (res.ok) { setShowAddModal(false); setFormData({ name: '', phone: '', national_id: '', purpose: '', school_id: '', notes: '' }); fetchAll(); }
-      else { const err = await res.json(); alert(err.error || 'فشل'); }
-    } catch (e) { console.error(e); } finally { setSaving(false); }
+      const method = editItem ? 'PUT' : 'POST';
+      const url = editItem ? `/api/visitors?id=${editItem.id}` : '/api/visitors';
+      const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify(formData) });
+      const data = await res.json();
+      if (!res.ok) { setErrMsg(data.error || 'فشل الحفظ'); return; }
+      setShowAddModal(false); setEditItem(null); setFormData({ name: '', phone: '', national_id: '', purpose: '', school_id: '', notes: '' }); setErrMsg(''); fetchAll();
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
+  };
+  const handleEdit = (item: any) => {
+    setEditItem(item);
+    setFormData({ ...{ name: '', phone: '', national_id: '', purpose: '', school_id: '', notes: '' }, ...item });
+    setErrMsg('');
+    setShowAddModal(true);
   };
 
   const handleDelete = async (id: number) => {
@@ -54,7 +65,7 @@ export default function VisitorsPage() {
           <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>👥 الزوار</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة زوار المدرسة والموقع</p>
         </div>
-        <button onClick={() => setShowAddModal(true)} style={{ background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>➕ إضافة زائر</button>
+        <button onClick={() => { setEditItem(null); setFormData({ name: '', phone: '', national_id: '', purpose: '', school_id: '', notes: '' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>➕ إضافة زائر</button>
       </div>
 
       {/* Stats */}
@@ -110,7 +121,10 @@ export default function VisitorsPage() {
                   <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>{new Date(item.created_at).toLocaleDateString('ar-SA')}</td>
                   {activeTab === 'school' && (
                     <td style={{ padding: '14px 16px' }}>
-                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, padding: '6px 12px', fontSize: 12, cursor: 'pointer' }}>🗑️ حذف</button>
+                      <div style={{ display: 'flex', gap: 6 }}>
+                        <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', borderRadius: 8, padding: '6px 12px', fontSize: 12, cursor: 'pointer' }}>✏️ تعديل</button>
+                        <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, padding: '6px 12px', fontSize: 12, cursor: 'pointer' }}>🗑️ حذف</button>
+                      </div>
                     </td>
                   )}
                 </tr>
@@ -128,8 +142,8 @@ export default function VisitorsPage() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
           <div style={{ background: '#1B263B', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: 32, width: '100%', maxWidth: 480 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontWeight: 800, margin: 0 }}>➕ إضافة زائر</h2>
-              <button onClick={() => setShowAddModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 24, cursor: 'pointer' }}>✕</button>
+              <h2 style={{ color: 'white', fontWeight: 800, margin: 0 }}>{editItem ? 'تعديل' : '➕ إضافة زائر'}</h2>
+              <button onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 24, cursor: 'pointer' }}>✕</button>
             </div>
             {[{ key: 'name', label: 'الاسم *', ph: 'اسم الزائر' }, { key: 'phone', label: 'الجوال', ph: '05xxxxxxxx' }, { key: 'national_id', label: 'رقم الهوية', ph: '1xxxxxxxxx' }, { key: 'purpose', label: 'الغرض', ph: 'سبب الزيارة' }, { key: 'notes', label: 'ملاحظات', ph: 'أي ملاحظات إضافية' }].map(f => (
               <div key={f.key} style={{ marginBottom: 16 }}>
@@ -137,8 +151,8 @@ export default function VisitorsPage() {
                 <input value={(formData as any)[f.key]} onChange={e => setFormData({ ...formData, [f.key]: e.target.value })} placeholder={f.ph} style={inputStyle} />
               </div>
             ))}
-            <button onClick={handleAdd} disabled={saving} style={{ width: '100%', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 800, cursor: 'pointer', marginTop: 8 }}>
-              {saving ? '⏳ جاري الحفظ...' : '💾 حفظ'}
+            <button onClick={handleSave} disabled={saving} style={{ width: '100%', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 800, cursor: 'pointer', marginTop: 8 }}>
+              {saving ? '⏳ جاري الحفظ...' : editItem ? '💾 حفظ التعديلات' : '💾 حفظ'}
             </button>
           </div>
         </div>

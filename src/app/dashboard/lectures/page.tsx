@@ -25,6 +25,10 @@ export default function LecturesPage() {
   const [lectures, setLectures] = useState<any[]>([]);
   const [courses, setCourses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
+  const [editItem, setEditItem] = useState<any>(null);
   const [liveSessions, setLiveSessions] = useState<any[]>([]);
 
   const [form, setForm] = useState({
@@ -49,6 +53,18 @@ export default function LecturesPage() {
 
   useEffect(() => { fetchAll(); }, []);
 
+  const handleSaveLecture = async () => {
+    if (!form.title.trim()) { setErrMsg('عنوان المحاضرة مطلوب'); return; }
+    setSaving(true); setErrMsg('');
+    try {
+      const method = editItem ? 'PUT' : 'POST';
+      const url = editItem ? `/api/lectures?id=${editItem.id}` : '/api/lectures';
+      const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify(form) });
+      const data = await res.json();
+      if (res.ok) { setShowModal(false); setEditItem(null); setForm({ title: '', description: '', subject: '', grade: '', type: 'video', video_url: '', duration: 0, is_free: false, order_index: 0, course_id: '', allow_download: false, ai_summary: false }); fetchAll(); }
+      else setErrMsg(data.error || 'فشل الحفظ');
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
+  };
   const fetchAll = async () => {
     try {
       const [lectRes, courseRes, liveRes] = await Promise.all([
@@ -454,6 +470,43 @@ export default function LecturesPage() {
         </div>
       )}
 
+
+      {showModal && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, overflowY: 'auto', padding: 20 }}>
+          <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 520, direction: 'rtl', margin: 'auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>{editItem ? '✏️ تعديل المحاضرة' : '+ إضافة محاضرة'}</h2>
+              <button onClick={() => { setShowModal(false); setErrMsg(''); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
+            </div>
+            {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}
+            {[
+              { label: 'عنوان المحاضرة *', key: 'title', type: 'text', placeholder: 'أدخل عنوان المحاضرة' },
+              { label: 'رابط الفيديو', key: 'video_url', type: 'url', placeholder: 'https://...' },
+              { label: 'المادة', key: 'subject', type: 'text', placeholder: 'مثال: رياضيات' },
+              { label: 'الصف', key: 'grade', type: 'text', placeholder: 'مثال: الصف الأول' },
+            ].map(({ label, key, type, placeholder }) => (
+              <div key={key} style={{ marginBottom: 14 }}>
+                <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>{label}</label>
+                <input type={type} value={(form as any)[key]} onChange={e => setForm({ ...form, [key]: e.target.value })} placeholder={placeholder} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13, outline: 'none', boxSizing: 'border-box' as const }} />
+              </div>
+            ))}
+            <div style={{ marginBottom: 14 }}>
+              <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>نوع المحاضرة</label>
+              <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13 }}>
+                {LECTURE_TYPES.map(t => <option key={t.value} value={t.value}>{t.icon} {t.label}</option>)}
+              </select>
+            </div>
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>الوصف</label>
+              <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} rows={3} placeholder="وصف المحاضرة..." style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13, outline: 'none', resize: 'vertical', boxSizing: 'border-box' as const }} />
+            </div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button onClick={handleSaveLecture} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg,#C9A227,#E8C547)', border: 'none', borderRadius: 10, padding: '12px 0', color: '#06060E', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري الحفظ...' : editItem ? 'حفظ التعديلات' : 'إضافة المحاضرة'}</button>
+              <button onClick={() => { setShowModal(false); setErrMsg(''); }} style={{ padding: '12px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

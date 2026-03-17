@@ -10,6 +10,7 @@ export default function SchoolsPage() {
   const [user, setUser] = useState<any>(null);
   const [form, setForm] = useState({ name_ar: '', email: '', phone: '', city: '', address: '', status: 'TRIAL' });
   const [saving, setSaving] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
   const [msg, setMsg] = useState('');
   const [msgType, setMsgType] = useState<'success' | 'error'>('success');
   const [search, setSearch] = useState('');
@@ -29,24 +30,18 @@ export default function SchoolsPage() {
     } catch {} finally { setLoading(false); }
   };
 
-  const handleAdd = async () => {
-    if (!form.name_ar) { setMsg('اسم المدرسة مطلوب'); setMsgType('error'); return; }
-    setSaving(true); setMsg('');
+  const handleSave = async () => {
+    if (!form.name_ar) { setErrMsg('أدخل اسم المؤسسة'); return; }
+    setSaving(true); setErrMsg('');
     try {
       const method = editSchool ? 'PUT' : 'POST';
-      const body = editSchool
-        ? { id: editSchool.id, name: form.name_ar, name_ar: form.name_ar, email: form.email, phone: form.phone, city: form.city, address: form.address, status: form.status }
-        : { name: form.name_ar, name_ar: form.name_ar, email: form.email, phone: form.phone, city: form.city, address: form.address };
-      const res = await fetch('/api/schools', { method, headers: getHeaders(), body: JSON.stringify(body) });
+      const url = editSchool ? `/api/schools?id=${editSchool.id}` : '/api/schools';
+      const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify(form) });
       const data = await res.json();
-      if (!res.ok) { setMsg(data.error || 'فشل'); setMsgType('error'); setSaving(false); return; }
-      setMsg(editSchool ? '✅ تم تحديث المدرسة' : '✅ تم إضافة المدرسة');
-      setMsgType('success');
-      setForm({ name_ar: '', email: '', phone: '', city: '', address: '', status: 'TRIAL' });
-      setShowAdd(false);
-      setEditSchool(null);
+      if (!res.ok) { setErrMsg(data.error || 'فشل الحفظ'); return; }
+      setShowAdd(false); setEditSchool(null); setForm({ name_ar: '', email: '', phone: '', city: '', address: '', status: 'TRIAL' }); setErrMsg('');
       fetchSchools();
-    } catch { setMsg('❌ خطأ بالاتصال'); setMsgType('error'); } finally { setSaving(false); }
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
   };
 
   const handleEdit = (school: any) => {
@@ -160,7 +155,7 @@ export default function SchoolsPage() {
             )}
           </div>
           <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
-            <button onClick={handleAdd} disabled={saving} style={{ padding: '12px 32px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#000', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif', opacity: saving ? 0.5 : 1 }}>
+            <button onClick={handleSave} disabled={saving} style={{ padding: '12px 32px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#000', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif', opacity: saving ? 0.5 : 1 }}>
               {saving ? '⏳ جاري الحفظ...' : editSchool ? '✓ تحديث المؤسسة' : '✓ حفظ المؤسسة'}
             </button>
             <button onClick={() => { setShowAdd(false); setEditSchool(null); }} style={{ padding: '12px 24px', background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, fontSize: 14, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>

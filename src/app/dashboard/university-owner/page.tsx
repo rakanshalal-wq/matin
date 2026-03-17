@@ -25,8 +25,8 @@ const StatCard = ({ title, value, color, sub, link }: any) => (
       onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(0)'; el.style.boxShadow = 'none'; el.style.borderColor = `${color}25`; }}
     >
       <div style={{ position: 'absolute', top: 0, right: 0, width: 80, height: 80, background: `${color}08`, borderRadius: '0 14px 0 80px' }} />
-      <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12, marginBottom: 10, fontWeight: 600 }}>{title}</div>
-      <div style={{ color: '#fff', fontSize: 34, fontWeight: 900, letterSpacing: -1, lineHeight: 1 }}>{value}</div>
+      <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, marginBottom: 8, fontWeight: 500 }}>{title}</div>
+      <div style={{ color: '#fff', fontSize: 30, fontWeight: 800, lineHeight: 1 }}>{value}</div>
       {sub && <div style={{ color, fontSize: 11, marginTop: 6, fontWeight: 600 }}>{sub}</div>}
     </div>
   </Link>
@@ -79,6 +79,24 @@ export default function UniversityOwnerDashboard() {
     }
   }, []);
 
+  const handleApproveAdmission = async (id: number) => {
+    setSaving(true); setErrMsg('');
+    try {
+      const res = await fetch(`/api/admission?id=${id}`, { method: 'PUT', headers: getHeaders(), body: JSON.stringify({ status: 'approved' }) });
+      const data = await res.json();
+      if (res.ok) loadAll();
+      else setErrMsg(data.error || 'فشل القبول');
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
+  };
+  const handleRejectAdmission = async (id: number) => {
+    setSaving(true); setErrMsg('');
+    try {
+      const res = await fetch(`/api/admission?id=${id}`, { method: 'PUT', headers: getHeaders(), body: JSON.stringify({ status: 'rejected' }) });
+      const data = await res.json();
+      if (res.ok) loadAll();
+      else setErrMsg(data.error || 'فشل الرفض');
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
+  };
   const loadAll = async () => {
     try {
       const h = getHeaders();
@@ -301,7 +319,10 @@ export default function UniversityOwnerDashboard() {
                   <div style={{ color:'#fff', fontSize:13, fontWeight:600 }}>{req.student_name||req.name}</div>
                   <div style={{ color:'rgba(255,255,255,0.35)', fontSize:11, marginTop:2 }}>{req.grade||req.level}</div>
                 </div>
-                <Link href="/dashboard/admission" style={{ background:'rgba(245,158,11,0.1)', color:'#F59E0B', fontSize:11, padding:'4px 10px', borderRadius:6, textDecoration:'none', fontWeight:600, border:'1px solid rgba(245,158,11,0.2)' }}>مراجعة</Link>
+                <div style={{ display: 'flex', gap: 6 }}>
+                  <button onClick={() => handleApproveAdmission(req.id)} disabled={saving} style={{ background: 'rgba(16,185,129,0.1)', color: '#10B981', fontSize: 11, padding: '4px 10px', borderRadius: 6, border: '1px solid rgba(16,185,129,0.2)', cursor: 'pointer', fontWeight: 600 }}>قبول</button>
+                  <button onClick={() => handleRejectAdmission(req.id)} disabled={saving} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', fontSize: 11, padding: '4px 10px', borderRadius: 6, border: '1px solid rgba(239,68,68,0.2)', cursor: 'pointer', fontWeight: 600 }}>رفض</button>
+                </div>
               </div>
             ))
           }
@@ -347,6 +368,27 @@ export default function UniversityOwnerDashboard() {
               <a href={`https://matin.ink/school/${school.code}`} target="_blank" rel="noreferrer" style={{ background:'rgba(201,168,76,0.1)', color:'#C9A84C', fontSize:12, padding:'8px 16px', borderRadius:8, textDecoration:'none', fontWeight:600, border:'1px solid rgba(201,168,76,0.25)' }}>معاينة الصفحة</a>
               <Link href="/dashboard/school-page" style={{ background:`${ACCENT}15`, color:ACCENT, fontSize:12, padding:'8px 16px', borderRadius:8, textDecoration:'none', fontWeight:600, border:`1px solid ${ACCENT}25` }}>تعديل الصفحة</Link>
               <Link href="/dashboard/settings" style={{ background:'rgba(255,255,255,0.04)', color:'rgba(255,255,255,0.4)', fontSize:12, padding:'8px 16px', borderRadius:8, textDecoration:'none', fontWeight:600, border:'1px solid rgba(255,255,255,0.08)' }}>ربط دومين</Link>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showModal && selectedReq && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+          <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,168,76,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 440, direction: 'rtl' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+              <h2 style={{ color: '#C9A84C', fontSize: 18, fontWeight: 700, margin: 0 }}>📋 مراجعة طلب الانضمام</h2>
+              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
+            </div>
+            {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}
+            <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 10, padding: 16, marginBottom: 20 }}>
+              <div style={{ color: '#fff', fontSize: 16, fontWeight: 700, marginBottom: 8 }}>{selectedReq.student_name || selectedReq.name}</div>
+              <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>المستوى: {selectedReq.grade || selectedReq.level || 'غير محدد'}</div>
+            </div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button onClick={async () => { await handleApproveAdmission(selectedReq.id); setShowModal(false); }} disabled={saving} style={{ flex: 1, background: 'rgba(16,185,129,0.15)', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 10, padding: '12px 0', cursor: saving ? 'not-allowed' : 'pointer', fontWeight: 700, fontSize: 14 }}>{saving ? 'جاري...' : '✅ قبول'}</button>
+              <button onClick={async () => { await handleRejectAdmission(selectedReq.id); setShowModal(false); }} disabled={saving} style={{ flex: 1, background: 'rgba(239,68,68,0.15)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 10, padding: '12px 0', cursor: saving ? 'not-allowed' : 'pointer', fontWeight: 700, fontSize: 14 }}>{saving ? 'جاري...' : '❌ رفض'}</button>
+              <button onClick={() => setShowModal(false)} style={{ padding: '12px 16px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: 13 }}>إلغاء</button>
             </div>
           </div>
         </div>

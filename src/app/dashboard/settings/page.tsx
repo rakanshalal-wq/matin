@@ -31,6 +31,8 @@ export default function SettingsPage() {
   const [settings, setSettings] = useState<Setting[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
   const [editValues, setEditValues] = useState<Record<string, string>>({});
   const [activeCategory, setActiveCategory] = useState('general');
   const [msg, setMsg] = useState('');
@@ -60,7 +62,7 @@ export default function SettingsPage() {
     setSaving(key);
     try {
       const res = await fetch('/api/settings', {
-        method: 'POST',
+        method: 'PUT',
         headers: getHeaders(),
         body: JSON.stringify({ key, value: editValues[key] || '' })
       });
@@ -72,7 +74,7 @@ export default function SettingsPage() {
         setMsg('❌ فشل الحفظ');
         setMsgType('error');
       }
-    } catch { setMsg('❌ خطأ في الاتصال'); setMsgType('error'); } finally {
+    } catch (e: any) { setMsg('❌ ' + (e.message || 'خطأ في الاتصال')); setMsgType('error'); } finally {
       setSaving(null);
       setTimeout(() => setMsg(''), 3000);
     }

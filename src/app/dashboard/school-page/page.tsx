@@ -8,6 +8,8 @@ export default function SchoolPageEditor() {
   const [selected, setSelected] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState('');
   const [showAdd, setShowAdd] = useState(false);
   const [newSlug, setNewSlug] = useState('');

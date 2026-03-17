@@ -9,10 +9,13 @@ export default function SecurityPage(){
   const [activeTab,setActiveTab]=useState<'logs'|'sessions'|'settings'>('logs');
   const [settings,setSettings]=useState({two_factor:false,session_timeout:'60',max_login_attempts:'5',password_min_length:'8',require_uppercase:true,require_numbers:true,require_special:false});
   const [saving,setSaving]=useState(false);
+  const [showModal,setShowModal]=useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
   const [filterStatus,setFilterStatus]=useState('');
   useEffect(()=>{fetchData();},[]);
   const fetchData=async()=>{setLoading(true);try{const r=await fetch('/api/security',{headers:getH()});const d=await r.json();setLogs(Array.isArray(d)?d:(d.logs||[]));setSessions(d.sessions||[]);if(d.settings)setSettings(d.settings)}catch{setLogs([])}finally{setLoading(false)}};
-  const saveSettings=async()=>{setSaving(true);try{await fetch('/api/security',{method:'PUT',headers:getH(),body:JSON.stringify({settings})});alert('تم حفظ الإعدادات')}catch{}finally{setSaving(false)}};
+  const saveSettings=async()=>{setSaving(true);try{await fetch('/api/security',{method:'PUT',headers:getH(),body:JSON.stringify({settings})});setErrMsg('')}catch(e:any){setErrMsg(e.message||'حدث خطأ');}finally{setSaving(false)}};
   const revokeSession=async(id:string)=>{if(!confirm('إلغاء هذه الجلسة؟'))return;try{await fetch('/api/security?session_id='+id,{method:'DELETE',headers:getH()});fetchData()}catch{}};
   const inp:React.CSSProperties={width:'100%',background:'rgba(255,255,255,0.05)',border:'1px solid '+BR,borderRadius:8,padding:'10px 14px',color:'white',fontSize:14,outline:'none',boxSizing:'border-box'};
   const lbl:React.CSSProperties={display:'block',color:'rgba(255,255,255,0.6)',fontSize:13,marginBottom:6};

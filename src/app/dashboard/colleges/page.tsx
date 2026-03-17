@@ -37,6 +37,8 @@ export default function CollegesPage() {
     description: '',
   });
   const [saving, setSaving] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
 
   useEffect(() => {
     fetchColleges();
@@ -67,20 +69,26 @@ export default function CollegesPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSaving(true);
+    if (!formData.name.trim()) { setErrMsg('اسم الكلية مطلوب'); return; }
+    setSaving(true); setErrMsg('');
     try {
-      const res = await fetch('/api/colleges', {
-        method: 'POST',
+      const method = editItem ? 'PUT' : 'POST';
+      const url = editItem ? `/api/colleges?id=${editItem.id}` : '/api/colleges';
+      const res = await fetch(url, {
+        method,
         headers: getHeaders(),
         body: JSON.stringify(formData),
       });
+      const data = await res.json();
       if (res.ok) {
-        setShowAddModal(false);
+        setShowAddModal(false); setEditItem(null);
         setFormData({ school_id: '', name: '', name_en: '', type: 'college', dean_name: '', email: '', phone: '', description: '' });
         fetchColleges();
+      } else {
+        setErrMsg(data.error || 'فشل الحفظ');
       }
-    } catch (error) {
-      console.error('Error:', error);
+    } catch (error: any) {
+      setErrMsg(error.message || 'حدث خطأ');
     } finally {
       setSaving(false);
     }
@@ -117,7 +125,16 @@ export default function CollegesPage() {
           <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>🎓 الكليات والأقسام</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة الكليات والأقسام العلمية داخل الجامعات والمعاهد</p>
         </div>
-        <button onClick={() => setShowAddModal(true)} style={{
+        <button onClick={() => { setEditItem(null); setFormData({
+    school_id: '',
+    name: '',
+    name_en: '',
+    type: 'college',
+    dean_name: '',
+    email: '',
+    phone: '',
+    description: '',
+  }); setErrMsg(''); setShowAddModal(true); }} style={{
           background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)',
           color: '#06060E',
           padding: '12px 24px',
@@ -259,7 +276,7 @@ export default function CollegesPage() {
                         cursor: 'pointer',
                         fontSize: 12,
                       }}>👁️ عرض</button>
-                      <button style={{
+                      <button onClick={() => { setEditItem(item); setFormData({ name: item.name || "", type: item.type || "", description: item.description || "", status: item.status || "ACTIVE" }); setShowAddModal(true); setErrMsg(""); }} style={{
                         background: 'rgba(201,162,39,0.1)',
                         color: '#C9A227',
                         padding: '8px 12px',
@@ -300,8 +317,8 @@ export default function CollegesPage() {
             border: '1px solid rgba(201,162,39,0.2)',
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: '#C9A227', fontSize: 22, fontWeight: 700, margin: 0 }}>➕ إضافة كلية/قسم جديد</h2>
-              <button onClick={() => setShowAddModal(false)} style={{
+              <h2 style={{ color: '#C9A227', fontSize: 22, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل' : '➕ إضافة كلية/قسم جديد'}</h2>
+              <button onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{
                 background: 'rgba(255,255,255,0.1)',
                 border: 'none',
                 color: 'white',
@@ -413,7 +430,7 @@ export default function CollegesPage() {
               </div>
 
               <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
-                <button type="button" onClick={() => setShowAddModal(false)} style={{
+                <button type="button" onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{
                   background: 'rgba(255,255,255,0.05)',
                   border: '1px solid rgba(255,255,255,0.1)',
                   color: 'white',

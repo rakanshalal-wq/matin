@@ -49,6 +49,9 @@ export default function PlatformSettingsPage() {
   const [settings, setSettings] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
+  const [editItem, setEditItem] = useState<any>(null);
   const [saved, setSaved] = useState(false);
   const [activeTab, setActiveTab] = useState('general');
 
