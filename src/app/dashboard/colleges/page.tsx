@@ -276,7 +276,7 @@ export default function CollegesPage() {
                         cursor: 'pointer',
                         fontSize: 12,
                       }}>👁️ عرض</button>
-                      <button onClick={() => { setEditItem(college); setFormData({ name: college.name || "", type: college.type || "", description: college.description || "", status: college.status || "ACTIVE" }); setShowAddModal(true); setErrMsg(""); }} style={{
+                      <button onClick={() => { setEditItem(college); setFormData({ school_id: String(college.school_id || ''), name: college.name || "", name_en: college.name_en || "", type: college.type || "college", dean_name: college.dean_name || "", email: college.email || "", phone: college.phone || "", description: "" }); setShowAddModal(true); setErrMsg(""); }} style={{
                         background: 'rgba(201,162,39,0.1)',
                         color: '#C9A227',
                         padding: '8px 12px',
