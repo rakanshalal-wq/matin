@@ -1,11 +1,12 @@
 'use client';
+
 /* MATIN DESIGN SYSTEM — About Page
    Dark Premium SaaS | RTL | Cairo Font
    Per Constitution v4: 3 roadmap phases, 3 core principles */
 
 import { useEffect } from "react";
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { ArrowLeft, Shield, Star, Users, Target, Crown, Zap } from "lucide-react";
 
 function useScrollAnimation() {

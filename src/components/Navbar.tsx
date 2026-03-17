@@ -1,4 +1,5 @@
 'use client';
+
 /* MATIN DESIGN SYSTEM — Navbar Component
    Dark Premium SaaS | RTL | Cairo Font
    Colors: #0a0a0a bg, #D4A843 gold, #22C55E green */

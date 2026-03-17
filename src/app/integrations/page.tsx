@@ -1,11 +1,12 @@
 'use client';
+
 /* MATIN DESIGN SYSTEM — Integrations Page
    Dark Premium SaaS | RTL | Cairo Font
    Per Constitution v4: Noor, Nafaz, MOE, STC Pay, Visa, Mastercard, Apple Pay, Mada, WhatsApp, Firebase, Unifonic, Cloudflare, Google Auth */
 
 import { useEffect } from "react";
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { CheckCircle, ArrowLeft } from "lucide-react";
 
 function useScrollAnimation() {

@@ -1,4 +1,5 @@
 'use client';
+
 import { BookOpen, Search, BookMarked, BarChart3, RefreshCw, ChevronLeft, CheckCircle, GraduationCap, Users, Star, FileText, Headphones, Video } from "lucide-react";
 
 // ===== DESIGN: Dark Premium — Black/Gold, Cairo font =====

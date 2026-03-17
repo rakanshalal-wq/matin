@@ -1,13 +1,14 @@
 'use client';
+
 /* MATIN DESIGN SYSTEM — Home Page
    Dark Premium SaaS | RTL | Cairo Font
    Sections: Hero, Stats, Features, Institutions, User Roles, Integrations, Pricing, CTA
    Per Constitution v4: 5 institution types, 7 user levels, 5 pricing tiers */
 
 import { useEffect, useRef } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import {
   GraduationCap, Shield, Zap, Users, BarChart3, Bell,
   Bus, Utensils, Brain, Star, CheckCircle, ArrowLeft,
@@ -242,7 +243,7 @@ export default function Home() {
       <Navbar />
 
       {/* ======== HERO ======== */}
-      <section className="relative min-h-[70vh] md:min-h-screen flex items-center overflow-hidden pt-16">
+      <section className="relative min-h-screen flex items-center overflow-hidden pt-16">
         {/* Background */}
         <div
           className="absolute inset-0 bg-cover bg-center opacity-20"
@@ -254,7 +255,7 @@ export default function Home() {
         <div className="absolute top-1/3 right-1/4 w-96 h-96 rounded-full bg-[rgba(212,168,67,0.06)] blur-[100px] pointer-events-none" />
         <div className="absolute top-1/2 left-1/4 w-64 h-64 rounded-full bg-[rgba(34,197,94,0.04)] blur-[80px] pointer-events-none" />
 
-        <div className="container relative z-10 py-10 md:py-20">
+        <div className="container relative z-10 py-20">
           <div className="max-w-4xl mx-auto text-center">
 
 
@@ -311,7 +312,7 @@ export default function Home() {
 
 
       {/* ======== DASHBOARD PREVIEW ======== */}
-      <section className="py-10 md:py-20">
+      <section className="py-20">
         <div className="container">
           <div className="text-center mb-10 fade-in-up">
             <span className="section-label mb-4 inline-flex">لوحة التحكم</span>
@@ -333,7 +334,7 @@ export default function Home() {
       </section>
 
       {/* ======== CORE FEATURES ======== */}
-      <section className="py-10 md:py-20 bg-[#0d0d0d]">
+      <section className="py-20 bg-[#0d0d0d]">
         <div className="container">
           <div className="text-center mb-14 fade-in-up">
             <span className="section-label mb-4 inline-flex">المميزات الأساسية</span>
@@ -368,7 +369,7 @@ export default function Home() {
       </section>
 
       {/* ======== INSTITUTION TYPES ======== */}
-      <section className="py-10 md:py-20">
+      <section className="py-20">
         <div className="container">
           <div className="text-center mb-14 fade-in-up">
             <span className="section-label mb-4 inline-flex">أنواع المؤسسات</span>
@@ -398,7 +399,7 @@ export default function Home() {
 
 
       {/* ======== INTEGRATIONS ======== */}
-      <section className="py-10 md:py-20">
+      <section className="py-20">
         <div className="container">
           <div className="text-center mb-14 fade-in-up">
             <span className="section-label mb-4 inline-flex">التكاملات</span>
@@ -435,7 +436,7 @@ export default function Home() {
       </section>
 
       {/* ======== PRICING ======== */}
-      <section className="py-10 md:py-20 bg-[#0d0d0d]">
+      <section className="py-20 bg-[#0d0d0d]">
         <div className="container">
           <div className="text-center mb-14 fade-in-up">
             <span className="section-label mb-4 inline-flex">الأسعار</span>
@@ -495,7 +496,7 @@ export default function Home() {
       </section>
 
       {/* ======== CTA SECTION ======== */}
-      <section className="py-10 md:py-20">
+      <section className="py-20">
         <div className="container">
           <div
             className="relative rounded-3xl overflow-hidden p-12 md:p-16 text-center fade-in-up"

@@ -1,9 +1,10 @@
 'use client';
+
 /* MATIN DESIGN SYSTEM — AI Page */
 
 import { useEffect } from "react";
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { ArrowLeft, Brain, TrendingUp, Heart, Award, Wallet, Star } from "lucide-react";
 
 function useScrollAnimation() {

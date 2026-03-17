@@ -1,9 +1,10 @@
 'use client';
+
 /* MATIN DESIGN SYSTEM — News Page */
 
 import { useEffect } from "react";
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Calendar, ArrowLeft } from "lucide-react";
 
 function useScrollAnimation() {

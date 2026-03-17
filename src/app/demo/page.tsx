@@ -1,370 +1,933 @@
 'use client';
-import Link from 'next/link';
-import { useState } from 'react';
 
-const INSTITUTION_TYPES = [
-  { id: 'school', label: 'مدرسة', icon: '🏫' },
-  { id: 'university', label: 'جامعة أو كلية', icon: '🎓' },
-  { id: 'institute', label: 'معهد أو أكاديمية', icon: '📚' },
-  { id: 'kindergarten', label: 'روضة أطفال', icon: '🌱' },
-  { id: 'training', label: 'مركز تدريب', icon: '💼' },
+/* MATIN DESIGN SYSTEM — Dashboard Demo Page
+   Dark Premium Admin | RTL | Cairo Font
+   Colors: #0a0a0a (bg) | #D4A843 (gold) | #22C55E (green) | #60A5FA (blue)
+   This is a visual prototype for approval before applying to production */
+
+import { useState } from "react";
+import {
+  Users, BookOpen, Bell, Settings, LogOut,
+  BarChart3, GraduationCap, CreditCard, AlertTriangle,
+  CheckCircle, Clock, Search, Menu, X,
+  Home, FileText, Calendar, Shield,
+  ArrowUp, ArrowDown, MoreVertical, Star, Zap,
+  Bus, Utensils, Brain, MessageSquare, Award
+} from "lucide-react";
+
+// ===== بيانات تجريبية =====
+const statsCards = [
+  {
+    title: "إجمالي الطلاب",
+    value: "3,842",
+    change: "+124",
+    changeType: "up",
+    changeLabel: "هذا الشهر",
+    icon: <GraduationCap size={22} />,
+    color: "#D4A843",
+    bg: "rgba(212,168,67,0.08)",
+    border: "rgba(212,168,67,0.25)",
+  },
+  {
+    title: "نسبة الحضور",
+    value: "94.7%",
+    change: "+2.3%",
+    changeType: "up",
+    changeLabel: "عن الأسبوع الماضي",
+    icon: <CheckCircle size={22} />,
+    color: "#22C55E",
+    bg: "rgba(34,197,94,0.08)",
+    border: "rgba(34,197,94,0.25)",
+  },
+  {
+    title: "المعلمون النشطون",
+    value: "187",
+    change: "+8",
+    changeType: "up",
+    changeLabel: "معلم جديد",
+    icon: <Users size={22} />,
+    color: "#60A5FA",
+    bg: "rgba(96,165,250,0.08)",
+    border: "rgba(96,165,250,0.25)",
+  },
+  {
+    title: "الرسوم المحصّلة",
+    value: "1.2M ر.س",
+    change: "-3.1%",
+    changeType: "down",
+    changeLabel: "عن الشهر الماضي",
+    icon: <CreditCard size={22} />,
+    color: "#F97316",
+    bg: "rgba(249,115,22,0.08)",
+    border: "rgba(249,115,22,0.25)",
+  },
 ];
 
-const STUDENT_RANGES = [
-  { id: 'small', label: 'أقل من 200 طالب' },
-  { id: 'medium', label: '200 – 1000 طالب' },
-  { id: 'large', label: '1000 – 5000 طالب' },
-  { id: 'enterprise', label: 'أكثر من 5000 طالب' },
+const recentStudents = [
+  { name: "أحمد محمد السالم", grade: "الثالث متوسط", status: "نشط", attendance: 96, gpa: "ممتاز", avatar: "أ" },
+  { name: "سارة عبدالله الحربي", grade: "الأول ثانوي", status: "نشط", attendance: 88, gpa: "جيد جداً", avatar: "س" },
+  { name: "عمر خالد الزهراني", grade: "السادس ابتدائي", status: "غائب", attendance: 72, gpa: "جيد", avatar: "ع" },
+  { name: "نورة فيصل العتيبي", grade: "الثاني ثانوي", status: "نشط", attendance: 99, gpa: "ممتاز", avatar: "ن" },
+  { name: "يوسف سعد القحطاني", grade: "الرابع ابتدائي", status: "إجازة", attendance: 81, gpa: "جيد", avatar: "ي" },
 ];
 
-const INTERESTS = [
-  'الحضور والغياب', 'الاختبارات الإلكترونية', 'التعليم الإلكتروني',
-  'النقل المدرسي', 'الإدارة المالية', 'الصحة المدرسية',
-  'المساعد الذكي AI', 'تكامل واتساب', 'تكامل نفاذ ونور',
-  'تطبيق الجوال', 'الكافتيريا', 'المكتبة الرقمية',
+const weeklyAttendance = [
+  { day: "الأحد", present: 92, absent: 8 },
+  { day: "الاثنين", present: 95, absent: 5 },
+  { day: "الثلاثاء", present: 89, absent: 11 },
+  { day: "الأربعاء", present: 97, absent: 3 },
+  { day: "الخميس", present: 94, absent: 6 },
 ];
 
-export default function DemoPage() {
-  const [step, setStep] = useState(1);
-  const [form, setForm] = useState({
-    name: '', email: '', phone: '', institution: '', role: '',
-    type: '', students: '', interests: [] as string[],
-    preferred_time: '', notes: '',
-  });
-  const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+const alerts = [
+  { type: "warning", msg: "12 طالباً تجاوزوا حد الغياب 20%", time: "منذ ساعة", icon: <AlertTriangle size={16} /> },
+  { type: "success", msg: "تم استلام رسوم 45 طالباً جديداً", time: "منذ 3 ساعات", icon: <CheckCircle size={16} /> },
+  { type: "info", msg: "تحديث جدول الفصل الثالث متوسط أ", time: "منذ 5 ساعات", icon: <Clock size={16} /> },
+  { type: "warning", msg: "3 معلمين لم يسجلوا الحضور اليوم", time: "منذ 6 ساعات", icon: <AlertTriangle size={16} /> },
+];
 
-  const toggleInterest = (item: string) => {
-    setForm(f => ({
-      ...f,
-      interests: f.interests.includes(item)
-        ? f.interests.filter(i => i !== item)
-        : [...f.interests, item],
-    }));
-  };
+const sidebarItems = [
+  { icon: <Home size={18} />, label: "النظرة العامة", active: true },
+  { icon: <GraduationCap size={18} />, label: "الطلاب" },
+  { icon: <Users size={18} />, label: "المعلمون" },
+  { icon: <BookOpen size={18} />, label: "المواد الدراسية" },
+  { icon: <Calendar size={18} />, label: "الجداول" },
+  { icon: <FileText size={18} />, label: "التقارير" },
+  { icon: <CreditCard size={18} />, label: "المالية" },
+  { icon: <BarChart3 size={18} />, label: "الإحصائيات" },
+  { icon: <Bell size={18} />, label: "الإشعارات", badge: 5 },
+  { icon: <Shield size={18} />, label: "الأمان" },
+  { icon: <Settings size={18} />, label: "الإعدادات" },
+];
 
-  const handleSubmit = async () => {
-    setLoading(true);
-    try {
-      await fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          phone: form.phone,
-          institution_name: form.institution,
-          role: form.role,
-          institution_type: form.type,
-          student_count: form.students,
-          interests: form.interests.join(', '),
-          notes: `الوقت المفضل: ${form.preferred_time}\n${form.notes}`,
-          source: 'demo_request',
-          status: 'new',
-        }),
-      });
-      setSubmitted(true);
-    } catch {
-      setSubmitted(true);
-    } finally {
-      setLoading(false);
-    }
-  };
+const quickActions = [
+  { icon: <GraduationCap size={20} />, label: "إضافة طالب", color: "#D4A843" },
+  { icon: <Users size={20} />, label: "إضافة معلم", color: "#60A5FA" },
+  { icon: <FileText size={20} />, label: "تقرير جديد", color: "#22C55E" },
+  { icon: <Bell size={20} />, label: "إرسال إشعار", color: "#F97316" },
+];
 
-  const navLinkStyle: React.CSSProperties = {
-    color: 'rgba(238,238,245,0.65)', textDecoration: 'none', fontSize: 14, fontWeight: 500,
-  };
+export default function DashboardDemo() {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [activeSection, setActiveSection] = useState("النظرة العامة");
 
   return (
-    <>
-      <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-      <div style={{ background: '#06060E', minHeight: '100vh', color: '#EEEEF5', fontFamily: "'IBM Plex Sans Arabic', sans-serif", direction: 'rtl' }}>
-
-        {/* NAV */}
-        <nav style={{ position: 'fixed', top: 0, right: 0, left: 0, zIndex: 200, height: 64, display: 'flex', alignItems: 'center', padding: '0 48px', gap: 40, background: 'rgba(6,6,14,0.92)', borderBottom: '1px solid rgba(201,168,76,0.2)' }}>
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#EEEEF5', fontSize: 19, fontWeight: 800 }}>
-            <div style={{ width: 34, height: 34, borderRadius: 9, background: 'linear-gradient(135deg,#C9A84C,#E2C46A)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, fontWeight: 900, color: '#000' }}>م</div>
-            متين
-          </Link>
-          <div style={{ display: 'flex', gap: 28, flex: 1 }}>
-            <Link href="/features" style={navLinkStyle}>المميزات</Link>
-            <Link href="/pricing" style={navLinkStyle}>الأسعار</Link>
-            <Link href="/about" style={navLinkStyle}>عن متين</Link>
-            <Link href="/contact" style={navLinkStyle}>تواصل معنا</Link>
+    <div
+      className="flex min-h-screen"
+      style={{ fontFamily: "Cairo, sans-serif", background: "#0a0a0a", direction: "rtl" }}
+    >
+      {/* ===== SIDEBAR ===== */}
+      <aside
+        style={{
+          width: sidebarOpen ? "260px" : "72px",
+          background: "#0d0d0d",
+          borderLeft: "1px solid rgba(212,168,67,0.15)",
+          transition: "width 0.3s ease",
+          display: "flex",
+          flexDirection: "column",
+          flexShrink: 0,
+          position: "sticky",
+          top: 0,
+          height: "100vh",
+          overflowY: "auto",
+          overflowX: "hidden",
+        }}
+      >
+        {/* Logo */}
+        <div
+          style={{
+            padding: "20px 16px",
+            borderBottom: "1px solid rgba(212,168,67,0.1)",
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+          }}
+        >
+          <div
+            style={{
+              width: "40px",
+              height: "40px",
+              borderRadius: "10px",
+              background: "linear-gradient(135deg, #D4A843, #C9A84C)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+              fontWeight: "900",
+              fontSize: "18px",
+              color: "#0a0a0a",
+            }}
+          >
+            م
           </div>
-          <div style={{ display: 'flex', gap: 8, marginRight: 'auto' }}>
-            <Link href="/login" style={{ padding: '8px 18px', borderRadius: 9, border: '1px solid rgba(255,255,255,0.06)', background: 'transparent', color: 'rgba(238,238,245,0.65)', fontSize: 13.5, fontWeight: 500, textDecoration: 'none' }}>تسجيل الدخول</Link>
-            <Link href="/register" style={{ padding: '8px 20px', borderRadius: 9, background: '#C9A84C', color: '#000', fontSize: 13.5, fontWeight: 700, textDecoration: 'none' }}>ابدأ مجاناً</Link>
-          </div>
-        </nav>
-
-        {/* HERO */}
-        <section style={{ padding: '100px 24px 60px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(201,168,76,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.025) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 100%)' }} />
-          <div style={{ position: 'absolute', top: -200, left: '50%', transform: 'translateX(-50%)', width: 900, height: 600, background: 'radial-gradient(ellipse, rgba(201,168,76,0.1) 0%, transparent 60%)', pointerEvents: 'none' }} />
-          <div style={{ position: 'relative', zIndex: 1, maxWidth: 700, margin: '0 auto' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(201,168,76,0.08)', border: '1px solid rgba(201,168,76,0.25)', color: '#C9A84C', padding: '6px 16px', borderRadius: 100, fontSize: 12.5, fontWeight: 600, marginBottom: 28 }}>
-              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#C9A84C', animation: 'pulse 2s infinite', display: 'inline-block' }} />
-              عرض تجريبي مجاني
-            </div>
-            <h1 style={{ fontSize: 'clamp(36px,5vw,60px)', fontWeight: 800, lineHeight: 1.1, letterSpacing: -2, margin: 0 }}>
-              شاهد متين بنفسك
-              <span style={{ display: 'block', background: 'linear-gradient(90deg,#C9A84C,#E2C46A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>في عرض مخصص لمؤسستك</span>
-            </h1>
-            <p style={{ fontSize: 17, color: 'rgba(238,238,245,0.65)', maxWidth: 560, margin: '20px auto 0', lineHeight: 1.8 }}>
-              خبير متين يُريك كيف تحل المنصة تحديات مؤسستك تحديداً — عرض مباشر، أسئلة وأجوبة، وخطة تطبيق واضحة.
-            </p>
-          </div>
-        </section>
-
-        {/* TRUST BADGES */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 40, padding: '0 24px 48px', flexWrap: 'wrap' }}>
-          {[
-            { icon: '⏱', text: '30 دقيقة فقط' },
-            { icon: '🎯', text: 'مخصص لمؤسستك' },
-            { icon: '💬', text: 'أسئلة مفتوحة' },
-            { icon: '🆓', text: 'مجاني تماماً' },
-          ].map((b, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'rgba(238,238,245,0.55)', fontSize: 14 }}>
-              <span style={{ fontSize: 20 }}>{b.icon}</span>
-              {b.text}
-            </div>
-          ))}
-        </div>
-
-        {/* FORM */}
-        <div style={{ maxWidth: 760, margin: '0 auto', padding: '0 24px 80px' }}>
-          {submitted ? (
-            <div style={{ background: 'rgba(16,185,129,0.06)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 24, padding: '64px 48px', textAlign: 'center' }}>
-              <div style={{ fontSize: 56, marginBottom: 24 }}>✅</div>
-              <h2 style={{ fontSize: 32, fontWeight: 800, margin: '0 0 16px' }}>تم استلام طلبك!</h2>
-              <p style={{ fontSize: 16, color: 'rgba(238,238,245,0.65)', lineHeight: 1.8, maxWidth: 480, margin: '0 auto 32px' }}>
-                سيتواصل معك أحد خبراء متين خلال 24 ساعة لتحديد موعد العرض المناسب لك.
-              </p>
-              <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-                <Link href="/register" style={{ padding: '12px 28px', borderRadius: 12, background: '#C9A84C', color: '#000', fontSize: 14, fontWeight: 700, textDecoration: 'none' }}>ابدأ تجربة مجانية الآن</Link>
-                <Link href="/" style={{ padding: '12px 28px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(238,238,245,0.65)', fontSize: 14, fontWeight: 500, textDecoration: 'none' }}>العودة للرئيسية</Link>
+          {sidebarOpen && (
+            <div>
+              <div style={{ color: "#D4A843", fontWeight: "900", fontSize: "16px", lineHeight: 1.2 }}>
+                متين
               </div>
-            </div>
-          ) : (
-            <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 24, overflow: 'hidden' }}>
-              {/* STEP INDICATOR */}
-              <div style={{ padding: '24px 40px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', gap: 12 }}>
-                {[1, 2, 3].map(s => (
-                  <div key={s} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <div style={{
-                      width: 32, height: 32, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 13, fontWeight: 700,
-                      background: step >= s ? '#C9A84C' : 'rgba(255,255,255,0.04)',
-                      color: step >= s ? '#000' : 'rgba(238,238,245,0.3)',
-                      border: step === s ? '2px solid #C9A84C' : '1px solid rgba(255,255,255,0.06)',
-                    }}>{s}</div>
-                    <span style={{ fontSize: 13, color: step >= s ? '#EEEEF5' : 'rgba(238,238,245,0.35)', fontWeight: step === s ? 600 : 400 }}>
-                      {s === 1 ? 'معلوماتك' : s === 2 ? 'مؤسستك' : 'التفضيلات'}
-                    </span>
-                    {s < 3 && <div style={{ width: 32, height: 1, background: step > s ? '#C9A84C' : 'rgba(255,255,255,0.08)' }} />}
-                  </div>
-                ))}
-              </div>
-
-              <div style={{ padding: '40px' }}>
-                {/* STEP 1 */}
-                {step === 1 && (
-                  <div>
-                    <h2 style={{ fontSize: 22, fontWeight: 700, margin: '0 0 8px' }}>معلوماتك الشخصية</h2>
-                    <p style={{ fontSize: 14, color: 'rgba(238,238,245,0.5)', margin: '0 0 32px' }}>سنتواصل معك على هذه البيانات لتحديد موعد العرض.</p>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
-                      {[
-                        { key: 'name', label: 'الاسم الكامل', placeholder: 'محمد العتيبي', type: 'text' },
-                        { key: 'role', label: 'المسمى الوظيفي', placeholder: 'مدير المدرسة', type: 'text' },
-                        { key: 'email', label: 'البريد الإلكتروني', placeholder: 'name@school.edu.sa', type: 'email' },
-                        { key: 'phone', label: 'رقم الجوال', placeholder: '05xxxxxxxx', type: 'tel' },
-                      ].map(f => (
-                        <div key={f.key}>
-                          <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'rgba(238,238,245,0.7)', marginBottom: 8 }}>{f.label}</label>
-                          <input
-                            type={f.type}
-                            placeholder={f.placeholder}
-                            value={(form as any)[f.key]}
-                            onChange={e => setForm(prev => ({ ...prev, [f.key]: e.target.value }))}
-                            style={{ width: '100%', padding: '11px 14px', borderRadius: 10, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#EEEEF5', fontSize: 14, outline: 'none', boxSizing: 'border-box' }}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                    <button
-                      onClick={() => form.name && form.email && form.phone ? setStep(2) : null}
-                      style={{ marginTop: 32, padding: '13px 32px', borderRadius: 12, background: form.name && form.email && form.phone ? '#C9A84C' : 'rgba(201,168,76,0.3)', color: '#000', fontSize: 14, fontWeight: 700, border: 'none', cursor: form.name && form.email && form.phone ? 'pointer' : 'not-allowed', width: '100%' }}
-                    >
-                      التالي ←
-                    </button>
-                  </div>
-                )}
-
-                {/* STEP 2 */}
-                {step === 2 && (
-                  <div>
-                    <h2 style={{ fontSize: 22, fontWeight: 700, margin: '0 0 8px' }}>معلومات مؤسستك</h2>
-                    <p style={{ fontSize: 14, color: 'rgba(238,238,245,0.5)', margin: '0 0 32px' }}>سيساعدنا هذا في تخصيص العرض لاحتياجاتك الفعلية.</p>
-
-                    <div style={{ marginBottom: 24 }}>
-                      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'rgba(238,238,245,0.7)', marginBottom: 8 }}>اسم المؤسسة</label>
-                      <input
-                        type="text"
-                        placeholder="مدارس النخبة"
-                        value={form.institution}
-                        onChange={e => setForm(f => ({ ...f, institution: e.target.value }))}
-                        style={{ width: '100%', padding: '11px 14px', borderRadius: 10, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#EEEEF5', fontSize: 14, outline: 'none', boxSizing: 'border-box' }}
-                      />
-                    </div>
-
-                    <div style={{ marginBottom: 24 }}>
-                      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'rgba(238,238,245,0.7)', marginBottom: 12 }}>نوع المؤسسة</label>
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
-                        {INSTITUTION_TYPES.map(t => (
-                          <button
-                            key={t.id}
-                            onClick={() => setForm(f => ({ ...f, type: t.id }))}
-                            style={{ padding: '12px', borderRadius: 12, border: `1px solid ${form.type === t.id ? '#C9A84C' : 'rgba(255,255,255,0.08)'}`, background: form.type === t.id ? 'rgba(201,168,76,0.1)' : 'rgba(255,255,255,0.02)', color: form.type === t.id ? '#C9A84C' : 'rgba(238,238,245,0.65)', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}
-                          >
-                            <span style={{ fontSize: 22 }}>{t.icon}</span>
-                            {t.label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div style={{ marginBottom: 24 }}>
-                      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'rgba(238,238,245,0.7)', marginBottom: 12 }}>عدد الطلاب</label>
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10 }}>
-                        {STUDENT_RANGES.map(r => (
-                          <button
-                            key={r.id}
-                            onClick={() => setForm(f => ({ ...f, students: r.id }))}
-                            style={{ padding: '12px 16px', borderRadius: 12, border: `1px solid ${form.students === r.id ? '#C9A84C' : 'rgba(255,255,255,0.08)'}`, background: form.students === r.id ? 'rgba(201,168,76,0.1)' : 'rgba(255,255,255,0.02)', color: form.students === r.id ? '#C9A84C' : 'rgba(238,238,245,0.65)', fontSize: 13, fontWeight: 600, cursor: 'pointer', textAlign: 'right' }}
-                          >
-                            {r.label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div style={{ display: 'flex', gap: 12 }}>
-                      <button onClick={() => setStep(1)} style={{ flex: 1, padding: '13px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.08)', background: 'transparent', color: 'rgba(238,238,245,0.55)', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>→ السابق</button>
-                      <button
-                        onClick={() => form.institution && form.type && form.students ? setStep(3) : null}
-                        style={{ flex: 2, padding: '13px', borderRadius: 12, background: form.institution && form.type && form.students ? '#C9A84C' : 'rgba(201,168,76,0.3)', color: '#000', fontSize: 14, fontWeight: 700, border: 'none', cursor: form.institution && form.type && form.students ? 'pointer' : 'not-allowed' }}
-                      >
-                        التالي ←
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {/* STEP 3 */}
-                {step === 3 && (
-                  <div>
-                    <h2 style={{ fontSize: 22, fontWeight: 700, margin: '0 0 8px' }}>ما الذي يهمك أكثر؟</h2>
-                    <p style={{ fontSize: 14, color: 'rgba(238,238,245,0.5)', margin: '0 0 32px' }}>اختر الميزات التي تريد التركيز عليها في العرض.</p>
-
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 28 }}>
-                      {INTERESTS.map(item => (
-                        <button
-                          key={item}
-                          onClick={() => toggleInterest(item)}
-                          style={{ padding: '8px 16px', borderRadius: 100, border: `1px solid ${form.interests.includes(item) ? '#C9A84C' : 'rgba(255,255,255,0.08)'}`, background: form.interests.includes(item) ? 'rgba(201,168,76,0.1)' : 'transparent', color: form.interests.includes(item) ? '#C9A84C' : 'rgba(238,238,245,0.55)', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
-                        >
-                          {item}
-                        </button>
-                      ))}
-                    </div>
-
-                    <div style={{ marginBottom: 20 }}>
-                      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'rgba(238,238,245,0.7)', marginBottom: 8 }}>الوقت المفضل للعرض</label>
-                      <select
-                        value={form.preferred_time}
-                        onChange={e => setForm(f => ({ ...f, preferred_time: e.target.value }))}
-                        style={{ width: '100%', padding: '11px 14px', borderRadius: 10, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#EEEEF5', fontSize: 14, outline: 'none', boxSizing: 'border-box' }}
-                      >
-                        <option value="">اختر الوقت المناسب</option>
-                        <option value="morning">صباحاً (9 – 12)</option>
-                        <option value="afternoon">ظهراً (12 – 3)</option>
-                        <option value="evening">مساءً (3 – 6)</option>
-                        <option value="flexible">مرن — أي وقت مناسب</option>
-                      </select>
-                    </div>
-
-                    <div style={{ marginBottom: 28 }}>
-                      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'rgba(238,238,245,0.7)', marginBottom: 8 }}>أي تفاصيل إضافية؟ (اختياري)</label>
-                      <textarea
-                        placeholder="مثلاً: لدينا 3 فروع، نريد نظام موحد..."
-                        value={form.notes}
-                        onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
-                        rows={3}
-                        style={{ width: '100%', padding: '11px 14px', borderRadius: 10, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#EEEEF5', fontSize: 14, outline: 'none', resize: 'vertical', boxSizing: 'border-box', fontFamily: 'inherit' }}
-                      />
-                    </div>
-
-                    <div style={{ display: 'flex', gap: 12 }}>
-                      <button onClick={() => setStep(2)} style={{ flex: 1, padding: '13px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.08)', background: 'transparent', color: 'rgba(238,238,245,0.55)', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>→ السابق</button>
-                      <button
-                        onClick={handleSubmit}
-                        disabled={loading}
-                        style={{ flex: 2, padding: '13px', borderRadius: 12, background: '#C9A84C', color: '#000', fontSize: 14, fontWeight: 700, border: 'none', cursor: loading ? 'wait' : 'pointer', opacity: loading ? 0.7 : 1 }}
-                      >
-                        {loading ? 'جارٍ الإرسال...' : 'أرسل طلب العرض ✓'}
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
+              <div style={{ color: "#555", fontSize: "11px" }}>لوحة التحكم</div>
             </div>
           )}
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            style={{
+              marginRight: "auto",
+              background: "none",
+              border: "none",
+              color: "#555",
+              cursor: "pointer",
+              padding: "4px",
+            }}
+          >
+            {sidebarOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
         </div>
 
-        {/* WHY DEMO */}
-        {!submitted && (
-          <section style={{ background: 'rgba(255,255,255,0.015)', borderTop: '1px solid rgba(255,255,255,0.06)', padding: '64px 24px' }}>
-            <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-              <h2 style={{ fontSize: 28, fontWeight: 800, textAlign: 'center', margin: '0 0 48px' }}>ماذا ستشاهد في العرض؟</h2>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20 }}>
-                {[
-                  { icon: '🎯', title: 'عرض مخصص', desc: 'نُريك الميزات التي تحل مشاكل مؤسستك تحديداً، لا عرضاً عاماً.' },
-                  { icon: '🔴', title: 'بث مباشر', desc: 'تجربة حية على بيانات حقيقية — لا شرائح ولا فيديوهات مسجلة.' },
-                  { icon: '💬', title: 'أسئلة مفتوحة', desc: 'اسأل ما تريد — خبيرنا يجيب على كل استفسار بشكل مباشر.' },
-                  { icon: '📋', title: 'خطة تطبيق', desc: 'تخرج بخطة واضحة: كيف تبدأ، كم يستغرق، وما التكلفة الفعلية.' },
-                ].map((item, i) => (
-                  <div key={i} style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, padding: '24px' }}>
-                    <div style={{ fontSize: 32, marginBottom: 12 }}>{item.icon}</div>
-                    <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 8 }}>{item.title}</div>
-                    <div style={{ fontSize: 13.5, color: 'rgba(238,238,245,0.55)', lineHeight: 1.7 }}>{item.desc}</div>
+        {/* Institution Info */}
+        {sidebarOpen && (
+          <div
+            style={{
+              margin: "12px",
+              padding: "12px",
+              borderRadius: "10px",
+              background: "rgba(212,168,67,0.06)",
+              border: "1px solid rgba(212,168,67,0.15)",
+            }}
+          >
+            <div style={{ color: "#fff", fontWeight: "700", fontSize: "13px", marginBottom: "4px" }}>
+              مدرسة الرواد الأهلية
+            </div>
+            <div style={{ color: "#D4A843", fontSize: "11px" }}>الرياض — حي النزهة</div>
+          </div>
+        )}
+
+        {/* Nav Items */}
+        <nav style={{ padding: "8px", flex: 1 }}>
+          {sidebarItems.map((item, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveSection(item.label)}
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                padding: sidebarOpen ? "10px 12px" : "10px",
+                borderRadius: "10px",
+                border: "none",
+                cursor: "pointer",
+                marginBottom: "2px",
+                transition: "all 0.2s",
+                background: item.active || activeSection === item.label
+                  ? "rgba(212,168,67,0.12)"
+                  : "transparent",
+                color: item.active || activeSection === item.label ? "#D4A843" : "#777",
+                justifyContent: sidebarOpen ? "flex-start" : "center",
+              }}
+            >
+              <span style={{ flexShrink: 0 }}>{item.icon}</span>
+              {sidebarOpen && (
+                <span style={{ fontSize: "13px", fontWeight: "600" }}>{item.label}</span>
+              )}
+              {sidebarOpen && item.badge && (
+                <span
+                  style={{
+                    marginRight: "auto",
+                    background: "#D4A843",
+                    color: "#0a0a0a",
+                    fontSize: "10px",
+                    fontWeight: "900",
+                    padding: "1px 7px",
+                    borderRadius: "20px",
+                  }}
+                >
+                  {item.badge}
+                </span>
+              )}
+            </button>
+          ))}
+        </nav>
+
+        {/* User Profile */}
+        <div style={{ padding: "12px", borderTop: "1px solid rgba(212,168,67,0.1)" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              padding: "10px 12px",
+              borderRadius: "10px",
+              background: "rgba(255,255,255,0.03)",
+            }}
+          >
+            <div
+              style={{
+                width: "36px",
+                height: "36px",
+                borderRadius: "50%",
+                background: "linear-gradient(135deg, #D4A843, #C9A84C)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#0a0a0a",
+                fontWeight: "900",
+                fontSize: "14px",
+                flexShrink: 0,
+              }}
+            >
+              م
+            </div>
+            {sidebarOpen && (
+              <>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ color: "#fff", fontSize: "12px", fontWeight: "700", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                    محمد العمري
+                  </div>
+                  <div style={{ color: "#555", fontSize: "10px" }}>مدير المؤسسة</div>
+                </div>
+                <LogOut size={16} style={{ color: "#555", cursor: "pointer", flexShrink: 0 }} />
+              </>
+            )}
+          </div>
+        </div>
+      </aside>
+
+      {/* ===== MAIN CONTENT ===== */}
+      <main style={{ flex: 1, overflow: "auto", minWidth: 0 }}>
+        {/* Top Bar */}
+        <header
+          style={{
+            background: "#0d0d0d",
+            borderBottom: "1px solid rgba(212,168,67,0.1)",
+            padding: "0 24px",
+            height: "64px",
+            display: "flex",
+            alignItems: "center",
+            gap: "16px",
+            position: "sticky",
+            top: 0,
+            zIndex: 10,
+          }}
+        >
+          <div>
+            <h1 style={{ color: "#fff", fontWeight: "900", fontSize: "18px", lineHeight: 1 }}>
+              النظرة العامة
+            </h1>
+            <p style={{ color: "#555", fontSize: "12px", marginTop: "2px" }}>
+              الثلاثاء، 17 مارس 2026
+            </p>
+          </div>
+
+          {/* Search */}
+          <div
+            style={{
+              marginRight: "auto",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              background: "rgba(255,255,255,0.04)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderRadius: "10px",
+              padding: "8px 14px",
+              width: "280px",
+            }}
+          >
+            <Search size={15} style={{ color: "#555" }} />
+            <input
+              placeholder="بحث في الطلاب، المعلمين..."
+              style={{
+                background: "none",
+                border: "none",
+                outline: "none",
+                color: "#aaa",
+                fontSize: "13px",
+                width: "100%",
+                textAlign: "right",
+                fontFamily: "Cairo, sans-serif",
+              }}
+            />
+          </div>
+
+          {/* Notifications */}
+          <div style={{ position: "relative" }}>
+            <button
+              style={{
+                background: "rgba(212,168,67,0.08)",
+                border: "1px solid rgba(212,168,67,0.2)",
+                borderRadius: "10px",
+                padding: "8px",
+                cursor: "pointer",
+                color: "#D4A843",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Bell size={18} />
+            </button>
+            <span
+              style={{
+                position: "absolute",
+                top: "-4px",
+                left: "-4px",
+                background: "#EF4444",
+                color: "#fff",
+                fontSize: "10px",
+                fontWeight: "900",
+                width: "18px",
+                height: "18px",
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              5
+            </span>
+          </div>
+        </header>
+
+        {/* Page Content */}
+        <div style={{ padding: "24px" }}>
+
+          {/* Quick Actions */}
+          <div style={{ display: "flex", gap: "10px", marginBottom: "24px", flexWrap: "wrap" }}>
+            {quickActions.map((action, i) => (
+              <button
+                key={i}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "10px 18px",
+                  borderRadius: "10px",
+                  border: `1px solid ${action.color}30`,
+                  background: `${action.color}0d`,
+                  color: action.color,
+                  cursor: "pointer",
+                  fontSize: "13px",
+                  fontWeight: "700",
+                  transition: "all 0.2s",
+                  fontFamily: "Cairo, sans-serif",
+                }}
+              >
+                {action.icon}
+                {action.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Stats Cards */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+              gap: "16px",
+              marginBottom: "24px",
+            }}
+          >
+            {statsCards.map((card, i) => (
+              <div
+                key={i}
+                style={{
+                  background: card.bg,
+                  border: `1px solid ${card.border}`,
+                  borderRadius: "16px",
+                  padding: "20px",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                {/* Glow */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    width: "80px",
+                    height: "80px",
+                    borderRadius: "50%",
+                    background: `${card.color}15`,
+                    transform: "translate(20px, -20px)",
+                    pointerEvents: "none",
+                  }}
+                />
+                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "16px" }}>
+                  <div
+                    style={{
+                      width: "44px",
+                      height: "44px",
+                      borderRadius: "12px",
+                      background: `${card.color}15`,
+                      border: `1px solid ${card.color}30`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: card.color,
+                    }}
+                  >
+                    {card.icon}
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "4px",
+                      fontSize: "12px",
+                      fontWeight: "700",
+                      color: card.changeType === "up" ? "#22C55E" : "#EF4444",
+                      background: card.changeType === "up" ? "rgba(34,197,94,0.1)" : "rgba(239,68,68,0.1)",
+                      padding: "3px 8px",
+                      borderRadius: "20px",
+                    }}
+                  >
+                    {card.changeType === "up" ? <ArrowUp size={12} /> : <ArrowDown size={12} />}
+                    {card.change}
+                  </div>
+                </div>
+                <div style={{ color: "#fff", fontSize: "28px", fontWeight: "900", lineHeight: 1, marginBottom: "6px" }}>
+                  {card.value}
+                </div>
+                <div style={{ color: "#888", fontSize: "13px", fontWeight: "600" }}>{card.title}</div>
+                <div style={{ color: "#555", fontSize: "11px", marginTop: "4px" }}>{card.changeLabel}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Charts + Alerts Row */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 340px",
+              gap: "16px",
+              marginBottom: "24px",
+            }}
+          >
+            {/* Weekly Attendance Chart */}
+            <div
+              style={{
+                background: "#0d0d0d",
+                border: "1px solid rgba(212,168,67,0.12)",
+                borderRadius: "16px",
+                padding: "20px",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
+                <div>
+                  <h3 style={{ color: "#fff", fontWeight: "800", fontSize: "15px", marginBottom: "2px" }}>
+                    الحضور الأسبوعي
+                  </h3>
+                  <p style={{ color: "#555", fontSize: "12px" }}>الأسبوع الحالي — مارس 2026</p>
+                </div>
+                <div style={{ display: "flex", gap: "12px", fontSize: "11px" }}>
+                  <span style={{ display: "flex", alignItems: "center", gap: "5px", color: "#22C55E" }}>
+                    <span style={{ width: "8px", height: "8px", borderRadius: "2px", background: "#22C55E", display: "inline-block" }} />
+                    حاضر
+                  </span>
+                  <span style={{ display: "flex", alignItems: "center", gap: "5px", color: "#EF4444" }}>
+                    <span style={{ width: "8px", height: "8px", borderRadius: "2px", background: "#EF4444", display: "inline-block" }} />
+                    غائب
+                  </span>
+                </div>
+              </div>
+
+              {/* Bar Chart */}
+              <div style={{ display: "flex", gap: "12px", alignItems: "flex-end", height: "140px" }}>
+                {weeklyAttendance.map((day, i) => (
+                  <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "6px", height: "100%" }}>
+                    <div style={{ flex: 1, width: "100%", display: "flex", flexDirection: "column", justifyContent: "flex-end", gap: "2px" }}>
+                      <div
+                        style={{
+                          width: "100%",
+                          height: `${day.absent * 5}px`,
+                          background: "rgba(239,68,68,0.6)",
+                          borderRadius: "4px 4px 0 0",
+                          minHeight: "4px",
+                        }}
+                      />
+                      <div
+                        style={{
+                          width: "100%",
+                          height: `${day.present * 0.8}px`,
+                          background: "linear-gradient(180deg, #22C55E, #16A34A)",
+                          borderRadius: "4px 4px 0 0",
+                          minHeight: "20px",
+                        }}
+                      />
+                    </div>
+                    <span style={{ color: "#666", fontSize: "11px", whiteSpace: "nowrap" }}>{day.day}</span>
+                    <span style={{ color: "#D4A843", fontSize: "11px", fontWeight: "700" }}>{day.present}%</span>
                   </div>
                 ))}
               </div>
             </div>
-          </section>
-        )}
 
-        {/* FOOTER */}
-        <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: 'rgba(238,238,245,0.5)', fontSize: 14 }}>
-            <div style={{ width: 26, height: 26, borderRadius: 7, background: 'linear-gradient(135deg,#C9A84C,#E2C46A)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 900, color: '#000' }}>م</div>
-            متين
-          </Link>
-          <p style={{ fontSize: 12.5, color: 'rgba(238,238,245,0.3)', margin: 0 }}>© {new Date().getFullYear()} منصة متين. جميع الحقوق محفوظة.</p>
-          <div style={{ display: 'flex', gap: 20 }}>
-            <Link href="/privacy" style={{ fontSize: 12.5, color: 'rgba(238,238,245,0.35)', textDecoration: 'none' }}>سياسة الخصوصية</Link>
-            <Link href="/terms" style={{ fontSize: 12.5, color: 'rgba(238,238,245,0.35)', textDecoration: 'none' }}>الشروط والأحكام</Link>
+            {/* Alerts */}
+            <div
+              style={{
+                background: "#0d0d0d",
+                border: "1px solid rgba(212,168,67,0.12)",
+                borderRadius: "16px",
+                padding: "20px",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
+                <h3 style={{ color: "#fff", fontWeight: "800", fontSize: "15px" }}>التنبيهات</h3>
+                <span
+                  style={{
+                    background: "rgba(239,68,68,0.15)",
+                    color: "#EF4444",
+                    fontSize: "11px",
+                    fontWeight: "700",
+                    padding: "2px 8px",
+                    borderRadius: "20px",
+                  }}
+                >
+                  {alerts.length} جديد
+                </span>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                {alerts.map((alert, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      padding: "12px",
+                      borderRadius: "10px",
+                      background: alert.type === "warning"
+                        ? "rgba(249,115,22,0.06)"
+                        : alert.type === "success"
+                        ? "rgba(34,197,94,0.06)"
+                        : "rgba(96,165,250,0.06)",
+                      border: `1px solid ${
+                        alert.type === "warning"
+                          ? "rgba(249,115,22,0.15)"
+                          : alert.type === "success"
+                          ? "rgba(34,197,94,0.15)"
+                          : "rgba(96,165,250,0.15)"
+                      }`,
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
+                      <span
+                        style={{
+                          color: alert.type === "warning" ? "#F97316" : alert.type === "success" ? "#22C55E" : "#60A5FA",
+                          flexShrink: 0,
+                          marginTop: "1px",
+                        }}
+                      >
+                        {alert.icon}
+                      </span>
+                      <div style={{ flex: 1 }}>
+                        <p style={{ color: "#ddd", fontSize: "12px", fontWeight: "600", lineHeight: 1.4 }}>{alert.msg}</p>
+                        <p style={{ color: "#555", fontSize: "11px", marginTop: "3px" }}>{alert.time}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-        </footer>
 
-        <style>{`
-          @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
-          input:focus, select:focus, textarea:focus { border-color: rgba(201,168,76,0.4) !important; }
-          input::placeholder, textarea::placeholder { color: rgba(238,238,245,0.2); }
-          select option { background: #0d0d1a; }
-        `}</style>
-      </div>
-    </>
+          {/* Students Table */}
+          <div
+            style={{
+              background: "#0d0d0d",
+              border: "1px solid rgba(212,168,67,0.12)",
+              borderRadius: "16px",
+              overflow: "hidden",
+            }}
+          >
+            {/* Table Header */}
+            <div
+              style={{
+                padding: "18px 20px",
+                borderBottom: "1px solid rgba(212,168,67,0.1)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <div>
+                <h3 style={{ color: "#fff", fontWeight: "800", fontSize: "15px", marginBottom: "2px" }}>
+                  آخر الطلاب المسجلين
+                </h3>
+                <p style={{ color: "#555", fontSize: "12px" }}>عرض آخر 5 طلاب</p>
+              </div>
+              <button
+                style={{
+                  background: "rgba(212,168,67,0.1)",
+                  border: "1px solid rgba(212,168,67,0.25)",
+                  borderRadius: "8px",
+                  padding: "7px 14px",
+                  color: "#D4A843",
+                  fontSize: "12px",
+                  fontWeight: "700",
+                  cursor: "pointer",
+                  fontFamily: "Cairo, sans-serif",
+                }}
+              >
+                عرض الكل
+              </button>
+            </div>
+
+            {/* Table */}
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                <thead>
+                  <tr style={{ background: "rgba(255,255,255,0.02)" }}>
+                    {["الطالب", "الصف", "الحالة", "نسبة الحضور", "التقدير", ""].map((h, i) => (
+                      <th
+                        key={i}
+                        style={{
+                          padding: "12px 16px",
+                          color: "#666",
+                          fontSize: "12px",
+                          fontWeight: "700",
+                          textAlign: "right",
+                          borderBottom: "1px solid rgba(255,255,255,0.05)",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {recentStudents.map((student, i) => (
+                    <tr
+                      key={i}
+                      style={{
+                        borderBottom: "1px solid rgba(255,255,255,0.04)",
+                        transition: "background 0.15s",
+                      }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLTableRowElement).style.background = "rgba(212,168,67,0.03)"; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLTableRowElement).style.background = "transparent"; }}
+                    >
+                      {/* Student Name */}
+                      <td style={{ padding: "14px 16px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                          <div
+                            style={{
+                              width: "36px",
+                              height: "36px",
+                              borderRadius: "10px",
+                              background: "linear-gradient(135deg, rgba(212,168,67,0.3), rgba(212,168,67,0.1))",
+                              border: "1px solid rgba(212,168,67,0.2)",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              color: "#D4A843",
+                              fontWeight: "900",
+                              fontSize: "15px",
+                              flexShrink: 0,
+                            }}
+                          >
+                            {student.avatar}
+                          </div>
+                          <span style={{ color: "#e0e0e0", fontSize: "13px", fontWeight: "600" }}>
+                            {student.name}
+                          </span>
+                        </div>
+                      </td>
+                      {/* Grade */}
+                      <td style={{ padding: "14px 16px", color: "#888", fontSize: "13px" }}>
+                        {student.grade}
+                      </td>
+                      {/* Status */}
+                      <td style={{ padding: "14px 16px" }}>
+                        <span
+                          style={{
+                            padding: "3px 10px",
+                            borderRadius: "20px",
+                            fontSize: "11px",
+                            fontWeight: "700",
+                            background:
+                              student.status === "نشط"
+                                ? "rgba(34,197,94,0.12)"
+                                : student.status === "غائب"
+                                ? "rgba(239,68,68,0.12)"
+                                : "rgba(249,115,22,0.12)",
+                            color:
+                              student.status === "نشط"
+                                ? "#22C55E"
+                                : student.status === "غائب"
+                                ? "#EF4444"
+                                : "#F97316",
+                            border: `1px solid ${
+                              student.status === "نشط"
+                                ? "rgba(34,197,94,0.25)"
+                                : student.status === "غائب"
+                                ? "rgba(239,68,68,0.25)"
+                                : "rgba(249,115,22,0.25)"
+                            }`,
+                          }}
+                        >
+                          {student.status}
+                        </span>
+                      </td>
+                      {/* Attendance Bar */}
+                      <td style={{ padding: "14px 16px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                          <div
+                            style={{
+                              width: "80px",
+                              height: "6px",
+                              borderRadius: "3px",
+                              background: "rgba(255,255,255,0.06)",
+                              overflow: "hidden",
+                            }}
+                          >
+                            <div
+                              style={{
+                                width: `${student.attendance}%`,
+                                height: "100%",
+                                borderRadius: "3px",
+                                background:
+                                  student.attendance >= 90
+                                    ? "#22C55E"
+                                    : student.attendance >= 75
+                                    ? "#D4A843"
+                                    : "#EF4444",
+                              }}
+                            />
+                          </div>
+                          <span
+                            style={{
+                              color:
+                                student.attendance >= 90
+                                  ? "#22C55E"
+                                  : student.attendance >= 75
+                                  ? "#D4A843"
+                                  : "#EF4444",
+                              fontSize: "12px",
+                              fontWeight: "700",
+                            }}
+                          >
+                            {student.attendance}%
+                          </span>
+                        </div>
+                      </td>
+                      {/* GPA */}
+                      <td style={{ padding: "14px 16px" }}>
+                        <span
+                          style={{
+                            color: student.gpa === "ممتاز" ? "#D4A843" : "#888",
+                            fontSize: "13px",
+                            fontWeight: student.gpa === "ممتاز" ? "700" : "400",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "4px",
+                          }}
+                        >
+                          {student.gpa === "ممتاز" && <Star size={12} />}
+                          {student.gpa}
+                        </span>
+                      </td>
+                      {/* Actions */}
+                      <td style={{ padding: "14px 16px" }}>
+                        <button
+                          style={{
+                            background: "none",
+                            border: "none",
+                            color: "#555",
+                            cursor: "pointer",
+                            padding: "4px",
+                          }}
+                        >
+                          <MoreVertical size={16} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Bottom Row: Quick Stats */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+              gap: "12px",
+              marginTop: "16px",
+            }}
+          >
+            {[
+              { icon: <Bus size={18} />, label: "طلاب الباص", value: "412", color: "#60A5FA" },
+              { icon: <Utensils size={18} />, label: "طلاب المقصف", value: "1,204", color: "#F97316" },
+              { icon: <Brain size={18} />, label: "اختبارات اليوم", value: "7", color: "#EC4899" },
+              { icon: <MessageSquare size={18} />, label: "رسائل جديدة", value: "23", color: "#22C55E" },
+              { icon: <Award size={18} />, label: "متين كوين اليوم", value: "+840", color: "#D4A843" },
+            ].map((item, i) => (
+              <div
+                key={i}
+                style={{
+                  background: "#0d0d0d",
+                  border: `1px solid ${item.color}20`,
+                  borderRadius: "12px",
+                  padding: "14px 16px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                }}
+              >
+                <div
+                  style={{
+                    width: "36px",
+                    height: "36px",
+                    borderRadius: "9px",
+                    background: `${item.color}12`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: item.color,
+                    flexShrink: 0,
+                  }}
+                >
+                  {item.icon}
+                </div>
+                <div>
+                  <div style={{ color: "#fff", fontWeight: "800", fontSize: "16px" }}>{item.value}</div>
+                  <div style={{ color: "#666", fontSize: "11px" }}>{item.label}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Footer Note */}
+          <div
+            style={{
+              marginTop: "24px",
+              padding: "12px 16px",
+              borderRadius: "10px",
+              background: "rgba(212,168,67,0.04)",
+              border: "1px solid rgba(212,168,67,0.1)",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
+            <Zap size={14} style={{ color: "#D4A843" }} />
+            <span style={{ color: "#666", fontSize: "12px" }}>
+              هذه عينة تصميمية — البيانات المعروضة تجريبية فقط
+            </span>
+            <span
+              style={{
+                marginRight: "auto",
+                color: "#D4A843",
+                fontSize: "11px",
+                fontWeight: "700",
+                background: "rgba(212,168,67,0.1)",
+                padding: "2px 8px",
+                borderRadius: "20px",
+              }}
+            >
+              v1.0 Preview
+            </span>
+          </div>
+        </div>
+      </main>
+    </div>
   );
 }

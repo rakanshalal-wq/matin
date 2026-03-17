@@ -1,4 +1,5 @@
 'use client';
+
 import { ShoppingBag, Package, Star, RotateCcw, BarChart3, Megaphone, ChevronLeft, CheckCircle, Store, Tag, Truck, Shield, TrendingUp, Users, Zap } from "lucide-react";
 
 // ===== DESIGN: Dark Premium — Black/Gold, Cairo font, asymmetric sections =====

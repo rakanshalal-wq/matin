@@ -1,8 +1,7 @@
-'use client';
 /* MATIN DESIGN SYSTEM — Footer Component
    Dark Premium SaaS | RTL | Cairo Font */
-
 import Link from 'next/link';
+
 
 const footerLinks = {
   المنصة: [

@@ -1,12 +1,12 @@
 'use client';
+
 /* MATIN DESIGN SYSTEM — Features Page
    Dark Premium SaaS | RTL | Cairo Font
    Per Constitution v4: 3 lecture types (in-person, online, recorded), 25% absence limit, 7 user levels */
 
 import { useEffect } from "react";
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import Link from 'next/link';
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import {
   GraduationCap, Shield, BarChart3, Bell, Bus, Utensils,
   Brain, Users, BookOpen, Calendar, FileText, CreditCard,

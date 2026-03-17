@@ -1,4 +1,5 @@
 'use client';
+
 import { Users, MessageSquare, Shield, Heart, BookOpen, Lock, Globe, ChevronLeft, CheckCircle, Brain, Bell, UserCheck, Flag, Star } from "lucide-react";
 
 // ===== DESIGN: Dark Premium — Black/Gold, Cairo font =====

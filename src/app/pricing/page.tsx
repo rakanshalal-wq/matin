@@ -1,11 +1,12 @@
 'use client';
+
 /* MATIN DESIGN SYSTEM — Pricing Page
    Dark Premium SaaS | RTL | Cairo Font
    5 Tiers per Constitution v4: Free, Basic, Professional, Enterprise, Government Gold */
 
 import { useEffect } from "react";
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { CheckCircle, X, ArrowLeft, Crown, Building2 } from "lucide-react";
 
 function useScrollAnimation() {
