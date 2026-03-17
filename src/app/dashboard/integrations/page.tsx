@@ -119,7 +119,7 @@ export default function IntegrationsPage() {
   const [showModal, setShowModal] = useState(false);
   const [selectedIntegration, setSelectedIntegration] = useState<any>(null);
   const [editItem, setEditItem] = useState<any>(null);
-  const [errMsg, setErrMsg] = useState('');
+  const [errMsg, setErrMsg] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [disconnecting, setDisconnecting] = useState<string | null>(null);
   const [testing, setTesting] = useState<string | null>(null);
