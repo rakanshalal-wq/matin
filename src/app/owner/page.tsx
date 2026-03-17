@@ -79,9 +79,9 @@ function Toast({ msg, ok }: { msg: string; ok: boolean }) {
 // ─── Modal ────────────────────────────────────────────────────────────────────
 function Modal({ title, onClose, children, wide }: { title: string; onClose: () => void; children: React.ReactNode; wide?: boolean }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.7)' }}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)' }}>
       <div className="rounded-2xl overflow-hidden w-full" style={{ background: '#0D0D1A', border: `1px solid ${BORDER}`, maxWidth: wide ? 800 : 520, maxHeight: '90vh', overflowY: 'auto' }}>
-        <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: `1px solid ${BORDER}` }}>
+        <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
           <h3 className="font-bold text-lg text-white">{title}</h3>
           <button onClick={onClose} className="text-gray-400 hover:text-white text-2xl leading-none">&times;</button>
         </div>
@@ -94,7 +94,7 @@ function Modal({ title, onClose, children, wide }: { title: string; onClose: () 
 // ─── Input ────────────────────────────────────────────────────────────────────
 function Inp({ label, value, onChange, type = 'text', placeholder = '', required = false, textarea = false, rows = 3 }: any) {
   const cls = "w-full rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:ring-1 focus:ring-yellow-500/50";
-  const sty = { background: 'rgba(255,255,255,0.06)', border: `1px solid ${BORDER}` };
+  const sty = { background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}` };
   return (
     <div className="flex flex-col gap-1">
       {label && <label className="text-xs text-gray-400 font-medium">{label}{required && <span className="text-red-400 ml-1">*</span>}</label>}
@@ -111,7 +111,7 @@ function Sel({ label, value, onChange, options }: { label?: string; value: strin
   return (
     <div className="flex flex-col gap-1">
       {label && <label className="text-xs text-gray-400 font-medium">{label}</label>}
-      <select className="w-full rounded-xl px-4 py-2.5 text-sm text-white outline-none" style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${BORDER}` }}
+      <select className="w-full rounded-xl px-4 py-2.5 text-sm text-white outline-none" style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}` }}
         value={value} onChange={e => onChange(e.target.value)}>
         {options.map(o => <option key={o.value} value={o.value} style={{ background: '#0D0D1A' }}>{o.label}</option>)}
       </select>
@@ -122,9 +122,9 @@ function Sel({ label, value, onChange, options }: { label?: string; value: strin
 // ─── Btn ──────────────────────────────────────────────────────────────────────
 function Btn({ children, onClick, variant = 'primary', size = 'md', disabled = false, type = 'button' }: any) {
   const variants: any = {
-    primary: { background: `linear-gradient(135deg, ${G}, #A07830)`, color: '#000', fontWeight: 700 },
+    primary: { background: `linear-gradient(135deg, #D4A843, #C9A84C)`, color: '#000', fontWeight: 700 },
     danger:  { background: '#DC2626', color: 'white', fontWeight: 600 },
-    ghost:   { background: 'rgba(255,255,255,0.06)', color: 'white', fontWeight: 500, border: `1px solid ${BORDER}` },
+    ghost:   { background: 'rgba(255,255,255,0.05)', color: 'white', fontWeight: 500, border: `1px solid ${BORDER}` },
     success: { background: '#16A34A', color: 'white', fontWeight: 600 },
   };
   const sizes: any = { sm: 'px-3 py-1.5 text-xs', md: 'px-4 py-2 text-sm', lg: 'px-6 py-3 text-base' };
@@ -141,11 +141,11 @@ function Btn({ children, onClick, variant = 'primary', size = 'md', disabled = f
 function StatCard({ label, value, sub, color = G }: { label: string; value: string | number; sub?: string; color?: string }) {
   return (
     <div className="rounded-2xl p-5" style={{
-      background: `linear-gradient(135deg, ${color}18 0%, ${color}08 100%)`,
-      border: `1px solid ${color}40`,
+      background: `linear-gradient(135deg, ${color}15 0%, rgba(16,16,30,0.8) 100%)`,
+      border: `1px solid ${color}35`,
       position: 'relative',
       overflow: 'hidden',
-      transition: 'all 0.25s',
+      transition: 'all 0.3s',
     }}
       onMouseEnter={e => {
         (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)';
@@ -850,7 +850,7 @@ export default function OwnerDashboard() {
   if (loading) return (
     <div className="flex items-center justify-center min-h-screen flex-col gap-4" style={{ background: DARK }}>
       <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-black text-black"
-        style={{ background: `linear-gradient(135deg, ${G}, #A07830)` }}>م</div>
+        style={{ background: `linear-gradient(135deg, #D4A843, #C9A84C)` }}>م</div>
       <p className="text-sm font-bold" style={{ color: G }}>جاري تحميل لوحة التحكم...</p>
       <div className="w-32 h-1 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.1)' }}>
         <div className="h-full rounded-full animate-pulse" style={{ background: G, width: '60%' }} />
@@ -860,19 +860,19 @@ export default function OwnerDashboard() {
 
   // ─── Render ───────────────────────────────────────────────────────────────────
   return (
-    <div dir="rtl" className="flex min-h-screen" style={{ background: DARK, color: '#F1F5F9', fontFamily: 'system-ui, "Segoe UI", sans-serif' }}>
+    <div dir="rtl" className="flex min-h-screen" style={{ background: DARK, color: '#EEEEF5', fontFamily: "'IBM Plex Sans Arabic', sans-serif" }}>
       {toast && <Toast msg={toast.msg} ok={toast.ok} />}
 
       {/* ── Sidebar ── */}
-      <aside className="flex flex-col sticky top-0 h-screen overflow-y-auto flex-shrink-0" style={{ width: 220, background: 'rgba(255,255,255,0.03)', borderLeft: `1px solid ${BORDER}` }}>
+      <aside className="flex flex-col sticky top-0 h-screen overflow-y-auto flex-shrink-0" style={{ width: 228, background: '#0B0B16', borderLeft: '1px solid rgba(201,168,76,0.15)' }}>
         {/* Logo */}
-        <div className="px-4 py-5" style={{ borderBottom: `1px solid ${BORDER}` }}>
+        <div className="px-4 py-5" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg font-black text-black"
-              style={{ background: `linear-gradient(135deg, ${G}, #A07830)` }}>م</div>
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center text-base font-black text-black"
+              style={{ background: 'linear-gradient(135deg, #C9A84C 0%, #E2C46A 100%)' }}>م</div>
             <div>
-              <div className="font-black text-white text-sm">متين</div>
-              <div className="text-xs text-gray-500">لوحة المالك</div>
+              <div className="font-black text-white text-sm" style={{ letterSpacing: '-0.3px' }}>متين</div>
+              <div className="text-xs" style={{ color: 'rgba(238,238,245,0.35)' }}>لوحة المالك</div>
             </div>
           </div>
         </div>
@@ -884,12 +884,13 @@ export default function OwnerDashboard() {
             const badgeCount = t.badge === 'support' ? openSupport : t.badge === 'join' ? joinRequests.length : t.badge === 'notif' ? unreadNotifs : 0;
             return (
               <button key={t.id} onClick={() => setTab(t.id)}
-                className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl mb-0.5 text-right transition-all text-sm"
+                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl mb-0.5 text-right transition-all text-sm"
                 style={{
-                  background: isActive ? `${G}18` : 'transparent',
-                  color: isActive ? G : '#94A3B8',
+                  background: isActive ? 'rgba(201,168,76,0.1)' : 'transparent',
+                  color: isActive ? '#C9A84C' : 'rgba(238,238,245,0.5)',
                   fontWeight: isActive ? 700 : 500,
-                  borderRight: isActive ? `3px solid ${G}` : '3px solid transparent',
+                  borderRight: isActive ? '3px solid #C9A84C' : '3px solid transparent',
+                  fontSize: 13.5,
                 }}>
                 <SvgIcon id={t.icon} size={15} color={isActive ? G : '#94A3B8'} />
                 <span className="flex-1">{t.label}</span>
@@ -912,7 +913,7 @@ export default function OwnerDashboard() {
             </div>
             <div className="flex-1 min-w-0">
               <div className="text-xs font-bold text-white truncate">{me?.name || 'المالك'}</div>
-              <div className="text-xs text-gray-500">مالك المنصة</div>
+              <div className="text-xs" style={{ color: "rgba(238,238,245,0.4)" }}>مالك المنصة</div>
             </div>
             <button onClick={logout} className="text-red-400 hover:text-red-300 text-xs px-2 py-1 rounded-lg transition-colors" style={{ background: 'rgba(239,68,68,0.1)' }}>
               خروج
@@ -922,12 +923,12 @@ export default function OwnerDashboard() {
       </aside>
 
       {/* ── Main Content ── */}
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1 overflow-auto" style={{ background: '#06060E' }}>
         {/* Header */}
-        <div className="sticky top-0 z-10 px-6 py-4 flex items-center justify-between" style={{ background: `${DARK}EE`, borderBottom: `1px solid ${BORDER}`, backdropFilter: 'blur(10px)' }}>
+        <div className="sticky top-0 z-10 px-6 py-4 flex items-center justify-between" style={{ background: 'rgba(6,6,14,0.92)', borderBottom: '1px solid rgba(201,168,76,0.12)', backdropFilter: 'blur(24px) saturate(1.8)' }}>
           <div>
-            <h1 className="text-lg font-black text-white">{TABS.find(t => t.id === tab)?.label}</h1>
-            <p className="text-xs text-gray-500">منصة متين التعليمية</p>
+            <h1 className="text-lg font-black" style={{ color: "#EEEEF5", letterSpacing: "-0.5px" }}>{TABS.find(t => t.id === tab)?.label}</h1>
+            <p className="text-xs" style={{ color: "rgba(238,238,245,0.4)" }}>منصة متين التعليمية</p>
           </div>
           <div className="flex items-center gap-3">
             <button onClick={() => setTab('notifications')} className="relative p-2 rounded-xl transition-colors hover:bg-white/5">
@@ -966,15 +967,15 @@ export default function OwnerDashboard() {
                   <div className="text-xs text-gray-400 mb-3 font-medium">إحصائيات المتجر</div>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="text-xs text-gray-400">المنتجات</span>
+                      <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>المنتجات</span>
                       <span className="text-sm font-bold text-white">{num(storeProductsTotal || storeProducts.length)}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-xs text-gray-400">الطلبات</span>
+                      <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>الطلبات</span>
                       <span className="text-sm font-bold text-white">{num(storeOrdersTotal || storeOrders.length)}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-xs text-gray-400">الطلبات المعلقة</span>
+                      <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>الطلبات المعلقة</span>
                       <span className="text-sm font-bold" style={{ color: '#F59E0B' }}>{num(storeOrders.filter(o => o.status === 'pending').length)}</span>
                     </div>
                   </div>
@@ -983,15 +984,15 @@ export default function OwnerDashboard() {
                   <div className="text-xs text-gray-400 mb-3 font-medium">الدعم والشكاوى</div>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="text-xs text-gray-400">مفتوحة</span>
+                      <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>مفتوحة</span>
                       <span className="text-sm font-bold text-red-400">{num(support.filter(s => s.status === 'open').length)}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-xs text-gray-400">قيد المعالجة</span>
+                      <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>قيد المعالجة</span>
                       <span className="text-sm font-bold text-yellow-400">{num(support.filter(s => s.status === 'in_progress').length)}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-xs text-gray-400">محلولة</span>
+                      <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>محلولة</span>
                       <span className="text-sm font-bold text-green-400">{num(support.filter(s => s.status === 'closed' || s.status === 'resolved').length)}</span>
                     </div>
                   </div>
@@ -1000,15 +1001,15 @@ export default function OwnerDashboard() {
                   <div className="text-xs text-gray-400 mb-3 font-medium">الاشتراكات</div>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="text-xs text-gray-400">نشطة</span>
+                      <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>نشطة</span>
                       <span className="text-sm font-bold text-green-400">{num(subs.filter(s => s.status === 'active').length)}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-xs text-gray-400">تجريبية</span>
+                      <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>تجريبية</span>
                       <span className="text-sm font-bold text-blue-400">{num(subs.filter(s => s.status === 'trial').length)}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-xs text-gray-400">منتهية</span>
+                      <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>منتهية</span>
                       <span className="text-sm font-bold text-red-400">{num(subs.filter(s => s.status === 'expired').length)}</span>
                     </div>
                   </div>
@@ -1017,14 +1018,14 @@ export default function OwnerDashboard() {
 
               {/* Recent Schools */}
               <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
-                <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: `1px solid ${BORDER}` }}>
+                <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                   <h3 className="font-bold text-white text-sm">آخر المؤسسات المسجلة</h3>
                   <button onClick={() => setTab('schools')} className="text-xs font-medium" style={{ color: G }}>عرض الكل</button>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr style={{ borderBottom: `1px solid ${BORDER}` }}>
+                      <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                         {['المؤسسة', 'النوع', 'الباقة', 'الحالة', 'تاريخ التسجيل'].map(h => (
                           <th key={h} className="text-right px-4 py-3 text-xs font-medium text-gray-400">{h}</th>
                         ))}
@@ -1032,7 +1033,7 @@ export default function OwnerDashboard() {
                     </thead>
                     <tbody>
                       {schools.slice(0, 5).map(s => (
-                        <tr key={s.id} style={{ borderBottom: `1px solid ${BORDER}` }} className="hover:bg-white/2 transition-colors">
+                        <tr key={s.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }} className="hover:bg-white/2 transition-colors">
                           <td className="px-4 py-3 font-medium text-white">{s.name_ar || s.name || '—'}</td>
                           <td className="px-4 py-3 text-gray-400">{s.institution_type || '—'}</td>
                           <td className="px-4 py-3"><Badge text={s.plan || 'مجاني'} color={G} /></td>
@@ -1048,7 +1049,7 @@ export default function OwnerDashboard() {
               {/* Join Requests */}
               {joinRequests.length > 0 && (
                 <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
-                  <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: `1px solid ${BORDER}` }}>
+                  <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                     <h3 className="font-bold text-white text-sm">طلبات التسجيل الجديدة</h3>
                     <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{ background: '#F59E0B22', color: '#F59E0B' }}>{joinRequests.length}</span>
                   </div>
@@ -1057,7 +1058,7 @@ export default function OwnerDashboard() {
                       <div key={r.id} className="px-5 py-3 flex items-center justify-between">
                         <div>
                           <div className="text-sm font-medium text-white">{r.school_name || r.owner_name}</div>
-                          <div className="text-xs text-gray-400">{r.email} · {r.city}</div>
+                          <div className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>{r.email} · {r.city}</div>
                         </div>
                         <div className="flex gap-2">
                           <Btn size="sm" onClick={() => approveJoinRequest(r.id)}>موافقة</Btn>
@@ -1106,7 +1107,7 @@ export default function OwnerDashboard() {
                 ].map(s => (
                   <div key={s.label} className="rounded-xl p-3 text-center" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
                     <div className="text-xl font-black" style={{ color: s.color }}>{s.count}</div>
-                    <div className="text-xs text-gray-400">{s.label}</div>
+                    <div className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -1116,7 +1117,7 @@ export default function OwnerDashboard() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
+                      <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                         {['المؤسسة', 'المالك', 'النوع', 'الباقة', 'الحالة', 'الإعلانات', 'المتجر', 'الإجراءات'].map(h => (
                           <th key={h} className="text-right px-4 py-3 text-xs font-medium text-gray-400">{h}</th>
                         ))}
@@ -1124,14 +1125,14 @@ export default function OwnerDashboard() {
                     </thead>
                     <tbody>
                       {filteredSchools.map(s => (
-                        <tr key={s.id} style={{ borderBottom: `1px solid ${BORDER}` }} className="hover:bg-white/2 transition-colors">
+                        <tr key={s.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }} className="hover:bg-white/2 transition-colors">
                           <td className="px-4 py-3">
                             <div className="font-medium text-white">{s.name_ar || s.name || '—'}</div>
-                            <div className="text-xs text-gray-500">{s.city || ''} {s.code ? `· ${s.code}` : ''}</div>
+                            <div className="text-xs" style={{ color: "rgba(238,238,245,0.4)" }}>{s.city || ''} {s.code ? `· ${s.code}` : ''}</div>
                           </td>
                           <td className="px-4 py-3">
-                            <div className="text-sm text-gray-300">{s.owner_name || '—'}</div>
-                            <div className="text-xs text-gray-500">{s.owner_email || ''}</div>
+                            <div className="text-sm" style={{ color: "rgba(238,238,245,0.65)" }}>{s.owner_name || '—'}</div>
+                            <div className="text-xs" style={{ color: "rgba(238,238,245,0.4)" }}>{s.owner_email || ''}</div>
                           </td>
                           <td className="px-4 py-3 text-gray-400 text-xs">{s.institution_type || '—'}</td>
                           <td className="px-4 py-3"><Badge text={s.plan || 'مجاني'} color={G} /></td>
@@ -1210,7 +1211,7 @@ export default function OwnerDashboard() {
                 ].map(s => (
                   <div key={s.label} className="rounded-xl p-3 text-center" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
                     <div className="text-xl font-black" style={{ color: s.color }}>{s.count}</div>
-                    <div className="text-xs text-gray-400">{s.label}</div>
+                    <div className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -1219,7 +1220,7 @@ export default function OwnerDashboard() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
+                      <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                         {['الاسم', 'البريد', 'الدور', 'المؤسسة', 'الحالة', 'تاريخ التسجيل', 'الإجراءات'].map(h => (
                           <th key={h} className="text-right px-4 py-3 text-xs font-medium text-gray-400">{h}</th>
                         ))}
@@ -1227,7 +1228,7 @@ export default function OwnerDashboard() {
                     </thead>
                     <tbody>
                       {filteredUsers.map(u => (
-                        <tr key={u.id} style={{ borderBottom: `1px solid ${BORDER}` }} className="hover:bg-white/2 transition-colors">
+                        <tr key={u.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }} className="hover:bg-white/2 transition-colors">
                           <td className="px-4 py-3 font-medium text-white">{u.name || '—'}</td>
                           <td className="px-4 py-3 text-gray-400 text-xs">{u.email}</td>
                           <td className="px-4 py-3">
@@ -1291,7 +1292,7 @@ export default function OwnerDashboard() {
                 ].map(s => (
                   <div key={s.label} className="rounded-xl p-3 text-center" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
                     <div className="text-xl font-black" style={{ color: s.color }}>{s.count}</div>
-                    <div className="text-xs text-gray-400">{s.label}</div>
+                    <div className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -1300,7 +1301,7 @@ export default function OwnerDashboard() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
+                      <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                         {['المؤسسة', 'المالك', 'الباقة', 'الحالة', 'دورة الفوترة', 'تاريخ البداية', 'تاريخ الانتهاء', 'الإجراءات'].map(h => (
                           <th key={h} className="text-right px-4 py-3 text-xs font-medium text-gray-400">{h}</th>
                         ))}
@@ -1308,7 +1309,7 @@ export default function OwnerDashboard() {
                     </thead>
                     <tbody>
                       {filteredSubs.map(s => (
-                        <tr key={s.id} style={{ borderBottom: `1px solid ${BORDER}` }} className="hover:bg-white/2 transition-colors">
+                        <tr key={s.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }} className="hover:bg-white/2 transition-colors">
                           <td className="px-4 py-3 font-medium text-white">{s.school_name_ar || s.school_name || '—'}</td>
                           <td className="px-4 py-3 text-gray-400 text-xs">{s.owner_name || '—'}</td>
                           <td className="px-4 py-3"><Badge text={s.plan_name || '—'} color={G} /></td>
@@ -1362,19 +1363,19 @@ export default function OwnerDashboard() {
                     </div>
                     <div className="space-y-2 mb-4">
                       <div className="flex justify-between">
-                        <span className="text-xs text-gray-400">شهري</span>
+                        <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>شهري</span>
                         <span className="text-sm font-bold" style={{ color: G }}>{num(p.price_monthly)} ر.س</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-xs text-gray-400">سنوي</span>
+                        <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>سنوي</span>
                         <span className="text-sm font-bold" style={{ color: G }}>{num(p.price_yearly)} ر.س</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-xs text-gray-400">الطلاب</span>
+                        <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>الطلاب</span>
                         <span className="text-sm text-white">{num(p.max_students)}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-xs text-gray-400">المعلمون</span>
+                        <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>المعلمون</span>
                         <span className="text-sm text-white">{num(p.max_teachers)}</span>
                       </div>
                     </div>
@@ -1385,7 +1386,7 @@ export default function OwnerDashboard() {
                             <span style={{ color: G }}>✓</span> {f}
                           </div>
                         ))}
-                        {p.features.length > 4 && <div className="text-xs text-gray-500">+{p.features.length - 4} ميزة أخرى</div>}
+                        {p.features.length > 4 && <div className="text-xs" style={{ color: "rgba(238,238,245,0.4)" }}>+{p.features.length - 4} ميزة أخرى</div>}
                       </div>
                     )}
                     <div className="flex gap-2">
@@ -1409,7 +1410,7 @@ export default function OwnerDashboard() {
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <h2 className="text-base font-bold text-white">إدارة خدمات المنصة</h2>
-                <div className="text-xs text-gray-400">التحكم في الخدمات المتاحة لجميع المؤسسات</div>
+                <div className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>التحكم في الخدمات المتاحة لجميع المؤسسات</div>
               </div>
               {['academic', 'ai', 'analytics', 'branding', 'communication', 'engagement', 'financial', 'services', 'technical', 'transport'].map(cat => {
                 const catServices = services.filter(s => s.category === cat);
@@ -1421,7 +1422,7 @@ export default function OwnerDashboard() {
                 };
                 return (
                   <div key={cat} className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
-                    <div className="px-5 py-3 font-bold text-sm" style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}`, color: G }}>
+                    <div className="px-5 py-3 font-bold text-sm" style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}`, color: G }}>
                       {catNames[cat] || cat}
                     </div>
                     <div className="divide-y" style={{ borderColor: BORDER }}>
@@ -1431,7 +1432,7 @@ export default function OwnerDashboard() {
                             <SvgIcon id="services" size={18} color={G} />
                             <div>
                               <div className="text-sm font-medium text-white">{s.name_ar}</div>
-                              <div className="text-xs text-gray-500">
+                              <div className="text-xs" style={{ color: "rgba(238,238,245,0.4)" }}>
                                 {s.is_core ? 'خدمة أساسية' : `يتطلب: ${s.requires_plan}`}
                                 {s.enabled_count > 0 && ` · ${s.enabled_count} مؤسسة`}
                               </div>
@@ -1476,7 +1477,7 @@ export default function OwnerDashboard() {
               {storeTab === 'products' && (
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <div className="text-sm text-gray-400">{storeProductsTotal || storeProducts.length} منتج</div>
+                    <div className="text-sm" style={{ color: "rgba(238,238,245,0.5)" }}>{storeProductsTotal || storeProducts.length} منتج</div>
                     <Btn onClick={() => { setEditItem(null); setSpf({}); setModal('product'); }}>إضافة منتج</Btn>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -1530,7 +1531,7 @@ export default function OwnerDashboard() {
                     ].map(s => (
                       <div key={s.label} className="rounded-xl p-3 text-center" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
                         <div className="text-xl font-black" style={{ color: s.color }}>{s.count}</div>
-                        <div className="text-xs text-gray-400">{s.label}</div>
+                        <div className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>{s.label}</div>
                       </div>
                     ))}
                   </div>
@@ -1538,7 +1539,7 @@ export default function OwnerDashboard() {
                     <div className="overflow-x-auto">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
+                          <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                             {['العميل', 'الهاتف', 'المجموع', 'طريقة الدفع', 'الحالة', 'التاريخ', 'الإجراءات'].map(h => (
                               <th key={h} className="text-right px-4 py-3 text-xs font-medium text-gray-400">{h}</th>
                             ))}
@@ -1546,10 +1547,10 @@ export default function OwnerDashboard() {
                         </thead>
                         <tbody>
                           {storeOrders.map(o => (
-                            <tr key={o.id} style={{ borderBottom: `1px solid ${BORDER}` }} className="hover:bg-white/2 transition-colors">
+                            <tr key={o.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }} className="hover:bg-white/2 transition-colors">
                               <td className="px-4 py-3">
                                 <div className="font-medium text-white">{o.customer_name}</div>
-                                <div className="text-xs text-gray-500">{o.customer_email}</div>
+                                <div className="text-xs" style={{ color: "rgba(238,238,245,0.4)" }}>{o.customer_email}</div>
                               </td>
                               <td className="px-4 py-3 text-gray-400 text-xs">{o.customer_phone || '—'}</td>
                               <td className="px-4 py-3 font-bold" style={{ color: G }}>{num(o.total)} ر.س</td>
@@ -1622,7 +1623,7 @@ export default function OwnerDashboard() {
                     <div className="overflow-x-auto">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
+                          <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                             {['الكود', 'نوع الخصم', 'القيمة', 'الاستخدامات', 'الصلاحية', 'الحالة', 'الإجراءات'].map(h => (
                               <th key={h} className="text-right px-4 py-3 text-xs font-medium text-gray-400">{h}</th>
                             ))}
@@ -1630,7 +1631,7 @@ export default function OwnerDashboard() {
                         </thead>
                         <tbody>
                           {coupons.map(c => (
-                            <tr key={c.id} style={{ borderBottom: `1px solid ${BORDER}` }} className="hover:bg-white/2 transition-colors">
+                            <tr key={c.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }} className="hover:bg-white/2 transition-colors">
                               <td className="px-4 py-3 font-mono font-bold" style={{ color: G }}>{c.code}</td>
                               <td className="px-4 py-3 text-gray-400 text-xs">{c.discount_type === 'percentage' ? 'نسبة مئوية' : 'مبلغ ثابت'}</td>
                               <td className="px-4 py-3 text-white">{c.discount_type === 'percentage' ? `${c.discount_value}%` : `${c.discount_value} ر.س`}</td>
@@ -1682,7 +1683,7 @@ export default function OwnerDashboard() {
                 ].map(s => (
                   <div key={s.label} className="rounded-xl p-3 text-center" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
                     <div className="text-xl font-black" style={{ color: s.color }}>{s.count}</div>
-                    <div className="text-xs text-gray-400">{s.label}</div>
+                    <div className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -1707,7 +1708,7 @@ export default function OwnerDashboard() {
                       </div>
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2">
-                          <span className="text-xs text-gray-400">على المؤسسات:</span>
+                          <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>على المؤسسات:</span>
                           <button onClick={async () => {
                             const r = await api('/api/ads/manage', { method: 'PUT', body: JSON.stringify({ id: a.id, show_on_schools: !a.show_on_schools }) });
                             if (r.ok) { showToast('تم التحديث'); await fetchAds(); }
@@ -1771,10 +1772,10 @@ export default function OwnerDashboard() {
                           <Badge text={s.priority === 'high' ? 'عالية' : s.priority === 'medium' ? 'متوسطة' : 'منخفضة'}
                             color={s.priority === 'high' ? '#EF4444' : s.priority === 'medium' ? '#F59E0B' : '#6B7280'} />
                         </div>
-                        <div className="text-xs text-gray-400">{s.user_name} · {ago(s.created_at)}</div>
+                        <div className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>{s.user_name} · {ago(s.created_at)}</div>
                       </div>
                     </div>
-                    {s.description && <div className="text-sm text-gray-300 mb-3 p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)' }}>{s.description}</div>}
+                    {s.description && <div className="text-sm text-gray-300 mb-3 p-3 rounded-xl" style={{ background: '#0B0B16' }}>{s.description}</div>}
                     {s.response && (
                       <div className="text-sm text-gray-300 mb-3 p-3 rounded-xl" style={{ background: `${G}11`, border: `1px solid ${G}33` }}>
                         <div className="text-xs font-bold mb-1" style={{ color: G }}>الرد:</div>
@@ -1815,7 +1816,7 @@ export default function OwnerDashboard() {
                       <div key={r.id} className="px-5 py-4 flex items-center justify-between">
                         <div>
                           <div className="font-medium text-white">{r.school_name || r.owner_name}</div>
-                          <div className="text-xs text-gray-400">{r.email} · {r.phone} · {r.city}</div>
+                          <div className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>{r.email} · {r.phone} · {r.city}</div>
                           <div className="text-xs text-gray-500 mt-0.5">{r.type} · {ago(r.created_at)}</div>
                         </div>
                         <div className="flex gap-2">
@@ -1831,13 +1832,13 @@ export default function OwnerDashboard() {
               {/* Leads */}
               {leads.length > 0 && (
                 <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
-                  <div className="px-5 py-3 font-bold text-sm" style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}`, color: '#94A3B8' }}>
+                  <div className="px-5 py-3 font-bold text-sm" style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}`, color: '#94A3B8' }}>
                     العملاء المحتملون (Leads)
                   </div>
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>
-                        <tr style={{ borderBottom: `1px solid ${BORDER}` }}>
+                        <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                           {['الاسم', 'البريد', 'الهاتف', 'المؤسسة', 'المصدر', 'الحالة', 'التاريخ', 'الإجراءات'].map(h => (
                             <th key={h} className="text-right px-4 py-3 text-xs font-medium text-gray-400">{h}</th>
                           ))}
@@ -1845,7 +1846,7 @@ export default function OwnerDashboard() {
                       </thead>
                       <tbody>
                         {leads.map(l => (
-                          <tr key={l.id} style={{ borderBottom: `1px solid ${BORDER}` }} className="hover:bg-white/2 transition-colors">
+                          <tr key={l.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }} className="hover:bg-white/2 transition-colors">
                             <td className="px-4 py-3 font-medium text-white">{l.name}</td>
                             <td className="px-4 py-3 text-gray-400 text-xs">{l.email}</td>
                             <td className="px-4 py-3 text-gray-400 text-xs">{l.phone}</td>
@@ -1872,12 +1873,12 @@ export default function OwnerDashboard() {
 
               {/* User Permissions */}
               <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
-                <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: `1px solid ${BORDER}` }}>
+                <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                   <h3 className="font-bold text-white text-sm">صلاحيات المستخدمين</h3>
                   <div className="flex gap-2">
                     <input
                       className="rounded-xl px-3 py-2 text-sm text-white outline-none"
-                      style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${BORDER}` }}
+                      style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}` }}
                       placeholder="بحث..."
                       value={permSearch}
                       onChange={e => setPermSearch(e.target.value)}
@@ -1893,7 +1894,7 @@ export default function OwnerDashboard() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
+                      <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                         {['المستخدم', 'الدور', 'المؤسسة', 'الحالة', 'الإجراءات'].map(h => (
                           <th key={h} className="text-right px-4 py-3 text-xs font-medium text-gray-400">{h}</th>
                         ))}
@@ -1901,10 +1902,10 @@ export default function OwnerDashboard() {
                     </thead>
                     <tbody>
                       {filteredPerms.map(u => (
-                        <tr key={u.id} style={{ borderBottom: `1px solid ${BORDER}` }} className="hover:bg-white/2 transition-colors">
+                        <tr key={u.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }} className="hover:bg-white/2 transition-colors">
                           <td className="px-4 py-3">
                             <div className="font-medium text-white">{u.name}</div>
-                            <div className="text-xs text-gray-500">{u.email}</div>
+                            <div className="text-xs" style={{ color: "rgba(238,238,245,0.4)" }}>{u.email}</div>
                           </td>
                           <td className="px-4 py-3">
                             <Sel value={u.role} onChange={v => updatePermission(u.id, 'role', v)} options={[
@@ -1954,18 +1955,18 @@ export default function OwnerDashboard() {
                 };
                 return (
                   <div key={cat} className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
-                    <div className="px-5 py-3 font-bold text-sm" style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}`, color: G }}>
+                    <div className="px-5 py-3 font-bold text-sm" style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}`, color: G }}>
                       {catNames[cat] || cat}
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
                       {catInteg.map(integ => (
-                        <div key={integ.id} className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${BORDER}` }}>
+                        <div key={integ.id} className="rounded-xl p-4" style={{ background: '#0B0B16', border: `1px solid ${BORDER}` }}>
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
                               <SvgIcon id="integrations" size={18} color={G} />
                               <div>
                                 <div className="text-sm font-medium text-white">{integ.display_name || integ.name}</div>
-                                <div className="text-xs text-gray-500">{integ.type}</div>
+                                <div className="text-xs" style={{ color: "rgba(238,238,245,0.4)" }}>{integ.type}</div>
                               </div>
                             </div>
                             <Badge text={integ.is_active ? 'نشط' : 'معطل'} color={integ.is_active ? '#22C55E' : '#6B7280'} />
@@ -1980,7 +1981,7 @@ export default function OwnerDashboard() {
                             <button onClick={async () => {
                               const r = await api('/api/integrations', { method: 'PUT', body: JSON.stringify({ id: integ.id, is_active: !integ.is_active }) });
                               if (r.ok) { showToast('تم التحديث'); await fetchIntegrations(); }
-                            }} className="text-xs px-2 py-1 rounded-lg" style={{ background: 'rgba(255,255,255,0.06)', color: '#94A3B8', border: `1px solid ${BORDER}` }}>
+                            }} className="text-xs px-2 py-1 rounded-lg" style={{ background: 'rgba(255,255,255,0.05)', color: '#94A3B8', border: `1px solid ${BORDER}` }}>
                               {integ.is_active ? 'تعطيل' : 'تفعيل'}
                             </button>
                           </div>
@@ -2030,7 +2031,7 @@ export default function OwnerDashboard() {
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex-1">
                           <div className="text-sm font-medium text-white">{p.author_name || 'مجهول'}</div>
-                          <div className="text-xs text-gray-400">{ago(p.created_at)}</div>
+                          <div className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>{ago(p.created_at)}</div>
                         </div>
                         <div className="flex items-center gap-2">
                           {p.ai_verdict && p.ai_verdict !== 'safe' && (
@@ -2063,7 +2064,7 @@ export default function OwnerDashboard() {
                       <div className="flex items-start justify-between mb-2">
                         <div>
                           <div className="text-sm font-medium text-white">بلاغ من: {r.reporter_name || 'مجهول'}</div>
-                          <div className="text-xs text-gray-400">السبب: {r.reason} · {ago(r.created_at)}</div>
+                          <div className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>السبب: {r.reason} · {ago(r.created_at)}</div>
                         </div>
                         <Badge text={STATUS_LABELS[r.status] || r.status} color={STATUS_COLORS[r.status] || '#6B7280'} />
                       </div>
@@ -2084,7 +2085,7 @@ export default function OwnerDashboard() {
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>
-                        <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
+                        <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                           {['المستخدم', 'سبب الحظر', 'حتى تاريخ', 'الإجراءات'].map(h => (
                             <th key={h} className="text-right px-4 py-3 text-xs font-medium text-gray-400">{h}</th>
                           ))}
@@ -2092,10 +2093,10 @@ export default function OwnerDashboard() {
                       </thead>
                       <tbody>
                         {communityBanned.map(u => (
-                          <tr key={u.id} style={{ borderBottom: `1px solid ${BORDER}` }} className="hover:bg-white/2 transition-colors">
+                          <tr key={u.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }} className="hover:bg-white/2 transition-colors">
                             <td className="px-4 py-3">
                               <div className="font-medium text-white">{u.name}</div>
-                              <div className="text-xs text-gray-500">{u.email}</div>
+                              <div className="text-xs" style={{ color: "rgba(238,238,245,0.4)" }}>{u.email}</div>
                             </td>
                             <td className="px-4 py-3 text-gray-400 text-xs">{u.community_ban_reason || '—'}</td>
                             <td className="px-4 py-3 text-gray-400 text-xs">{u.community_ban_until ? fmt(u.community_ban_until) : 'دائم'}</td>
@@ -2185,7 +2186,7 @@ export default function OwnerDashboard() {
                     <div className="flex items-center gap-2">
                       <input
                         className="rounded-xl px-3 py-2 text-sm text-white outline-none w-48"
-                        style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${BORDER}` }}
+                        style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}` }}
                         defaultValue={s.value}
                         onBlur={e => { if (e.target.value !== s.value) saveSetting(s.key, e.target.value); }}
                         key={s.id + s.value}
@@ -2215,7 +2216,7 @@ export default function OwnerDashboard() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
+                      <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                         {['الإجراء', 'الكيان', 'المعرف', 'المستخدم', 'عنوان IP', 'التاريخ'].map(h => (
                           <th key={h} className="text-right px-4 py-3 text-xs font-medium text-gray-400">{h}</th>
                         ))}
@@ -2223,7 +2224,7 @@ export default function OwnerDashboard() {
                     </thead>
                     <tbody>
                       {actLog.map(l => (
-                        <tr key={l.id} style={{ borderBottom: `1px solid ${BORDER}` }} className="hover:bg-white/2 transition-colors">
+                        <tr key={l.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }} className="hover:bg-white/2 transition-colors">
                           <td className="px-4 py-3"><Badge text={l.action || '—'} color={G} /></td>
                           <td className="px-4 py-3 text-gray-300 text-xs">{l.entity || '—'}</td>
                           <td className="px-4 py-3 text-gray-400 text-xs font-mono">{l.entity_id || '—'}</td>
@@ -2250,14 +2251,14 @@ export default function OwnerDashboard() {
                 <StatCard label="إجمالي الصفحات" value={libraryBooks.reduce((s, b) => s + Number(b.pages || 0), 0)} color="#8B5CF6" />
               </div>
               <div className="flex justify-between items-center gap-3 flex-wrap">
-                <input value={librarySearch} onChange={e => setLibrarySearch(e.target.value)} placeholder="🔍 ابحث في الكتب..." className="rounded-xl px-4 py-2 text-sm text-white outline-none" style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${BORDER}`, minWidth: 240 }} />
+                <input value={librarySearch} onChange={e => setLibrarySearch(e.target.value)} placeholder="🔍 ابحث في الكتب..." className="rounded-xl px-4 py-2 text-sm text-white outline-none" style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}`, minWidth: 240 }} />
                 <Btn onClick={() => { setLibraryF({}); setEditItem(null); setModal('library'); }}>+ إضافة كتاب</Btn>
               </div>
               <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
+                      <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                         {['العنوان', 'المؤلف', 'الفئة', 'الصفحات', 'المدرسة', 'الإجراءات'].map(h => (
                           <th key={h} className="text-right px-4 py-3 text-xs font-medium text-gray-400">{h}</th>
                         ))}
@@ -2267,7 +2268,7 @@ export default function OwnerDashboard() {
                       {libraryBooks
                         .filter(b => !librarySearch || (b.title || '').includes(librarySearch) || (b.author || '').includes(librarySearch))
                         .map(b => (
-                        <tr key={b.id} style={{ borderBottom: `1px solid ${BORDER}` }} className="hover:bg-white/2 transition-colors">
+                        <tr key={b.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }} className="hover:bg-white/2 transition-colors">
                           <td className="px-4 py-3 font-medium text-white max-w-[200px] truncate">{b.title || b.title_ar || '—'}</td>
                           <td className="px-4 py-3 text-gray-400">{b.author || '—'}</td>
                           <td className="px-4 py-3"><Badge text={b.category || 'عام'} color="#3B82F6" /></td>
@@ -2319,14 +2320,14 @@ export default function OwnerDashboard() {
               </div>
               {/* Table */}
               <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
-                <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: `1px solid ${BORDER}` }}>
+                <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                   <h3 className="font-bold text-white text-sm">فواتير المؤسسات</h3>
                   <button onClick={fetchRevenue} className="text-xs px-3 py-1.5 rounded-xl font-medium" style={{ color: G, border: `1px solid ${G}44` }}>تحديث</button>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
+                      <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                         {['المؤسسة', 'المبلغ', 'الضريبة', 'الإجمالي', 'الحالة', 'تاريخ الاستحقاق', 'تاريخ الإنشاء'].map(h => (
                           <th key={h} className="text-right px-4 py-3 text-xs font-medium text-gray-400">{h}</th>
                         ))}
@@ -2334,7 +2335,7 @@ export default function OwnerDashboard() {
                     </thead>
                     <tbody>
                       {revenue.map(r => (
-                        <tr key={r.id} style={{ borderBottom: `1px solid ${BORDER}` }} className="hover:bg-white/2 transition-colors">
+                        <tr key={r.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }} className="hover:bg-white/2 transition-colors">
                           <td className="px-4 py-3 font-medium text-white">{r.school_name || r.school_id || '—'}</td>
                           <td className="px-4 py-3 text-gray-300">{num(r.amount)} ر.س</td>
                           <td className="px-4 py-3 text-gray-400 text-xs">{r.tax_rate ? `${r.tax_rate}%` : '—'}</td>
@@ -2368,7 +2369,7 @@ export default function OwnerDashboard() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${BORDER}` }}>
+                      <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                         {['الاسم', 'النوع', 'النسبة', 'ينطبق على', 'الحالة', 'الإجراءات'].map(h => (
                           <th key={h} className="text-right px-4 py-3 text-xs font-medium text-gray-400">{h}</th>
                         ))}
@@ -2376,7 +2377,7 @@ export default function OwnerDashboard() {
                     </thead>
                     <tbody>
                       {taxes.map(t => (
-                        <tr key={t.id} style={{ borderBottom: `1px solid ${BORDER}` }} className="hover:bg-white/2 transition-colors">
+                        <tr key={t.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }} className="hover:bg-white/2 transition-colors">
                           <td className="px-4 py-3 font-medium text-white">{t.name || t.name_ar || '—'}</td>
                           <td className="px-4 py-3 text-gray-400">{t.type || '—'}</td>
                           <td className="px-4 py-3 font-bold" style={{ color: G }}>{t.rate}%</td>
@@ -2454,12 +2455,12 @@ export default function OwnerDashboard() {
         <Modal title={`خدمات: ${selectedSchoolServices.name_ar || selectedSchoolServices.name}`} onClose={() => { setModal(null); setSelectedSchoolServices(null); }} wide>
           <div className="space-y-2">
             {schoolServicesData.map(s => (
-              <div key={s.key} className="flex items-center justify-between p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${BORDER}` }}>
+              <div key={s.key} className="flex items-center justify-between p-3 rounded-xl" style={{ background: '#0B0B16', border: `1px solid ${BORDER}` }}>
                 <div className="flex items-center gap-2">
                   <SvgIcon id="settings" size={16} color={G} />
                   <div>
                     <div className="text-sm font-medium text-white">{s.name_ar}</div>
-                    <div className="text-xs text-gray-500">{s.category} · {s.is_core ? 'أساسية' : s.requires_plan}</div>
+                    <div className="text-xs" style={{ color: "rgba(238,238,245,0.4)" }}>{s.category} · {s.is_core ? 'أساسية' : s.requires_plan}</div>
                   </div>
                 </div>
                 <button onClick={() => toggleSchoolService(selectedSchoolServices.id, s.key, s.is_enabled)}
@@ -2560,11 +2561,11 @@ export default function OwnerDashboard() {
             <div className="flex items-center gap-4">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" checked={af.is_active !== false} onChange={e => setAf({ ...af, is_active: e.target.checked })} className="w-4 h-4 rounded" />
-                <span className="text-sm text-gray-300">نشط</span>
+                <span className="text-sm" style={{ color: "rgba(238,238,245,0.65)" }}>نشط</span>
               </label>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" checked={af.show_on_schools !== false} onChange={e => setAf({ ...af, show_on_schools: e.target.checked })} className="w-4 h-4 rounded" />
-                <span className="text-sm text-gray-300">يظهر في المؤسسات</span>
+                <span className="text-sm" style={{ color: "rgba(238,238,245,0.65)" }}>يظهر في المؤسسات</span>
               </label>
             </div>
             <div className="flex gap-2 pt-2">
@@ -2607,7 +2608,7 @@ export default function OwnerDashboard() {
             <Inp label="التكلفة الأساسية (ر.س)" value={shippingF.base_cost || ''} onChange={(v: string) => setShippingF({ ...shippingF, base_cost: v })} type="number" />
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" checked={shippingF.is_active !== false} onChange={e => setShippingF({ ...shippingF, is_active: e.target.checked })} className="w-4 h-4 rounded" />
-              <span className="text-sm text-gray-300">نشطة</span>
+              <span className="text-sm" style={{ color: "rgba(238,238,245,0.65)" }}>نشطة</span>
             </label>
             <div className="flex gap-2 pt-2">
               <Btn onClick={saveShipping} disabled={saving}>{saving ? 'جاري الحفظ...' : editItem ? 'تحديث' : 'إضافة'}</Btn>
@@ -2634,7 +2635,7 @@ export default function OwnerDashboard() {
             </div>
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" checked={couponF.is_active !== false} onChange={e => setCouponF({ ...couponF, is_active: e.target.checked })} className="w-4 h-4 rounded" />
-              <span className="text-sm text-gray-300">نشط</span>
+              <span className="text-sm" style={{ color: "rgba(238,238,245,0.65)" }}>نشط</span>
             </label>
             <div className="flex gap-2 pt-2">
               <Btn onClick={saveCoupon} disabled={saving}>{saving ? 'جاري الحفظ...' : editItem ? 'تحديث' : 'إضافة'}</Btn>
@@ -2648,13 +2649,13 @@ export default function OwnerDashboard() {
       {modal === 'support_reply' && editItem && (
         <Modal title="الرد على التذكرة" onClose={() => { setModal(null); setEditItem(null); setSupportReply(''); }}>
           <div className="space-y-3">
-            <div className="p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${BORDER}` }}>
+            <div className="p-3 rounded-xl" style={{ background: '#0B0B16', border: `1px solid ${BORDER}` }}>
               <div className="text-xs text-gray-400 mb-1">الموضوع:</div>
               <div className="text-sm text-white">{editItem.subject || editItem.title}</div>
             </div>
-            <div className="p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${BORDER}` }}>
+            <div className="p-3 rounded-xl" style={{ background: '#0B0B16', border: `1px solid ${BORDER}` }}>
               <div className="text-xs text-gray-400 mb-1">الرسالة:</div>
-              <div className="text-sm text-gray-300">{editItem.description}</div>
+              <div className="text-sm" style={{ color: "rgba(238,238,245,0.65)" }}>{editItem.description}</div>
             </div>
             <Inp label="ردك" value={supportReply} onChange={setSupportReply} textarea rows={5} required />
             <div className="flex gap-2 pt-2">
@@ -2731,7 +2732,7 @@ export default function OwnerDashboard() {
             <Inp label="الوصف" value={taxF.description || ''} onChange={(v: string) => setTaxF({ ...taxF, description: v })} textarea />
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" checked={taxF.is_active !== false} onChange={e => setTaxF({ ...taxF, is_active: e.target.checked })} className="w-4 h-4 rounded" />
-              <span className="text-sm text-gray-300">نشطة</span>
+              <span className="text-sm" style={{ color: "rgba(238,238,245,0.65)" }}>نشطة</span>
             </label>
             <div className="flex gap-2 pt-2">
               <Btn onClick={async () => {
@@ -2779,7 +2780,7 @@ export default function OwnerDashboard() {
             <Inp label="المفتاح السري" value={integF.api_secret || ''} onChange={(v: string) => setIntegF({ ...integF, api_secret: v })} />
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" checked={integF.is_active !== false} onChange={e => setIntegF({ ...integF, is_active: e.target.checked })} className="w-4 h-4 rounded" />
-              <span className="text-sm text-gray-300">نشط</span>
+              <span className="text-sm" style={{ color: "rgba(238,238,245,0.65)" }}>نشط</span>
             </label>
             <div className="flex gap-2 pt-2">
               <Btn onClick={saveIntegration} disabled={saving}>{saving ? 'جاري الحفظ...' : editItem ? 'تحديث' : 'إضافة'}</Btn>
