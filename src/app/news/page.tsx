@@ -1,11 +1,12 @@
 'use client';
 
-/* MATIN DESIGN SYSTEM — News Page */
+/* MATIN DESIGN SYSTEM — News Page (Dynamic)
+   يجلب الأخبار ديناميكياً من /api/public/news */
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Calendar, ArrowLeft } from "lucide-react";
+import { Calendar, Loader2 } from "lucide-react";
 
 function useScrollAnimation() {
   useEffect(() => {
@@ -18,53 +19,55 @@ function useScrollAnimation() {
   }, []);
 }
 
-const newsItems = [
-  {
-    date: "مارس 2026",
-    category: "إطلاق",
-    title: "إطلاق الإصدار 3.0 من منصة متين",
-    desc: "أعلنت منصة متين عن إطلاق الإصدار 3.0، الذي يتضمن ركائز الابتكار الخمس وتكاملات حكومية جديدة.",
-    color: "#D4A843",
-  },
-  {
-    date: "فبراير 2026",
-    category: "شراكة",
-    title: "شراكة استراتيجية مع STC Pay",
-    desc: "أعلنت متين عن شراكة استراتيجية مع STC Pay لتوفير حلول دفع متكاملة لجميع المؤسسات التعليمية.",
-    color: "#22C55E",
-  },
-  {
-    date: "يناير 2026",
-    category: "تكامل",
-    title: "تكامل متين مع Apple Pay ومدى",
-    desc: "أتمت متين تكامل بوابة الدفع مع Apple Pay ومدى، لتوفير خيارات دفع متكاملة لجميع المؤسسات التعليمية.",
-    color: "#60A5FA",
-  },
-  {
-    date: "ديسمبر 2025",
-    category: "تقنية",
-    title: "إطلاق نظام AI Auditor للمراقبة الذكية",
-    desc: "أطلقت متين نظام المراقبة الذكي AI Auditor الذي يكتشف التهديدات الأمنية ويتدخل تلقائياً.",
-    color: "#F97316",
-  },
-  {
-    date: "نوفمبر 2025",
-    category: "تكامل",
-    title: "تكامل رسمي مع نظام نور التعليمي",
-    desc: "أتمت متين التكامل الرسمي مع نظام نور التعليمي التابع لوزارة التعليم السعودية.",
-    color: "#A78BFA",
-  },
-  {
-    date: "أكتوبر 2025",
-    category: "إطلاق",
-    title: "إطلاق خدمة النقل المدرسي الذكي",
-    desc: "أطلقت متين خدمة النقل المدرسي الذكي مع تتبع GPS حي وإشعارات فورية لأولياء الأمور.",
-    color: "#EC4899",
-  },
-];
+interface NewsItem {
+  id: number;
+  title: string;
+  description?: string;
+  category?: string;
+  image_url?: string;
+  created_at?: string;
+  color?: string;
+}
+
+function getCategoryColor(category?: string): string {
+  const map: Record<string, string> = {
+    'إطلاق': '#D4A843',
+    'شراكة': '#22C55E',
+    'تكامل': '#60A5FA',
+    'تقنية': '#F97316',
+    'حكومي': '#A78BFA',
+    'تحديث': '#EC4899',
+  };
+  return category ? (map[category] || '#D4A843') : '#D4A843';
+}
+
+function formatDate(dateStr?: string): string {
+  if (!dateStr) return '';
+  try {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('ar-SA', { year: 'numeric', month: 'long' });
+  } catch {
+    return dateStr;
+  }
+}
 
 export default function News() {
   useScrollAnimation();
+  const [news, setNews] = useState<NewsItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/public/news')
+      .then(res => res.json())
+      .then(data => {
+        const items = data.news || data;
+        if (Array.isArray(items) && items.length > 0) {
+          setNews(items);
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white" style={{ fontFamily: 'Cairo, sans-serif' }}>
@@ -84,26 +87,49 @@ export default function News() {
 
       <section className="py-16">
         <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {newsItems.map((item, i) => (
-              <div key={i} className="matin-card p-6 fade-in-up" style={{ transitionDelay: `${i * 80}ms` }}>
-                <div className="flex items-center gap-3 mb-4">
-                  <span
-                    className="text-xs font-bold px-3 py-1 rounded-full"
-                    style={{ background: `${item.color}15`, color: item.color }}
-                  >
-                    {item.category}
-                  </span>
-                  <span className="text-gray-600 text-xs flex items-center gap-1">
-                    <Calendar size={12} />
-                    {item.date}
-                  </span>
-                </div>
-                <h3 className="text-white font-bold mb-3 leading-snug">{item.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
+          {loading ? (
+            <div className="flex items-center justify-center py-20">
+              <Loader2 size={32} className="animate-spin" style={{ color: '#D4A843' }} />
+              <span className="mr-3 text-gray-400">جاري تحميل الأخبار...</span>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {news.map((item, i) => {
+                const color = item.color || getCategoryColor(item.category);
+                return (
+                  <div key={item.id || i} className="matin-card p-6 fade-in-up" style={{ transitionDelay: `${i * 80}ms` }}>
+                    {item.image_url && (
+                      <img
+                        src={item.image_url}
+                        alt={item.title}
+                        className="w-full h-40 object-cover rounded-xl mb-4"
+                      />
+                    )}
+                    <div className="flex items-center gap-3 mb-4">
+                      {item.category && (
+                        <span
+                          className="text-xs font-bold px-3 py-1 rounded-full"
+                          style={{ background: `${color}15`, color }}
+                        >
+                          {item.category}
+                        </span>
+                      )}
+                      {item.created_at && (
+                        <span className="text-gray-600 text-xs flex items-center gap-1">
+                          <Calendar size={12} />
+                          {formatDate(item.created_at)}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="text-white font-bold mb-3 leading-snug">{item.title}</h3>
+                    {item.description && (
+                      <p className="text-gray-500 text-sm leading-relaxed">{item.description}</p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
 
