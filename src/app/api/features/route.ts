@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import pool from '@/lib/db';
+import { pool, getUserFromRequest } from '@/lib/auth';
 
 export async function GET() {
   try {
@@ -18,6 +18,11 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    if (!['owner', 'super_admin'].includes(user.role)) {
+      return NextResponse.json({ error: 'لا تملك صلاحية لإضافة ميزة' }, { status: 403 });
+    }
     const { title, description, icon, image_url, link } = await request.json();
     if (!title?.trim()) return NextResponse.json({ error: 'عنوان الميزة مطلوب' }, { status: 400 });
 
@@ -38,6 +43,11 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    if (!['owner', 'super_admin'].includes(user.role)) {
+      return NextResponse.json({ error: 'لا تملك صلاحية لتعديل ميزة' }, { status: 403 });
+    }
     const { id, title, description, icon, image_url, link, is_active } = await request.json();
 
     await pool.query(
@@ -57,6 +67,11 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
+    if (!['owner', 'super_admin'].includes(user.role)) {
+      return NextResponse.json({ error: 'لا تملك صلاحية لحذف ميزة' }, { status: 403 });
+    }
     const { id } = await request.json();
 
     await pool.query('DELETE FROM features WHERE id = $1', [id]);
