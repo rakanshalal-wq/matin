@@ -12,7 +12,7 @@ export async function GET(request: Request) {
     const { page, limit, offset } = getPaginationParams(searchParams);
     const [countResult, dataResult] = await Promise.all([
       pool.query('SELECT COUNT(*) FROM exam_rooms'),
-      pool.query(`SELECT * FROM exam_rooms ORDER BY created_at DESC LIMIT ${limit} OFFSET ${offset}`)
+      pool.query(`SELECT * FROM exam_rooms ORDER BY created_at DESC LIMIT $1 OFFSET $2`, [limit, offset])
     ]);
     const total = parseInt(countResult.rows[0]?.count || '0', 10);
     return NextResponse.json(buildPaginatedResponse(dataResult.rows, total, page, limit));

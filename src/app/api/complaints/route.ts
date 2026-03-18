@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     const { page, limit, offset } = getPaginationParams(searchParams);
     const [countResult, dataResult] = await Promise.all([
       pool.query(`SELECT COUNT(*) FROM complaints WHERE 1=1 ${filter.sql}`, filter.params),
-      pool.query(`SELECT * FROM complaints WHERE 1=1 ${filter.sql} ORDER BY created_at DESC LIMIT ${limit} OFFSET ${offset}`, filter.params)
+      pool.query(`SELECT * FROM complaints WHERE 1=1 ${filter.sql} ORDER BY created_at DESC LIMIT $1 OFFSET $2`, [...filter.params, limit, offset])
     ]);
     const total = parseInt(countResult.rows[0]?.count || '0', 10);
     return NextResponse.json(buildPaginatedResponse(dataResult.rows, total, page, limit));

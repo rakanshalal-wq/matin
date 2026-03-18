@@ -48,7 +48,7 @@ export async function GET(request: Request) {
          LEFT JOIN schools s ON si.school_id = s.id
          WHERE 1=1 ${extraSQL}
          ORDER BY si.created_at DESC
-         LIMIT ${limit} OFFSET ${offset}`,
+         LIMIT $1 OFFSET $2`,
         params
       ),
     ]);

@@ -19,8 +19,8 @@ export async function GET(request: Request) {
         LEFT JOIN users u ON u.id = a.author_id
         WHERE 1=1 ${filterSQL}
         ORDER BY a.created_at DESC
-        LIMIT ${limit} OFFSET ${offset}
-      `, filter.params)
+        LIMIT $1 OFFSET $2
+      `, [...filter.params, limit, offset])
     ]);
     const total = parseInt(countResult.rows[0]?.count || '0', 10);
     return NextResponse.json(buildPaginatedResponse(dataResult.rows, total, page, limit));

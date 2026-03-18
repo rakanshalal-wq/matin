@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     const filterSQL = filter.sql ? filter.sql.replace('AND school_id', 'AND school_id') : '';
     const [countResult, dataResult] = await Promise.all([
       pool.query(`SELECT COUNT(*) FROM behavior WHERE 1=1 ${filterSQL}`, filter.params),
-      pool.query(`SELECT * FROM behavior WHERE 1=1 ${filterSQL} ORDER BY created_at DESC LIMIT ${limit} OFFSET ${offset}`, filter.params)
+      pool.query(`SELECT * FROM behavior WHERE 1=1 ${filterSQL} ORDER BY created_at DESC LIMIT $1 OFFSET $2`, [...filter.params, limit, offset])
     ]);
     const total = parseInt(countResult.rows[0]?.count || '0', 10);
     return NextResponse.json(buildPaginatedResponse(dataResult.rows, total, page, limit));

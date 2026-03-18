@@ -18,8 +18,8 @@ export async function GET(request: Request) {
         FROM admissions a
         LEFT JOIN schools s ON a.school_id::text = s.id::text
         WHERE 1=1 ${filter.sql} ORDER BY a.created_at DESC
-        LIMIT ${limit} OFFSET ${offset}
-      `, filter.params)
+        LIMIT $1 OFFSET $2
+      `, [...filter.params, limit, offset])
     ]);
     const total = parseInt(countResult.rows[0]?.count || '0', 10);
     return NextResponse.json(buildPaginatedResponse(dataResult.rows, total, page, limit));
