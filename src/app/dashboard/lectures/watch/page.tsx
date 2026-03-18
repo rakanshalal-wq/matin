@@ -163,7 +163,7 @@ export default function WatchLecturePage() {
  </video>
  ) : (
  <div style={{ textAlign: 'center' }}>
- <div style={{ fontSize: 64, marginBottom: 10 }}><IconRenderer name="ICON_Video" size={36} /></div>
+ <div style={{ width: 80, height: 80, borderRadius: 24, background: 'rgba(201,162,39,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px' }}><IconRenderer name="ICON_Video" size={40} /></div>
  <p style={{ color: '#6B7280', fontSize: 16 }}>المحاضرة جارية...</p>
  <p style={{ color: '#C9A227', fontSize: 32, fontWeight: 700, fontFamily: 'monospace' }}>{formatTime(elapsed)}</p>
  </div>
@@ -227,8 +227,8 @@ export default function WatchLecturePage() {
  {/* === مرحلة النتيجة === */}
  {phase === 'result' && (
  <div style={{ textAlign: 'center', padding: 40 }}>
- <div style={{ fontSize: 80, marginBottom: 20 }}>
- <IconRenderer name={result === 'present' ? "ICON_PartyPopper" : result === 'retry' ? "ICON_RefreshCw" : "ICON_Frown"} size={18} />
+ <div style={{ width: 80, height: 80, borderRadius: 24, background: result === 'present' ? 'rgba(16,185,129,0.15)' : result === 'retry' ? 'rgba(245,158,11,0.15)' : 'rgba(239,68,68,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
+ <IconRenderer name={result === 'present' ? "ICON_PartyPopper" : result === 'retry' ? "ICON_RefreshCw" : "ICON_Frown"} size={40} />
  </div>
  <h1 style={{ fontSize: 28, fontWeight: 700, color: result === 'present' ? '#10B981' : result === 'retry' ? '#F59E0B' : '#EF4444', margin: '0 0 12px' }}>
  {score} / 5

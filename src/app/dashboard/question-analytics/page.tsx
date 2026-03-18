@@ -103,7 +103,7 @@ export default function QuestionAnalyticsPage() {
  if (loading) return (
  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
  <div style={{ textAlign: 'center' }}>
- <div style={{ fontSize: 40, marginBottom: 16 }}><IconRenderer name="ICON_Brain" size={36} /></div>
+ <div style={{ width: 72, height: 72, borderRadius: 20, background: 'rgba(139,92,246,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}><IconRenderer name="ICON_Brain" size={36} /></div>
  <div style={{ color: '#8B5CF6', fontWeight: 700, fontSize: 18 }}>جاري تحميل بيانات التحليل...</div>
  </div>
  </div>
@@ -218,7 +218,7 @@ export default function QuestionAnalyticsPage() {
  {/* قائمة الأسئلة */}
  {filtered.length === 0 ? (
  <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.3)' }}>
- <div style={{ fontSize: 40, marginBottom: 12 }}><Search size={18} color="#6B7280" /></div>
+ <div style={{ width: 64, height: 64, borderRadius: 18, background: 'rgba(107,114,128,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}><Search size={28} color="#6B7280" /></div>
  <div>لا توجد أسئلة تطابق البحث</div>
  </div>
  ) : (

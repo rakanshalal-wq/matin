@@ -191,7 +191,7 @@ export default function LecturesPage() {
  <div style={{ textAlign: 'center', padding: '48px', color: '#9CA3AF' }}>⏳ جاري التحميل...</div>
  ) : lectures.length === 0 ? (
  <div style={{ textAlign: 'center', padding: '64px', background: 'rgba(255,255,255,0.02)', borderRadius: 20, border: '1px dashed rgba(255,255,255,0.1)' }}>
- <div style={{ fontSize: 64, marginBottom: 16 }}><Mic size={18} color="#6B7280" /></div>
+ <div style={{ width: 72, height: 72, borderRadius: 20, background: 'rgba(201,162,39,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}><Mic size={36} color="#C9A227" /></div>
  <div style={{ color: '#fff', fontSize: 18, fontWeight: 700 }}>لا توجد محاضرات بعد</div>
  <button onClick={() => setTab('create')} style={{ marginTop: 20, background: '#C9A227', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 10, cursor: 'pointer', fontWeight: 700 }}>
  + إضافة محاضرة
@@ -309,7 +309,7 @@ export default function LecturesPage() {
  <h3 style={{ color: '#fff', fontSize: 16, fontWeight: 700, marginBottom: 20 }}><IconRenderer name="ICON_Calendar" size={18} /> الجلسات المجدولة</h3>
  {liveSessions.length === 0 ? (
  <div style={{ textAlign: 'center', padding: '32px 0', color: '#6B7280' }}>
- <div style={{ fontSize: 40, marginBottom: 10 }}><IconRenderer name="ICON_Calendar" size={36} /></div>
+ <div style={{ width: 60, height: 60, borderRadius: 16, background: 'rgba(201,162,39,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px' }}><IconRenderer name="ICON_Calendar" size={28} /></div>
  <div>لا توجد جلسات مجدولة</div>
  </div>
  ) : liveSessions.map((session: any, i: number) => (
@@ -444,7 +444,7 @@ export default function LecturesPage() {
  </div>
  {courses.length === 0 ? (
  <div style={{ textAlign: 'center', padding: '64px', background: 'rgba(255,255,255,0.02)', borderRadius: 20, border: '1px dashed rgba(255,255,255,0.1)' }}>
- <div style={{ fontSize: 64, marginBottom: 16 }}><IconRenderer name="ICON_Book" size={18} />Open</div>
+ <div style={{ width: 72, height: 72, borderRadius: 20, background: 'rgba(201,162,39,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}><IconRenderer name="ICON_Book" size={36} /></div>
  <div style={{ color: '#fff', fontSize: 18, fontWeight: 700 }}>لا توجد دورات بعد</div>
  <div style={{ color: '#9CA3AF', marginTop: 8 }}>أنشئ دورة وأضف لها المحاضرات</div>
  </div>

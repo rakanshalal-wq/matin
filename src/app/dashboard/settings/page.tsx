@@ -171,7 +171,7 @@ export default function SettingsPage() {
 
  {filteredSettings.length === 0 ? (
  <div style={{ textAlign: 'center', padding: 40, color: 'rgba(255,255,255,0.4)' }}>
- <div style={{ fontSize: 40, marginBottom: 12 }}><IconRenderer name="ICON_Mail" size={18} />box</div>
+ <div style={{ width: 64, height: 64, borderRadius: 18, background: 'rgba(201,162,39,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}><IconRenderer name="ICON_Settings" size={28} /></div>
  <p>لا توجد إعدادات في هذه الفئة</p>
  </div>
  ) : (

@@ -142,7 +142,7 @@ export default function StaffPage() {
  <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>⏳ جاري التحميل...</div>
  ) : filtered.length === 0 ? (
  <div style={{ textAlign: 'center', padding: 60 }}>
- <div style={{ fontSize: 64, marginBottom: 16 }}> <School size={18} color="#3B82F6" /></div>
+ <div style={{ width: 72, height: 72, borderRadius: 20, background: 'rgba(59,130,246,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}><School size={36} color="#3B82F6" /></div>
  <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 16 }}>لا يوجد أعضاء بعد</div>
  <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 13, marginTop: 8 }}>اضغط "إضافة جديد" لإضافة معلم أو مدير</div>
  </div>

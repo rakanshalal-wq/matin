@@ -202,7 +202,7 @@ export default function TaxesPage() {
  <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.3)' }}>جاري التحميل...</div>
  ) : filtered.length === 0 ? (
  <div style={{ textAlign: 'center', padding: 60 }}>
- <div style={{ fontSize: 40, marginBottom: 12 }}><Building2 size={16} /></div>
+ <div style={{ width: 64, height: 64, borderRadius: 18, background: 'rgba(201,162,39,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}><Building2 size={28} color="#C9A227" /></div>
  <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 15 }}>لا توجد ضرائب مسجّلة</div>
  <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: GOLD, color: '#000', border: 'none', borderRadius: 10, padding: '10px 24px', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>إضافة أول ضريبة</button>
  </div>

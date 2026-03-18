@@ -163,7 +163,7 @@ export default function ExamTakePage() {
  if (phase === 'ready') return (
  <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0C0E17', fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' as const }}>
  <div style={{ textAlign: 'center', maxWidth: 500, padding: 40 }}>
- <div style={{ fontSize: 64, marginBottom: 20 }}><IconRenderer name="ICON_Lock" size={36} /></div>
+ <div style={{ width: 80, height: 80, borderRadius: 24, background: 'rgba(201,162,39,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}><IconRenderer name="ICON_Lock" size={40} /></div>
  <h1 style={{ color: '#C9A227', fontSize: 24, fontWeight: 700, margin: '0 0 16px' }}>جاهز للاختبار؟</h1>
  <div style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 12, padding: 16, marginBottom: 24, textAlign: 'right' }}>
  <p style={{ color: '#EF4444', fontSize: 14, margin: '0 0 8px', fontWeight: 700 }}> تعليمات مهمة:</p>
@@ -184,7 +184,7 @@ export default function ExamTakePage() {
  if (phase === 'result') return (
  <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0C0E17', fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' as const }}>
  <div style={{ textAlign: 'center', maxWidth: 400, padding: 40 }}>
- <div style={{ fontSize: 80, marginBottom: 20 }}><IconRenderer name={terminated ? "ICON_Ban" : result?.percentage >= 50 ? "ICON_PartyPopper" : "ICON_Frown"} size={18} /></div>
+ <div style={{ width: 80, height: 80, borderRadius: 24, background: terminated ? 'rgba(239,68,68,0.15)' : result?.percentage >= 50 ? 'rgba(16,185,129,0.15)' : 'rgba(245,158,11,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}><IconRenderer name={terminated ? "ICON_Ban" : result?.percentage >= 50 ? "ICON_PartyPopper" : "ICON_Frown"} size={40} /></div>
  <h1 style={{ color: terminated ? '#EF4444' : result?.percentage >= 50 ? '#10B981' : '#F59E0B', fontSize: 28, margin: '0 0 12px' }}>
  {terminated ? 'تم إنهاء الاختبار' : `${result?.correct || 0} / ${result?.total || 0}`}
  </h1>

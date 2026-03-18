@@ -240,7 +240,7 @@ export default function SmartExamsPage() {
  <div style={{ textAlign: 'center', padding: '48px', color: '#9CA3AF' }}>⏳ جاري التحميل...</div>
  ) : exams.length === 0 ? (
  <div style={{ textAlign: 'center', padding: '64px', background: 'rgba(255,255,255,0.02)', borderRadius: 20, border: '1px dashed rgba(255,255,255,0.1)' }}>
- <div style={{ fontSize: 64, marginBottom: 16 }}><FileText size={18} color="#6B7280" /></div>
+ <div style={{ width: 72, height: 72, borderRadius: 20, background: 'rgba(201,162,39,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}><FileText size={36} color="#C9A227" /></div>
  <div style={{ color: '#fff', fontSize: 18, fontWeight: 700 }}>لا توجد اختبارات بعد</div>
  <div style={{ color: '#9CA3AF', marginTop: 8 }}>أنشئ اختبارك الأول أو استخدم الذكاء الاصطناعي</div>
  <button onClick={() => setTab('create')} style={{ marginTop: 20, background: '#C9A227', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 10, cursor: 'pointer', fontWeight: 700 }}>

@@ -111,7 +111,7 @@ export default function StoreDashboard() {
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
  {products.map(product => (
  <div key={product.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, overflow: 'hidden' }}>
- {product.image ? <div style={{ height: 140, background: `url(${product.image}) center/cover` }} /> : <div style={{ height: 140, background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 40 }}><IconRenderer name="ICON_Package" size={36} /></div>}
+ {product.image ? <div style={{ height: 140, background: `url(${product.image}) center/cover` }} /> : <div style={{ height: 140, background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><div style={{ width: 64, height: 64, borderRadius: 18, background: 'rgba(201,162,39,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><IconRenderer name="ICON_Package" size={32} /></div></div>}
  <div style={{ padding: 16 }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
  <h3 style={{ color: 'white', fontWeight: 700, margin: 0, fontSize: 15 }}>{product.name}</h3>

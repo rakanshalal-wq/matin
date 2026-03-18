@@ -75,7 +75,7 @@ export default function SchoolPageEditor() {
  <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.5)', padding: 60 }}>جاري التحميل...</div>
  ) : pages.length === 0 && !selected ? (
  <div style={{ textAlign: 'center', padding: 60 }}>
- <div style={{ fontSize: 64, marginBottom: 16 }}><IconRenderer name="ICON_School" size={36} /></div>
+ <div style={{ width: 72, height: 72, borderRadius: 20, background: 'rgba(201,162,39,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}><IconRenderer name="ICON_School" size={36} /></div>
  <h3 style={{ color: 'white', marginBottom: 8 }}>لا توجد صفحة بعد</h3>
  <p style={{ color: 'rgba(255,255,255,0.5)' }}>أنشئ صفحة عامة لمدرستك</p>
  </div>
