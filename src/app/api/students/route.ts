@@ -101,8 +101,26 @@ export async function POST(request: Request) {
     const user = await getUserFromRequest(request);
     if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     const body = await request.json();
-    const { name, email, phone, national_id, gender, date_of_birth, class_id } = body;
-    if (!name) return NextResponse.json({ error: 'اسم الطالب مطلوب' }, { status: 400 });
+
+    // ✅ التحقق من صحة البيانات بـ Zod
+    const { z } = await import('zod');
+    const StudentPostSchema = z.object({
+      name: z.string({ required_error: 'اسم الطالب مطلوب' }).min(2, 'الاسم يجب أن يكون حرفين على الأقل').max(100).trim(),
+      email: z.string().email('صيغة البريد غير صحيحة').max(255).optional().nullable().or(z.literal('')),
+      phone: z.string().max(20).optional().nullable(),
+      national_id: z.string().max(20).optional().nullable(),
+      gender: z.enum(['male', 'female', 'other']).optional().nullable(),
+      date_of_birth: z.string().optional().nullable(),
+      class_id: z.union([z.number().int().positive(), z.string()]).optional().nullable(),
+    });
+    const parsed = StudentPostSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.errors.map(e => e.message).join(' | ') },
+        { status: 400 }
+      );
+    }
+    const { name, email, phone, national_id, gender, date_of_birth, class_id } = parsed.data;
 
     let schoolId = '';
     let schoolName = '';

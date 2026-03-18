@@ -1,21 +1,28 @@
 import { NextResponse } from 'next/server';
 import { pool, getUserFromRequest } from '@/lib/auth';
 import bcrypt from 'bcryptjs';
+import { ChangePasswordSchema, formatZodError } from '@/lib/schemas';
 
 export async function POST(request: Request) {
   try {
     const user = await getUserFromRequest(request);
     if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
 
-    const { currentPassword, newPassword } = await request.json();
+    const body = await request.json();
 
-    // التحقق من الباسورد الجديد
-    if (!newPassword || newPassword.length < 8) {
+    // ✅ التحقق من صحة البيانات بـ Zod
+    const parsed = ChangePasswordSchema.safeParse({
+      current_password: body.currentPassword,
+      new_password: body.newPassword,
+    });
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: 'كلمة المرور الجديدة يجب أن تكون 8 أحرف على الأقل' },
+        { error: formatZodError(parsed.error) },
         { status: 400 }
       );
     }
+    const currentPassword = parsed.data.current_password;
+    const newPassword = parsed.data.new_password;
 
     // جلب الباسورد الحالي من قاعدة البيانات
     const userRecord = await pool.query(

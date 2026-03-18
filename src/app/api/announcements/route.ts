@@ -39,7 +39,24 @@ export async function POST(request: Request) {
     if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     
     const body = await request.json();
-    const { title, content, type, target_audience, priority } = body;
+
+    // ✅ التحقق من صحة البيانات بـ Zod
+    const { z } = await import('zod');
+    const AnnouncementPostSchema = z.object({
+      title: z.string({ required_error: 'عنوان الإعلان مطلوب' }).min(3, 'العنوان يجب أن يكون 3 أحرف على الأقل').max(200).trim(),
+      content: z.string({ required_error: 'محتوى الإعلان مطلوب' }).min(5, 'المحتوى يجب أن يكون 5 أحرف على الأقل').max(5000),
+      type: z.string().max(50).optional().nullable(),
+      target_audience: z.string().max(50).optional().default('all'),
+      priority: z.enum(['low', 'normal', 'high', 'urgent']).optional().default('normal'),
+    });
+    const parsed = AnnouncementPostSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.errors.map(e => e.message).join(' | ') },
+        { status: 400 }
+      );
+    }
+    const { title, content, target_audience, priority } = parsed.data;
     
     const result = await pool.query(
       `INSERT INTO announcements (id, title, content, target_audience, priority, author_id, school_id, is_active, updated_at) 

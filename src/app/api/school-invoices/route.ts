@@ -71,15 +71,31 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const {
-      school_id, title, description, amount, tax_rate,
-      due_date, status, notes, invoice_number
-    } = body;
 
-    if (!school_id) return NextResponse.json({ error: 'معرف المدرسة مطلوب' }, { status: 400 });
-    if (!title?.trim()) return NextResponse.json({ error: 'عنوان الفاتورة مطلوب' }, { status: 400 });
-    if (!amount || isNaN(Number(amount))) return NextResponse.json({ error: 'المبلغ مطلوب ويجب أن يكون رقماً' }, { status: 400 });
-    if (!due_date) return NextResponse.json({ error: 'تاريخ الاستحقاق مطلوب' }, { status: 400 });
+    // ✅ التحقق من صحة البيانات بـ Zod
+    const { z } = await import('zod');
+    const InvoicePostSchema = z.object({
+      school_id: z.union([z.string(), z.number()], { required_error: 'معرف المدرسة مطلوب' }),
+      title: z.string({ required_error: 'عنوان الفاتورة مطلوب' }).min(2, 'العنوان يجب أن يكون حرفين على الأقل').max(200).trim(),
+      description: z.string().max(1000).optional().nullable(),
+      amount: z.union([
+        z.number().positive('المبلغ يجب أن يكون أكبر من صفر'),
+        z.string().transform(v => { const n = parseFloat(v); if (isNaN(n) || n <= 0) throw new Error('المبلغ غير صحيح'); return n; })
+      ], { required_error: 'المبلغ مطلوب' }),
+      tax_rate: z.number().min(0).max(100).optional().default(0),
+      due_date: z.string({ required_error: 'تاريخ الاستحقاق مطلوب' }).min(1, 'تاريخ الاستحقاق مطلوب'),
+      status: z.enum(['pending', 'paid', 'overdue', 'cancelled']).optional().default('pending'),
+      notes: z.string().max(1000).optional().nullable(),
+      invoice_number: z.string().max(50).optional().nullable(),
+    });
+    const parsed = InvoicePostSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.errors.map(e => e.message).join(' | ') },
+        { status: 400 }
+      );
+    }
+    const { school_id, title, description, amount, tax_rate, due_date, status, notes, invoice_number } = parsed.data;
 
     const taxAmount = (Number(amount) * (Number(tax_rate) || 0)) / 100;
     const totalAmount = Number(amount) + taxAmount;

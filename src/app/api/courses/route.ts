@@ -30,14 +30,32 @@ export async function POST(request: Request) {
     const ids = getInsertIds(user);
 
     const body = await request.json();
-    const { name, description, duration, price, instructor, school_id, status } = body;
-    if (!name) return NextResponse.json({ error: 'اسم الدورة مطلوب' }, { status: 400 });
+
+    // ✅ التحقق من صحة البيانات بـ Zod
+    const { z } = await import('zod');
+    const CoursePostSchema = z.object({
+      name: z.string({ required_error: 'اسم الدورة مطلوب' }).min(2, 'الاسم يجب أن يكون حرفين على الأقل').max(200).trim(),
+      description: z.string().max(2000).optional().nullable(),
+      duration: z.union([z.string(), z.number()]).optional().nullable(),
+      price: z.union([z.string(), z.number()]).optional().nullable(),
+      instructor: z.string().max(100).optional().nullable(),
+      school_id: z.union([z.string(), z.number()]).optional().nullable(),
+      status: z.string().max(50).optional().nullable(),
+    });
+    const parsed = CoursePostSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.errors.map(e => e.message).join(' | ') },
+        { status: 400 }
+      );
+    }
+    const { name, description, duration, price, school_id } = parsed.data;
     const id = require('crypto').randomUUID();
     const now = new Date().toISOString();
     const result = await pool.query(
       `INSERT INTO courses (id, name, description, duration, price, school_id, created_at, updated_at)
        VALUES ($1,$2,$3,$4,$5,$6,$7,$7) RETURNING *`,
-      [id, name, description || null, duration || null, price ? parseFloat(price) : null, school_id || '', now]
+      [id, name, description || null, duration || null, price ? parseFloat(String(price)) : null, school_id || '', now]
     );
     return NextResponse.json(result.rows[0], { status: 201 });
   } catch (error) {

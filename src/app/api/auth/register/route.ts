@@ -1,44 +1,21 @@
 import { NextResponse } from 'next/server';
 import { pool, generateToken } from '@/lib/auth';
 import bcrypt from 'bcryptjs';
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import { RegisterSchema, formatZodError } from '@/lib/schemas';
 
 export async function POST(request: Request) {
   try {
-    const { name, email, password, phone, bio, avatar, package: pkg } = await request.json();
+    const body = await request.json();
 
-    // التحقق من الحقول المطلوبة
-    if (!name?.trim() || !email?.trim() || !password) {
+    // ✅ التحقق من صحة البيانات بـ Zod
+    const parsed = RegisterSchema.safeParse({ ...body, package: body.package });
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: 'الرجاء ملء جميع الحقول المطلوبة' },
+        { error: formatZodError(parsed.error) },
         { status: 400 }
       );
     }
-
-    // التحقق من صيغة الإيميل
-    if (!EMAIL_REGEX.test(email.trim())) {
-      return NextResponse.json(
-        { error: 'صيغة البريد الإلكتروني غير صحيحة' },
-        { status: 400 }
-      );
-    }
-
-    // التحقق من قوة كلمة المرور
-    if (password.length < 8) {
-      return NextResponse.json(
-        { error: 'كلمة المرور يجب أن تكون 8 أحرف على الأقل' },
-        { status: 400 }
-      );
-    }
-
-    // التحقق من الاسم
-    if (name.trim().length < 2) {
-      return NextResponse.json(
-        { error: 'الاسم يجب أن يكون حرفين على الأقل' },
-        { status: 400 }
-      );
-    }
+    const { name, email, password, phone, bio, avatar, package: pkg } = parsed.data;
 
     // تحقق من تكرار الإيميل
     const existing = await pool.query('SELECT id FROM users WHERE email = $1', [email.trim().toLowerCase()]);

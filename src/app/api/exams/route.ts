@@ -84,6 +84,41 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
+
+    // ✅ التحقق من صحة البيانات بـ Zod
+    const { z } = await import('zod');
+    const ExamPostSchema = z.object({
+      title: z.string().min(2, 'عنوان الاختبار يجب أن يكون حرفين على الأقل').max(200).trim().optional().nullable(),
+      title_ar: z.string().min(2).max(200).trim().optional().nullable(),
+      description: z.string().max(2000).optional().nullable(),
+      instructions: z.string().max(2000).optional().nullable(),
+      type: z.string().max(50).optional().nullable(),
+      exam_type: z.string().max(50).optional().nullable(),
+      total_marks: z.number().min(0).max(10000).optional().nullable(),
+      passing_marks: z.number().min(0).max(100).optional().nullable(),
+      duration: z.number().int().min(1).max(480).optional().nullable(),
+      duration_minutes: z.number().int().min(1).max(480).optional().nullable(),
+      scheduled_at: z.string().optional().nullable(),
+      start_time: z.string().optional().nullable(),
+      end_time: z.string().optional().nullable(),
+      course_id: z.union([z.string(), z.number()]).optional().nullable(),
+      school_id: z.union([z.string(), z.number()]).optional().nullable(),
+      class_id: z.union([z.string(), z.number()]).optional().nullable(),
+      subject: z.string().max(100).optional().nullable(),
+      grade: z.string().max(50).optional().nullable(),
+      shuffle_questions: z.boolean().optional(),
+      shuffle_options: z.boolean().optional(),
+      show_results_immediately: z.boolean().optional(),
+      unlock_delegates: z.array(z.any()).optional(),
+      questions: z.array(z.any()).optional(),
+    }).refine(d => d.title || d.title_ar, { message: 'عنوان الاختبار مطلوب' });
+    const parsed = ExamPostSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.errors.map(e => e.message).join(' | ') },
+        { status: 400 }
+      );
+    }
     const { 
       title, title_ar, description, type, exam_type,
       total_marks, passing_marks, duration, duration_minutes,
@@ -91,11 +126,9 @@ export async function POST(request: Request) {
       course_id, school_id, class_id,
       subject, grade, instructions,
       shuffle_questions, shuffle_options, show_results_immediately,
-      unlock_delegates, // المفوضون بفتح الاختبار
-      questions // مصفوفة الأسئلة من question_bank
-    } = body;
-
-    if (!title && !title_ar) return NextResponse.json({ error: 'عنوان الاختبار مطلوب' }, { status: 400 });
+      unlock_delegates,
+      questions
+    } = parsed.data;
 
     // تحديد المدرسة
     let finalSchoolId = school_id;

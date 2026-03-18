@@ -1,17 +1,21 @@
 import { NextResponse } from 'next/server';
 import { pool, generateToken } from '@/lib/auth';
 import bcrypt from 'bcryptjs';
+import { LoginSchema, formatZodError } from '@/lib/schemas';
 
 export async function POST(request: Request) {
   try {
-    const { email, password } = await request.json();
-    
-    if (!email || !password) {
+    const body = await request.json();
+
+    // ✅ التحقق من صحة البيانات بـ Zod
+    const parsed = LoginSchema.safeParse(body);
+    if (!parsed.success) {
       return NextResponse.json(
-        { success: false, message: 'البريد الإلكتروني وكلمة المرور مطلوبة' },
+        { success: false, message: formatZodError(parsed.error) },
         { status: 400 }
       );
     }
+    const { email, password } = parsed.data;
 
     const result = await pool.query(
       'SELECT id, name, email, password, role, school_id, owner_id, package, status, must_change_password FROM users WHERE email = $1',
