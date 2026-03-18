@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import { BarChart3, Book, BookOpen, Bot, CheckCircle, Circle, Download, Lightbulb, Mailbox, Plus, Search, Trash2, XCircle, File } from "lucide-react";
 import { useState, useEffect, useRef } from 'react';
 import IconRenderer from "@/components/IconRenderer";

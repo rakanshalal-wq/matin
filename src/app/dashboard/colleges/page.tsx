@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import { BookOpen, CheckCircle, Eye, GraduationCap, Pencil, Plus, Search, User, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import Link from 'next/link';

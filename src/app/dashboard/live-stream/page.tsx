@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import { Calendar, Circle, Eye, Link, Monitor, Pencil, Plus, Satellite, Save, Search, Trash2, Users, Video, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";

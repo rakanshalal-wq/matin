@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 
 /* MATIN CMS — إدارة محتوى الموقع الرئيسي
    يتيح لمالك المنصة التحكم الكامل في:

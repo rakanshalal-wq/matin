@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import { AlertTriangle, BarChart3, Bell, BookOpen, Bot, Briefcase, Building2, Calendar, CheckCircle, Circle, ClipboardList, Coins, Eye, FileText, FolderKanban, Globe, GraduationCap, Hand, Link as LinkIcon, Mail, Megaphone, Mic, Pencil, School, Settings, ShoppingCart, Sprout, TrendingUp, User, XCircle, Zap } from "lucide-react";
 import { useState, useEffect } from 'react';
 import Link from 'next/link';

@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   compress: true,
+  // تعطيل prerendering الثابت لجميع الصفحات — المشروع يعتمد على بيانات ديناميكية
+  output: 'standalone',
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: '**' },

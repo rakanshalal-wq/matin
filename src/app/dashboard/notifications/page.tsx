@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import { AlertTriangle, Bell, Building, Calendar, CheckCircle, Circle, Clock, GraduationCap, Mailbox, Pencil, Plus, Save, School, Search, Settings, Shirt, Siren, Trash2, Triangle, User, Users, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";

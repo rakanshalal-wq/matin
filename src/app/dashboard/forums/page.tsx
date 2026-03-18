@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import { BookOpen, CheckCircle, FileText, GraduationCap, Lightbulb, MessageSquare, Pencil, Plus, Save, School, Search, Settings, Target, Trash2, User, Users, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";

@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import IconRenderer from "@/components/IconRenderer";
 import { Drama } from "lucide-react";
 import { useState, useEffect } from 'react';

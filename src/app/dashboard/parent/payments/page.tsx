@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import { Banknote, Calendar, CheckCircle, Circle, ClipboardList, Clock, CreditCard, GraduationCap, Landmark, Mailbox, PartyPopper, Smartphone, User, XCircle, Zap } from "lucide-react";
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';

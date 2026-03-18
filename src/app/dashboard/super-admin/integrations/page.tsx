@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import { BookOpen, Building2, Circle, CreditCard, Lock, Map, MessageCircle, Plug, Settings, Smartphone } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";

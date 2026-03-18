@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import { ClipboardList, Lock, Settings } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";

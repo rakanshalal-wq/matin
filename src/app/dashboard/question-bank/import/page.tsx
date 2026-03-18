@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import IconRenderer from "@/components/IconRenderer";
 import { AlertTriangle, BarChart3, BookOpen, CheckCircle, ClipboardList, Download, File, Settings, Triangle } from "lucide-react";
 

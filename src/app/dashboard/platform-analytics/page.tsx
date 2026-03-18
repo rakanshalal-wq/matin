@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import { BarChart3, Bug, CheckCircle, ClipboardList, Crown, Diamond, GraduationCap, Headphones, KeyRound, RefreshCw, Save, School, Trophy, User, Users, Zap } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";

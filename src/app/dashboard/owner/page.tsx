@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import { Activity, AlertTriangle, ArrowDown, ArrowUp, Award, BadgeDollarSign, Banknote, BarChart3, Bell, Bot, Building2, Calendar, Check, CheckCircle, ChevronDown, ChevronRight, Clock, Coins, CreditCard, Crown, DollarSign, Download, ExternalLink, Eye, FileText, Filter, Flag, Globe, Hash, Headphones, Layers, Link, Lock, Mail, MapPin, Megaphone, Minus, MoreVertical, Package, Pencil, Percent, Phone, PieChart, Plus, RefreshCw, Scale, School, Search, Settings, Shield, ShoppingCart, Sparkles, Star, Target, Ticket, Trash2, TrendingUp, Trophy, Upload, Users, X, Zap } from "lucide-react";
 import { useEffect, useState, useCallback } from 'react';
 import NextLink from 'next/link';

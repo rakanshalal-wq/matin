@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import { AlertTriangle, Ban, CheckCircle, Pencil, Plus, Save, Search, Siren, Syringe, Trash2, Triangle, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
