@@ -1,5 +1,5 @@
 'use client';
-import { Ban, CheckCircle, ClipboardList, Dice5, Lock, Pencil, Plus, Save, Search, Tag, Trash2, X } from "lucide-react";
+import { Ban, CheckCircle, ClipboardList, Dice5, Lock, Pencil, Plus, Save, Search, Star, Tag, Trash2, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';

@@ -1,5 +1,5 @@
 'use client';
-import { Building2, CheckCircle, Circle, Diamond, GraduationCap, Pencil, School, User } from "lucide-react";
+import { Building, Building2, CheckCircle, Circle, Diamond, GraduationCap, Pencil, School, User } from "lucide-react";
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import IconRenderer from "@/components/IconRenderer";

@@ -1,16 +1,9 @@
 'use client';
-import { CheckCircle, Coins, Search, UtensilsCrossed, X, XCircle } from "lucide-react";
+import { CheckCircle, Coins, Search, Star, UtensilsCrossed, X, XCircle } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
 
- try {
- const token = localStorage.getItem('matin_token');
- if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };
- const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
- return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') };
- } catch { return { 'Content-Type': 'application/json' }; }
-};
 
 const GOLD = '#C9A84C';
 const BG = '#0B0B16';

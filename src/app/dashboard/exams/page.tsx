@@ -1,17 +1,10 @@
 'use client';
-import { BarChart3, BookOpen, Bot, Calendar,, CheckCircle, Circle, ClipboardList, Eye, FileText, GraduationCap, HelpCircle, Landmark, Link as LinkIcon, Megaphone, Pencil, Percent, Plus, Save, Settings, Sparkles, Trash2, Users, X, XCircle } from "lucide-react";
+import { BarChart3, BookOpen, Bot, Calendar, Check, CheckCircle, Circle, ClipboardList, Eye, FileText, GraduationCap, HelpCircle, Landmark, Link as LinkIcon, Megaphone, Pencil, Percent, Plus, Save, Settings, Sparkles, Trash2, Users, X, XCircle } from "lucide-react";
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
 
- try {
- const token = localStorage.getItem('matin_token');
- if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };
- const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
- return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') };
- } catch { return { 'Content-Type': 'application/json' }; }
-};
 
 const STATUS_MAP: Record<string, { label: string; color: string; bg: string }> = {
  DRAFT: { label: 'مسودة', color: '#9CA3AF', bg: 'rgba(156,163,175,0.15)' },

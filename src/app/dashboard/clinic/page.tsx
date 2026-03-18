@@ -1,5 +1,5 @@
 'use client';
-import { CheckCircle, ClipboardList, Pencil, Pill, Plus, Save, Search, Trash2, X } from "lucide-react";
+import { CheckCircle, ClipboardList, Hospital, Pencil, Pill, Plus, Save, Search, Trash2, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';

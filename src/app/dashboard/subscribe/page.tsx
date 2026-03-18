@@ -1,5 +1,5 @@
 'use client';
-import { Building,, Crown, Gift, PartyPopper, X } from "lucide-react";
+import { Building, Check, Crown, Gift, PartyPopper, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';

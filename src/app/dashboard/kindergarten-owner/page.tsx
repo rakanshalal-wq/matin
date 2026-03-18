@@ -1,13 +1,10 @@
 'use client';
 import IconRenderer from "@/components/IconRenderer";
-import {, CheckCircle, ClipboardList, XCircle } from "lucide-react";
+import { CheckCircle, ClipboardList, XCircle } from "lucide-react";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getHeaders } from '@/lib/api';
 
- const token = typeof window !== 'undefined' ? localStorage.getItem('matin_token') : null;
- return { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}) };
-};
 
 const StatCard = ({ title, value, color, sub, link }: any) => (
  <Link href={link || '#'} style={{ textDecoration: 'none' }}>

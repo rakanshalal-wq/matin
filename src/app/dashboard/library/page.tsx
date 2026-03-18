@@ -3,8 +3,6 @@ import { Book, BookOpen, CheckCircle, HelpCircle, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
- try { const t = localStorage.getItem('matin_token'); if (t) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + t }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; }
-};
 const GOLD='#C9A84C',BG='#0B0B16',CB='rgba(255,255,255,0.04)',BR='rgba(255,255,255,0.08)';
 const STATUS_MAP: Record<string,{label:string;color:string;bg:string}> = { available:{label:'متاح',color:'#10B981',bg:'rgba(16,185,129,0.15)'}, borrowed:{label:'مستعار',color:'#F59E0B',bg:'rgba(245,158,11,0.15)'}, reserved:{label:'محجوز',color:'#3B82F6',bg:'rgba(59,130,246,0.15)'}, lost:{label:'مفقود',color:'#EF4444',bg:'rgba(239,68,68,0.15)'} };
 export default function LibraryPage() {

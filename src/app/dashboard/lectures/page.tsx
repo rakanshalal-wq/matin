@@ -1,17 +1,10 @@
 'use client';
-import { BarChart3, BookOpen, Bot, Calendar,, CheckCircle, Circle, Clapperboard, ClipboardList, File, FileText, Gamepad2, Link as LinkIcon, Mic, Mic2, Monitor, Pencil, Plus, Save, Trash2, Video } from "lucide-react";
+import { BarChart3, BookOpen, Bot, Calendar, Check, CheckCircle, Circle, Clapperboard, ClipboardList, File, FileText, Gamepad2, Link as LinkIcon, Mic, Mic2, Monitor, Pencil, Plus, Save, Trash2, Video } from "lucide-react";
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
 
- try {
- const token = localStorage.getItem('matin_token');
- if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };
- const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
- return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') };
- } catch { return { 'Content-Type': 'application/json' }; }
-};
 
 const LECTURE_TYPES = [
  { value: 'video', label: 'فيديو مسجل', icon: "ICON_Clapperboard" },

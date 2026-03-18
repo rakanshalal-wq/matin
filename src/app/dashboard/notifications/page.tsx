@@ -1,5 +1,5 @@
 'use client';
-import { AlertTriangle, Bell, Building, Calendar, CheckCircle, Clock, GraduationCap, Mailbox, Pencil, Plus, Save, School, Search, Settings, Shirt, Siren, Trash2, User, Users, X } from "lucide-react";
+import { AlertTriangle, Bell, Building, Calendar, CheckCircle, Circle, Clock, GraduationCap, Mailbox, Pencil, Plus, Save, School, Search, Settings, Shirt, Siren, Trash2, Triangle, User, Users, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -123,7 +123,12 @@ export default function NotificationsPage() {
  <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12 }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
  ) : filtered.length === 0 ? (
  <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12 }}>
- <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Circle size={19} color="#6B7280" /></div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center",margin:'0 auto 12px'}}><Circle size={19} color="#6B7280" /></div>
+ <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>لا توجد إشعارات</p>
+ </div>
+ ) : (
+ filtered.map((item: any) => (
+ <div key={item.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
  <div style={{ flex: 1 }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
  <span style={{ color: 'white', fontWeight: !item.is_read ? 700 : 500, fontSize: 15 }}>{item.title}</span>
@@ -132,18 +137,17 @@ export default function NotificationsPage() {
  </div>
  <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, margin: '6px 0' }}>{item.message || '—'}</p>
  <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginTop: 8 }}>
- <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}><IconRenderer name="ICON_User" size={18} />s {audienceLabels[item.target_audience] || item.target_audience}</span>
- <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}><IconRenderer name="ICON_Calendar" size={18} /> {item.created_at ? timeAgo(item.created_at) : '—'}</span>
- </div>
+ <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{audienceLabels[item.target_audience] || item.target_audience}</span>
+ <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{item.created_at ? timeAgo(item.created_at) : '—'}</span>
  </div>
  </div>
  <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
- <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>تعديل</button>
+ <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>حذف</button>
  </div>
  </div>
- </div>
- ))}
+ ))
+ )}
  </div>
 
  {/* Modal */}

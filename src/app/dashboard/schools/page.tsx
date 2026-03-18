@@ -1,6 +1,6 @@
 'use client';
 import IconRenderer from "@/components/IconRenderer";
-import { Ban,, CheckCircle, Mail, MapPin, Pencil, Plus, School, Search, Smartphone, Trash2, User, X, XCircle } from "lucide-react";
+import { Ban, Check, CheckCircle, Mail, MapPin, Pencil, Plus, School, Search, Smartphone, Trash2, User, X, XCircle } from "lucide-react";
 import { useState, useEffect } from 'react';
 import { getHeaders } from '@/lib/api';
 

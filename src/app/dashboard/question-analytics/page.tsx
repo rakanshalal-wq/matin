@@ -1,16 +1,9 @@
 'use client';
-import { AlertTriangle, BarChart3, BookOpen, Bot, Brain, CheckCircle, Circle, Dumbbell, GraduationCap, Package, RefreshCw, Search, Star, XCircle } from "lucide-react";
+import { AlertTriangle, BarChart3, BookOpen, Bot, Brain, CheckCircle, Circle, Dumbbell, GraduationCap, Package, RefreshCw, Search, Star, Triangle, XCircle } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
 
- try {
- const token = localStorage.getItem('matin_token');
- if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };
- const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
- return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') };
- } catch { return { 'Content-Type': 'application/json' }; }
-};
 
 const qualityConfig: Record<string, { color: string; bg: string; icon: string; desc: string }> = {
  'ممتاز': { color: '#10B981', bg: 'rgba(16,185,129,0.15)', icon: 'star', desc: 'سؤال مميز - معدل إجابة صحيحة مثالي' },

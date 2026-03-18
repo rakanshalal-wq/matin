@@ -1,6 +1,6 @@
 'use client';
 import IconRenderer from "@/components/IconRenderer";
-import { Calendar,, ClipboardList, DoorOpen, Pencil, School, Trash2, User } from "lucide-react";
+import { Calendar, ClipboardList, DoorOpen, Pencil, School, Trash2, User } from "lucide-react";
 import { useState, useEffect } from 'react';
 
 // ─── ثوابت التصميم ───────────────────────────────────────────────

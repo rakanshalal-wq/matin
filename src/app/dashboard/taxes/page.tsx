@@ -182,7 +182,7 @@ export default function TaxesPage() {
 
  {/* Filters */}
  <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 20, marginBottom: 24, display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
- <input style={{ ...inputStyle, maxWidth: 280 }} placeholder="<Search size={18} color="#6B7280" /> بحث بالاسم أو الوصف..." value={search} onChange={e => setSearch(e.target.value)} />
+ <input style={{ ...inputStyle, maxWidth: 280 }} placeholder="بحث بالاسم أو الوصف..." value={search} onChange={e => setSearch(e.target.value)} />
  <select style={{ ...inputStyle, maxWidth: 200 }} value={filterType} onChange={e => { setFilterType(e.target.value); setPage(1); }}>
  <option value="">كل الأنواع</option>
  {TAX_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}

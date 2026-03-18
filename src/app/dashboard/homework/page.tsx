@@ -1,5 +1,5 @@
 'use client';
-import { BarChart3, CheckCircle, Eye, File, Pencil, Plus, Save, Search, Trash2, X } from "lucide-react";
+import { BarChart3, CheckCircle, Eye, File, FileText, Pencil, Plus, Save, Search, Trash2, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';

@@ -1,6 +1,6 @@
 'use client';
 import IconRenderer from "@/components/IconRenderer";
-import { Building2, Calendar,, MapPin, School, Trash2, User, X } from "lucide-react";
+import { Building, Building2, Calendar, Check, MapPin, School, Trash2, User, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import { getHeaders } from '@/lib/api';
 

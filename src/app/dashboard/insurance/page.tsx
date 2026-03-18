@@ -1,5 +1,5 @@
 'use client';
-import { AlertTriangle, Ban, CheckCircle, Pencil, Plus, Save, Search, Shield, Siren, Trash2, X } from "lucide-react";
+import { AlertTriangle, Ban, CheckCircle, Pencil, Plus, Save, Search, Shield, Siren, Star, Trash2, Triangle, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';

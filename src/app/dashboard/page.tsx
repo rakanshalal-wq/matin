@@ -1,17 +1,10 @@
 'use client';
-import { AlertTriangle, BarChart3, Bell, BookOpen, Bot, Briefcase, Building2, Calendar,, CheckCircle, ClipboardList, Coins, Eye, FileText, FolderKanban, Globe, GraduationCap, Hand, Link as LinkIcon, Mail, Megaphone, Mic, Pencil, School, Settings, ShoppingCart, Sprout, TrendingUp, User, XCircle, Zap } from "lucide-react";
+import { AlertTriangle, BarChart3, Bell, BookOpen, Bot, Briefcase, Building2, Calendar, CheckCircle, Circle, ClipboardList, Coins, Eye, FileText, FolderKanban, Globe, GraduationCap, Hand, Link as LinkIcon, Mail, Megaphone, Mic, Pencil, School, Settings, ShoppingCart, Sprout, TrendingUp, User, XCircle, Zap } from "lucide-react";
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
 
- try {
- const token = localStorage.getItem('matin_token');
- if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };
- const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
- return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') };
- } catch { return { 'Content-Type': 'application/json' }; }
-};
 
 const INSTITUTION_TYPES: Record<string, { label: string; icon: string; color: string }> = {
  school: { label: 'مدرسة', icon: "ICON_School", color: '#3B82F6' },
@@ -163,8 +156,15 @@ export default function DashboardHome() {
  if (loading) return (
  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
  <div style={{ textAlign: 'center' }}>
- <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Circle size={19} color="#6B7280" /></div>
- )}
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center",margin:'0 auto 12px'}}><Circle size={19} color="#6B7280" /></div>
+ <p style={{ color: 'rgba(255,255,255,0.4)' }}>جاري التحميل...</p>
+ </div>
+ </div>
+ );
+
+ return (
+ <div style={{ padding: 24, direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic,Arial,sans-serif' }}>
+ <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '20px 24px', marginBottom: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
  <div>
  <div style={{ color: '#C9A227', fontSize: 13, fontWeight: 600, marginBottom: 4 }}>
  {greeting()}، {user?.name?.split(' ')[0] || 'مرحباً'} <Hand size={18} color="#6B7280" />
@@ -214,15 +214,12 @@ export default function DashboardHome() {
  </Link>
  </div>
  </div>
- </div>
- </div>
 
- {}
  {/* الإحصائيات الرئيسية */}
  {}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 28 }}>
- <StatCard title="إجمالي الطلاب" value={stats.students || stats.total_students || 0} icon="<User size={16} /><GraduationCap size={18} color="#C9A84C" />" color="#3B82F6" sub={`+${stats.new_students || 0} هذا الشهر`} link="/dashboard/students" />
- <StatCard title="المعلمون" value={stats.teachers || stats.total_teachers || 0} icon="<User size={16} /><School size={18} color="#3B82F6" />" color="#8B5CF6" sub="نشطون" link="/dashboard/teachers" />
+ <StatCard title="إجمالي الطلاب" value={stats.students || stats.total_students || 0} icon="ICON_GraduationCap" color="#3B82F6" sub={`+${stats.new_students || 0} هذا الشهر`} link="/dashboard/students" />
+ <StatCard title="المعلمون" value={stats.teachers || stats.total_teachers || 0} icon="ICON_School" color="#8B5CF6" sub="نشطون" link="/dashboard/teachers" />
  <StatCard title="الفصول" value={stats.classes || stats.total_classes || 0} icon="ICON_Building2" color="#10B981" sub="فصل دراسي" link="/dashboard/classes" />
  <StatCard title="الحضور اليوم" value={`${stats.attendance_rate || 0}%`} icon="ICON_Hand" color="#F59E0B" sub="معدل الحضور" link="/dashboard/attendance" />
  <StatCard title="الاختبارات" value={stats.exams || 0} icon="ICON_FileText" color="#EF4444" sub="هذا الفصل" link="/dashboard/exams" />

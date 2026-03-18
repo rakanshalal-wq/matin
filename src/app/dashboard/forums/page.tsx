@@ -103,41 +103,38 @@ export default function ForumsPage() {
  <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12, gridColumn: '1 / -1' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
  ) : filtered.length === 0 ? (
  <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12, gridColumn: '1 / -1' }}>
- <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Circle size={19} color="#6B7280" /></div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center",margin:'0 auto 12px'}}><MessageSquare size={19} color="#6B7280" /></div>
+ <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>لا توجد مجموعات نقاش</p>
+ </div>
+ ) : (
+ filtered.map((item: any) => (
+ <div key={item.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: 20 }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
  <div>
- <div style={{ color: 'white', fontWeight: 700, fontSize: 16 }}>{item.title}</div>
+ <div style={{ color: 'white', fontWeight: 700, fontSize: 16, marginBottom: 6 }}>{item.title}</div>
+ <div style={{ display: 'flex', gap: 6 }}>
  <span style={{ background: categoryColors[item.category]?.bg, color: categoryColors[item.category]?.color, padding: '2px 10px', borderRadius: 6, fontSize: 11, fontWeight: 600 }}>{categoryLabels[item.category] || item.category}</span>
- </div>
- </div>
  <span style={{ background: statusColors[item.status]?.bg, color: statusColors[item.status]?.color, padding: '4px 10px', borderRadius: 8, fontSize: 11, fontWeight: 600 }}>{statusLabels[item.status] || item.status}</span>
  </div>
-
+ </div>
+ </div>
  <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, margin: '0 0 16px 0', lineHeight: 1.6 }}>{item.description ? item.description.substring(0, 80) + (item.description.length > 80 ? '...' : '') : 'لا يوجد وصف'}</p>
-
  {item.author && (
  <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, marginBottom: 12 }}>أنشأها: <span style={{ color: '#C9A227' }}>{item.author}</span></div>
  )}
-
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 12 }}>
  <div style={{ display: 'flex', gap: 20 }}>
- <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
- <span style={{ fontSize: 16 }}><IconRenderer name="ICON_User" size={18} />s</span>
- <span style={{ color: '#3B82F6', fontWeight: 700, fontSize: 14 }}>{item.members_count || 0}</span>
- <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>عضو</span>
- </div>
- <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
- <span style={{ fontSize: 16 }}><FileText size={18} color="#6B7280" /></span>
- <span style={{ color: '#8B5CF6', fontWeight: 700, fontSize: 14 }}>{item.posts_count || 0}</span>
- <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>منشور</span>
- </div>
+ <span style={{ color: '#3B82F6', fontWeight: 700, fontSize: 14 }}>{item.members_count || 0} عضو</span>
+ <span style={{ color: '#8B5CF6', fontWeight: 700, fontSize: 14 }}>{item.posts_count || 0} منشور</span>
  </div>
  <div style={{ display: 'flex', gap: 8 }}>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
- <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>تعديل</button>
+ <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>حذف</button>
  </div>
  </div>
  </div>
- ))}
+ ))
+ )}
  </div>
 
  {/* Modal */}

@@ -1,6 +1,6 @@
 'use client';
 import IconRenderer from "@/components/IconRenderer";
-import { Book, BookOpen,, Pencil, School, Search, Target, Trash2 } from "lucide-react";
+import { Book, BookOpen, Pencil, School, Search, Target, Trash2 } from "lucide-react";
 import { useState, useEffect } from 'react';
 
 // ─── ثوابت التصميم ───────────────────────────────────────────────
@@ -177,7 +177,7 @@ export default function AcademicStructurePage() {
  {[
  { key: 'stages', label: 'BookOpen المراحل والصفوف' },
  { key: 'catalog', label: 'Book المواد الدراسية' },
- { key: 'tracks', label: '<Target size={18} color="#6B7280" /> المسارات' },
+ { key: 'tracks', label: 'المسارات' },
  ].map((t) => (
  <button key={t.key} onClick={() => setTab(t.key as any)}
  style={{
@@ -268,7 +268,7 @@ export default function AcademicStructurePage() {
  <div className="flex flex-wrap gap-3 items-center justify-between mb-4">
  <div className="flex gap-3 flex-wrap">
  <input value={search} onChange={e => setSearch(e.target.value)}
- placeholder="<Search size={18} color="#6B7280" /> بحث عن مادة..." style={{ ...inp, width: 200 }} />
+ placeholder="بحث عن مادة..." style={{ ...inp, width: 200 }} />
  <select value={filterStage} onChange={e => setFilterStage(e.target.value)}
  style={{ ...inp, width: 160 }}>
  <option value="">كل المراحل</option>

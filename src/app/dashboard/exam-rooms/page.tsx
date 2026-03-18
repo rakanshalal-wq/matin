@@ -1,5 +1,5 @@
 'use client';
-import { Building2, CheckCircle, Pencil, Plus, Save, Search, Trash2, Users, Wrench, X } from "lucide-react";
+import { Building, Building2, CheckCircle, Pencil, Plus, Save, Search, Trash2, Users, Wrench, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';

@@ -1,5 +1,5 @@
 'use client';
-import { BarChart3,, Frown, HelpCircle, Lock, PartyPopper, RefreshCw, Video, X } from "lucide-react";
+import { BarChart3, Check, Frown, HelpCircle, Lock, PartyPopper, RefreshCw, Video, X } from "lucide-react";
 import { useState, useEffect, useRef } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';

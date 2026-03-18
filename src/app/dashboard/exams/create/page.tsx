@@ -1,5 +1,5 @@
 'use client';
-import {, CheckCircle } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 

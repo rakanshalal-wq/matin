@@ -128,14 +128,23 @@ export default function ParentPaymentsPage() {
  </div>
  {filtered.length === 0 ? (
  <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 40, textAlign: 'center' }}>
- <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><CreditCard size={19} color="#6B7280" /></div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center",margin:'0 auto 12px'}}><CreditCard size={19} color="#6B7280" /></div>
+ <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>لا توجد فواتير</p>
+ </div>
+ ) : (
+ filtered.map((inv: any) => (
+ <div key={inv.id} onClick={() => openPayment(inv)} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '16px 20px', marginBottom: 10, cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+ <div>
+ <div style={{ color: 'white', fontWeight: 700, fontSize: 15 }}>{inv.title || `فاتورة ${inv.invoice_number}`}</div>
+ <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, marginTop: 4 }}>{inv.school_name}</div>
  </div>
  <div style={{ textAlign: 'center' }}>
- <div style={{ color: '#10B981', fontSize: 22, fontWeight: 800 }}>{Number(p.amount).toLocaleString()} ريال</div>
- <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 700, background: p.status === 'completed' ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)', color: p.status === 'completed' ? '#10B981' : '#EF4444' }}>{p.status === 'completed' ? 'CheckCircle مكتمل' : 'XCircle فشل'}</span>
+ <div style={{ color: '#8B5CF6', fontSize: 18, fontWeight: 800 }}>{Number(inv.total || inv.amount || 0).toLocaleString()} ريال</div>
+ <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 700, background: STATUS_CFG[inv.status]?.bg || 'rgba(107,114,128,0.1)', color: STATUS_CFG[inv.status]?.color || '#6B7280' }}>{STATUS_CFG[inv.status]?.label || inv.status}</span>
  </div>
  </div>
- ))}
+ ))
+ )}
  </div>
  )}
 

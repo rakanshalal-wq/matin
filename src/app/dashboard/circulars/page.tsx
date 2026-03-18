@@ -115,29 +115,33 @@ export default function CircularsPage() {
  <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12 }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
  ) : filtered.length === 0 ? (
  <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12 }}>
- <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Circle size={19} color="#6B7280" /></div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center",margin:'0 auto 12px'}}><Circle size={19} color="#6B7280" /></div>
+ <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>لا توجد تعاميم</p>
+ </div>
+ ) : (
+ filtered.map((item: any) => (
+ <div key={item.id} onClick={() => setViewItem(item)} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '16px 20px', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
  <div style={{ flex: 1 }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' }}>
  <span style={{ color: 'white', fontWeight: 700, fontSize: 16 }}>{item.title}</span>
- {item.priority === 'urgent' && <span style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '2px 8px', borderRadius: 6, fontSize: 10, fontWeight: 700 }}><IconRenderer name="ICON_Circle" size={18} /> عاجل</span>}
+ {item.priority === 'urgent' && <span style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '2px 8px', borderRadius: 6, fontSize: 10, fontWeight: 700 }}>عاجل</span>}
  <span style={{ background: typeColors[item.type]?.bg, color: typeColors[item.type]?.color, padding: '2px 8px', borderRadius: 6, fontSize: 11, fontWeight: 600 }}>{typeLabels[item.type] || item.type}</span>
  <span style={{ background: statusColors[item.status]?.bg, color: statusColors[item.status]?.color, padding: '2px 8px', borderRadius: 6, fontSize: 11, fontWeight: 600 }}>{statusLabels[item.status] || item.status}</span>
  </div>
  <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, margin: '0 0 8px 0' }}>{item.content ? item.content.substring(0, 100) + (item.content.length > 100 ? '...' : '') : 'لا يوجد محتوى'}</p>
  <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
  {item.sender && <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{item.sender}</span>}
- <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}><IconRenderer name="ICON_User" size={18} />s {audienceLabels[item.target_audience] || item.target_audience}</span>
- {item.publish_date && <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}><IconRenderer name="ICON_Calendar" size={18} /> {new Date(item.publish_date).toLocaleDateString('ar-SA')}</span>}
- </div>
+ <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{audienceLabels[item.target_audience] || item.target_audience}</span>
+ {item.publish_date && <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{new Date(item.publish_date).toLocaleDateString('ar-SA')}</span>}
  </div>
  </div>
  <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
- <button onClick={(e) => { e.stopPropagation(); handleEdit(item); }} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
- <button onClick={(e) => { e.stopPropagation(); handleDelete(item.id); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
+ <button onClick={(e) => { e.stopPropagation(); handleEdit(item); }} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>تعديل</button>
+ <button onClick={(e) => { e.stopPropagation(); handleDelete(item.id); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>حذف</button>
  </div>
  </div>
- </div>
- ))}
+ ))
+ )}
  </div>
 
  {/* View Modal */}

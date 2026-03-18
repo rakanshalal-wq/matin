@@ -175,7 +175,7 @@ export default function IntegrationsPage() {
  body: JSON.stringify({ action: "test" }),
  });
  const data = await res.json();
- setTestResult(prev => ({ ...prev, [key]: { success: data.success, message: data.message || (data.success ? "الاتصال يعمل CheckCircle" : "فشل الاتصال <XCircle size={18} color="#EF4444" />") } }));
+ setTestResult(prev => ({ ...prev, [key]: { success: data.success, message: data.message || (data.success ? "الاتصال يعمل" : "فشل الاتصال") } }));
  } catch (e: unknown) {
  const msg = e instanceof Error ? e.message : "خطأ غير معروف";
  setTestResult(prev => ({ ...prev, [key]: { success: false, message: msg } }));
@@ -234,7 +234,7 @@ export default function IntegrationsPage() {
  <div className="flex gap-2 pt-1">
  <button onClick={() => handleSave(integration.key)} disabled={isSaving}
  className="flex-1 bg-yellow-400 text-gray-900 py-2 rounded-lg text-sm font-bold hover:bg-yellow-300 disabled:opacity-50 transition-colors">
- {isSaving ? "جاري الحفظ..." : "<Save size={18} color="#6B7280" /> حفظ وتفعيل"}
+ {isSaving ? "جاري الحفظ..." : "حفظ وتفعيل"}
  </button>
  <button onClick={() => setEditing(null)}
  className="px-3 py-2 border border-[#2a3550] rounded-lg text-sm text-gray-400 hover:text-white hover:border-gray-400 transition-colors">
@@ -247,12 +247,12 @@ export default function IntegrationsPage() {
  <button
  onClick={() => { setInputValues(prev => ({ ...prev, [integration.key]: savedKeys[integration.key] || {} })); setEditing(integration.key); }}
  className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${isConnected ? "bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border border-emerald-500/30" : "bg-yellow-400 text-gray-900 hover:bg-yellow-300"}`}>
- {isConnected ? "Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل" : "Link ربط الآن"}
+ {isConnected ? "تعديل" : "ربط الآن"}
  </button>
  {isConnected && integration.testable && (
  <button onClick={() => handleTest(integration.key)} disabled={isTesting}
  className="px-3 py-2 border border-blue-500/30 rounded-lg text-sm text-blue-400 hover:bg-blue-500/10 transition-colors disabled:opacity-50">
- {isTesting ? "⏳" : "<FlaskConical size={18} color="#8B5CF6" /> اختبار"}
+ {isTesting ? "جاري الاختبار..." : "اختبار"}
  </button>
  )}
  {isConnected && (
@@ -324,7 +324,7 @@ export default function IntegrationsPage() {
  <div className="flex gap-2 pt-1">
  <button onClick={() => handleSave(integration.key)} disabled={isSaving}
  className="flex-1 bg-orange-400 text-gray-900 py-2 rounded-lg text-sm font-bold hover:bg-orange-300 disabled:opacity-50 transition-colors">
- {isSaving ? "جاري الحفظ..." : isConnected ? "Save حفظ التعديلات" : "<Link size={18} color="#6B7280" /> تفعيل بعد الترخيص"}
+ {isSaving ? "جاري الحفظ..." : isConnected ? "حفظ التعديلات" : "تفعيل بعد الترخيص"}
  </button>
  <button onClick={() => setEditing(null)}
  className="px-3 py-2 border border-[#2a3550] rounded-lg text-sm text-gray-400 hover:text-white transition-colors">
@@ -337,7 +337,7 @@ export default function IntegrationsPage() {
  <button
  onClick={() => { setInputValues(prev => ({ ...prev, [integration.key]: savedKeys[integration.key] || {} })); setEditing(integration.key); }}
  className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all border ${isConnected ? "bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border-emerald-500/30" : "border-orange-500/40 text-orange-400 hover:bg-orange-500/10"}`}>
- {isConnected ? "Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل" : "Key إدخال مفاتيح الترخيص"}
+ {isConnected ? "تعديل" : "إدخال مفاتيح الترخيص"}
  </button>
  {isConnected && (
  <button onClick={() => handleDisconnect(integration.key)} disabled={isDisc}

@@ -1,16 +1,9 @@
 'use client';
-import { BarChart3, Book, BookOpen, Bot,, CheckCircle, Circle, Download, Lightbulb, Mailbox, Plus, Search, Trash2, XCircle, File } from "lucide-react";
+import { BarChart3, Book, BookOpen, Bot, CheckCircle, Circle, Download, Lightbulb, Mailbox, Plus, Search, Trash2, XCircle, File } from "lucide-react";
 import { useState, useEffect, useRef } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
 
- try {
- const token = localStorage.getItem('matin_token');
- if (token) return { 'Authorization': 'Bearer ' + token };
- const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
- return { 'x-user-id': String(u.id || '') };
- } catch { return {}; }
-};
 
 const diffConfig: any = {
  easy: { label: 'سهل', color: '#10B981', bg: 'rgba(16,185,129,0.15)', icon: "ICON_Circle" },

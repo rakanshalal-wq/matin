@@ -1,5 +1,5 @@
 'use client';
-import { Calendar, CheckCircle, ClipboardList, Handshake, MapPin, Mic, PartyPopper, Pencil, Plus, Save, Search, Settings, Trash2, User, Users, Vote, X } from "lucide-react";
+import { Calendar, CheckCircle, Circle, ClipboardList, Handshake, MapPin, Mic, PartyPopper, Pencil, Plus, Save, Search, Settings, Trash2, User, Users, Vote, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -119,7 +119,12 @@ export default function ParentsCouncilPage() {
  <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12 }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
  ) : filtered.length === 0 ? (
  <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12 }}>
- <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Circle size={19} color="#6B7280" /></div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center",margin:'0 auto 12px'}}><Circle size={19} color="#6B7280" /></div>
+ <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>لا توجد اجتماعات</p>
+ </div>
+ ) : (
+ filtered.map((item: any) => (
+ <div key={item.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
  <div style={{ flex: 1 }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
  <span style={{ color: 'white', fontWeight: 700, fontSize: 16 }}>{item.title}</span>
@@ -127,20 +132,19 @@ export default function ParentsCouncilPage() {
  <span style={{ background: statusColors[item.status]?.bg, color: statusColors[item.status]?.color, padding: '2px 10px', borderRadius: 6, fontSize: 11, fontWeight: 600 }}>{statusLabels[item.status] || item.status}</span>
  </div>
  <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', marginBottom: 6 }}>
- {item.date && <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}><IconRenderer name="ICON_Calendar" size={18} /> {new Date(item.date).toLocaleString('ar-SA', { dateStyle: 'medium', timeStyle: 'short' })}</span>}
- {item.location && <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}><IconRenderer name="ICON_Globe" size={18} /><IconRenderer name="ICON_Pin" size={18} /> {item.location}</span>}
- <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}><IconRenderer name="ICON_User" size={18} />s {item.attendees_count || 0} حاضر</span>
+ {item.date && <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>{new Date(item.date).toLocaleString('ar-SA', { dateStyle: 'medium', timeStyle: 'short' })}</span>}
+ {item.location && <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>{item.location}</span>}
+ <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>{item.attendees_count || 0} حاضر</span>
  </div>
- {item.agenda && <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, margin: '6px 0 0 0' }}><IconRenderer name="ICON_ClipboardList" size={18} /> {item.agenda.substring(0, 80) + (item.agenda.length > 80 ? '...' : '')}</p>}
- </div>
+ {item.agenda && <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, margin: '6px 0 0 0' }}>{item.agenda.substring(0, 80) + (item.agenda.length > 80 ? '...' : '')}</p>}
  </div>
  <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
- <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>تعديل</button>
+ <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>حذف</button>
  </div>
  </div>
- </div>
- ))}
+ ))
+ )}
  </div>
 
  {/* Modal */}

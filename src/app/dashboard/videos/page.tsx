@@ -1,6 +1,6 @@
 'use client';
 import IconRenderer from "@/components/IconRenderer";
-import { Clapperboard, Eye, Pencil, Plus, Save, Search, Trash2, X } from "lucide-react";
+import { Circle, Clapperboard, Eye, Pencil, Plus, Save, Search, Trash2, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import { getHeaders } from '@/lib/api';
 

@@ -9,26 +9,14 @@
    الهوية البصرية: Dark Premium | Gold #C9A84C | Cairo Font */
 
 import { useState, useEffect } from 'react';
-import {
+import { AlertCircle, CheckCircle, CreditCard, Eye, Globe, Handshake, LayoutDashboard, Loader2, Newspaper, Pencil, Plus, Save, Trash2, X, Zap } from "lucide-react";
 import { getHeaders } from '@/lib/api';
-  Newspaper, Zap, Handshake, CreditCard,
-  Plus, Pencil, Trash2, X, Save, Loader2,
-  Globe, Eye, CheckCircle, AlertCircle,
-  LayoutDashboard
-} from 'lucide-react';
 
 const GOLD = '#C9A84C';
 const BG = '#0B0B16';
 const CARD = 'rgba(255,255,255,0.04)';
 const BORDER = 'rgba(255,255,255,0.08)';
 
-  try {
-    const token = localStorage.getItem('matin_token');
-    if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };
-    const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
-    return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') };
-  } catch { return { 'Content-Type': 'application/json' }; }
-};
 
 type Tab = 'news' | 'features' | 'partners' | 'plans';
 

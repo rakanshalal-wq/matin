@@ -244,7 +244,7 @@ export default function PaymentSettingsPage() {
  disabled={isSaving}
  className="flex-1 bg-yellow-400 text-gray-900 py-2.5 rounded-xl text-sm font-bold hover:bg-yellow-300 disabled:opacity-50 transition-colors"
  >
- {isSaving ? "⏳ جاري الحفظ..." : "<Save size={18} color="#6B7280" /> حفظ وتفعيل"}
+ {isSaving ? "جاري الحفظ..." : "حفظ وتفعيل"}
  </button>
  <button
  onClick={() => setEditing(null)}
@@ -267,7 +267,7 @@ export default function PaymentSettingsPage() {
  : "bg-yellow-400 text-gray-900 hover:bg-yellow-300"
  }`}
  >
- {gateway.is_active ? "Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل الإعدادات" : "Link ربط الآن"}
+ {gateway.is_active ? "تعديل الإعدادات" : "ربط الآن"}
  </button>
  {gateway.is_active && (
  <button

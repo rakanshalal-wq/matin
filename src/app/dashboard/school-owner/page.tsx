@@ -1,6 +1,6 @@
 'use client';
 import IconRenderer from "@/components/IconRenderer";
-import {, Settings, X } from "lucide-react";
+import { Settings, X } from "lucide-react";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getHeaders } from '@/lib/api';
@@ -27,9 +27,6 @@ const INP: React.CSSProperties = { width:'100%',padding:'10px 14px',background:'
 const LBL: React.CSSProperties = { display:'block',color:'rgba(238,238,245,0.7)',fontSize:13,fontWeight:600,marginBottom:6 };
 const FW: React.CSSProperties = { marginBottom:16 };
 
- const token = typeof window !== 'undefined' ? localStorage.getItem('matin_token') : null;
- return { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}) };
-};
 
 const StatCard = ({ title, value, color, sub, link }: any) => (
  <Link href={link || '#'} style={{ textDecoration: 'none' }}>
