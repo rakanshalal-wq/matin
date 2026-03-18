@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
 import { pool, getUserFromRequest, getFilterSQL, getInsertIds } from '@/lib/auth';
 import crypto from 'crypto';
 import { encryptExamContent, decryptExamContent } from '@/lib/encryption';
@@ -86,7 +87,6 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     // ✅ التحقق من صحة البيانات بـ Zod
-    const { z } = await import('zod');
     const ExamPostSchema = z.object({
       title: z.string().min(2, 'عنوان الاختبار يجب أن يكون حرفين على الأقل').max(200).trim().optional().nullable(),
       title_ar: z.string().min(2).max(200).trim().optional().nullable(),
@@ -115,7 +115,7 @@ export async function POST(request: Request) {
     const parsed = ExamPostSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
-        { error: parsed.error.errors.map(e => e.message).join(' | ') },
+        { error: parsed.error.issues.map(e => e.message).join(' | ') },
         { status: 400 }
       );
     }

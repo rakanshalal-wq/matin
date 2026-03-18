@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
 import { pool, getUserFromRequest, getFilterSQL } from '@/lib/auth';
 import { getPaginationParams, buildPaginatedResponse } from '@/lib/pagination';
 
@@ -41,10 +42,9 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     // ✅ التحقق من صحة البيانات بـ Zod
-    const { z } = await import('zod');
     const AnnouncementPostSchema = z.object({
-      title: z.string({ required_error: 'عنوان الإعلان مطلوب' }).min(3, 'العنوان يجب أن يكون 3 أحرف على الأقل').max(200).trim(),
-      content: z.string({ required_error: 'محتوى الإعلان مطلوب' }).min(5, 'المحتوى يجب أن يكون 5 أحرف على الأقل').max(5000),
+      title: z.string({ error: 'عنوان الإعلان مطلوب' }).min(3, 'العنوان يجب أن يكون 3 أحرف على الأقل').max(200).trim(),
+      content: z.string({ error: 'محتوى الإعلان مطلوب' }).min(5, 'المحتوى يجب أن يكون 5 أحرف على الأقل').max(5000),
       type: z.string().max(50).optional().nullable(),
       target_audience: z.string().max(50).optional().default('all'),
       priority: z.enum(['low', 'normal', 'high', 'urgent']).optional().default('normal'),
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
     const parsed = AnnouncementPostSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
-        { error: parsed.error.errors.map(e => e.message).join(' | ') },
+        { error: parsed.error.issues.map(e => e.message).join(' | ') },
         { status: 400 }
       );
     }

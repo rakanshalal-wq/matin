@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
 import { getPaginationParams, buildPaginatedResponse } from '@/lib/pagination';
 import { pool, getUserFromRequest, getFilterSQL, getInsertIds } from '@/lib/auth';
 
@@ -32,9 +33,8 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     // ✅ التحقق من صحة البيانات بـ Zod
-    const { z } = await import('zod');
     const CoursePostSchema = z.object({
-      name: z.string({ required_error: 'اسم الدورة مطلوب' }).min(2, 'الاسم يجب أن يكون حرفين على الأقل').max(200).trim(),
+      name: z.string({ error: 'اسم الدورة مطلوب' }).min(2, 'الاسم يجب أن يكون حرفين على الأقل').max(200).trim(),
       description: z.string().max(2000).optional().nullable(),
       duration: z.union([z.string(), z.number()]).optional().nullable(),
       price: z.union([z.string(), z.number()]).optional().nullable(),
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     const parsed = CoursePostSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
-        { error: parsed.error.errors.map(e => e.message).join(' | ') },
+        { error: parsed.error.issues.map(e => e.message).join(' | ') },
         { status: 400 }
       );
     }

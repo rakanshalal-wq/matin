@@ -8,29 +8,29 @@ import { z } from 'zod';
 
 export const LoginSchema = z.object({
   email: z
-    .string({ required_error: 'البريد الإلكتروني مطلوب' })
+    .string({ error: 'البريد الإلكتروني مطلوب' })
     .email('صيغة البريد الإلكتروني غير صحيحة')
     .max(255, 'البريد الإلكتروني طويل جداً'),
   password: z
-    .string({ required_error: 'كلمة المرور مطلوبة' })
+    .string({ error: 'كلمة المرور مطلوبة' })
     .min(1, 'كلمة المرور مطلوبة')
     .max(128, 'كلمة المرور طويلة جداً'),
 });
 
 export const RegisterSchema = z.object({
   name: z
-    .string({ required_error: 'الاسم مطلوب' })
+    .string({ error: 'الاسم مطلوب' })
     .min(2, 'الاسم يجب أن يكون حرفين على الأقل')
     .max(100, 'الاسم طويل جداً')
     .trim(),
   email: z
-    .string({ required_error: 'البريد الإلكتروني مطلوب' })
+    .string({ error: 'البريد الإلكتروني مطلوب' })
     .email('صيغة البريد الإلكتروني غير صحيحة')
     .max(255, 'البريد الإلكتروني طويل جداً')
     .toLowerCase()
     .trim(),
   password: z
-    .string({ required_error: 'كلمة المرور مطلوبة' })
+    .string({ error: 'كلمة المرور مطلوبة' })
     .min(8, 'كلمة المرور يجب أن تكون 8 أحرف على الأقل')
     .max(128, 'كلمة المرور طويلة جداً'),
   phone: z
@@ -45,24 +45,24 @@ export const RegisterSchema = z.object({
 
 export const ChangePasswordSchema = z.object({
   current_password: z
-    .string({ required_error: 'كلمة المرور الحالية مطلوبة' })
+    .string({ error: 'كلمة المرور الحالية مطلوبة' })
     .min(1, 'كلمة المرور الحالية مطلوبة'),
   new_password: z
-    .string({ required_error: 'كلمة المرور الجديدة مطلوبة' })
+    .string({ error: 'كلمة المرور الجديدة مطلوبة' })
     .min(8, 'كلمة المرور الجديدة يجب أن تكون 8 أحرف على الأقل')
     .max(128, 'كلمة المرور طويلة جداً'),
 });
 
 export const ForgotPasswordSchema = z.object({
   email: z
-    .string({ required_error: 'البريد الإلكتروني مطلوب' })
+    .string({ error: 'البريد الإلكتروني مطلوب' })
     .email('صيغة البريد الإلكتروني غير صحيحة'),
 });
 
 export const ResetPasswordSchema = z.object({
-  token: z.string({ required_error: 'رمز الاستعادة مطلوب' }).min(1),
+  token: z.string({ error: 'رمز الاستعادة مطلوب' }).min(1),
   password: z
-    .string({ required_error: 'كلمة المرور الجديدة مطلوبة' })
+    .string({ error: 'كلمة المرور الجديدة مطلوبة' })
     .min(8, 'كلمة المرور يجب أن تكون 8 أحرف على الأقل')
     .max(128, 'كلمة المرور طويلة جداً'),
 });
@@ -71,7 +71,7 @@ export const ResetPasswordSchema = z.object({
 
 export const StudentSchema = z.object({
   name: z
-    .string({ required_error: 'اسم الطالب مطلوب' })
+    .string({ error: 'اسم الطالب مطلوب' })
     .min(2, 'الاسم يجب أن يكون حرفين على الأقل')
     .max(100, 'الاسم طويل جداً')
     .trim(),
@@ -97,7 +97,7 @@ export const StudentSchema = z.object({
 
 export const EmployeeSchema = z.object({
   name: z
-    .string({ required_error: 'اسم الموظف مطلوب' })
+    .string({ error: 'اسم الموظف مطلوب' })
     .min(2, 'الاسم يجب أن يكون حرفين على الأقل')
     .max(100, 'الاسم طويل جداً')
     .trim(),
@@ -122,12 +122,12 @@ export const EmployeeSchema = z.object({
 
 export const AnnouncementSchema = z.object({
   title: z
-    .string({ required_error: 'عنوان الإعلان مطلوب' })
+    .string({ error: 'عنوان الإعلان مطلوب' })
     .min(3, 'العنوان يجب أن يكون 3 أحرف على الأقل')
     .max(200, 'العنوان طويل جداً')
     .trim(),
   content: z
-    .string({ required_error: 'محتوى الإعلان مطلوب' })
+    .string({ error: 'محتوى الإعلان مطلوب' })
     .min(10, 'المحتوى يجب أن يكون 10 أحرف على الأقل')
     .max(5000, 'المحتوى طويل جداً'),
   type: z.enum(['general', 'urgent', 'event', 'exam', 'holiday']).optional().default('general'),
@@ -139,7 +139,7 @@ export const AnnouncementSchema = z.object({
 
 export const ExamSchema = z.object({
   title: z
-    .string({ required_error: 'عنوان الاختبار مطلوب' })
+    .string({ error: 'عنوان الاختبار مطلوب' })
     .min(3, 'العنوان يجب أن يكون 3 أحرف على الأقل')
     .max(200, 'العنوان طويل جداً')
     .trim(),
@@ -167,7 +167,7 @@ export const ExamSchema = z.object({
 
 export const CourseSchema = z.object({
   title: z
-    .string({ required_error: 'عنوان الدورة مطلوب' })
+    .string({ error: 'عنوان الدورة مطلوب' })
     .min(3, 'العنوان يجب أن يكون 3 أحرف على الأقل')
     .max(200, 'العنوان طويل جداً')
     .trim(),
@@ -183,7 +183,7 @@ export const CourseSchema = z.object({
 export const PaymentSchema = z.object({
   student_id: z.number().int().positive('معرف الطالب غير صحيح').optional().nullable(),
   amount: z
-    .number({ required_error: 'المبلغ مطلوب' })
+    .number({ error: 'المبلغ مطلوب' })
     .positive('المبلغ يجب أن يكون أكبر من صفر')
     .max(1_000_000, 'المبلغ كبير جداً'),
   description: z.string().max(500).optional().nullable(),
@@ -198,7 +198,7 @@ export const PaymentSchema = z.object({
 
 export const SettingSchema = z.object({
   key: z
-    .string({ required_error: 'مفتاح الإعداد مطلوب' })
+    .string({ error: 'مفتاح الإعداد مطلوب' })
     .min(1)
     .max(100)
     .regex(/^[a-z0-9_]+$/, 'مفتاح الإعداد يجب أن يحتوي على أحرف إنجليزية صغيرة وأرقام وشرطة سفلية فقط'),
@@ -208,7 +208,8 @@ export const SettingSchema = z.object({
 // ===== Helper: تحويل أخطاء Zod إلى رسالة واضحة =====
 
 export function formatZodError(error: z.ZodError): string {
-  return error.errors.map((e) => e.message).join(' | ');
+  // Zod v4 uses .issues instead of .errors
+  return error.issues.map((e) => e.message).join(' | ');
 }
 
 export type LoginInput = z.infer<typeof LoginSchema>;
