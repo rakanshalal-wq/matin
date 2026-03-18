@@ -103,11 +103,11 @@ export default function StudentFeesPage() {
     <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>Coins الرسوم الدراسية</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Coins" size={18} /> الرسوم الدراسية</h1>
           <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>متابعة رسوم الطلاب والمدفوعات</p>
         </div>
         <div style={{ display: 'flex', gap: 12 }}>
-          <button onClick={exportCSV} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid ' + BORDER, borderRadius: 10, padding: '10px 18px', color: 'white', cursor: 'pointer', fontSize: 14 }}>Download تصدير</button>
+          <button onClick={exportCSV} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid ' + BORDER, borderRadius: 10, padding: '10px 18px', color: 'white', cursor: 'pointer', fontSize: 14 }}><IconRenderer name="ICON_Download" size={18} /> تصدير</button>
           <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ اضافة رسوم</button>
         </div>
       </div>
@@ -117,7 +117,7 @@ export default function StudentFeesPage() {
           { label: 'اجمالي الرسوم', value: totalAmount.toLocaleString() + ' ر.س', color: GOLD, icon: "ICON_Banknote" },
           { label: 'المحصّل', value: totalPaid.toLocaleString() + ' ر.س', color: '#10B981', icon: "ICON_CheckCircle" },
           { label: 'المتبقي', value: totalPending.toLocaleString() + ' ر.س', color: '#EF4444', icon: '⏳' },
-          { label: 'متاخرو الدفع', value: overdueCount, color: '#F59E0B', icon: 'AlertTriangle️' },
+          { label: 'متاخرو الدفع', value: overdueCount, color: '#F59E0B', icon: 'AlertTriangle<IconRenderer name="ICON_Star" size={18} />' },
         ].map((s, i) => (
           <div key={i} style={{ background: CARD_BG, border: '1px solid ' + BORDER, borderRadius: 14, padding: '18px 20px' }}>
             <div style={{ fontSize: 24, marginBottom: 8 }}><IconRenderer name={s.icon} /></div>
@@ -140,7 +140,7 @@ export default function StudentFeesPage() {
           <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>جاري التحميل...</div>
         ) : filtered.length === 0 ? (
           <div style={{ textAlign: 'center', padding: 60 }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>Coins</div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_Coins" size={36} /></div>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 16 }}>لا توجد رسوم مسجلة</p>
             <button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ اضافة رسوم</button>
           </div>

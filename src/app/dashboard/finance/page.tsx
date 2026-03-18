@@ -6,8 +6,8 @@ import IconRenderer from "@/components/IconRenderer";
 const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 
 const pkgConfig: any = {
-  basic: { name: 'أساسي', price: 0, color: '#6B7280', icon: '🆓', features: ['مدرسة واحدة', '5 معلمين', '50 طالب'] },
-  advanced: { name: 'متقدم', price: 299, color: '#C9A227', icon: '⭐', features: ['5 مدارس', '20 معلم', '500 طالب', 'بنك أسئلة AI', 'مراقبة اختبارات'] },
+  basic: { name: 'أساسي', price: 0, color: '#6B7280', icon: '<IconRenderer name="ICON_Star" size={18} />', features: ['مدرسة واحدة', '5 معلمين', '50 طالب'] },
+  advanced: { name: 'متقدم', price: 299, color: '#C9A227', icon: '<IconRenderer name="ICON_Star" size={18} />', features: ['5 مدارس', '20 معلم', '500 طالب', 'بنك أسئلة AI', 'مراقبة اختبارات'] },
   enterprise: { name: 'مؤسسي', price: 599, color: '#8B5CF6', icon: "ICON_Trophy", features: ['مدارس غير محدودة', 'معلمين غير محدود', 'طلاب غير محدود', 'كل الميزات', 'دعم فني أولوية', 'تقارير متقدمة'] },
 };
 
@@ -86,7 +86,7 @@ export default function FinancePage() {
 
   return (
     <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-      <h1 style={{ fontSize: 24, fontWeight: 700, color: '#C9A227', margin: '0 0 24px' }}>Coins المالية والاشتراكات</h1>
+      <h1 style={{ fontSize: 24, fontWeight: 700, color: '#C9A227', margin: '0 0 24px' }}><IconRenderer name="ICON_Coins" size={18} /> المالية والاشتراكات</h1>
 
       {msg && <div style={{ padding: 12, background: msg.includes('فاتورة') || msg.includes('تم') ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)', border: `1px solid ${msg.includes('فاتورة') || msg.includes('تم') ? 'rgba(16,185,129,0.3)' : 'rgba(239,68,68,0.3)'}`, borderRadius: 10, color: msg.includes('فاتورة') || msg.includes('تم') ? '#10B981' : '#EF4444', marginBottom: 16, fontSize: 14 }}>{msg}</div>}
 
@@ -181,7 +181,7 @@ export default function FinancePage() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 440, direction: 'rtl' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>CreditCard إضافة دفعة</h2>
+              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_CreditCard" size={18} /> إضافة دفعة</h2>
               <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
             </div>
             <div style={{ marginBottom: 16 }}>

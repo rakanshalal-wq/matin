@@ -5,8 +5,8 @@ import IconRenderer from "@/components/IconRenderer";
 const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 
 const plans = [
-  { id: 'basic', name: 'أساسي', price: 0, period: 'مجاني', color: '#6B7280', icon: '🆓', students: 50, teachers: 5, schools: 1, features: ['مدرسة واحدة', '5 معلمين', '50 طالب', 'الحضور والغياب', 'الدرجات الأساسية'] },
-  { id: 'advanced', name: 'متقدم', price: 299, period: 'شهرياً', color: '#3B82F6', icon: '⭐', students: 500, teachers: 20, schools: 5, features: ['5 مدارس', '20 معلم', '500 طالب', 'بنك أسئلة AI', 'مراقبة اختبارات', 'التقارير المتقدمة', 'الدعم الفني'] },
+  { id: 'basic', name: 'أساسي', price: 0, period: 'مجاني', color: '#6B7280', icon: '<IconRenderer name="ICON_Star" size={18} />', students: 50, teachers: 5, schools: 1, features: ['مدرسة واحدة', '5 معلمين', '50 طالب', 'الحضور والغياب', 'الدرجات الأساسية'] },
+  { id: 'advanced', name: 'متقدم', price: 299, period: 'شهرياً', color: '#3B82F6', icon: '<IconRenderer name="ICON_Star" size={18} />', students: 500, teachers: 20, schools: 5, features: ['5 مدارس', '20 معلم', '500 طالب', 'بنك أسئلة AI', 'مراقبة اختبارات', 'التقارير المتقدمة', 'الدعم الفني'] },
   { id: 'enterprise', name: 'مؤسسي', price: 599, period: 'شهرياً', color: '#C9A227', icon: "ICON_Trophy", students: -1, teachers: -1, schools: -1, features: ['مدارس غير محدودة', 'معلمين غير محدود', 'طلاب غير محدود', 'كل الميزات', 'دعم 24/7', 'مدير حساب خاص', 'API مخصص'] },
 ];
 
@@ -75,7 +75,7 @@ export default function SubscriptionsPage() {
     <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}>Diamond الباقات والاشتراكات</h1>
+          <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}><IconRenderer name="ICON_Diamond" size={18} /> الباقات والاشتراكات</h1>
           <p style={{ color: '#9CA3AF', marginTop: 6, fontSize: 14 }}>
             باقتك الحالية: <span style={{ color: currentPlanData?.color || '#C9A227', fontWeight: 700 }}>{currentPlanData?.name || 'أساسي'}</span>
           </p>
@@ -136,7 +136,7 @@ export default function SubscriptionsPage() {
                       School {plan.schools === -1 ? 'غير محدود' : plan.schools} مدرسة
                     </span>
                     <span style={{ padding: '4px 10px', background: 'rgba(255,255,255,0.05)', borderRadius: 6, color: 'rgba(255,255,255,0.7)', fontSize: 12 }}>
-                      User‍School {plan.teachers === -1 ? 'غير محدود' : plan.teachers} معلم
+                      User<IconRenderer name="ICON_Star" size={18} /><IconRenderer name="ICON_School" size={18} /> {plan.teachers === -1 ? 'غير محدود' : plan.teachers} معلم
                     </span>
                     <span style={{ padding: '4px 10px', background: 'rgba(255,255,255,0.05)', borderRadius: 6, color: 'rgba(255,255,255,0.7)', fontSize: 12 }}>
                       GraduationCap {plan.students === -1 ? 'غير محدود' : plan.students} طالب
@@ -174,7 +174,7 @@ export default function SubscriptionsPage() {
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, overflow: 'hidden' }}>
           {subscriptions.length === 0 ? (
             <div style={{ padding: 60, textAlign: 'center' }}>
-              <div style={{ fontSize: 48, marginBottom: 16 }}>Mailbox</div>
+              <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_Mail" size={18} />box</div>
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16 }}>لا توجد مدفوعات بعد</p>
             </div>
           ) : (

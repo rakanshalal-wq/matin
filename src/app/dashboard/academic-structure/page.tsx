@@ -1,4 +1,5 @@
 'use client';
+import IconRenderer from "@/components/IconRenderer";
 import { Book, BookOpen, Check, Pencil, School, Search, Target, Trash2 } from "lucide-react";
 import { useState, useEffect } from 'react';
 
@@ -167,7 +168,7 @@ export default function AcademicStructurePage() {
 
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-black text-white mb-1">School الهيكل الأكاديمي</h1>
+        <h1 className="text-3xl font-black text-white mb-1"><IconRenderer name="ICON_School" size={18} /> الهيكل الأكاديمي</h1>
         <p className="text-gray-400 text-sm">المراحل والصفوف والمواد وفق وزارة التعليم السعودية — قابل للتخصيص</p>
       </div>
 
@@ -192,7 +193,7 @@ export default function AcademicStructurePage() {
         <div className="text-center py-20 text-gray-500">جاري التحميل...</div>
       ) : (
         <>
-          {/* ─── تبويب المراحل والصفوف ─────────────────────────── */}
+          {/* <IconRenderer name="ICON_Star" size={18} /> تبويب المراحل والصفوف <IconRenderer name="ICON_Star" size={18} /> */}
           {tab === 'stages' && (
             <div>
               <div className="flex justify-between items-center mb-4">
@@ -217,11 +218,11 @@ export default function AcademicStructurePage() {
                         <div className="flex gap-2">
                           <button onClick={() => openModal('editStage', stage)}
                             style={{ ...btn('rgba(255,255,255,0.08)', '#ccc'), padding: '6px 12px', fontSize: 12 }}>
-                            [Pencil]️
+                            [Pencil]<IconRenderer name="ICON_Star" size={18} />
                           </button>
                           <button onClick={() => del('stage', stage.id)}
                             style={{ ...btn(`${RED}22`, RED), padding: '6px 12px', fontSize: 12 }}>
-                            [Trash2]️
+                            [Trash2]<IconRenderer name="ICON_Star" size={18} />
                           </button>
                         </div>
                       </div>
@@ -243,11 +244,11 @@ export default function AcademicStructurePage() {
                               <div className="flex gap-1">
                                 <button onClick={() => openModal('editGrade', g)}
                                   style={{ ...btn('rgba(255,255,255,0.06)', '#aaa'), padding: '3px 8px', fontSize: 11 }}>
-                                  [Pencil]️
+                                  [Pencil]<IconRenderer name="ICON_Star" size={18} />
                                 </button>
                                 <button onClick={() => del('grade', g.id)}
                                   style={{ ...btn(`${RED}15`, RED), padding: '3px 8px', fontSize: 11 }}>
-                                  Trash2️
+                                  Trash2<IconRenderer name="ICON_Star" size={18} />
                                 </button>
                               </div>
                             </div>
@@ -261,7 +262,7 @@ export default function AcademicStructurePage() {
             </div>
           )}
 
-          {/* ─── تبويب المواد ──────────────────────────────────── */}
+          {/* <IconRenderer name="ICON_Star" size={18} /> تبويب المواد <IconRenderer name="ICON_Star" size={18} /> */}
           {tab === 'catalog' && (
             <div>
               <div className="flex flex-wrap gap-3 items-center justify-between mb-4">
@@ -328,11 +329,11 @@ export default function AcademicStructurePage() {
                           <div className="flex gap-2 justify-end">
                             <button onClick={() => openModal('editCatalog', s)}
                               style={{ ...btn('rgba(255,255,255,0.06)', '#ccc'), padding: '5px 10px', fontSize: 12 }}>
-                              [Pencil]️
+                              [Pencil]<IconRenderer name="ICON_Star" size={18} />
                             </button>
                             <button onClick={() => del('catalog', s.id)}
                               style={{ ...btn(`${RED}15`, RED), padding: '5px 10px', fontSize: 12 }}>
-                              [Trash2]️
+                              [Trash2]<IconRenderer name="ICON_Star" size={18} />
                             </button>
                           </div>
                         </td>
@@ -349,7 +350,7 @@ export default function AcademicStructurePage() {
             </div>
           )}
 
-          {/* ─── تبويب المسارات ─────────────────────────────────── */}
+          {/* <IconRenderer name="ICON_Star" size={18} /> تبويب المسارات <IconRenderer name="ICON_Star" size={18} /> */}
           {tab === 'tracks' && (
             <div>
               <div className="flex justify-between items-center mb-4">
@@ -372,11 +373,11 @@ export default function AcademicStructurePage() {
                         <div className="flex gap-1">
                           <button onClick={() => openModal('editTrack', t)}
                             style={{ ...btn('rgba(255,255,255,0.06)', '#ccc'), padding: '5px 10px', fontSize: 12 }}>
-                            [Pencil]️
+                            [Pencil]<IconRenderer name="ICON_Star" size={18} />
                           </button>
                           <button onClick={() => del('track', t.id)}
                             style={{ ...btn(`${RED}15`, RED), padding: '5px 10px', fontSize: 12 }}>
-                            [Trash2]️
+                            [Trash2]<IconRenderer name="ICON_Star" size={18} />
                           </button>
                         </div>
                       </div>
@@ -394,9 +395,9 @@ export default function AcademicStructurePage() {
         </>
       )}
 
-      {/* ═══════════════════════════════════════════════════════════
+      {/* <IconRenderer name="ICON_Star" size={18} />
           Modals
-      ═══════════════════════════════════════════════════════════ */}
+      <IconRenderer name="ICON_Star" size={18} /> */}
 
       {/* إضافة مرحلة */}
       {modal === 'addStage' && (

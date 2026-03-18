@@ -153,7 +153,7 @@ export default function ExamTakePage() {
   if (phase === 'loading') return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0C0E17', fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' as const }}>
       <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 48, marginBottom: 16 }}>FileText</div>
+        <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_File" size={18} />Text</div>
         <p style={{ color: msg ? '#EF4444' : '#C9A227', fontSize: 16 }}>{msg || 'جاري تحميل الاختبار...'}</p>
       </div>
     </div>
@@ -163,10 +163,10 @@ export default function ExamTakePage() {
   if (phase === 'ready') return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0C0E17', fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' as const }}>
       <div style={{ textAlign: 'center', maxWidth: 500, padding: 40 }}>
-        <div style={{ fontSize: 64, marginBottom: 20 }}>Lock</div>
+        <div style={{ fontSize: 64, marginBottom: 20 }}><IconRenderer name="ICON_Lock" size={36} /></div>
         <h1 style={{ color: '#C9A227', fontSize: 24, fontWeight: 700, margin: '0 0 16px' }}>جاهز للاختبار؟</h1>
         <div style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 12, padding: 16, marginBottom: 24, textAlign: 'right' }}>
-          <p style={{ color: '#EF4444', fontSize: 14, margin: '0 0 8px', fontWeight: 700 }}>AlertTriangle️ تعليمات مهمة:</p>
+          <p style={{ color: '#EF4444', fontSize: 14, margin: '0 0 8px', fontWeight: 700 }}><IconRenderer name="ICON_Star" size={18} /> تعليمات مهمة:</p>
           <p style={{ color: '#D4D4D8', fontSize: 13, margin: '0 0 4px' }}>• الاختبار سيفتح بوضع ملء الشاشة</p>
           <p style={{ color: '#D4D4D8', fontSize: 13, margin: '0 0 4px' }}>• ممنوع الخروج من الشاشة أو فتح تبويب ثاني</p>
           <p style={{ color: '#D4D4D8', fontSize: 13, margin: '0 0 4px' }}>• ممنوع النسخ واللصق وكليك يمين</p>
@@ -184,7 +184,7 @@ export default function ExamTakePage() {
   if (phase === 'result') return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0C0E17', fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' as const }}>
       <div style={{ textAlign: 'center', maxWidth: 400, padding: 40 }}>
-        <div style={{ fontSize: 80, marginBottom: 20 }}>{terminated ? "ICON_Ban" : result?.percentage >= 50 ? "ICON_PartyPopper" : "ICON_Frown"}</div>
+        <div style={{ fontSize: 80, marginBottom: 20 }}><IconRenderer name={terminated ? "ICON_Ban" : result?.percentage >= 50 ? "ICON_PartyPopper" : "ICON_Frown"} size={18} /></div>
         <h1 style={{ color: terminated ? '#EF4444' : result?.percentage >= 50 ? '#10B981' : '#F59E0B', fontSize: 28, margin: '0 0 12px' }}>
           {terminated ? 'تم إنهاء الاختبار' : `${result?.correct || 0} / ${result?.total || 0}`}
         </h1>
@@ -205,8 +205,8 @@ export default function ExamTakePage() {
       {/* الشريط العلوي */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 24px', background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <span style={{ color: isUrgent ? '#EF4444' : '#C9A227', fontSize: 20, fontWeight: 700, fontFamily: 'monospace' }}>⏱️ {formatTime(timeLeft)}</span>
-          {violations > 0 && <span style={{ padding: '4px 12px', background: 'rgba(239,68,68,0.15)', color: '#EF4444', borderRadius: 20, fontSize: 12 }}>AlertTriangle️ مخالفات: {violations}/5</span>}
+          <span style={{ color: isUrgent ? '#EF4444' : '#C9A227', fontSize: 20, fontWeight: 700, fontFamily: 'monospace' }}>⏱<IconRenderer name="ICON_Star" size={18} /> {formatTime(timeLeft)}</span>
+          {violations > 0 && <span style={{ padding: '4px 12px', background: 'rgba(239,68,68,0.15)', color: '#EF4444', borderRadius: 20, fontSize: 12 }}><IconRenderer name="ICON_Star" size={18} /> مخالفات: {violations}/5</span>}
         </div>
         <span style={{ color: '#9CA3AF', fontSize: 13 }}>سؤال {currentQ + 1} من {questions.length}</span>
         <button onClick={finishExam} style={{ padding: '8px 20px', background: 'rgba(16,185,129,0.1)', color: '#10B981', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 8, fontSize: 13, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>[Check] تسليم</button>

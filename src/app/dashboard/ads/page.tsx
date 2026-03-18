@@ -90,7 +90,7 @@ export default function AdsPage() {
     } catch {}
   };
 
-  const positionLabels: Record<string, string> = { top: '⬆️ أعلى الصفحة', bottom: '⬇️ أسفل الصفحة', sidebar: '◀️ الشريط الجانبي', all: 'Globe في كل مكان' };
+  const positionLabels: Record<string, string> = { top: '<IconRenderer name="ICON_Star" size={18} /> أعلى الصفحة', bottom: '<IconRenderer name="ICON_Star" size={18} /> أسفل الصفحة', sidebar: '<IconRenderer name="ICON_Star" size={18} /> الشريط الجانبي', all: 'Globe في كل مكان' };
   const targetLabels: Record<string, string> = { all: 'Users الجميع', schools: 'School المدارس', universities: 'GraduationCap الجامعات', institutes: 'BookOpen المعاهد' };
 
   const inputStyle: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'IBM Plex Sans Arabic, sans-serif' };
@@ -103,7 +103,7 @@ export default function AdsPage() {
       {/* الهيدر */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}>Megaphone الإعلانات</h1>
+          <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}><IconRenderer name="ICON_Megaphone" size={18} /> الإعلانات</h1>
           <p style={{ color: '#9CA3AF', fontSize: 14, margin: '6px 0 0' }}>إدارة إعلانات المنصة المعروضة لجميع المؤسسات</p>
         </div>
         <button onClick={() => setShowAdd(!showAdd)} style={{ padding: '10px 24px', background: showAdd ? '#374151' : 'linear-gradient(135deg, #C9A227, #E8C547)', color: showAdd ? '#fff' : '#000', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
@@ -119,8 +119,8 @@ export default function AdsPage() {
         {[
           { label: 'الكل', value: ads.length, color: '#C9A227', icon: "ICON_Megaphone" },
           { label: 'نشطة', value: ads.filter(a => a.is_active).length, color: '#10B981', icon: "ICON_CheckCircle" },
-          { label: 'إجمالي المشاهدات', value: ads.reduce((s, a) => s + (a.views || 0), 0), color: '#3B82F6', icon: 'Eye️' },
-          { label: 'إجمالي النقرات', value: ads.reduce((s, a) => s + (a.clicks || 0), 0), color: '#8B5CF6', icon: 'Mouse️' },
+          { label: 'إجمالي المشاهدات', value: ads.reduce((s, a) => s + (a.views || 0), 0), color: '#3B82F6', icon: 'Eye<IconRenderer name="ICON_Star" size={18} />' },
+          { label: 'إجمالي النقرات', value: ads.reduce((s, a) => s + (a.clicks || 0), 0), color: '#8B5CF6', icon: 'Mouse<IconRenderer name="ICON_Star" size={18} />' },
         ].map((s, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 16, textAlign: 'center' }}>
             <div style={{ fontSize: 24, marginBottom: 6 }}><IconRenderer name={s.icon} /></div>
@@ -133,7 +133,7 @@ export default function AdsPage() {
       {/* فورم الإضافة */}
       {showAdd && (
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 24, marginBottom: 24 }}>
-          <h3 style={{ color: '#C9A227', fontSize: 18, margin: '0 0 20px', fontWeight: 700 }}>{editItem ? 'Pencil️ تعديل الإعلان' : 'Plus إضافة إعلان جديد'}</h3>
+          <h3 style={{ color: '#C9A227', fontSize: 18, margin: '0 0 20px', fontWeight: 700 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل الإعلان' : 'Plus إضافة إعلان جديد'}</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
             <div style={{ gridColumn: '1 / -1' }}>
               <label style={labelStyle}>عنوان الإعلان *</label>
@@ -211,16 +211,16 @@ export default function AdsPage() {
                 {ad.description && <p style={{ color: '#9CA3AF', fontSize: 13, margin: '0 0 10px' }}>{ad.description}</p>}
                 <div style={{ display: 'flex', gap: 12, marginBottom: 12, flexWrap: 'wrap' }}>
                   <span style={{ color: '#6B7280', fontSize: 12 }}>{positionLabels[ad.position] || ad.position}</span>
-                  <span style={{ color: '#6B7280', fontSize: 12 }}>Eye️ {(ad.views || 0).toLocaleString()}</span>
-                  <span style={{ color: '#6B7280', fontSize: 12 }}>[Mouse]️ {(ad.clicks || 0).toLocaleString()}</span>
+                  <span style={{ color: '#6B7280', fontSize: 12 }}><IconRenderer name="ICON_Star" size={18} /> {(ad.views || 0).toLocaleString()}</span>
+                  <span style={{ color: '#6B7280', fontSize: 12 }}>[Mouse]<IconRenderer name="ICON_Star" size={18} /> {(ad.clicks || 0).toLocaleString()}</span>
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
                   <button onClick={() => handleToggle(ad.id, ad.is_active)} style={{ flex: 1, padding: '7px 12px', background: ad.is_active ? 'rgba(107,114,128,0.1)' : 'rgba(16,185,129,0.1)', color: ad.is_active ? '#6B7280' : '#10B981', border: `1px solid ${ad.is_active ? 'rgba(107,114,128,0.2)' : 'rgba(16,185,129,0.2)'}`, borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-                    {ad.is_active ? '⏸ إيقاف' : '▶️ تفعيل'}
+                    {ad.is_active ? '⏸ إيقاف' : '<IconRenderer name="ICON_Check" size={18} /> تفعيل'}
                   </button>
-                  <button onClick={() => handleEdit(ad)} style={{ padding: '7px 14px', background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>Pencil️</button>
+                  <button onClick={() => handleEdit(ad)} style={{ padding: '7px 14px', background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}><IconRenderer name="ICON_Star" size={18} /></button>
                   <button onClick={() => handleDelete(ad.id)} style={{ padding: '7px 14px', background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-                    Trash2️
+                    Trash2<IconRenderer name="ICON_Star" size={18} />
                   </button>
                 </div>
               </div>

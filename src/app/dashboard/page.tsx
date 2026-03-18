@@ -172,9 +172,9 @@ export default function DashboardHome() {
   return (
     <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto', direction: 'rtl' }}>
 
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {/* الهيدر — تحية + معلومات المؤسسة */}
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       <div style={{
         background: 'linear-gradient(135deg, #06060E 0%, #1a2d4a 50%, #06060E 100%)',
         border: '1px solid rgba(201,162,39,0.2)',
@@ -243,28 +243,28 @@ export default function DashboardHome() {
                 background: 'rgba(255,255,255,0.05)', color: '#9CA3AF', fontSize: 12, padding: '6px 14px',
                 borderRadius: 8, textDecoration: 'none', fontWeight: 600, border: '1px solid rgba(255,255,255,0.1)',
               }}>
-                Settings️ الإعدادات
+                Settings<IconRenderer name="ICON_Star" size={18} /> الإعدادات
               </Link>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {/* الإحصائيات الرئيسية */}
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 28 }}>
-        <StatCard title="إجمالي الطلاب" value={stats.students || stats.total_students || 0} icon="User‍[GraduationCap]" color="#3B82F6" sub={`+${stats.new_students || 0} هذا الشهر`} link="/dashboard/students" />
-        <StatCard title="المعلمون" value={stats.teachers || stats.total_teachers || 0} icon="User‍[School]" color="#8B5CF6" sub="نشطون" link="/dashboard/teachers" />
+        <StatCard title="إجمالي الطلاب" value={stats.students || stats.total_students || 0} icon="User<IconRenderer name="ICON_Star" size={18} />[GraduationCap]" color="#3B82F6" sub={`+${stats.new_students || 0} هذا الشهر`} link="/dashboard/students" />
+        <StatCard title="المعلمون" value={stats.teachers || stats.total_teachers || 0} icon="User<IconRenderer name="ICON_Star" size={18} />[School]" color="#8B5CF6" sub="نشطون" link="/dashboard/teachers" />
         <StatCard title="الفصول" value={stats.classes || stats.total_classes || 0} icon="ICON_Building2" color="#10B981" sub="فصل دراسي" link="/dashboard/classes" />
         <StatCard title="الحضور اليوم" value={`${stats.attendance_rate || 0}%`} icon="ICON_Hand" color="#F59E0B" sub="معدل الحضور" link="/dashboard/attendance" />
         <StatCard title="الاختبارات" value={stats.exams || 0} icon="ICON_FileText" color="#EF4444" sub="هذا الفصل" link="/dashboard/exams" />
         <StatCard title="طلبات الانضمام" value={stats.pending_admissions || pendingAdmissions.length || 0} icon="ICON_ClipboardList" color="#06B6D4" sub="بانتظار المراجعة" link="/dashboard/admission" />
       </div>
 
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {/* الإجراءات السريعة */}
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       <div style={{
         background: 'rgba(255,255,255,0.02)',
         border: '1px solid rgba(255,255,255,0.06)',
@@ -276,8 +276,8 @@ export default function DashboardHome() {
           Zap إجراءات سريعة
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 10 }}>
-          <QuickAction label="إضافة طالب" icon="User‍GraduationCap" href="/dashboard/students" color="#3B82F6" />
-          <QuickAction label="إضافة معلم" icon="User‍School" href="/dashboard/teachers" color="#8B5CF6" />
+          <QuickAction label="إضافة طالب" icon="User<IconRenderer name="ICON_Star" size={18} />GraduationCap" href="/dashboard/students" color="#3B82F6" />
+          <QuickAction label="إضافة معلم" icon="User<IconRenderer name="ICON_Star" size={18} />School" href="/dashboard/teachers" color="#8B5CF6" />
           <QuickAction label="اختبار جديد" icon="ICON_FileText" href="/dashboard/exams" color="#EF4444" />
           <QuickAction label="محاضرة جديدة" icon="ICON_Mic" href="/dashboard/lectures" color="#10B981" />
           <QuickAction label="إرسال إشعار" icon="ICON_Bell" href="/dashboard/notifications" color="#F59E0B" />
@@ -287,20 +287,20 @@ export default function DashboardHome() {
         </div>
       </div>
 
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {/* المحتوى الرئيسي — عمودين */}
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 28 }}>
 
         {/* طلبات الانضمام المعلقة */}
         <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, padding: '20px 24px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <div style={{ color: '#fff', fontSize: 15, fontWeight: 700 }}>ClipboardList طلبات الانضمام</div>
+            <div style={{ color: '#fff', fontSize: 15, fontWeight: 700 }}><IconRenderer name="ICON_ClipboardList" size={18} /> طلبات الانضمام</div>
             <Link href="/dashboard/admission" style={{ color: '#C9A227', fontSize: 12, textDecoration: 'none' }}>عرض الكل ←</Link>
           </div>
           {pendingAdmissions.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '24px 0', color: '#6B7280' }}>
-              <div style={{ fontSize: 32, marginBottom: 8 }}>CheckCircle</div>
+              <div style={{ fontSize: 32, marginBottom: 8 }}><IconRenderer name="ICON_Check" size={18} />Circle</div>
               <div style={{ fontSize: 13 }}>لا توجد طلبات معلقة</div>
             </div>
           ) : pendingAdmissions.map((a: any, i: number) => (
@@ -319,7 +319,7 @@ export default function DashboardHome() {
         {/* الاختبارات القادمة */}
         <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, padding: '20px 24px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <div style={{ color: '#fff', fontSize: 15, fontWeight: 700 }}>FileText الاختبارات القادمة</div>
+            <div style={{ color: '#fff', fontSize: 15, fontWeight: 700 }}><IconRenderer name="ICON_FileText" size={18} /> الاختبارات القادمة</div>
             <Link href="/dashboard/exams" style={{ color: '#C9A227', fontSize: 12, textDecoration: 'none' }}>عرض الكل ←</Link>
           </div>
           {upcomingExams.length === 0 ? (
@@ -352,9 +352,9 @@ export default function DashboardHome() {
         </div>
       </div>
 
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {/* الرابط العام للمؤسسة */}
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {school && (
         <div style={{
           background: 'linear-gradient(135deg, rgba(201,162,39,0.08) 0%, rgba(201,162,39,0.04) 100%)',
@@ -370,11 +370,11 @@ export default function DashboardHome() {
                 <div style={{ background: 'rgba(0,0,0,0.3)', borderRadius: 8, padding: '6px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ color: '#9CA3AF', fontSize: 12 }}>matin.ink/school/</span>
                   <span style={{ color: '#fff', fontSize: 12, fontWeight: 700 }}>{school.code}</span>
-                  <button onClick={() => navigator.clipboard.writeText(`https://matin.ink/school/${school.code}`)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#C9A227', fontSize: 14 }}>ClipboardList</button>
+                  <button onClick={() => navigator.clipboard.writeText(`https://matin.ink/school/${school.code}`)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#C9A227', fontSize: 14 }}><IconRenderer name="ICON_ClipboardList" size={18} />List</button>
                 </div>
                 {school.custom_domain && (
                   <div style={{ background: 'rgba(16,185,129,0.1)', borderRadius: 8, padding: '6px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ color: '#10B981', fontSize: 12 }}>Link {school.custom_domain}</span>
+                    <span style={{ color: '#10B981', fontSize: 12 }}><IconRenderer name="ICON_Link" size={18} /> {school.custom_domain}</span>
                     {school.domain_verified && <span style={{ color: '#10B981', fontSize: 11 }}>[Check] مُتحقق</span>}
                   </div>
                 )}
@@ -391,7 +391,7 @@ export default function DashboardHome() {
                 background: 'rgba(59,130,246,0.15)', color: '#3B82F6', fontSize: 13, padding: '8px 18px',
                 borderRadius: 10, textDecoration: 'none', fontWeight: 600, border: '1px solid rgba(59,130,246,0.3)',
               }}>
-                Pencil️ تعديل الصفحة
+                Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل الصفحة
               </Link>
               <Link href="/dashboard/settings" style={{
                 background: 'rgba(255,255,255,0.05)', color: '#9CA3AF', fontSize: 13, padding: '8px 18px',
@@ -404,24 +404,24 @@ export default function DashboardHome() {
         </div>
       )}
 
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {/* الخدمات المتاحة حسب نوع المؤسسة */}
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, padding: '20px 24px' }}>
         <div style={{ color: '#9CA3AF', fontSize: 12, fontWeight: 700, marginBottom: 16, textTransform: 'uppercase', letterSpacing: 1 }}>
           FolderKanban الأقسام الرئيسية
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 12 }}>
           {[
-            { label: 'الطلاب', icon: 'User‍GraduationCap', href: '/dashboard/students', color: '#3B82F6', count: stats.students || 0 },
-            { label: 'المعلمون', icon: 'User‍School', href: '/dashboard/teachers', color: '#8B5CF6', count: stats.teachers || 0 },
+            { label: 'الطلاب', icon: 'User<IconRenderer name="ICON_Star" size={18} />GraduationCap', href: '/dashboard/students', color: '#3B82F6', count: stats.students || 0 },
+            { label: 'المعلمون', icon: 'User<IconRenderer name="ICON_Star" size={18} />School', href: '/dashboard/teachers', color: '#8B5CF6', count: stats.teachers || 0 },
             { label: 'الفصول', icon: "ICON_Building2", href: '/dashboard/classes', color: '#10B981', count: stats.classes || 0 },
             { label: 'الاختبارات', icon: "ICON_FileText", href: '/dashboard/exams', color: '#EF4444', count: stats.exams || 0 },
             { label: 'المحاضرات', icon: "ICON_Mic", href: '/dashboard/lectures', color: '#F59E0B', count: null },
             { label: 'الحضور', icon: "ICON_Hand", href: '/dashboard/attendance', color: '#06B6D4', count: null },
             { label: 'الدرجات', icon: "ICON_BarChart3", href: '/dashboard/grades', color: '#A78BFA', count: null },
             { label: 'المالية', icon: "ICON_Coins", href: '/dashboard/finance', color: '#C9A227', count: null },
-            { label: 'الرسائل', icon: '[Mail]️', href: '/dashboard/messages', color: '#34D399', count: null },
+            { label: 'الرسائل', icon: '[Mail]<IconRenderer name="ICON_Star" size={18} />', href: '/dashboard/messages', color: '#34D399', count: null },
             { label: 'التقارير', icon: "ICON_TrendingUp", href: '/dashboard/reports', color: '#FB923C', count: null },
             { label: 'المتجر', icon: "ICON_ShoppingCart", href: '/dashboard/store', color: '#E879F9', count: null },
             { label: 'المساعد AI', icon: "ICON_Bot", href: '/dashboard/ai-assistant', color: '#818CF8', count: null },
@@ -455,7 +455,7 @@ export default function DashboardHome() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 440, direction: 'rtl' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>ClipboardList مراجعة طلب الانضمام</h2>
+              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_ClipboardList" size={18} /> مراجعة طلب الانضمام</h2>
               <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
             </div>
             {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}

@@ -52,7 +52,7 @@ export default function CreditHoursPage() {
           <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>⏰ الساعات المعتمدة</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة الساعات المعتمدة للمقررات الجامعية</p>
         </div>
-        <button onClick={() => { setEditItem(null); setFormData({ subject_name: '', code: '', hours: '', type: 'required', semester: '', department: '' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>Plus إضافة مقرر</button>
+        <button onClick={() => { setEditItem(null); setFormData({ subject_name: '', code: '', hours: '', type: 'required', semester: '', department: '' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة مقرر</button>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
@@ -83,7 +83,7 @@ export default function CreditHoursPage() {
           <div style={{ padding: 60, textAlign: 'center' }}>
             <p style={{ fontSize: 48, marginBottom: 16 }}>⏰</p>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد مقررات</p>
-            <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>Plus إضافة أول مقرر</button>
+            <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة أول مقرر</button>
           </div>
         ) : (
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -116,8 +116,8 @@ export default function CreditHoursPage() {
                   <td style={{ padding: 16, textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>{item.department || '—'}</td>
                   <td style={{ padding: 16, textAlign: 'center' }}>
                     <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>Pencil️ تعديل</button>
-                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>Trash2️ حذف</button>
+                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
                     </div>
                   </td>
                 </tr>

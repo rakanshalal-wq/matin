@@ -135,13 +135,13 @@ export default function PaymentSettingsPage() {
             ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
             : "bg-red-500/10 text-red-400 border-red-500/30"
         }`}>
-          {message.type === "success" ? "ICON_CheckCircle" : "ICON_XCircle"} {message.text}
+          <IconRenderer name={message.type === "success" ? "ICON_CheckCircle" : "ICON_XCircle"} size={18} /> {message.text}
         </div>
       )}
 
       {/* تعليمات */}
       <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-5 mb-8">
-        <h3 className="text-blue-400 font-bold mb-3 text-base">ClipboardList كيف يعمل النظام</h3>
+        <h3 className="text-blue-400 font-bold mb-3 text-base"><IconRenderer name="ICON_ClipboardList" size={18} /> كيف يعمل النظام</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-300">
           <div className="flex gap-3">
             <span className="text-blue-400 font-bold text-lg">1</span>
@@ -267,7 +267,7 @@ export default function PaymentSettingsPage() {
                           : "bg-yellow-400 text-gray-900 hover:bg-yellow-300"
                       }`}
                     >
-                      {gateway.is_active ? "Pencil️ تعديل الإعدادات" : "Link ربط الآن"}
+                      {gateway.is_active ? "Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل الإعدادات" : "Link ربط الآن"}
                     </button>
                     {gateway.is_active && (
                       <button

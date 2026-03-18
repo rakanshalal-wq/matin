@@ -49,15 +49,15 @@ export default function ExamRoomsPage() {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>Building2️ قاعات الاختبارات</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Building" size={18} />2<IconRenderer name="ICON_Star" size={18} /> قاعات الاختبارات</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة القاعات والفصول المخصصة للاختبارات</p>
         </div>
-        <button onClick={() => { setEditItem(null); setFormData({ name: '', building: '', capacity: '', floor: '', equipment: '', status: 'active' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>Plus إضافة قاعة</button>
+        <button onClick={() => { setEditItem(null); setFormData({ name: '', building: '', capacity: '', floor: '', equipment: '', status: 'active' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة قاعة</button>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
-          { label: 'إجمالي القاعات', value: items.length, icon: 'Building2️', color: '#C9A227' },
+          { label: 'إجمالي القاعات', value: items.length, icon: 'Building2<IconRenderer name="ICON_Star" size={18} />', color: '#C9A227' },
           { label: 'السعة الكلية', value: totalCapacity, icon: "ICON_Users", color: '#3B82F6' },
           { label: 'نشطة', value: items.filter(i => i.status === 'active').length, icon: "ICON_CheckCircle", color: '#10B981' },
           { label: 'صيانة', value: items.filter(i => i.status === 'maintenance').length, icon: "ICON_Wrench", color: '#F59E0B' },
@@ -78,9 +78,9 @@ export default function ExamRoomsPage() {
           <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>⏳ جاري التحميل...</p></div>
         ) : filteredItems.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <p style={{ fontSize: 48, marginBottom: 16 }}>Building2️</p>
+            <p style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_Building" size={18} />2<IconRenderer name="ICON_Star" size={18} /></p>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد قاعات</p>
-            <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>Plus إضافة أول قاعة</button>
+            <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة أول قاعة</button>
           </div>
         ) : (
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -100,7 +100,7 @@ export default function ExamRoomsPage() {
                 <tr key={item.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                   <td style={{ padding: 16 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{ width: 40, height: 40, background: 'rgba(59,130,246,0.1)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>Building2️</div>
+                      <div style={{ width: 40, height: 40, background: 'rgba(59,130,246,0.1)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><IconRenderer name="ICON_Building" size={18} />2<IconRenderer name="ICON_Star" size={18} /></div>
                       <p style={{ color: 'white', fontWeight: 600, margin: 0 }}>{item.name}</p>
                     </div>
                   </td>
@@ -113,8 +113,8 @@ export default function ExamRoomsPage() {
                   </td>
                   <td style={{ padding: 16, textAlign: 'center' }}>
                     <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>Pencil️ تعديل</button>
-                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>Trash2️ حذف</button>
+                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
                     </div>
                   </td>
                 </tr>
@@ -128,7 +128,7 @@ export default function ExamRoomsPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل' : 'Building2️ إضافة قاعة جديدة'}</h2>
+              <h2 style={{ color: 'white', fontSize: 22, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل' : 'Building2<IconRenderer name="ICON_Plus" size={18} /> إضافة قاعة جديدة'}</h2>
               <button onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>X</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>

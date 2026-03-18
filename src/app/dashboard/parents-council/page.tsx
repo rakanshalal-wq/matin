@@ -58,7 +58,7 @@ export default function ParentsCouncilPage() {
   };
 
   const typeLabels: any = { meeting: 'اجتماع', workshop: 'ورشة عمل', seminar: 'ندوة', election: 'انتخابات', event: 'فعالية', training: 'تدريب' };
-  const typeIcons: any = { meeting: "ICON_Handshake", workshop: 'Settings️', seminar: "ICON_Mic", election: 'Vote️', event: "ICON_PartyPopper", training: "ICON_ClipboardList" };
+  const typeIcons: any = { meeting: "ICON_Handshake", workshop: 'Settings<IconRenderer name="ICON_Star" size={18} />', seminar: "ICON_Mic", election: 'Vote<IconRenderer name="ICON_Star" size={18} />', event: "ICON_PartyPopper", training: "ICON_ClipboardList" };
   const typeColors: any = { meeting: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, workshop: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, seminar: { bg: 'rgba(139,92,246,0.1)', color: '#8B5CF6' }, election: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, event: { bg: 'rgba(236,72,153,0.1)', color: '#EC4899' }, training: { bg: 'rgba(201,162,39,0.1)', color: '#C9A227' } };
   const statusLabels: any = { scheduled: 'مجدول', confirmed: 'مؤكد', in_progress: 'جاري', completed: 'مكتمل', cancelled: 'ملغي', postponed: 'مؤجل' };
   const statusColors: any = { scheduled: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, confirmed: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, in_progress: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, completed: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280' }, cancelled: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' }, postponed: { bg: 'rgba(139,92,246,0.1)', color: '#8B5CF6' } };
@@ -84,7 +84,7 @@ export default function ParentsCouncilPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>User‍User‍User مجلس الآباء</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Star" size={18} /><IconRenderer name="ICON_Star" size={18} /><IconRenderer name="ICON_User" size={18} /> مجلس الآباء</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة اجتماعات وفعاليات مجلس الآباء والأمهات</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ title: '', type: 'meeting', date: '', location: '', attendees_count: '', agenda: '', notes: '', status: 'scheduled' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
@@ -95,7 +95,7 @@ export default function ParentsCouncilPage() {
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
-          { label: 'الإجمالي', value: stats.total, icon: 'User‍User‍User', color: '#C9A227' },
+          { label: 'الإجمالي', value: stats.total, icon: 'User<IconRenderer name="ICON_Star" size={18} /><IconRenderer name="ICON_Star" size={18} />User', color: '#C9A227' },
           { label: 'قادمة', value: stats.upcoming, icon: "ICON_Calendar", color: '#3B82F6' },
           { label: 'مكتملة', value: stats.completed, icon: "ICON_CheckCircle", color: '#10B981' },
           { label: 'إجمالي الحضور', value: stats.totalAttendees, icon: "ICON_Users", color: '#8B5CF6' },
@@ -119,7 +119,7 @@ export default function ParentsCouncilPage() {
           <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12 }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
         ) : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12 }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>User‍User‍[User]</div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_Star" size={18} /><IconRenderer name="ICON_Star" size={18} />[User]</div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد اجتماعات</p>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "إضافة اجتماع" لجدولة أول اجتماع</p>
           </div>
@@ -135,16 +135,16 @@ export default function ParentsCouncilPage() {
                     <span style={{ background: statusColors[item.status]?.bg, color: statusColors[item.status]?.color, padding: '2px 10px', borderRadius: 6, fontSize: 11, fontWeight: 600 }}>{statusLabels[item.status] || item.status}</span>
                   </div>
                   <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', marginBottom: 6 }}>
-                    {item.date && <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>Calendar {new Date(item.date).toLocaleString('ar-SA', { dateStyle: 'medium', timeStyle: 'short' })}</span>}
-                    {item.location && <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>MapPin {item.location}</span>}
-                    <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>Users {item.attendees_count || 0} حاضر</span>
+                    {item.date && <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}><IconRenderer name="ICON_Calendar" size={18} /> {new Date(item.date).toLocaleString('ar-SA', { dateStyle: 'medium', timeStyle: 'short' })}</span>}
+                    {item.location && <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}><IconRenderer name="ICON_Globe" size={18} /><IconRenderer name="ICON_Pin" size={18} /> {item.location}</span>}
+                    <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}><IconRenderer name="ICON_User" size={18} />s {item.attendees_count || 0} حاضر</span>
                   </div>
-                  {item.agenda && <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, margin: '6px 0 0 0' }}>ClipboardList {item.agenda.substring(0, 80) + (item.agenda.length > 80 ? '...' : '')}</p>}
+                  {item.agenda && <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, margin: '6px 0 0 0' }}><IconRenderer name="ICON_ClipboardList" size={18} /> {item.agenda.substring(0, 80) + (item.agenda.length > 80 ? '...' : '')}</p>}
                 </div>
               </div>
               <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
-                <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Pencil️ تعديل</button>
-                <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Trash2️ حذف</button>
+                <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+                <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
               </div>
             </div>
           </div>
@@ -156,7 +156,7 @@ export default function ParentsCouncilPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil️ تعديل' : 'Plus إضافة اجتماع/فعالية'}</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل' : 'Plus إضافة اجتماع/فعالية'}</h2>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
@@ -168,9 +168,9 @@ export default function ParentsCouncilPage() {
                 <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>النوع</label>
                 <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} style={inputStyle}>
                   <option value="meeting">اجتماع Handshake</option>
-                  <option value="workshop">ورشة عمل Settings️</option>
+                  <option value="workshop">ورشة عمل Settings<IconRenderer name="ICON_Star" size={18} /></option>
                   <option value="seminar">ندوة Mic</option>
-                  <option value="election">انتخابات Vote️</option>
+                  <option value="election">انتخابات Vote<IconRenderer name="ICON_Star" size={18} /></option>
                   <option value="event">فعالية PartyPopper</option>
                   <option value="training">تدريب ClipboardList</option>
                 </select>

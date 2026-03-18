@@ -65,7 +65,7 @@ export default function MessagesPage() {
       {/* Unread Alert */}
       {stats.unread > 0 && (
         <div style={{ background: 'rgba(59,130,246,0.12)', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 12, padding: '16px 20px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: 24 }}>Mailbox</span>
+          <span style={{ fontSize: 24 }}><IconRenderer name="ICON_Mail" size={18} />box</span>
           <div>
             <div style={{ color: '#3B82F6', fontWeight: 700, fontSize: 15 }}>لديك {stats.unread} رسالة غير مقروءة</div>
             <div style={{ color: 'rgba(59,130,246,0.8)', fontSize: 13, marginTop: 2 }}>تحقق من الرسائل الجديدة</div>
@@ -76,7 +76,7 @@ export default function MessagesPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>MessageCircle التواصل</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_MessageCircle" size={18} /> التواصل</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة الرسائل والتواصل بين أطراف المنصة</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ sender_name: '', receiver_name: '', subject: '', content: '', type: 'text', status: 'sent' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
@@ -111,7 +111,7 @@ export default function MessagesPage() {
           <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
         ) : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>MessageCircle</div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_MessageCircle" size={36} /></div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد رسائل</p>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "رسالة جديدة" لإرسال أول رسالة</p>
           </div>
@@ -149,8 +149,8 @@ export default function MessagesPage() {
                   </td>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Pencil️</button>
-                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Trash2️</button>
+                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Star" size={18} /></button>
+                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Star" size={18} /></button>
                     </div>
                   </td>
                 </tr>
@@ -165,7 +165,7 @@ export default function MessagesPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil️ تعديل رسالة' : 'Plus رسالة جديدة'}</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل رسالة' : 'Plus رسالة جديدة'}</h2>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>

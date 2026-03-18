@@ -1,4 +1,5 @@
 'use client';
+import IconRenderer from "@/components/IconRenderer";
 import { Save, Settings } from "lucide-react";
 import { useState, useEffect } from 'react';
 const getH = (): Record<string,string> => { try { const t = localStorage.getItem('matin_token'); if(t) return {'Content-Type':'application/json','Authorization':'Bearer '+t}; const u=JSON.parse(localStorage.getItem('matin_user')||'{}'); return {'Content-Type':'application/json','x-user-id':String(u.id||'')}; } catch { return {'Content-Type':'application/json'}; }};
@@ -86,7 +87,7 @@ export default function BackupPage() {
       )}
       {activeTab==='schedule' && (
         <div style={{background:CB,border:'1px solid '+BR,borderRadius:16,padding:32,maxWidth:500}}>
-          <h3 style={{color:'white',fontSize:18,fontWeight:700,marginBottom:24}}>Settings️ إعدادات الجدولة التلقائية</h3>
+          <h3 style={{color:'white',fontSize:18,fontWeight:700,marginBottom:24}}><IconRenderer name="ICON_Star" size={18} /> إعدادات الجدولة التلقائية</h3>
           <div style={{display:'flex',flexDirection:'column',gap:20}}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',background:'rgba(255,255,255,0.03)',borderRadius:12,padding:'16px 20px'}}>
               <div><div style={{color:'white',fontWeight:600}}>تفعيل النسخ التلقائي</div><div style={{color:'rgba(255,255,255,0.4)',fontSize:13,marginTop:4}}>نسخ احتياطي تلقائي دوري</div></div>
@@ -112,7 +113,7 @@ export default function BackupPage() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#0B0B16', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 420, direction: 'rtl' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>Save إنشاء نسخة احتياطية</h2>
+              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_Save" size={18} /> إنشاء نسخة احتياطية</h2>
               <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
             </div>
             <div style={{ marginBottom: 16 }}>

@@ -53,7 +53,7 @@ export default function ElearningPage() {
   };
 
   const typeLabels: any = { course: 'دورة', lesson: 'درس', workshop: 'ورشة عمل', tutorial: 'شرح', quiz: 'اختبار إلكتروني', resource: 'مصدر تعليمي' };
-  const typeIcons: any = { course: "ICON_BookOpen", lesson: "ICON_Book", workshop: 'Settings️', tutorial: "ICON_Clapperboard", quiz: "ICON_FileText", resource: "ICON_Paperclip" };
+  const typeIcons: any = { course: "ICON_BookOpen", lesson: "ICON_Book", workshop: 'Settings<IconRenderer name="ICON_Star" size={18} />', tutorial: "ICON_Clapperboard", quiz: "ICON_FileText", resource: "ICON_Paperclip" };
   const levelLabels: any = { beginner: 'مبتدئ', intermediate: 'متوسط', advanced: 'متقدم' };
   const levelColors: any = { beginner: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, intermediate: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, advanced: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' } };
   const statusLabels: any = { active: 'نشط', draft: 'مسودة', archived: 'مؤرشف' };
@@ -66,7 +66,7 @@ export default function ElearningPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>Laptop التعليم الإلكتروني</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Laptop" size={18} /> التعليم الإلكتروني</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة المحتوى التعليمي الإلكتروني والدورات</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ title: '', type: 'course', subject: '', instructor: '', description: '', duration: '', level: 'beginner', students_count: '0', status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
@@ -80,7 +80,7 @@ export default function ElearningPage() {
           { label: 'إجمالي المحتوى', value: stats.total, icon: "ICON_Laptop", color: '#C9A227' },
           { label: 'نشط', value: stats.active, icon: "ICON_CheckCircle", color: '#10B981' },
           { label: 'مسودة', value: stats.draft, icon: "ICON_FileText", color: '#F59E0B' },
-          { label: 'إجمالي الطلاب', value: stats.totalStudents, icon: 'User‍GraduationCap', color: '#3B82F6' },
+          { label: 'إجمالي الطلاب', value: stats.totalStudents, icon: 'User<IconRenderer name="ICON_Star" size={18} />GraduationCap', color: '#3B82F6' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
             <div style={{ fontSize: 28 }}><IconRenderer name={stat.icon} /></div>
@@ -101,7 +101,7 @@ export default function ElearningPage() {
           <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
         ) : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>Laptop</div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_Laptop" size={36} /></div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا يوجد محتوى تعليمي</p>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "إضافة محتوى" لإنشاء أول محتوى تعليمي</p>
           </div>
@@ -146,8 +146,8 @@ export default function ElearningPage() {
                   </td>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Pencil️ تعديل</button>
-                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Trash2️ حذف</button>
+                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
                     </div>
                   </td>
                 </tr>
@@ -162,7 +162,7 @@ export default function ElearningPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil️ تعديل محتوى' : 'Plus إضافة محتوى تعليمي'}</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل محتوى' : 'Plus إضافة محتوى تعليمي'}</h2>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>

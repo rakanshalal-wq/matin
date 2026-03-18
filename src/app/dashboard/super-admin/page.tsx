@@ -58,7 +58,7 @@ export default function SuperAdminDashboard() {
     <div style={{ padding: 24, direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif', background: '#06060E', minHeight: '100vh' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ color: '#C9A227', fontSize: 26, fontWeight: 800, margin: 0 }}>Building2 لوحة السوبر أدمن</h1>
+          <h1 style={{ color: '#C9A227', fontSize: 26, fontWeight: 800, margin: 0 }}><IconRenderer name="ICON_Building" size={18} />2 لوحة السوبر أدمن</h1>
           <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, margin: '4px 0 0' }}>إدارة كاملة للمنصة والمؤسسات</p>
         </div>
         <button onClick={() => { setShowModal(true); setEditItem(null); setForm({ name: '', email: '', phone: '', plan: 'basic' }); }} style={{ background: 'linear-gradient(135deg,#C9A227,#E8C547)', border: 'none', borderRadius: 10, padding: '10px 20px', color: '#06060E', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ إضافة مؤسسة</button>
@@ -70,7 +70,7 @@ export default function SuperAdminDashboard() {
         {[
           { label: 'المؤسسات', value: stats.schools || schools.length || 0, color: '#3B82F6', icon: "ICON_School" },
           { label: 'الطلاب', value: stats.students || stats.total_students || 0, color: '#10B981', icon: "ICON_GraduationCap" },
-          { label: 'المعلمون', value: stats.teachers || stats.total_teachers || 0, color: '#8B5CF6', icon: 'User‍[School]' },
+          { label: 'المعلمون', value: stats.teachers || stats.total_teachers || 0, color: '#8B5CF6', icon: 'User<IconRenderer name="ICON_Star" size={18} />[School]' },
           { label: 'الاشتراكات النشطة', value: stats.active_subscriptions || 0, color: '#C9A227', icon: "ICON_Diamond" },
         ].map((s, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${s.color}25`, borderRadius: 14, padding: 20 }}>
@@ -83,7 +83,7 @@ export default function SuperAdminDashboard() {
       {/* جدول المؤسسات */}
       <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}>
         <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h2 style={{ color: '#fff', fontSize: 16, fontWeight: 700, margin: 0 }}>School المؤسسات المسجلة ({schools.length})</h2>
+          <h2 style={{ color: '#fff', fontSize: 16, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_School" size={18} /> المؤسسات المسجلة ({schools.length})</h2>
         </div>
         {schools.length === 0 ? (
           <div style={{ padding: 40, textAlign: 'center', color: 'rgba(255,255,255,0.3)', fontSize: 14 }}>لا توجد مؤسسات مسجلة</div>
@@ -124,7 +124,7 @@ export default function SuperAdminDashboard() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 480, direction: 'rtl' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil️ تعديل المؤسسة' : '+ إضافة مؤسسة جديدة'}</h2>
+              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل المؤسسة' : '+ إضافة مؤسسة جديدة'}</h2>
               <button onClick={() => { setShowModal(false); setErrMsg(''); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
             </div>
             {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}

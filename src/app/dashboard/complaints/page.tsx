@@ -70,7 +70,7 @@ export default function ComplaintsPage() {
       {/* Urgent Alert */}
       {highPriority > 0 && (
         <div style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 12, padding: '16px 20px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: 24 }}>Siren</span>
+          <span style={{ fontSize: 24 }}><IconRenderer name="ICON_Siren" size={36} /></span>
           <div>
             <div style={{ color: '#EF4444', fontWeight: 700, fontSize: 15 }}>يوجد {highPriority} شكوى/بلاغ بأولوية عالية أو عاجلة</div>
             <div style={{ color: 'rgba(239,68,68,0.8)', fontSize: 13, marginTop: 2 }}>يرجى المعالجة فوراً</div>
@@ -81,7 +81,7 @@ export default function ComplaintsPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>FileText الشكاوى والاقتراحات</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_FileText" size={18} /> الشكاوى والاقتراحات</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>متابعة شكاوى واقتراحات واستفسارات المستخدمين</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ person_name: '', type: 'complaint', category: 'general', subject: '', description: '', priority: 'medium', assigned_to: '', status: 'open' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
@@ -116,7 +116,7 @@ export default function ComplaintsPage() {
           <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
         ) : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>FileText</div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_File" size={18} />Text</div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد شكاوى أو اقتراحات</p>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>الحمد لله! كل شيء تمام ThumbsUp</p>
           </div>
@@ -162,8 +162,8 @@ export default function ComplaintsPage() {
                   <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.5)', fontSize: 12 }}>{item.created_at ? new Date(item.created_at).toLocaleDateString('ar-SA') : '—'}</td>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Pencil️ تعديل</button>
-                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Trash2️ حذف</button>
+                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
                     </div>
                   </td>
                 </tr>
@@ -178,7 +178,7 @@ export default function ComplaintsPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil️ تعديل' : 'Plus إضافة شكوى/اقتراح'}</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل' : 'Plus إضافة شكوى/اقتراح'}</h2>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>

@@ -1,4 +1,5 @@
 'use client';
+import IconRenderer from "@/components/IconRenderer";
 import { Accessibility, Calendar } from "lucide-react";
 import { useState, useEffect } from 'react';
 const getH=():Record<string,string>=>{try{const t=localStorage.getItem('matin_token');if(t)return{'Content-Type':'application/json','Authorization':'Bearer '+t};const u=JSON.parse(localStorage.getItem('matin_user')||'{}');return{'Content-Type':'application/json','x-user-id':String(u.id||'')}}catch{return{'Content-Type':'application/json'}}};
@@ -67,7 +68,7 @@ export default function SpecialNeedsPage(){
                 <span style={{background:`${sl?.c||'#9CA3AF'}22`,color:sl?.c||'#9CA3AF',padding:'4px 10px',borderRadius:20,fontSize:12}}>دعم {sl?.l||s.support_level}</span>
               </div>
               {s.accommodations&&<div style={{color:'rgba(255,255,255,0.6)',fontSize:13,marginBottom:8}}><span style={{color:'rgba(255,255,255,0.4)'}}>التسهيلات: </span>{s.accommodations}</div>}
-              {s.iep_date&&<div style={{color:'rgba(255,255,255,0.4)',fontSize:12}}>Calendar خطة IEP: {new Date(s.iep_date).toLocaleDateString('ar-SA')}</div>}
+              {s.iep_date&&<div style={{color:'rgba(255,255,255,0.4)',fontSize:12}}><IconRenderer name="ICON_Calendar" size={18} /> خطة IEP: {new Date(s.iep_date).toLocaleDateString('ar-SA')}</div>}
             </div>
           );
         })}

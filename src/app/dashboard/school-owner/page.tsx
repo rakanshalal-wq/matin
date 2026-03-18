@@ -1,4 +1,5 @@
 'use client';
+import IconRenderer from "@/components/IconRenderer";
 import { Check, Settings, X } from "lucide-react";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -32,7 +33,7 @@ const getHeaders = () => {
 
 /* ═══════════════════════════════════════════════════════════
    بطاقة إحصاء
-═══════════════════════════════════════════════════════════ */
+<IconRenderer name="ICON_Star" size={18} /> */
 const StatCard = ({ title, value, color, sub, link }: any) => (
   <Link href={link || '#'} style={{ textDecoration: 'none' }}>
     <div style={{
@@ -67,7 +68,7 @@ const StatCard = ({ title, value, color, sub, link }: any) => (
 
 /* ═══════════════════════════════════════════════════════════
    بطاقة قسم رئيسي
-═══════════════════════════════════════════════════════════ */
+<IconRenderer name="ICON_Star" size={18} /> */
 const SectionCard = ({ label, href, color, count }: any) => (
   <Link href={href} style={{ textDecoration: 'none' }}>
     <div style={{
@@ -239,9 +240,9 @@ export default function SchoolOwnerDashboard() {
     <>
     <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
 
-      {/* ══════════════════════════════════════════
+      {/* <IconRenderer name="ICON_Star" size={18} />
           بطاقة الترحيب بمالك المدرسة
-      ══════════════════════════════════════════ */}
+      <IconRenderer name="ICON_Star" size={18} /> */}
       <div style={{
         background: 'linear-gradient(135deg, rgba(59,130,246,0.08) 0%, rgba(201,168,76,0.05) 50%, rgba(16,16,38,0.8) 100%)',
         border: '1px solid rgba(59,130,246,0.15)',
@@ -304,9 +305,9 @@ export default function SchoolOwnerDashboard() {
         </div>
       </div>
 
-      {/* ══════════════════════════════════════════
+      {/* <IconRenderer name="ICON_Star" size={18} />
           بطاقات الإحصاء الرئيسية
-      ══════════════════════════════════════════ */}
+      <IconRenderer name="ICON_Star" size={18} /> */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 24 }}>
         <StatCard title="إجمالي الطلاب" value={stats.students ?? '—'} color="#3B82F6" sub={stats.new_students ? `+${stats.new_students} هذا الشهر` : undefined} link="/dashboard/students" />
         <StatCard title="المعلمون" value={stats.teachers ?? '—'} color="#8B5CF6" link="/dashboard/teachers" />
@@ -318,9 +319,9 @@ export default function SchoolOwnerDashboard() {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
 
-        {/* ══════════════════════════════════════════
+        {/* <IconRenderer name="ICON_Star" size={18} />
             الأقسام الرئيسية
-        ══════════════════════════════════════════ */}
+        <IconRenderer name="ICON_Star" size={18} /> */}
         <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(201,168,76,0.08)', borderRadius: 14, padding: '20px 24px' }}>
           <div style={{ color: 'rgba(201,168,76,0.6)', fontSize: 10, fontWeight: 800, marginBottom: 16, textTransform: 'uppercase', letterSpacing: 2 }}>
             الأقسام الرئيسية
@@ -342,9 +343,9 @@ export default function SchoolOwnerDashboard() {
           </div>
         </div>
 
-        {/* ══════════════════════════════════════════
+        {/* <IconRenderer name="ICON_Star" size={18} />
             الإدارة والموارد البشرية
-        ══════════════════════════════════════════ */}
+        <IconRenderer name="ICON_Star" size={18} /> */}
         <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(201,168,76,0.08)', borderRadius: 14, padding: '20px 24px' }}>
           <div style={{ color: 'rgba(201,168,76,0.6)', fontSize: 10, fontWeight: 800, marginBottom: 16, textTransform: 'uppercase', letterSpacing: 2 }}>
             الإدارة والموارد البشرية
@@ -369,9 +370,9 @@ export default function SchoolOwnerDashboard() {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 20, marginBottom: 24 }}>
 
-        {/* ══════════════════════════════════════════
+        {/* <IconRenderer name="ICON_Star" size={18} />
             الاختبارات القادمة
-        ══════════════════════════════════════════ */}
+        <IconRenderer name="ICON_Star" size={18} /> */}
         <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(201,168,76,0.08)', borderRadius: 14, padding: '20px 24px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
             <div style={{ color: 'rgba(201,168,76,0.6)', fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 2 }}>الاختبارات القادمة</div>
@@ -393,9 +394,9 @@ export default function SchoolOwnerDashboard() {
           )}
         </div>
 
-        {/* ══════════════════════════════════════════
+        {/* <IconRenderer name="ICON_Star" size={18} />
             طلبات الانضمام المعلقة
-        ══════════════════════════════════════════ */}
+        <IconRenderer name="ICON_Star" size={18} /> */}
         <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(201,168,76,0.08)', borderRadius: 14, padding: '20px 24px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
             <div style={{ color: 'rgba(201,168,76,0.6)', fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 2 }}>طلبات الانضمام</div>
@@ -420,9 +421,9 @@ export default function SchoolOwnerDashboard() {
           )}
         </div>
 
-        {/* ══════════════════════════════════════════
+        {/* <IconRenderer name="ICON_Star" size={18} />
             النشاط الأخير
-        ══════════════════════════════════════════ */}
+        <IconRenderer name="ICON_Star" size={18} /> */}
         <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(201,168,76,0.08)', borderRadius: 14, padding: '20px 24px' }}>
           <div style={{ color: 'rgba(201,168,76,0.6)', fontSize: 10, fontWeight: 800, marginBottom: 16, textTransform: 'uppercase', letterSpacing: 2 }}>
             النشاط الأخير
@@ -447,9 +448,9 @@ export default function SchoolOwnerDashboard() {
         </div>
       </div>
 
-      {/* ══════════════════════════════════════════
+      {/* <IconRenderer name="ICON_Star" size={18} />
           رابط المدرسة وإدارة الصفحة
-      ══════════════════════════════════════════ */}
+      <IconRenderer name="ICON_Star" size={18} /> */}
       {school?.code && (
         <div style={{ background: 'rgba(201,168,76,0.04)', border: '1px solid rgba(201,168,76,0.12)', borderRadius: 14, padding: '20px 24px', marginBottom: 24 }}>
           <div style={{ color: 'rgba(201,168,76,0.6)', fontSize: 10, fontWeight: 800, marginBottom: 16, textTransform: 'uppercase', letterSpacing: 2 }}>
@@ -486,9 +487,9 @@ export default function SchoolOwnerDashboard() {
         </div>
       )}
 
-      {/* ══════════════════════════════════════════
+      {/* <IconRenderer name="ICON_Star" size={18} />
           التعليم الإلكتروني والذكاء الاصطناعي
-      ══════════════════════════════════════════ */}
+      <IconRenderer name="ICON_Star" size={18} /> */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
         <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(201,168,76,0.08)', borderRadius: 14, padding: '20px 24px' }}>
           <div style={{ color: 'rgba(201,168,76,0.6)', fontSize: 10, fontWeight: 800, marginBottom: 16, textTransform: 'uppercase', letterSpacing: 2 }}>
@@ -527,15 +528,15 @@ export default function SchoolOwnerDashboard() {
         </div>
       </div>
 
-      {/* ── زر تعديل المدرسة ── */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> زر تعديل المدرسة <IconRenderer name="ICON_Star" size={18} /> */}
       <div style={{ marginTop: 20, display: 'flex', justifyContent: 'flex-end' }}>
         <button onClick={openSchoolModal} style={{ background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.25)', borderRadius: 10, padding: '10px 20px', color: '#C9A84C', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 14 }}>
-          Settings️ تعديل بيانات المدرسة
+          Settings<IconRenderer name="ICON_Star" size={18} /> تعديل بيانات المدرسة
         </button>
       </div>
 
 
-      {/* ── Admission Modal ── */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> Admission Modal <IconRenderer name="ICON_Star" size={18} /> */}
       {showAdmModal && selAdm && (
         <Modal title="مراجعة طلب الانضمام" onClose={() => { setShowAdmModal(false); setSelAdm(null); }}>
           <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: 16, marginBottom: 20 }}>
@@ -558,7 +559,7 @@ export default function SchoolOwnerDashboard() {
         </Modal>
       )}
 
-      {/* ── School Settings Modal ── */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> School Settings Modal <IconRenderer name="ICON_Star" size={18} /> */}
       {showSchoolModal && (
         <Modal title="تعديل بيانات المدرسة" onClose={() => setShowSchoolModal(false)}>
           <div style={FW}><label style={LBL}>اسم المدرسة <span style={{color:'#EF4444'}}>*</span></label><input value={schoolForm.name_ar} onChange={e => setSchoolForm(f => ({...f, name_ar: e.target.value}))} placeholder="مثال: مدرسة الأمل" style={INP} /></div>

@@ -1,4 +1,5 @@
 'use client';
+import IconRenderer from "@/components/IconRenderer";
 import { Check, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -385,7 +386,7 @@ export default function StudentDashboard() {
         </div>
       )}
 
-      {/* ── HW Submit Modal ── */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> HW Submit Modal <IconRenderer name="ICON_Star" size={18} /> */}
       {showHWModal && selHW && (
         <Modal title="تسليم الواجب" onClose={() => setShowHWModal(false)}>
           <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: 14, marginBottom: 16 }}>
@@ -402,7 +403,7 @@ export default function StudentDashboard() {
         </Modal>
       )}
 
-      {/* ── Grade Review Modal ── */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> Grade Review Modal <IconRenderer name="ICON_Star" size={18} /> */}
       {showGradeModal && selGrade && (
         <Modal title="طلب مراجعة الدرجة" onClose={() => setShowGradeModal(false)}>
           <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: 14, marginBottom: 16 }}>

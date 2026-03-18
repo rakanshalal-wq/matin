@@ -68,12 +68,12 @@ export default function StoreDashboard() {
     <div style={{ fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>ShoppingCart إدارة المتجر</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_ShoppingCart" size={18} /> إدارة المتجر</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>المنتجات والطلبات</p>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
-          <a href="/store" target="_blank" rel="noreferrer" style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 10, padding: '10px 18px', textDecoration: 'none', fontWeight: 700, fontSize: 14 }}>Eye️ المتجر</a>
-          <button onClick={openAdd} style={{ background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', padding: '10px 20px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>Plus منتج جديد</button>
+          <a href="/store" target="_blank" rel="noreferrer" style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 10, padding: '10px 18px', textDecoration: 'none', fontWeight: 700, fontSize: 14 }}><IconRenderer name="ICON_Star" size={18} /> المتجر</a>
+          <button onClick={openAdd} style={{ background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', padding: '10px 20px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> منتج جديد</button>
         </div>
       </div>
 
@@ -111,7 +111,7 @@ export default function StoreDashboard() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
               {products.map(product => (
                 <div key={product.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, overflow: 'hidden' }}>
-                  {product.image ? <div style={{ height: 140, background: `url(${product.image}) center/cover` }} /> : <div style={{ height: 140, background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 40 }}>Package</div>}
+                  {product.image ? <div style={{ height: 140, background: `url(${product.image}) center/cover` }} /> : <div style={{ height: 140, background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 40 }}><IconRenderer name="ICON_Package" size={36} /></div>}
                   <div style={{ padding: 16 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                       <h3 style={{ color: 'white', fontWeight: 700, margin: 0, fontSize: 15 }}>{product.name}</h3>
@@ -122,8 +122,8 @@ export default function StoreDashboard() {
                       <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>مخزون: {product.stock}</span>
                     </div>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <button onClick={() => openEdit(product)} style={{ flex: 1, background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', borderRadius: 8, padding: '7px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>Pencil️ تعديل</button>
-                      <button onClick={() => handleDelete(product.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, padding: '7px 12px', fontSize: 13, cursor: 'pointer' }}>Trash2️</button>
+                      <button onClick={() => openEdit(product)} style={{ flex: 1, background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', borderRadius: 8, padding: '7px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+                      <button onClick={() => handleDelete(product.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, padding: '7px 12px', fontSize: 13, cursor: 'pointer' }}><IconRenderer name="ICON_Star" size={18} /></button>
                     </div>
                   </div>
                 </div>
@@ -160,9 +160,9 @@ export default function StoreDashboard() {
                       <td style={{ padding: '14px 16px' }}>
                         <select onChange={e => handleOrderStatus(order.id, e.target.value)} defaultValue={order.status} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: 'white', padding: '6px 10px', fontSize: 12, cursor: 'pointer' }}>
                           <option value="pending">⏳ جديد</option>
-                          <option value="processing">RefreshCw قيد التنفيذ</option>
-                          <option value="delivered">CheckCircle تم التسليم</option>
-                          <option value="cancelled">XCircle ملغي</option>
+                          <option value="processing"><IconRenderer name="ICON_RefreshCw" size={18} /> قيد التنفيذ</option>
+                          <option value="delivered"><IconRenderer name="ICON_CheckCircle" size={18} /> تم التسليم</option>
+                          <option value="cancelled"><IconRenderer name="ICON_X" size={18} /><IconRenderer name="ICON_Circle" size={18} /> ملغي</option>
                         </select>
                       </td>
                     </tr>
@@ -180,7 +180,7 @@ export default function StoreDashboard() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
           <div style={{ background: '#1B263B', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: 32, width: '100%', maxWidth: 500, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontWeight: 800, margin: 0 }}>{editing ? 'Pencil️ تعديل منتج' : 'Plus منتج جديد'}</h2>
+              <h2 style={{ color: 'white', fontWeight: 800, margin: 0 }}>{editing ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل منتج' : 'Plus منتج جديد'}</h2>
               <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: 24, cursor: 'pointer' }}>X</button>
             </div>
             {[{ key: 'name', label: 'اسم المنتج *' }, { key: 'description', label: 'الوصف' }, { key: 'price', label: 'السعر * (ر.س)' }, { key: 'sale_price', label: 'سعر التخفيض (اختياري)' }, { key: 'image', label: 'رابط الصورة' }, { key: 'category', label: 'الفئة' }, { key: 'stock', label: 'الكمية في المخزون' }].map(f => (

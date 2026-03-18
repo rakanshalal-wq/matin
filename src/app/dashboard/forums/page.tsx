@@ -56,7 +56,7 @@ export default function ForumsPage() {
   };
 
   const categoryLabels: any = { general: 'عام', academic: 'أكاديمي', activities: 'أنشطة', parents: 'أولياء الأمور', teachers: 'معلمين', students: 'طلاب', suggestions: 'اقتراحات', support: 'دعم فني' };
-  const categoryIcons: any = { general: "ICON_MessageSquare", academic: "ICON_BookOpen", activities: "ICON_Target", parents: 'User‍User‍User', teachers: 'User‍School', students: "ICON_GraduationCap", suggestions: "ICON_Lightbulb", support: 'Settings️' };
+  const categoryIcons: any = { general: "ICON_MessageSquare", academic: "ICON_BookOpen", activities: "ICON_Target", parents: 'User<IconRenderer name="ICON_Star" size={18} /><IconRenderer name="ICON_Star" size={18} />User', teachers: 'User<IconRenderer name="ICON_Star" size={18} />School', students: "ICON_GraduationCap", suggestions: "ICON_Lightbulb", support: 'Settings<IconRenderer name="ICON_Star" size={18} />' };
   const categoryColors: any = { general: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, academic: { bg: 'rgba(139,92,246,0.1)', color: '#8B5CF6' }, activities: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, parents: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, teachers: { bg: 'rgba(201,162,39,0.1)', color: '#C9A227' }, students: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, suggestions: { bg: 'rgba(236,72,153,0.1)', color: '#EC4899' }, support: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280' } };
   const statusLabels: any = { active: 'نشط', closed: 'مغلق', archived: 'مؤرشف' };
   const statusColors: any = { active: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, closed: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' }, archived: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280' } };
@@ -68,7 +68,7 @@ export default function ForumsPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>MessageSquare مجموعات النقاش</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_MessageSquare" size={18} /> مجموعات النقاش</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة منتديات ومجموعات النقاش التعليمية</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ title: '', category: 'general', author: '', description: '', members_count: '', posts_count: '', status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
@@ -129,19 +129,19 @@ export default function ForumsPage() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 12 }}>
               <div style={{ display: 'flex', gap: 20 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span style={{ fontSize: 16 }}>Users</span>
+                  <span style={{ fontSize: 16 }}><IconRenderer name="ICON_User" size={18} />s</span>
                   <span style={{ color: '#3B82F6', fontWeight: 700, fontSize: 14 }}>{item.members_count || 0}</span>
                   <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>عضو</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span style={{ fontSize: 16 }}>FileText</span>
+                  <span style={{ fontSize: 16 }}><IconRenderer name="ICON_File" size={18} />Text</span>
                   <span style={{ color: '#8B5CF6', fontWeight: 700, fontSize: 14 }}>{item.posts_count || 0}</span>
                   <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>منشور</span>
                 </div>
               </div>
               <div style={{ display: 'flex', gap: 8 }}>
-                <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Pencil️ تعديل</button>
-                <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Trash2️ حذف</button>
+                <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+                <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
               </div>
             </div>
           </div>
@@ -153,7 +153,7 @@ export default function ForumsPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil️ تعديل مجموعة' : 'Plus إنشاء مجموعة نقاش'}</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل مجموعة' : 'Plus إنشاء مجموعة نقاش'}</h2>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
@@ -167,11 +167,11 @@ export default function ForumsPage() {
                   <option value="general">عام MessageSquare</option>
                   <option value="academic">أكاديمي BookOpen</option>
                   <option value="activities">أنشطة Target</option>
-                  <option value="parents">أولياء الأمور User‍User‍User</option>
-                  <option value="teachers">معلمين User‍School</option>
+                  <option value="parents">أولياء الأمور User<IconRenderer name="ICON_Star" size={18} /><IconRenderer name="ICON_Star" size={18} />User</option>
+                  <option value="teachers">معلمين User<IconRenderer name="ICON_Star" size={18} />School</option>
                   <option value="students">طلاب GraduationCap</option>
                   <option value="suggestions">اقتراحات Lightbulb</option>
-                  <option value="support">دعم فني Settings️</option>
+                  <option value="support">دعم فني Settings<IconRenderer name="ICON_Star" size={18} /></option>
                 </select>
               </div>
               <div>

@@ -117,11 +117,11 @@ export default function GradesPage() {
     <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>BarChart3 الدرجات والتقييم</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_BarChart3" size={18} /> الدرجات والتقييم</h1>
           <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>متابعة درجات الطلاب وتحليل الاداء الاكاديمي</p>
         </div>
         <div style={{ display: 'flex', gap: 12 }}>
-          <button onClick={exportCSV} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid ' + BORDER, borderRadius: 10, padding: '10px 18px', color: 'white', cursor: 'pointer', fontSize: 14 }}>Download تصدير كشف الدرجات</button>
+          <button onClick={exportCSV} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid ' + BORDER, borderRadius: 10, padding: '10px 18px', color: 'white', cursor: 'pointer', fontSize: 14 }}><IconRenderer name="ICON_Download" size={18} /> تصدير كشف الدرجات</button>
           <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ اضافة درجة</button>
         </div>
       </div>
@@ -130,7 +130,7 @@ export default function GradesPage() {
         {[
           { label: 'اجمالي السجلات', value: filtered.length, color: GOLD, icon: "ICON_FileText" },
           { label: 'متوسط الدرجات', value: avgScore + '%', color: getGradeColor(avgScore), icon: "ICON_TrendingUp" },
-          { label: 'الراسبون', value: failCount, color: '#EF4444', icon: 'AlertTriangle️' },
+          { label: 'الراسبون', value: failCount, color: '#EF4444', icon: 'AlertTriangle<IconRenderer name="ICON_Star" size={18} />' },
           { label: 'الناجحون', value: filtered.length - failCount, color: '#10B981', icon: "ICON_CheckCircle" },
         ].map((s, i) => (
           <div key={i} style={{ background: CARD_BG, border: '1px solid ' + BORDER, borderRadius: 14, padding: '18px 20px' }}>
@@ -143,7 +143,7 @@ export default function GradesPage() {
 
       {topStudents.length > 0 && (
         <div style={{ background: CARD_BG, border: '1px solid ' + BORDER, borderRadius: 14, padding: 20, marginBottom: 24 }}>
-          <h3 style={{ color: GOLD, fontSize: 15, fontWeight: 700, margin: '0 0 16px' }}>Trophy المتفوقون</h3>
+          <h3 style={{ color: GOLD, fontSize: 15, fontWeight: 700, margin: '0 0 16px' }}><IconRenderer name="ICON_Trophy" size={18} /> المتفوقون</h3>
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
             {topStudents.map((s: any, i: number) => {
               const pct = Math.round((s.score / s.max_score) * 100);
@@ -178,7 +178,7 @@ export default function GradesPage() {
           <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>جاري التحميل...</div>
         ) : filtered.length === 0 ? (
           <div style={{ textAlign: 'center', padding: 60 }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>BarChart3</div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_BarChart3" size={18} />3</div>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 16 }}>لا توجد درجات مسجلة</p>
             <button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ اضافة اول درجة</button>
           </div>

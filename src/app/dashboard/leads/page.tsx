@@ -59,16 +59,16 @@ export default function LeadsPage() {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>Target العملاء المحتملين</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Target" size={18} /> العملاء المحتملين</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>متابعة العملاء المحتملين وتحويلهم لمشتركين</p>
         </div>
-        <button onClick={() => { setEditItem(null); setFormData({ name: '', email: '', phone: '', company: '', source: '', status: 'new', notes: '' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>Plus إضافة عميل</button>
+        <button onClick={() => { setEditItem(null); setFormData({ name: '', email: '', phone: '', company: '', source: '', status: 'new', notes: '' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة عميل</button>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
           { label: 'إجمالي العملاء', value: items.length, icon: "ICON_Target", color: '#C9A227' },
-          { label: 'جديد', value: items.filter(i => i.status === 'new').length, icon: '🆕', color: '#3B82F6' },
+          { label: 'جديد', value: items.filter(i => i.status === 'new').length, icon: '<IconRenderer name="ICON_Star" size={18} />', color: '#3B82F6' },
           { label: 'مهتم', value: items.filter(i => i.status === 'interested').length, icon: "ICON_CheckCircle", color: '#10B981' },
           { label: 'تم التحويل', value: items.filter(i => i.status === 'converted').length, icon: "ICON_Trophy", color: '#C9A227' },
         ].map((stat, i) => (
@@ -91,9 +91,9 @@ export default function LeadsPage() {
           <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>⏳ جاري التحميل...</p></div>
         ) : filteredItems.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <p style={{ fontSize: 48, marginBottom: 16 }}>Target</p>
+            <p style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_Target" size={36} /></p>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا يوجد عملاء محتملين</p>
-            <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>Plus إضافة أول عميل</button>
+            <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة أول عميل</button>
           </div>
         ) : (
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -114,7 +114,7 @@ export default function LeadsPage() {
                   <tr key={item.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                     <td style={{ padding: 16 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                        <div style={{ width: 40, height: 40, background: 'rgba(201,162,39,0.1)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>Target</div>
+                        <div style={{ width: 40, height: 40, background: 'rgba(201,162,39,0.1)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><IconRenderer name="ICON_Target" size={36} /></div>
                         <div>
                           <p style={{ color: 'white', fontWeight: 600, margin: 0 }}>{item.name}</p>
                           <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, margin: 0 }}>{item.email}</p>
@@ -129,9 +129,9 @@ export default function LeadsPage() {
                     </td>
                     <td style={{ padding: 16, textAlign: 'center' }}>
                       <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-                        <button style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>Eye️ عرض</button>
-                        <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>Pencil️ تعديل</button>
-                        <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>Trash2️ حذف</button>
+                        <button style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Eye" size={18} /> عرض</button>
+                        <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+                        <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
                       </div>
                     </td>
                   </tr>

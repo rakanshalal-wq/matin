@@ -1,4 +1,5 @@
 'use client';
+import IconRenderer from "@/components/IconRenderer";
 import { Check } from "lucide-react";
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
@@ -342,7 +343,7 @@ export default function DriverDashboard() {
         </div>
       )}
 
-      {/* ── Start Trip Modal ── */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> Start Trip Modal <IconRenderer name="ICON_Star" size={18} /> */}
       {showStart && (
         <Modal title="بدء رحلة جديدة" onClose={()=>setShowStart(false)}>
           <div style={fw}><label style={lbl}>اسم المسار <span style={{color:'#EF4444'}}>*</span></label><input value={startForm.route_name} onChange={e=>setStartForm(f=>({...f,route_name:e.target.value}))} placeholder="مثال: مسار الحي الشمالي" style={inp}/></div>
@@ -355,7 +356,7 @@ export default function DriverDashboard() {
         </Modal>
       )}
 
-      {/* ── Location Modal ── */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> Location Modal <IconRenderer name="ICON_Star" size={18} /> */}
       {showLoc && (
         <Modal title="تحديث الموقع الحالي" onClose={()=>setShowLoc(false)}>
           <button onClick={getGPS} style={{...mkBtn('#3B82F6'),width:'100%',justifyContent:'center',marginBottom:16}}>
@@ -371,7 +372,7 @@ export default function DriverDashboard() {
         </Modal>
       )}
 
-      {/* ── Board Student Modal ── */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> Board Student Modal <IconRenderer name="ICON_Star" size={18} /> */}
       {showBoard && (
         <Modal title="تسجيل ركوب طالب" onClose={()=>{ setShowBoard(false); setBoardStudent(null); }}>
           {!boardStudent ? (
@@ -404,7 +405,7 @@ export default function DriverDashboard() {
         </Modal>
       )}
 
-      {/* ── Message Modal ── */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> Message Modal <IconRenderer name="ICON_Star" size={18} /> */}
       {showMsg && (
         <Modal title="إرسال رسالة" onClose={()=>setShowMsg(false)}>
           <div style={fw}><label style={lbl}>المستلم</label>

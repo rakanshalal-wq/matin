@@ -20,8 +20,8 @@ const INTEGRATIONS: Integration[] = [
   { key: "payment_gateway_1", name: "بوابة الدفع الرئيسية",  category: "دفع",           icon: "ICON_CreditCard", desc: "قبول مدى، فيزا، ماستركارد",                           fields: ["publishable_key","secret_key"],                       testable: true,  requiresLicense: false },
   { key: "payment_gateway_2", name: "بوابة الدفع البديلة",   category: "دفع",           icon: "ICON_CreditCard", desc: "بوابة دفع احتياطية متكاملة",                          fields: ["api_key","entity_id"],                                testable: false, requiresLicense: false },
   { key: "payment_wallet",    name: "المحفظة الإلكترونية",   category: "دفع",           icon: "ICON_Smartphone", desc: "الدفع عبر المحفظة الإلكترونية",                       fields: ["api_key","merchant_id"],                              testable: false, requiresLicense: false },
-  { key: "payment_bnpl_1",    name: "الدفع على أقساط",       category: "دفع",           icon: "ShoppingBag️", desc: "اشتري الآن وادفع لاحقاً",                             fields: ["public_key","secret_key","merchant_code"],            testable: false, requiresLicense: false },
-  { key: "payment_bnpl_2",    name: "التقسيط بدون فوائد",    category: "دفع",           icon: "ShoppingBag️", desc: "تقسيط ميسّر بدون فوائد",                              fields: ["api_token"],                                          testable: false, requiresLicense: false },
+  { key: "payment_bnpl_1",    name: "الدفع على أقساط",       category: "دفع",           icon: "ShoppingBag<IconRenderer name="ICON_Star" size={18} />", desc: "اشتري الآن وادفع لاحقاً",                             fields: ["public_key","secret_key","merchant_code"],            testable: false, requiresLicense: false },
+  { key: "payment_bnpl_2",    name: "التقسيط بدون فوائد",    category: "دفع",           icon: "ShoppingBag<IconRenderer name="ICON_Star" size={18} />", desc: "تقسيط ميسّر بدون فوائد",                              fields: ["api_token"],                                          testable: false, requiresLicense: false },
   // ===== رسائل =====
   { key: "taqnyat",           name: "تقنيات SMS",            category: "رسائل",         icon: "ICON_MailOpen", desc: "رسائل SMS سعودية",                                    fields: ["api_key","sender"],                                   testable: false, requiresLicense: false },
   { key: "unifonic",          name: "Unifonic",              category: "رسائل",         icon: "ICON_MailOpen", desc: "رسائل SMS عربية",                                      fields: ["app_id","sender_id"],                                 testable: false, requiresLicense: false },
@@ -39,14 +39,14 @@ const INTEGRATIONS: Integration[] = [
   // ===== ذكاء اصطناعي =====
   { key: "openai",            name: "OpenAI",                category: "ذكاء اصطناعي", icon: "ICON_Bot", desc: "GPT-4 للمساعد الذكي",                                 fields: ["api_key"],                                            testable: false, requiresLicense: false },
   // ===== خرائط =====
-  { key: "google_maps",       name: "Google Maps",           category: "خرائط",         icon: "Map️", desc: "خرائط وتتبع الباصات",                                 fields: ["api_key"],                                            testable: false, requiresLicense: false },
+  { key: "google_maps",       name: "Google Maps",           category: "خرائط",         icon: "Map<IconRenderer name="ICON_Star" size={18} />", desc: "خرائط وتتبع الباصات",                                 fields: ["api_key"],                                            testable: false, requiresLicense: false },
   // ===== حكومي — يحتاج ترخيص رسمي =====
-  { key: "noor",    name: "نور",    category: "حكومي", icon: "Building2️", desc: "نظام نور للتعليم — ربط بيانات الطلاب والمعلمين",     fields: ["api_key","school_code"],                  testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً رسمياً من وزارة التعليم" },
+  { key: "noor",    name: "نور",    category: "حكومي", icon: "Building2<IconRenderer name="ICON_Star" size={18} />", desc: "نظام نور للتعليم — ربط بيانات الطلاب والمعلمين",     fields: ["api_key","school_code"],                  testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً رسمياً من وزارة التعليم" },
   { key: "nafath",  name: "نفاذ",  category: "حكومي", icon: "ICON_Lock", desc: "التحقق من الهوية الوطنية — تسجيل دخول آمن",          fields: ["client_id","client_secret","service_id"], testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً عبر منصة اعتماد (وزارة الاتصالات)" },
-  { key: "absher",  name: "أبشر",  category: "حكومي", icon: "Building2️", desc: "بوابة الخدمات الحكومية",                             fields: ["api_key"],                                testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً من وزارة الداخلية" },
+  { key: "absher",  name: "أبشر",  category: "حكومي", icon: "Building2<IconRenderer name="ICON_Star" size={18} />", desc: "بوابة الخدمات الحكومية",                             fields: ["api_key"],                                testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً من وزارة الداخلية" },
   { key: "sehatey", name: "صحتي",  category: "حكومي", icon: "ICON_Hospital", desc: "السجلات الصحية للطلاب",                              fields: ["api_key"],                                testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً من وزارة الصحة" },
   { key: "qiwa",    name: "قوى",   category: "حكومي", icon: "ICON_Shirt", desc: "إدارة العقود والرواتب",                              fields: ["api_key","establishment_id"],             testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً من وزارة الموارد البشرية" },
-  { key: "muqeem",  name: "مقيم",  category: "حكومي", icon: "Building2️", desc: "بيانات المقيمين",                                   fields: ["api_key"],                                testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً من الجوازات" },
+  { key: "muqeem",  name: "مقيم",  category: "حكومي", icon: "Building2<IconRenderer name="ICON_Star" size={18} />", desc: "بيانات المقيمين",                                   fields: ["api_key"],                                testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً من الجوازات" },
   { key: "faris",   name: "فارس",  category: "حكومي", icon: "ICON_GraduationCap", desc: "نظام شؤون المعلمين",                                 fields: ["api_key","school_code"],                  testable: false, requiresLicense: true, licenseNote: "يتطلب اعتماداً من وزارة التعليم" },
 ];
 
@@ -247,7 +247,7 @@ export default function IntegrationsPage() {
             <button
               onClick={() => { setInputValues(prev => ({ ...prev, [integration.key]: savedKeys[integration.key] || {} })); setEditing(integration.key); }}
               className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${isConnected ? "bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border border-emerald-500/30" : "bg-yellow-400 text-gray-900 hover:bg-yellow-300"}`}>
-              {isConnected ? "Pencil️ تعديل" : "Link ربط الآن"}
+              {isConnected ? "Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل" : "Link ربط الآن"}
             </button>
             {isConnected && integration.testable && (
               <button onClick={() => handleTest(integration.key)} disabled={isTesting}
@@ -282,7 +282,7 @@ export default function IntegrationsPage() {
         {!isConnected && (
           <div className="absolute top-3 left-3">
             <span className="text-xs bg-orange-500/20 text-orange-400 border border-orange-500/30 px-2 py-0.5 rounded-full font-medium">
-              [Building2]️ يحتاج ترخيص
+              [Building2]<IconRenderer name="ICON_Star" size={18} /> يحتاج ترخيص
             </span>
           </div>
         )}
@@ -304,7 +304,7 @@ export default function IntegrationsPage() {
         <p className="text-sm text-gray-400 leading-relaxed">{integration.desc}</p>
         {!isConnected && (
           <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-3 text-xs text-orange-300 leading-relaxed">
-            <span className="font-bold">ClipboardList متطلب الترخيص: </span>{integration.licenseNote}
+            <span className="font-bold"><IconRenderer name="ICON_ClipboardList" size={18} /> متطلب الترخيص: </span>{integration.licenseNote}
           </div>
         )}
         {isEditing ? (
@@ -337,7 +337,7 @@ export default function IntegrationsPage() {
             <button
               onClick={() => { setInputValues(prev => ({ ...prev, [integration.key]: savedKeys[integration.key] || {} })); setEditing(integration.key); }}
               className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all border ${isConnected ? "bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border-emerald-500/30" : "border-orange-500/40 text-orange-400 hover:bg-orange-500/10"}`}>
-              {isConnected ? "Pencil️ تعديل" : "Key إدخال مفاتيح الترخيص"}
+              {isConnected ? "Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل" : "Key إدخال مفاتيح الترخيص"}
             </button>
             {isConnected && (
               <button onClick={() => handleDisconnect(integration.key)} disabled={isDisc}
@@ -357,7 +357,7 @@ export default function IntegrationsPage() {
       <div className="mb-8">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-1">Zap التكاملات والربط</h1>
+            <h1 className="text-3xl font-bold text-white mb-1"><IconRenderer name="ICON_Zap" size={18} /> التكاملات والربط</h1>
             <p className="text-gray-400">اربط منصتك بالخدمات الخارجية — مفتاح واحد يشتغل لكل المدارس</p>
           </div>
           <div className="flex items-center gap-3">
@@ -376,7 +376,7 @@ export default function IntegrationsPage() {
       {/* لوحة التعليمات */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4">
-          <h3 className="text-blue-400 font-bold mb-2">CheckCircle التكاملات الجاهزة — تفعّل فوراً</h3>
+          <h3 className="text-blue-400 font-bold mb-2"><IconRenderer name="ICON_CheckCircle" size={18} /> التكاملات الجاهزة — تفعّل فوراً</h3>
           <div className="text-sm text-gray-300 space-y-1">
             <p>1. اضغط <strong>"ربط الآن"</strong> على أي تكامل</p>
             <p>2. أدخل الـ API Key من موقع الخدمة</p>
@@ -384,7 +384,7 @@ export default function IntegrationsPage() {
           </div>
         </div>
         <div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-4">
-          <h3 className="text-orange-400 font-bold mb-2">[Building2]️ التكاملات الحكومية — تحتاج ترخيص رسمي</h3>
+          <h3 className="text-orange-400 font-bold mb-2">[Building2]<IconRenderer name="ICON_Star" size={18} /> التكاملات الحكومية — تحتاج ترخيص رسمي</h3>
           <div className="text-sm text-gray-300 space-y-1">
             <p>الحقول جاهزة في المنصة بالكامل.</p>
             <p>بعد حصولك على الترخيص، اضغط <strong>"إدخال مفاتيح الترخيص"</strong></p>

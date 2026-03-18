@@ -23,11 +23,11 @@ export default function SecurityPage(){
   const lbl:React.CSSProperties={display:'block',color:'rgba(255,255,255,0.6)',fontSize:13,marginBottom:6};
   const SC:Record<string,string>={success:'#10B981',failed:'#EF4444',warning:'#F59E0B',info:'#3B82F6'};
   const filteredLogs=logs.filter(l=>!filterStatus||l.status===filterStatus);
-  const tabs=[{id:'logs',l:'سجل الأحداث',i:"ICON_ClipboardList"},{id:'sessions',l:'الجلسات النشطة',i:"ICON_Lock"},{id:'settings',l:'إعدادات الأمان',i:'Settings️'}];
+  const tabs=[{id:'logs',l:'سجل الأحداث',i:"ICON_ClipboardList"},{id:'sessions',l:'الجلسات النشطة',i:"ICON_Lock"},{id:'settings',l:'إعدادات الأمان',i:'Settings<IconRenderer name="ICON_Star" size={18} />'}];
   return(
     <div style={{minHeight:'100vh',background:BG,padding:'32px 24px',direction:'rtl',fontFamily:'Cairo, sans-serif'}}>
       <div style={{marginBottom:32}}>
-        <h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}>Lock الأمان وحماية النظام</h1>
+        <h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}><IconRenderer name="ICON_Lock" size={18} /> الأمان وحماية النظام</h1>
         <p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>مراقبة الأمان وإدارة الجلسات والصلاحيات</p>
       </div>
       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',gap:16,marginBottom:28}}>
@@ -92,7 +92,7 @@ export default function SecurityPage(){
       )}
       {activeTab==='settings'&&(
         <div style={{background:CB,border:'1px solid '+BR,borderRadius:16,padding:32,maxWidth:560}}>
-          <h3 style={{color:'white',fontSize:18,fontWeight:700,marginBottom:24}}>Settings️ إعدادات الأمان</h3>
+          <h3 style={{color:'white',fontSize:18,fontWeight:700,marginBottom:24}}><IconRenderer name="ICON_Star" size={18} /> إعدادات الأمان</h3>
           <div style={{display:'flex',flexDirection:'column',gap:20}}>
             {[{k:'two_factor',l:'المصادقة الثنائية',d:'طبقة حماية إضافية عند الدخول'},{k:'require_uppercase',l:'أحرف كبيرة في كلمة المرور',d:'إلزامية حرف كبير واحد على الأقل'},{k:'require_numbers',l:'أرقام في كلمة المرور',d:'إلزامية رقم واحد على الأقل'},{k:'require_special',l:'رموز خاصة في كلمة المرور',d:'إلزامية رمز خاص مثل @#$'}].map(({k,l,d})=>(
               <div key={k} style={{display:'flex',justifyContent:'space-between',alignItems:'center',background:'rgba(255,255,255,0.03)',borderRadius:12,padding:'14px 18px'}}>

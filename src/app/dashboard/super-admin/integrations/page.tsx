@@ -53,7 +53,7 @@ export default function IntegrationsPage() {
   const getTypeIcon = (type: string) => {
     const icons: Record<string, string> = {
       auth: "ICON_Lock", payment: "ICON_CreditCard", sms: "ICON_Smartphone", messaging: "ICON_MessageCircle",
-      maps: 'Map️', education: "ICON_BookOpen", government: '[Building2]️'
+      maps: 'Map<IconRenderer name="ICON_Star" size={18} />', education: "ICON_BookOpen", government: '[Building2]<IconRenderer name="ICON_Star" size={18} />'
     };
     return icons[type] || "ICON_Plug";
   };
@@ -139,7 +139,7 @@ export default function IntegrationsPage() {
                   onClick={() => { setEditingId(editingId === integration.id ? null : integration.id); setApiKey(''); }}
                   className="py-2 px-4 rounded-lg text-sm font-medium bg-blue-50 text-blue-600 hover:bg-blue-100"
                 >
-                  Settings️ إعداد
+                  Settings<IconRenderer name="ICON_Star" size={18} /> إعداد
                 </button>
               </div>
             </div>

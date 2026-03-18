@@ -1,4 +1,5 @@
 'use client';
+import IconRenderer from "@/components/IconRenderer";
 import { Calendar, Check, ClipboardList, DoorOpen, Pencil, School, Trash2, User } from "lucide-react";
 import { useState, useEffect } from 'react';
 
@@ -283,7 +284,7 @@ export default function WeeklySchedulePage() {
         <div className="flex rounded-xl overflow-hidden" style={{ border: `1px solid ${BORDER}` }}>
           {[
             { key: 'class', label: 'School حسب الفصل' },
-            { key: 'teacher', label: 'User‍[School] حسب المعلم' },
+            { key: 'teacher', label: 'User<IconRenderer name="ICON_Star" size={18} />[School] حسب المعلم' },
           ].map((v) => (
             <button key={v.key} onClick={() => setView(v.key as any)}
               style={{
@@ -387,11 +388,11 @@ export default function WeeklySchedulePage() {
                               style={{ background: 'rgba(0,0,0,0.7)' }}>
                               <button onClick={() => openEdit(slot)}
                                 style={{ ...btn('rgba(255,255,255,0.15)', '#fff'), padding: '4px 8px', fontSize: 11 }}>
-                                [Pencil]️
+                                [Pencil]<IconRenderer name="ICON_Star" size={18} />
                               </button>
                               <button onClick={() => deleteSlot(slot.id)}
                                 style={{ ...btn(`${RED}33`, RED), padding: '4px 8px', fontSize: 11 }}>
-                                [Trash2]️
+                                [Trash2]<IconRenderer name="ICON_Star" size={18} />
                               </button>
                             </div>
                           </div>
@@ -438,9 +439,9 @@ export default function WeeklySchedulePage() {
         </div>
       )}
 
-      {/* ═══════════════════════════════════════════════════════════
+      {/* <IconRenderer name="ICON_Star" size={18} />
           Modals
-      ═══════════════════════════════════════════════════════════ */}
+      <IconRenderer name="ICON_Star" size={18} /> */}
 
       {/* إضافة حصة */}
       {modal === 'addSlot' && (

@@ -92,7 +92,7 @@ export default function ParentPaymentsPage() {
 
   const filtered = (data?.invoices || []).filter((i: any) => filterStatus === 'all' || i.status === filterStatus);
 
-  if (loading) return <div style={{ padding: 24, direction: 'rtl', background: '#06060E', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#8B5CF6', fontSize: 18 }}>CreditCard جاري التحميل...</div>;
+  if (loading) return <div style={{ padding: 24, direction: 'rtl', background: '#06060E', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#8B5CF6', fontSize: 18 }}><IconRenderer name="ICON_CreditCard" size={18} /> جاري التحميل...</div>;
 
   return (
     <div style={{ padding: 24, direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic,Arial,sans-serif', background: '#06060E', minHeight: '100vh' }}>
@@ -155,7 +155,7 @@ export default function ParentPaymentsPage() {
                     <div style={{ color: cfg.color, fontSize: 28, fontWeight: 900 }}>{Number(inv.total).toLocaleString()}</div>
                     <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, marginBottom: 8 }}>ريال</div>
                     <span style={{ display: 'inline-block', padding: '4px 12px', borderRadius: 20, fontSize: 12, fontWeight: 700, background: cfg.bg, color: cfg.color, border: `1px solid ${cfg.color}40` }}><IconRenderer name={cfg.icon} /> {cfg.label}</span>
-                    {canPay && <div style={{ marginTop: 10 }}><button style={{ padding: '8px 20px', borderRadius: 8, cursor: 'pointer', background: 'linear-gradient(135deg,#8B5CF6,#6D28D9)', border: 'none', color: 'white', fontSize: 13, fontWeight: 700, width: '100%' }}>CreditCard ادفع الآن</button></div>}
+                    {canPay && <div style={{ marginTop: 10 }}><button style={{ padding: '8px 20px', borderRadius: 8, cursor: 'pointer', background: 'linear-gradient(135deg,#8B5CF6,#6D28D9)', border: 'none', color: 'white', fontSize: 13, fontWeight: 700, width: '100%' }}><IconRenderer name="ICON_CreditCard" size={18} /> ادفع الآن</button></div>}
                   </div>
                 </div>
               </div>
@@ -171,7 +171,7 @@ export default function ParentPaymentsPage() {
             <div key={p.id} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 18, marginBottom: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
               <div>
                 <div style={{ color: 'white', fontSize: 14, fontWeight: 700 }}>{p.invoice_title || p.invoice_number}</div>
-                <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, marginTop: 4 }}>{p.student_name && `User‍GraduationCap ${p.student_name} — `}Calendar {new Date(p.created_at).toLocaleDateString('ar-SA')}</div>
+                <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, marginTop: 4 }}>{p.student_name && `User<IconRenderer name="ICON_Star" size={18} /><IconRenderer name="ICON_GraduationCap" size={18} /> ${p.student_name} — `}Calendar {new Date(p.created_at).toLocaleDateString('ar-SA')}</div>
               </div>
               <div style={{ textAlign: 'center' }}>
                 <div style={{ color: '#10B981', fontSize: 22, fontWeight: 800 }}>{Number(p.amount).toLocaleString()} ريال</div>
@@ -222,7 +222,7 @@ export default function ParentPaymentsPage() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 440, direction: 'rtl' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>CreditCard تفاصيل الفاتورة</h2>
+              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_CreditCard" size={18} /> تفاصيل الفاتورة</h2>
               <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
             </div>
             <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 10, padding: 16, marginBottom: 20 }}>

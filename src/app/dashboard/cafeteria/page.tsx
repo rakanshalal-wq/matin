@@ -81,7 +81,7 @@ export default function CafeteriaPage() {
     <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>UtensilsCrossed️ الكافتيريا</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Star" size={18} /> الكافتيريا</h1>
           <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>ادارة قائمة الطعام والطلبات</p>
         </div>
         <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ اضافة صنف</button>
@@ -89,7 +89,7 @@ export default function CafeteriaPage() {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 28 }}>
         {[
-          { label: 'اجمالي الاصناف', value: totalItems, color: GOLD, icon: 'UtensilsCrossed️' },
+          { label: 'اجمالي الاصناف', value: totalItems, color: GOLD, icon: 'UtensilsCrossed<IconRenderer name="ICON_Star" size={18} />' },
           { label: 'متاح الان', value: availableItems, color: '#10B981', icon: "ICON_CheckCircle" },
           { label: 'غير متاح', value: totalItems - availableItems, color: '#EF4444', icon: "ICON_XCircle" },
           { label: 'متوسط السعر', value: avgPrice + ' ر.س', color: '#3B82F6', icon: "ICON_Coins" },
@@ -115,7 +115,7 @@ export default function CafeteriaPage() {
           <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>جاري التحميل...</div>
         ) : filtered.length === 0 ? (
           <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: 60 }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>UtensilsCrossed️</div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_Star" size={18} /></div>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 16 }}>لا توجد اصناف في القائمة</p>
             <button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ اضافة اول صنف</button>
           </div>
@@ -124,7 +124,7 @@ export default function CafeteriaPage() {
             {item.available === false && (
               <div style={{ position: 'absolute', top: 12, left: 12, background: 'rgba(239,68,68,0.2)', color: '#EF4444', padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600 }}>غير متاح</div>
             )}
-            <div style={{ fontSize: 32, marginBottom: 12 }}>UtensilsCrossed️</div>
+            <div style={{ fontSize: 32, marginBottom: 12 }}><IconRenderer name="ICON_Star" size={18} /></div>
             <div style={{ color: 'white', fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{item.name}</div>
             <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, marginBottom: 8 }}>{item.category}</div>
             {item.description && <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, marginBottom: 8 }}>{item.description}</div>}

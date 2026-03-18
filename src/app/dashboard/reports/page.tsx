@@ -84,7 +84,7 @@ export default function ReportsPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
           {[
             { label: 'الطلاب', value: data.students || 0, icon: "ICON_GraduationCap", color: '#3B82F6' },
-            { label: 'المعلمين', value: data.teachers || 0, icon: 'User‍School', color: '#10B981' },
+            { label: 'المعلمين', value: data.teachers || 0, icon: 'User<IconRenderer name="ICON_Star" size={18} />School', color: '#10B981' },
             { label: 'الفصول', value: data.classes || 0, icon: "ICON_School", color: '#C9A227' },
             { label: 'الاختبارات', value: data.exams || 0, icon: "ICON_FileText", color: '#8B5CF6' },
             { label: 'المحاضرات', value: data.lectures || 0, icon: "ICON_BookOpen", color: '#F59E0B' },
@@ -252,7 +252,7 @@ export default function ReportsPage() {
   return (
     <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
       <div style={{ marginBottom: 24 }}>
-        <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}>TrendingUp التقارير والإحصائيات</h1>
+        <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}><IconRenderer name="ICON_TrendingUp" size={18} /> التقارير والإحصائيات</h1>
         <p style={{ color: '#9CA3AF', fontSize: 14, margin: '6px 0 0' }}>تقارير شاملة من بيانات المنصة الحقيقية</p>
       </div>
 
@@ -266,9 +266,9 @@ export default function ReportsPage() {
           <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>إلى:</label>
           <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '8px 12px', color: '#fff', fontSize: 13, outline: 'none' }} />
         </div>
-        <button onClick={handleFilteredFetch} style={{ background: 'rgba(59,130,246,0.15)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 8, padding: '8px 16px', cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>Search تصفية</button>
-        <button onClick={() => handleExport('csv')} disabled={saving} style={{ background: 'rgba(16,185,129,0.15)', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 8, padding: '8px 16px', cursor: saving ? 'not-allowed' : 'pointer', fontSize: 13, fontWeight: 600, opacity: saving ? 0.7 : 1 }}>Download CSV</button>
-        <button onClick={() => handleExport('pdf')} disabled={saving} style={{ background: 'rgba(239,68,68,0.15)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, padding: '8px 16px', cursor: saving ? 'not-allowed' : 'pointer', fontSize: 13, fontWeight: 600, opacity: saving ? 0.7 : 1 }}>File PDF</button>
+        <button onClick={handleFilteredFetch} style={{ background: 'rgba(59,130,246,0.15)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 8, padding: '8px 16px', cursor: 'pointer', fontSize: 13, fontWeight: 600 }}><IconRenderer name="ICON_Search" size={18} /> تصفية</button>
+        <button onClick={() => handleExport('csv')} disabled={saving} style={{ background: 'rgba(16,185,129,0.15)', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 8, padding: '8px 16px', cursor: saving ? 'not-allowed' : 'pointer', fontSize: 13, fontWeight: 600, opacity: saving ? 0.7 : 1 }}><IconRenderer name="ICON_Download" size={18} /> CSV</button>
+        <button onClick={() => handleExport('pdf')} disabled={saving} style={{ background: 'rgba(239,68,68,0.15)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, padding: '8px 16px', cursor: saving ? 'not-allowed' : 'pointer', fontSize: 13, fontWeight: 600, opacity: saving ? 0.7 : 1 }}><IconRenderer name="ICON_File" size={18} /> PDF</button>
         {exportMsg && <span style={{ color: '#10B981', fontSize: 13 }}>{exportMsg}</span>}
         {errMsg && <span style={{ color: '#EF4444', fontSize: 13 }}>{errMsg}</span>}
       </div>

@@ -152,7 +152,7 @@ export default function WatchLecturePage() {
       {/* === مرحلة المشاهدة === */}
       {phase === 'watching' && lecture && (
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: '#C9A227', margin: '0 0 8px' }}>Video {lecture.title}</h1>
+          <h1 style={{ fontSize: 22, fontWeight: 700, color: '#C9A227', margin: '0 0 8px' }}><IconRenderer name="ICON_Video" size={18} /> {lecture.title}</h1>
           <p style={{ color: '#9CA3AF', fontSize: 14, margin: '0 0 24px' }}>شاهد المحاضرة كاملة بدون تقديم أو ترجيع — بعدها 5 أسئلة</p>
 
           {/* شاشة الفيديو */}
@@ -163,7 +163,7 @@ export default function WatchLecturePage() {
               </video>
             ) : (
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: 64, marginBottom: 10 }}>Video</div>
+                <div style={{ fontSize: 64, marginBottom: 10 }}><IconRenderer name="ICON_Video" size={36} /></div>
                 <p style={{ color: '#6B7280', fontSize: 16 }}>المحاضرة جارية...</p>
                 <p style={{ color: '#C9A227', fontSize: 32, fontWeight: 700, fontFamily: 'monospace' }}>{formatTime(elapsed)}</p>
               </div>
@@ -172,7 +172,7 @@ export default function WatchLecturePage() {
             {/* منع التقديم/الترجيع */}
             <div style={{ position: 'absolute' as const, bottom: 0, left: 0, right: 0, padding: '8px 16px', background: 'rgba(0,0,0,0.7)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ color: '#C9A227', fontSize: 13 }}>⏱️ {formatTime(elapsed)} / {lecture.duration_minutes || 45} دقيقة</span>
+                <span style={{ color: '#C9A227', fontSize: 13 }}>⏱<IconRenderer name="ICON_Star" size={18} /> {formatTime(elapsed)} / {lecture.duration_minutes || 45} دقيقة</span>
                 <span style={{ color: '#10B981', fontSize: 13 }}>[BarChart3] {progress}%</span>
               </div>
               <div style={{ width: '100%', height: 4, background: 'rgba(255,255,255,0.1)', borderRadius: 2, marginTop: 6 }}>
@@ -187,7 +187,7 @@ export default function WatchLecturePage() {
 
           {/* زر تخطي للاختبار — للتجربة فقط */}
           <button onClick={loadQuiz} style={{ marginTop: 16, padding: '10px 24px', background: 'rgba(107,114,128,0.1)', color: '#6B7280', border: '1px solid rgba(107,114,128,0.2)', borderRadius: 10, fontSize: 13, cursor: 'pointer', ...inputStyle }}>
-            ⏭️ تخطي للأسئلة (للاختبار فقط)
+            ⏭<IconRenderer name="ICON_Star" size={18} /> تخطي للأسئلة (للاختبار فقط)
           </button>
         </div>
       )}
@@ -228,7 +228,7 @@ export default function WatchLecturePage() {
       {phase === 'result' && (
         <div style={{ textAlign: 'center', padding: 40 }}>
           <div style={{ fontSize: 80, marginBottom: 20 }}>
-            {result === 'present' ? "ICON_PartyPopper" : result === 'retry' ? "ICON_RefreshCw" : "ICON_Frown"}
+            <IconRenderer name={result === 'present' ? "ICON_PartyPopper" : result === 'retry' ? "ICON_RefreshCw" : "ICON_Frown"} size={18} />
           </div>
           <h1 style={{ fontSize: 28, fontWeight: 700, color: result === 'present' ? '#10B981' : result === 'retry' ? '#F59E0B' : '#EF4444', margin: '0 0 12px' }}>
             {score} / 5
@@ -244,7 +244,7 @@ export default function WatchLecturePage() {
               return (
                 <div key={q.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 16px', background: correct ? 'rgba(16,185,129,0.08)' : 'rgba(239,68,68,0.08)', borderRadius: 10, border: `1px solid ${correct ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)'}` }}>
                   <span style={{ color: '#fff', fontSize: 13 }}>س{i + 1}: {q.question_text.substring(0, 30)}...</span>
-                  <span style={{ color: correct ? '#10B981' : '#EF4444', fontSize: 16 }}>{correct ? "ICON_Check" : "ICON_X"}</span>
+                  <span style={{ color: correct ? '#10B981' : '#EF4444', fontSize: 16 }}><IconRenderer name={correct ? "ICON_Check" : "ICON_X"} size={18} /></span>
                 </div>
               );
             })}

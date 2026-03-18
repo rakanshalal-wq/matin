@@ -1,4 +1,5 @@
 'use client';
+import IconRenderer from "@/components/IconRenderer";
 import { Check, X } from "lucide-react";
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -288,7 +289,7 @@ export default function ParentDashboard() {
         </div>
       </div>
 
-      {/* ── Message Modal ── */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> Message Modal <IconRenderer name="ICON_Star" size={18} /> */}
       {showMsgModal && (
         <Modal title="إرسال رسالة للمعلم" onClose={() => setShowMsgModal(false)}>
           {selectedChild && (
@@ -309,7 +310,7 @@ export default function ParentDashboard() {
         </Modal>
       )}
 
-      {/* ── Leave Request Modal ── */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> Leave Request Modal <IconRenderer name="ICON_Star" size={18} /> */}
       {showLeaveModal && (
         <Modal title="طلب إجازة للطالب" onClose={() => setShowLeaveModal(false)}>
           {selectedChild && (

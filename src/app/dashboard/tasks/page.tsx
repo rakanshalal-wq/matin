@@ -27,7 +27,7 @@ export default function TasksPage() {
   return (
     <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
-        <div><h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>CheckCircle إدارة المهام</h1><p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>تتبع وإدارة مهام الفريق</p></div>
+        <div><h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_CheckCircle" size={18} /> إدارة المهام</h1><p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>تتبع وإدارة مهام الفريق</p></div>
         <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ مهمة جديدة</button>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: 16, marginBottom: 28 }}>
@@ -39,7 +39,7 @@ export default function TasksPage() {
       </div>
       <div style={{ display: 'grid', gap: 12 }}>
         {loading ? <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>جاري التحميل...</div> :
-          filtered.length === 0 ? <div style={{ textAlign: 'center', padding: 60 }}><div style={{ fontSize: 48, marginBottom: 16 }}>CheckCircle</div><p style={{ color: 'rgba(255,255,255,0.4)' }}>لا توجد مهام</p><button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ إضافة مهمة</button></div> :
+          filtered.length === 0 ? <div style={{ textAlign: 'center', padding: 60 }}><div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_Check" size={18} />Circle</div><p style={{ color: 'rgba(255,255,255,0.4)' }}>لا توجد مهام</p><button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ إضافة مهمة</button></div> :
           filtered.map((t: any, i: number) => { const p = PRIORITY_MAP[t.priority] || PRIORITY_MAP.medium; const s = STATUS_MAP[t.status] || STATUS_MAP.todo; const overdue = t.due_date && new Date(t.due_date) < new Date() && t.status !== 'done'; return (
             <div key={t.id || i} style={{ background: CB, border: `1px solid ${overdue ? 'rgba(239,68,68,0.3)' : BR}`, borderRadius: 14, padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 16 }}>
               <button onClick={() => toggleStatus(t)} style={{ width: 28, height: 28, borderRadius: '50%', border: '2px solid', borderColor: t.status === 'done' ? '#10B981' : BR, background: t.status === 'done' ? '#10B981' : 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: 14, flexShrink: 0 }}>{t.status === 'done' ? "ICON_Check" : ''}</button>
@@ -52,8 +52,8 @@ export default function TasksPage() {
                 </div>
                 {t.description && <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>{t.description}</div>}
                 <div style={{ display: 'flex', gap: 12, marginTop: 6, fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>
-                  {t.assigned_to && <span>User {t.assigned_to}</span>}
-                  {t.due_date && <span style={{ color: overdue ? '#EF4444' : 'rgba(255,255,255,0.4)' }}>Calendar {new Date(t.due_date).toLocaleDateString('ar-SA')}</span>}
+                  {t.assigned_to && <span><IconRenderer name="ICON_User" size={18} /> {t.assigned_to}</span>}
+                  {t.due_date && <span style={{ color: overdue ? '#EF4444' : 'rgba(255,255,255,0.4)' }}><IconRenderer name="ICON_Calendar" size={18} /> {new Date(t.due_date).toLocaleDateString('ar-SA')}</span>}
                 </div>
               </div>
               <div style={{ display: 'flex', gap: 8 }}>

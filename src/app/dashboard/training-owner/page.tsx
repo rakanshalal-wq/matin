@@ -1,4 +1,5 @@
 'use client';
+import IconRenderer from "@/components/IconRenderer";
 import { Check, CheckCircle, ClipboardList, XCircle } from "lucide-react";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -137,7 +138,7 @@ export default function TrainingOwnerDashboard() {
   return (
     <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto', fontFamily: 'IBM Plex Sans Arabic,sans-serif' }}>
 
-      {/* ══ بطاقة الترحيب ══ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> بطاقة الترحيب <IconRenderer name="ICON_Star" size={18} /> */}
       <div style={{ background: `linear-gradient(135deg,rgba(249,115,22,0.08) 0%,rgba(201,168,76,0.05) 50%,rgba(16,16,38,0.8) 100%)`, border: `1px solid ${ACCENT}20`, borderRadius: 18, padding: '28px 32px', marginBottom: 24, position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: -40, left: -40, width: 200, height: 200, background: `${ACCENT}04`, borderRadius: '50%' }} />
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, position: 'relative' }}>
@@ -165,7 +166,7 @@ export default function TrainingOwnerDashboard() {
         </div>
       </div>
 
-      {/* ══ بطاقات الإحصاء ══ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> بطاقات الإحصاء <IconRenderer name="ICON_Star" size={18} /> */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(190px,1fr))', gap: 16, marginBottom: 24 }}>
         <StatCard title="إجمالي المتدربين"      value={stats.students ?? '—'}                          color={ACCENT}     link="/dashboard/students" />
         <StatCard title="المدربون"               value={trainers.length || stats.teachers || '—'}       color="#3B82F6"    link="/dashboard/trainers" />
@@ -175,7 +176,7 @@ export default function TrainingOwnerDashboard() {
         <StatCard title="الإيرادات هذا الشهر"   value={stats.revenue ? `${stats.revenue} ر.س` : '—'}  color="#C9A84C"    link="/dashboard/finance" />
       </div>
 
-      {/* ══ الأقسام الرئيسية ══ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> الأقسام الرئيسية <IconRenderer name="ICON_Star" size={18} /> */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
 
         {/* الأقسام التدريبية */}
@@ -215,7 +216,7 @@ export default function TrainingOwnerDashboard() {
         </div>
       </div>
 
-      {/* ══ الإدارة والموارد ══ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> الإدارة والموارد <IconRenderer name="ICON_Star" size={18} /> */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
 
         {/* الإدارة والموارد البشرية */}
@@ -255,7 +256,7 @@ export default function TrainingOwnerDashboard() {
         </div>
       </div>
 
-      {/* ══ التعليم الإلكتروني والذكاء الاصطناعي ══ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> التعليم الإلكتروني والذكاء الاصطناعي <IconRenderer name="ICON_Star" size={18} /> */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
         <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(201,168,76,0.08)', borderRadius: 14, padding: '20px 24px' }}>
           <div style={{ color: 'rgba(201,168,76,0.6)', fontSize: 10, fontWeight: 800, marginBottom: 16, textTransform: 'uppercase', letterSpacing: 2 }}>التعليم الإلكتروني</div>
@@ -285,7 +286,7 @@ export default function TrainingOwnerDashboard() {
         </div>
       </div>
 
-      {/* ══ الدورات + العملاء المحتملون + الاختبارات + النشاط ══ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> الدورات + العملاء المحتملون + الاختبارات + النشاط <IconRenderer name="ICON_Star" size={18} /> */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 16, marginBottom: 24 }}>
 
         {/* الدورات الحالية */}
@@ -357,7 +358,7 @@ export default function TrainingOwnerDashboard() {
         </div>
       </div>
 
-      {/* ══ رابط مركز التدريب العام ══ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> رابط مركز التدريب العام <IconRenderer name="ICON_Star" size={18} /> */}
       {school?.code && (
         <div style={{ background: 'rgba(201,168,76,0.04)', border: '1px solid rgba(201,168,76,0.12)', borderRadius: 14, padding: '20px 24px' }}>
           <div style={{ color: 'rgba(201,168,76,0.6)', fontSize: 10, fontWeight: 800, marginBottom: 16, textTransform: 'uppercase', letterSpacing: 2 }}>صفحة مركز التدريب العامة</div>
@@ -388,7 +389,7 @@ export default function TrainingOwnerDashboard() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,168,76,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 440, direction: 'rtl' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <h2 style={{ color: '#C9A84C', fontSize: 18, fontWeight: 700, margin: 0 }}>ClipboardList مراجعة طلب الانضمام</h2>
+              <h2 style={{ color: '#C9A84C', fontSize: 18, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_ClipboardList" size={18} /> مراجعة طلب الانضمام</h2>
               <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
             </div>
             {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}

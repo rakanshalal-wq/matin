@@ -88,7 +88,7 @@ export default function InboxPage() {
       {/* Unread Alert */}
       {stats.unread > 0 && (
         <div style={{ background: 'rgba(59,130,246,0.12)', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 12, padding: '16px 20px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: 24 }}>MailOpen</span>
+          <span style={{ fontSize: 24 }}><IconRenderer name="ICON_Mail" size={18} />Open</span>
           <div>
             <div style={{ color: '#3B82F6', fontWeight: 700, fontSize: 15 }}>لديك {stats.unread} رسالة غير مقروءة</div>
             <div style={{ color: 'rgba(59,130,246,0.8)', fontSize: 13, marginTop: 2 }}>اضغط على الرسالة لقراءتها</div>
@@ -99,7 +99,7 @@ export default function InboxPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>Mail البريد الداخلي</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Mail" size={18} /> البريد الداخلي</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>نظام المراسلات الداخلية بين المستخدمين</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ sender: '', receiver: '', subject: '', body: '', is_read: false, is_starred: false, status: 'sent' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
@@ -112,7 +112,7 @@ export default function InboxPage() {
         {[
           { label: 'إجمالي الرسائل', value: stats.total, icon: "ICON_Mail", color: '#C9A227' },
           { label: 'غير مقروءة', value: stats.unread, icon: "ICON_MailOpen", color: '#3B82F6' },
-          { label: 'مميزة', value: stats.starred, icon: '⭐', color: '#F59E0B' },
+          { label: 'مميزة', value: stats.starred, icon: '<IconRenderer name="ICON_Star" size={18} />', color: '#F59E0B' },
           { label: 'مرسلة', value: stats.sent, icon: "ICON_Upload", color: '#10B981' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
@@ -134,7 +134,7 @@ export default function InboxPage() {
           <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
         ) : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>Mail</div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_Mail" size={36} /></div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>صندوق البريد فارغ</p>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "رسالة جديدة" لإرسال رسالة</p>
           </div>
@@ -145,7 +145,7 @@ export default function InboxPage() {
             
             {/* Star */}
             <button onClick={(e) => { e.stopPropagation(); toggleStar(item); }} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 18, padding: '4px 8px', marginLeft: 8 }}>
-              {item.is_starred ? '⭐' : "ICON_Star"}
+              {item.is_starred ? '<IconRenderer name="ICON_Star" size={18} />' : "ICON_Star"}
             </button>
 
             {/* Unread Dot */}
@@ -154,7 +154,7 @@ export default function InboxPage() {
             </div>
 
             {/* Avatar */}
-            <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(201,162,39,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, marginLeft: 12, flexShrink: 0 }}>Mail</div>
+            <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(201,162,39,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, marginLeft: 12, flexShrink: 0 }}><IconRenderer name="ICON_Mail" size={36} /></div>
 
             {/* Content */}
             <div style={{ flex: 1, marginRight: 14, overflow: 'hidden' }}>
@@ -171,8 +171,8 @@ export default function InboxPage() {
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6, flexShrink: 0 }}>
               <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11 }}>{timeAgo(item.created_at)}</span>
               <div style={{ display: 'flex', gap: 6 }}>
-                <button onClick={(e) => { e.stopPropagation(); handleEdit(item); }} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 6, padding: '3px 8px', cursor: 'pointer', fontSize: 11 }}>Pencil️</button>
-                <button onClick={(e) => { e.stopPropagation(); handleDelete(item.id); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 6, padding: '3px 8px', cursor: 'pointer', fontSize: 11 }}>Trash2️</button>
+                <button onClick={(e) => { e.stopPropagation(); handleEdit(item); }} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 6, padding: '3px 8px', cursor: 'pointer', fontSize: 11 }}><IconRenderer name="ICON_Star" size={18} /></button>
+                <button onClick={(e) => { e.stopPropagation(); handleDelete(item.id); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 6, padding: '3px 8px', cursor: 'pointer', fontSize: 11 }}><IconRenderer name="ICON_Star" size={18} /></button>
               </div>
             </div>
           </div>
@@ -184,7 +184,7 @@ export default function InboxPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>Mail {viewItem.subject || '(بدون موضوع)'}</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_Mail" size={18} /> {viewItem.subject || '(بدون موضوع)'}</h2>
               <button onClick={() => setViewItem(null)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
             </div>
             <div style={{ display: 'flex', gap: 16, marginBottom: 16, padding: '12px 16px', background: 'rgba(255,255,255,0.03)', borderRadius: 10 }}>
@@ -202,7 +202,7 @@ export default function InboxPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil️ تعديل رسالة' : 'Mail️ رسالة جديدة'}</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل رسالة' : 'Mail<IconRenderer name="ICON_Star" size={18} /> رسالة جديدة'}</h2>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>

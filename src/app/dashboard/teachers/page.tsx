@@ -1,4 +1,5 @@
 'use client';
+import IconRenderer from "@/components/IconRenderer";
 import { Eye, Pencil, Plus, Save, School, Search, Trash2, User, X } from "lucide-react";
   const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
@@ -128,7 +129,7 @@ export default function TeachersPage() {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>User‍School المعلمين</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Star" size={18} /><IconRenderer name="ICON_School" size={18} /> المعلمين</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة بيانات المعلمين والمعلمات في جميع المدارس</p>
         </div>
         <button onClick={() => setShowAddModal(true)} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>
@@ -139,7 +140,7 @@ export default function TeachersPage() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: 28 }}>User‍School</span>
+            <span style={{ fontSize: 28 }}><IconRenderer name="ICON_Star" size={18} />School</span>
             <span style={{ fontSize: 28, fontWeight: 800, color: '#C9A227' }}>{teachers.length}</span>
           </div>
           <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginTop: 8 }}>إجمالي المعلمين</p>
@@ -155,9 +156,9 @@ export default function TeachersPage() {
           <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>⏳ جاري التحميل...</p></div>
         ) : filteredTeachers.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <p style={{ fontSize: 48, marginBottom: 16 }}>User‍School</p>
+            <p style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_Star" size={18} />School</p>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا يوجد معلمين مسجلين</p>
-            <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>Plus إضافة أول معلم</button>
+            <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة أول معلم</button>
           </div>
         ) : (
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -177,7 +178,7 @@ export default function TeachersPage() {
                 <tr key={teacher.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                   <td style={{ padding: 16 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{ width: 40, height: 40, background: 'rgba(201,162,39,0.1)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>User‍School</div>
+                      <div style={{ width: 40, height: 40, background: 'rgba(201,162,39,0.1)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><IconRenderer name="ICON_Star" size={18} />School</div>
                       <div>
                         <p style={{ color: 'white', fontWeight: 600, margin: 0 }}>{teacher.name}</p>
                         <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, margin: 0 }}>{teacher.email}</p>
@@ -191,9 +192,9 @@ export default function TeachersPage() {
                   <td style={{ padding: 16, textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>{teacher.school_name || '—'}</td>
                   <td style={{ padding: 16, textAlign: 'center' }}>
                     <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-                      <button onClick={() => handleView(teacher)} style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>Eye️ عرض</button>
-                      <button onClick={() => handleEditOpen(teacher)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>Pencil️ تعديل</button>
-                      <button onClick={() => handleDelete(teacher.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>Trash2️ حذف</button>
+                      <button onClick={() => handleView(teacher)} style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Eye" size={18} /> عرض</button>
+                      <button onClick={() => handleEditOpen(teacher)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+                      <button onClick={() => handleDelete(teacher.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
                     </div>
                   </td>
                 </tr>
@@ -208,7 +209,7 @@ export default function TeachersPage() {
         <div style={modalOverlay}>
           <div style={modalBox}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: '#C9A227', fontSize: 22, fontWeight: 700, margin: 0 }}>User‍School إضافة معلم جديد</h2>
+              <h2 style={{ color: '#C9A227', fontSize: 22, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_Star" size={18} /><IconRenderer name="ICON_School" size={18} /> إضافة معلم جديد</h2>
               <button onClick={() => setShowAddModal(false)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>X</button>
             </div>
             <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, marginBottom: 20 }}>سيتم إرسال بيانات الدخول تلقائياً لبريد المعلم الإلكتروني</p>
@@ -257,11 +258,11 @@ export default function TeachersPage() {
         <div style={modalOverlay}>
           <div style={modalBox}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: '#3B82F6', fontSize: 22, fontWeight: 700, margin: 0 }}>Eye️ بيانات المعلم</h2>
+              <h2 style={{ color: '#3B82F6', fontSize: 22, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_User" size={18} /> بيانات المعلم</h2>
               <button onClick={() => setShowViewModal(false)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>X</button>
             </div>
             <div style={{ textAlign: 'center', marginBottom: 24 }}>
-              <div style={{ width: 80, height: 80, background: 'rgba(201,162,39,0.15)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36, margin: '0 auto 12px' }}>User‍[School]</div>
+              <div style={{ width: 80, height: 80, background: 'rgba(201,162,39,0.15)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36, margin: '0 auto 12px' }}><IconRenderer name="ICON_Star" size={18} />[School]</div>
               <h3 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{selectedTeacher.name}</h3>
               <p style={{ color: '#C9A227', fontSize: 14, marginTop: 4 }}>{selectedTeacher.employee_id}</p>
             </div>
@@ -276,7 +277,7 @@ export default function TeachersPage() {
               {infoRow('تاريخ الإضافة', selectedTeacher.created_at ? new Date(selectedTeacher.created_at).toLocaleDateString('ar-SA') : '—')}
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
-              <button onClick={() => { setShowViewModal(false); handleEditOpen(selectedTeacher); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>Pencil️ تعديل البيانات</button>
+              <button onClick={() => { setShowViewModal(false); handleEditOpen(selectedTeacher); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل البيانات</button>
               <button onClick={() => setShowViewModal(false)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إغلاق</button>
             </div>
           </div>
@@ -288,7 +289,7 @@ export default function TeachersPage() {
         <div style={modalOverlay}>
           <div style={modalBox}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: '#C9A227', fontSize: 22, fontWeight: 700, margin: 0 }}>Pencil️ تعديل بيانات المعلم</h2>
+              <h2 style={{ color: '#C9A227', fontSize: 22, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل بيانات المعلم</h2>
               <button onClick={() => setShowEditModal(false)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>X</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>

@@ -1,4 +1,5 @@
 'use client';
+import IconRenderer from "@/components/IconRenderer";
 import { AlertTriangle, BarChart3, BookOpen, CheckCircle, ClipboardList, Download, Settings, File } from "lucide-react";
 
 import { useState, useRef } from 'react';
@@ -141,7 +142,7 @@ export default function ImportQuestionsPage() {
             border: '1px solid #334155', marginBottom: '16px'
           }}>
             <h3 style={{ color: '#f1f5f9', margin: '0 0 16px 0', fontSize: '16px' }}>
-              [Settings]️ إعدادات الاستيراد
+              [Settings]<IconRenderer name="ICON_Star" size={18} /> إعدادات الاستيراد
             </h3>
 
             {/* المادة */}
@@ -237,7 +238,7 @@ export default function ImportQuestionsPage() {
             />
             {file ? (
               <>
-                <div style={{ fontSize: '40px', marginBottom: '8px' }}>CheckCircle</div>
+                <div style={{ fontSize: '40px', marginBottom: '8px' }}><IconRenderer name="ICON_Check" size={18} />Circle</div>
                 <div style={{ color: '#22c55e', fontWeight: 'bold', marginBottom: '4px' }}>
                   {file.name}
                 </div>
@@ -250,7 +251,7 @@ export default function ImportQuestionsPage() {
               </>
             ) : (
               <>
-                <div style={{ fontSize: '48px', marginBottom: '12px' }}>BarChart3</div>
+                <div style={{ fontSize: '48px', marginBottom: '12px' }}><IconRenderer name="ICON_BarChart3" size={18} />3</div>
                 <div style={{ color: '#f1f5f9', fontWeight: 'bold', marginBottom: '8px', fontSize: '15px' }}>
                   اسحب ملف Excel هنا أو انقر للاختيار
                 </div>
@@ -267,7 +268,7 @@ export default function ImportQuestionsPage() {
               background: '#2d1b1b', border: '1px solid #ef4444', borderRadius: '8px',
               padding: '12px', color: '#ef4444', fontSize: '13px', marginBottom: '16px'
             }}>
-              AlertTriangle️ {error}
+              AlertTriangle<IconRenderer name="ICON_Star" size={18} /> {error}
             </div>
           )}
 
@@ -291,7 +292,7 @@ export default function ImportQuestionsPage() {
                 جاري الاستيراد...
               </>
             ) : (
-              <>Download استيراد الأسئلة</>
+              <><IconRenderer name="ICON_Download" size={18} /> استيراد الأسئلة</>
             )}
           </button>
         </div>
@@ -374,7 +375,7 @@ export default function ImportQuestionsPage() {
               {result.errors && result.errors.length > 0 && (
                 <div style={{ marginTop: '12px' }}>
                   <div style={{ color: '#f59e0b', fontSize: '12px', marginBottom: '6px' }}>
-                    AlertTriangle️ تحذيرات:
+                    AlertTriangle<IconRenderer name="ICON_Star" size={18} /> تحذيرات:
                   </div>
                   {result.errors.map((e, i) => (
                     <div key={i} style={{ color: '#94a3b8', fontSize: '11px', marginBottom: '2px' }}>

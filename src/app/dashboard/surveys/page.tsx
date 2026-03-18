@@ -22,7 +22,7 @@ export default function SurveysPage() {
   return (
     <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
-        <div><h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>BarChart3 الاستبيانات</h1><p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>إنشاء وإدارة استبيانات الرأي والتقييم</p></div>
+        <div><h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_BarChart3" size={18} /> الاستبيانات</h1><p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>إنشاء وإدارة استبيانات الرأي والتقييم</p></div>
         <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ إنشاء استبيان</button>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: 16, marginBottom: 28 }}>
@@ -32,7 +32,7 @@ export default function SurveysPage() {
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(320px,1fr))', gap: 16 }}>
         {loading ? <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)', gridColumn: '1/-1' }}>جاري التحميل...</div> :
-          surveys.length === 0 ? <div style={{ textAlign: 'center', padding: 60, gridColumn: '1/-1' }}><div style={{ fontSize: 48, marginBottom: 16 }}>BarChart3</div><p style={{ color: 'rgba(255,255,255,0.4)' }}>لا توجد استبيانات</p><button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>إنشاء أول استبيان</button></div> :
+          surveys.length === 0 ? <div style={{ textAlign: 'center', padding: 60, gridColumn: '1/-1' }}><div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_BarChart3" size={18} />3</div><p style={{ color: 'rgba(255,255,255,0.4)' }}>لا توجد استبيانات</p><button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>إنشاء أول استبيان</button></div> :
           surveys.map((s: any, i: number) => { const st = STATUS_MAP[s.status] || STATUS_MAP.draft; return (
             <div key={s.id || i} style={{ background: CB, border: '1px solid ' + BR, borderRadius: 16, padding: 20 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
@@ -40,9 +40,9 @@ export default function SurveysPage() {
                 <span style={{ background: `${st.c}22`, color: st.c, padding: '4px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600, marginRight: 8, whiteSpace: 'nowrap' }}>{st.l}</span>
               </div>
               <div style={{ display: 'flex', gap: 16, marginBottom: 16, fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
-                <span>Users {s.target_role === 'all' ? 'الجميع' : s.target_role}</span>
-                <span>FileText {s.responses_count || 0} استجابة</span>
-                {s.anonymous && <span>Lock مجهول</span>}
+                <span><IconRenderer name="ICON_User" size={18} />s {s.target_role === 'all' ? 'الجميع' : s.target_role}</span>
+                <span><IconRenderer name="ICON_FileText" size={18} /> {s.responses_count || 0} استجابة</span>
+                {s.anonymous && <span><IconRenderer name="ICON_Lock" size={18} /> مجهول</span>}
               </div>
               {s.deadline && <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginBottom: 12 }}>⏰ ينتهي: {new Date(s.deadline).toLocaleDateString('ar-SA')}</div>}
               <div style={{ display: 'flex', gap: 8 }}>

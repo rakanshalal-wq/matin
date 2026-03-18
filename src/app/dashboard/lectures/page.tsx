@@ -128,7 +128,7 @@ export default function LecturesPage() {
       {/* الهيدر */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28, flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ color: '#fff', fontSize: 24, fontWeight: 800, margin: 0 }}>Mic المحاضرات والتعلم الإلكتروني</h1>
+          <h1 style={{ color: '#fff', fontSize: 24, fontWeight: 800, margin: 0 }}><IconRenderer name="ICON_Mic" size={18} /> المحاضرات والتعلم الإلكتروني</h1>
           <p style={{ color: '#9CA3AF', fontSize: 14, margin: '4px 0 0' }}>إدارة المحاضرات والدورات والبث المباشر</p>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
@@ -162,9 +162,9 @@ export default function LecturesPage() {
         ))}
       </div>
 
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {/* قائمة المحاضرات */}
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {tab === 'list' && (
         <div>
           {/* إحصائيات */}
@@ -226,7 +226,7 @@ export default function LecturesPage() {
                       <div style={{ display: 'flex', gap: 6, marginTop: 12 }}>
                         {lec.video_url && (
                           <a href={lec.video_url} target="_blank" rel="noreferrer" style={{ flex: 1, background: 'rgba(59,130,246,0.15)', color: '#3B82F6', fontSize: 12, padding: '7px', borderRadius: 8, textDecoration: 'none', textAlign: 'center', fontWeight: 600 }}>
-                            ▶ مشاهدة
+                            <IconRenderer name="ICON_Eye" size={18} /> مشاهدة
                           </a>
                         )}
                         <button onClick={() => generateAISummary(lec.id)} style={{ background: 'rgba(124,58,237,0.15)', color: '#A78BFA', border: 'none', fontSize: 12, padding: '7px 10px', borderRadius: 8, cursor: 'pointer', fontWeight: 600 }}>
@@ -245,14 +245,14 @@ export default function LecturesPage() {
         </div>
       )}
 
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {/* البث المباشر */}
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {tab === 'live' && (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
           {/* إنشاء جلسة بث */}
           <div style={{ background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 16, padding: '24px' }}>
-            <h3 style={{ color: '#EF4444', fontSize: 16, fontWeight: 700, marginBottom: 20 }}>Circle جلسة بث مباشر جديدة</h3>
+            <h3 style={{ color: '#EF4444', fontSize: 16, fontWeight: 700, marginBottom: 20 }}><IconRenderer name="ICON_Circle" size={18} /> جلسة بث مباشر جديدة</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div>
                 <label style={{ color: '#9CA3AF', fontSize: 12, display: 'block', marginBottom: 6 }}>عنوان الجلسة *</label>
@@ -271,7 +271,7 @@ export default function LecturesPage() {
                   style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid rgba(239,68,68,0.3)', background: '#1a1a3a', color: '#fff', fontSize: 14, boxSizing: 'border-box' }}>
                   <option value="zoom">Zoom</option>
                   <option value="google_meet">Google Meet</option>
-                  <option value="microsoft_teams">Microsoft Teams</option>
+                  <option value="microsoft_teams"><IconRenderer name="ICON_Mic" size={18} />rosoft Teams</option>
                   <option value="youtube">YouTube Live</option>
                   <option value="custom">رابط مخصص</option>
                 </select>
@@ -306,10 +306,10 @@ export default function LecturesPage() {
 
           {/* الجلسات المجدولة */}
           <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, padding: '24px' }}>
-            <h3 style={{ color: '#fff', fontSize: 16, fontWeight: 700, marginBottom: 20 }}>Calendar الجلسات المجدولة</h3>
+            <h3 style={{ color: '#fff', fontSize: 16, fontWeight: 700, marginBottom: 20 }}><IconRenderer name="ICON_Calendar" size={18} /> الجلسات المجدولة</h3>
             {liveSessions.length === 0 ? (
               <div style={{ textAlign: 'center', padding: '32px 0', color: '#6B7280' }}>
-                <div style={{ fontSize: 40, marginBottom: 10 }}>Calendar</div>
+                <div style={{ fontSize: 40, marginBottom: 10 }}><IconRenderer name="ICON_Calendar" size={36} /></div>
                 <div>لا توجد جلسات مجدولة</div>
               </div>
             ) : liveSessions.map((session: any, i: number) => (
@@ -317,9 +317,9 @@ export default function LecturesPage() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                      {session.status === 'live' && <span style={{ background: 'rgba(239,68,68,0.2)', color: '#EF4444', fontSize: 11, padding: '2px 8px', borderRadius: 20, fontWeight: 700 }}>Circle مباشر الآن</span>}
-                      {session.status === 'scheduled' && <span style={{ background: 'rgba(59,130,246,0.15)', color: '#3B82F6', fontSize: 11, padding: '2px 8px', borderRadius: 20, fontWeight: 700 }}>Calendar مجدول</span>}
-                      {session.status === 'ended' && <span style={{ background: 'rgba(156,163,175,0.15)', color: '#9CA3AF', fontSize: 11, padding: '2px 8px', borderRadius: 20, fontWeight: 700 }}>Check انتهى</span>}
+                      {session.status === 'live' && <span style={{ background: 'rgba(239,68,68,0.2)', color: '#EF4444', fontSize: 11, padding: '2px 8px', borderRadius: 20, fontWeight: 700 }}><IconRenderer name="ICON_Circle" size={18} /> مباشر الآن</span>}
+                      {session.status === 'scheduled' && <span style={{ background: 'rgba(59,130,246,0.15)', color: '#3B82F6', fontSize: 11, padding: '2px 8px', borderRadius: 20, fontWeight: 700 }}><IconRenderer name="ICON_Calendar" size={18} /> مجدول</span>}
+                      {session.status === 'ended' && <span style={{ background: 'rgba(156,163,175,0.15)', color: '#9CA3AF', fontSize: 11, padding: '2px 8px', borderRadius: 20, fontWeight: 700 }}><IconRenderer name="ICON_Check" size={18} /> انتهى</span>}
                     </div>
                     <div style={{ color: '#E2E8F0', fontSize: 14, fontWeight: 700 }}>{session.title}</div>
                     {session.scheduled_at && (
@@ -327,7 +327,7 @@ export default function LecturesPage() {
                         Calendar {new Date(session.scheduled_at).toLocaleString('ar-SA')}
                       </div>
                     )}
-                    {session.platform && <div style={{ color: '#9CA3AF', fontSize: 12 }}>Monitor {session.platform}</div>}
+                    {session.platform && <div style={{ color: '#9CA3AF', fontSize: 12 }}><IconRenderer name="ICON_Laptop" size={18} /> {session.platform}</div>}
                   </div>
                   {session.meeting_link && (
                     <a href={session.meeting_link} target="_blank" rel="noreferrer" style={{
@@ -345,13 +345,13 @@ export default function LecturesPage() {
         </div>
       )}
 
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {/* إضافة محاضرة */}
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {tab === 'create' && (
         <div style={{ maxWidth: 700, margin: '0 auto' }}>
           <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, padding: '28px' }}>
-            <h3 style={{ color: '#fff', fontSize: 18, fontWeight: 700, marginBottom: 24 }}>Plus إضافة محاضرة جديدة</h3>
+            <h3 style={{ color: '#fff', fontSize: 18, fontWeight: 700, marginBottom: 24 }}><IconRenderer name="ICON_Plus" size={18} /> إضافة محاضرة جديدة</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {/* نوع المحاضرة */}
               <div>
@@ -432,9 +432,9 @@ export default function LecturesPage() {
         </div>
       )}
 
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {/* الدورات */}
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {tab === 'courses' && (
         <div>
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
@@ -444,7 +444,7 @@ export default function LecturesPage() {
           </div>
           {courses.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '64px', background: 'rgba(255,255,255,0.02)', borderRadius: 20, border: '1px dashed rgba(255,255,255,0.1)' }}>
-              <div style={{ fontSize: 64, marginBottom: 16 }}>BookOpen</div>
+              <div style={{ fontSize: 64, marginBottom: 16 }}><IconRenderer name="ICON_Book" size={18} />Open</div>
               <div style={{ color: '#fff', fontSize: 18, fontWeight: 700 }}>لا توجد دورات بعد</div>
               <div style={{ color: '#9CA3AF', marginTop: 8 }}>أنشئ دورة وأضف لها المحاضرات</div>
             </div>
@@ -453,11 +453,11 @@ export default function LecturesPage() {
               {courses.map((c: any) => (
                 <div key={c.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}>
                   <div style={{ height: 140, background: 'linear-gradient(135deg, #1a2d4a, #06060E)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {c.thumbnail ? <img src={c.thumbnail} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 48 }}>BookOpen</span>}
+                    {c.thumbnail ? <img src={c.thumbnail} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 48 }}><IconRenderer name="ICON_Book" size={18} />Open</span>}
                   </div>
                   <div style={{ padding: '14px 16px' }}>
                     <h3 style={{ color: '#fff', fontSize: 15, fontWeight: 700, margin: '0 0 6px' }}>{c.title}</h3>
-                    {c.subject && <div style={{ color: '#9CA3AF', fontSize: 12 }}>BookOpen {c.subject}</div>}
+                    {c.subject && <div style={{ color: '#9CA3AF', fontSize: 12 }}><IconRenderer name="ICON_BookOpen" size={18} /> {c.subject}</div>}
                     <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
                       <span style={{ background: c.is_published ? 'rgba(16,185,129,0.15)' : 'rgba(156,163,175,0.15)', color: c.is_published ? '#10B981' : '#9CA3AF', fontSize: 11, padding: '3px 10px', borderRadius: 20, fontWeight: 700 }}>
                         {c.is_published ? 'Check منشور' : 'FileText مسودة'}
@@ -477,7 +477,7 @@ export default function LecturesPage() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, overflowY: 'auto', padding: 20 }}>
           <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 520, direction: 'rtl', margin: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil️ تعديل المحاضرة' : '+ إضافة محاضرة'}</h2>
+              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل المحاضرة' : '+ إضافة محاضرة'}</h2>
               <button onClick={() => { setShowModal(false); setErrMsg(''); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
             </div>
             {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}

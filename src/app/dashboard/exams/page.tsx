@@ -24,7 +24,7 @@ const STATUS_MAP: Record<string, { label: string; color: string; bg: string }> =
 const QUESTION_TYPES = [
   { value: 'MCQ', label: 'اختيار من متعدد', icon: "ICON_Circle" },
   { value: 'TRUE_FALSE', label: 'صح أو خطأ', icon: "ICON_CheckCircle" },
-  { value: 'SHORT_ANSWER', label: 'إجابة قصيرة', icon: 'Pencil️' },
+  { value: 'SHORT_ANSWER', label: 'إجابة قصيرة', icon: 'Pencil<IconRenderer name="ICON_Star" size={18} />' },
   { value: 'ESSAY', label: 'مقالي', icon: "ICON_FileText" },
   { value: 'FILL_BLANK', label: 'ملء الفراغ', icon: "ICON_ClipboardList" },
   { value: 'MATCHING', label: 'مطابقة', icon: "ICON_Link" },
@@ -171,7 +171,7 @@ export default function SmartExamsPage() {
       {/* الهيدر */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28, flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ color: '#fff', fontSize: 24, fontWeight: 800, margin: 0 }}>FileText الاختبارات الذكية</h1>
+          <h1 style={{ color: '#fff', fontSize: 24, fontWeight: 800, margin: 0 }}><IconRenderer name="ICON_FileText" size={18} /> الاختبارات الذكية</h1>
           <p style={{ color: '#9CA3AF', fontSize: 14, margin: '4px 0 0' }}>إنشاء وإدارة الاختبارات مع دعم الذكاء الاصطناعي</p>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
@@ -211,9 +211,9 @@ export default function SmartExamsPage() {
         ))}
       </div>
 
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {/* قائمة الاختبارات */}
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {tab === 'list' && (
         <div>
           {/* إحصائيات سريعة */}
@@ -240,7 +240,7 @@ export default function SmartExamsPage() {
             <div style={{ textAlign: 'center', padding: '48px', color: '#9CA3AF' }}>⏳ جاري التحميل...</div>
           ) : exams.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '64px', background: 'rgba(255,255,255,0.02)', borderRadius: 20, border: '1px dashed rgba(255,255,255,0.1)' }}>
-              <div style={{ fontSize: 64, marginBottom: 16 }}>FileText</div>
+              <div style={{ fontSize: 64, marginBottom: 16 }}><IconRenderer name="ICON_File" size={18} />Text</div>
               <div style={{ color: '#fff', fontSize: 18, fontWeight: 700 }}>لا توجد اختبارات بعد</div>
               <div style={{ color: '#9CA3AF', marginTop: 8 }}>أنشئ اختبارك الأول أو استخدم الذكاء الاصطناعي</div>
               <button onClick={() => setTab('create')} style={{ marginTop: 20, background: '#C9A227', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 10, cursor: 'pointer', fontWeight: 700 }}>
@@ -257,31 +257,31 @@ export default function SmartExamsPage() {
                       <div style={{ flex: 1 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
                           <span style={{ background: st.bg, color: st.color, fontSize: 11, padding: '3px 10px', borderRadius: 20, fontWeight: 700 }}>{st.label}</span>
-                          {exam.ai_generated && <span style={{ background: 'rgba(124,58,237,0.15)', color: '#A78BFA', fontSize: 11, padding: '3px 10px', borderRadius: 20, fontWeight: 700 }}>Bot AI</span>}
-                          {exam.ai_proctoring && <span style={{ background: 'rgba(239,68,68,0.15)', color: '#EF4444', fontSize: 11, padding: '3px 10px', borderRadius: 20, fontWeight: 700 }}>Eye مراقبة AI</span>}
+                          {exam.ai_generated && <span style={{ background: 'rgba(124,58,237,0.15)', color: '#A78BFA', fontSize: 11, padding: '3px 10px', borderRadius: 20, fontWeight: 700 }}><IconRenderer name="ICON_Bot" size={18} /> AI</span>}
+                          {exam.ai_proctoring && <span style={{ background: 'rgba(239,68,68,0.15)', color: '#EF4444', fontSize: 11, padding: '3px 10px', borderRadius: 20, fontWeight: 700 }}><IconRenderer name="ICON_Eye" size={18} /> مراقبة AI</span>}
                         </div>
                         <h3 style={{ color: '#fff', fontSize: 17, fontWeight: 700, margin: '0 0 6px' }}>{exam.title_ar || exam.title}</h3>
                         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-                          {exam.subject && <span style={{ color: '#9CA3AF', fontSize: 13 }}>BookOpen {exam.subject}</span>}
-                          {exam.grade && <span style={{ color: '#9CA3AF', fontSize: 13 }}>GraduationCap {exam.grade}</span>}
+                          {exam.subject && <span style={{ color: '#9CA3AF', fontSize: 13 }}><IconRenderer name="ICON_BookOpen" size={18} /> {exam.subject}</span>}
+                          {exam.grade && <span style={{ color: '#9CA3AF', fontSize: 13 }}><IconRenderer name="ICON_GraduationCap" size={18} /> {exam.grade}</span>}
                           {exam.duration && <span style={{ color: '#9CA3AF', fontSize: 13 }}>⏱ {exam.duration} دقيقة</span>}
-                          {exam.total_marks && <span style={{ color: '#9CA3AF', fontSize: 13 }}>Percent {exam.total_marks} درجة</span>}
-                          {exam.questions_count !== undefined && <span style={{ color: '#9CA3AF', fontSize: 13 }}>HelpCircle {exam.questions_count} سؤال</span>}
-                          {exam.scheduled_at && <span style={{ color: '#9CA3AF', fontSize: 13 }}>Calendar {new Date(exam.scheduled_at).toLocaleDateString('ar-SA')}</span>}
+                          {exam.total_marks && <span style={{ color: '#9CA3AF', fontSize: 13 }}><IconRenderer name="ICON_BadgeDollarSign" size={18} /> {exam.total_marks} درجة</span>}
+                          {exam.questions_count !== undefined && <span style={{ color: '#9CA3AF', fontSize: 13 }}><IconRenderer name="ICON_HelpCircle" size={18} /> {exam.questions_count} سؤال</span>}
+                          {exam.scheduled_at && <span style={{ color: '#9CA3AF', fontSize: 13 }}><IconRenderer name="ICON_Calendar" size={18} /> {new Date(exam.scheduled_at).toLocaleDateString('ar-SA')}</span>}
                         </div>
                       </div>
                       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                         {exam.status === 'DRAFT' && (
-                          <button onClick={() => updateExamStatus(exam.id, 'PUBLISHED')} style={{ background: 'rgba(59,130,246,0.15)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Megaphone نشر</button>
+                          <button onClick={() => updateExamStatus(exam.id, 'PUBLISHED')} style={{ background: 'rgba(59,130,246,0.15)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Megaphone" size={18} /> نشر</button>
                         )}
                         {exam.status === 'PUBLISHED' && (
-                          <button onClick={() => updateExamStatus(exam.id, 'ACTIVE')} style={{ background: 'rgba(239,68,68,0.15)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>▶ تشغيل</button>
+                          <button onClick={() => updateExamStatus(exam.id, 'ACTIVE')} style={{ background: 'rgba(239,68,68,0.15)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Star" size={18} /> تشغيل</button>
                         )}
                         {exam.status === 'ACTIVE' && (
                           <button onClick={() => updateExamStatus(exam.id, 'COMPLETED')} style={{ background: 'rgba(16,185,129,0.15)', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>⏹ إنهاء</button>
                         )}
-                        <button onClick={() => { setSelectedExam(exam); fetchResults(exam.id); setModalType('results'); setShowModal(true); }} style={{ background: 'rgba(201,162,39,0.15)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>BarChart3 النتائج</button>
-                        <button onClick={() => openEditModal(exam)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.25)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Pencil️ تعديل</button>
+                        <button onClick={() => { setSelectedExam(exam); fetchResults(exam.id); setModalType('results'); setShowModal(true); }} style={{ background: 'rgba(201,162,39,0.15)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_BarChart3" size={18} /> النتائج</button>
+                        <button onClick={() => openEditModal(exam)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.25)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
                         <button onClick={() => deleteExam(exam.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.2)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Trash2</button>
                       </div>
                     </div>
@@ -293,15 +293,15 @@ export default function SmartExamsPage() {
         </div>
       )}
 
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {/* إنشاء اختبار */}
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {tab === 'create' && (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
 
           {/* معلومات الاختبار */}
           <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, padding: '24px' }}>
-            <h3 style={{ color: '#fff', fontSize: 16, fontWeight: 700, marginBottom: 20 }}>ClipboardList معلومات الاختبار</h3>
+            <h3 style={{ color: '#fff', fontSize: 16, fontWeight: 700, marginBottom: 20 }}><IconRenderer name="ICON_ClipboardList" size={18} /> معلومات الاختبار</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               {[
                 { label: 'عنوان الاختبار *', key: 'title_ar', placeholder: 'مثال: اختبار الفصل الأول - رياضيات' },
@@ -345,7 +345,7 @@ export default function SmartExamsPage() {
               </div>
               {/* خيارات متقدمة */}
               <div style={{ background: 'rgba(255,255,255,0.02)', borderRadius: 10, padding: '14px' }}>
-                <div style={{ color: '#9CA3AF', fontSize: 12, fontWeight: 700, marginBottom: 10 }}>Settings️ خيارات متقدمة</div>
+                <div style={{ color: '#9CA3AF', fontSize: 12, fontWeight: 700, marginBottom: 10 }}><IconRenderer name="ICON_Star" size={18} /> خيارات متقدمة</div>
                 {[
                   { key: 'shuffle_questions', label: 'ترتيب عشوائي للأسئلة' },
                   { key: 'allow_review', label: 'السماح بمراجعة الإجابات' },
@@ -365,7 +365,7 @@ export default function SmartExamsPage() {
           <div>
             {/* توليد AI */}
             <div style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.15), rgba(124,58,237,0.05))', border: '1px solid rgba(124,58,237,0.3)', borderRadius: 16, padding: '20px', marginBottom: 16 }}>
-              <h3 style={{ color: '#A78BFA', fontSize: 15, fontWeight: 700, marginBottom: 14 }}>Bot توليد أسئلة بالذكاء الاصطناعي</h3>
+              <h3 style={{ color: '#A78BFA', fontSize: 15, fontWeight: 700, marginBottom: 14 }}><IconRenderer name="ICON_Bot" size={18} /> توليد أسئلة بالذكاء الاصطناعي</h3>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
                 <input value={aiForm.subject} onChange={e => setAiForm({ ...aiForm, subject: e.target.value })} placeholder="المادة *"
                   style={{ padding: '9px 12px', borderRadius: 8, border: '1px solid rgba(124,58,237,0.3)', background: 'rgba(124,58,237,0.1)', color: '#fff', fontSize: 13 }} />
@@ -393,13 +393,13 @@ export default function SmartExamsPage() {
                 </button>
               </div>
               {generatedQuestions.length > 0 && (
-                <div style={{ marginTop: 10, color: '#10B981', fontSize: 13 }}>CheckCircle تم توليد {generatedQuestions.length} سؤال وإضافتها للاختبار</div>
+                <div style={{ marginTop: 10, color: '#10B981', fontSize: 13 }}><IconRenderer name="ICON_CheckCircle" size={18} /> تم توليد {generatedQuestions.length} سؤال وإضافتها للاختبار</div>
               )}
             </div>
 
             {/* إضافة سؤال يدوي */}
             <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, padding: '20px' }}>
-              <h3 style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginBottom: 14 }}>[Pencil]️ إضافة سؤال يدوي</h3>
+              <h3 style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginBottom: 14 }}>[Pencil]<IconRenderer name="ICON_Plus" size={18} /> إضافة سؤال يدوي</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <select value={currentQ.type} onChange={e => setCurrentQ({ ...currentQ, type: e.target.value })}
                   style={{ padding: '9px 12px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: '#1a2d4a', color: '#fff', fontSize: 13 }}>
@@ -477,9 +477,9 @@ export default function SmartExamsPage() {
         </div>
       )}
 
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {/* النتائج والتحليل */}
-      {/* ══════════════════════════════════════════ */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> */}
       {tab === 'results' && (
         <div>
           <div style={{ marginBottom: 20 }}>
@@ -546,19 +546,19 @@ export default function SmartExamsPage() {
           )}
           {selectedExam && results.length === 0 && (
             <div style={{ textAlign: 'center', padding: '48px', color: '#9CA3AF' }}>
-              <div style={{ fontSize: 48, marginBottom: 12 }}>BarChart3</div>
+              <div style={{ fontSize: 48, marginBottom: 12 }}><IconRenderer name="ICON_BarChart3" size={18} />3</div>
               <div>لا توجد نتائج لهذا الاختبار بعد</div>
             </div>
           )}
         </div>
       )}
 
-      {/* ── Edit Exam Modal ── */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> Edit Exam Modal <IconRenderer name="ICON_Star" size={18} /> */}
       {showModal && modalType === 'edit' && (
         <div style={{ position:'fixed',inset:0,zIndex:9999,background:'rgba(0,0,0,0.75)',backdropFilter:'blur(4px)',display:'flex',alignItems:'center',justifyContent:'center',padding:20 }} onClick={() => setShowModal(false)}>
           <div style={{ background:'#0F0F1A',border:'1px solid rgba(255,255,255,0.08)',borderRadius:20,width:'100%',maxWidth:540,maxHeight:'90vh',overflowY:'auto',boxShadow:'0 24px 80px rgba(0,0,0,0.6)',direction:'rtl',fontFamily:'IBM Plex Sans Arabic, sans-serif' }} onClick={e=>e.stopPropagation()}>
             <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center',padding:'20px 24px',borderBottom:'1px solid rgba(255,255,255,0.07)' }}>
-              <h3 style={{ color:'#EEEEF5',fontSize:17,fontWeight:700,margin:0 }}>Pencil️ تعديل الاختبار</h3>
+              <h3 style={{ color:'#EEEEF5',fontSize:17,fontWeight:700,margin:0 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل الاختبار</h3>
               <button onClick={() => setShowModal(false)} style={{ background:'rgba(255,255,255,0.05)',border:'none',borderRadius:8,padding:'6px 10px',cursor:'pointer',color:'rgba(238,238,245,0.6)',fontSize:16 }}>X</button>
             </div>
             <div style={{ padding:24 }}>

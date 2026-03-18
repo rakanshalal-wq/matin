@@ -1,4 +1,5 @@
 'use client';
+import IconRenderer from "@/components/IconRenderer";
 import { Ban, Check, CheckCircle, Mail, MapPin, Pencil, Plus, School, Search, Smartphone, Trash2, User, X, XCircle } from "lucide-react";
 import { useState, useEffect } from 'react';
 const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
@@ -96,7 +97,7 @@ export default function SchoolsPage() {
       {/* الهيدر */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#C9A227', margin: 0 }}>School المدارس والمؤسسات</h1>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#C9A227', margin: 0 }}><IconRenderer name="ICON_School" size={18} /> المدارس والمؤسسات</h1>
           <p style={{ color: '#9CA3AF', fontSize: 14, margin: '4px 0 0' }}>
             {schools.length} مؤسسة مسجلة | {schools.filter(s => s.status === 'ACTIVE').length} نشطة
           </p>
@@ -121,7 +122,7 @@ export default function SchoolsPage() {
       {showAdd && (
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 24, marginBottom: 24 }}>
           <h3 style={{ color: '#C9A227', fontSize: 18, margin: '0 0 20px', fontWeight: 700 }}>
-            {editSchool ? 'Pencil️ تعديل المؤسسة' : 'Plus إضافة مؤسسة جديدة'}
+            {editSchool ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل المؤسسة' : 'Plus إضافة مؤسسة جديدة'}
           </h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
             <div style={{ gridColumn: '1 / -1' }}>
@@ -180,7 +181,7 @@ export default function SchoolsPage() {
       {/* قائمة المدارس */}
       {filtered.length === 0 ? (
         <div style={{ textAlign: 'center', padding: 60, background: 'rgba(255,255,255,0.02)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)' }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>School</div>
+          <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_School" size={36} /></div>
           <h3 style={{ color: '#fff', fontSize: 18, margin: '0 0 8px' }}>{search ? 'لا توجد نتائج' : 'لا توجد مؤسسات بعد'}</h3>
           <p style={{ color: '#9CA3AF', fontSize: 14 }}>{search ? 'جرب بحثاً مختلفاً' : 'أضف أول مؤسسة بالضغط على "إضافة مؤسسة"'}</p>
         </div>
@@ -202,15 +203,15 @@ export default function SchoolsPage() {
                 </span>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 5, marginBottom: 14 }}>
-                {school.city && <span style={{ color: '#9CA3AF', fontSize: 13 }}>MapPin {school.city}</span>}
-                {school.phone && <span style={{ color: '#9CA3AF', fontSize: 13 }}>Smartphone {school.phone}</span>}
-                {school.email && <span style={{ color: '#9CA3AF', fontSize: 13, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Mail️ {school.email}</span>}
-                {school.owner_name && <span style={{ color: '#9CA3AF', fontSize: 13 }}>User {school.owner_name}</span>}
+                {school.city && <span style={{ color: '#9CA3AF', fontSize: 13 }}><IconRenderer name="ICON_Globe" size={18} /><IconRenderer name="ICON_Pin" size={18} /> {school.city}</span>}
+                {school.phone && <span style={{ color: '#9CA3AF', fontSize: 13 }}><IconRenderer name="ICON_Smartphone" size={18} /> {school.phone}</span>}
+                {school.email && <span style={{ color: '#9CA3AF', fontSize: 13, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}><IconRenderer name="ICON_Star" size={18} /> {school.email}</span>}
+                {school.owner_name && <span style={{ color: '#9CA3AF', fontSize: 13 }}><IconRenderer name="ICON_User" size={18} /> {school.owner_name}</span>}
               </div>
               {canAdd && (
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                   <button onClick={() => handleEdit(school)} style={{ padding: '6px 14px', background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.2)', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-                    Pencil️ تعديل
+                    Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل
                   </button>
                   {school.status !== 'ACTIVE' && user?.role === 'super_admin' && (
                     <button onClick={() => handleApprove(school.id)} style={{ padding: '6px 14px', background: 'rgba(16,185,129,0.1)', color: '#10B981', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
@@ -218,7 +219,7 @@ export default function SchoolsPage() {
                     </button>
                   )}
                   <button onClick={() => handleDelete(school.id)} style={{ padding: '6px 14px', background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-                    Trash2️ حذف
+                    Trash2<IconRenderer name="ICON_Trash2" size={18} /> حذف
                   </button>
                 </div>
               )}

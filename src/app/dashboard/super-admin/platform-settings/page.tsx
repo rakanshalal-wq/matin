@@ -95,7 +95,7 @@ export default function PlatformSettingsPage() {
   );
 
   const tabs = [
-    { id: 'general', label: 'عام', icon: 'Settings️' },
+    { id: 'general', label: 'عام', icon: 'Settings<IconRenderer name="ICON_Star" size={18} />' },
     { id: 'auth', label: 'المصادقة', icon: "ICON_Lock" },
     { id: 'email', label: 'البريد', icon: "ICON_Mail" },
     { id: 'sms', label: 'الرسائل', icon: "ICON_Smartphone" },
@@ -111,7 +111,7 @@ export default function PlatformSettingsPage() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <a href="/dashboard/super-admin" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: 14 }}>← العودة للوحة التحكم</a>
-            <h1 style={{ color: 'white', fontSize: 22, fontWeight: 800, margin: 0 }}>Settings️ إعدادات المنصة</h1>
+            <h1 style={{ color: 'white', fontSize: 22, fontWeight: 800, margin: 0 }}><IconRenderer name="ICON_Star" size={18} /> إعدادات المنصة</h1>
           </div>
           <button onClick={saveSettings} disabled={saving} style={{ padding: '12px 32px', border: 'none', borderRadius: 10, cursor: saving ? 'wait' : 'pointer', fontWeight: 700, fontSize: 15, fontFamily: 'inherit', background: saved ? '#10B981' : 'linear-gradient(135deg, #C9A227, #D4B03D)', color: saved ? 'white' : '#06060E' }}>
             {saving ? 'جاري الحفظ...' : saved ? 'CheckCircle تم الحفظ' : 'Save حفظ التغييرات'}
@@ -138,7 +138,7 @@ export default function PlatformSettingsPage() {
         <div style={{ flex: 1 }}>
           {activeTab === 'general' && (
             <Card>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}>Settings️ الإعدادات العامة</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}><IconRenderer name="ICON_Star" size={18} /> الإعدادات العامة</h2>
               <InputField label="اسم المنصة" value={settings.platform_name || ''} onChange={v => updateSetting('platform_name', v)} dir="rtl" />
               <Toggle label="وضع الصيانة" desc="يظهر للزوار صفحة صيانة" value={settings.maintenance_mode === 'true'} onChange={v => updateSetting('maintenance_mode', String(v))} />
               <Toggle label="السماح بالتسجيل" desc="السماح بإنشاء حسابات جديدة" value={settings.registration_enabled === 'true'} onChange={v => updateSetting('registration_enabled', String(v))} />
@@ -146,7 +146,7 @@ export default function PlatformSettingsPage() {
           )}
           {activeTab === 'auth' && (
             <Card>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}>Lock إعدادات المصادقة</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}><IconRenderer name="ICON_Lock" size={18} /> إعدادات المصادقة</h2>
               <Toggle label="تفعيل OTP (رمز التحقق)" desc="إرسال رمز تحقق عند تسجيل الدخول" value={settings.otp_enabled === 'true'} onChange={v => updateSetting('otp_enabled', String(v))} />
               {settings.otp_enabled === 'true' && (
                 <>
@@ -158,7 +158,7 @@ export default function PlatformSettingsPage() {
           )}
           {activeTab === 'email' && (
             <Card>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}>Mail إعدادات البريد الإلكتروني</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}><IconRenderer name="ICON_Mail" size={18} /> إعدادات البريد الإلكتروني</h2>
               <SelectField label="مزود الخدمة" value={settings.email_provider || 'resend'} onChange={v => updateSetting('email_provider', v)} options={[{ value: 'resend', label: 'Resend' }, { value: 'sendgrid', label: 'SendGrid' }, { value: 'mailgun', label: 'Mailgun' }]} />
               <InputField label="مفتاح API" value={settings.email_api_key || ''} onChange={v => updateSetting('email_api_key', v)} type="password" placeholder="re_xxxxxxxxxxxxxxxx" />
               <InputField label="إيميل المرسل" value={settings.email_from || ''} onChange={v => updateSetting('email_from', v)} placeholder="noreply@matin.ink" />
@@ -167,7 +167,7 @@ export default function PlatformSettingsPage() {
           )}
           {activeTab === 'sms' && (
             <Card>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}>Smartphone إعدادات الرسائل النصية</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}><IconRenderer name="ICON_Smartphone" size={18} /> إعدادات الرسائل النصية</h2>
               <Toggle label="تفعيل SMS" desc="إرسال رسائل نصية للمستخدمين" value={settings.sms_enabled === 'true'} onChange={v => updateSetting('sms_enabled', String(v))} />
               {settings.sms_enabled === 'true' && (
                 <>
@@ -180,7 +180,7 @@ export default function PlatformSettingsPage() {
           )}
           {activeTab === 'whatsapp' && (
             <Card>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}>MessageCircle إعدادات واتساب</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}><IconRenderer name="ICON_MessageCircle" size={18} /> إعدادات واتساب</h2>
               <Toggle label="تفعيل واتساب" desc="إرسال إشعارات عبر واتساب" value={settings.whatsapp_enabled === 'true'} onChange={v => updateSetting('whatsapp_enabled', String(v))} />
               {settings.whatsapp_enabled === 'true' && (
                 <>
@@ -192,7 +192,7 @@ export default function PlatformSettingsPage() {
           )}
           {activeTab === 'payment' && (
             <Card>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}>CreditCard إعدادات بوابة الدفع</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}><IconRenderer name="ICON_CreditCard" size={18} /> إعدادات بوابة الدفع</h2>
               <Toggle label="تفعيل بوابة الدفع" desc="استقبال مدفوعات إلكترونية" value={settings.payment_enabled === 'true'} onChange={v => updateSetting('payment_enabled', String(v))} />
               {settings.payment_enabled === 'true' && (
                 <>
@@ -206,11 +206,11 @@ export default function PlatformSettingsPage() {
           )}
           {activeTab === 'plans' && (
             <Card>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}>Package أسعار الباقات</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}><IconRenderer name="ICON_Package" size={18} /> أسعار الباقات</h2>
               {['free', 'basic', 'pro', 'enterprise'].map(plan => {
                 const names: Record<string, string> = { free: 'المجانية', basic: 'الأساسية', pro: 'الاحترافية', enterprise: 'المؤسسات' };
                 const colors: Record<string, string> = { free: '#94A3B8', basic: '#3B82F6', pro: '#C9A227', enterprise: '#8B5CF6' };
-                const icons: Record<string, string> = { free: '🆓', basic: '⭐', pro: "ICON_Crown", enterprise: "ICON_Building" };
+                const icons: Record<string, string> = { free: '<IconRenderer name="ICON_Star" size={18} />', basic: '<IconRenderer name="ICON_Star" size={18} />', pro: "ICON_Crown", enterprise: "ICON_Building" };
                 return (
                   <div key={plan} style={{ padding: 20, marginBottom: 16, background: 'rgba(255,255,255,0.02)', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
@@ -228,7 +228,7 @@ export default function PlatformSettingsPage() {
           )}
           {activeTab === 'limits' && (
             <Card>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}>Lock حدود الباقات</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}><IconRenderer name="ICON_Lock" size={18} /> حدود الباقات</h2>
               {['free', 'basic', 'pro', 'enterprise'].map(plan => {
                 const names: Record<string, string> = { free: 'المجانية', basic: 'الأساسية', pro: 'الاحترافية', enterprise: 'المؤسسات' };
                 return (

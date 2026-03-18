@@ -178,11 +178,11 @@ export default function CommunityPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>Globe الملتقى المجتمعي</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Globe" size={18} /> الملتقى المجتمعي</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>تواصل مع زملائك وشارك أفكارك</p>
         </div>
         <button onClick={() => setShowNewPost(true)} style={{ padding: '12px 24px', background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', border: 'none', borderRadius: 10, color: '#06060E', fontSize: 15, fontWeight: 700, cursor: 'pointer' }}>
-          Pencil️ منشور جديد
+          Pencil<IconRenderer name="ICON_Star" size={18} /> منشور جديد
         </button>
       </div>
 
@@ -253,14 +253,14 @@ export default function CommunityPage() {
             <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.5)' }}>جاري التحميل...</div>
           ) : filteredPosts.length === 0 ? (
             <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>
-              <div style={{ fontSize: 48, marginBottom: 16 }}>Globe</div>
+              <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_Globe" size={36} /></div>
               <div style={{ fontSize: 18, fontWeight: 600 }}>لا توجد منشورات</div>
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {filteredPosts.map((post: any) => (
                 <div key={post.id} style={{ ...cardStyle, border: post.pinned ? '1px solid rgba(201,162,39,0.4)' : '1px solid rgba(255,255,255,0.08)' }}>
-                  {post.pinned && <div style={{ color: '#C9A227', fontSize: 12, fontWeight: 700, marginBottom: 8 }}>Pin منشور مثبّت</div>}
+                  {post.pinned && <div style={{ color: '#C9A227', fontSize: 12, fontWeight: 700, marginBottom: 8 }}><IconRenderer name="ICON_Pin" size={18} /> منشور مثبّت</div>}
                   {/* رأس المنشور */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -286,7 +286,7 @@ export default function CommunityPage() {
                   {/* أزرار التفاعل */}
                   <div style={{ display: 'flex', gap: 16, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                     <button onClick={() => toggleLike(post.id)} style={{ background: 'none', border: 'none', color: post.user_liked ? '#EF4444' : 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: 14, display: 'flex', alignItems: 'center', gap: 6 }}>
-                      {post.user_liked ? 'Heart️' : "ICON_Heart"} {post.likes_count || 0}
+                      {post.user_liked ? 'Heart<IconRenderer name="ICON_Star" size={18} />' : "ICON_Heart"} {post.likes_count || 0}
                     </button>
                     <button onClick={() => toggleComments(post.id)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: 14, display: 'flex', alignItems: 'center', gap: 6 }}>
                       MessageCircle {post.comments_count || 0}
@@ -325,10 +325,10 @@ export default function CommunityPage() {
       {/* تبويب البلاغات - للمدير فقط */}
       {activeTab === 'reports' && isAdmin && (
         <div>
-          <h2 style={{ color: 'white', fontWeight: 700, marginBottom: 16 }}>Siren البلاغات المُرسلة</h2>
+          <h2 style={{ color: 'white', fontWeight: 700, marginBottom: 16 }}><IconRenderer name="ICON_Siren" size={18} /> البلاغات المُرسلة</h2>
           {reports.length === 0 ? (
             <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>
-              <div style={{ fontSize: 48, marginBottom: 12 }}>CheckCircle</div>
+              <div style={{ fontSize: 48, marginBottom: 12 }}><IconRenderer name="ICON_Check" size={18} />Circle</div>
               <div>لا توجد بلاغات حالياً</div>
             </div>
           ) : (
@@ -354,10 +354,10 @@ export default function CommunityPage() {
       {/* تبويب المحظورون - للمدير فقط */}
       {activeTab === 'blocked' && isAdmin && (
         <div>
-          <h2 style={{ color: 'white', fontWeight: 700, marginBottom: 16 }}>Ban المستخدمون المحظورون</h2>
+          <h2 style={{ color: 'white', fontWeight: 700, marginBottom: 16 }}><IconRenderer name="ICON_Ban" size={18} /> المستخدمون المحظورون</h2>
           {blocked.length === 0 ? (
             <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>
-              <div style={{ fontSize: 48, marginBottom: 12 }}>CheckCircle</div>
+              <div style={{ fontSize: 48, marginBottom: 12 }}><IconRenderer name="ICON_Check" size={18} />Circle</div>
               <div>لا يوجد مستخدمون محظورون</div>
             </div>
           ) : (
@@ -376,11 +376,11 @@ export default function CommunityPage() {
       {/* تبويب الإحصائيات - للمدير فقط */}
       {activeTab === 'stats' && isAdmin && (
         <div>
-          <h2 style={{ color: 'white', fontWeight: 700, marginBottom: 16 }}>BarChart3 إحصائيات المجتمع</h2>
+          <h2 style={{ color: 'white', fontWeight: 700, marginBottom: 16 }}><IconRenderer name="ICON_BarChart3" size={18} /> إحصائيات المجتمع</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
             {[
               { label: 'إجمالي المنشورات', value: posts.length, icon: "ICON_FileText", color: '#3B82F6' },
-              { label: 'إجمالي التفاعلات', value: posts.reduce((a, p) => a + (p.likes_count || 0), 0), icon: 'Heart️', color: '#EF4444' },
+              { label: 'إجمالي التفاعلات', value: posts.reduce((a, p) => a + (p.likes_count || 0), 0), icon: 'Heart<IconRenderer name="ICON_Star" size={18} />', color: '#EF4444' },
               { label: 'إجمالي التعليقات', value: posts.reduce((a, p) => a + (p.comments_count || 0), 0), icon: "ICON_MessageCircle", color: '#10B981' },
               { label: 'منشورات اليوم', value: posts.filter(p => new Date(p.created_at).toDateString() === new Date().toDateString()).length, icon: "ICON_Calendar", color: '#C9A227' },
               { label: 'المنشورات المثبّتة', value: posts.filter(p => p.pinned).length, icon: "ICON_Pin", color: '#8B5CF6' },

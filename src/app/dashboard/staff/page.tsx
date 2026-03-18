@@ -97,7 +97,7 @@ export default function StaffPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>User‍School إدارة الطاقم</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Star" size={18} /><IconRenderer name="ICON_School" size={18} /> إدارة الطاقم</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إضافة وإدارة المعلمين والمدراء والموظفين</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ name: '', email: '', password: '', phone: '', role: 'teacher', school_id: '', national_id: '' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 12, padding: '12px 24px', cursor: 'pointer', fontWeight: 700, fontSize: 14 }}>
@@ -109,7 +109,7 @@ export default function StaffPage() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 24 }}>
         {[
           { label: 'إجمالي الطاقم', value: stats.total, icon: "ICON_Users", color: '#3B82F6' },
-          { label: 'المعلمين', value: stats.teachers, icon: 'User‍School', color: '#10B981' },
+          { label: 'المعلمين', value: stats.teachers, icon: 'User<IconRenderer name="ICON_Star" size={18} />School', color: '#10B981' },
           { label: 'المدراء', value: stats.admins, icon: "ICON_Wrench", color: '#8B5CF6' },
           { label: 'الطلاب', value: stats.students, icon: "ICON_GraduationCap", color: '#EC4899' },
         ].map((s, i) => (
@@ -142,7 +142,7 @@ export default function StaffPage() {
         <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>⏳ جاري التحميل...</div>
       ) : filtered.length === 0 ? (
         <div style={{ textAlign: 'center', padding: 60 }}>
-          <div style={{ fontSize: 64, marginBottom: 16 }}>User‍[School]</div>
+          <div style={{ fontSize: 64, marginBottom: 16 }}><IconRenderer name="ICON_Star" size={18} />[School]</div>
           <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 16 }}>لا يوجد أعضاء بعد</div>
           <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 13, marginTop: 8 }}>اضغط "إضافة جديد" لإضافة معلم أو مدير</div>
         </div>
@@ -174,8 +174,8 @@ export default function StaffPage() {
                   </td>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', gap: 6 }}>
-                      <button onClick={() => handleEdit(u)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Pencil️ تعديل</button>
-                      <button onClick={() => handleDelete(u.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Trash2️ حذف</button>
+                      <button onClick={() => handleEdit(u)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+                      <button onClick={() => handleDelete(u.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
                     </div>
                   </td>
                 </tr>
@@ -190,7 +190,7 @@ export default function StaffPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil️ تعديل' : 'Plus إضافة عضو جديد'}</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل' : 'Plus إضافة عضو جديد'}</h2>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
             </div>
 
@@ -202,10 +202,10 @@ export default function StaffPage() {
               <div>
                 <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>الدور *</label>
                 <select value={form.role} onChange={e => setForm({...form, role: e.target.value})} style={{...inputStyle, cursor: 'pointer'}}>
-                  <option value="teacher" style={{background:'#06060E'}}>User‍School معلم</option>
-                  <option value="admin" style={{background:'#06060E'}}>Wrench مدير مدرسة</option>
-                  <option value="student" style={{background:'#06060E'}}>GraduationCap طالب</option>
-                  <option value="parent" style={{background:'#06060E'}}>User‍User ولي أمر</option>
+                  <option value="teacher" style={{background:'#06060E'}}><IconRenderer name="ICON_Star" size={18} /><IconRenderer name="ICON_School" size={18} /> معلم</option>
+                  <option value="admin" style={{background:'#06060E'}}><IconRenderer name="ICON_Wrench" size={18} /> مدير مدرسة</option>
+                  <option value="student" style={{background:'#06060E'}}><IconRenderer name="ICON_GraduationCap" size={18} /> طالب</option>
+                  <option value="parent" style={{background:'#06060E'}}><IconRenderer name="ICON_Star" size={18} /><IconRenderer name="ICON_User" size={18} /> ولي أمر</option>
                 </select>
               </div>
               {!editItem && (
@@ -218,7 +218,7 @@ export default function StaffPage() {
                     <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>كلمة المرور *</label>
                     <div style={{ display: 'flex', gap: 8 }}>
                       <input value={form.password} onChange={e => setForm({...form, password: e.target.value})} style={{...inputStyle, flex: 1}} placeholder="كلمة المرور" dir="ltr" />
-                      <button onClick={generatePassword} style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: 'none', borderRadius: 8, padding: '0 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap' }}>Key توليد</button>
+                      <button onClick={generatePassword} style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: 'none', borderRadius: 8, padding: '0 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap' }}><IconRenderer name="ICON_Key" size={18} /> توليد</button>
                     </div>
                   </div>
                 </>
@@ -240,7 +240,7 @@ export default function StaffPage() {
 
             {!editItem && form.password && (
               <div style={{ background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.2)', borderRadius: 10, padding: '12px 16px', marginTop: 16 }}>
-                <div style={{ color: '#3B82F6', fontSize: 13, fontWeight: 600 }}>ClipboardList بيانات الدخول (انسخها وأرسلها للمعلم):</div>
+                <div style={{ color: '#3B82F6', fontSize: 13, fontWeight: 600 }}><IconRenderer name="ICON_ClipboardList" size={18} /> بيانات الدخول (انسخها وأرسلها للمعلم):</div>
                 <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginTop: 6, direction: 'ltr', fontFamily: 'monospace' }}>
                   Email: {form.email}<br />Password: {form.password}
                 </div>

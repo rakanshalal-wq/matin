@@ -1,4 +1,5 @@
 'use client';
+import IconRenderer from "@/components/IconRenderer";
 import { ClipboardList, GraduationCap, Search, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 
@@ -61,7 +62,7 @@ export default function Page() {
     <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>GraduationCap التدريب المهني</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_GraduationCap" size={18} /> التدريب المهني</h1>
           <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>برامج التطوير المهني للمعلمين</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({}); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ اضافة جديد</button>
@@ -69,7 +70,7 @@ export default function Page() {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 24 }}>
         <div style={{ background: CARD_BG, border: '1px solid ' + BORDER, borderRadius: 14, padding: '18px 20px' }}>
-          <div style={{ fontSize: 24, marginBottom: 8 }}>ClipboardList</div>
+          <div style={{ fontSize: 24, marginBottom: 8 }}><IconRenderer name="ICON_ClipboardList" size={18} />List</div>
           <div style={{ fontSize: 26, fontWeight: 800, color: GOLD }}>{items.length}</div>
           <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>الاجمالي</div>
         </div>
@@ -83,7 +84,7 @@ export default function Page() {
           <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>جاري التحميل...</div>
         ) : filtered.length === 0 ? (
           <div style={{ textAlign: 'center', padding: 60 }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>GraduationCap</div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_GraduationCap" size={36} /></div>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 16 }}>لا توجد بيانات بعد</p>
             <button onClick={() => { setForm({}); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ اضافة اول سجل</button>
           </div>

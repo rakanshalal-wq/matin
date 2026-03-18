@@ -14,7 +14,7 @@ interface Setting {
 }
 
 const categoryLabels: Record<string, string> = {
-  general: 'Settings️ عام',
+  general: 'Settings<IconRenderer name="ICON_Star" size={18} /> عام',
   design: 'Palette التصميم',
   integrations: 'Plug التكاملات',
   ads: 'Megaphone الإعلانات',
@@ -22,7 +22,7 @@ const categoryLabels: Record<string, string> = {
 };
 
 const categoryIcons: Record<string, string> = {
-  general: 'Settings️',
+  general: 'Settings<IconRenderer name="ICON_Star" size={18} />',
   design: "ICON_Palette",
   integrations: "ICON_Plug",
   ads: "ICON_Megaphone",
@@ -118,7 +118,7 @@ export default function SettingsPage() {
     <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
       {/* الهيدر */}
       <div style={{ marginBottom: 28 }}>
-        <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}>Settings️ إعدادات المنصة</h1>
+        <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}><IconRenderer name="ICON_Star" size={18} /> إعدادات المنصة</h1>
         <p style={{ color: '#9CA3AF', fontSize: 14, margin: '6px 0 0' }}>تحكم في جميع إعدادات منصة متين</p>
       </div>
 
@@ -171,7 +171,7 @@ export default function SettingsPage() {
 
             {filteredSettings.length === 0 ? (
               <div style={{ textAlign: 'center', padding: 40, color: 'rgba(255,255,255,0.4)' }}>
-                <div style={{ fontSize: 40, marginBottom: 12 }}>Mailbox</div>
+                <div style={{ fontSize: 40, marginBottom: 12 }}><IconRenderer name="ICON_Mail" size={18} />box</div>
                 <p>لا توجد إعدادات في هذه الفئة</p>
               </div>
             ) : (

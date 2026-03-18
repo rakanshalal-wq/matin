@@ -1,4 +1,5 @@
 'use client';
+import IconRenderer from "@/components/IconRenderer";
 import { AlertTriangle, CheckCircle, File, FileText, MapPin, Phone, Plus, School, User } from "lucide-react";
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -81,7 +82,7 @@ export default function AddSchoolPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>Plus إضافة مدرسة جديدة</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Plus" size={18} /> إضافة مدرسة جديدة</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>أضف مدرسة أو جامعة أو معهد جديد للمنصة</p>
         </div>
         <Link href="/dashboard/schools" style={{
@@ -107,7 +108,7 @@ export default function AddSchoolPage() {
           marginBottom: 24,
           color: '#EF4444',
         }}>
-          AlertTriangle️ {error}
+          AlertTriangle<IconRenderer name="ICON_Star" size={18} /> {error}
         </div>
       )}
 

@@ -1,4 +1,5 @@
 'use client';
+import IconRenderer from "@/components/IconRenderer";
 import { Building2, Calendar, Check, MapPin, School, Trash2, User, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 
@@ -76,7 +77,7 @@ export default function SchedulesPage() {
     <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#C9A227', margin: 0 }}>Calendar الجدول الدراسي</h1>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#C9A227', margin: 0 }}><IconRenderer name="ICON_Calendar" size={18} /> الجدول الدراسي</h1>
           <p style={{ color: '#9CA3AF', fontSize: 14, margin: '4px 0 0' }}>{filtered.length} حصة</p>
         </div>
         {canAdd && (
@@ -161,12 +162,12 @@ export default function SchedulesPage() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                       <span style={{ color: dayColors[dayIdx], fontSize: 14, fontWeight: 700, minWidth: 100 }}>{s.start_time} - {s.end_time}</span>
                       <span style={{ color: '#fff', fontSize: 14 }}>{s.subject_name || 'بدون مادة'}</span>
-                      <span style={{ color: '#9CA3AF', fontSize: 12 }}>User‍School {s.teacher_name || 'بدون معلم'}</span>
-                      <span style={{ color: '#9CA3AF', fontSize: 12 }}>Building2️ {s.class_name || ''}</span>
-                      {s.room && <span style={{ color: '#6B7280', fontSize: 12 }}>MapPin {s.room}</span>}
+                      <span style={{ color: '#9CA3AF', fontSize: 12 }}><IconRenderer name="ICON_Star" size={18} /><IconRenderer name="ICON_School" size={18} /> {s.teacher_name || 'بدون معلم'}</span>
+                      <span style={{ color: '#9CA3AF', fontSize: 12 }}><IconRenderer name="ICON_Building" size={18} />2<IconRenderer name="ICON_Star" size={18} /> {s.class_name || ''}</span>
+                      {s.room && <span style={{ color: '#6B7280', fontSize: 12 }}><IconRenderer name="ICON_Globe" size={18} /><IconRenderer name="ICON_Pin" size={18} /> {s.room}</span>}
                     </div>
                     {canAdd && (
-                      <button onClick={() => handleDelete(s.id)} style={{ padding: '4px 12px', background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 6, fontSize: 11, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>Trash2️</button>
+                      <button onClick={() => handleDelete(s.id)} style={{ padding: '4px 12px', background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 6, fontSize: 11, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}><IconRenderer name="ICON_Star" size={18} /></button>
                     )}
                   </div>
                 ))}

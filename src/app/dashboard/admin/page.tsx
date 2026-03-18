@@ -1,4 +1,5 @@
 'use client';
+import IconRenderer from "@/components/IconRenderer";
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -490,7 +491,7 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      {/* ── Student Modal ── */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> Student Modal <IconRenderer name="ICON_Star" size={18} /> */}
       {showStudentModal && (
         <Modal title={editingStudent?'تعديل بيانات الطالب':'إضافة طالب جديد'} onClose={()=>setShowStudentModal(false)}>
           <Field label="الاسم الكامل" value={sForm.full_name} onChange={v=>setSForm(f=>({...f,full_name:v}))} required placeholder="مثال: محمد أحمد العمري"/>
@@ -504,7 +505,7 @@ export default function AdminDashboard() {
         </Modal>
       )}
 
-      {/* ── Teacher Modal ── */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> Teacher Modal <IconRenderer name="ICON_Star" size={18} /> */}
       {showTeacherModal && (
         <Modal title={editingTeacher?'تعديل بيانات المعلم':'إضافة معلم جديد'} onClose={()=>setShowTeacherModal(false)}>
           <Field label="الاسم الكامل" value={tForm.full_name} onChange={v=>setTForm(f=>({...f,full_name:v}))} required placeholder="مثال: أحمد محمد السالم"/>
@@ -517,7 +518,7 @@ export default function AdminDashboard() {
         </Modal>
       )}
 
-      {/* ── Class Modal ── */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> Class Modal <IconRenderer name="ICON_Star" size={18} /> */}
       {showClassModal && (
         <Modal title={editingClass?'تعديل الفصل الدراسي':'إضافة فصل دراسي'} onClose={()=>setShowClassModal(false)}>
           <Field label="اسم الفصل" value={cForm.name} onChange={v=>setCForm(f=>({...f,name:v}))} required placeholder="مثال: 1أ، الأول أ"/>
@@ -529,7 +530,7 @@ export default function AdminDashboard() {
         </Modal>
       )}
 
-      {/* ── Delete Confirmations ── */}
+      {/* <IconRenderer name="ICON_Star" size={18} /> Delete Confirmations <IconRenderer name="ICON_Star" size={18} /> */}
       {deleteStudent && <ConfirmDelete name={deleteStudent.full_name||deleteStudent.name} onConfirm={confirmDeleteStudent} onCancel={()=>setDeleteStudent(null)} loading={sLoading}/>}
       {deleteTeacher && <ConfirmDelete name={deleteTeacher.full_name||deleteTeacher.name} onConfirm={confirmDeleteTeacher} onCancel={()=>setDeleteTeacher(null)} loading={tLoading}/>}
       {deleteClass && <ConfirmDelete name={deleteClass.name||deleteClass.class_name} onConfirm={confirmDeleteClass} onCancel={()=>setDeleteClass(null)} loading={cLoading}/>}

@@ -84,7 +84,7 @@ export default function SupportPage() {
   };
   const statusLabels: Record<string, { label: string; color: string; bg: string }> = {
     open: { label: 'Unlock مفتوحة', color: '#3B82F6', bg: 'rgba(59,130,246,0.1)' },
-    in_progress: { label: 'Settings️ قيد المعالجة', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' },
+    in_progress: { label: 'Settings<IconRenderer name="ICON_Star" size={18} /> قيد المعالجة', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' },
     closed: { label: 'CheckCircle مغلقة', color: '#10B981', bg: 'rgba(16,185,129,0.1)' },
     rejected: { label: 'XCircle مرفوضة', color: '#EF4444', bg: 'rgba(239,68,68,0.1)' },
   };
@@ -98,7 +98,7 @@ export default function SupportPage() {
       {/* الهيدر */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}>Headphones الدعم الفني</h1>
+          <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}><IconRenderer name="ICON_Headphones" size={18} /> الدعم الفني</h1>
           <p style={{ color: '#9CA3AF', fontSize: 14, margin: '6px 0 0' }}>تذاكر الدعم والشكاوى والاستفسارات</p>
         </div>
         <button onClick={() => setShowAdd(!showAdd)} style={{ padding: '10px 24px', background: showAdd ? '#374151' : 'linear-gradient(135deg, #C9A227, #E8C547)', color: showAdd ? '#fff' : '#000', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
@@ -114,7 +114,7 @@ export default function SupportPage() {
         {[
           { label: 'الكل', value: stats.total, color: '#C9A227', icon: "ICON_ClipboardList" },
           { label: 'مفتوحة', value: stats.open, color: '#3B82F6', icon: "ICON_Unlock" },
-          { label: 'قيد المعالجة', value: stats.inProgress, color: '#F59E0B', icon: 'Settings️' },
+          { label: 'قيد المعالجة', value: stats.inProgress, color: '#F59E0B', icon: 'Settings<IconRenderer name="ICON_Star" size={18} />' },
           { label: 'مغلقة', value: stats.closed, color: '#10B981', icon: "ICON_CheckCircle" },
         ].map((s, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 16, textAlign: 'center' }}>
@@ -128,7 +128,7 @@ export default function SupportPage() {
       {/* فورم الإضافة */}
       {showAdd && (
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 24, marginBottom: 24 }}>
-          <h3 style={{ color: '#C9A227', fontSize: 18, margin: '0 0 20px', fontWeight: 700 }}>Plus تذكرة جديدة</h3>
+          <h3 style={{ color: '#C9A227', fontSize: 18, margin: '0 0 20px', fontWeight: 700 }}><IconRenderer name="ICON_Plus" size={18} /> تذكرة جديدة</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             <div style={{ gridColumn: '1 / -1' }}>
               <label style={{ color: '#9CA3AF', fontSize: 13, marginBottom: 6, display: 'block' }}>الموضوع *</label>
@@ -177,7 +177,7 @@ export default function SupportPage() {
       {/* قائمة التذاكر */}
       {filtered.length === 0 ? (
         <div style={{ textAlign: 'center', padding: 60, background: 'rgba(255,255,255,0.02)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)' }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>Headphones</div>
+          <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_Headphones" size={36} /></div>
           <h3 style={{ color: '#fff', fontSize: 18, margin: '0 0 8px' }}>لا توجد تذاكر</h3>
           <p style={{ color: '#9CA3AF', fontSize: 14 }}>أضف تذكرة جديدة للدعم الفني</p>
         </div>
@@ -197,15 +197,15 @@ export default function SupportPage() {
                     </div>
                     {ticket.description && <p style={{ color: '#9CA3AF', fontSize: 13, margin: 0 }}>{ticket.description}</p>}
                     <div style={{ display: 'flex', gap: 16, marginTop: 8, flexWrap: 'wrap' }}>
-                      <span style={{ color: '#6B7280', fontSize: 12 }}>User {ticket.name || 'مجهول'}</span>
-                      <span style={{ color: '#6B7280', fontSize: 12 }}>ClipboardList {typeLabels[ticket.type] || ticket.type}</span>
-                      <span style={{ color: '#6B7280', fontSize: 12 }}>Calendar {ticket.created_at ? new Date(ticket.created_at).toLocaleDateString('ar-SA') : ''}</span>
+                      <span style={{ color: '#6B7280', fontSize: 12 }}><IconRenderer name="ICON_User" size={18} /> {ticket.name || 'مجهول'}</span>
+                      <span style={{ color: '#6B7280', fontSize: 12 }}><IconRenderer name="ICON_ClipboardList" size={18} /> {typeLabels[ticket.type] || ticket.type}</span>
+                      <span style={{ color: '#6B7280', fontSize: 12 }}><IconRenderer name="ICON_Calendar" size={18} /> {ticket.created_at ? new Date(ticket.created_at).toLocaleDateString('ar-SA') : ''}</span>
                     </div>
                   </div>
                   <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                     {ticket.status === 'open' && (
                       <button onClick={() => handleUpdateStatus(ticket.id, 'in_progress')} style={{ padding: '6px 12px', background: 'rgba(245,158,11,0.1)', color: '#F59E0B', border: '1px solid rgba(245,158,11,0.2)', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-                        Settings️ معالجة
+                        Settings<IconRenderer name="ICON_Star" size={18} /> معالجة
                       </button>
                     )}
                     {ticket.status !== 'closed' && (
@@ -214,7 +214,7 @@ export default function SupportPage() {
                       </button>
                     )}
                     <button onClick={() => handleDelete(ticket.id)} style={{ padding: '6px 12px', background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
-                      Trash2️
+                      Trash2<IconRenderer name="ICON_Star" size={18} />
                     </button>
                   </div>
                 </div>

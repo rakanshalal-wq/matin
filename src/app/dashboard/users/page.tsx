@@ -199,7 +199,7 @@ export default function UsersPage() {
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                       <div style={{ width: 40, height: 40, borderRadius: 10, background: `rgba(${(roleColors[u.role] || '#6B7280').slice(1).match(/../g)?.map((h: string) => parseInt(h,16)).join(',')},0.15)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>
-                        {u.role === 'super_admin' ? "ICON_Crown" : u.role === 'owner' ? "ICON_School" : u.role === 'admin' ? "ICON_Wrench" : u.role === 'teacher' ? 'User‍School' : u.role === 'parent' ? 'User‍[User]' : u.role === 'student' ? "ICON_GraduationCap" : "ICON_User"}
+                        {u.role === 'super_admin' ? "ICON_Crown" : u.role === 'owner' ? "ICON_School" : u.role === 'admin' ? "ICON_Wrench" : u.role === 'teacher' ? 'User<IconRenderer name="ICON_Star" size={18} />School' : u.role === 'parent' ? 'User<IconRenderer name="ICON_Star" size={18} />[User]' : u.role === 'student' ? "ICON_GraduationCap" : "ICON_User"}
                       </div>
                       <div>
                         <div style={{ color: 'white', fontWeight: 600, fontSize: 14 }}>{u.name}</div>
@@ -243,12 +243,12 @@ export default function UsersPage() {
                             onClick={() => handleAction(u.id, 'approve')}
                             disabled={actionLoading === u.id}
                             style={{ background: 'rgba(16,185,129,0.1)', color: '#10B981', border: 'none', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}
-                          >CheckCircle موافقة</button>
+                          ><IconRenderer name="ICON_CheckCircle" size={18} /> موافقة</button>
                           <button
                             onClick={() => handleAction(u.id, 'reject')}
                             disabled={actionLoading === u.id}
                             style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}
-                          >XCircle رفض</button>
+                          ><IconRenderer name="ICON_X" size={18} /><IconRenderer name="ICON_Circle" size={18} /> رفض</button>
                         </>
                       )}
                       {u.status === 'active' && u.role !== 'super_admin' && (
@@ -256,28 +256,28 @@ export default function UsersPage() {
                           onClick={() => handleAction(u.id, 'toggle', 'suspended')}
                           disabled={actionLoading === u.id}
                           style={{ background: 'rgba(107,114,128,0.1)', color: '#6B7280', border: 'none', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}
-                        >⏸️ إيقاف</button>
+                        >⏸<IconRenderer name="ICON_Star" size={18} /> إيقاف</button>
                       )}
                       {u.status === 'suspended' && (
                         <button
                           onClick={() => handleAction(u.id, 'toggle', 'active')}
                           disabled={actionLoading === u.id}
                           style={{ background: 'rgba(16,185,129,0.1)', color: '#10B981', border: 'none', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}
-                        >▶️ تفعيل</button>
+                        ><IconRenderer name="ICON_Check" size={18} /> تفعيل</button>
                       )}
                       {u.status === 'rejected' && (
                         <button
                           onClick={() => handleAction(u.id, 'approve')}
                           disabled={actionLoading === u.id}
                           style={{ background: 'rgba(16,185,129,0.1)', color: '#10B981', border: 'none', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}
-                        >CheckCircle موافقة</button>
+                        ><IconRenderer name="ICON_CheckCircle" size={18} /> موافقة</button>
                       )}
                       {u.role !== 'super_admin' && (
                         <button
                           onClick={() => handleDelete(u.id, u.name)}
                           disabled={actionLoading === u.id}
                           style={{ background: 'rgba(239,68,68,0.08)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}
-                        >Trash2️ حذف</button>
+                        ><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
                       )}
                     </div>
                   </td>
@@ -292,7 +292,7 @@ export default function UsersPage() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 460, direction: 'rtl' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil️ تعديل المستخدم' : '+ إضافة مستخدم'}</h2>
+              <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل المستخدم' : '+ إضافة مستخدم'}</h2>
               <button onClick={() => { setShowModal(false); setErrMsg(''); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
             </div>
             {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}

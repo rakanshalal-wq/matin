@@ -66,7 +66,7 @@ export default function InsurancePage() {
       {/* Alert Boxes */}
       {stats.expired > 0 && (
         <div style={{ background: 'rgba(185,28,28,0.15)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 12, padding: '16px 20px', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: 24 }}>Siren</span>
+          <span style={{ fontSize: 24 }}><IconRenderer name="ICON_Siren" size={36} /></span>
           <div>
             <div style={{ color: '#EF4444', fontWeight: 700, fontSize: 15 }}>تنبيه! يوجد {stats.expired} تأمين منتهي الصلاحية</div>
             <div style={{ color: 'rgba(239,68,68,0.8)', fontSize: 13, marginTop: 2 }}>يرجى تجديد وثائق التأمين المنتهية</div>
@@ -75,7 +75,7 @@ export default function InsurancePage() {
       )}
       {stats.expiring > 0 && (
         <div style={{ background: 'rgba(245,158,11,0.15)', border: '1px solid rgba(245,158,11,0.3)', borderRadius: 12, padding: '16px 20px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: 24 }}>AlertTriangle️</span>
+          <span style={{ fontSize: 24 }}><IconRenderer name="ICON_Star" size={18} /></span>
           <div>
             <div style={{ color: '#F59E0B', fontWeight: 700, fontSize: 15 }}>{stats.expiring} تأمين ينتهي خلال 30 يوم</div>
             <div style={{ color: 'rgba(245,158,11,0.8)', fontSize: 13, marginTop: 2 }}>يرجى التجديد قبل انتهاء الصلاحية</div>
@@ -86,7 +86,7 @@ export default function InsurancePage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>Shield️ التأمين الصحي</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Star" size={18} /> التأمين الصحي</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة وثائق التأمين الصحي للطلاب والموظفين</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ person_name: '', provider: '', policy_number: '', type: 'student', start_date: '', end_date: '', coverage: '', status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
@@ -97,9 +97,9 @@ export default function InsurancePage() {
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
-          { label: 'إجمالي الوثائق', value: stats.total, icon: 'Shield️', color: '#C9A227' },
+          { label: 'إجمالي الوثائق', value: stats.total, icon: 'Shield<IconRenderer name="ICON_Star" size={18} />', color: '#C9A227' },
           { label: 'سارية', value: stats.active, icon: "ICON_CheckCircle", color: '#10B981' },
-          { label: 'تنتهي قريباً', value: stats.expiring, icon: 'AlertTriangle️', color: '#F59E0B' },
+          { label: 'تنتهي قريباً', value: stats.expiring, icon: 'AlertTriangle<IconRenderer name="ICON_Star" size={18} />', color: '#F59E0B' },
           { label: 'منتهية', value: stats.expired, icon: "ICON_Siren", color: '#EF4444' },
         ].map((stat, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
@@ -121,7 +121,7 @@ export default function InsurancePage() {
           <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
         ) : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>Shield️</div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_Star" size={18} /></div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد وثائق تأمين</p>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "إضافة تأمين" لإنشاء وثيقة جديدة</p>
           </div>
@@ -139,7 +139,7 @@ export default function InsurancePage() {
                 <tr key={item.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', background: isExpired(item.end_date) ? 'rgba(185,28,28,0.05)' : isExpiringSoon(item.end_date) ? 'rgba(245,158,11,0.03)' : 'transparent' }}>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(139,92,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>Shield️</div>
+                      <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(139,92,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><IconRenderer name="ICON_Star" size={18} /></div>
                       <div>
                         <div style={{ color: 'white', fontWeight: 600, fontSize: 14 }}>{item.person_name}</div>
                         <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, marginTop: 2 }}>{item.coverage ? item.coverage.substring(0, 30) + (item.coverage.length > 30 ? '...' : '') : '—'}</div>
@@ -154,7 +154,7 @@ export default function InsurancePage() {
                     <span style={{ color: isExpired(item.end_date) ? '#EF4444' : isExpiringSoon(item.end_date) ? '#F59E0B' : 'rgba(255,255,255,0.6)', fontWeight: isExpired(item.end_date) || isExpiringSoon(item.end_date) ? 700 : 400, fontSize: 13 }}>
                       {item.end_date ? new Date(item.end_date).toLocaleDateString('ar-SA') : '—'}
                       {isExpired(item.end_date) && ' Ban'}
-                      {isExpiringSoon(item.end_date) && ' AlertTriangle️'}
+                      {isExpiringSoon(item.end_date) && ' AlertTriangle<IconRenderer name="ICON_Star" size={18} />'}
                     </span>
                   </td>
                   <td style={{ padding: '14px 16px' }}>
@@ -164,8 +164,8 @@ export default function InsurancePage() {
                   </td>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Pencil️ تعديل</button>
-                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Trash2️ حذف</button>
+                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
                     </div>
                   </td>
                 </tr>
@@ -180,7 +180,7 @@ export default function InsurancePage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil️ تعديل تأمين' : 'Plus إضافة تأمين جديد'}</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل تأمين' : 'Plus إضافة تأمين جديد'}</h2>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>

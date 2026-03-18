@@ -16,7 +16,7 @@ const qualityConfig: Record<string, { color: string; bg: string; icon: string; d
   'ممتاز':      { color: '#10B981', bg: 'rgba(16,185,129,0.15)',  icon: "ICON_Star", desc: 'سؤال مميز - معدل إجابة صحيحة مثالي' },
   'جيد - سهل': { color: '#3B82F6', bg: 'rgba(59,130,246,0.15)',  icon: "ICON_CheckCircle", desc: 'سؤال جيد - مناسب للمراجعة' },
   'جيد - صعب': { color: '#8B5CF6', bg: 'rgba(139,92,246,0.15)', icon: "ICON_Dumbbell", desc: 'سؤال تحدي - مناسب للطلاب المتقدمين' },
-  'سهل جداً':  { color: '#F59E0B', bg: 'rgba(245,158,11,0.15)', icon: 'AlertTriangle️', desc: 'سهل جداً - لا يميز بين الطلاب' },
+  'سهل جداً':  { color: '#F59E0B', bg: 'rgba(245,158,11,0.15)', icon: 'AlertTriangle<IconRenderer name="ICON_Star" size={18} />', desc: 'سهل جداً - لا يميز بين الطلاب' },
   'صعب جداً':  { color: '#EF4444', bg: 'rgba(239,68,68,0.15)',  icon: "ICON_Circle", desc: 'صعب جداً - قد يكون مربكاً أو غامضاً' },
   'غير محلل':  { color: '#6B7280', bg: 'rgba(107,114,128,0.1)', icon: '⏳', desc: 'يحتاج على الأقل 5 إجابات للتحليل' },
 };
@@ -103,7 +103,7 @@ export default function QuestionAnalyticsPage() {
   if (loading) return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
       <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 40, marginBottom: 16 }}>Brain</div>
+        <div style={{ fontSize: 40, marginBottom: 16 }}><IconRenderer name="ICON_Brain" size={36} /></div>
         <div style={{ color: '#8B5CF6', fontWeight: 700, fontSize: 18 }}>جاري تحميل بيانات التحليل...</div>
       </div>
     </div>
@@ -115,7 +115,7 @@ export default function QuestionAnalyticsPage() {
       <div style={{ marginBottom: 24, background: 'linear-gradient(135deg, rgba(139,92,246,0.1), rgba(59,130,246,0.1))', border: '1px solid rgba(139,92,246,0.2)', borderRadius: 16, padding: '20px 24px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
           <div>
-            <h1 style={{ fontSize: 22, fontWeight: 800, color: 'white', margin: 0 }}>Brain تحليل جودة الأسئلة</h1>
+            <h1 style={{ fontSize: 22, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Brain" size={18} /> تحليل جودة الأسئلة</h1>
             <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, margin: '4px 0 0' }}>
               يحلل الذكاء الاصطناعي جودة كل سؤال بناءً على أداء الطلاب الفعلي
             </p>
@@ -143,7 +143,7 @@ export default function QuestionAnalyticsPage() {
           { label: 'إجمالي الأسئلة', value: stats.total || 0, color: '#3B82F6', icon: "ICON_Package" },
           { label: 'تم تحليلها', value: stats.analyzed || 0, color: '#8B5CF6', icon: "ICON_Bot" },
           { label: 'أسئلة ممتازة', value: stats.excellent || 0, color: '#10B981', icon: "ICON_Star" },
-          { label: 'سهلة جداً', value: stats.veryEasy || 0, color: '#F59E0B', icon: 'AlertTriangle️' },
+          { label: 'سهلة جداً', value: stats.veryEasy || 0, color: '#F59E0B', icon: 'AlertTriangle<IconRenderer name="ICON_Star" size={18} />' },
           { label: 'صعبة جداً', value: stats.veryHard || 0, color: '#EF4444', icon: "ICON_Circle" },
         ].map((s, i) => (
           <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${s.color}30`, borderRadius: 12, padding: '14px 16px' }}>

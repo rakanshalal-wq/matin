@@ -208,12 +208,12 @@ export default function QuestionBankPage() {
     <div style={s.page}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
         <div>
-          <div style={{ color: '#C9A227', fontSize: '24px', fontWeight: 800 }}>BookOpen بنك الأسئلة</div>
+          <div style={{ color: '#C9A227', fontSize: '24px', fontWeight: 800 }}><IconRenderer name="ICON_BookOpen" size={18} /> بنك الأسئلة</div>
           <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', marginTop: '4px' }}>{questions.length} سؤال</div>
         </div>
         {canEdit && (
           <div style={{ display: 'flex', gap: '10px' }}>
-            <button style={s.btn('#C9A227')} onClick={() => setShowImport(true)}>Download استيراد Excel</button>
+            <button style={s.btn('#C9A227')} onClick={() => setShowImport(true)}><IconRenderer name="ICON_Download" size={18} /> استيراد Excel</button>
             <button style={s.btn('#10B981')} onClick={() => setShowAdd(true)}>[Plus] إضافة سؤال</button>
           </div>
         )}
@@ -238,9 +238,9 @@ export default function QuestionBankPage() {
         <input style={{ padding: '8px 16px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '13px', outline: 'none', direction: 'rtl', flex: 1, minWidth: '200px', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }} placeholder="Search ابحث في الأسئلة..." value={search} onChange={e => setSearch(e.target.value)} />
         <select style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '13px', outline: 'none', direction: 'rtl' }} value={filterDiff} onChange={e => setFilterDiff(e.target.value)}>
           <option value="">كل المستويات</option>
-          <option value="easy">Circle سهل</option>
-          <option value="medium">Circle متوسط</option>
-          <option value="hard">Circle صعب</option>
+          <option value="easy"><IconRenderer name="ICON_Circle" size={18} /> سهل</option>
+          <option value="medium"><IconRenderer name="ICON_Circle" size={18} /> متوسط</option>
+          <option value="hard"><IconRenderer name="ICON_Circle" size={18} /> صعب</option>
         </select>
         <select style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '13px', outline: 'none', direction: 'rtl' }} value={filterSemester} onChange={e => setFilterSemester(e.target.value)}>
           <option value="">كل الفصول</option>
@@ -269,7 +269,7 @@ export default function QuestionBankPage() {
         <div style={{ textAlign: 'center', color: '#C9A227', padding: '40px' }}>جاري التحميل...</div>
       ) : filtered.length === 0 ? (
         <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.3)', padding: '60px' }}>
-          <div style={{ fontSize: '48px', marginBottom: '16px' }}>Mailbox</div>
+          <div style={{ fontSize: '48px', marginBottom: '16px' }}><IconRenderer name="ICON_Mail" size={18} />box</div>
           <div>لا توجد أسئلة. ابدأ بإضافة أسئلة أو استيراد ملف Excel</div>
         </div>
       ) : (
@@ -297,13 +297,13 @@ export default function QuestionBankPage() {
                   <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                     <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: '20px', fontSize: '11px', background: `${diff.color}20`, border: `1px solid ${diff.color}40`, color: diff.color }}><IconRenderer name={diff.icon} /> {diff.label}</span>
                     <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: '20px', fontSize: '11px', background: 'rgba(107,114,128,0.2)', border: '1px solid rgba(107,114,128,0.4)', color: '#9CA3AF' }}>{typeLabels[q.question_type] || q.question_type}</span>
-                    {q.lesson && <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: '20px', fontSize: '11px', background: 'rgba(139,92,246,0.2)', border: '1px solid rgba(139,92,246,0.4)', color: '#8B5CF6' }}>Book {q.lesson}</span>}
+                    {q.lesson && <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: '20px', fontSize: '11px', background: 'rgba(139,92,246,0.2)', border: '1px solid rgba(139,92,246,0.4)', color: '#8B5CF6' }}><IconRenderer name="ICON_Book" size={18} /> {q.lesson}</span>}
                     {q.semester && <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: '20px', fontSize: '11px', background: 'rgba(59,130,246,0.2)', border: '1px solid rgba(59,130,246,0.4)', color: '#3B82F6' }}>الفصل {q.semester}</span>}
-                    {q.ai_analyzed && <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: '20px', fontSize: '11px', background: 'rgba(139,92,246,0.2)', border: '1px solid rgba(139,92,246,0.4)', color: '#8B5CF6' }}>Bot AI</span>}
+                    {q.ai_analyzed && <span style={{ display: 'inline-block', padding: '2px 10px', borderRadius: '20px', fontSize: '11px', background: 'rgba(139,92,246,0.2)', border: '1px solid rgba(139,92,246,0.4)', color: '#8B5CF6' }}><IconRenderer name="ICON_Bot" size={18} /> AI</span>}
                   </div>
-                  {q.explanation && <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px', marginTop: '8px', fontStyle: 'italic' }}>Lightbulb {q.explanation}</div>}
+                  {q.explanation && <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px', marginTop: '8px', fontStyle: 'italic' }}><IconRenderer name="ICON_Lightbulb" size={18} /> {q.explanation}</div>}
                 </div>
-                {canEdit && <button onClick={() => handleDelete(q.id)} style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer', fontSize: '16px', padding: '4px', flexShrink: 0 }}>Trash2️</button>}
+                {canEdit && <button onClick={() => handleDelete(q.id)} style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer', fontSize: '16px', padding: '4px', flexShrink: 0 }}><IconRenderer name="ICON_Star" size={18} /></button>}
               </div>
             </div>
           );
@@ -313,7 +313,7 @@ export default function QuestionBankPage() {
       {showAdd && (
         <div style={s.modal} onClick={() => setShowAdd(false)}>
           <div style={s.modalBox} onClick={e => e.stopPropagation()}>
-            <div style={{ color: '#C9A227', fontSize: '18px', fontWeight: 700, marginBottom: '20px' }}>Plus إضافة سؤال جديد</div>
+            <div style={{ color: '#C9A227', fontSize: '18px', fontWeight: 700, marginBottom: '20px' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة سؤال جديد</div>
             {msg && <div style={{ color: msg.includes("ICON_CheckCircle") ? '#10B981' : '#EF4444', marginBottom: '12px', fontSize: '14px' }}>{msg}</div>}
             <label style={s.label}>نص السؤال *</label>
             <textarea style={{ ...s.input, minHeight: '80px', resize: 'vertical' }} placeholder="اكتب السؤال هنا..." value={form.question_text} onChange={e => setForm({ ...form, question_text: e.target.value })} />
@@ -330,8 +330,8 @@ export default function QuestionBankPage() {
               <div>
                 <label style={s.label}>مستوى الصعوبة</label>
                 <select style={{ ...s.input, marginBottom: 0 }} value={form.difficulty} onChange={e => setForm({ ...form, difficulty: e.target.value })}>
-                  <option value="easy">Circle سهل</option>
-                  <option value="medium">Circle متوسط</option>
+                  <option value="easy"><IconRenderer name="ICON_Circle" size={18} /> سهل</option>
+                  <option value="medium"><IconRenderer name="ICON_Circle" size={18} /> متوسط</option>
                   <option value="hard">[Circle] صعب</option>
                 </select>
               </div>
@@ -455,7 +455,7 @@ export default function QuestionBankPage() {
             >
               {importFile ? (
                 <>
-                  <div style={{ fontSize: '32px', marginBottom: '6px' }}>CheckCircle</div>
+                  <div style={{ fontSize: '32px', marginBottom: '6px' }}><IconRenderer name="ICON_Check" size={18} />Circle</div>
                   <div style={{ color: '#22c55e', fontWeight: 600, fontSize: '14px' }}>{importFile.name}</div>
                   <div style={{ color: '#64748b', fontSize: '12px', marginTop: '4px' }}>{(importFile.size/1024).toFixed(1)} KB - انقر لتغيير الملف</div>
                 </>
@@ -480,7 +480,7 @@ export default function QuestionBankPage() {
             {/* نتائج الاستيراد */}
             {importResult && (
               <div style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '10px', padding: '16px', marginBottom: '16px' }}>
-                <div style={{ color: '#22c55e', fontWeight: 700, marginBottom: '12px', fontSize: '14px' }}>CheckCircle {importResult.message}</div>
+                <div style={{ color: '#22c55e', fontWeight: 700, marginBottom: '12px', fontSize: '14px' }}><IconRenderer name="ICON_CheckCircle" size={18} /> {importResult.message}</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '8px', marginBottom: '12px' }}>
                   {[['الكل', importResult.bankStats?.total, '#3b82f6'],['سهل', importResult.bankStats?.easy, '#22c55e'],['متوسط', importResult.bankStats?.medium, '#f59e0b'],['صعب', importResult.bankStats?.hard, '#ef4444']].map(([l,v,c]) => (
                     <div key={l as string} style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '6px', padding: '8px', textAlign: 'center' }}>

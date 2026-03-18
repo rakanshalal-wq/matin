@@ -124,7 +124,7 @@ export default function CollegesPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>GraduationCap الكليات والأقسام</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_GraduationCap" size={18} /> الكليات والأقسام</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة الكليات والأقسام العلمية داخل الجامعات والمعاهد</p>
         </div>
         <button onClick={() => { setEditItem(null); setFormData({
@@ -158,7 +158,7 @@ export default function CollegesPage() {
           { label: 'إجمالي الكليات', value: stats.total, icon: "ICON_GraduationCap", color: '#C9A227' },
           { label: 'الكليات النشطة', value: stats.active, icon: "ICON_CheckCircle", color: '#10B981' },
           { label: 'الأقسام العلمية', value: stats.departments, icon: "ICON_BookOpen", color: '#3B82F6' },
-          { label: 'إجمالي الطلاب', value: stats.students.toLocaleString(), icon: 'User‍GraduationCap', color: '#8B5CF6' },
+          { label: 'إجمالي الطلاب', value: stats.students.toLocaleString(), icon: 'User<IconRenderer name="ICON_Star" size={18} />GraduationCap', color: '#8B5CF6' },
         ].map((stat, i) => (
           <div key={i} style={{
             background: 'rgba(255,255,255,0.03)',
@@ -205,7 +205,7 @@ export default function CollegesPage() {
           </div>
         ) : filteredColleges.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <p style={{ fontSize: 48, marginBottom: 16 }}>GraduationCap</p>
+            <p style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_GraduationCap" size={36} /></p>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد كليات أو أقسام</p>
             <button onClick={() => setShowAddModal(true)} style={{
               marginTop: 16,
@@ -244,7 +244,7 @@ export default function CollegesPage() {
                         borderRadius: 10,
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         fontSize: 20,
-                      }}>GraduationCap</div>
+                      }}><IconRenderer name="ICON_GraduationCap" size={36} /></div>
                       <div>
                         <p style={{ color: 'white', fontWeight: 600, margin: 0 }}>{college.name}</p>
                         <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, margin: 0 }}>{college.name_en}</p>
@@ -277,7 +277,7 @@ export default function CollegesPage() {
                         border: 'none',
                         cursor: 'pointer',
                         fontSize: 12,
-                      }}>Eye️ عرض</button>
+                      }}><IconRenderer name="ICON_Eye" size={18} /> عرض</button>
                       <button onClick={() => { setEditItem(college); setFormData({ school_id: String(college.school_id || ""), name: college.name || "", name_en: college.name_en || "", type: college.type || "college", dean_name: college.dean_name || "", email: college.email || "", phone: college.phone || "", description: "" }); setShowAddModal(true); setErrMsg(""); }} style={{
                         background: 'rgba(201,162,39,0.1)',
                         color: '#C9A227',
@@ -286,7 +286,7 @@ export default function CollegesPage() {
                         border: 'none',
                         cursor: 'pointer',
                         fontSize: 12,
-                      }}>Pencil️ تعديل</button>
+                      }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
                     </div>
                   </td>
                 </tr>

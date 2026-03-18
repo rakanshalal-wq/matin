@@ -19,8 +19,8 @@ export default function ExportPage() {
   const [success, setSuccess] = useState('');
 
   const exportOptions: ExportOption[] = [
-    { id: 'students', title: 'بيانات الطلاب', description: 'تصدير قائمة الطلاب مع معلوماتهم الكاملة', icon: 'User‍GraduationCap', formats: ['csv', 'xlsx', 'pdf'] },
-    { id: 'teachers', title: 'بيانات المعلمين', description: 'تصدير قائمة المعلمين والموظفين', icon: 'User‍School', formats: ['csv', 'xlsx', 'pdf'] },
+    { id: 'students', title: 'بيانات الطلاب', description: 'تصدير قائمة الطلاب مع معلوماتهم الكاملة', icon: 'User<IconRenderer name="ICON_Star" size={18} />GraduationCap', formats: ['csv', 'xlsx', 'pdf'] },
+    { id: 'teachers', title: 'بيانات المعلمين', description: 'تصدير قائمة المعلمين والموظفين', icon: 'User<IconRenderer name="ICON_Star" size={18} />School', formats: ['csv', 'xlsx', 'pdf'] },
     { id: 'attendance', title: 'سجلات الحضور', description: 'تصدير سجلات الحضور والغياب', icon: "ICON_ClipboardList", formats: ['csv', 'xlsx', 'pdf'] },
     { id: 'grades', title: 'الدرجات والنتائج', description: 'تصدير درجات الطلاب والتقارير الأكاديمية', icon: "ICON_BarChart3", formats: ['csv', 'xlsx', 'pdf'] },
     { id: 'exams', title: 'الاختبارات', description: 'تصدير بيانات الاختبارات والنتائج', icon: "ICON_FileText", formats: ['csv', 'xlsx', 'pdf'] },
@@ -28,7 +28,7 @@ export default function ExportPage() {
     { id: 'schedules', title: 'الجداول الدراسية', description: 'تصدير الجداول والحصص', icon: "ICON_Calendar", formats: ['csv', 'xlsx', 'pdf'] },
     { id: 'transport', title: 'بيانات النقل', description: 'تصدير مسارات الباصات والركاب', icon: "ICON_Bus", formats: ['csv', 'xlsx'] },
     { id: 'library', title: 'المكتبة', description: 'تصدير قائمة الكتب والاستعارات', icon: "ICON_BookOpen", formats: ['csv', 'xlsx'] },
-    { id: 'behavior', title: 'السلوك والانضباط', description: 'تصدير سجلات السلوك والملاحظات', icon: '⭐', formats: ['csv', 'xlsx', 'pdf'] },
+    { id: 'behavior', title: 'السلوك والانضباط', description: 'تصدير سجلات السلوك والملاحظات', icon: '<IconRenderer name="ICON_Star" size={18} />', formats: ['csv', 'xlsx', 'pdf'] },
     { id: 'full_backup', title: 'نسخة احتياطية كاملة', description: 'تصدير جميع بيانات المدرسة', icon: "ICON_Save", formats: ['json'] },
   ];
 
@@ -77,7 +77,7 @@ export default function ExportPage() {
     <div dir="rtl" style={{ padding: '24px', maxWidth: '1200px', margin: '0 auto' }}>
       {/* Header */}
       <div style={{ marginBottom: '30px' }}>
-        <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: '#1e3a5f', margin: '0 0 8px' }}>Upload تصدير البيانات</h1>
+        <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: '#1e3a5f', margin: '0 0 8px' }}><IconRenderer name="ICON_Upload" size={18} /> تصدير البيانات</h1>
         <p style={{ color: '#666', margin: 0, fontSize: '15px' }}>تصدير بيانات المدرسة بصيغ متعددة (CSV, Excel, PDF, JSON)</p>
       </div>
 
@@ -120,7 +120,7 @@ export default function ExportPage() {
       {/* Export Settings */}
       {selectedExport && (
         <div style={{ background: 'white', borderRadius: '16px', padding: '24px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
-          <h3 style={{ margin: '0 0 20px', fontSize: '18px', color: '#1e3a5f' }}>Settings️ إعدادات التصدير</h3>
+          <h3 style={{ margin: '0 0 20px', fontSize: '18px', color: '#1e3a5f' }}><IconRenderer name="ICON_Star" size={18} /> إعدادات التصدير</h3>
           
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '24px' }}>
             {/* Format */}

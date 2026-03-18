@@ -29,7 +29,7 @@ const defaultPlans: Plan[] = [
   },
   {
     id: 'basic', name: 'Basic', name_ar: 'أساسية', price: 99, priceYearly: 990,
-    color: '#3B82F6', icon: '⭐', maxStudents: 100, maxTeachers: 15,
+    color: '#3B82F6', icon: '<IconRenderer name="ICON_Star" size={18} />', maxStudents: 100, maxTeachers: 15,
     features: ['كل ميزات المجانية', 'الاختبارات الذكية', 'بنك الأسئلة', 'المكتبة الرقمية', 'التقارير المتقدمة', 'الإعلانات'],
     notIncluded: ['المتجر', 'الذكاء الاصطناعي', 'النقل', 'الكافتيريا', 'التصدير']
   },

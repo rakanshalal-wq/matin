@@ -58,7 +58,7 @@ export default function ScholarshipsPage() {
 
   const typeLabels: any = { full_scholarship: 'منحة كاملة', partial_scholarship: 'منحة جزئية', discount: 'خصم', sibling_discount: 'خصم أخوة', employee_discount: 'خصم موظفين', excellence: 'تميز أكاديمي', need_based: 'حاجة مادية', sports: 'منحة رياضية' };
   const typeColors: any = { full_scholarship: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, partial_scholarship: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, discount: { bg: 'rgba(201,162,39,0.1)', color: '#C9A227' }, sibling_discount: { bg: 'rgba(139,92,246,0.1)', color: '#8B5CF6' }, employee_discount: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, excellence: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, need_based: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' }, sports: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' } };
-  const typeIcons: any = { full_scholarship: "ICON_GraduationCap", partial_scholarship: "ICON_BookMarked", discount: 'Tag️', sibling_discount: 'User‍User‍User‍User', employee_discount: "ICON_Shirt", excellence: '⭐', need_based: "ICON_HandHeart", sports: "ICON_Trophy" };
+  const typeIcons: any = { full_scholarship: "ICON_GraduationCap", partial_scholarship: "ICON_BookMarked", discount: 'Tag<IconRenderer name="ICON_Star" size={18} />', sibling_discount: 'User<IconRenderer name="ICON_Star" size={18} /><IconRenderer name="ICON_Star" size={18} /><IconRenderer name="ICON_Star" size={18} />User', employee_discount: "ICON_Shirt", excellence: '<IconRenderer name="ICON_Star" size={18} />', need_based: "ICON_HandHeart", sports: "ICON_Trophy" };
   const statusLabels: any = { active: 'نشط', expired: 'منتهي', suspended: 'موقف', pending: 'قيد المراجعة' };
   const statusColors: any = { active: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, expired: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280' }, suspended: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' }, pending: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' } };
 
@@ -71,7 +71,7 @@ export default function ScholarshipsPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>GraduationCap المنح والخصومات</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_GraduationCap" size={18} /> المنح والخصومات</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة المنح الدراسية وخصومات الرسوم</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ student_name: '', type: 'discount', percentage: '', amount: '', reason: '', start_date: '', end_date: '', status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
@@ -106,7 +106,7 @@ export default function ScholarshipsPage() {
           <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
         ) : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>GraduationCap</div>
+            <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_GraduationCap" size={36} /></div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد منح أو خصومات</p>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "إضافة منحة/خصم" لإنشاء منحة جديدة</p>
           </div>
@@ -161,8 +161,8 @@ export default function ScholarshipsPage() {
                   </td>
                   <td style={{ padding: '14px 16px' }}>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Pencil️ تعديل</button>
-                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Trash2️ حذف</button>
+                      <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+                      <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
                     </div>
                   </td>
                 </tr>
@@ -177,7 +177,7 @@ export default function ScholarshipsPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil️ تعديل منحة' : 'Plus إضافة منحة/خصم'}</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل منحة' : 'Plus إضافة منحة/خصم'}</h2>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
@@ -190,10 +190,10 @@ export default function ScholarshipsPage() {
                 <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} style={inputStyle}>
                   <option value="full_scholarship">منحة كاملة GraduationCap</option>
                   <option value="partial_scholarship">منحة جزئية BookMarked</option>
-                  <option value="discount">خصم Tag️</option>
-                  <option value="sibling_discount">خصم أخوة User‍User‍User‍User</option>
+                  <option value="discount">خصم Tag<IconRenderer name="ICON_Star" size={18} /></option>
+                  <option value="sibling_discount">خصم أخوة User<IconRenderer name="ICON_Star" size={18} /><IconRenderer name="ICON_Star" size={18} /><IconRenderer name="ICON_Star" size={18} />User</option>
                   <option value="employee_discount">خصم موظفين Shirt</option>
-                  <option value="excellence">تميز أكاديمي ⭐</option>
+                  <option value="excellence">تميز أكاديمي <IconRenderer name="ICON_Star" size={18} /></option>
                   <option value="need_based">حاجة مادية HandHeart</option>
                   <option value="sports">منحة رياضية Trophy</option>
                 </select>

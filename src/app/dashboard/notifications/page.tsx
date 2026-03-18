@@ -53,7 +53,7 @@ export default function NotificationsPage() {
   };
 
   const typeLabels: any = { info: 'معلومة', success: 'نجاح', warning: 'تحذير', urgent: 'عاجل', reminder: 'تذكير', system: 'نظام' };
-  const typeIcons: any = { info: 'ℹ️', success: "ICON_CheckCircle", warning: 'AlertTriangle️', urgent: "ICON_Siren", reminder: '⏰', system: '[Settings]️' };
+  const typeIcons: any = { info: 'ℹ<IconRenderer name="ICON_Star" size={18} />', success: "ICON_CheckCircle", warning: 'AlertTriangle<IconRenderer name="ICON_Star" size={18} />', urgent: "ICON_Siren", reminder: '⏰', system: '[Settings]<IconRenderer name="ICON_Star" size={18} />' };
   const typeColors: any = { info: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, success: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, warning: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, urgent: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' }, reminder: { bg: 'rgba(139,92,246,0.1)', color: '#8B5CF6' }, system: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280' } };
   const audienceLabels: any = { all: 'الجميع', students: 'الطلاب', teachers: 'المعلمين', parents: 'أولياء الأمور', employees: 'الموظفين', admins: 'المدراء' };
   const statusLabels: any = { active: 'نشط', archived: 'مؤرشف' };
@@ -77,7 +77,7 @@ export default function NotificationsPage() {
       {/* Urgent Alert */}
       {stats.urgent > 0 && (
         <div style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 12, padding: '16px 20px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: 24 }}>Siren</span>
+          <span style={{ fontSize: 24 }}><IconRenderer name="ICON_Siren" size={36} /></span>
           <div>
             <div style={{ color: '#EF4444', fontWeight: 700, fontSize: 15 }}>يوجد {stats.urgent} إشعار عاجل</div>
             <div style={{ color: 'rgba(239,68,68,0.8)', fontSize: 13, marginTop: 2 }}>يرجى مراجعة الإشعارات العاجلة فوراً</div>
@@ -88,7 +88,7 @@ export default function NotificationsPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>Bell الإشعارات</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Bell" size={18} /> الإشعارات</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة وإرسال الإشعارات لجميع المستخدمين</p>
         </div>
         <button onClick={() => { setEditItem(null); setForm({ title: '', message: '', type: 'info', target_audience: 'all', is_read: false, status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
@@ -140,14 +140,14 @@ export default function NotificationsPage() {
                   </div>
                   <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, margin: '6px 0' }}>{item.message || '—'}</p>
                   <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginTop: 8 }}>
-                    <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>Users {audienceLabels[item.target_audience] || item.target_audience}</span>
-                    <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>Clock {item.created_at ? timeAgo(item.created_at) : '—'}</span>
+                    <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}><IconRenderer name="ICON_User" size={18} />s {audienceLabels[item.target_audience] || item.target_audience}</span>
+                    <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}><IconRenderer name="ICON_Calendar" size={18} /> {item.created_at ? timeAgo(item.created_at) : '—'}</span>
                   </div>
                 </div>
               </div>
               <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
-                <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Pencil️</button>
-                <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Trash2️</button>
+                <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Star" size={18} /></button>
+                <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Star" size={18} /></button>
               </div>
             </div>
           </div>
@@ -159,7 +159,7 @@ export default function NotificationsPage() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil️ تعديل إشعار' : 'Plus إشعار جديد'}</h2>
+              <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل إشعار' : 'Plus إشعار جديد'}</h2>
               <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
@@ -170,12 +170,12 @@ export default function NotificationsPage() {
               <div>
                 <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>النوع</label>
                 <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} style={inputStyle}>
-                  <option value="info">معلومة ℹ️</option>
+                  <option value="info">معلومة ℹ<IconRenderer name="ICON_Star" size={18} /></option>
                   <option value="success">نجاح CheckCircle</option>
-                  <option value="warning">تحذير AlertTriangle️</option>
+                  <option value="warning">تحذير AlertTriangle<IconRenderer name="ICON_Star" size={18} /></option>
                   <option value="urgent">عاجل Siren</option>
                   <option value="reminder">تذكير ⏰</option>
-                  <option value="system">نظام Settings️</option>
+                  <option value="system">نظام Settings<IconRenderer name="ICON_Star" size={18} /></option>
                 </select>
               </div>
               <div>
@@ -183,8 +183,8 @@ export default function NotificationsPage() {
                 <select value={form.target_audience} onChange={e => setForm({ ...form, target_audience: e.target.value })} style={inputStyle}>
                   <option value="all">الجميع Users</option>
                   <option value="students">الطلاب GraduationCap</option>
-                  <option value="teachers">المعلمين User‍School</option>
-                  <option value="parents">أولياء الأمور User‍User‍User</option>
+                  <option value="teachers">المعلمين User<IconRenderer name="ICON_Star" size={18} />School</option>
+                  <option value="parents">أولياء الأمور User<IconRenderer name="ICON_Star" size={18} /><IconRenderer name="ICON_Star" size={18} />User</option>
                   <option value="employees">الموظفين Shirt</option>
                   <option value="admins">المدراء Building</option>
                 </select>

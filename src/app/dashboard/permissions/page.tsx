@@ -1,4 +1,5 @@
 'use client';
+import IconRenderer from "@/components/IconRenderer";
 import { Check, Shield } from "lucide-react";
 import { useState, useEffect } from 'react';
 const getH=():Record<string,string>=>{try{const t=localStorage.getItem('matin_token');if(t)return{'Content-Type':'application/json','Authorization':'Bearer '+t};const u=JSON.parse(localStorage.getItem('matin_user')||'{}');return{'Content-Type':'application/json','x-user-id':String(u.id||'')}}catch{return{'Content-Type':'application/json'}}};
@@ -28,7 +29,7 @@ export default function PermissionsPage(){
   return(
     <div style={{minHeight:'100vh',background:BG,padding:'32px 24px',direction:'rtl',fontFamily:'Cairo, sans-serif'}}>
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:32,flexWrap:'wrap',gap:16}}>
-        <div><h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}>Shield️ إدارة الصلاحيات</h1><p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>تحديد صلاحيات الوصول لكل دور في النظام</p></div>
+        <div><h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}><IconRenderer name="ICON_Star" size={18} /> إدارة الصلاحيات</h1><p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>تحديد صلاحيات الوصول لكل دور في النظام</p></div>
         <button onClick={save} disabled={saving} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 24px',color:'#0B0B16',fontWeight:700,cursor:saving?'not-allowed':'pointer',fontSize:14,opacity:saving?0.7:1}}>{saving?'جاري الحفظ...':'حفظ الصلاحيات'}</button>
       </div>
       <div style={{display:'flex',gap:10,marginBottom:28,flexWrap:'wrap'}}>
@@ -60,7 +61,7 @@ export default function PermissionsPage(){
                       ))}
                       <td style={{padding:'14px 16px',textAlign:'center'}}>
                         <div onClick={()=>toggleAll(m.id,!allOn)} style={{width:24,height:24,borderRadius:6,border:'2px solid',borderColor:allOn?GOLD:BR,background:allOn?`${GOLD}33`:'transparent',cursor:'pointer',display:'inline-flex',alignItems:'center',justifyContent:'center',transition:'all 0.2s'}}>
-                          {allOn&&<span style={{color:GOLD,fontSize:14,fontWeight:800}}>Check</span>}
+                          {allOn&&<span style={{color:GOLD,fontSize:14,fontWeight:800}}><IconRenderer name="ICON_Check" size={36} /></span>}
                         </div>
                       </td>
                     </tr>

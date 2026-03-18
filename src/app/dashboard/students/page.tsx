@@ -80,8 +80,8 @@ export default function StudentsPage() {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-        <div><h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>GraduationCap الطلاب</h1><p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة بيانات الطلاب</p></div>
-        <button onClick={() => setShowAddModal(true)} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>Plus إضافة طالب</button>
+        <div><h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_GraduationCap" size={18} /> الطلاب</h1><p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة بيانات الطلاب</p></div>
+        <button onClick={() => setShowAddModal(true)} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة طالب</button>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 24 }}>
@@ -101,9 +101,9 @@ export default function StudentsPage() {
         {loading ? <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>⏳ جاري التحميل...</p></div>
         : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center' }}>
-            <p style={{ fontSize: 48, marginBottom: 16 }}>GraduationCap</p>
+            <p style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_GraduationCap" size={36} /></p>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا يوجد طلاب مسجلين</p>
-            <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>Plus إضافة أول طالب</button>
+            <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة أول طالب</button>
           </div>
         ) : (
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -122,7 +122,7 @@ export default function StudentsPage() {
                 <tr key={st.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                   <td style={{ padding: 16 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{ width: 40, height: 40, background: st.gender === 'FEMALE' ? 'rgba(236,72,153,0.1)' : 'rgba(59,130,246,0.1)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{st.gender === 'FEMALE' ? "ICON_User" : "ICON_User"}</div>
+                      <div style={{ width: 40, height: 40, background: st.gender === 'FEMALE' ? 'rgba(236,72,153,0.1)' : 'rgba(59,130,246,0.1)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><IconRenderer name={st.gender === 'FEMALE' ? "ICON_User" : "ICON_User"} size={18} /></div>
                       <div>
                         <p style={{ color: 'white', fontWeight: 600, margin: 0 }}>{st.name || '—'}</p>
                         <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, margin: 0 }}>{st.email || ''}</p>
@@ -135,9 +135,9 @@ export default function StudentsPage() {
                   <td style={{ padding: 16, textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>{st.school_name || '—'}</td>
                   <td style={{ padding: 16, textAlign: 'center' }}>
                     <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-                      <button onClick={() => handleView(st)} style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>Eye️ عرض</button>
-                      <button onClick={() => handleEditOpen(st)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>Pencil️ تعديل</button>
-                      <button onClick={() => handleDelete(st.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}>Trash2️ حذف</button>
+                      <button onClick={() => handleView(st)} style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Eye" size={18} /> عرض</button>
+                      <button onClick={() => handleEditOpen(st)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+                      <button onClick={() => handleDelete(st.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
                     </div>
                   </td>
                 </tr>
@@ -152,7 +152,7 @@ export default function StudentsPage() {
         <div style={modalOverlay}>
           <div style={modalBox}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: '#C9A227', fontSize: 22, fontWeight: 700, margin: 0 }}>GraduationCap إضافة طالب جديد</h2>
+              <h2 style={{ color: '#C9A227', fontSize: 22, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_GraduationCap" size={18} /> إضافة طالب جديد</h2>
               <button onClick={() => setShowAddModal(false)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>X</button>
             </div>
             <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, marginBottom: 20 }}>سيتم إرسال بيانات الدخول تلقائياً لبريد الطالب الإلكتروني</p>
@@ -206,11 +206,11 @@ export default function StudentsPage() {
         <div style={modalOverlay}>
           <div style={modalBox}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: '#3B82F6', fontSize: 22, fontWeight: 700, margin: 0 }}>Eye️ بيانات الطالب</h2>
+              <h2 style={{ color: '#3B82F6', fontSize: 22, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_User" size={18} /> بيانات الطالب</h2>
               <button onClick={() => setShowViewModal(false)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>X</button>
             </div>
             <div style={{ textAlign: 'center', marginBottom: 24 }}>
-              <div style={{ width: 80, height: 80, background: selectedStudent.gender === 'FEMALE' ? 'rgba(236,72,153,0.15)' : 'rgba(59,130,246,0.15)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36, margin: '0 auto 12px' }}>{selectedStudent.gender === 'FEMALE' ? "ICON_User" : "ICON_User"}</div>
+              <div style={{ width: 80, height: 80, background: selectedStudent.gender === 'FEMALE' ? 'rgba(236,72,153,0.15)' : 'rgba(59,130,246,0.15)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36, margin: '0 auto 12px' }}><IconRenderer name={selectedStudent.gender === 'FEMALE' ? "ICON_User" : "ICON_User"} size={18} /></div>
               <h3 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{selectedStudent.name}</h3>
               <p style={{ color: '#C9A227', fontSize: 14, marginTop: 4 }}>{selectedStudent.student_id}</p>
             </div>
@@ -224,7 +224,7 @@ export default function StudentsPage() {
               {infoRow('تاريخ التسجيل', selectedStudent.created_at ? new Date(selectedStudent.created_at).toLocaleDateString('ar-SA') : '—')}
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
-              <button onClick={() => { setShowViewModal(false); handleEditOpen(selectedStudent); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}>Pencil️ تعديل البيانات</button>
+              <button onClick={() => { setShowViewModal(false); handleEditOpen(selectedStudent); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل البيانات</button>
               <button onClick={() => setShowViewModal(false)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إغلاق</button>
             </div>
           </div>
@@ -236,7 +236,7 @@ export default function StudentsPage() {
         <div style={modalOverlay}>
           <div style={modalBox}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ color: '#C9A227', fontSize: 22, fontWeight: 700, margin: 0 }}>Pencil️ تعديل بيانات الطالب</h2>
+              <h2 style={{ color: '#C9A227', fontSize: 22, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل بيانات الطالب</h2>
               <button onClick={() => setShowEditModal(false)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>X</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
