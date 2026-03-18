@@ -3,8 +3,8 @@ import IconRenderer from "@/components/IconRenderer";
 import {, CheckCircle, ClipboardList, XCircle } from "lucide-react";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { getHeaders } from '@/lib/api';
 
-const getHeaders = () => {
  const token = typeof window !== 'undefined' ? localStorage.getItem('matin_token') : null;
  return { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}) };
 };

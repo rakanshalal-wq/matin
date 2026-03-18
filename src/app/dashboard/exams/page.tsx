@@ -3,8 +3,8 @@ import { BarChart3, BookOpen, Bot, Calendar,, CheckCircle, Circle, ClipboardList
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import IconRenderer from "@/components/IconRenderer";
+import { getHeaders } from '@/lib/api';
 
-const getHeaders = (): Record<string, string> => {
  try {
  const token = localStorage.getItem('matin_token');
  if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };

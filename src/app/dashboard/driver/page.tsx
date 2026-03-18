@@ -3,6 +3,7 @@ import IconRenderer from "@/components/IconRenderer";
 import { } from "lucide-react";
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { getHeaders } from '@/lib/api';
 
 /* ─── Design: Dark #06060E + Gold #C9A84C — متين v5 ─── */
 const G = '#C9A84C';
@@ -10,7 +11,6 @@ const DARK = '#06060E';
 const CARD = 'rgba(255,255,255,0.03)';
 const BORDER = 'rgba(255,255,255,0.07)';
 
-const getHeaders = (): Record<string, string> => {
  try {
  const token = localStorage.getItem('matin_token');
  if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };

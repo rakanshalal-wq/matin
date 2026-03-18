@@ -2,8 +2,8 @@
 import { BarChart3, CheckCircle, ClipboardList, Download, File, Users, X, XCircle } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
+import { getHeaders } from '@/lib/api';
 
-const getHeaders = (): Record<string, string> => {
  try {
  const token = localStorage.getItem('matin_token');
  if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };

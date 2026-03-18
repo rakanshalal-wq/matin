@@ -10,6 +10,7 @@
 
 import { useState, useEffect } from 'react';
 import {
+import { getHeaders } from '@/lib/api';
   Newspaper, Zap, Handshake, CreditCard,
   Plus, Pencil, Trash2, X, Save, Loader2,
   Globe, Eye, CheckCircle, AlertCircle,
@@ -21,7 +22,6 @@ const BG = '#0B0B16';
 const CARD = 'rgba(255,255,255,0.04)';
 const BORDER = 'rgba(255,255,255,0.08)';
 
-const getHeaders = (): Record<string, string> => {
   try {
     const token = localStorage.getItem('matin_token');
     if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };

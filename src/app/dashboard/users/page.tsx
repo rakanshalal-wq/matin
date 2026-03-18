@@ -1,8 +1,8 @@
 'use client';
 import { CheckCircle, Crown, GraduationCap, Pencil, School, Search, Trash2, User, Users, Wrench, XCircle } from "lucide-react";
- const getHeaders = (): Record<string, string> => ({ 'Content-Type': 'application/json' });
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
+import { getHeaders } from '@/lib/api';
 
 export default function UsersPage() {
  const [users, setUsers] = useState<any[]>([]);

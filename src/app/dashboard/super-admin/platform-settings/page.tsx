@@ -2,8 +2,8 @@
 import { Building, CheckCircle, CreditCard, Crown, Lock, Mail, MessageCircle, Package, Save, Settings, Smartphone } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
+import { getHeaders } from '@/lib/api';
 
-const getHeaders = (): Record<string, string> => {
  return { 'Content-Type': 'application/json' };
 };
 

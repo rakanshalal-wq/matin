@@ -1,9 +1,9 @@
 'use client';
 import { BookOpen, CheckCircle, Eye, GraduationCap, Pencil, Plus, Search, User, X } from "lucide-react";
- const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import IconRenderer from "@/components/IconRenderer";
+import { getHeaders } from '@/lib/api';
 
 interface College {
  id: number;

@@ -2,8 +2,8 @@
 import { BarChart3,, Frown, HelpCircle, Lock, PartyPopper, RefreshCw, Video, X } from "lucide-react";
 import { useState, useEffect, useRef } from 'react';
 import IconRenderer from "@/components/IconRenderer";
+import { getHeaders } from '@/lib/api';
 
-const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 
 export default function WatchLecturePage() {
  const [lecture, setLecture] = useState<any>(null);

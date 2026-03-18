@@ -4,10 +4,10 @@ import {, X } from "lucide-react";
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Icon, ICONS, G, DARK, CARD, BORDER, Spinner } from '@/components/ui-icons';
+import { getHeaders } from '@/lib/api';
 
 /* ─── Design: Dark #06060E + Gold #C9A84C — متين v5 ─── */
 
-const getHeaders = (): Record<string, string> => {
  try {
  const token = localStorage.getItem('matin_token');
  if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };

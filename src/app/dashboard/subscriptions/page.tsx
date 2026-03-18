@@ -2,7 +2,7 @@
 import {, CheckCircle, ClipboardList, Diamond, GraduationCap, Mailbox, Package, School, Trophy, User, XCircle } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
-const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
+import { getHeaders } from '@/lib/api';
 
 const plans = [
  { id: 'basic', name: 'أساسي', price: 0, period: 'مجاني', color: '#6B7280', icon: '', students: 50, teachers: 5, schools: 1, features: ['مدرسة واحدة', '5 معلمين', '50 طالب', 'الحضور والغياب', 'الدرجات الأساسية'] },

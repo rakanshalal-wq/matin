@@ -2,8 +2,8 @@
 import IconRenderer from "@/components/IconRenderer";
 import { Bird, Camera, CheckCircle, Eye, FileText, Ghost, Pencil, Phone, Plus, Rocket, Save, School, Smartphone, X } from "lucide-react";
 import { useState, useEffect } from 'react';
+import { getHeaders } from '@/lib/api';
 
-const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 
 export default function SchoolPageEditor() {
  const [pages, setPages] = useState<any[]>([]);

@@ -1,8 +1,8 @@
 'use client';
 import { Brain, CheckCircle, FolderOpen, Pencil, Plus, RefreshCw, Save, Search, Trash2, X } from "lucide-react";
- const getHeaders = (): Record<string, string> => { try { const token = localStorage.getItem('matin_token'); if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
+import { getHeaders } from '@/lib/api';
 
 export default function CounselingPage() {
  const [items, setItems] = useState<any[]>([]);

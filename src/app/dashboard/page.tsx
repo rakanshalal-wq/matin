@@ -3,8 +3,8 @@ import { AlertTriangle, BarChart3, Bell, BookOpen, Bot, Briefcase, Building2, Ca
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import IconRenderer from "@/components/IconRenderer";
+import { getHeaders } from '@/lib/api';
 
-const getHeaders = (): Record<string, string> => {
  try {
  const token = localStorage.getItem('matin_token');
  if (token) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };

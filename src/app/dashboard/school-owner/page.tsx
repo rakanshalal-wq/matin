@@ -3,6 +3,7 @@ import IconRenderer from "@/components/IconRenderer";
 import {, Settings, X } from "lucide-react";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { getHeaders } from '@/lib/api';
 
 /* ── Modal helper ── */
 function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: React.ReactNode }) {
@@ -26,7 +27,6 @@ const INP: React.CSSProperties = { width:'100%',padding:'10px 14px',background:'
 const LBL: React.CSSProperties = { display:'block',color:'rgba(238,238,245,0.7)',fontSize:13,fontWeight:600,marginBottom:6 };
 const FW: React.CSSProperties = { marginBottom:16 };
 
-const getHeaders = () => {
  const token = typeof window !== 'undefined' ? localStorage.getItem('matin_token') : null;
  return { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}) };
 };
