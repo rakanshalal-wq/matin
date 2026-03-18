@@ -1,6 +1,5 @@
 'use client';
 export const dynamic = 'force-dynamic';
-import IconRenderer from "@/components/IconRenderer";
 import { Book, BookOpen, Pencil, School, Search, Target, Trash2 } from "lucide-react";
 import { useState, useEffect } from 'react';
 
@@ -169,7 +168,7 @@ export default function AcademicStructurePage() {
 
  {/* Header */}
  <div className="mb-8">
- <h1 className="text-3xl font-black text-white mb-1"><IconRenderer name="ICON_School" size={18} /> الهيكل الأكاديمي</h1>
+ <h1 className="text-3xl font-black text-white mb-1"><School size={18} /> الهيكل الأكاديمي</h1>
  <p className="text-gray-400 text-sm">المراحل والصفوف والمواد وفق وزارة التعليم السعودية — قابل للتخصيص</p>
  </div>
 
