@@ -93,7 +93,7 @@ export default function PlatformAnalyticsPage() {
  'التسجيلات لا تحذف — دليل دائم',
  ].map((rule, i) => (
  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0', borderBottom: i < 5 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
- <span style={{ color: '#10B981', fontSize: 16 }}><IconRenderer name="ICON_Check" size={18} />Circle</span>
+ <span style={{ color: '#10B981', fontSize: 16 }}><CheckCircle size={18} color="#10B981" /></span>
  <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>{rule}</span>
  </div>
  ))}

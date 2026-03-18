@@ -98,7 +98,7 @@ export default function SmartExamsPage() {
  headers: getHeaders(),
  body: JSON.stringify({ ...form, questions }),
  });
- if (res.ok) { fetchExams(); setTab('list'); setQuestions([]); setForm({ ...form, title_ar: '', subject: '' }); alert('[CheckCircle] تم إنشاء الاختبار'); }
+ if (res.ok) { fetchExams(); setTab('list'); setQuestions([]); setForm({ ...form, title_ar: '', subject: '' }); alert('<CheckCircle size={18} color="#10B981" /> تم إنشاء الاختبار'); }
  else { const e = await res.json(); alert(e.error || 'خطأ'); }
  } catch { alert('خطأ في الاتصال'); }
  };
@@ -240,7 +240,7 @@ export default function SmartExamsPage() {
  <div style={{ textAlign: 'center', padding: '48px', color: '#9CA3AF' }}>⏳ جاري التحميل...</div>
  ) : exams.length === 0 ? (
  <div style={{ textAlign: 'center', padding: '64px', background: 'rgba(255,255,255,0.02)', borderRadius: 20, border: '1px dashed rgba(255,255,255,0.1)' }}>
- <div style={{ fontSize: 64, marginBottom: 16 }}><IconRenderer name="ICON_File" size={18} />Text</div>
+ <div style={{ fontSize: 64, marginBottom: 16 }}><FileText size={18} color="#6B7280" /></div>
  <div style={{ color: '#fff', fontSize: 18, fontWeight: 700 }}>لا توجد اختبارات بعد</div>
  <div style={{ color: '#9CA3AF', marginTop: 8 }}>أنشئ اختبارك الأول أو استخدم الذكاء الاصطناعي</div>
  <button onClick={() => setTab('create')} style={{ marginTop: 20, background: '#C9A227', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 10, cursor: 'pointer', fontWeight: 700 }}>
@@ -399,7 +399,7 @@ export default function SmartExamsPage() {
 
  {/* إضافة سؤال يدوي */}
  <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, padding: '20px' }}>
- <h3 style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginBottom: 14 }}>[Pencil]<IconRenderer name="ICON_Plus" size={18} /> إضافة سؤال يدوي</h3>
+ <h3 style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginBottom: 14 }}><Pencil size={18} color="#6B7280" /><IconRenderer name="ICON_Plus" size={18} /> إضافة سؤال يدوي</h3>
  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
  <select value={currentQ.type} onChange={e => setCurrentQ({ ...currentQ, type: e.target.value })}
  style={{ padding: '9px 12px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: '#1a2d4a', color: '#fff', fontSize: 13 }}>
@@ -471,7 +471,7 @@ export default function SmartExamsPage() {
  color: '#fff', border: 'none', padding: '14px', borderRadius: 12,
  cursor: 'pointer', fontSize: 15, fontWeight: 700,
  }}>
- [Save] حفظ الاختبار ({questions.length} سؤال)
+ <Save size={18} color="#6B7280" /> حفظ الاختبار ({questions.length} سؤال)
  </button>
  </div>
  </div>
@@ -546,7 +546,7 @@ export default function SmartExamsPage() {
  )}
  {selectedExam && results.length === 0 && (
  <div style={{ textAlign: 'center', padding: '48px', color: '#9CA3AF' }}>
- <div style={{ fontSize: 48, marginBottom: 12 }}><IconRenderer name="ICON_BarChart3" size={18} />3</div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Circle size={19} color="#6B7280" /></div>
  <div>لا توجد نتائج لهذا الاختبار بعد</div>
  </div>
  )}

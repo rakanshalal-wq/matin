@@ -158,7 +158,7 @@ export default function SchoolPageEditor() {
 
  <div style={{ display: 'flex', gap: 12 }}>
  <button onClick={handleSave} disabled={saving} style={{ flex: 1, background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 800, cursor: 'pointer' }}>
- {saving ? '⏳ جاري الحفظ...' : '[Save] حفظ التغييرات'}
+ {saving ? '⏳ جاري الحفظ...' : '<Save size={18} color="#6B7280" /> حفظ التغييرات'}
  </button>
  <a href={`/school/${selected.slug}`} target="_blank" rel="noreferrer" style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 12, padding: '14px 20px', fontSize: 14, fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center' }}><IconRenderer name="ICON_Eye" size={18} /> معاينة</a>
  </div>

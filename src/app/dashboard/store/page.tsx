@@ -97,7 +97,7 @@ export default function StoreDashboard() {
 
  {/* Tabs */}
  <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
- {[{ key: 'products', label: 'Package المنتجات', count: products.length }, { key: 'orders', label: '[ShoppingCart] الطلبات', count: orders.length }].map(tab => (
+ {[{ key: 'products', label: 'Package المنتجات', count: products.length }, { key: 'orders', label: '<ShoppingCart size={18} color="#6B7280" /> الطلبات', count: orders.length }].map(tab => (
  <button key={tab.key} onClick={() => setActiveTab(tab.key as any)} style={{ background: activeTab === tab.key ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'rgba(255,255,255,0.05)', color: activeTab === tab.key ? '#06060E' : 'rgba(255,255,255,0.7)', border: 'none', borderRadius: 20, padding: '8px 20px', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
  {tab.label} ({tab.count})
  </button>
@@ -151,7 +151,7 @@ export default function StoreDashboard() {
  <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.6)', fontSize: 13 }}>{order.customer_phone || '-'}</td>
  <td style={{ padding: '14px 16px', color: '#22C55E', fontWeight: 700 }}>{parseFloat(order.total).toFixed(2)} ر.س</td>
  <td style={{ padding: '14px 16px' }}>
- <span style={{ background: order.payment_status === 'paid' ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)', color: order.payment_status === 'paid' ? '#22C55E' : '#EF4444', fontSize: 12, padding: '4px 10px', borderRadius: 20, fontWeight: 700 }}>{order.payment_status === 'paid' ? '[CheckCircle] مدفوع' : '⏳ غير مدفوع'}</span>
+ <span style={{ background: order.payment_status === 'paid' ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)', color: order.payment_status === 'paid' ? '#22C55E' : '#EF4444', fontSize: 12, padding: '4px 10px', borderRadius: 20, fontWeight: 700 }}>{order.payment_status === 'paid' ? '<CheckCircle size={18} color="#10B981" /> مدفوع' : '⏳ غير مدفوع'}</span>
  </td>
  <td style={{ padding: '14px 16px' }}>
  <span style={{ background: `${statusColor[order.status]}20`, color: statusColor[order.status], fontSize: 12, padding: '4px 10px', borderRadius: 20, fontWeight: 700 }}>{statusLabel[order.status] || order.status}</span>

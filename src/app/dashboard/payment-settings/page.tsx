@@ -112,7 +112,7 @@ export default function PaymentSettingsPage() {
  <div className="mb-8">
  <div className="flex items-center justify-between flex-wrap gap-4">
  <div>
- <h1 className="text-3xl font-bold text-white mb-1">[CreditCard] إعدادات بوابة الدفع</h1>
+ <h1 className="text-3xl font-bold text-white mb-1"><CreditCard size={18} color="#6B7280" /> إعدادات بوابة الدفع</h1>
  <p className="text-gray-400">اربط بوابة الدفع الخاصة بمؤسستك — الأموال تذهب مباشرة لحسابك البنكي</p>
  </div>
  <div className="flex gap-3">
@@ -170,7 +170,7 @@ export default function PaymentSettingsPage() {
  {/* بوابات الدفع */}
  {loading ? (
  <div className="text-center py-20 text-gray-400">
- <div className="text-4xl mb-3 animate-pulse">[CreditCard]</div>
+ <div className="text-4xl mb-3 animate-pulse"><CreditCard size={18} color="#6B7280" /></div>
  <p>جاري التحميل...</p>
  </div>
  ) : (
@@ -244,7 +244,7 @@ export default function PaymentSettingsPage() {
  disabled={isSaving}
  className="flex-1 bg-yellow-400 text-gray-900 py-2.5 rounded-xl text-sm font-bold hover:bg-yellow-300 disabled:opacity-50 transition-colors"
  >
- {isSaving ? "⏳ جاري الحفظ..." : "[Save] حفظ وتفعيل"}
+ {isSaving ? "⏳ جاري الحفظ..." : "<Save size={18} color="#6B7280" /> حفظ وتفعيل"}
  </button>
  <button
  onClick={() => setEditing(null)}

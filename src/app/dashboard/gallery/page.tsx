@@ -105,7 +105,7 @@ export default function GalleryPage() {
  {item.image_url ? (
  <img src={item.image_url} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
  ) : (
- <span style={{ fontSize: 48 }}></span>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(139,92,246,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Image size={20} color="#8B5CF6" /></div>
  )}
  <span style={{ position: 'absolute', top: 10, right: 10, background: GOLD + 'cc', color: '#0B0B16', padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 700 }}>{item.category}</span>
  {!item.is_public && <span style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(0,0,0,0.7)', color: 'white', padding: '3px 8px', borderRadius: 20, fontSize: 11 }}><IconRenderer name="ICON_Lock" size={18} /> خاص</span>}

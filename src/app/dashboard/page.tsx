@@ -163,43 +163,11 @@ export default function DashboardHome() {
  if (loading) return (
  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
  <div style={{ textAlign: 'center' }}>
- <div style={{ fontSize: 48, marginBottom: 16 }}>⏳</div>
- <div style={{ color: '#9CA3AF' }}>جاري التحميل...</div>
- </div>
- </div>
- );
-
- return (
- <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto', direction: 'rtl' }}>
-
- {}
- {/* الهيدر — تحية + معلومات المؤسسة */}
- {}
- <div style={{
- background: 'linear-gradient(135deg, #06060E 0%, #1a2d4a 50%, #06060E 100%)',
- border: '1px solid rgba(201,162,39,0.2)',
- borderRadius: 20,
- padding: '28px 32px',
- marginBottom: 28,
- position: 'relative',
- overflow: 'hidden',
- }}>
- {/* خلفية زخرفية */}
- <div style={{ position: 'absolute', top: -40, left: -40, width: 200, height: 200, background: 'rgba(201,162,39,0.05)', borderRadius: '50%' }} />
- <div style={{ position: 'absolute', bottom: -60, right: -60, width: 250, height: 250, background: 'rgba(59,130,246,0.05)', borderRadius: '50%' }} />
-
- <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, position: 'relative' }}>
- <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
- {school?.logo_url || school?.logo ? (
- <img src={school.logo_url || school.logo} alt="" style={{ width: 64, height: 64, borderRadius: 16, objectFit: 'cover', border: '2px solid rgba(201,162,39,0.3)' }} />
- ) : (
- <div style={{ width: 64, height: 64, borderRadius: 16, background: `${instType.color}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, border: `2px solid ${instType.color}30` }}>
- <IconRenderer name={instType.icon} />
- </div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Circle size={19} color="#6B7280" /></div>
  )}
  <div>
  <div style={{ color: '#C9A227', fontSize: 13, fontWeight: 600, marginBottom: 4 }}>
- {greeting()}، {user?.name?.split(' ')[0] || 'مرحباً'} [Hand]
+ {greeting()}، {user?.name?.split(' ')[0] || 'مرحباً'} <Hand size={18} color="#6B7280" />
  </div>
  <div style={{ color: '#fff', fontSize: 22, fontWeight: 800 }}>
  {school?.name_ar || school?.name || 'مؤسستك التعليمية'}
@@ -253,8 +221,8 @@ export default function DashboardHome() {
  {/* الإحصائيات الرئيسية */}
  {}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 28 }}>
- <StatCard title="إجمالي الطلاب" value={stats.students || stats.total_students || 0} icon="<User size={16} />[GraduationCap]" color="#3B82F6" sub={`+${stats.new_students || 0} هذا الشهر`} link="/dashboard/students" />
- <StatCard title="المعلمون" value={stats.teachers || stats.total_teachers || 0} icon="<User size={16} />[School]" color="#8B5CF6" sub="نشطون" link="/dashboard/teachers" />
+ <StatCard title="إجمالي الطلاب" value={stats.students || stats.total_students || 0} icon="<User size={16} /><GraduationCap size={18} color="#C9A84C" />" color="#3B82F6" sub={`+${stats.new_students || 0} هذا الشهر`} link="/dashboard/students" />
+ <StatCard title="المعلمون" value={stats.teachers || stats.total_teachers || 0} icon="<User size={16} /><School size={18} color="#3B82F6" />" color="#8B5CF6" sub="نشطون" link="/dashboard/teachers" />
  <StatCard title="الفصول" value={stats.classes || stats.total_classes || 0} icon="ICON_Building2" color="#10B981" sub="فصل دراسي" link="/dashboard/classes" />
  <StatCard title="الحضور اليوم" value={`${stats.attendance_rate || 0}%`} icon="ICON_Hand" color="#F59E0B" sub="معدل الحضور" link="/dashboard/attendance" />
  <StatCard title="الاختبارات" value={stats.exams || 0} icon="ICON_FileText" color="#EF4444" sub="هذا الفصل" link="/dashboard/exams" />
@@ -299,7 +267,7 @@ export default function DashboardHome() {
  </div>
  {pendingAdmissions.length === 0 ? (
  <div style={{ textAlign: 'center', padding: '24px 0', color: '#6B7280' }}>
- <div style={{ fontSize: 32, marginBottom: 8 }}><IconRenderer name="ICON_Check" size={18} />Circle</div>
+ <div style={{ fontSize: 32, marginBottom: 8 }}><CheckCircle size={18} color="#10B981" /></div>
  <div style={{ fontSize: 13 }}>لا توجد طلبات معلقة</div>
  </div>
  ) : pendingAdmissions.map((a: any, i: number) => (
@@ -323,7 +291,7 @@ export default function DashboardHome() {
  </div>
  {upcomingExams.length === 0 ? (
  <div style={{ textAlign: 'center', padding: '24px 0', color: '#6B7280' }}>
- <div style={{ fontSize: 32, marginBottom: 8 }}>[Calendar]</div>
+ <div style={{ fontSize: 32, marginBottom: 8 }}><Calendar size={18} color="#F59E0B" /></div>
  <div style={{ fontSize: 13 }}>لا توجد اختبارات قادمة</div>
  </div>
  ) : upcomingExams.map((e: any, i: number) => (
@@ -364,12 +332,12 @@ export default function DashboardHome() {
  }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
  <div>
- <div style={{ color: '#C9A227', fontSize: 14, fontWeight: 700, marginBottom: 6 }}>[Globe] الرابط العام للمؤسسة</div>
+ <div style={{ color: '#C9A227', fontSize: 14, fontWeight: 700, marginBottom: 6 }}><Globe size={18} color="#3B82F6" /> الرابط العام للمؤسسة</div>
  <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
  <div style={{ background: 'rgba(0,0,0,0.3)', borderRadius: 8, padding: '6px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
  <span style={{ color: '#9CA3AF', fontSize: 12 }}>matin.ink/school/</span>
  <span style={{ color: '#fff', fontSize: 12, fontWeight: 700 }}>{school.code}</span>
- <button onClick={() => navigator.clipboard.writeText(`https://matin.ink/school/${school.code}`)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#C9A227', fontSize: 14 }}><IconRenderer name="ICON_ClipboardList" size={18} />List</button>
+ <button onClick={() => navigator.clipboard.writeText(`https://matin.ink/school/${school.code}`)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#C9A227', fontSize: 14 }}><ClipboardList size={18} color="#6B7280" /></button>
  </div>
  {school.custom_domain && (
  <div style={{ background: 'rgba(16,185,129,0.1)', borderRadius: 8, padding: '6px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>

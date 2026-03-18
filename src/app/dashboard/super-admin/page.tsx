@@ -40,7 +40,7 @@ export default function SuperAdminDashboard() {
  const url = editItem ? `/api/schools?id=${editItem.id}` : '/api/schools';
  const res = await fetch(url, { method, headers: getH(), body: JSON.stringify(form) });
  const data = await res.json();
- if (res.ok) { setShowModal(false); setEditItem(null); setForm({ name: '', email: '', phone: '', plan: 'basic' }); fetchAll(); setMsg(method === 'PUT' ? 'CheckCircle تم تعديل المؤسسة' : '[CheckCircle] تم إضافة المؤسسة'); }
+ if (res.ok) { setShowModal(false); setEditItem(null); setForm({ name: '', email: '', phone: '', plan: 'basic' }); fetchAll(); setMsg(method === 'PUT' ? 'CheckCircle تم تعديل المؤسسة' : '<CheckCircle size={18} color="#10B981" /> تم إضافة المؤسسة'); }
  else setErrMsg(data.error || 'فشل الحفظ');
  } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
  };
@@ -58,7 +58,7 @@ export default function SuperAdminDashboard() {
  <div style={{ padding: 24, direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif', background: '#06060E', minHeight: '100vh' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
  <div>
- <h1 style={{ color: '#C9A227', fontSize: 26, fontWeight: 800, margin: 0 }}><IconRenderer name="ICON_Building" size={18} />2 لوحة السوبر أدمن</h1>
+ <h1 style={{ color: '#C9A227', fontSize: 26, fontWeight: 800, margin: 0 }}><Building size={18} color="#6B7280" />لوحة السوبر أدمن</h1>
  <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, margin: '4px 0 0' }}>إدارة كاملة للمنصة والمؤسسات</p>
  </div>
  <button onClick={() => { setShowModal(true); setEditItem(null); setForm({ name: '', email: '', phone: '', plan: 'basic' }); }} style={{ background: 'linear-gradient(135deg,#C9A227,#E8C547)', border: 'none', borderRadius: 10, padding: '10px 20px', color: '#06060E', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ إضافة مؤسسة</button>
@@ -70,7 +70,7 @@ export default function SuperAdminDashboard() {
  {[
  { label: 'المؤسسات', value: stats.schools || schools.length || 0, color: '#3B82F6', icon: "ICON_School" },
  { label: 'الطلاب', value: stats.students || stats.total_students || 0, color: '#10B981', icon: "ICON_GraduationCap" },
- { label: 'المعلمون', value: stats.teachers || stats.total_teachers || 0, color: '#8B5CF6', icon: '<User size={16} />[School]' },
+ { label: 'المعلمون', value: stats.teachers || stats.total_teachers || 0, color: '#8B5CF6', icon: '<User size={16} /><School size={18} color="#3B82F6" />' },
  { label: 'الاشتراكات النشطة', value: stats.active_subscriptions || 0, color: '#C9A227', icon: "ICON_Diamond" },
  ].map((s, i) => (
  <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${s.color}25`, borderRadius: 14, padding: 20 }}>
@@ -103,7 +103,7 @@ export default function SuperAdminDashboard() {
  <td style={{ padding: '12px 16px', color: 'rgba(255,255,255,0.5)', fontSize: 12 }}>{s.institution_type || 'مدرسة'}</td>
  <td style={{ padding: '12px 16px' }}>
  <span style={{ padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600, background: s.status === 'active' ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)', color: s.status === 'active' ? '#10B981' : '#EF4444' }}>
- {s.status === 'active' ? 'CheckCircle نشط' : '[Circle] متجمد'}
+ {s.status === 'active' ? 'CheckCircle نشط' : '<Circle size={18} color="#6B7280" /> متجمد'}
  </span>
  </td>
  <td style={{ padding: '12px 16px', color: '#C9A227', fontSize: 13, fontWeight: 700 }}>{s.student_count || 0}</td>

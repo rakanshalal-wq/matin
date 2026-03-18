@@ -238,7 +238,7 @@ export default function ImportQuestionsPage() {
  />
  {file ? (
  <>
- <div style={{ fontSize: '40px', marginBottom: '8px' }}><IconRenderer name="ICON_Check" size={18} />Circle</div>
+ <div style={{ fontSize: '40px', marginBottom: '8px' }}><CheckCircle size={18} color="#10B981" /></div>
  <div style={{ color: '#22c55e', fontWeight: 'bold', marginBottom: '4px' }}>
  {file.name}
  </div>
@@ -414,7 +414,7 @@ export default function ImportQuestionsPage() {
  border: '1px solid #334155'
  }}>
  <h3 style={{ color: '#f1f5f9', margin: '0 0 16px 0', fontSize: '15px' }}>
- [ClipboardList] تعليمات الاستخدام
+ <ClipboardList size={18} color="#6B7280" /> تعليمات الاستخدام
  </h3>
 
  <div style={{ marginBottom: '16px' }}>

@@ -156,7 +156,7 @@ export default function TeachersPage() {
  <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>⏳ جاري التحميل...</p></div>
  ) : filteredTeachers.length === 0 ? (
  <div style={{ padding: 60, textAlign: 'center' }}>
- <p style={{ fontSize: 48, marginBottom: 16 }}> School</p>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(59,130,246,0.15)",display:"flex",alignItems:"center",justifyContent:"center",marginBottom:16}}><School size={20} color="#3B82F6" /></div>
  <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا يوجد معلمين مسجلين</p>
  <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة أول معلم</button>
  </div>
@@ -262,7 +262,7 @@ export default function TeachersPage() {
  <button onClick={() => setShowViewModal(false)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>X</button>
  </div>
  <div style={{ textAlign: 'center', marginBottom: 24 }}>
- <div style={{ width: 80, height: 80, background: 'rgba(201,162,39,0.15)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36, margin: '0 auto 12px' }}> [School]</div>
+ <div style={{ width: 80, height: 80, background: 'rgba(201,162,39,0.15)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36, margin: '0 auto 12px' }}> <School size={18} color="#3B82F6" /></div>
  <h3 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{selectedTeacher.name}</h3>
  <p style={{ color: '#C9A227', fontSize: 14, marginTop: 4 }}>{selectedTeacher.employee_id}</p>
  </div>

@@ -197,7 +197,7 @@ export default function AIChatPage() {
  disabled={loading || !input.trim()}
  style={{ width: '48px', height: '48px', borderRadius: '50%', background: input.trim() ? '#1e3a5f' : '#e0e0e0', color: 'white', border: 'none', fontSize: '20px', cursor: input.trim() ? 'pointer' : 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s' }}
  >
- [ChevronRight]
+ <ChevronRight size={18} color="#6B7280" />
  </button>
  </div>
 

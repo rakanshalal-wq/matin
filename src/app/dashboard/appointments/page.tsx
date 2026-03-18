@@ -86,7 +86,7 @@ export default function AppointmentsPage() {
  <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>⏳ جاري التحميل...</p></div>
  ) : filteredItems.length === 0 ? (
  <div style={{ padding: 60, textAlign: 'center' }}>
- <p style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_ClipboardList" size={18} />List</p>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><ClipboardList size={19} color="#6B7280" /></div>
  <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد مواعيد</p>
  <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة أول موعد</button>
  </div>
@@ -109,7 +109,7 @@ export default function AppointmentsPage() {
  <tr key={item.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
  <td style={{ padding: 16 }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
- <div style={{ width: 40, height: 40, background: 'rgba(201,162,39,0.1)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><IconRenderer name="ICON_ClipboardList" size={18} />List</div>
+ <div style={{ width: 40, height: 40, background: 'rgba(201,162,39,0.1)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><ClipboardList size={18} color="#6B7280" /></div>
  <div>
  <p style={{ color: 'white', fontWeight: 600, margin: 0 }}>{item.title}</p>
  <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, margin: 0 }}>{item.type || ''}</p>

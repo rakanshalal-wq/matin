@@ -181,7 +181,7 @@ export default function SchoolsPage() {
  {/* قائمة المدارس */}
  {filtered.length === 0 ? (
  <div style={{ textAlign: 'center', padding: 60, background: 'rgba(255,255,255,0.02)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)' }}>
- <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_School" size={36} /></div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(59,130,246,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><School size={19} color="#3B82F6" /></div>
  <h3 style={{ color: '#fff', fontSize: 18, margin: '0 0 8px' }}>{search ? 'لا توجد نتائج' : 'لا توجد مؤسسات بعد'}</h3>
  <p style={{ color: '#9CA3AF', fontSize: 14 }}>{search ? 'جرب بحثاً مختلفاً' : 'أضف أول مؤسسة بالضغط على "إضافة مؤسسة"'}</p>
  </div>

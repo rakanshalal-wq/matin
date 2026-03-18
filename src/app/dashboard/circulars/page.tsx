@@ -115,17 +115,7 @@ export default function CircularsPage() {
  <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12 }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
  ) : filtered.length === 0 ? (
  <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12 }}>
- <div style={{ fontSize: 48, marginBottom: 16 }}>[Megaphone]</div>
- <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد تعاميم</p>
- <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "تعميم جديد" لإنشاء أول تعميم</p>
- </div>
- ) : filtered.map((item: any) => (
- <div key={item.id} onClick={() => setViewItem(item)} style={{ background: item.priority === 'urgent' ? 'rgba(239,68,68,0.04)' : 'rgba(255,255,255,0.03)', border: `1px solid ${item.priority === 'urgent' ? 'rgba(239,68,68,0.15)' : 'rgba(255,255,255,0.08)'}`, borderRadius: 14, padding: '18px 22px', cursor: 'pointer', borderRight: `4px solid ${typeColors[item.type]?.color || '#3B82F6'}` }}
- onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.05)')}
- onMouseLeave={e => (e.currentTarget.style.background = item.priority === 'urgent' ? 'rgba(239,68,68,0.04)' : 'rgba(255,255,255,0.03)')}>
- <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
- <div style={{ display: 'flex', gap: 14, flex: 1 }}>
- <div style={{ width: 48, height: 48, borderRadius: 12, background: typeColors[item.type]?.bg || 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, flexShrink: 0 }}><IconRenderer name={typeIcons[item.type] || "ICON_File"} /></div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Circle size={19} color="#6B7280" /></div>
  <div style={{ flex: 1 }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' }}>
  <span style={{ color: 'white', fontWeight: 700, fontSize: 16 }}>{item.title}</span>

@@ -101,7 +101,7 @@ export default function StudentsPage() {
  {loading ? <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>⏳ جاري التحميل...</p></div>
  : filtered.length === 0 ? (
  <div style={{ padding: 60, textAlign: 'center' }}>
- <p style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_GraduationCap" size={36} /></p>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(201,168,67,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><GraduationCap size={19} color="#C9A84C" /></div>
  <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا يوجد طلاب مسجلين</p>
  <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة أول طالب</button>
  </div>

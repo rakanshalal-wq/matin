@@ -37,7 +37,7 @@ export default function LibraryPage() {
  </div>
  <div style={{background:CB,border:'1px solid '+BR,borderRadius:16,overflow:'hidden'}}>
  {loading?<div style={{textAlign:'center',padding:60,color:'rgba(255,255,255,0.4)'}}>جاري التحميل...</div>:filtered.length===0?
- <div style={{textAlign:'center',padding:60}}><div style={{fontSize:48,marginBottom:16}}><IconRenderer name="ICON_Book" size={18} />Open</div><p style={{color:'rgba(255,255,255,0.4)',fontSize:16}}>لا توجد كتب مسجلة</p><button onClick={()=>setShowModal(true)} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 24px',color:'#0B0B16',fontWeight:700,cursor:'pointer',marginTop:16}}>+ اضافة اول كتاب</button></div>:
+ <div style={{textAlign:'center',padding:60}}><div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Book size={19} color="#6B7280" /></div><p style={{color:'rgba(255,255,255,0.4)',fontSize:16}}>لا توجد كتب مسجلة</p><button onClick={()=>setShowModal(true)} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 24px',color:'#0B0B16',fontWeight:700,cursor:'pointer',marginTop:16}}>+ اضافة اول كتاب</button></div>:
  <div style={{overflowX:'auto'}}><table style={{width:'100%',borderCollapse:'collapse'}}>
  <thead><tr style={{borderBottom:'1px solid '+BR}}>{['العنوان','المؤلف','الفئة','الكمية','المتاح','الحالة','اجراءات'].map(h=><th key={h} style={{padding:'14px 16px',textAlign:'right',color:'rgba(255,255,255,0.5)',fontSize:13,fontWeight:600,whiteSpace:'nowrap'}}>{h}</th>)}</tr></thead>
  <tbody>{filtered.map((r:any,i:number)=>{const st=STATUS_MAP[r.status]||{label:r.status,color:'#9CA3AF',bg:'rgba(156,163,175,0.15)'};return(

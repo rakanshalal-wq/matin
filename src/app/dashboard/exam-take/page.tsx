@@ -153,7 +153,7 @@ export default function ExamTakePage() {
  if (phase === 'loading') return (
  <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0C0E17', fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' as const }}>
  <div style={{ textAlign: 'center' }}>
- <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_File" size={18} />Text</div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><FileText size={19} color="#6B7280" /></div>
  <p style={{ color: msg ? '#EF4444' : '#C9A227', fontSize: 16 }}>{msg || 'جاري تحميل الاختبار...'}</p>
  </div>
  </div>
@@ -174,7 +174,7 @@ export default function ExamTakePage() {
  <p style={{ color: '#D4D4D8', fontSize: 13, margin: 0 }}>• {questions.length} سؤال — {formatTime(timeLeft)}</p>
  </div>
  <button onClick={enterFullscreen} style={{ padding: '14px 40px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#000', border: 'none', borderRadius: 12, fontSize: 18, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
- [Rocket] ابدأ الاختبار
+ <Rocket size={18} color="#8B5CF6" /> ابدأ الاختبار
  </button>
  </div>
  </div>

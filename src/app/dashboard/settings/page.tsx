@@ -69,7 +69,7 @@ export default function SettingsPage() {
  body: JSON.stringify({ key, value: editValues[key] || '' })
  });
  if (res.ok) {
- setMsg(`[CheckCircle] تم حفظ "${key}" بنجاح`);
+ setMsg(`<CheckCircle size={18} color="#10B981" /> تم حفظ "${key}" بنجاح`);
  setMsgType('success');
  fetchSettings();
  } else {
@@ -96,7 +96,7 @@ export default function SettingsPage() {
  if (res.ok) success++;
  } catch {}
  }
- setMsg(`[CheckCircle] تم حفظ ${success} إعداد بنجاح`);
+ setMsg(`<CheckCircle size={18} color="#10B981" /> تم حفظ ${success} إعداد بنجاح`);
  setMsgType('success');
  setSaving(null);
  setTimeout(() => setMsg(''), 3000);

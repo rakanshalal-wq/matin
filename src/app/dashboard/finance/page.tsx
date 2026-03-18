@@ -119,7 +119,7 @@ export default function FinancePage() {
  </div>
 
  {/* الباقات */}
- <h2 style={{ color: '#fff', fontSize: 18, fontWeight: 700, margin: '0 0 16px' }}>[Package] الباقات المتاحة</h2>
+ <h2 style={{ color: '#fff', fontSize: 18, fontWeight: 700, margin: '0 0 16px' }}><Package size={18} color="#6B7280" /> الباقات المتاحة</h2>
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16, marginBottom: 30 }}>
  {Object.entries(pkgConfig).map(([key, pkg]: any) => {
  const isCurrent = key === currentPkg;
@@ -151,7 +151,7 @@ export default function FinancePage() {
  </div>
 
  {/* سجل المدفوعات */}
- <h2 style={{ color: '#fff', fontSize: 18, fontWeight: 700, margin: '0 0 16px' }}>[Receipt] سجل المدفوعات</h2>
+ <h2 style={{ color: '#fff', fontSize: 18, fontWeight: 700, margin: '0 0 16px' }}><Receipt size={18} color="#6B7280" /> سجل المدفوعات</h2>
  {payments.length === 0 ? (
  <div style={{ textAlign: 'center', padding: 40, background: 'rgba(255,255,255,0.02)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)' }}>
  <p style={{ color: '#6B7280', fontSize: 14 }}>لا توجد مدفوعات بعد</p>

@@ -79,7 +79,7 @@ export default function CoursesPage() {
  <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>⏳ جاري التحميل...</p></div>
  ) : filteredItems.length === 0 ? (
  <div style={{ padding: 60, textAlign: 'center' }}>
- <p style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_GraduationCap" size={36} /></p>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(201,168,67,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><GraduationCap size={19} color="#C9A84C" /></div>
  <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد دورات</p>
  <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة أول دورة</button>
  </div>
@@ -100,7 +100,7 @@ export default function CoursesPage() {
  <tr key={item.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
  <td style={{ padding: 16 }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
- <div style={{ width: 40, height: 40, background: 'rgba(245,158,11,0.1)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>[GraduationCap]</div>
+ <div style={{ width: 40, height: 40, background: 'rgba(245,158,11,0.1)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><GraduationCap size={18} color="#C9A84C" /></div>
  <div>
  <p style={{ color: 'white', fontWeight: 600, margin: 0 }}>{item.name}</p>
  <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, margin: 0 }}>{item.description || ''}</p>

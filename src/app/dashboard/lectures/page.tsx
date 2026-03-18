@@ -102,7 +102,7 @@ export default function LecturesPage() {
  const res = await fetch('/api/live-sessions', {
  method: 'POST', headers: getHeaders(), body: JSON.stringify(liveForm),
  });
- if (res.ok) { fetchAll(); alert('[CheckCircle] تم إنشاء جلسة البث'); }
+ if (res.ok) { fetchAll(); alert('<CheckCircle size={18} color="#10B981" /> تم إنشاء جلسة البث'); }
  else { const e = await res.json(); alert(e.error || 'خطأ'); }
  } catch { alert('خطأ'); } finally { setLiveLoading(false); }
  };
@@ -117,7 +117,7 @@ export default function LecturesPage() {
  try {
  const res = await fetch(`/api/lectures/${id}/ai-summary`, { method: 'POST', headers: getHeaders() });
  const data = await res.json();
- if (data.summary) alert(`[FileText] ملخص الذكاء الاصطناعي:\n\n${data.summary}`);
+ if (data.summary) alert(`<FileText size={18} color="#6B7280" /> ملخص الذكاء الاصطناعي:\n\n${data.summary}`);
  else alert('لم يتمكن الذكاء الاصطناعي من توليد الملخص');
  } catch { alert('خطأ'); }
  };
@@ -191,7 +191,7 @@ export default function LecturesPage() {
  <div style={{ textAlign: 'center', padding: '48px', color: '#9CA3AF' }}>⏳ جاري التحميل...</div>
  ) : lectures.length === 0 ? (
  <div style={{ textAlign: 'center', padding: '64px', background: 'rgba(255,255,255,0.02)', borderRadius: 20, border: '1px dashed rgba(255,255,255,0.1)' }}>
- <div style={{ fontSize: 64, marginBottom: 16 }}>[Mic]</div>
+ <div style={{ fontSize: 64, marginBottom: 16 }}><Mic size={18} color="#6B7280" /></div>
  <div style={{ color: '#fff', fontSize: 18, fontWeight: 700 }}>لا توجد محاضرات بعد</div>
  <button onClick={() => setTab('create')} style={{ marginTop: 20, background: '#C9A227', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 10, cursor: 'pointer', fontWeight: 700 }}>
  + إضافة محاضرة
@@ -208,7 +208,7 @@ export default function LecturesPage() {
  {lec.thumbnail ? (
  <img src={lec.thumbnail} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
  ) : (
- <span style={{ fontSize: 48 }}><IconRenderer name={typeConf.icon} /></span>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(59,130,246,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><IconRenderer name={typeConf.icon} size={20} /></div>
  )}
  <div style={{ position: 'absolute', top: 8, right: 8, background: 'rgba(0,0,0,0.6)', borderRadius: 8, padding: '3px 8px', fontSize: 11, color: '#fff' }}>
  <IconRenderer name={typeConf.icon} /> {typeConf.label}
@@ -221,7 +221,7 @@ export default function LecturesPage() {
  </div>
  <div style={{ padding: '14px 16px' }}>
  <h3 style={{ color: '#fff', fontSize: 14, fontWeight: 700, margin: '0 0 6px' }}>{lec.title}</h3>
- {lec.subject && <div style={{ color: '#9CA3AF', fontSize: 12, marginBottom: 4 }}>[BookOpen] {lec.subject} {lec.grade ? `• ${lec.grade}` : ''}</div>}
+ {lec.subject && <div style={{ color: '#9CA3AF', fontSize: 12, marginBottom: 4 }}><BookOpen size={18} color="#6B7280" /> {lec.subject} {lec.grade ? `• ${lec.grade}` : ''}</div>}
  {lec.description && <div style={{ color: '#6B7280', fontSize: 12, lineHeight: 1.5 }}>{lec.description?.substring(0, 80)}...</div>}
  <div style={{ display: 'flex', gap: 6, marginTop: 12 }}>
  {lec.video_url && (
@@ -453,7 +453,7 @@ export default function LecturesPage() {
  {courses.map((c: any) => (
  <div key={c.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}>
  <div style={{ height: 140, background: 'linear-gradient(135deg, #1a2d4a, #06060E)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
- {c.thumbnail ? <img src={c.thumbnail} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 48 }}><IconRenderer name="ICON_Book" size={18} />Open</span>}
+ {c.thumbnail ? <img src={c.thumbnail} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{width:44,height:44,borderRadius:10,background:"rgba(201,168,67,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><BookOpen size={20} color="#C9A84C" /></div>}
  </div>
  <div style={{ padding: '14px 16px' }}>
  <h3 style={{ color: '#fff', fontSize: 15, fontWeight: 700, margin: '0 0 6px' }}>{c.title}</h3>

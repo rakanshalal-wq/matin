@@ -52,7 +52,7 @@ export default function AdsPage() {
  const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify(form) });
  const data = await res.json();
  if (res.ok) {
- setMsg(editItem ? 'CheckCircle تم تعديل الإعلان' : '[CheckCircle] تم إضافة الإعلان بنجاح');
+ setMsg(editItem ? 'CheckCircle تم تعديل الإعلان' : '<CheckCircle size={18} color="#10B981" /> تم إضافة الإعلان بنجاح');
  setMsgType('success');
  setShowAdd(false); setEditItem(null);
  setForm({ title: '', description: '', image_url: '', click_url: '', position: 'top', target_type: 'all', priority: 1, start_date: '', end_date: '', is_active: true });
@@ -188,7 +188,7 @@ export default function AdsPage() {
  {/* قائمة الإعلانات */}
  {ads.length === 0 ? (
  <div style={{ textAlign: 'center', padding: 60, background: 'rgba(255,255,255,0.02)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)' }}>
- <div style={{ fontSize: 48, marginBottom: 16 }}>[Megaphone]</div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(245,158,11,0.15)",display:"flex",alignItems:"center",justifyContent:"center",marginBottom:16}}><Megaphone size={20} color="#F59E0B" /></div>
  <h3 style={{ color: '#fff', fontSize: 18, margin: '0 0 8px' }}>لا توجد إعلانات بعد</h3>
  <p style={{ color: '#9CA3AF', fontSize: 14 }}>أضف أول إعلان لعرضه على جميع مؤسسات المنصة</p>
  </div>

@@ -253,7 +253,7 @@ export default function CommunityPage() {
  <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.5)' }}>جاري التحميل...</div>
  ) : filteredPosts.length === 0 ? (
  <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>
- <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_Globe" size={36} /></div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(59,130,246,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Globe size={19} color="#3B82F6" /></div>
  <div style={{ fontSize: 18, fontWeight: 600 }}>لا توجد منشورات</div>
  </div>
  ) : (
@@ -328,7 +328,7 @@ export default function CommunityPage() {
  <h2 style={{ color: 'white', fontWeight: 700, marginBottom: 16 }}><IconRenderer name="ICON_Siren" size={18} /> البلاغات المُرسلة</h2>
  {reports.length === 0 ? (
  <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>
- <div style={{ fontSize: 48, marginBottom: 12 }}><IconRenderer name="ICON_Check" size={18} />Circle</div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(16,185,129,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Check size={19} color="#10B981" /></div>
  <div>لا توجد بلاغات حالياً</div>
  </div>
  ) : (
@@ -357,7 +357,7 @@ export default function CommunityPage() {
  <h2 style={{ color: 'white', fontWeight: 700, marginBottom: 16 }}><IconRenderer name="ICON_Ban" size={18} /> المستخدمون المحظورون</h2>
  {blocked.length === 0 ? (
  <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>
- <div style={{ fontSize: 48, marginBottom: 12 }}><IconRenderer name="ICON_Check" size={18} />Circle</div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(16,185,129,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Check size={19} color="#10B981" /></div>
  <div>لا يوجد مستخدمون محظورون</div>
  </div>
  ) : (

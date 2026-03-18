@@ -70,7 +70,7 @@ export default function Page() {
 
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 24 }}>
  <div style={{ background: CARD_BG, border: '1px solid ' + BORDER, borderRadius: 14, padding: '18px 20px' }}>
- <div style={{ fontSize: 24, marginBottom: 8 }}><IconRenderer name="ICON_ClipboardList" size={18} />List</div>
+ <div style={{ fontSize: 24, marginBottom: 8 }}><ClipboardList size={18} color="#6B7280" /></div>
  <div style={{ fontSize: 26, fontWeight: 800, color: GOLD }}>{items.length}</div>
  <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>الاجمالي</div>
  </div>
@@ -84,7 +84,7 @@ export default function Page() {
  <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>جاري التحميل...</div>
  ) : filtered.length === 0 ? (
  <div style={{ textAlign: 'center', padding: 60 }}>
- <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_School" size={36} /></div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(59,130,246,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><School size={19} color="#3B82F6" /></div>
  <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 16 }}>لا توجد بيانات بعد</p>
  <button onClick={() => { setForm({}); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ اضافة اول سجل</button>
  </div>

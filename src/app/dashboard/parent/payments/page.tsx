@@ -96,7 +96,7 @@ export default function ParentPaymentsPage() {
 
  return (
  <div style={{ padding: 24, direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic,Arial,sans-serif', background: '#06060E', minHeight: '100vh' }}>
- <h1 style={{ color: '#8B5CF6', fontSize: 24, fontWeight: 800, margin: '0 0 4px' }}>[CreditCard] الفواتير والدفع</h1>
+ <h1 style={{ color: '#8B5CF6', fontSize: 24, fontWeight: 800, margin: '0 0 4px' }}><CreditCard size={18} color="#6B7280" /> الفواتير والدفع</h1>
  <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, margin: '0 0 20px' }}>جميع رسوم أبنائك في مكان واحد</p>
 
  {msg && <div style={{ padding: '12px 16px', borderRadius: 10, marginBottom: 16, fontSize: 14, background: msg.type === 'success' ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)', border: `1px solid ${msg.type === 'success' ? 'rgba(16,185,129,0.3)' : 'rgba(239,68,68,0.3)'}`, color: msg.type === 'success' ? '#10B981' : '#EF4444', display: 'flex', justifyContent: 'space-between' }}><span>{msg.text}</span><button onClick={() => setMsg(null)} style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}>×</button></div>}
@@ -128,50 +128,7 @@ export default function ParentPaymentsPage() {
  </div>
  {filtered.length === 0 ? (
  <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 40, textAlign: 'center' }}>
- <div style={{ fontSize: 48, marginBottom: 12 }}>[PartyPopper]</div>
- <div style={{ color: '#10B981', fontSize: 16, fontWeight: 700 }}>لا توجد فواتير معلّقة</div>
- </div>
- ) : filtered.map((inv: any) => {
- const cfg = STATUS_CFG[inv.status] || STATUS_CFG.pending;
- const canPay = ['pending', 'overdue', 'partial'].includes(inv.status);
- return (
- <div key={inv.id} onClick={() => canPay && openPayment(inv)} style={{ background: cfg.bg, border: `1px solid ${cfg.color}30`, borderRadius: 14, padding: 18, marginBottom: 12, cursor: canPay ? 'pointer' : 'default' }}>
- <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
- <div style={{ flex: 1 }}>
- <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
- {inv.school_logo && <img src={inv.school_logo} alt="" style={{ width: 36, height: 36, borderRadius: 8, objectFit: 'cover' }} />}
- <div>
- <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12 }}>{inv.school_name}</div>
- <div style={{ color: 'white', fontSize: 15, fontWeight: 700 }}>{inv.title || `فاتورة ${inv.invoice_number}`}</div>
- </div>
- </div>
- <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
- {inv.student_name && <div><div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>الطالب</div><div style={{ color: 'white', fontSize: 14 }}>{inv.student_name}</div></div>}
- <div><div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>رقم الفاتورة</div><div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>{inv.invoice_number}</div></div>
- {inv.due_date && <div><div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>الاستحقاق</div><div style={{ color: inv.status === 'overdue' ? '#EF4444' : 'rgba(255,255,255,0.7)', fontSize: 13 }}>{new Date(inv.due_date).toLocaleDateString('ar-SA')}</div></div>}
- </div>
- </div>
- <div style={{ textAlign: 'center', minWidth: 120 }}>
- <div style={{ color: cfg.color, fontSize: 28, fontWeight: 900 }}>{Number(inv.total).toLocaleString()}</div>
- <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, marginBottom: 8 }}>ريال</div>
- <span style={{ display: 'inline-block', padding: '4px 12px', borderRadius: 20, fontSize: 12, fontWeight: 700, background: cfg.bg, color: cfg.color, border: `1px solid ${cfg.color}40` }}><IconRenderer name={cfg.icon} /> {cfg.label}</span>
- {canPay && <div style={{ marginTop: 10 }}><button style={{ padding: '8px 20px', borderRadius: 8, cursor: 'pointer', background: 'linear-gradient(135deg,#8B5CF6,#6D28D9)', border: 'none', color: 'white', fontSize: 13, fontWeight: 700, width: '100%' }}><IconRenderer name="ICON_CreditCard" size={18} /> ادفع الآن</button></div>}
- </div>
- </div>
- </div>
- );
- })}
- </div>
- )}
-
- {activeTab === 'history' && (
- <div>
- {history.length === 0 ? <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 40, textAlign: 'center', color: 'rgba(255,255,255,0.5)' }}>[Mailbox] لا توجد مدفوعات سابقة</div>
- : history.map((p: any) => (
- <div key={p.id} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 18, marginBottom: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
- <div>
- <div style={{ color: 'white', fontSize: 14, fontWeight: 700 }}>{p.invoice_title || p.invoice_number}</div>
- <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, marginTop: 4 }}>{p.student_name && `<User size={16} /><IconRenderer name="ICON_GraduationCap" size={18} /> ${p.student_name} — `}Calendar {new Date(p.created_at).toLocaleDateString('ar-SA')}</div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><CreditCard size={19} color="#6B7280" /></div>
  </div>
  <div style={{ textAlign: 'center' }}>
  <div style={{ color: '#10B981', fontSize: 22, fontWeight: 800 }}>{Number(p.amount).toLocaleString()} ريال</div>
@@ -186,7 +143,7 @@ export default function ParentPaymentsPage() {
  <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
  <div style={{ background: '#06060E', border: '1px solid rgba(139,92,246,0.3)', borderRadius: 20, padding: 28, width: '100%', maxWidth: 500, maxHeight: '90vh', overflowY: 'auto', direction: 'rtl' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
- <h3 style={{ color: '#8B5CF6', fontSize: 18, fontWeight: 800, margin: 0 }}>[CreditCard] إتمام الدفع</h3>
+ <h3 style={{ color: '#8B5CF6', fontSize: 18, fontWeight: 800, margin: 0 }}><CreditCard size={18} color="#6B7280" /> إتمام الدفع</h3>
  <button onClick={() => setSelectedInvoice(null)} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', width: 32, height: 32, borderRadius: '50%', cursor: 'pointer', fontSize: 18 }}>×</button>
  </div>
  <div style={{ background: 'rgba(139,92,246,0.08)', border: '1px solid rgba(139,92,246,0.2)', borderRadius: 12, padding: 16, marginBottom: 20 }}>
@@ -211,7 +168,7 @@ export default function ParentPaymentsPage() {
  <div style={{ display: 'flex', gap: 10 }}>
  <button onClick={() => setSelectedInvoice(null)} style={{ flex: 1, padding: 13, borderRadius: 10, cursor: 'pointer', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)', fontSize: 14 }}>إلغاء</button>
  <button onClick={processPayment} disabled={!paymentMethod || paying} style={{ flex: 2, padding: 13, borderRadius: 10, cursor: 'pointer', background: paymentMethod ? 'linear-gradient(135deg,#8B5CF6,#6D28D9)' : 'rgba(255,255,255,0.1)', border: 'none', color: paymentMethod ? 'white' : 'rgba(255,255,255,0.3)', fontSize: 14, fontWeight: 700, opacity: paying ? 0.7 : 1 }}>
- {paying ? '⏳ جاري المعالجة...' : `[CreditCard] ادفع ${Number(selectedInvoice.total).toLocaleString()} ريال`}
+ {paying ? '⏳ جاري المعالجة...' : `<CreditCard size={18} color="#6B7280" /> ادفع ${Number(selectedInvoice.total).toLocaleString()} ريال`}
  </button>
  </div>
  </div>

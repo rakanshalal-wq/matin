@@ -70,7 +70,7 @@ export default function ParentsCouncilPage() {
  {/* Next Meeting Alert */}
  {nextMeeting && (
  <div style={{ background: 'rgba(16,185,129,0.12)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 12, padding: '16px 20px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
- <span style={{ fontSize: 24 }}>[Calendar]</span>
+ <span style={{ fontSize: 24 }}><Calendar size={18} color="#F59E0B" /></span>
  <div style={{ flex: 1 }}>
  <div style={{ color: '#10B981', fontWeight: 700, fontSize: 15 }}>الاجتماع القادم: {nextMeeting.title}</div>
  <div style={{ color: 'rgba(16,185,129,0.8)', fontSize: 13, marginTop: 2 }}>
@@ -119,15 +119,7 @@ export default function ParentsCouncilPage() {
  <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12 }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
  ) : filtered.length === 0 ? (
  <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12 }}>
- <div style={{ fontSize: 48, marginBottom: 16 }}> [User]</div>
- <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد اجتماعات</p>
- <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "إضافة اجتماع" لجدولة أول اجتماع</p>
- </div>
- ) : filtered.map((item: any) => (
- <div key={item.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: '18px 22px', borderRight: `4px solid ${isUpcoming(item.date) && item.status !== 'cancelled' ? '#10B981' : item.status === 'cancelled' ? '#EF4444' : '#6B7280'}` }}>
- <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
- <div style={{ display: 'flex', gap: 14, flex: 1 }}>
- <div style={{ width: 50, height: 50, borderRadius: 12, background: typeColors[item.type]?.bg || 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, flexShrink: 0 }}><IconRenderer name={typeIcons[item.type] || "ICON_Handshake"} /></div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Circle size={19} color="#6B7280" /></div>
  <div style={{ flex: 1 }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
  <span style={{ color: 'white', fontWeight: 700, fontSize: 16 }}>{item.title}</span>

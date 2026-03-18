@@ -175,7 +175,7 @@ export default function IntegrationsPage() {
  body: JSON.stringify({ action: "test" }),
  });
  const data = await res.json();
- setTestResult(prev => ({ ...prev, [key]: { success: data.success, message: data.message || (data.success ? "الاتصال يعمل CheckCircle" : "فشل الاتصال [XCircle]") } }));
+ setTestResult(prev => ({ ...prev, [key]: { success: data.success, message: data.message || (data.success ? "الاتصال يعمل CheckCircle" : "فشل الاتصال <XCircle size={18} color="#EF4444" />") } }));
  } catch (e: unknown) {
  const msg = e instanceof Error ? e.message : "خطأ غير معروف";
  setTestResult(prev => ({ ...prev, [key]: { success: false, message: msg } }));
@@ -234,7 +234,7 @@ export default function IntegrationsPage() {
  <div className="flex gap-2 pt-1">
  <button onClick={() => handleSave(integration.key)} disabled={isSaving}
  className="flex-1 bg-yellow-400 text-gray-900 py-2 rounded-lg text-sm font-bold hover:bg-yellow-300 disabled:opacity-50 transition-colors">
- {isSaving ? "جاري الحفظ..." : "[Save] حفظ وتفعيل"}
+ {isSaving ? "جاري الحفظ..." : "<Save size={18} color="#6B7280" /> حفظ وتفعيل"}
  </button>
  <button onClick={() => setEditing(null)}
  className="px-3 py-2 border border-[#2a3550] rounded-lg text-sm text-gray-400 hover:text-white hover:border-gray-400 transition-colors">
@@ -252,7 +252,7 @@ export default function IntegrationsPage() {
  {isConnected && integration.testable && (
  <button onClick={() => handleTest(integration.key)} disabled={isTesting}
  className="px-3 py-2 border border-blue-500/30 rounded-lg text-sm text-blue-400 hover:bg-blue-500/10 transition-colors disabled:opacity-50">
- {isTesting ? "⏳" : "[FlaskConical] اختبار"}
+ {isTesting ? "⏳" : "<FlaskConical size={18} color="#8B5CF6" /> اختبار"}
  </button>
  )}
  {isConnected && (
@@ -324,7 +324,7 @@ export default function IntegrationsPage() {
  <div className="flex gap-2 pt-1">
  <button onClick={() => handleSave(integration.key)} disabled={isSaving}
  className="flex-1 bg-orange-400 text-gray-900 py-2 rounded-lg text-sm font-bold hover:bg-orange-300 disabled:opacity-50 transition-colors">
- {isSaving ? "جاري الحفظ..." : isConnected ? "Save حفظ التعديلات" : "[Link] تفعيل بعد الترخيص"}
+ {isSaving ? "جاري الحفظ..." : isConnected ? "Save حفظ التعديلات" : "<Link size={18} color="#6B7280" /> تفعيل بعد الترخيص"}
  </button>
  <button onClick={() => setEditing(null)}
  className="px-3 py-2 border border-[#2a3550] rounded-lg text-sm text-gray-400 hover:text-white transition-colors">

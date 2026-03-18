@@ -70,7 +70,7 @@ export default function Page() {
 
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 24 }}>
  <div style={{ background: CARD_BG, border: '1px solid ' + BORDER, borderRadius: 14, padding: '18px 20px' }}>
- <div style={{ fontSize: 24, marginBottom: 8 }}><IconRenderer name="ICON_ClipboardList" size={18} />List</div>
+ <div style={{ fontSize: 24, marginBottom: 8 }}><ClipboardList size={18} color="#6B7280" /></div>
  <div style={{ fontSize: 26, fontWeight: 800, color: GOLD }}>{items.length}</div>
  <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>الاجمالي</div>
  </div>

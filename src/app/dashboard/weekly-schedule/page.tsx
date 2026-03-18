@@ -269,7 +269,7 @@ export default function WeeklySchedulePage() {
  {/* Header */}
  <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
  <div>
- <h1 className="text-3xl font-black text-white mb-1">[Calendar] الجدول الأسبوعي</h1>
+ <h1 className="text-3xl font-black text-white mb-1"><Calendar size={18} color="#F59E0B" /> الجدول الأسبوعي</h1>
  <p className="text-gray-400 text-sm">إدارة جدول الحصص — قابل للتخصيص الكامل</p>
  </div>
  <button onClick={openEditPeriods}
@@ -284,7 +284,7 @@ export default function WeeklySchedulePage() {
  <div className="flex rounded-xl overflow-hidden" style={{ border: `1px solid ${BORDER}` }}>
  {[
  { key: 'class', label: 'School حسب الفصل' },
- { key: 'teacher', label: '<User size={16} />[School] حسب المعلم' },
+ { key: 'teacher', label: '<User size={16} /><School size={18} color="#3B82F6" /> حسب المعلم' },
  ].map((v) => (
  <button key={v.key} onClick={() => setView(v.key as any)}
  style={{
@@ -327,7 +327,7 @@ export default function WeeklySchedulePage() {
  {/* الجدول */}
  {(!selectedClass && view === 'class') || (!selectedTeacher && view === 'teacher') ? (
  <div className="text-center py-20 text-gray-500">
- <div className="text-5xl mb-4">[ClipboardList]</div>
+ <div className="text-5xl mb-4"><ClipboardList size={18} color="#6B7280" /></div>
  <p>اختر {view === 'class' ? 'فصلاً' : 'معلماً'} لعرض الجدول</p>
  </div>
  ) : loading ? (

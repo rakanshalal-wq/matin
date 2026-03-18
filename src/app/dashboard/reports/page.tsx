@@ -33,7 +33,7 @@ export default function ReportsPage() {
  const url = URL.createObjectURL(blob);
  const a = document.createElement('a'); a.href = url; a.download = `report_${activeReport}.${format}`; a.click();
  URL.revokeObjectURL(url);
- setExportMsg('[CheckCircle] تم تصدير التقرير');
+ setExportMsg('<CheckCircle size={18} color="#10B981" /> تم تصدير التقرير');
  } else {
  const d = await res.json();
  setErrMsg(d.error || 'فشل التصدير');
@@ -98,7 +98,7 @@ export default function ReportsPage() {
  </div>
  {data.attendance && data.attendance.length > 0 && (
  <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 20 }}>
- <h3 style={{ color: '#C9A227', fontSize: 16, fontWeight: 700, margin: '0 0 16px' }}>[Hand] إحصائيات الحضور</h3>
+ <h3 style={{ color: '#C9A227', fontSize: 16, fontWeight: 700, margin: '0 0 16px' }}><Hand size={18} color="#6B7280" /> إحصائيات الحضور</h3>
  <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
  {data.attendance.map((a: any, i: number) => {
  const isPresent = a.status === 'PRESENT' || a.status === 'present';
@@ -217,7 +217,7 @@ export default function ReportsPage() {
  {data.recent_payments && data.recent_payments.length > 0 && (
  <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, overflow: 'hidden' }}>
  <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
- <h3 style={{ color: '#C9A227', fontSize: 16, fontWeight: 700, margin: 0 }}>[Clock] آخر المدفوعات</h3>
+ <h3 style={{ color: '#C9A227', fontSize: 16, fontWeight: 700, margin: 0 }}><Clock size={18} color="#F59E0B" /> آخر المدفوعات</h3>
  </div>
  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>

@@ -103,15 +103,7 @@ export default function ForumsPage() {
  <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12, gridColumn: '1 / -1' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
  ) : filtered.length === 0 ? (
  <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12, gridColumn: '1 / -1' }}>
- <div style={{ fontSize: 48, marginBottom: 16 }}>[MessageSquare]</div>
- <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد مجموعات نقاش</p>
- <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "إنشاء مجموعة" لإنشاء مجموعة جديدة</p>
- </div>
- ) : filtered.map((item: any) => (
- <div key={item.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 20, borderTop: `3px solid ${categoryColors[item.category]?.color || '#3B82F6'}` }}>
- <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
- <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
- <div style={{ width: 48, height: 48, borderRadius: 12, background: categoryColors[item.category]?.bg || 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}><IconRenderer name={categoryIcons[item.category] || "ICON_MessageSquare"} /></div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Circle size={19} color="#6B7280" /></div>
  <div>
  <div style={{ color: 'white', fontWeight: 700, fontSize: 16 }}>{item.title}</div>
  <span style={{ background: categoryColors[item.category]?.bg, color: categoryColors[item.category]?.color, padding: '2px 10px', borderRadius: 6, fontSize: 11, fontWeight: 600 }}>{categoryLabels[item.category] || item.category}</span>
@@ -134,7 +126,7 @@ export default function ForumsPage() {
  <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>عضو</span>
  </div>
  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
- <span style={{ fontSize: 16 }}><IconRenderer name="ICON_File" size={18} />Text</span>
+ <span style={{ fontSize: 16 }}><FileText size={18} color="#6B7280" /></span>
  <span style={{ color: '#8B5CF6', fontWeight: 700, fontSize: 14 }}>{item.posts_count || 0}</span>
  <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>منشور</span>
  </div>

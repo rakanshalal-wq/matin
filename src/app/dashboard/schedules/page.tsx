@@ -144,7 +144,7 @@ export default function SchedulesPage() {
  {/* عرض الجدول حسب الأيام */}
  {filtered.length === 0 ? (
  <div style={{ textAlign: 'center', padding: 60, background: 'rgba(255,255,255,0.02)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)' }}>
- <div style={{ fontSize: 48, marginBottom: 16 }}>[Calendar]</div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(245,158,11,0.15)",display:"flex",alignItems:"center",justifyContent:"center",marginBottom:16}}><Calendar size={20} color="#F59E0B" /></div>
  <h3 style={{ color: '#fff', fontSize: 18, margin: '0 0 8px' }}>لا توجد حصص بعد</h3>
  </div>
  ) : (
@@ -163,7 +163,7 @@ export default function SchedulesPage() {
  <span style={{ color: dayColors[dayIdx], fontSize: 14, fontWeight: 700, minWidth: 100 }}>{s.start_time} - {s.end_time}</span>
  <span style={{ color: '#fff', fontSize: 14 }}>{s.subject_name || 'بدون مادة'}</span>
  <span style={{ color: '#9CA3AF', fontSize: 12 }}><IconRenderer name="ICON_School" size={18} /> {s.teacher_name || 'بدون معلم'}</span>
- <span style={{ color: '#9CA3AF', fontSize: 12 }}><IconRenderer name="ICON_Building" size={18} />2 {s.class_name || ''}</span>
+ <span style={{ color: '#9CA3AF', fontSize: 12 }}><Building size={18} color="#6B7280" />{s.class_name || ''}</span>
  {s.room && <span style={{ color: '#6B7280', fontSize: 12 }}><IconRenderer name="ICON_Globe" size={18} /><IconRenderer name="ICON_Pin" size={18} /> {s.room}</span>}
  </div>
  {canAdd && (

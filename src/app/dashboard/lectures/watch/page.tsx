@@ -195,7 +195,7 @@ export default function WatchLecturePage() {
  {/* === مرحلة الأسئلة === */}
  {phase === 'quiz' && (
  <div>
- <h1 style={{ fontSize: 22, fontWeight: 700, color: '#C9A227', margin: '0 0 8px' }}>[HelpCircle] أسئلة المحاضرة</h1>
+ <h1 style={{ fontSize: 22, fontWeight: 700, color: '#C9A227', margin: '0 0 8px' }}><HelpCircle size={18} color="#3B82F6" /> أسئلة المحاضرة</h1>
  <p style={{ color: '#9CA3AF', fontSize: 14, margin: '0 0 24px' }}>أجب على 5 أسئلة — 3 صحيحة = حاضر</p>
 
  <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>

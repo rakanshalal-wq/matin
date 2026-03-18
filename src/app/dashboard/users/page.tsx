@@ -124,7 +124,7 @@ export default function UsersPage() {
  {/* Header */}
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
  <div>
- <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>[Users] إدارة المستخدمين</h1>
+ <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><Users size={18} color="#6B7280" /> إدارة المستخدمين</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة جميع المستخدمين والموافقة على الطلبات</p>
  </div>
  </div>
@@ -179,7 +179,7 @@ export default function UsersPage() {
  <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>⏳ جاري التحميل...</div>
  ) : filtered.length === 0 ? (
  <div style={{ textAlign: 'center', padding: 60 }}>
- <div style={{ fontSize: 64, marginBottom: 16 }}>[Users]</div>
+ <div style={{ fontSize: 64, marginBottom: 16 }}><Users size={18} color="#6B7280" /></div>
  <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 16 }}>لا يوجد مستخدمين</div>
  </div>
  ) : (
@@ -199,7 +199,7 @@ export default function UsersPage() {
  <td style={{ padding: '14px 16px' }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
  <div style={{ width: 40, height: 40, borderRadius: 10, background: `rgba(${(roleColors[u.role] || '#6B7280').slice(1).match(/../g)?.map((h: string) => parseInt(h,16)).join(',')},0.15)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>
- {u.role === 'super_admin' ? "ICON_Crown" : u.role === 'owner' ? "ICON_School" : u.role === 'admin' ? "ICON_Wrench" : u.role === 'teacher' ? '<User size={16} />School' : u.role === 'parent' ? '<User size={16} />[User]' : u.role === 'student' ? "ICON_GraduationCap" : "ICON_User"}
+ {u.role === 'super_admin' ? "ICON_Crown" : u.role === 'owner' ? "ICON_School" : u.role === 'admin' ? "ICON_Wrench" : u.role === 'teacher' ? '<User size={16} />School' : u.role === 'parent' ? '<User size={16} /><User size={18} color="#6B7280" />' : u.role === 'student' ? "ICON_GraduationCap" : "ICON_User"}
  </div>
  <div>
  <div style={{ color: 'white', fontWeight: 600, fontSize: 14 }}>{u.name}</div>

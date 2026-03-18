@@ -205,7 +205,7 @@ export default function CollegesPage() {
  </div>
  ) : filteredColleges.length === 0 ? (
  <div style={{ padding: 60, textAlign: 'center' }}>
- <p style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_GraduationCap" size={36} /></p>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(201,168,67,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><GraduationCap size={19} color="#C9A84C" /></div>
  <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد كليات أو أقسام</p>
  <button onClick={() => setShowAddModal(true)} style={{
  marginTop: 16,

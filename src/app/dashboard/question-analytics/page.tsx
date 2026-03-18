@@ -77,7 +77,7 @@ export default function QuestionAnalyticsPage() {
  });
  const data = await res.json();
  if (data.success) {
- setMsg(`[CheckCircle] تم تحليل ${data.analyzed} سؤال بنجاح`);
+ setMsg(`<CheckCircle size={18} color="#10B981" /> تم تحليل ${data.analyzed} سؤال بنجاح`);
  loadData();
  } else {
  setMsg('XCircle ' + (data.error || 'فشل التحليل'));
@@ -218,7 +218,7 @@ export default function QuestionAnalyticsPage() {
  {/* قائمة الأسئلة */}
  {filtered.length === 0 ? (
  <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.3)' }}>
- <div style={{ fontSize: 40, marginBottom: 12 }}>[Search]</div>
+ <div style={{ fontSize: 40, marginBottom: 12 }}><Search size={18} color="#6B7280" /></div>
  <div>لا توجد أسئلة تطابق البحث</div>
  </div>
  ) : (
@@ -247,7 +247,7 @@ export default function QuestionAnalyticsPage() {
  )}
  {q.difficulty && (
  <span style={{ padding: '2px 8px', background: 'rgba(255,255,255,0.05)', borderRadius: 6, color: 'rgba(255,255,255,0.5)', fontSize: 11 }}>
- {q.difficulty === 'easy' ? 'Circle سهل' : q.difficulty === 'hard' ? 'Circle صعب' : '[Circle] متوسط'}
+ {q.difficulty === 'easy' ? 'Circle سهل' : q.difficulty === 'hard' ? 'Circle صعب' : '<Circle size={18} color="#6B7280" /> متوسط'}
  </span>
  )}
  </div>

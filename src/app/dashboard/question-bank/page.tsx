@@ -170,7 +170,7 @@ export default function QuestionBankPage() {
  if (fileInputRef.current) fileInputRef.current.value = '';
  fetchAll();
  } catch {
- setImportProgress('[XCircle] خطأ في الاتصال');
+ setImportProgress('<XCircle size={18} color="#EF4444" /> خطأ في الاتصال');
  } finally {
  setImporting(false);
  }
@@ -214,7 +214,7 @@ export default function QuestionBankPage() {
  {canEdit && (
  <div style={{ display: 'flex', gap: '10px' }}>
  <button style={s.btn('#C9A227')} onClick={() => setShowImport(true)}><IconRenderer name="ICON_Download" size={18} /> استيراد Excel</button>
- <button style={s.btn('#10B981')} onClick={() => setShowAdd(true)}>[Plus] إضافة سؤال</button>
+ <button style={s.btn('#10B981')} onClick={() => setShowAdd(true)}><Plus size={18} color="#6B7280" /> إضافة سؤال</button>
  </div>
  )}
  </div>
@@ -332,7 +332,7 @@ export default function QuestionBankPage() {
  <select style={{ ...s.input, marginBottom: 0 }} value={form.difficulty} onChange={e => setForm({ ...form, difficulty: e.target.value })}>
  <option value="easy"><IconRenderer name="ICON_Circle" size={18} /> سهل</option>
  <option value="medium"><IconRenderer name="ICON_Circle" size={18} /> متوسط</option>
- <option value="hard">[Circle] صعب</option>
+ <option value="hard"><Circle size={18} color="#6B7280" /> صعب</option>
  </select>
  </div>
  </div>
@@ -381,7 +381,7 @@ export default function QuestionBankPage() {
  {showImport && (
  <div style={s.modal} onClick={() => !importing && setShowImport(false)}>
  <div style={{...s.modalBox, maxWidth: '560px', maxHeight: '90vh', overflowY: 'auto'}} onClick={e => e.stopPropagation()}>
- <div style={{ color: '#C9A227', fontSize: '18px', fontWeight: 700, marginBottom: '20px' }}>[Download] استيراد أسئلة من Excel</div>
+ <div style={{ color: '#C9A227', fontSize: '18px', fontWeight: 700, marginBottom: '20px' }}><Download size={18} color="#6B7280" /> استيراد أسئلة من Excel</div>
 
  {/* إعدادات الاستيراد */}
  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
@@ -455,7 +455,7 @@ export default function QuestionBankPage() {
  >
  {importFile ? (
  <>
- <div style={{ fontSize: '32px', marginBottom: '6px' }}><IconRenderer name="ICON_Check" size={18} />Circle</div>
+ <div style={{ fontSize: '32px', marginBottom: '6px' }}><CheckCircle size={18} color="#10B981" /></div>
  <div style={{ color: '#22c55e', fontWeight: 600, fontSize: '14px' }}>{importFile.name}</div>
  <div style={{ color: '#64748b', fontSize: '12px', marginTop: '4px' }}>{(importFile.size/1024).toFixed(1)} KB - انقر لتغيير الملف</div>
  </>

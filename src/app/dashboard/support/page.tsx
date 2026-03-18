@@ -177,7 +177,7 @@ export default function SupportPage() {
  {/* قائمة التذاكر */}
  {filtered.length === 0 ? (
  <div style={{ textAlign: 'center', padding: 60, background: 'rgba(255,255,255,0.02)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)' }}>
- <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_Headphones" size={36} /></div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(245,158,11,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Headphones size={19} color="#F59E0B" /></div>
  <h3 style={{ color: '#fff', fontSize: 18, margin: '0 0 8px' }}>لا توجد تذاكر</h3>
  <p style={{ color: '#9CA3AF', fontSize: 14 }}>أضف تذكرة جديدة للدعم الفني</p>
  </div>

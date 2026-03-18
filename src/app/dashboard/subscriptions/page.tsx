@@ -53,11 +53,11 @@ export default function SubscriptionsPage() {
  });
  const data = await res.json();
  if (res.ok) {
- setMsg(`[CheckCircle] تم الترقية إلى باقة "${plans.find(p => p.id === planId)?.name}" بنجاح`);
+ setMsg(`<CheckCircle size={18} color="#10B981" /> تم الترقية إلى باقة "${plans.find(p => p.id === planId)?.name}" بنجاح`);
  setMsgType('success');
  fetchData(user);
  } else {
- setMsg(`[XCircle] ${data.error || 'فشل الترقية'}`);
+ setMsg(`<XCircle size={18} color="#EF4444" /> ${data.error || 'فشل الترقية'}`);
  setMsgType('error');
  }
  } catch { setMsg('XCircle خطأ في الاتصال'); setMsgType('error'); } finally {
@@ -90,7 +90,7 @@ export default function SubscriptionsPage() {
  {/* Tabs */}
  <div style={{ display: 'flex', gap: 8, marginBottom: 24, flexWrap: 'wrap' }}>
  {[
- { id: 'plans', label: '[Package] الباقات المتاحة' },
+ { id: 'plans', label: '<Package size={18} color="#6B7280" /> الباقات المتاحة' },
  { id: 'history', label: `ClipboardList سجل المدفوعات (${subscriptions.length})` },
  ].map(tab => (
  <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{
@@ -173,7 +173,7 @@ export default function SubscriptionsPage() {
  <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, overflow: 'hidden' }}>
  {subscriptions.length === 0 ? (
  <div style={{ padding: 60, textAlign: 'center' }}>
- <div style={{ fontSize: 48, marginBottom: 16 }}><IconRenderer name="ICON_Mail" size={18} />box</div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Mail size={19} color="#6B7280" /></div>
  <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16 }}>لا توجد مدفوعات بعد</p>
  </div>
  ) : (
