@@ -1,455 +1,270 @@
 'use client';
-
-import { Award, BookOpen, Bus, GraduationCap, Laptop, Package, BarChart3, CheckCircle, ChevronLeft, Megaphone, RotateCcw, Shield, ShoppingBag, Star, Store, Tag, TrendingUp, Truck, Users, Zap } from "lucide-react";
-import IconRenderer from "@/components/IconRenderer";
-
-// ===== DESIGN: Dark Premium — Black/Gold, Cairo font, asymmetric sections =====
+import { useState, useEffect } from 'react';
+import { ShoppingCart, Search, Filter, Star, Package, LogIn, Plus, Minus, X, CheckCircle } from 'lucide-react';
+import Link from 'next/link';
 
 export default function StorePage() {
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('');
+  const [categories, setCategories] = useState<string[]>([]);
+  const [cart, setCart] = useState<Record<number, number>>({});
+  const [showCart, setShowCart] = useState(false);
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [toast, setToast] = useState('');
+
+  useEffect(() => {
+    try { setCurrentUser(JSON.parse(localStorage.getItem('matin_user') || 'null')); } catch {}
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [category]);
+
+  const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(''), 2500); };
+
+  const fetchProducts = async () => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams();
+      if (category) params.set('category', category);
+      if (search) params.set('search', search);
+      const res = await fetch(`/api/store/products?${params}`);
+      const data = await res.json();
+      const prods = data.products || [];
+      setProducts(prods);
+      const cats = [...new Set(prods.map((p: any) => p.category).filter(Boolean))] as string[];
+      setCategories(cats);
+    } catch { setProducts([]); } finally { setLoading(false); }
+  };
+
+  const addToCart = (productId: number, name: string) => {
+    setCart(c => ({ ...c, [productId]: (c[productId] || 0) + 1 }));
+    showToast(`✓ أُضيف "${name}" للسلة`);
+  };
+
+  const removeFromCart = (productId: number) => {
+    setCart(c => { const n = { ...c }; delete n[productId]; return n; });
+  };
+
+  const updateQty = (productId: number, delta: number) => {
+    setCart(c => {
+      const next = (c[productId] || 0) + delta;
+      if (next <= 0) { const n = { ...c }; delete n[productId]; return n; }
+      return { ...c, [productId]: next };
+    });
+  };
+
+  const cartCount = Object.values(cart).reduce((a, b) => a + b, 0);
+  const cartItems = products.filter(p => cart[p.id]);
+  const cartTotal = cartItems.reduce((sum, p) => sum + (p.sale_price || p.price) * cart[p.id], 0);
+
+  const filteredProducts = products.filter(p =>
+    !search || p.name?.toLowerCase().includes(search.toLowerCase()) || p.description?.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <main className="bg-[#0a0a0a] text-white min-h-screen" style={{ fontFamily: 'Cairo, sans-serif' }}>
+    <main dir="rtl" style={{ minHeight: '100vh', background: '#06060E', color: '#EEEEF5', fontFamily: 'Cairo, sans-serif' }}>
 
-      {/* ======== HERO ======== */}
-      <section className="relative pt-28 pb-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#111] to-[#0a0a0a]" />
-        <div className="absolute top-1/3 right-1/4 w-96 h-96 rounded-full bg-[rgba(212,168,67,0.05)] blur-[120px] pointer-events-none" />
-        <div className="container relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full border border-[rgba(212,168,67,0.3)] bg-[rgba(212,168,67,0.05)]">
-              <ShoppingBag size={16} className="text-[#D4A843]" />
-              <span className="text-[#D4A843] text-sm font-semibold">الباب الثاني عشر</span>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-black mb-6 leading-tight">
-              <span className="text-white">المتجر </span>
-              <span className="text-gold-gradient">الإلكتروني</span>
-            </h1>
-            <p className="text-gray-400 text-lg leading-relaxed max-w-2xl mx-auto">
-              امتداد رقمي لكل مؤسسة — ليس مجرد قائمة منتجات، بل بيئة تجارية متكاملة داخل المنصة تربط المؤسسة بمنتسبيها.
-            </p>
-          </div>
+      {/* Header */}
+      <header style={{
+        position: 'sticky', top: 0, zIndex: 50,
+        background: 'rgba(6,6,14,0.92)', backdropFilter: 'blur(16px)',
+        borderBottom: '1px solid rgba(255,255,255,0.07)',
+        padding: '12px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+      }}>
+        <Link href="/" style={{ color: '#C9A227', fontWeight: 900, fontSize: 20, textDecoration: 'none' }}>متين</Link>
+        <span style={{ fontWeight: 800, fontSize: 15 }}>المتجر الإلكتروني</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          {currentUser ? (
+            <span style={{ fontSize: 13, color: '#C9A227', fontWeight: 700 }}>{currentUser.name}</span>
+          ) : (
+            <Link href="/login" style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '6px 12px', borderRadius: 20, fontWeight: 700, fontSize: 12, textDecoration: 'none', border: '1px solid rgba(201,162,39,0.3)' }}>
+              <LogIn size={13} /> دخول
+            </Link>
+          )}
+          <button onClick={() => setShowCart(true)} style={{ position: 'relative', background: cartCount > 0 ? '#C9A227' : 'rgba(255,255,255,0.05)', border: 'none', borderRadius: 20, padding: '7px 14px', color: cartCount > 0 ? '#06060E' : '#888', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, fontWeight: 700, fontSize: 13, fontFamily: 'Cairo, sans-serif' }}>
+            <ShoppingCart size={15} />
+            {cartCount > 0 && cartCount}
+          </button>
         </div>
-      </section>
+      </header>
 
-      {/* ======== نمطا المتجر ======== */}
-      <section className="py-16 border-t border-white/5">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-black mb-3">نمطا المتجر</h2>
-            <p className="text-gray-500">كل مؤسسة تختار النمط المناسب لها</p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <div className="p-8 rounded-2xl border border-white/10 bg-[#111] hover:border-[rgba(212,168,67,0.3)] transition-all">
-              <div className="w-12 h-12 rounded-xl bg-[rgba(212,168,67,0.1)] flex items-center justify-center mb-5">
-                <Package size={24} className="text-[#D4A843]" />
-              </div>
-              <h3 className="text-xl font-bold mb-3">النمط العادي</h3>
-              <p className="text-gray-400 text-sm leading-relaxed mb-4">قوالب متين الرسمية الجاهزة — تُفعَّل بنقرة واحدة وتعمل فوراً بدون أي إعداد تقني.</p>
-              <ul className="space-y-2">
-                {["قوالب جاهزة ومعتمدة", "إعداد سريع خلال دقائق", "تصميم موحد ومحترف", "مناسب للمدارس والحضانات"].map((item, i) => (
-                  <li key={i} className="flex items-center gap-2 text-sm text-gray-300">
-                    <CheckCircle size={14} className="text-[#D4A843] shrink-0" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="p-8 rounded-2xl border border-[rgba(212,168,67,0.3)] bg-[#111] relative">
-              <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#D4A843] text-black text-xs font-bold">متقدم</div>
-              <div className="w-12 h-12 rounded-xl bg-[rgba(212,168,67,0.15)] flex items-center justify-center mb-5">
-                <Store size={24} className="text-[#D4A843]" />
-              </div>
-              <h3 className="text-xl font-bold mb-3">النمط المتقدم</h3>
-              <p className="text-gray-400 text-sm leading-relaxed mb-4">تخصيص كامل للمتجر — هوية بصرية خاصة، تصنيفات مخصصة، وتجربة تسوق فريدة لمنتسبي المؤسسة.</p>
-              <ul className="space-y-2">
-                {["هوية بصرية خاصة بالمؤسسة", "تصنيفات وفئات مخصصة", "صفحات منتج مخصصة", "مناسب للجامعات والمعاهد"].map((item, i) => (
-                  <li key={i} className="flex items-center gap-2 text-sm text-gray-300">
-                    <CheckCircle size={14} className="text-[#D4A843] shrink-0" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
+      <div style={{ maxWidth: 900, margin: '0 auto', padding: '20px 16px 60px' }}>
 
-      {/* ======== أنواع المنتجات ======== */}
-      <section className="py-16 bg-[#0d0d0d]">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-black mb-3">أنواع المنتجات</h2>
-            <p className="text-gray-500">كل ما يحتاجه منتسبو المؤسسة في مكان واحد</p>
+        {/* Search + Filter */}
+        <div style={{ display: 'flex', gap: 10, marginBottom: 20, flexWrap: 'wrap' }}>
+          <div style={{ flex: 1, minWidth: 200, position: 'relative' }}>
+            <Search size={15} style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', color: '#555' }} />
+            <input
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && fetchProducts()}
+              placeholder="ابحث عن منتج..."
+              style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '10px 40px 10px 14px', color: '#EEEEF5', fontSize: 14, fontFamily: 'Cairo, sans-serif', outline: 'none', boxSizing: 'border-box' }}
+            />
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
-            {[
-              { icon: "ICON_BookOpen", title: "مستلزمات مدرسية", desc: "كتب، أدوات، زي مدرسي، حقائب" },
-              { icon: "ICON_Laptop", title: "منتجات رقمية", desc: "كورسات، ملفات، قوالب، اشتراكات" },
-              { icon: "ICON_GraduationCap", title: "خدمات أكاديمية", desc: "دروس خصوصية، إرشاد، تدريب" },
-              { icon: "ICON_Package", title: "خدمات المقصف", desc: "وجبات، مشروبات، طلبات مسبقة" },
-              { icon: "ICON_Bus", title: "خدمات النقل", desc: "اشتراكات الحافلة، رسوم المسارات" },
-              { icon: "ICON_Award", title: "الأنشطة والفعاليات", desc: "رحلات، بطولات، أنشطة لاصفية" },
-            ].map((item, i) => (
-              <div key={i} className="p-5 rounded-xl border border-white/8 bg-[#111] hover:border-[rgba(212,168,67,0.2)] transition-all text-center">
-                <div className="text-3xl mb-3"><IconRenderer name={item.icon} /></div>
-                <h4 className="font-bold text-sm mb-1">{item.title}</h4>
-                <p className="text-gray-500 text-xs leading-relaxed">{item.desc}</p>
-              </div>
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+            <button onClick={() => setCategory('')} style={{ background: !category ? '#C9A227' : 'rgba(255,255,255,0.04)', color: !category ? '#06060E' : '#888', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20, padding: '8px 14px', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'Cairo, sans-serif' }}>
+              الكل
+            </button>
+            {categories.map(cat => (
+              <button key={cat} onClick={() => setCategory(cat)} style={{ background: category === cat ? '#C9A227' : 'rgba(255,255,255,0.04)', color: category === cat ? '#06060E' : '#888', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20, padding: '8px 14px', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'Cairo, sans-serif' }}>
+                {cat}
+              </button>
             ))}
           </div>
         </div>
-      </section>
 
-      {/* ======== خطوات إنشاء منتج ======== */}
-      <section className="py-16">
-        <div className="container">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-black mb-3">كيف يُنشئ مالك المؤسسة منتجاً</h2>
-              <p className="text-gray-500">خطوات بسيطة وسريعة</p>
-            </div>
-            <div className="relative">
-              <div className="absolute right-6 top-0 bottom-0 w-px bg-gradient-to-b from-[#D4A843] via-[rgba(212,168,67,0.3)] to-transparent hidden md:block" />
-              <div className="space-y-6">
-                {[
-                  { step: "01", title: "اسم المنتج والوصف", desc: "أدخل اسم المنتج ووصفاً واضحاً يساعد المشتري على الفهم السريع" },
-                  { step: "02", title: "التصنيف والفئة", desc: "اختر الفئة المناسبة (مستلزمات / رقمي / خدمة) لتسهيل البحث" },
-                  { step: "03", title: "السعر والمخزون", desc: "حدد السعر بالريال وكمية المخزون المتاحة، مع خيار السعر المخفض" },
-                  { step: "04", title: "رفع الصور", desc: "أضف صور واضحة للمنتج (حتى 5 صور) بصيغة JPG أو PNG" },
-                  { step: "05", title: "إعدادات الشحن", desc: "حدد طريقة الاستلام: داخل المؤسسة أو توصيل خارجي مع تحديد التكلفة" },
-                  { step: "06", title: "النشر والتفعيل", desc: "راجع البيانات وانشر المنتج — يظهر فوراً لمنتسبي المؤسسة" },
-                ].map((item, i) => (
-                  <div key={i} className="flex gap-6 items-start pr-0 md:pr-14">
-                    <div className="w-12 h-12 rounded-full bg-[rgba(212,168,67,0.15)] border border-[rgba(212,168,67,0.4)] flex items-center justify-center shrink-0 text-[#D4A843] font-black text-sm">
-                      {item.step}
-                    </div>
-                    <div className="flex-1 p-5 rounded-xl border border-white/8 bg-[#111]">
-                      <h4 className="font-bold mb-1">{item.title}</h4>
-                      <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+        {/* Products Grid */}
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: 60, color: '#444' }}>
+            <div style={{ width: 32, height: 32, border: '3px solid rgba(201,162,39,0.3)', borderTopColor: '#C9A227', borderRadius: '50%', margin: '0 auto 12px', animation: 'spin 0.8s linear infinite' }} />
+            <p style={{ margin: 0, fontSize: 13 }}>جاري تحميل المنتجات...</p>
           </div>
-        </div>
-      </section>
-
-      {/* ======== الشحن والتوصيل ======== */}
-      <section className="py-16 bg-[#0d0d0d]">
-        <div className="container">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-black mb-3">نظام الشحن والتوصيل</h2>
-              <p className="text-gray-500">خيارات مرنة تناسب كل مؤسسة</p>
-            </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="p-7 rounded-2xl border border-white/10 bg-[#111]">
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-10 h-10 rounded-lg bg-[rgba(212,168,67,0.1)] flex items-center justify-center">
-                    <Package size={20} className="text-[#D4A843]" />
-                  </div>
-                  <h3 className="font-bold text-lg">استلام داخل المؤسسة</h3>
-                </div>
-                <ul className="space-y-3">
-                  {[
-                    "الطالب يستلم من مكتب محدد داخل المدرسة",
-                    "إشعار تلقائي عند جاهزية الطلب للاستلام",
-                    "مجاني — بدون رسوم شحن إضافية",
-                    "مناسب للمستلزمات المدرسية والوجبات",
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-gray-300">
-                      <CheckCircle size={14} className="text-[#D4A843] shrink-0 mt-0.5" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="p-7 rounded-2xl border border-white/10 bg-[#111]">
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-10 h-10 rounded-lg bg-[rgba(212,168,67,0.1)] flex items-center justify-center">
-                    <Truck size={20} className="text-[#D4A843]" />
-                  </div>
-                  <h3 className="font-bold text-lg">توصيل خارجي</h3>
-                </div>
-                <ul className="space-y-3">
-                  {[
-                    "تحدد المؤسسة تكلفة التوصيل لكل منطقة",
-                    "تتبع الطلب لحظياً عبر التطبيق",
-                    "التوصيل خلال المدة المحددة من المؤسسة",
-                    "مناسب للمنتجات الرقمية والمستلزمات الكبيرة",
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-gray-300">
-                      <CheckCircle size={14} className="text-[#D4A843] shrink-0 mt-0.5" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+        ) : filteredProducts.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: 60, color: '#444' }}>
+            <Package size={44} style={{ opacity: 0.2, marginBottom: 12 }} />
+            <p style={{ margin: 0, fontSize: 14 }}>لا توجد منتجات</p>
           </div>
-        </div>
-      </section>
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 14 }}>
+            {filteredProducts.map(product => (
+              <div key={product.id} style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden', transition: 'border-color 0.2s' }}>
+                {/* Product Image */}
+                <div style={{ height: 140, background: 'rgba(201,162,39,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                  {product.image || product.image_url ? (
+                    <img src={product.image || product.image_url} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ) : (
+                    <Package size={40} style={{ color: 'rgba(201,162,39,0.3)' }} />
+                  )}
+                  {product.sale_price && product.sale_price < product.price && (
+                    <div style={{ position: 'absolute', top: 8, right: 8, background: '#ef4444', color: '#fff', borderRadius: 8, padding: '2px 7px', fontSize: 11, fontWeight: 700 }}>
+                      خصم
+                    </div>
+                  )}
+                  {product.category && (
+                    <div style={{ position: 'absolute', bottom: 8, right: 8, background: 'rgba(6,6,14,0.8)', color: '#C9A227', borderRadius: 8, padding: '2px 7px', fontSize: 10, fontWeight: 700 }}>
+                      {product.category}
+                    </div>
+                  )}
+                </div>
 
-      {/* ======== المرتجعات والاسترداد ======== */}
-      <section className="py-16">
-        <div className="container">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-black mb-3">سياسة المرتجعات والاسترداد</h2>
-              <p className="text-gray-500">حماية للمشتري وضمان للبائع</p>
-            </div>
-            <div className="grid md:grid-cols-3 gap-5">
-              {[
-                {
-                  icon: "ICON_RotateCcw",
-                  title: "خلال 7 أيام",
-                  desc: "استرداد كامل للمنتجات المادية غير المستخدمة خلال 7 أيام من الاستلام",
-                  tag: "منتجات مادية",
-                },
-                {
-                  icon: "ICON_Shield",
-                  title: "منتجات رقمية",
-                  desc: "لا يُقبل الاسترداد بعد تحميل المنتج الرقمي أو الوصول إليه",
-                  tag: "منتجات رقمية",
-                },
-                {
-                  icon: "ICON_CheckCircle",
-                  title: "خدمات",
-                  desc: "الاسترداد قبل 48 ساعة من موعد الخدمة — بعدها لا يُقبل إلا بعذر موثق",
-                  tag: "خدمات",
-                },
-              ].map((item, i) => (
-                <div key={i} className="p-6 rounded-2xl border border-white/10 bg-[#111]">
-                  <div className="w-10 h-10 rounded-lg bg-[rgba(212,168,67,0.1)] flex items-center justify-center mb-4">
-                    <IconRenderer name={item.icon} />
+                {/* Product Info */}
+                <div style={{ padding: '12px 12px 14px' }}>
+                  <h3 style={{ margin: '0 0 5px', fontSize: 13, fontWeight: 800, lineHeight: 1.4 }}>{product.name}</h3>
+                  {product.description && (
+                    <p style={{ margin: '0 0 8px', fontSize: 11, color: '#666', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                      {product.description}
+                    </p>
+                  )}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                    <div>
+                      {product.sale_price && product.sale_price < product.price ? (
+                        <div>
+                          <span style={{ fontSize: 15, fontWeight: 900, color: '#C9A227' }}>{product.sale_price} ر.س</span>
+                          <span style={{ fontSize: 11, color: '#555', textDecoration: 'line-through', marginRight: 5 }}>{product.price}</span>
+                        </div>
+                      ) : (
+                        <span style={{ fontSize: 15, fontWeight: 900, color: '#C9A227' }}>{product.price} ر.س</span>
+                      )}
+                    </div>
+                    {product.stock !== undefined && (
+                      <span style={{ fontSize: 10, color: product.stock > 0 ? '#22C55E' : '#ef4444' }}>
+                        {product.stock > 0 ? `${product.stock} متاح` : 'نفد'}
+                      </span>
+                    )}
                   </div>
-                  <span className="text-xs text-[#D4A843] font-semibold mb-2 block">{item.tag}</span>
-                  <h4 className="font-bold mb-2">{item.title}</h4>
-                  <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
+
+                  {cart[product.id] ? (
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(201,162,39,0.1)', borderRadius: 10, padding: '4px 8px' }}>
+                      <button onClick={() => updateQty(product.id, -1)} style={{ background: 'none', border: 'none', color: '#C9A227', cursor: 'pointer', fontSize: 16, fontWeight: 700, padding: '0 4px' }}>−</button>
+                      <span style={{ fontSize: 14, fontWeight: 700, color: '#C9A227' }}>{cart[product.id]}</span>
+                      <button onClick={() => updateQty(product.id, 1)} style={{ background: 'none', border: 'none', color: '#C9A227', cursor: 'pointer', fontSize: 16, fontWeight: 700, padding: '0 4px' }}>+</button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => addToCart(product.id, product.name)}
+                      disabled={product.stock === 0}
+                      style={{ width: '100%', background: product.stock === 0 ? 'rgba(255,255,255,0.04)' : '#C9A227', color: product.stock === 0 ? '#555' : '#06060E', border: 'none', borderRadius: 10, padding: '8px', fontWeight: 800, fontSize: 13, cursor: product.stock === 0 ? 'default' : 'pointer', fontFamily: 'Cairo, sans-serif' }}
+                    >
+                      {product.stock === 0 ? 'نفد المخزون' : 'أضف للسلة'}
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Cart Drawer */}
+      {showCart && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 100 }}>
+          <div onClick={() => setShowCart(false)} style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }} />
+          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '100%', maxWidth: 380, background: '#0d0d14', borderRight: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <h2 style={{ margin: 0, fontSize: 16, fontWeight: 800 }}>سلة التسوق {cartCount > 0 && `(${cartCount})`}</h2>
+              <button onClick={() => setShowCart(false)} style={{ background: 'none', border: 'none', color: '#888', cursor: 'pointer' }}><X size={20} /></button>
+            </div>
+            <div style={{ flex: 1, overflowY: 'auto', padding: '16px 20px' }}>
+              {cartItems.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: 40, color: '#555' }}>
+                  <ShoppingCart size={36} style={{ opacity: 0.2, marginBottom: 10 }} />
+                  <p style={{ margin: 0, fontSize: 13 }}>السلة فارغة</p>
+                </div>
+              ) : cartItems.map(p => (
+                <div key={p.id} style={{ display: 'flex', gap: 10, marginBottom: 14, background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: '10px 12px' }}>
+                  <div style={{ width: 48, height: 48, background: 'rgba(201,162,39,0.08)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    {p.image || p.image_url ? <img src={p.image || p.image_url} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 8 }} /> : <Package size={20} style={{ color: 'rgba(201,162,39,0.4)' }} />}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 4 }}>{p.name}</div>
+                    <div style={{ fontSize: 12, color: '#C9A227', fontWeight: 700 }}>{(p.sale_price || p.price)} ر.س</div>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+                    <button onClick={() => updateQty(p.id, 1)} style={{ background: 'rgba(255,255,255,0.06)', border: 'none', borderRadius: 6, width: 24, height: 24, cursor: 'pointer', color: '#fff', fontSize: 14 }}>+</button>
+                    <span style={{ fontSize: 13, fontWeight: 700 }}>{cart[p.id]}</span>
+                    <button onClick={() => updateQty(p.id, -1)} style={{ background: 'rgba(255,255,255,0.06)', border: 'none', borderRadius: 6, width: 24, height: 24, cursor: 'pointer', color: '#fff', fontSize: 14 }}>−</button>
+                  </div>
                 </div>
               ))}
             </div>
+            {cartItems.length > 0 && (
+              <div style={{ padding: '16px 20px', borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 14 }}>
+                  <span style={{ fontWeight: 700 }}>المجموع</span>
+                  <span style={{ fontWeight: 900, color: '#C9A227', fontSize: 16 }}>{cartTotal.toFixed(2)} ر.س</span>
+                </div>
+                {currentUser ? (
+                  <button style={{ width: '100%', background: '#C9A227', color: '#06060E', border: 'none', borderRadius: 12, padding: '12px', fontWeight: 900, fontSize: 14, cursor: 'pointer', fontFamily: 'Cairo, sans-serif' }}>
+                    إتمام الطلب
+                  </button>
+                ) : (
+                  <Link href="/login" style={{ display: 'block', textAlign: 'center', background: '#C9A227', color: '#06060E', borderRadius: 12, padding: '12px', fontWeight: 900, fontSize: 14, textDecoration: 'none' }}>
+                    سجّل دخولك لإتمام الطلب
+                  </Link>
+                )}
+              </div>
+            )}
           </div>
         </div>
-      </section>
+      )}
 
-      {/* ======== التقييمات والمراجعات ======== */}
-      <section className="py-16 bg-[#0d0d0d]">
-        <div className="container">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-black mb-3">نظام التقييمات والمراجعات</h2>
-              <p className="text-gray-500">شفافية تبني الثقة بين المؤسسة ومنتسبيها</p>
-            </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="p-7 rounded-2xl border border-white/10 bg-[#111]">
-                <div className="flex items-center gap-3 mb-5">
-                  <Star size={22} className="text-[#D4A843]" />
-                  <h3 className="font-bold text-lg">كيف يعمل النظام</h3>
-                </div>
-                <ul className="space-y-3">
-                  {[
-                    "فقط من اشترى المنتج يستطيع تقييمه",
-                    "تقييم من 1 إلى 5 نجوم مع تعليق اختياري",
-                    "التقييمات تظهر للجميع على صفحة المنتج",
-                    "المؤسسة تستطيع الرد على التقييمات",
-                    "التقييمات المسيئة تُراجع تلقائياً بالذكاء الاصطناعي",
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-gray-300">
-                      <CheckCircle size={14} className="text-[#D4A843] shrink-0 mt-0.5" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="p-7 rounded-2xl border border-white/10 bg-[#111]">
-                <div className="flex items-center gap-3 mb-5">
-                  <TrendingUp size={22} className="text-[#D4A843]" />
-                  <h3 className="font-bold text-lg">تأثير التقييمات</h3>
-                </div>
-                <ul className="space-y-3">
-                  {[
-                    "المنتجات الأعلى تقييماً تظهر أولاً في البحث",
-                    "تقييم المتجر الإجمالي يظهر في صفحة المؤسسة",
-                    "تنبيه للمؤسسة عند تراجع التقييم عن 3 نجوم",
-                    "إحصائيات التقييمات في لوحة تحكم المتجر",
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-gray-300">
-                      <CheckCircle size={14} className="text-[#D4A843] shrink-0 mt-0.5" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
+      {/* Toast */}
+      {toast && (
+        <div style={{ position: 'fixed', bottom: 28, left: '50%', transform: 'translateX(-50%)', background: 'rgba(34,197,94,0.12)', border: '1px solid #22C55E', color: '#22C55E', padding: '10px 24px', borderRadius: 12, fontSize: 14, fontWeight: 700, zIndex: 9999, backdropFilter: 'blur(12px)', fontFamily: 'Cairo, sans-serif', whiteSpace: 'nowrap' }}>
+          {toast}
         </div>
-      </section>
+      )}
 
-      {/* ======== إحصائيات المتجر ======== */}
-      <section className="py-16">
-        <div className="container">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-black mb-3">إحصائيات المتجر لمالك المؤسسة</h2>
-              <p className="text-gray-500">بيانات دقيقة لقرارات أذكى</p>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {[
-                { icon: "ICON_BarChart3", title: "إجمالي المبيعات", desc: "يومياً وشهرياً وسنوياً مع رسوم بيانية" },
-                { icon: "ICON_TrendingUp", title: "أكثر المنتجات مبيعاً", desc: "ترتيب المنتجات حسب الإيراد والكمية" },
-                { icon: "ICON_Users", title: "تحليل المشترين", desc: "من اشترى ماذا وكم مرة" },
-                { icon: "ICON_Tag", title: "الأرباح الصافية", desc: "بعد خصم عمولة متين وتكاليف الشحن" },
-                { icon: "ICON_RotateCcw", title: "المرتجعات", desc: "عدد ونسبة المرتجعات لكل منتج" },
-                { icon: "ICON_Star", title: "متوسط التقييم", desc: "للمتجر ككل ولكل منتج على حدة" },
-              ].map((item, i) => (
-                <div key={i} className="p-5 rounded-xl border border-white/8 bg-[#111] hover:border-[rgba(212,168,67,0.2)] transition-all">
-                  <div className="text-[#D4A843] mb-3"><IconRenderer name={item.icon} /></div>
-                  <h4 className="font-bold text-sm mb-1">{item.title}</h4>
-                  <p className="text-gray-500 text-xs leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ======== الإعلانات في المتجر ======== */}
-      <section className="py-16 bg-[#0d0d0d]">
-        <div className="container">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-black mb-3">نظام الإعلانات</h2>
-              <p className="text-gray-500">نظام إعلاني متكامل بمستويين</p>
-            </div>
-            <div className="grid md:grid-cols-2 gap-6 mb-8">
-              <div className="p-7 rounded-2xl border border-white/10 bg-[#111]">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-lg bg-[rgba(212,168,67,0.1)] flex items-center justify-center">
-                    <Megaphone size={20} className="text-[#D4A843]" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold">إعلانات المنصة</h3>
-                    <span className="text-xs text-gray-500">يديرها مالك متين</span>
-                  </div>
-                </div>
-                <ul className="space-y-2">
-                  {[
-                    "إجبارية على جميع لوحات التحكم",
-                    "لا يمكن لأي مؤسسة إخفاؤها (إلا الباقة الذهبية)",
-                    "مصدر إيراد مباشر لمتين",
-                    "محتوى تعليمي وتقني فقط",
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-gray-300">
-                      <CheckCircle size={14} className="text-[#D4A843] shrink-0 mt-0.5" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="p-7 rounded-2xl border border-white/10 bg-[#111]">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-lg bg-[rgba(212,168,67,0.1)] flex items-center justify-center">
-                    <Zap size={20} className="text-[#D4A843]" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold">إعلانات المؤسسة</h3>
-                    <span className="text-xs text-gray-500">تديرها المؤسسة</span>
-                  </div>
-                </div>
-                <ul className="space-y-2">
-                  {[
-                    "تظهر لمنتسبي المؤسسة فقط",
-                    "إعلانات الفعاليات والمنتجات والخدمات",
-                    "تحكم كامل في التوقيت والمحتوى",
-                    "إحصائيات الظهور والنقرات",
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-gray-300">
-                      <CheckCircle size={14} className="text-[#D4A843] shrink-0 mt-0.5" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* تسعير الإعلانات */}
-            <div className="p-7 rounded-2xl border border-[rgba(212,168,67,0.2)] bg-[rgba(212,168,67,0.03)]">
-              <h3 className="font-bold text-lg mb-5 text-[#D4A843]">تسعير الإعلانات وإدارة العقود</h3>
-              <div className="grid md:grid-cols-3 gap-4">
-                {[
-                  { model: "بالنقرة (CPC)", desc: "تدفع فقط عند نقر المستخدم على الإعلان — مناسب للمنتجات والخدمات", price: "يبدأ من 0.5 ريال/نقرة" },
-                  { model: "بالظهور (CPM)", desc: "تدفع لكل 1000 ظهور للإعلان — مناسب لزيادة الوعي بالفعاليات", price: "يبدأ من 5 ريال/1000 ظهور" },
-                  { model: "بالفترة الزمنية", desc: "إعلان ثابت لفترة محددة (يوم/أسبوع/شهر) — مناسب للإعلانات الكبرى", price: "يبدأ من 50 ريال/يوم" },
-                ].map((item, i) => (
-                  <div key={i} className="p-4 rounded-xl bg-[#111] border border-white/8">
-                    <h4 className="font-bold text-sm text-[#D4A843] mb-2">{item.model}</h4>
-                    <p className="text-gray-400 text-xs leading-relaxed mb-3">{item.desc}</p>
-                    <span className="text-xs text-gray-500 font-semibold">{item.price}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 p-4 rounded-xl bg-[#111] border border-white/8">
-                <h4 className="font-bold text-sm mb-2">إدارة العقود الإعلانية</h4>
-                <div className="grid md:grid-cols-2 gap-3">
-                  {[
-                    "عقد إلكتروني موقّع عبر توكلنا لكل حملة إعلانية",
-                    "فاتورة ضريبية تلقائية بعد كل دورة دفع",
-                    "لوحة تحكم للحملات: بداية، نهاية، ميزانية، أداء",
-                    "إيقاف الحملة تلقائياً عند انتهاء الميزانية",
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-2 text-xs text-gray-300">
-                      <CheckCircle size={12} className="text-[#D4A843] shrink-0 mt-0.5" />
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ======== عمولة متين ======== */}
-      <section className="py-16">
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="p-8 rounded-2xl border border-[rgba(212,168,67,0.3)] bg-[rgba(212,168,67,0.03)]">
-              <h2 className="text-2xl font-black mb-4">نموذج الإيراد</h2>
-              <p className="text-gray-400 leading-relaxed mb-6">
-                متين تأخذ عمولة من كل عملية بيع تتم عبر المتجر — نسبة شفافة ومحددة مسبقاً في عقد الاشتراك. كلما نجح متجر مؤسستك، كلما نمت شراكتنا معاً.
-              </p>
-              <div className="grid grid-cols-3 gap-4">
-                {[
-                  { label: "الباقة الأساسية", value: "5%" },
-                  { label: "الباقة الاحترافية", value: "3%" },
-                  { label: "الباقة المؤسسية", value: "2%" },
-                ].map((item, i) => (
-                  <div key={i} className="p-4 rounded-xl bg-[#111] border border-white/8">
-                    <div className="text-2xl font-black text-[#D4A843] mb-1">{item.value}</div>
-                    <div className="text-xs text-gray-500">{item.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ======== CTA ======== */}
-      <section className="py-16 bg-[#0d0d0d]">
-        <div className="container">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-3xl font-black mb-4">افتح متجرك الآن</h2>
-            <p className="text-gray-400 mb-8">ابدأ ببيع المنتجات والخدمات لمنتسبي مؤسستك خلال 24 ساعة</p>
-            <a href="https://app.matin.ink/register" className="btn-primary inline-flex items-center gap-2">
-              ابدأ تجربتك المجانية
-              <ChevronLeft size={18} />
-            </a>
-          </div>
-        </div>
-      </section>
-
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+        input::placeholder { color: #444; }
+        * { box-sizing: border-box; }
+      `}</style>
     </main>
   );
 }
