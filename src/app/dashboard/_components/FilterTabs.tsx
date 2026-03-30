@@ -19,7 +19,7 @@ export default function FilterTabs({ tabs, active, onChange }: FilterTabsProps) 
       {tabs.map((tab) => (
         <button
           key={tab.key}
-          className={`ftab${active === tab.key ? ' active' : ''}`}
+          className={`tab${active === tab.key ? ' active' : ''}`}
           onClick={() => onChange(tab.key)}
         >
           {tab.label}{tab.count !== undefined ? ` (${tab.count})` : ''}

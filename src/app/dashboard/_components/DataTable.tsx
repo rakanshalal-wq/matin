@@ -13,12 +13,16 @@ interface DataTableProps {
   data: any[];
   emptyMessage?: string;
   emptyIcon?: React.ReactNode;
+  loading?: boolean;
 }
 
-export default function DataTable({ columns, data, emptyMessage = 'لا توجد بيانات', emptyIcon }: DataTableProps) {
+export default function DataTable({ columns, data, emptyMessage = 'لا توجد بيانات', emptyIcon, loading }: DataTableProps) {
+  if (loading) {
+    return <div className="loading-state">جاري التحميل...</div>;
+  }
   return (
     <div className="table-wrap">
-      <table className="dtable">
+      <table>
         <thead>
           <tr>
             {columns.map((col) => (
@@ -31,8 +35,8 @@ export default function DataTable({ columns, data, emptyMessage = 'لا توجد
             <tr>
               <td colSpan={columns.length}>
                 <div className="empty-state">
-                  {emptyIcon && <div className="empty-state-icon">{emptyIcon}</div>}
-                  <div className="empty-state-text">{emptyMessage}</div>
+                  {emptyIcon && <div className="empty-icon">{emptyIcon}</div>}
+                  <div className="empty-title">{emptyMessage}</div>
                 </div>
               </td>
             </tr>
@@ -41,7 +45,7 @@ export default function DataTable({ columns, data, emptyMessage = 'لا توجد
               <tr key={row.id || i}>
                 {columns.map((col) => (
                   <td key={col.key} style={{ textAlign: col.align || 'right' }}>
-                    {col.render ? col.render(row) : row[col.key] || '—'}
+                    {col.render ? col.render(row) : row[col.key] ?? '—'}
                   </td>
                 ))}
               </tr>
