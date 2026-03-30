@@ -30,11 +30,11 @@ export default function PendingPage() {
   return (
     <div style={{ 
       minHeight: '100vh', 
-      background: '#06060E', 
+      background: 'var(--bg)', 
       display: 'flex', 
       alignItems: 'center', 
       justifyContent: 'center', 
-      fontFamily: 'Cairo, sans-serif', 
+      fontFamily: 'var(--font)', 
       direction: 'rtl',
       padding: 20 
     }}>
@@ -53,7 +53,7 @@ export default function PendingPage() {
         }}>م</div>
 
         <div style={{ 
-          background: 'rgba(255,255,255,0.03)', 
+          background: 'var(--bg-card)', 
           border: '1px solid rgba(201,168,76,0.15)', 
           borderRadius: 24, padding: '48px 40px', 
           backdropFilter: 'blur(20px)',
@@ -78,7 +78,7 @@ export default function PendingPage() {
             <div style={{ background: 'rgba(255,255,255,0.02)', padding: 16, borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)' }}>
               <ShieldCheck size={20} color="#D4A843" style={{ marginBottom: 8 }} />
               <div style={{ color: '#fff', fontSize: 14, fontWeight: 700 }}>حالة الطلب</div>
-              <div style={{ color: '#D4A843', fontSize: 12, fontWeight: 600, marginTop: 4 }}>بانتظار الموافقة</div>
+              <div style={{ color: 'var(--gold)', fontSize: 12, fontWeight: 600, marginTop: 4 }}>بانتظار الموافقة</div>
             </div>
             <div style={{ background: 'rgba(255,255,255,0.02)', padding: 16, borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)' }}>
               <Mail size={20} color="#D4A843" style={{ marginBottom: 8 }} />
@@ -95,7 +95,7 @@ export default function PendingPage() {
               style={{ 
                 width: '100%', padding: '14px', 
                 background: 'rgba(201,168,76,0.08)', 
-                color: '#D4A843', border: '1px solid rgba(201,168,76,0.2)', 
+                color: 'var(--gold)', border: '1px solid rgba(201,168,76,0.2)', 
                 borderRadius: 12, fontSize: 15, fontWeight: 700, 
                 cursor: 'pointer', transition: '0.3s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8
               }}>
@@ -116,7 +116,7 @@ export default function PendingPage() {
         </div>
         
         <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: 13, marginTop: 32 }}>
-          مطوّر بواسطة <span style={{ color: '#D4A843', fontWeight: 700 }}>متين</span>
+          مطوّر بواسطة <span style={{ color: 'var(--gold)', fontWeight: 700 }}>متين</span>
         </p>
       </div>
     </div>

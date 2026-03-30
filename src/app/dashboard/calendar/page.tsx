@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 import { CalendarDays } from "lucide-react";
 import { useState, useEffect } from 'react';
 const getH=():Record<string,string>=>{try{const t=localStorage.getItem('matin_token');if(t)return{'Content-Type':'application/json','Authorization':'Bearer '+t};const u=JSON.parse(localStorage.getItem('matin_user')||'{}');return{'Content-Type':'application/json','x-user-id':String(u.id||'')}}catch{return{'Content-Type':'application/json'}}};
-const GOLD='#D4A843',BG='#0B0B16',CB='rgba(255,255,255,0.04)',BR='rgba(255,255,255,0.08)';
+const GOLD='var(--gold)',BG='var(--bg)',CB='rgba(255,255,255,0.04)',BR='rgba(255,255,255,0.08)';
 const EVENT_TYPES=[{v:'exam',l:'اختبار',c:'#EF4444'},{v:'holiday',l:'إجازة',c:'#10B981'},{v:'meeting',l:'اجتماع',c:'#3B82F6'},{v:'activity',l:'نشاط',c:'#8B5CF6'},{v:'trip',l:'رحلة',c:'#F59E0B'},{v:'other',l:'أخرى',c:'#6B7280'}];
 const DAYS_AR=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
 const MONTHS_AR=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
@@ -38,10 +38,10 @@ export default function CalendarPage(){
  for(let d=1;d<=daysInMonth;d++) cells.push(d);
  const todayStr=`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
  return(
- <div style={{minHeight:'100vh',background:BG,padding:'32px 24px',direction:'rtl',fontFamily:'Cairo, sans-serif'}}>
+ <div style={{minHeight:'100vh',background:'var(--bg)',padding:'24px 28px',direction:'rtl',fontFamily:'var(--font)'}}>
  <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:32,flexWrap:'wrap',gap:16}}>
  <div><h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}>[CalendarDays] التقويم المدرسي</h1><p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>جدول الأحداث والفعاليات والاختبارات</p></div>
- <button onClick={()=>openAdd()} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 20px',color:'#0B0B16',fontWeight:700,cursor:'pointer',fontSize:14}}>+ إضافة حدث</button>
+ <button onClick={()=>openAdd()} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 20px',color:'var(--bg)',fontWeight:700,cursor:'pointer',fontSize:14}}>+ إضافة حدث</button>
  </div>
  <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(120px,1fr))',gap:14,marginBottom:28}}>
  {EVENT_TYPES.map(t=><div key={t.v} style={{background:CB,border:'1px solid '+BR,borderRadius:12,padding:'14px 16px'}}>
@@ -116,7 +116,7 @@ export default function CalendarPage(){
  <div><label style={lbl}>الوصف</label><textarea value={form.description} onChange={e=>setForm({...form,description:e.target.value})} style={{...inp,minHeight:70,resize:'vertical'}} placeholder="وصف الحدث..."/></div>
  </div>
  <div style={{display:'flex',gap:12,marginTop:24}}>
- <button onClick={save} disabled={saving} style={{flex:1,background:GOLD,border:'none',borderRadius:10,padding:12,color:'#0B0B16',fontWeight:700,cursor:saving?'not-allowed':'pointer',opacity:saving?0.7:1}}>{saving?'جاري الحفظ...':'حفظ'}</button>
+ <button onClick={save} disabled={saving} style={{flex:1,background:GOLD,border:'none',borderRadius:10,padding:12,color:'var(--bg)',fontWeight:700,cursor:saving?'not-allowed':'pointer',opacity:saving?0.7:1}}>{saving?'جاري الحفظ...':'حفظ'}</button>
  <button onClick={()=>setShowModal(false)} style={{flex:1,background:CB,border:'1px solid '+BR,borderRadius:10,padding:12,color:'rgba(255,255,255,0.7)',cursor:'pointer'}}>إلغاء</button>
  </div>
  </div>

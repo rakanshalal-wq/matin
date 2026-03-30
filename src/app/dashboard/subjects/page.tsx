@@ -4,7 +4,7 @@ import { BookOpen, } from "lucide-react";
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 const getH=():Record<string,string>=>{try{const t=localStorage.getItem('matin_token');if(t)return{'Content-Type':'application/json','Authorization':'Bearer '+t};const u=JSON.parse(localStorage.getItem('matin_user')||'{}');return{'Content-Type':'application/json','x-user-id':String(u.id||'')}}catch{return{'Content-Type':'application/json'}}};
-const GOLD='#D4A843',BG='#0B0B16',CB='rgba(255,255,255,0.04)',BR='rgba(255,255,255,0.08)';
+const GOLD='var(--gold)',BG='var(--bg)',CB='rgba(255,255,255,0.04)',BR='rgba(255,255,255,0.08)';
 const STAGES=['الابتدائية','المتوسطة','الثانوية','جميع المراحل'];
 const TRACKS=['عام','علمي','أدبي','شرعي','علوم الحاسب والهندسة','الصحة والحياة','إدارة الأعمال'];
 export default function SubjectsPage(){
@@ -26,10 +26,10 @@ export default function SubjectsPage(){
  const inp:React.CSSProperties={width:'100%',background:'rgba(255,255,255,0.05)',border:'1px solid '+BR,borderRadius:8,padding:'10px 14px',color:'white',fontSize:14,outline:'none',boxSizing:'border-box'};
  const lbl:React.CSSProperties={display:'block',color:'rgba(255,255,255,0.6)',fontSize:13,marginBottom:6};
  return(
- <div style={{minHeight:'100vh',background:BG,padding:'32px 24px',direction:'rtl',fontFamily:'Cairo, sans-serif'}}>
+ <div style={{minHeight:'100vh',background:'var(--bg)',padding:'24px 28px',direction:'rtl',fontFamily:'var(--font)'}}>
  <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:32,flexWrap:'wrap',gap:16}}>
  <div><h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}><IconRenderer name="ICON_BookOpen" size={18} /> المواد الدراسية</h1><p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>إدارة جميع المواد الدراسية لكل المراحل والمسارات</p></div>
- <button onClick={openAdd} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 20px',color:'#0B0B16',fontWeight:700,cursor:'pointer',fontSize:14}}>+ إضافة مادة</button>
+ <button onClick={openAdd} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 20px',color:'var(--bg)',fontWeight:700,cursor:'pointer',fontSize:14}}>+ إضافة مادة</button>
  </div>
  <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:16,marginBottom:28}}>
  {[{l:'إجمالي المواد',v:subjects.length,c:GOLD},{l:'الابتدائية',v:subjects.filter(s=>s.stage==='الابتدائية').length,c:'#3B82F6'},{l:'المتوسطة',v:subjects.filter(s=>s.stage==='المتوسطة').length,c:'#10B981'},{l:'الثانوية',v:subjects.filter(s=>s.stage==='الثانوية').length,c:'#8B5CF6'}].map((s,i)=>(
@@ -99,7 +99,7 @@ export default function SubjectsPage(){
  </div>
  </div>
  <div><label style={lbl}>الوصف</label><textarea value={form.description} onChange={e=>setForm({...form,description:e.target.value})} style={{...inp,minHeight:70,resize:'vertical'}} placeholder="وصف المادة..."/></div>
- <div style={{display:'flex',alignItems:'center',gap:12,background:'rgba(255,255,255,0.03)',borderRadius:10,padding:'12px 16px'}}>
+ <div style={{display:'flex',alignItems:'center',gap:12,background:'var(--bg-card)',borderRadius:10,padding:'12px 16px'}}>
  <div onClick={()=>setForm({...form,is_mandatory:!form.is_mandatory})} style={{width:40,height:22,borderRadius:11,background:form.is_mandatory?GOLD:'rgba(255,255,255,0.1)',cursor:'pointer',position:'relative',transition:'background 0.3s'}}>
  <div style={{position:'absolute',top:2,right:form.is_mandatory?2:undefined,left:form.is_mandatory?undefined:2,width:18,height:18,borderRadius:'50%',background:'white',transition:'all 0.3s'}}/>
  </div>
@@ -107,7 +107,7 @@ export default function SubjectsPage(){
  </div>
  </div>
  <div style={{display:'flex',gap:12,marginTop:24}}>
- <button onClick={save} disabled={saving} style={{flex:1,background:GOLD,border:'none',borderRadius:10,padding:12,color:'#0B0B16',fontWeight:700,cursor:saving?'not-allowed':'pointer',opacity:saving?0.7:1}}>{saving?'جاري الحفظ...':'حفظ'}</button>
+ <button onClick={save} disabled={saving} style={{flex:1,background:GOLD,border:'none',borderRadius:10,padding:12,color:'var(--bg)',fontWeight:700,cursor:saving?'not-allowed':'pointer',opacity:saving?0.7:1}}>{saving?'جاري الحفظ...':'حفظ'}</button>
  <button onClick={()=>setShowModal(false)} style={{flex:1,background:CB,border:'1px solid '+BR,borderRadius:10,padding:12,color:'rgba(255,255,255,0.7)',cursor:'pointer'}}>إلغاء</button>
  </div>
  </div>

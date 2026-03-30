@@ -136,7 +136,7 @@ export default function LecturesPage() {
  </div>
 
  {/* التبويبات */}
- <div style={{ display: 'flex', gap: 4, marginBottom: 24, background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: 4 }}>
+ <div style={{ display: 'flex', gap: 4, marginBottom: 24, background: 'var(--bg-card)', borderRadius: 12, padding: 4 }}>
  {[
  { key: 'list', label: 'ClipboardList المحاضرات', count: lectures.length },
  { key: 'courses', label: 'BookOpen الدورات', count: courses.length },
@@ -151,7 +151,7 @@ export default function LecturesPage() {
  display: 'flex', alignItems: 'center', gap: 6,
  }}>
  {t.label}
- {t.count !== null && <span style={{ background: 'rgba(201,162,39,0.2)', color: '#D4A843', fontSize: 11, padding: '1px 6px', borderRadius: 10 }}>{t.count}</span>}
+ {t.count !== null && <span style={{ background: 'rgba(201,162,39,0.2)', color: 'var(--gold)', fontSize: 11, padding: '1px 6px', borderRadius: 10 }}>{t.count}</span>}
  </button>
  ))}
  </div>
@@ -196,7 +196,7 @@ export default function LecturesPage() {
  {lectures.map((lec: any) => {
  const typeConf = LECTURE_TYPES.find(t => t.value === lec.type) || LECTURE_TYPES[0];
  return (
- <div key={lec.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}>
+ <div key={lec.id} style={{ background: 'var(--bg-card)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}>
  {/* صورة مصغرة */}
  <div style={{ height: 140, background: `linear-gradient(135deg, #1a2d4a, #06060E)`, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
  {lec.thumbnail ? (
@@ -307,7 +307,7 @@ export default function LecturesPage() {
  <div>لا توجد جلسات مجدولة</div>
  </div>
  ) : liveSessions.map((session: any, i: number) => (
- <div key={i} style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: '14px 16px', marginBottom: 12, border: session.status === 'live' ? '1px solid rgba(239,68,68,0.4)' : '1px solid rgba(255,255,255,0.06)' }}>
+ <div key={i} style={{ background: 'var(--bg-card)', borderRadius: 12, padding: '14px 16px', marginBottom: 12, border: session.status === 'live' ? '1px solid rgba(239,68,68,0.4)' : '1px solid rgba(255,255,255,0.06)' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
  <div>
  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
@@ -374,7 +374,7 @@ export default function LecturesPage() {
  <label style={{ color: '#9CA3AF', fontSize: 12, display: 'block', marginBottom: 6 }}>{f.label}</label>
  <input value={(form as any)[f.key]} onChange={e => setForm({ ...form, [f.key]: e.target.value })}
  placeholder={f.placeholder}
- style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, boxSizing: 'border-box' }} />
+ style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, boxSizing: 'border-box' }} />
  </div>
  ))}
 
@@ -382,19 +382,19 @@ export default function LecturesPage() {
  <label style={{ color: '#9CA3AF', fontSize: 12, display: 'block', marginBottom: 6 }}>الوصف</label>
  <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })}
  placeholder="وصف المحاضرة..." rows={3}
- style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, boxSizing: 'border-box', resize: 'vertical' }} />
+ style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, boxSizing: 'border-box', resize: 'vertical' }} />
  </div>
 
  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
  <div>
  <label style={{ color: '#9CA3AF', fontSize: 12, display: 'block', marginBottom: 6 }}>المدة (دقيقة)</label>
  <input type="number" value={form.duration} onChange={e => setForm({ ...form, duration: +e.target.value })}
- style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, boxSizing: 'border-box' }} />
+ style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, boxSizing: 'border-box' }} />
  </div>
  <div>
  <label style={{ color: '#9CA3AF', fontSize: 12, display: 'block', marginBottom: 6 }}>الدورة (اختياري)</label>
  <select value={form.course_id} onChange={e => setForm({ ...form, course_id: e.target.value })}
- style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: '#1a2d4a', color: '#fff', fontSize: 14, boxSizing: 'border-box' }}>
+ style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid var(--border)', background: '#1a2d4a', color: '#fff', fontSize: 14, boxSizing: 'border-box' }}>
  <option value="">-- بدون دورة --</option>
  {courses.map((c: any) => <option key={c.id} value={c.id}>{c.title}</option>)}
  </select>
@@ -445,7 +445,7 @@ export default function LecturesPage() {
  ) : (
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
  {courses.map((c: any) => (
- <div key={c.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}>
+ <div key={c.id} style={{ background: 'var(--bg-card)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}>
  <div style={{ height: 140, background: 'linear-gradient(135deg, #1a2d4a, #06060E)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
  {c.thumbnail ? <img src={c.thumbnail} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{width:44,height:44,borderRadius:10,background:"rgba(201,168,67,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><BookOpen size={20} color="#D4A843" /></div>}
  </div>
@@ -470,7 +470,7 @@ export default function LecturesPage() {
  <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, overflowY: 'auto', padding: 20 }}>
  <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 520, direction: 'rtl', margin: 'auto' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
- <h2 style={{ color: '#D4A843', fontSize: 18, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل المحاضرة' : '+ إضافة محاضرة'}</h2>
+ <h2 style={{ color: 'var(--gold)', fontSize: 18, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل المحاضرة' : '+ إضافة محاضرة'}</h2>
  <button onClick={() => { setShowModal(false); setErrMsg(''); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
  </div>
  {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}
@@ -482,22 +482,22 @@ export default function LecturesPage() {
  ].map(({ label, key, type, placeholder }) => (
  <div key={key} style={{ marginBottom: 14 }}>
  <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>{label}</label>
- <input type={type} value={(form as any)[key]} onChange={e => setForm({ ...form, [key]: e.target.value })} placeholder={placeholder} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13, outline: 'none', boxSizing: 'border-box' as const }} />
+ <input type={type} value={(form as any)[key]} onChange={e => setForm({ ...form, [key]: e.target.value })} placeholder={placeholder} style={{ width: '100%', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13, outline: 'none', boxSizing: 'border-box' as const }} />
  </div>
  ))}
  <div style={{ marginBottom: 14 }}>
  <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>نوع المحاضرة</label>
- <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13 }}>
+ <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} style={{ width: '100%', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13 }}>
  {LECTURE_TYPES.map(t => <option key={t.value} value={t.value}><IconRenderer name={t.icon} /> {t.label}</option>)}
  </select>
  </div>
  <div style={{ marginBottom: 20 }}>
  <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>الوصف</label>
- <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} rows={3} placeholder="وصف المحاضرة..." style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13, outline: 'none', resize: 'vertical', boxSizing: 'border-box' as const }} />
+ <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} rows={3} placeholder="وصف المحاضرة..." style={{ width: '100%', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13, outline: 'none', resize: 'vertical', boxSizing: 'border-box' as const }} />
  </div>
  <div style={{ display: 'flex', gap: 10 }}>
- <button onClick={handleSaveLecture} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg,#D4A843,#E8C547)', border: 'none', borderRadius: 10, padding: '12px 0', color: '#06060E', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري الحفظ...' : editItem ? 'حفظ التعديلات' : 'إضافة المحاضرة'}</button>
- <button onClick={() => { setShowModal(false); setErrMsg(''); }} style={{ padding: '12px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
+ <button onClick={handleSaveLecture} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg,#D4A843,#E8C547)', border: 'none', borderRadius: 10, padding: '12px 0', color: 'var(--bg)', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري الحفظ...' : editItem ? 'حفظ التعديلات' : 'إضافة المحاضرة'}</button>
+ <button onClick={() => { setShowModal(false); setErrMsg(''); }} style={{ padding: '12px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
  </div>
  </div>
  </div>

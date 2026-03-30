@@ -14,7 +14,7 @@ import { getHeaders } from '@/lib/api';
 function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: React.ReactNode }) {
  return (
  <div style={{ position:'fixed',inset:0,zIndex:9999,background:'rgba(0,0,0,0.75)',backdropFilter:'blur(4px)',display:'flex',alignItems:'center',justifyContent:'center',padding:20 }} onClick={onClose}>
- <div style={{ background:'#0F0F1A',border:'1px solid rgba(255,255,255,0.08)',borderRadius:20,width:'100%',maxWidth:520,maxHeight:'90vh',overflowY:'auto',boxShadow:'0 24px 80px rgba(0,0,0,0.6)' }} onClick={e=>e.stopPropagation()}>
+ <div style={{ background:'#0F0F1A',border:'1px solid var(--border)',borderRadius:20,width:'100%',maxWidth:520,maxHeight:'90vh',overflowY:'auto',boxShadow:'0 24px 80px rgba(0,0,0,0.6)' }} onClick={e=>e.stopPropagation()}>
  <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center',padding:'20px 24px',borderBottom:'1px solid rgba(255,255,255,0.07)' }}>
  <h3 style={{ color:'#EEEEF5',fontSize:17,fontWeight:700,margin:0 }}>{title}</h3>
  <button onClick={onClose} style={{ background:'rgba(255,255,255,0.05)',border:'none',borderRadius:8,padding:'6px 10px',cursor:'pointer',color:'rgba(238,238,245,0.6)',fontSize:16 }}><X size={14} /></button>
@@ -26,7 +26,7 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
 }
 const ErrBox = ({ msg }: { msg: string }) => msg ? <div style={{ background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.3)',borderRadius:8,padding:'10px 14px',color:'#EF4444',fontSize:13,marginBottom:12 }}>{msg}</div> : null;
 const OkBox = ({ msg }: { msg: string }) => msg ? <div style={{ background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.3)',borderRadius:8,padding:'10px 14px',color:'#10B981',fontSize:13,marginBottom:12 }}>{msg}</div> : null;
-const INP: React.CSSProperties = { width:'100%',padding:'10px 14px',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' };
+const INP: React.CSSProperties = { width:'100%',padding:'10px 14px',background:'var(--bg-card)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' };
 const LBL: React.CSSProperties = { display:'block',color:'rgba(238,238,245,0.7)',fontSize:13,fontWeight:600,marginBottom:6 };
 const FW: React.CSSProperties = { marginBottom:16 };
 
@@ -119,7 +119,7 @@ export default function StudentDashboard() {
  if (loading) return (
  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', flexDirection: 'column', gap: 16, background: DARK }}>
  <Spinner size={40} />
- <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 14, fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>جاري تحميل بوابة الطالب...</div>
+ <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 14, fontFamily: 'var(--font)' }}>جاري تحميل بوابة الطالب...</div>
  </div>
  );
 
@@ -128,7 +128,7 @@ export default function StudentDashboard() {
  const pendingHW = homework.filter((h: any) => h.status === 'active').length;
 
  return (
- <div style={{ fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' }}>
+ <div style={{ fontFamily: 'var(--font)', direction: 'rtl' }}>
  {/* Header */}
  <div style={{ marginBottom: 28, background: `rgba(201,168,76,0.06)`, border: `1px solid rgba(201,168,76,0.15)`, borderRadius: 16, padding: '20px 24px' }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -383,7 +383,7 @@ export default function StudentDashboard() {
  {}
  {showHWModal && selHW && (
  <Modal title="تسليم الواجب" onClose={() => setShowHWModal(false)}>
- <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: 14, marginBottom: 16 }}>
+ <div style={{ background: 'var(--bg-card)', borderRadius: 12, padding: 14, marginBottom: 16 }}>
  <div style={{ color: '#EEEEF5', fontWeight: 700, fontSize: 14 }}>{selHW.title_ar || selHW.title}</div>
  {selHW.due_date && <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12, marginTop: 4 }}>موعد التسليم: {new Date(selHW.due_date).toLocaleDateString('ar-SA')}</div>}
  </div>
@@ -400,7 +400,7 @@ export default function StudentDashboard() {
  {}
  {showGradeModal && selGrade && (
  <Modal title="طلب مراجعة الدرجة" onClose={() => setShowGradeModal(false)}>
- <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: 14, marginBottom: 16 }}>
+ <div style={{ background: 'var(--bg-card)', borderRadius: 12, padding: 14, marginBottom: 16 }}>
  <div style={{ color: '#EEEEF5', fontWeight: 700, fontSize: 14 }}>{selGrade.subject_name || selGrade.exam_title}</div>
  <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 13, marginTop: 4 }}>الدرجة: {selGrade.obtained_marks}/{selGrade.total_marks} ({selGrade.percentage}%)</div>
  </div>

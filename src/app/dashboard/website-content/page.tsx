@@ -41,7 +41,7 @@ const TABS = [
   { id: 'sections', label: 'الأقسام' },
 ];
 
-const COLOR_PRESETS = ['#06060E','#0A0A1A','#0D0D0D','#0A1628','#0D1117','#1A0A00','#0A1A0A'];
+const COLOR_PRESETS = ['var(--bg)','#0A0A1A','#0D0D0D','#0A1628','#0D1117','#1A0A00','#0A1A0A'];
 const GRAD_PRESETS = [
   'linear-gradient(135deg,#06060E 0%,#0A1628 100%)',
   'linear-gradient(135deg,#06060E 0%,#1A0D00 100%)',
@@ -98,14 +98,14 @@ export default function LandingEditorPage() {
 
   if (!data) return (
     <div className="landing-editor" style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center'}}>
-      <p style={{color:'#D4A843',fontSize:18,fontWeight:700}}>جاري التحميل...</p>
+      <p style={{color:'var(--gold)',fontSize:18,fontWeight:700}}>جاري التحميل...</p>
     </div>
   );
 
   const bgPreview = () => {
     if (data.bg_type === 'gradient') return `linear-gradient(${data.bg_gradient_dir},${data.bg_gradient_from} 0%,${data.bg_gradient_to} 100%)`;
     if (data.bg_type === 'image' && data.bg_image_url) return `url('${data.bg_image_url}') center/cover no-repeat`;
-    return data.bg_value || '#06060E';
+    return data.bg_value || 'var(--bg)';
   };
 
   return (
@@ -222,8 +222,8 @@ textarea.le-input{resize:vertical;min-height:80px;line-height:1.6;}
               <div className="le-field">
                 <label className="le-label">لون الخلفية</label>
                 <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:12}}>
-                  <input type="color" value={data.bg_value||'#06060E'} onChange={e => u('bg_value',e.target.value)} style={{width:56,height:44,borderRadius:10,border:'1px solid rgba(255,255,255,0.07)',cursor:'pointer',padding:4,background:'rgba(255,255,255,0.04)'}} />
-                  <input className="le-input" value={data.bg_value||'#06060E'} onChange={e => u('bg_value',e.target.value)} style={{maxWidth:140}} />
+                  <input type="color" value={data.bg_value||'var(--bg)'} onChange={e => u('bg_value',e.target.value)} style={{width:56,height:44,borderRadius:10,border:'1px solid rgba(255,255,255,0.07)',cursor:'pointer',padding:4,background:'var(--bg-card)'}} />
+                  <input className="le-input" value={data.bg_value||'var(--bg)'} onChange={e => u('bg_value',e.target.value)} style={{maxWidth:140}} />
                 </div>
                 <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
                   {COLOR_PRESETS.map(c => (
@@ -247,11 +247,11 @@ textarea.le-input{resize:vertical;min-height:80px;line-height:1.6;}
                 <div className="le-row">
                   <div className="le-field">
                     <label className="le-label">لون البداية</label>
-                    <input type="color" value={data.bg_gradient_from||'#06060E'} onChange={e => u('bg_gradient_from',e.target.value)} style={{width:'100%',height:42,borderRadius:8,border:'1px solid rgba(255,255,255,0.07)',cursor:'pointer',padding:4,background:'rgba(255,255,255,0.04)'}} />
+                    <input type="color" value={data.bg_gradient_from||'var(--bg)'} onChange={e => u('bg_gradient_from',e.target.value)} style={{width:'100%',height:42,borderRadius:8,border:'1px solid rgba(255,255,255,0.07)',cursor:'pointer',padding:4,background:'var(--bg-card)'}} />
                   </div>
                   <div className="le-field">
                     <label className="le-label">لون النهاية</label>
-                    <input type="color" value={data.bg_gradient_to||'#0A1628'} onChange={e => u('bg_gradient_to',e.target.value)} style={{width:'100%',height:42,borderRadius:8,border:'1px solid rgba(255,255,255,0.07)',cursor:'pointer',padding:4,background:'rgba(255,255,255,0.04)'}} />
+                    <input type="color" value={data.bg_gradient_to||'#0A1628'} onChange={e => u('bg_gradient_to',e.target.value)} style={{width:'100%',height:42,borderRadius:8,border:'1px solid rgba(255,255,255,0.07)',cursor:'pointer',padding:4,background:'var(--bg-card)'}} />
                   </div>
                 </div>
                 <div className="le-field">
@@ -285,7 +285,7 @@ textarea.le-input{resize:vertical;min-height:80px;line-height:1.6;}
                 {data.bg_type==='image' && data.bg_image_url && <div style={{position:'absolute',inset:0,background:`rgba(0,0,0,${(data.bg_overlay_opacity??70)/100})`}} />}
                 <div style={{position:'relative',zIndex:1,textAlign:'center'}}>
                   <div style={{fontSize:18,fontWeight:800,color:'#EEEEF5'}}>{data.hero_title1||'كل مؤسستك في'}</div>
-                  <div style={{fontSize:18,fontWeight:800,color:'#D4A843'}}>{data.hero_title2||'لوحة تحكم واحدة'}</div>
+                  <div style={{fontSize:18,fontWeight:800,color:'var(--gold)'}}>{data.hero_title2||'لوحة تحكم واحدة'}</div>
                 </div>
               </div>
             </div>
@@ -391,7 +391,7 @@ textarea.le-input{resize:vertical;min-height:80px;line-height:1.6;}
         <div className="le-card">
           <div className="le-card-hdr">
             <div className="le-card-title">قائمة المميزات</div>
-            <button className="le-btn-green" onClick={() => u('features',[...data.features,{title:'',color:'#D4A843',desc:''}])}>+ إضافة</button>
+            <button className="le-btn-green" onClick={() => u('features',[...data.features,{title:'',color:'var(--gold)',desc:''}])}>+ إضافة</button>
           </div>
           <div className="le-card-body">
             {data.features.map((feat,i) => (
@@ -424,7 +424,7 @@ textarea.le-input{resize:vertical;min-height:80px;line-height:1.6;}
         <div className="le-pricing-grid">
           {data.pricing_plans.map((plan,i) => (
             <div key={i} className="le-price-card" style={i===1?{borderColor:'rgba(212,168,67,0.22)',background:'rgba(212,168,67,0.04)'}:{}}>
-              <div className="le-price-name" style={i===1?{color:'#D4A843'}:{}}>{i===1?'★ ':''}{plan.name||`باقة ${i+1}`}</div>
+              <div className="le-price-name" style={i===1?{color:'var(--gold)'}:{}}>{i===1?'★ ':''}{plan.name||`باقة ${i+1}`}</div>
               <div className="le-field"><label className="le-label">اسم الباقة</label><input className="le-input" value={plan.name} onChange={e => { const a=[...data.pricing_plans]; a[i]={...a[i],name:e.target.value}; u('pricing_plans',a); }} /></div>
               <div className="le-field"><label className="le-label">السعر</label><input className="le-input" value={plan.price} onChange={e => { const a=[...data.pricing_plans]; a[i]={...a[i],price:e.target.value}; u('pricing_plans',a); }} /></div>
               <div className="le-field"><label className="le-label">الفترة</label><input className="le-input" value={plan.period} onChange={e => { const a=[...data.pricing_plans]; a[i]={...a[i],period:e.target.value}; u('pricing_plans',a); }} /></div>

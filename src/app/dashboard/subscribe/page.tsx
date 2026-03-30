@@ -36,7 +36,7 @@ const defaultPlans: Plan[] = [
  },
  {
  id: 'pro', name: 'Pro', name_ar: 'احترافية', price: 299, priceYearly: 2990,
- color: '#D4A843', icon: "ICON_Crown", maxStudents: 500, maxTeachers: 50, popular: true,
+ color: 'var(--gold)', icon: "ICON_Crown", maxStudents: 500, maxTeachers: 50, popular: true,
  features: ['كل ميزات الأساسية', 'المتجر الإلكتروني', 'الذكاء الاصطناعي', 'تصدير البيانات', 'المجتمع والتواصل', 'إدارة الموظفين والرواتب', 'نظام الإجازات'],
  notIncluded: ['النقل والباصات', 'الكافتيريا', 'العيادة الصحية', 'API للمؤسسات']
  },
@@ -121,10 +121,10 @@ export default function SubscribePage() {
  };
 
  const plans = defaultPlans;
- const inputStyle = { fontFamily: 'IBM Plex Sans Arabic, sans-serif' };
+ const inputStyle = { fontFamily: 'var(--font)' };
 
  return (
- <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif', maxWidth: 1200, margin: '0 auto' }}>
+ <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'var(--font)', maxWidth: 1200, margin: '0 auto' }}>
  {reason === 'expired' && (
  <div style={{ padding: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 12, marginBottom: 24, textAlign: 'center' }}>
  <h3 style={{ color: '#EF4444', margin: '0 0 8px', fontSize: 18 }}>انتهى اشتراكك</h3>
@@ -134,7 +134,7 @@ export default function SubscribePage() {
  
  {requiredFeature && !reason && (
  <div style={{ padding: 16, background: 'rgba(201,162,39,0.1)', border: '1px solid rgba(201,162,39,0.3)', borderRadius: 12, marginBottom: 24, textAlign: 'center' }}>
- <h3 style={{ color: '#D4A843', margin: '0 0 8px', fontSize: 18 }}>ميزة غير متاحة في باقتك الحالية</h3>
+ <h3 style={{ color: 'var(--gold)', margin: '0 0 8px', fontSize: 18 }}>ميزة غير متاحة في باقتك الحالية</h3>
  <p style={{ color: '#E8C547', margin: 0, fontSize: 14 }}>
  ميزة <strong>{featureLabels[requiredFeature] || requiredFeature}</strong> تحتاج ترقية إلى باقة <strong>{requiredPlan === 'basic' ? 'أساسية' : requiredPlan === 'pro' ? 'احترافية' : 'مؤسسية'}</strong> أو أعلى
  </p>
@@ -142,7 +142,7 @@ export default function SubscribePage() {
  )}
 
  <div style={{ textAlign: 'center', marginBottom: 32 }}>
- <h1 style={{ fontSize: 28, fontWeight: 800, color: '#D4A843', margin: '0 0 8px' }}>باقات متين</h1>
+ <h1 style={{ fontSize: 28, fontWeight: 800, color: 'var(--gold)', margin: '0 0 8px' }}>باقات متين</h1>
  <p style={{ color: '#9CA3AF', fontSize: 15, margin: '0 0 20px' }}>اختر الباقة المناسبة لمؤسستك التعليمية</p>
  
  <div style={{ display: 'inline-flex', background: 'rgba(255,255,255,0.05)', borderRadius: 12, padding: 4 }}>
@@ -229,8 +229,8 @@ export default function SubscribePage() {
  </div>
 
  {/* أسئلة شائعة */}
- <div style={{ marginTop: 40, padding: 24, background: 'rgba(255,255,255,0.03)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.06)' }}>
- <h2 style={{ textAlign: 'center', color: '#D4A843', fontSize: 22, fontWeight: 700, marginBottom: 24 }}>أسئلة شائعة عن الباقات</h2>
+ <div style={{ marginTop: 40, padding: 24, background: 'var(--bg-card)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.06)' }}>
+ <h2 style={{ textAlign: 'center', color: 'var(--gold)', fontSize: 22, fontWeight: 700, marginBottom: 24 }}>أسئلة شائعة عن الباقات</h2>
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
  {[
  { q: 'هل يمكنني تغيير الباقة لاحقاً؟', a: 'نعم، يمكنك الترقية أو تخفيض الباقة في أي وقت. سيتم احتساب الفرق بشكل تناسبي.' },
@@ -250,17 +250,17 @@ export default function SubscribePage() {
  <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
  <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 440, direction: 'rtl' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
- <h2 style={{ color: '#D4A843', fontSize: 18, fontWeight: 700, margin: 0 }}>تأكيد الاشتراك</h2>
+ <h2 style={{ color: 'var(--gold)', fontSize: 18, fontWeight: 700, margin: 0 }}>تأكيد الاشتراك</h2>
  <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
  </div>
  {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}
- <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 10, padding: 16, marginBottom: 20 }}>
- <div style={{ color: '#D4A843', fontSize: 22, fontWeight: 800 }}>{selectedPlan.name_ar}</div>
+ <div style={{ background: 'var(--bg-card)', borderRadius: 10, padding: 16, marginBottom: 20 }}>
+ <div style={{ color: 'var(--gold)', fontSize: 22, fontWeight: 800 }}>{selectedPlan.name_ar}</div>
  <div style={{ color: '#fff', fontSize: 28, fontWeight: 800, marginTop: 8 }}>{selectedPlan.price} ر.س / شهر</div>
  </div>
  <div style={{ display: 'flex', gap: 10 }}>
- <button onClick={() => handleSubscribe(selectedPlan?.id)} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg,#D4A843,#E8C547)', border: 'none', borderRadius: 10, padding: '12px 0', color: '#06060E', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري...' : 'تأكيد الاشتراك'}</button>
- <button onClick={() => setShowModal(false)} style={{ padding: '12px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
+ <button onClick={() => handleSubscribe(selectedPlan?.id)} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg,#D4A843,#E8C547)', border: 'none', borderRadius: 10, padding: '12px 0', color: 'var(--bg)', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري...' : 'تأكيد الاشتراك'}</button>
+ <button onClick={() => setShowModal(false)} style={{ padding: '12px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
  </div>
  </div>
  </div>

@@ -59,7 +59,7 @@ export default function MessagesPage() {
  const statusLabels: any = { sent: 'مرسلة', delivered: 'تم التوصيل', read: 'مقروءة', failed: 'فشلت' };
  const statusColors: any = { sent: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, delivered: { bg: 'rgba(139,92,246,0.1)', color: '#8B5CF6' }, read: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, failed: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' } };
 
- const inputStyle = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none' };
+ const inputStyle = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: 8, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none' };
 
  return (
  <div>
@@ -80,7 +80,7 @@ export default function MessagesPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_MessageCircle" size={18} /> التواصل</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة الرسائل والتواصل بين أطراف المنصة</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({ sender_name: '', receiver_name: '', subject: '', content: '', type: 'text', status: 'sent' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
+ <button onClick={() => { setEditItem(null); setForm({ sender_name: '', receiver_name: '', subject: '', content: '', type: 'text', status: 'sent' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold2))', color: 'var(--bg)', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
  رسالة جديدة
  </button>
  </div>
@@ -88,12 +88,12 @@ export default function MessagesPage() {
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي الرسائل', value: stats.total, icon: "ICON_MessageCircle", color: '#D4A843' },
+ { label: 'إجمالي الرسائل', value: stats.total, icon: "ICON_MessageCircle", color: 'var(--gold)' },
  { label: 'مرسلة', value: stats.sent, icon: "ICON_Upload", color: '#3B82F6' },
  { label: 'مقروءة', value: stats.read, icon: "ICON_CheckCircle", color: '#10B981' },
  { label: 'غير مقروءة', value: stats.unread, icon: "ICON_Mailbox", color: '#F59E0B' },
  ].map((stat, i) => (
- <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
+ <div key={i} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12, padding: 20 }}>
  <div style={{ fontSize: 28 }}><IconRenderer name={stat.icon} /></div>
  <div style={{ fontSize: 26, fontWeight: 800, color: stat.color, marginTop: 4 }}>{stat.value}</div>
  <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>{stat.label}</div>
@@ -107,7 +107,7 @@ export default function MessagesPage() {
  </div>
 
  {/* Table */}
- <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, overflow: 'hidden' }}>
+ <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12, overflow: 'hidden' }}>
  {loading ? (
  <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
  ) : filtered.length === 0 ? (
@@ -134,7 +134,7 @@ export default function MessagesPage() {
  <div style={{ color: 'white', fontWeight: 600, fontSize: 14 }}>{item.sender_name || '—'}</div>
  </div>
  </td>
- <td style={{ padding: '14px 16px', color: '#D4A843', fontWeight: 600, fontSize: 14 }}>{item.receiver_name || '—'}</td>
+ <td style={{ padding: '14px 16px', color: 'var(--gold)', fontWeight: 600, fontSize: 14 }}>{item.receiver_name || '—'}</td>
  <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.8)', fontSize: 14, fontWeight: item.status !== 'read' ? 700 : 400 }}>{item.subject || '—'}</td>
  <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.6)', fontSize: 13 }}>{item.content ? item.content.substring(0, 40) + (item.content.length > 40 ? '...' : '') : '—'}</td>
  <td style={{ padding: '14px 16px' }}>
@@ -150,7 +150,7 @@ export default function MessagesPage() {
  </td>
  <td style={{ padding: '14px 16px' }}>
  <div style={{ display: 'flex', gap: 8 }}>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: 'var(--gold)', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
  </div>
  </td>
@@ -164,7 +164,7 @@ export default function MessagesPage() {
  {/* Modal */}
  {showModal && (
  <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
- <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
+ <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
  <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل رسالة' : 'رسالة جديدة'}</h2>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
@@ -207,8 +207,8 @@ export default function MessagesPage() {
  </div>
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
- <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
- <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Upload إرسال'}</button>
+ <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid var(--border)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
+ <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold2))', color: 'var(--bg)', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Upload إرسال'}</button>
  </div>
  </div>
  </div>

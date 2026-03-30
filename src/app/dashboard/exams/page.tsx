@@ -185,7 +185,7 @@ export default function SmartExamsPage() {
  </div>
 
  {/* التبويبات */}
- <div style={{ display: 'flex', gap: 4, marginBottom: 24, background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: 4 }}>
+ <div style={{ display: 'flex', gap: 4, marginBottom: 24, background: 'var(--bg-card)', borderRadius: 12, padding: 4 }}>
  {[
  { key: 'list', label: 'ClipboardList الاختبارات', count: exams.length },
  { key: 'create', label: 'Plus إنشاء اختبار', count: null },
@@ -200,7 +200,7 @@ export default function SmartExamsPage() {
  display: 'flex', alignItems: 'center', gap: 6,
  }}>
  {t.label}
- {t.count !== null && <span style={{ background: 'rgba(201,162,39,0.2)', color: '#D4A843', fontSize: 11, padding: '1px 6px', borderRadius: 10 }}>{t.count}</span>}
+ {t.count !== null && <span style={{ background: 'rgba(201,162,39,0.2)', color: 'var(--gold)', fontSize: 11, padding: '1px 6px', borderRadius: 10 }}>{t.count}</span>}
  </button>
  ))}
  </div>
@@ -246,7 +246,7 @@ export default function SmartExamsPage() {
  {exams.map((exam: any) => {
  const st = STATUS_MAP[exam.status] || STATUS_MAP.DRAFT;
  return (
- <div key={exam.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '20px 24px' }}>
+ <div key={exam.id} style={{ background: 'var(--bg-card)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '20px 24px' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
  <div style={{ flex: 1 }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
@@ -274,8 +274,8 @@ export default function SmartExamsPage() {
  {exam.status === 'ACTIVE' && (
  <button onClick={() => updateExamStatus(exam.id, 'COMPLETED')} style={{ background: 'rgba(16,185,129,0.15)', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>⏹ إنهاء</button>
  )}
- <button onClick={() => { setSelectedExam(exam); fetchResults(exam.id); setModalType('results'); setShowModal(true); }} style={{ background: 'rgba(201,162,39,0.15)', color: '#D4A843', border: '1px solid rgba(201,162,39,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_BarChart3" size={18} /> النتائج</button>
- <button onClick={() => openEditModal(exam)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: '1px solid rgba(201,162,39,0.25)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+ <button onClick={() => { setSelectedExam(exam); fetchResults(exam.id); setModalType('results'); setShowModal(true); }} style={{ background: 'rgba(201,162,39,0.15)', color: 'var(--gold)', border: '1px solid rgba(201,162,39,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_BarChart3" size={18} /> النتائج</button>
+ <button onClick={() => openEditModal(exam)} style={{ background: 'rgba(201,162,39,0.1)', color: 'var(--gold)', border: '1px solid rgba(201,162,39,0.25)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
  <button onClick={() => deleteExam(exam.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.2)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Trash2</button>
  </div>
  </div>
@@ -306,36 +306,36 @@ export default function SmartExamsPage() {
  <label style={{ color: '#9CA3AF', fontSize: 12, display: 'block', marginBottom: 6 }}>{f.label}</label>
  <input value={(form as any)[f.key]} onChange={e => setForm({ ...form, [f.key]: e.target.value })}
  placeholder={f.placeholder}
- style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, boxSizing: 'border-box' }} />
+ style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, boxSizing: 'border-box' }} />
  </div>
  ))}
  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
  <div>
  <label style={{ color: '#9CA3AF', fontSize: 12, display: 'block', marginBottom: 6 }}>المدة (دقيقة)</label>
  <input type="number" value={form.duration} onChange={e => setForm({ ...form, duration: +e.target.value })}
- style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, boxSizing: 'border-box' }} />
+ style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, boxSizing: 'border-box' }} />
  </div>
  <div>
  <label style={{ color: '#9CA3AF', fontSize: 12, display: 'block', marginBottom: 6 }}>الدرجة الكلية</label>
  <input type="number" value={form.total_marks} onChange={e => setForm({ ...form, total_marks: +e.target.value })}
- style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, boxSizing: 'border-box' }} />
+ style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, boxSizing: 'border-box' }} />
  </div>
  <div>
  <label style={{ color: '#9CA3AF', fontSize: 12, display: 'block', marginBottom: 6 }}>درجة النجاح</label>
  <input type="number" value={form.pass_marks} onChange={e => setForm({ ...form, pass_marks: +e.target.value })}
- style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, boxSizing: 'border-box' }} />
+ style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, boxSizing: 'border-box' }} />
  </div>
  </div>
  <div>
  <label style={{ color: '#9CA3AF', fontSize: 12, display: 'block', marginBottom: 6 }}>تاريخ الاختبار</label>
  <input type="datetime-local" value={form.scheduled_at} onChange={e => setForm({ ...form, scheduled_at: e.target.value })}
- style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, boxSizing: 'border-box' }} />
+ style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, boxSizing: 'border-box' }} />
  </div>
  <div>
  <label style={{ color: '#9CA3AF', fontSize: 12, display: 'block', marginBottom: 6 }}>التعليمات</label>
  <textarea value={form.instructions} onChange={e => setForm({ ...form, instructions: e.target.value })}
  placeholder="تعليمات الاختبار للطلاب..." rows={3}
- style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, boxSizing: 'border-box', resize: 'vertical' }} />
+ style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, boxSizing: 'border-box', resize: 'vertical' }} />
  </div>
  {/* خيارات متقدمة */}
  <div style={{ background: 'rgba(255,255,255,0.02)', borderRadius: 10, padding: '14px' }}>
@@ -396,12 +396,12 @@ export default function SmartExamsPage() {
  <h3 style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginBottom: 14 }}><Pencil size={18} color="#6B7280" /><IconRenderer name="ICON_Plus" size={18} /> إضافة سؤال يدوي</h3>
  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
  <select value={currentQ.type} onChange={e => setCurrentQ({ ...currentQ, type: e.target.value })}
- style={{ padding: '9px 12px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: '#1a2d4a', color: '#fff', fontSize: 13 }}>
+ style={{ padding: '9px 12px', borderRadius: 8, border: '1px solid var(--border)', background: '#1a2d4a', color: '#fff', fontSize: 13 }}>
  {QUESTION_TYPES.map(t => <option key={t.value} value={t.value}><IconRenderer name={t.icon} /> {t.label}</option>)}
  </select>
  <textarea value={currentQ.text} onChange={e => setCurrentQ({ ...currentQ, text: e.target.value })}
  placeholder="نص السؤال *" rows={2}
- style={{ padding: '9px 12px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 13, resize: 'vertical' }} />
+ style={{ padding: '9px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 13, resize: 'vertical' }} />
  {currentQ.type === 'MCQ' && (
  <div>
  {currentQ.options.map((opt, i) => (
@@ -409,7 +409,7 @@ export default function SmartExamsPage() {
  <input type="radio" name="correct" checked={currentQ.correct_answer === String(i)} onChange={() => setCurrentQ({ ...currentQ, correct_answer: String(i) })} />
  <input value={opt} onChange={e => { const o = [...currentQ.options]; o[i] = e.target.value; setCurrentQ({ ...currentQ, options: o }); }}
  placeholder={`الخيار ${i + 1}`}
- style={{ flex: 1, padding: '7px 10px', borderRadius: 6, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 12 }} />
+ style={{ flex: 1, padding: '7px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 12 }} />
  </div>
  ))}
  </div>
@@ -427,9 +427,9 @@ export default function SmartExamsPage() {
  <div style={{ display: 'flex', gap: 8 }}>
  <input type="number" value={currentQ.marks} onChange={e => setCurrentQ({ ...currentQ, marks: +e.target.value })} min={1}
  placeholder="الدرجة"
- style={{ width: 80, padding: '7px 10px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 13 }} />
+ style={{ width: 80, padding: '7px 10px', borderRadius: 8, border: '1px solid var(--border)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 13 }} />
  <select value={currentQ.difficulty} onChange={e => setCurrentQ({ ...currentQ, difficulty: e.target.value })}
- style={{ flex: 1, padding: '7px 10px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: '#1a2d4a', color: '#fff', fontSize: 13 }}>
+ style={{ flex: 1, padding: '7px 10px', borderRadius: 8, border: '1px solid var(--border)', background: '#1a2d4a', color: '#fff', fontSize: 13 }}>
  <option value="easy">سهل</option>
  <option value="medium">متوسط</option>
  <option value="hard">صعب</option>
@@ -450,7 +450,7 @@ export default function SmartExamsPage() {
  <span style={{ color: '#E2E8F0', fontSize: 13 }}>{q.text?.substring(0, 60)}{q.text?.length > 60 ? '...' : ''}</span>
  </div>
  <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
- <span style={{ color: '#D4A843', fontSize: 12 }}>{q.marks} درجة</span>
+ <span style={{ color: 'var(--gold)', fontSize: 12 }}>{q.marks} درجة</span>
  <button onClick={() => setQuestions(prev => prev.filter((_, j) => j !== i))} style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer', fontSize: 16 }}>×</button>
  </div>
  </div>
@@ -479,7 +479,7 @@ export default function SmartExamsPage() {
  <div style={{ marginBottom: 20 }}>
  <label style={{ color: '#9CA3AF', fontSize: 13, marginLeft: 10 }}>اختر الاختبار:</label>
  <select onChange={e => { const ex = exams.find(x => x.id === +e.target.value); setSelectedExam(ex); if (ex) fetchResults(ex.id); }}
- style={{ padding: '9px 14px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: '#1a2d4a', color: '#fff', fontSize: 13 }}>
+ style={{ padding: '9px 14px', borderRadius: 8, border: '1px solid var(--border)', background: '#1a2d4a', color: '#fff', fontSize: 13 }}>
  <option value="">-- اختر --</option>
  {exams.map(e => <option key={e.id} value={e.id}>{e.title_ar || e.title}</option>)}
  </select>
@@ -490,7 +490,7 @@ export default function SmartExamsPage() {
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
  { label: 'المشاركون', value: results.length, icon: "ICON_Users", color: '#3B82F6' },
- { label: 'متوسط الدرجات', value: `${Math.round(results.reduce((s, r) => s + (r.score || 0), 0) / results.length)}%`, icon: "ICON_BarChart3", color: '#D4A843' },
+ { label: 'متوسط الدرجات', value: `${Math.round(results.reduce((s, r) => s + (r.score || 0), 0) / results.length)}%`, icon: "ICON_BarChart3", color: 'var(--gold)' },
  { label: 'الناجحون', value: results.filter(r => r.passed).length, icon: "ICON_CheckCircle", color: '#10B981' },
  { label: 'الراسبون', value: results.filter(r => !r.passed).length, icon: "ICON_XCircle", color: '#EF4444' },
  ].map((s, i) => (
@@ -550,7 +550,7 @@ export default function SmartExamsPage() {
  {}
  {showModal && modalType === 'edit' && (
  <div style={{ position:'fixed',inset:0,zIndex:9999,background:'rgba(0,0,0,0.75)',backdropFilter:'blur(4px)',display:'flex',alignItems:'center',justifyContent:'center',padding:20 }} onClick={() => setShowModal(false)}>
- <div style={{ background:'#0F0F1A',border:'1px solid rgba(255,255,255,0.08)',borderRadius:20,width:'100%',maxWidth:540,maxHeight:'90vh',overflowY:'auto',boxShadow:'0 24px 80px rgba(0,0,0,0.6)',direction:'rtl',fontFamily:'IBM Plex Sans Arabic, sans-serif' }} onClick={e=>e.stopPropagation()}>
+ <div style={{ background:'#0F0F1A',border:'1px solid var(--border)',borderRadius:20,width:'100%',maxWidth:540,maxHeight:'90vh',overflowY:'auto',boxShadow:'0 24px 80px rgba(0,0,0,0.6)',direction:'rtl',fontFamily:'var(--font)' }} onClick={e=>e.stopPropagation()}>
  <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center',padding:'20px 24px',borderBottom:'1px solid rgba(255,255,255,0.07)' }}>
  <h3 style={{ color:'#EEEEF5',fontSize:17,fontWeight:700,margin:0 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل الاختبار</h3>
  <button onClick={() => setShowModal(false)} style={{ background:'rgba(255,255,255,0.05)',border:'none',borderRadius:8,padding:'6px 10px',cursor:'pointer',color:'rgba(238,238,245,0.6)',fontSize:16 }}>X</button>
@@ -562,7 +562,7 @@ export default function SmartExamsPage() {
  <div key={f.key} style={{ marginBottom:14 }}>
  <label style={{ display:'block',color:'rgba(238,238,245,0.7)',fontSize:13,fontWeight:600,marginBottom:6 }}>{f.label}</label>
  <input value={(editForm as any)[f.key]} onChange={e => setEditForm(ef => ({...ef,[f.key]:e.target.value}))} placeholder={f.placeholder}
- style={{ width:'100%',padding:'10px 14px',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' }} />
+ style={{ width:'100%',padding:'10px 14px',background:'var(--bg-card)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' }} />
  </div>
  ))}
  <div style={{ display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:12,marginBottom:14 }}>
@@ -570,14 +570,14 @@ export default function SmartExamsPage() {
  <div key={f.key}>
  <label style={{ display:'block',color:'rgba(238,238,245,0.7)',fontSize:12,fontWeight:600,marginBottom:5 }}>{f.label}</label>
  <input type={f.type} value={(editForm as any)[f.key]} onChange={e => setEditForm(ef => ({...ef,[f.key]:+e.target.value}))}
- style={{ width:'100%',padding:'9px 12px',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' }} />
+ style={{ width:'100%',padding:'9px 12px',background:'var(--bg-card)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' }} />
  </div>
  ))}
  </div>
  <div style={{ marginBottom:16 }}>
  <label style={{ display:'block',color:'rgba(238,238,245,0.7)',fontSize:13,fontWeight:600,marginBottom:6 }}>الحالة</label>
  <select value={editForm.status} onChange={e => setEditForm(ef => ({...ef,status:e.target.value}))}
- style={{ width:'100%',padding:'10px 14px',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' }}>
+ style={{ width:'100%',padding:'10px 14px',background:'var(--bg-card)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' }}>
  <option value='DRAFT'>مسودة</option>
  <option value='PUBLISHED'>منشور</option>
  <option value='ACTIVE'>جاري الآن</option>

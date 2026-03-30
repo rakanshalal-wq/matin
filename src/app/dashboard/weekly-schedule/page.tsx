@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 const DARK = '#0A0A14';
 const CARD = '#0F0F1E';
 const BORDER = 'rgba(255,255,255,0.08)';
-const GOLD = '#D4A843';
+const GOLD='var(--gold)';
 const RED = '#EF4444';
 const GREEN = '#22C55E';
 
@@ -26,7 +26,7 @@ const inp: any = {
 const btn = (bg: string, color = '#000') => ({
  background: bg, color, border: 'none', borderRadius: 10,
  padding: '9px 18px', fontWeight: 700, fontSize: 13,
- cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif',
+ cursor: 'pointer', fontFamily: 'var(--font)',
 });
 
 const DAYS = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'];
@@ -257,7 +257,7 @@ export default function WeeklySchedulePage() {
  };
 
  return (
- <div className="min-h-screen p-6" style={{ background: DARK, color: 'white', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
+ <div className="min-h-screen p-6" style={{ background: DARK, color: 'white', direction: 'rtl', fontFamily: 'var(--font)' }}>
 
  {/* Toast */}
  {toast && (
@@ -506,7 +506,7 @@ export default function WeeklySchedulePage() {
  <p className="text-xs text-gray-400 mb-4">حدد أوقات الحصص والاستراحات حسب جدول مدرستك</p>
  <div className="flex flex-col gap-3 max-h-96 overflow-y-auto">
  {periodsForm.map((p: any, i: number) => (
- <div key={i} className="rounded-xl p-3" style={{ background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}` }}>
+ <div key={i} className="rounded-xl p-3" style={{ background: 'var(--bg-card)', border: `1px solid ${BORDER}` }}>
  <div className="flex items-center gap-2 mb-2">
  <input style={{ ...inp, width: 40, textAlign: 'center', padding: '6px' }}
  type="number" value={p.period_num}

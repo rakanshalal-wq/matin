@@ -140,7 +140,7 @@ export default function QuestionAnalyticsPage() {
  { label: 'سهلة جداً', value: stats.veryEasy || 0, color: '#F59E0B', icon: 'Alert<Triangle size={16} />' },
  { label: 'صعبة جداً', value: stats.veryHard || 0, color: '#EF4444', icon: "ICON_Circle" },
  ].map((s, i) => (
- <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${s.color}30`, borderRadius: 12, padding: '14px 16px' }}>
+ <div key={i} style={{ background: 'var(--bg-card)', border: `1px solid ${s.color}30`, borderRadius: 12, padding: '14px 16px' }}>
  <div style={{ fontSize: 22, marginBottom: 4 }}><IconRenderer name={s.icon} /></div>
  <div style={{ color: s.color, fontSize: 24, fontWeight: 800 }}>{s.value}</div>
  <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{s.label}</div>
@@ -170,12 +170,12 @@ export default function QuestionAnalyticsPage() {
  value={search}
  onChange={e => setSearch(e.target.value)}
  placeholder="Search ابحث في الأسئلة..."
- style={{ flex: 1, minWidth: 200, padding: '10px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'white', fontFamily: 'inherit', fontSize: 14, outline: 'none' }}
+ style={{ flex: 1, minWidth: 200, padding: '10px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: 10, color: 'white', fontFamily: 'inherit', fontSize: 14, outline: 'none' }}
  />
  <select
  value={filterSubject}
  onChange={e => setFilterSubject(e.target.value)}
- style={{ padding: '10px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'white', fontFamily: 'inherit', fontSize: 13, outline: 'none', cursor: 'pointer' }}
+ style={{ padding: '10px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: 10, color: 'white', fontFamily: 'inherit', fontSize: 13, outline: 'none', cursor: 'pointer' }}
  >
  <option value="">كل المواد</option>
  {subjects.map(s => <option key={s} value={s}>{s}</option>)}
@@ -183,7 +183,7 @@ export default function QuestionAnalyticsPage() {
  <select
  value={filterGrade}
  onChange={e => setFilterGrade(e.target.value)}
- style={{ padding: '10px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'white', fontFamily: 'inherit', fontSize: 13, outline: 'none', cursor: 'pointer' }}
+ style={{ padding: '10px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: 10, color: 'white', fontFamily: 'inherit', fontSize: 13, outline: 'none', cursor: 'pointer' }}
  >
  <option value="">كل الصفوف</option>
  {grades.map(g => <option key={g} value={g}>{g}</option>)}
@@ -191,7 +191,7 @@ export default function QuestionAnalyticsPage() {
  <select
  value={filterQuality}
  onChange={e => setFilterQuality(e.target.value)}
- style={{ padding: '10px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'white', fontFamily: 'inherit', fontSize: 13, outline: 'none', cursor: 'pointer' }}
+ style={{ padding: '10px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: 10, color: 'white', fontFamily: 'inherit', fontSize: 13, outline: 'none', cursor: 'pointer' }}
  >
  <option value="">كل مستويات الجودة</option>
  {Object.keys(qualityConfig).map(q => <option key={q} value={q}>{q}</option>)}

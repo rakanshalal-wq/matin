@@ -91,7 +91,7 @@ export default function StaffPage() {
  students: users.filter((u: any) => u.role === 'student').length,
  };
 
- const inputStyle = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none' };
+ const inputStyle = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: 8, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none' };
 
  return (
  <div>
@@ -101,7 +101,7 @@ export default function StaffPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_School" size={18} /> إدارة الطاقم</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إضافة وإدارة المعلمين والمدراء والموظفين</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({ name: '', email: '', password: '', phone: '', role: 'teacher', school_id: '', national_id: '' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 12, padding: '12px 24px', cursor: 'pointer', fontWeight: 700, fontSize: 14 }}>
+ <button onClick={() => { setEditItem(null); setForm({ name: '', email: '', password: '', phone: '', role: 'teacher', school_id: '', national_id: '' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold2))', color: 'var(--bg)', border: 'none', borderRadius: 12, padding: '12px 24px', cursor: 'pointer', fontWeight: 700, fontSize: 14 }}>
  Plus إضافة جديد
  </button>
  </div>
@@ -114,7 +114,7 @@ export default function StaffPage() {
  { label: 'المدراء', value: stats.admins, icon: "ICON_Wrench", color: '#8B5CF6' },
  { label: 'الطلاب', value: stats.students, icon: "ICON_GraduationCap", color: '#EC4899' },
  ].map((s, i) => (
- <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 20 }}>
+ <div key={i} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, padding: 20 }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
  <div>
  <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, marginBottom: 6 }}>{s.label}</div>
@@ -130,11 +130,11 @@ export default function StaffPage() {
  <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
  <input value={search} onChange={e => setSearch(e.target.value)} placeholder="بحث بالاسم أو الإيميل..." style={{ flex: 1, minWidth: 250, ...inputStyle }} />
  <select value={roleFilter} onChange={e => setRoleFilter(e.target.value)} style={{ ...inputStyle, width: 'auto', cursor: 'pointer' }}>
- <option value="all" style={{background:'#06060E'}}>كل الأدوار</option>
- <option value="admin" style={{background:'#06060E'}}>مدراء</option>
- <option value="teacher" style={{background:'#06060E'}}>معلمين</option>
- <option value="student" style={{background:'#06060E'}}>طلاب</option>
- <option value="parent" style={{background:'#06060E'}}>أولياء أمور</option>
+ <option value="all" style={{background:'var(--bg)'}}>كل الأدوار</option>
+ <option value="admin" style={{background:'var(--bg)'}}>مدراء</option>
+ <option value="teacher" style={{background:'var(--bg)'}}>معلمين</option>
+ <option value="student" style={{background:'var(--bg)'}}>طلاب</option>
+ <option value="parent" style={{background:'var(--bg)'}}>أولياء أمور</option>
  </select>
  </div>
 
@@ -148,7 +148,7 @@ export default function StaffPage() {
  <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 13, marginTop: 8 }}>اضغط "إضافة جديد" لإضافة معلم أو مدير</div>
  </div>
  ) : (
- <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, overflow: 'hidden' }}>
+ <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, overflow: 'hidden' }}>
  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
@@ -175,7 +175,7 @@ export default function StaffPage() {
  </td>
  <td style={{ padding: '14px 16px' }}>
  <div style={{ display: 'flex', gap: 6 }}>
- <button onClick={() => handleEdit(u)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: 'none', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+ <button onClick={() => handleEdit(u)} style={{ background: 'rgba(201,162,39,0.1)', color: 'var(--gold)', border: 'none', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
  <button onClick={() => handleDelete(u.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
  </div>
  </td>
@@ -189,7 +189,7 @@ export default function StaffPage() {
  {/* Modal إضافة/تعديل */}
  {showModal && (
  <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
- <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
+ <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
  <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل' : 'Plus إضافة عضو جديد'}</h2>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
@@ -203,10 +203,10 @@ export default function StaffPage() {
  <div>
  <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>الدور *</label>
  <select value={form.role} onChange={e => setForm({...form, role: e.target.value})} style={{...inputStyle, cursor: 'pointer'}}>
- <option value="teacher" style={{background:'#06060E'}}> <IconRenderer name="ICON_School" size={18} /> معلم</option>
- <option value="admin" style={{background:'#06060E'}}><IconRenderer name="ICON_Wrench" size={18} /> مدير مدرسة</option>
- <option value="student" style={{background:'#06060E'}}><IconRenderer name="ICON_GraduationCap" size={18} /> طالب</option>
- <option value="parent" style={{background:'#06060E'}}> <IconRenderer name="ICON_User" size={18} /> ولي أمر</option>
+ <option value="teacher" style={{background:'var(--bg)'}}> <IconRenderer name="ICON_School" size={18} /> معلم</option>
+ <option value="admin" style={{background:'var(--bg)'}}><IconRenderer name="ICON_Wrench" size={18} /> مدير مدرسة</option>
+ <option value="student" style={{background:'var(--bg)'}}><IconRenderer name="ICON_GraduationCap" size={18} /> طالب</option>
+ <option value="parent" style={{background:'var(--bg)'}}> <IconRenderer name="ICON_User" size={18} /> ولي أمر</option>
  </select>
  </div>
  {!editItem && (
@@ -231,9 +231,9 @@ export default function StaffPage() {
  <div>
  <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6, display: 'block' }}>المدرسة *</label>
  <select value={form.school_id} onChange={e => setForm({...form, school_id: e.target.value})} style={{...inputStyle, cursor: 'pointer'}}>
- <option value="" style={{background:'#06060E'}}>-- اختر المدرسة --</option>
+ <option value="" style={{background:'var(--bg)'}}>-- اختر المدرسة --</option>
  {schools.map((s: any) => (
- <option key={s.id} value={s.id} style={{background:'#06060E'}}>{s.name}</option>
+ <option key={s.id} value={s.id} style={{background:'var(--bg)'}}>{s.name}</option>
  ))}
  </select>
  </div>
@@ -249,8 +249,8 @@ export default function StaffPage() {
  )}
 
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
- <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
- <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
+ <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid var(--border)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
+ <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold2))', color: 'var(--bg)', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
  </div>
  </div>
  </div>

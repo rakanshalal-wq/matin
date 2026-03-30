@@ -86,11 +86,11 @@ export default function ReportsPage() {
  {[
  { label: 'الطلاب', value: data.students || 0, icon: "ICON_GraduationCap", color: '#3B82F6' },
  { label: 'المعلمين', value: data.teachers || 0, icon: '<User size={16} />School', color: '#10B981' },
- { label: 'الفصول', value: data.classes || 0, icon: "ICON_School", color: '#D4A843' },
+ { label: 'الفصول', value: data.classes || 0, icon: "ICON_School", color: 'var(--gold)' },
  { label: 'الاختبارات', value: data.exams || 0, icon: "ICON_FileText", color: '#8B5CF6' },
  { label: 'المحاضرات', value: data.lectures || 0, icon: "ICON_BookOpen", color: '#F59E0B' },
  ].map((s, i) => (
- <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 20, textAlign: 'center' }}>
+ <div key={i} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, padding: 20, textAlign: 'center' }}>
  <div style={{ fontSize: 32, marginBottom: 8 }}><IconRenderer name={s.icon} /></div>
  <div style={{ color: s.color, fontSize: 28, fontWeight: 800 }}>{(s.value || 0).toLocaleString()}</div>
  <div style={{ color: '#9CA3AF', fontSize: 13, marginTop: 4 }}>{s.label}</div>
@@ -98,8 +98,8 @@ export default function ReportsPage() {
  ))}
  </div>
  {data.attendance && data.attendance.length > 0 && (
- <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 20 }}>
- <h3 style={{ color: '#D4A843', fontSize: 16, fontWeight: 700, margin: '0 0 16px' }}><Hand size={18} color="#6B7280" /> إحصائيات الحضور</h3>
+ <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, padding: 20 }}>
+ <h3 style={{ color: 'var(--gold)', fontSize: 16, fontWeight: 700, margin: '0 0 16px' }}><Hand size={18} color="#6B7280" /> إحصائيات الحضور</h3>
  <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
  {data.attendance.map((a: any, i: number) => {
  const isPresent = a.status === 'PRESENT' || a.status === 'present';
@@ -124,15 +124,15 @@ export default function ReportsPage() {
  const renderStudentPerformance = () => {
  if (!data || !Array.isArray(data)) return <div style={{ color: '#9CA3AF', textAlign: 'center', padding: 40 }}>لا توجد بيانات أداء</div>;
  return (
- <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, overflow: 'hidden' }}>
+ <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, overflow: 'hidden' }}>
  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ background: 'rgba(201,162,39,0.08)' }}>
- <th style={{ padding: '14px 16px', textAlign: 'right', color: '#D4A843', fontWeight: 700 }}>الطالب</th>
- <th style={{ padding: '14px 16px', textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>متوسط الدرجات</th>
- <th style={{ padding: '14px 16px', textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>الاختبارات</th>
- <th style={{ padding: '14px 16px', textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>أعلى درجة</th>
- <th style={{ padding: '14px 16px', textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>أدنى درجة</th>
+ <th style={{ padding: '14px 16px', textAlign: 'right', color: 'var(--gold)', fontWeight: 700 }}>الطالب</th>
+ <th style={{ padding: '14px 16px', textAlign: 'center', color: 'var(--gold)', fontWeight: 700 }}>متوسط الدرجات</th>
+ <th style={{ padding: '14px 16px', textAlign: 'center', color: 'var(--gold)', fontWeight: 700 }}>الاختبارات</th>
+ <th style={{ padding: '14px 16px', textAlign: 'center', color: 'var(--gold)', fontWeight: 700 }}>أعلى درجة</th>
+ <th style={{ padding: '14px 16px', textAlign: 'center', color: 'var(--gold)', fontWeight: 700 }}>أدنى درجة</th>
  </tr>
  </thead>
  <tbody>
@@ -160,16 +160,16 @@ export default function ReportsPage() {
  const renderAttendanceReport = () => {
  if (!data || !Array.isArray(data)) return <div style={{ color: '#9CA3AF', textAlign: 'center', padding: 40 }}>لا توجد بيانات حضور</div>;
  return (
- <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, overflow: 'hidden' }}>
+ <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, overflow: 'hidden' }}>
  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ background: 'rgba(201,162,39,0.08)' }}>
- <th style={{ padding: '14px 16px', textAlign: 'right', color: '#D4A843', fontWeight: 700 }}>الطالب</th>
- <th style={{ padding: '14px 16px', textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>أيام الحضور</th>
- <th style={{ padding: '14px 16px', textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>أيام الغياب</th>
- <th style={{ padding: '14px 16px', textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>التأخر</th>
- <th style={{ padding: '14px 16px', textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>الإجمالي</th>
- <th style={{ padding: '14px 16px', textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>نسبة الحضور</th>
+ <th style={{ padding: '14px 16px', textAlign: 'right', color: 'var(--gold)', fontWeight: 700 }}>الطالب</th>
+ <th style={{ padding: '14px 16px', textAlign: 'center', color: 'var(--gold)', fontWeight: 700 }}>أيام الحضور</th>
+ <th style={{ padding: '14px 16px', textAlign: 'center', color: 'var(--gold)', fontWeight: 700 }}>أيام الغياب</th>
+ <th style={{ padding: '14px 16px', textAlign: 'center', color: 'var(--gold)', fontWeight: 700 }}>التأخر</th>
+ <th style={{ padding: '14px 16px', textAlign: 'center', color: 'var(--gold)', fontWeight: 700 }}>الإجمالي</th>
+ <th style={{ padding: '14px 16px', textAlign: 'center', color: 'var(--gold)', fontWeight: 700 }}>نسبة الحضور</th>
  </tr>
  </thead>
  <tbody>
@@ -208,7 +208,7 @@ export default function ReportsPage() {
  { label: 'المدفوعات المعلقة', value: data.pending_count || 0, icon: '⏳', color: '#F59E0B' },
  { label: 'المشتركون النشطون', value: data.active_subscriptions || 0, icon: "ICON_Key", color: '#8B5CF6' },
  ].map((s, i) => (
- <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 20, textAlign: 'center' }}>
+ <div key={i} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, padding: 20, textAlign: 'center' }}>
  <div style={{ fontSize: 32, marginBottom: 8 }}><IconRenderer name={s.icon} /></div>
  <div style={{ color: s.color, fontSize: 22, fontWeight: 800 }}>{s.value}</div>
  <div style={{ color: '#9CA3AF', fontSize: 13, marginTop: 4 }}>{s.label}</div>
@@ -216,24 +216,24 @@ export default function ReportsPage() {
  ))}
  </div>
  {data.recent_payments && data.recent_payments.length > 0 && (
- <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, overflow: 'hidden' }}>
+ <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, overflow: 'hidden' }}>
  <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
- <h3 style={{ color: '#D4A843', fontSize: 16, fontWeight: 700, margin: 0 }}><Clock size={18} color="#F59E0B" /> آخر المدفوعات</h3>
+ <h3 style={{ color: 'var(--gold)', fontSize: 16, fontWeight: 700, margin: 0 }}><Clock size={18} color="#F59E0B" /> آخر المدفوعات</h3>
  </div>
  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ background: 'rgba(201,162,39,0.05)' }}>
- <th style={{ padding: '12px 16px', textAlign: 'right', color: '#D4A843', fontWeight: 700, fontSize: 13 }}>المستخدم</th>
- <th style={{ padding: '12px 16px', textAlign: 'center', color: '#D4A843', fontWeight: 700, fontSize: 13 }}>المبلغ</th>
- <th style={{ padding: '12px 16px', textAlign: 'center', color: '#D4A843', fontWeight: 700, fontSize: 13 }}>الحالة</th>
- <th style={{ padding: '12px 16px', textAlign: 'center', color: '#D4A843', fontWeight: 700, fontSize: 13 }}>التاريخ</th>
+ <th style={{ padding: '12px 16px', textAlign: 'right', color: 'var(--gold)', fontWeight: 700, fontSize: 13 }}>المستخدم</th>
+ <th style={{ padding: '12px 16px', textAlign: 'center', color: 'var(--gold)', fontWeight: 700, fontSize: 13 }}>المبلغ</th>
+ <th style={{ padding: '12px 16px', textAlign: 'center', color: 'var(--gold)', fontWeight: 700, fontSize: 13 }}>الحالة</th>
+ <th style={{ padding: '12px 16px', textAlign: 'center', color: 'var(--gold)', fontWeight: 700, fontSize: 13 }}>التاريخ</th>
  </tr>
  </thead>
  <tbody>
  {data.recent_payments.map((p: any) => (
  <tr key={p.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
  <td style={{ padding: '10px 16px', color: 'white', fontSize: 13 }}>{p.user_name || `مستخدم #${p.user_id}`}</td>
- <td style={{ padding: '10px 16px', textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>{parseFloat(p.amount || 0).toLocaleString()} ر.س</td>
+ <td style={{ padding: '10px 16px', textAlign: 'center', color: 'var(--gold)', fontWeight: 700 }}>{parseFloat(p.amount || 0).toLocaleString()} ر.س</td>
  <td style={{ padding: '10px 16px', textAlign: 'center' }}>
  <span style={{ padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600, background: p.status === 'paid' ? 'rgba(16,185,129,0.1)' : 'rgba(245,158,11,0.1)', color: p.status === 'paid' ? '#10B981' : '#F59E0B' }}>
  {p.status === 'paid' ? 'CheckCircle مدفوع' : '⏳ معلق'}
@@ -251,9 +251,9 @@ export default function ReportsPage() {
  };
 
  return (
- <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
+ <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'var(--font)' }}>
  <div style={{ marginBottom: 24 }}>
- <h1 style={{ fontSize: 26, fontWeight: 800, color: '#D4A843', margin: 0 }}><IconRenderer name="ICON_TrendingUp" size={18} /> التقارير والإحصائيات</h1>
+ <h1 style={{ fontSize: 26, fontWeight: 800, color: 'var(--gold)', margin: 0 }}><IconRenderer name="ICON_TrendingUp" size={18} /> التقارير والإحصائيات</h1>
  <p style={{ color: '#9CA3AF', fontSize: 14, margin: '6px 0 0' }}>تقارير شاملة من بيانات المنصة الحقيقية</p>
  </div>
 
@@ -261,11 +261,11 @@ export default function ReportsPage() {
  <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap', alignItems: 'center' }}>
  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
  <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>من:</label>
- <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '8px 12px', color: '#fff', fontSize: 13, outline: 'none' }} />
+ <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: 8, padding: '8px 12px', color: '#fff', fontSize: 13, outline: 'none' }} />
  </div>
  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
  <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>إلى:</label>
- <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '8px 12px', color: '#fff', fontSize: 13, outline: 'none' }} />
+ <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: 8, padding: '8px 12px', color: '#fff', fontSize: 13, outline: 'none' }} />
  </div>
  <button onClick={handleFilteredFetch} style={{ background: 'rgba(59,130,246,0.15)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 8, padding: '8px 16px', cursor: 'pointer', fontSize: 13, fontWeight: 600 }}><IconRenderer name="ICON_Search" size={18} /> تصفية</button>
  <button onClick={() => handleExport('csv')} disabled={saving} style={{ background: 'rgba(16,185,129,0.15)', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 8, padding: '8px 16px', cursor: saving ? 'not-allowed' : 'pointer', fontSize: 13, fontWeight: 600, opacity: saving ? 0.7 : 1 }}><IconRenderer name="ICON_Download" size={18} /> CSV</button>
@@ -279,8 +279,8 @@ export default function ReportsPage() {
  <button key={rt.id} onClick={() => fetchReport(rt.id)} style={{
  padding: '10px 20px', borderRadius: 10, border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: 14,
  background: activeReport === rt.id ? 'linear-gradient(135deg, #D4A843, #E8C547)' : 'rgba(255,255,255,0.05)',
- color: activeReport === rt.id ? '#06060E' : 'rgba(255,255,255,0.7)',
- fontFamily: 'IBM Plex Sans Arabic, sans-serif',
+ color: activeReport === rt.id ? 'var(--bg)' : 'rgba(255,255,255,0.7)',
+ fontFamily: 'var(--font)',
  transition: 'all 0.2s',
  }}>{rt.label}</button>
  ))}
@@ -288,7 +288,7 @@ export default function ReportsPage() {
 
  {/* المحتوى */}
  {loading ? (
- <div style={{ padding: 60, textAlign: 'center', color: '#D4A843', fontSize: 18 }}>⏳ جاري تحميل التقرير...</div>
+ <div style={{ padding: 60, textAlign: 'center', color: 'var(--gold)', fontSize: 18 }}>⏳ جاري تحميل التقرير...</div>
  ) : (
  <div>
  {activeReport === 'school_overview' && renderOverview()}

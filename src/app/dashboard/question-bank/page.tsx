@@ -189,20 +189,20 @@ export default function QuestionBankPage() {
  const canEdit = ['super_admin', 'owner', 'admin', 'teacher'].includes(user?.role);
 
  const s = {
- page: { minHeight: '100vh', background: '#06060E', fontFamily: 'IBM Plex Sans Arabic, Arial, sans-serif', direction: 'rtl' as const, padding: '24px' },
- btn: (color: string) => ({ padding: '10px 20px', background: `${color}20`, border: `1px solid ${color}50`, borderRadius: '8px', color: color, fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }),
- card: { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(201,162,39,0.1)', borderRadius: '12px', padding: '16px', marginBottom: '12px' },
- input: { width: '100%', padding: '10px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '14px', outline: 'none', direction: 'rtl' as const, marginBottom: '12px', boxSizing: 'border-box' as const, fontFamily: 'IBM Plex Sans Arabic, sans-serif' },
+ page: { minHeight: '100vh', background: 'var(--bg)', fontFamily: 'IBM Plex Sans Arabic, Arial, sans-serif', direction: 'rtl' as const, padding: '24px' },
+ btn: (color: string) => ({ padding: '10px 20px', background: `${color}20`, border: `1px solid ${color}50`, borderRadius: '8px', color: color, fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font)' }),
+ card: { background: 'var(--bg-card)', border: '1px solid rgba(201,162,39,0.1)', borderRadius: '12px', padding: '16px', marginBottom: '12px' },
+ input: { width: '100%', padding: '10px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: '8px', color: '#fff', fontSize: '14px', outline: 'none', direction: 'rtl' as const, marginBottom: '12px', boxSizing: 'border-box' as const, fontFamily: 'var(--font)' },
  label: { color: 'rgba(255,255,255,0.6)', fontSize: '12px', marginBottom: '4px', display: 'block' },
  modal: { position: 'fixed' as const, inset: 0, background: 'rgba(0,0,0,0.8)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' },
- modalBox: { background: '#06060E', border: '1px solid rgba(201,162,39,0.3)', borderRadius: '16px', padding: '28px', width: '100%', maxWidth: '600px', maxHeight: '90vh', overflowY: 'auto' as const },
+ modalBox: { background: 'var(--bg)', border: '1px solid rgba(201,162,39,0.3)', borderRadius: '16px', padding: '28px', width: '100%', maxWidth: '600px', maxHeight: '90vh', overflowY: 'auto' as const },
  };
 
  return (
  <div style={s.page}>
  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
  <div>
- <div style={{ color: '#D4A843', fontSize: '24px', fontWeight: 800 }}><IconRenderer name="ICON_BookOpen" size={18} /> بنك الأسئلة</div>
+ <div style={{ color: 'var(--gold)', fontSize: '24px', fontWeight: 800 }}><IconRenderer name="ICON_BookOpen" size={18} /> بنك الأسئلة</div>
  <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', marginTop: '4px' }}>{questions.length} سؤال</div>
  </div>
  {canEdit && (
@@ -215,7 +215,7 @@ export default function QuestionBankPage() {
 
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px', marginBottom: '24px' }}>
  {[
- { label: 'إجمالي', value: stats.total || questions.length, color: '#D4A843' },
+ { label: 'إجمالي', value: stats.total || questions.length, color: 'var(--gold)' },
  { label: 'سهل', value: stats.easy || questions.filter(q => q.difficulty === 'easy').length, color: '#10B981' },
  { label: 'متوسط', value: stats.medium || questions.filter(q => q.difficulty === 'medium').length, color: '#F59E0B' },
  { label: 'صعب', value: stats.hard || questions.filter(q => q.difficulty === 'hard').length, color: '#EF4444' },
@@ -229,19 +229,19 @@ export default function QuestionBankPage() {
  </div>
 
  <div style={{ display: 'flex', gap: '12px', marginBottom: '20px', flexWrap: 'wrap' }}>
- <input style={{ padding: '8px 16px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '13px', outline: 'none', direction: 'rtl', flex: 1, minWidth: '200px', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }} placeholder="Search ابحث في الأسئلة..." value={search} onChange={e => setSearch(e.target.value)} />
- <select style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '13px', outline: 'none', direction: 'rtl' }} value={filterDiff} onChange={e => setFilterDiff(e.target.value)}>
+ <input style={{ padding: '8px 16px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: '8px', color: '#fff', fontSize: '13px', outline: 'none', direction: 'rtl', flex: 1, minWidth: '200px', fontFamily: 'var(--font)' }} placeholder="Search ابحث في الأسئلة..." value={search} onChange={e => setSearch(e.target.value)} />
+ <select style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: '8px', color: '#fff', fontSize: '13px', outline: 'none', direction: 'rtl' }} value={filterDiff} onChange={e => setFilterDiff(e.target.value)}>
  <option value="">كل المستويات</option>
  <option value="easy"><IconRenderer name="ICON_Circle" size={18} /> سهل</option>
  <option value="medium"><IconRenderer name="ICON_Circle" size={18} /> متوسط</option>
  <option value="hard"><IconRenderer name="ICON_Circle" size={18} /> صعب</option>
  </select>
- <select style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '13px', outline: 'none', direction: 'rtl' }} value={filterSemester} onChange={e => setFilterSemester(e.target.value)}>
+ <select style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: '8px', color: '#fff', fontSize: '13px', outline: 'none', direction: 'rtl' }} value={filterSemester} onChange={e => setFilterSemester(e.target.value)}>
  <option value="">كل الفصول</option>
  <option value="1">الفصل الأول</option>
  <option value="2">الفصل الثاني</option>
  </select>
- <select style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '13px', outline: 'none', direction: 'rtl' }} value={filterTrack} onChange={e => setFilterTrack(e.target.value)}>
+ <select style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: '8px', color: '#fff', fontSize: '13px', outline: 'none', direction: 'rtl' }} value={filterTrack} onChange={e => setFilterTrack(e.target.value)}>
  <option value="">كل المسارات</option>
  <option value="عام">عام (ابتدائي / متوسط)</option>
  <option value="مشترك (جميع المسارات)">أول ثانوي — مشترك</option>
@@ -251,7 +251,7 @@ export default function QuestionBankPage() {
  <option value="مسار إدارة الأعمال">إدارة الأعمال</option>
  <option value="المسار الشرعي">المسار الشرعي</option>
  </select>
- <select style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '13px', outline: 'none', direction: 'rtl' }} value={filterLesson} onChange={e => setFilterLesson(e.target.value)}>
+ <select style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: '8px', color: '#fff', fontSize: '13px', outline: 'none', direction: 'rtl' }} value={filterLesson} onChange={e => setFilterLesson(e.target.value)}>
  <option value="">كل الدروس</option>
  {lessons.map(l => <option key={l} value={l}>{l}</option>)}
  </select>
@@ -260,7 +260,7 @@ export default function QuestionBankPage() {
  <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', marginBottom: '16px' }}>عرض {filtered.length} من {questions.length} سؤال</div>
 
  {loading ? (
- <div style={{ textAlign: 'center', color: '#D4A843', padding: '40px' }}>جاري التحميل...</div>
+ <div style={{ textAlign: 'center', color: 'var(--gold)', padding: '40px' }}>جاري التحميل...</div>
  ) : filtered.length === 0 ? (
  <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.3)', padding: '60px' }}>
  <div style={{ fontSize: '48px', marginBottom: '16px' }}><IconRenderer name="ICON_Mail" size={18} />box</div>
@@ -307,7 +307,7 @@ export default function QuestionBankPage() {
  {showAdd && (
  <div style={s.modal} onClick={() => setShowAdd(false)}>
  <div style={s.modalBox} onClick={e => e.stopPropagation()}>
- <div style={{ color: '#D4A843', fontSize: '18px', fontWeight: 700, marginBottom: '20px' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة سؤال جديد</div>
+ <div style={{ color: 'var(--gold)', fontSize: '18px', fontWeight: 700, marginBottom: '20px' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة سؤال جديد</div>
  {msg && <div style={{ color: msg.includes("ICON_CheckCircle") ? '#10B981' : '#EF4444', marginBottom: '12px', fontSize: '14px' }}>{msg}</div>}
  <label style={s.label}>نص السؤال *</label>
  <textarea style={{ ...s.input, minHeight: '80px', resize: 'vertical' }} placeholder="اكتب السؤال هنا..." value={form.question_text} onChange={e => setForm({ ...form, question_text: e.target.value })} />
@@ -349,7 +349,7 @@ export default function QuestionBankPage() {
  <label style={s.label}>الخيارات</label>
  {['أ', 'ب', 'ج', 'د'].map((letter, i) => (
  <div key={i} style={{ display: 'flex', gap: '8px', marginBottom: '8px', alignItems: 'center' }}>
- <span style={{ color: '#D4A843', width: '20px', flexShrink: 0 }}>{letter}</span>
+ <span style={{ color: 'var(--gold)', width: '20px', flexShrink: 0 }}>{letter}</span>
  <input style={{ ...s.input, marginBottom: 0, flex: 1 }} placeholder={`الخيار ${letter}`} value={form.options[i]} onChange={e => { const opts = [...form.options]; opts[i] = e.target.value; setForm({ ...form, options: opts }); }} />
  </div>
  ))}
@@ -375,7 +375,7 @@ export default function QuestionBankPage() {
  {showImport && (
  <div style={s.modal} onClick={() => !importing && setShowImport(false)}>
  <div style={{...s.modalBox, maxWidth: '560px', maxHeight: '90vh', overflowY: 'auto'}} onClick={e => e.stopPropagation()}>
- <div style={{ color: '#D4A843', fontSize: '18px', fontWeight: 700, marginBottom: '20px' }}><Download size={18} color="#6B7280" /> استيراد أسئلة من Excel</div>
+ <div style={{ color: 'var(--gold)', fontSize: '18px', fontWeight: 700, marginBottom: '20px' }}><Download size={18} color="#6B7280" /> استيراد أسئلة من Excel</div>
 
  {/* إعدادات الاستيراد */}
  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
@@ -456,7 +456,7 @@ export default function QuestionBankPage() {
  ) : (
  <>
  <div style={{ fontSize: '36px', marginBottom: '8px' }}>[BarChart3]</div>
- <div style={{ fontSize: '14px', color: '#D4A843', fontWeight: 600 }}>اسحب ملف Excel هنا أو انقر للاختيار</div>
+ <div style={{ fontSize: '14px', color: 'var(--gold)', fontWeight: 600 }}>اسحب ملف Excel هنا أو انقر للاختيار</div>
  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '6px' }}>يدعم: .xlsx, .xls - جميع هياكل ملفات متين</div>
  </>
  )}
@@ -484,7 +484,7 @@ export default function QuestionBankPage() {
  ))}
  </div>
  {importResult.sheets?.map((sh: any, i: number) => (
- <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: 'rgba(255,255,255,0.03)', borderRadius: '6px', marginBottom: '4px' }}>
+ <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', background: 'var(--bg-card)', borderRadius: '6px', marginBottom: '4px' }}>
  <span style={{ color: '#f1f5f9', fontSize: '12px' }}>{sh.sheet}</span>
  <span style={{ color: '#22c55e', fontSize: '12px', fontWeight: 600 }}>+{sh.imported} سؤال</span>
  </div>

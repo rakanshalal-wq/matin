@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 const DARK = '#0A0A14';
 const CARD = '#0F0F1E';
 const BORDER = 'rgba(255,255,255,0.08)';
-const GOLD = '#D4A843';
+const GOLD='var(--gold)';
 const BLUE = '#3B82F6';
 const GREEN = '#22C55E';
 const RED = '#EF4444';
@@ -27,7 +27,7 @@ const inp: any = {
 const btn = (bg: string, color = '#000') => ({
  background: bg, color, border: 'none', borderRadius: 10,
  padding: '9px 18px', fontWeight: 700, fontSize: 13,
- cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif',
+ cursor: 'pointer', fontFamily: 'var(--font)',
 });
 
 // ─── مساعد Headers ───────────────────────────────────────────────
@@ -156,7 +156,7 @@ export default function AcademicStructurePage() {
  const trackColors: any = { 1: '#94A3B8', 2: '#94A3B8', 3: BLUE, 4: PURPLE, 5: GREEN, 6: GOLD, 7: '#F59E0B' };
 
  return (
- <div className="min-h-screen p-6" style={{ background: DARK, color: 'white', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
+ <div className="min-h-screen p-6" style={{ background: DARK, color: 'white', direction: 'rtl', fontFamily: 'var(--font)' }}>
 
  {/* Toast */}
  {toast && (
@@ -239,7 +239,7 @@ export default function AcademicStructurePage() {
  <div className="flex flex-col gap-2">
  {grades.map((g: any) => (
  <div key={g.id} className="flex items-center justify-between px-3 py-2 rounded-lg"
- style={{ background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}` }}>
+ style={{ background: 'var(--bg-card)', border: `1px solid ${BORDER}` }}>
  <span className="text-sm text-white font-bold">{g.name_ar}</span>
  <div className="flex gap-1">
  <button onClick={() => openModal('editGrade', g)}
@@ -292,7 +292,7 @@ export default function AcademicStructurePage() {
  <div className="rounded-2xl overflow-hidden" style={{ border: `1px solid ${BORDER}` }}>
  <table className="w-full text-sm">
  <thead>
- <tr style={{ background: 'rgba(255,255,255,0.04)', borderBottom: `1px solid ${BORDER}` }}>
+ <tr style={{ background: 'var(--bg-card)', borderBottom: `1px solid ${BORDER}` }}>
  <th className="text-right px-4 py-3 text-gray-400 font-bold">المادة</th>
  <th className="text-right px-4 py-3 text-gray-400 font-bold">الكود</th>
  <th className="text-right px-4 py-3 text-gray-400 font-bold">المرحلة</th>

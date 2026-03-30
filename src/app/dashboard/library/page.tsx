@@ -79,7 +79,7 @@ export default function LibraryPage() {
     { key: 'author', label: 'المؤلف', render: (v: any) => <span className="cell-sub">{v || '—'}</span> },
     { key: 'category', label: 'الفئة', render: (v: any) => <span className="cell-sub">{v || '—'}</span> },
     { key: 'quantity', label: 'الكمية', align: 'center' as const, render: (v: any) => v || 1 },
-    { key: 'available_quantity', label: 'المتاح', align: 'center' as const, render: (v: any) => <span style={{ color: '#D4A843', fontWeight: 700 }}>{v || 0}</span> },
+    { key: 'available_quantity', label: 'المتاح', align: 'center' as const, render: (v: any) => <span style={{ color: 'var(--gold)', fontWeight: 700 }}>{v || 0}</span> },
     {
       key: 'status', label: 'الحالة', align: 'center' as const,
       render: (v: any) => {

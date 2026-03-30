@@ -7,7 +7,7 @@ import { getHeaders } from '@/lib/api';
 
 
 const Card = ({ children, style = {} }: { children: React.ReactNode; style?: React.CSSProperties }) => (
- <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 24, ...style }}>{children}</div>
+ <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, padding: 24, ...style }}>{children}</div>
 );
 
 const Toggle = ({ value, onChange, label, desc }: { value: boolean; onChange: (v: boolean) => void; label: string; desc?: string }) => (
@@ -26,7 +26,7 @@ const InputField = ({ label, value, onChange, type = 'text', desc, placeholder, 
  <div style={{ marginBottom: 16 }}>
  <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>{label}</label>
  {desc && <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11, marginBottom: 6 }}>{desc}</div>}
- <input type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} dir={dir || 'ltr'} style={{ width: '100%', padding: '10px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }} />
+ <input type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} dir={dir || 'ltr'} style={{ width: '100%', padding: '10px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: 8, color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }} />
  </div>
 );
 
@@ -34,8 +34,8 @@ const SelectField = ({ label, value, onChange, options, desc }: { label: string;
  <div style={{ marginBottom: 16 }}>
  <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>{label}</label>
  {desc && <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11, marginBottom: 6 }}>{desc}</div>}
- <select value={value} onChange={(e) => onChange(e.target.value)} style={{ width: '100%', padding: '10px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit' }}>
- {options.map(o => <option key={o.value} value={o.value} style={{ background: '#06060E' }}>{o.label}</option>)}
+ <select value={value} onChange={(e) => onChange(e.target.value)} style={{ width: '100%', padding: '10px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: 8, color: 'white', fontSize: 14, outline: 'none', fontFamily: 'inherit' }}>
+ {options.map(o => <option key={o.value} value={o.value} style={{ background: 'var(--bg)' }}>{o.label}</option>)}
  </select>
  </div>
 );
@@ -88,8 +88,8 @@ export default function PlatformSettingsPage() {
  };
 
  if (loading) return (
- <div style={{ minHeight: '100vh', background: '#06060E', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
- <div style={{ color: '#D4A843', fontSize: 18 }}>جاري تحميل الإعدادات...</div>
+ <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+ <div style={{ color: 'var(--gold)', fontSize: 18 }}>جاري تحميل الإعدادات...</div>
  </div>
  );
 
@@ -105,14 +105,14 @@ export default function PlatformSettingsPage() {
  ];
 
  return (
- <div style={{ minHeight: '100vh', background: '#06060E', direction: 'rtl', fontFamily: 'Tajawal, sans-serif' }}>
+ <div style={{ minHeight: '100vh', background: 'var(--bg)', direction: 'rtl', fontFamily: 'Tajawal, sans-serif' }}>
  <div style={{ background: 'rgba(255,255,255,0.02)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '16px 24px' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
  <a href="/dashboard/super-admin" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: 14 }}>← العودة للوحة التحكم</a>
  <h1 style={{ color: 'white', fontSize: 22, fontWeight: 800, margin: 0 }}>إعدادات المنصة</h1>
  </div>
- <button onClick={saveSettings} disabled={saving} style={{ padding: '12px 32px', border: 'none', borderRadius: 10, cursor: saving ? 'wait' : 'pointer', fontWeight: 700, fontSize: 15, fontFamily: 'inherit', background: saved ? '#10B981' : 'linear-gradient(135deg, #D4A843, #D4B03D)', color: saved ? 'white' : '#06060E' }}>
+ <button onClick={saveSettings} disabled={saving} style={{ padding: '12px 32px', border: 'none', borderRadius: 10, cursor: saving ? 'wait' : 'pointer', fontWeight: 700, fontSize: 15, fontFamily: 'inherit', background: saved ? '#10B981' : 'linear-gradient(135deg, #D4A843, #D4B03D)', color: saved ? 'white' : 'var(--bg)' }}>
  {saving ? 'جاري الحفظ...' : saved ? 'CheckCircle تم الحفظ' : 'Save حفظ التغييرات'}
  </button>
  </div>
@@ -120,7 +120,7 @@ export default function PlatformSettingsPage() {
  <div style={{ display: 'flex', maxWidth: 1200, margin: '0 auto', padding: 24, gap: 24 }}>
  <div style={{ width: 200, flexShrink: 0 }}>
  {tabs.map(tab => (
- <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ width: '100%', padding: '12px 16px', border: 'none', borderRadius: 10, cursor: 'pointer', marginBottom: 6, textAlign: 'right', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 10, background: activeTab === tab.id ? 'linear-gradient(135deg, #D4A843, #D4B03D)' : 'transparent', color: activeTab === tab.id ? '#06060E' : 'rgba(255,255,255,0.6)' }}>
+ <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ width: '100%', padding: '12px 16px', border: 'none', borderRadius: 10, cursor: 'pointer', marginBottom: 6, textAlign: 'right', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 10, background: activeTab === tab.id ? 'linear-gradient(135deg, #D4A843, #D4B03D)' : 'transparent', color: activeTab === tab.id ? 'var(--bg)' : 'rgba(255,255,255,0.6)' }}>
  <span><IconRenderer name={tab.icon} /></span> {tab.label}
  </button>
  ))}
@@ -211,7 +211,7 @@ export default function PlatformSettingsPage() {
  const colors: Record<string, string> = { free: '#94A3B8', basic: '#3B82F6', pro: '#D4A843', enterprise: '#8B5CF6' };
  const icons: Record<string, string> = { free: '', basic: '', pro: "ICON_Crown", enterprise: "ICON_Building" };
  return (
- <div key={plan} style={{ padding: 20, marginBottom: 16, background: 'rgba(255,255,255,0.02)', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)' }}>
+ <div key={plan} style={{ padding: 20, marginBottom: 16, background: 'rgba(255,255,255,0.02)', borderRadius: 12, border: '1px solid var(--border)' }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
  <span style={{ fontSize: 24 }}>{icons[plan]}</span>
  <span style={{ color: colors[plan], fontWeight: 800, fontSize: 18 }}>باقة {names[plan]}</span>

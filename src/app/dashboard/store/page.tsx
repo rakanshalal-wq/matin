@@ -66,7 +66,7 @@ export default function StoreDashboard() {
   ];
 
   const orderColumns = [
-    { key: 'order_number', label: 'رقم الطلب', render: (v: any) => <span style={{ color: '#D4A843', fontWeight: 700 }}>{v}</span> },
+    { key: 'order_number', label: 'رقم الطلب', render: (v: any) => <span style={{ color: 'var(--gold)', fontWeight: 700 }}>{v}</span> },
     { key: 'customer_name', label: 'العميل', render: (v: any) => <span className="cell-title">{v}</span> },
     { key: 'customer_phone', label: 'الجوال', render: (v: any) => <span className="cell-sub">{v || '-'}</span> },
     { key: 'total', label: 'الإجمالي', render: (v: any) => <span style={{ color: '#22C55E', fontWeight: 700 }}>{parseFloat(v).toFixed(2)} ر.س</span> },
@@ -155,7 +155,7 @@ export default function StoreDashboard() {
                     </span>
                   </div>
                   <div className="product-meta">
-                    <span style={{ color: '#D4A843', fontWeight: 800 }}>{product.sale_price || product.price} ر.س</span>
+                    <span style={{ color: 'var(--gold)', fontWeight: 800 }}>{product.sale_price || product.price} ر.س</span>
                     <span className="cell-sub">مخزون: {product.stock}</span>
                   </div>
                   <div className="action-btns">

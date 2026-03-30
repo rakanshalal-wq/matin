@@ -60,7 +60,7 @@ export default function NotificationsPage() {
  const statusLabels: any = { active: 'نشط', archived: 'مؤرشف' };
  const statusColors: any = { active: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, archived: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280' } };
 
- const inputStyle = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none' };
+ const inputStyle = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: 8, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none' };
 
  const timeAgo = (date: string) => {
  const diff = Date.now() - new Date(date).getTime();
@@ -92,7 +92,7 @@ export default function NotificationsPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Bell" size={18} /> الإشعارات</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة وإرسال الإشعارات لجميع المستخدمين</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({ title: '', message: '', type: 'info', target_audience: 'all', is_read: false, status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
+ <button onClick={() => { setEditItem(null); setForm({ title: '', message: '', type: 'info', target_audience: 'all', is_read: false, status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold2))', color: 'var(--bg)', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
  Plus إشعار جديد
  </button>
  </div>
@@ -100,12 +100,12 @@ export default function NotificationsPage() {
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي الإشعارات', value: stats.total, icon: "ICON_Bell", color: '#D4A843' },
+ { label: 'إجمالي الإشعارات', value: stats.total, icon: "ICON_Bell", color: 'var(--gold)' },
  { label: 'غير مقروء', value: stats.unread, icon: "ICON_Mailbox", color: '#3B82F6' },
  { label: 'عاجل', value: stats.urgent, icon: "ICON_Siren", color: '#EF4444' },
  { label: 'اليوم', value: stats.today, icon: "ICON_Calendar", color: '#10B981' },
  ].map((stat, i) => (
- <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
+ <div key={i} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12, padding: 20 }}>
  <div style={{ fontSize: 28 }}><IconRenderer name={stat.icon} /></div>
  <div style={{ fontSize: 26, fontWeight: 800, color: stat.color, marginTop: 4 }}>{stat.value}</div>
  <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>{stat.label}</div>
@@ -121,15 +121,15 @@ export default function NotificationsPage() {
  {/* Notifications List */}
  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
  {loading ? (
- <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12 }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
+ <div style={{ padding: 60, textAlign: 'center', background: 'var(--bg-card)', borderRadius: 12 }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
  ) : filtered.length === 0 ? (
- <div style={{ padding: 60, textAlign: 'center', background: 'rgba(255,255,255,0.03)', borderRadius: 12 }}>
+ <div style={{ padding: 60, textAlign: 'center', background: 'var(--bg-card)', borderRadius: 12 }}>
  <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center",margin:'0 auto 12px'}}><Circle size={19} color="#6B7280" /></div>
  <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>لا توجد إشعارات</p>
  </div>
  ) : (
  filtered.map((item: any) => (
- <div key={item.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
+ <div key={item.id} style={{ background: 'var(--bg-card)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
  <div style={{ flex: 1 }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
  <span style={{ color: 'white', fontWeight: !item.is_read ? 700 : 500, fontSize: 15 }}>{item.title}</span>
@@ -143,7 +143,7 @@ export default function NotificationsPage() {
  </div>
  </div>
  <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>تعديل</button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: 'var(--gold)', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>تعديل</button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>حذف</button>
  </div>
  </div>
@@ -154,7 +154,7 @@ export default function NotificationsPage() {
  {/* Modal */}
  {showModal && (
  <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
- <div style={{ background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
+ <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
  <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل إشعار' : 'Plus إشعار جديد'}</h2>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16 }}>X</button>
@@ -199,8 +199,8 @@ export default function NotificationsPage() {
  </div>
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
- <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
- <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Bell إرسال'}</button>
+ <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid var(--border)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
+ <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold2))', color: 'var(--bg)', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Bell إرسال'}</button>
  </div>
  </div>
  </div>

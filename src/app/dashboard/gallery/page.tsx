@@ -6,8 +6,8 @@ import { useState, useEffect } from 'react';
 import { getHeaders } from '@/lib/api';
 
 
-const GOLD = '#D4A843';
-const BG = '#0B0B16';
+const GOLD='var(--gold)';
+const BG='var(--bg)';
 const CARD_BG = 'rgba(255,255,255,0.04)';
 const BORDER = 'rgba(255,255,255,0.08)';
 
@@ -60,13 +60,13 @@ export default function GalleryPage() {
  const lbl: React.CSSProperties = { display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6 };
 
  return (
- <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
+ <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'var(--font)' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
  <div>
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>معرض الصور</h1>
  <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>ذكريات وفعاليات المدرسة</p>
  </div>
- <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ اضافة صورة</button>
+ <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: 'var(--bg)', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ اضافة صورة</button>
  </div>
 
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12, marginBottom: 24 }}>
@@ -89,7 +89,7 @@ export default function GalleryPage() {
  <div style={{ textAlign: 'center', padding: 60 }}>
  <div style={{ width: 56, height: 56, borderRadius: 14, background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}><Star size={24} color="#D4A843" /></div>
  <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 16 }}>لا توجد صور بعد</p>
- <button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ اضافة اول صورة</button>
+ <button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: 'var(--bg)', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ اضافة اول صورة</button>
  </div>
  ) : (
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
@@ -101,7 +101,7 @@ export default function GalleryPage() {
  ) : (
  <div style={{width:44,height:44,borderRadius:10,background:"rgba(139,92,246,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Image size={20} color="#8B5CF6" /></div>
  )}
- <span style={{ position: 'absolute', top: 10, right: 10, background: GOLD + 'cc', color: '#0B0B16', padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 700 }}>{item.category}</span>
+ <span style={{ position: 'absolute', top: 10, right: 10, background: GOLD + 'cc', color: 'var(--bg)', padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 700 }}>{item.category}</span>
  {!item.is_public && <span style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(0,0,0,0.7)', color: 'white', padding: '3px 8px', borderRadius: 20, fontSize: 11 }}><IconRenderer name="ICON_Lock" size={18} /> خاص</span>}
  </div>
  <div style={{ padding: '14px 16px' }}>
@@ -137,7 +137,7 @@ export default function GalleryPage() {
  </div>
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
- <button onClick={handleSave} disabled={saving} style={{ flex: 1, background: GOLD, border: 'none', borderRadius: 10, padding: 12, color: '#0B0B16', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 15, opacity: saving ? 0.7 : 1 }}>{saving ? 'جاري الحفظ...' : editItem ? 'حفظ التعديلات' : 'اضافة الصورة'}</button>
+ <button onClick={handleSave} disabled={saving} style={{ flex: 1, background: GOLD, border: 'none', borderRadius: 10, padding: 12, color: 'var(--bg)', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 15, opacity: saving ? 0.7 : 1 }}>{saving ? 'جاري الحفظ...' : editItem ? 'حفظ التعديلات' : 'اضافة الصورة'}</button>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ flex: 1, background: 'rgba(255,255,255,0.06)', border: '1px solid ' + BORDER, borderRadius: 10, padding: 12, color: 'white', cursor: 'pointer', fontSize: 15 }}>الغاء</button>
  </div>
  </div>

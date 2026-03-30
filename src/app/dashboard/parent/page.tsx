@@ -11,7 +11,7 @@ import { getHeaders } from '@/lib/api';
 function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: React.ReactNode }) {
  return (
  <div style={{ position:'fixed',inset:0,zIndex:9999,background:'rgba(0,0,0,0.75)',backdropFilter:'blur(4px)',display:'flex',alignItems:'center',justifyContent:'center',padding:20 }} onClick={onClose}>
- <div style={{ background:'#0F0F1A',border:'1px solid rgba(255,255,255,0.08)',borderRadius:20,width:'100%',maxWidth:520,maxHeight:'90vh',overflowY:'auto',boxShadow:'0 24px 80px rgba(0,0,0,0.6)' }} onClick={e=>e.stopPropagation()}>
+ <div style={{ background:'#0F0F1A',border:'1px solid var(--border)',borderRadius:20,width:'100%',maxWidth:520,maxHeight:'90vh',overflowY:'auto',boxShadow:'0 24px 80px rgba(0,0,0,0.6)' }} onClick={e=>e.stopPropagation()}>
  <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center',padding:'20px 24px',borderBottom:'1px solid rgba(255,255,255,0.07)' }}>
  <h3 style={{ color:'#EEEEF5',fontSize:17,fontWeight:700,margin:0 }}>{title}</h3>
  <button onClick={onClose} style={{ background:'rgba(255,255,255,0.05)',border:'none',borderRadius:8,padding:'6px 10px',cursor:'pointer',color:'rgba(238,238,245,0.6)',fontSize:16 }}><X size={14} /></button>
@@ -23,7 +23,7 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
 }
 const ErrBox = ({ msg }: { msg: string }) => msg ? <div style={{ background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.3)',borderRadius:8,padding:'10px 14px',color:'#EF4444',fontSize:13,marginBottom:12 }}>{msg}</div> : null;
 const OkBox = ({ msg }: { msg: string }) => msg ? <div style={{ background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.3)',borderRadius:8,padding:'10px 14px',color:'#10B981',fontSize:13,marginBottom:12 }}>{msg}</div> : null;
-const INP: React.CSSProperties = { width:'100%',padding:'10px 14px',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' };
+const INP: React.CSSProperties = { width:'100%',padding:'10px 14px',background:'var(--bg-card)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' };
 const LBL: React.CSSProperties = { display:'block',color:'rgba(238,238,245,0.7)',fontSize:13,fontWeight:600,marginBottom:6 };
 const FW: React.CSSProperties = { marginBottom:16 };
 
@@ -126,12 +126,12 @@ export default function ParentDashboard() {
  if (loading) return (
  <div style={{ minHeight: '100vh', background: DARK, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16 }}>
  <Spinner size={40} />
- <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 14, fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>جاري التحميل...</div>
+ <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 14, fontFamily: 'var(--font)' }}>جاري التحميل...</div>
  </div>
  );
 
  return (
- <div style={{ display: 'flex', minHeight: '100vh', background: DARK, fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' }}>
+ <div style={{ display: 'flex', minHeight: '100vh', background: DARK, fontFamily: 'var(--font)', direction: 'rtl' }}>
  {/* Sidebar */}
  <div style={{ width: 220, background: '#080810', borderLeft: `1px solid ${BORDER}`, display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
  <div style={{ padding: '20px 16px', borderBottom: `1px solid ${BORDER}` }}>
@@ -285,7 +285,7 @@ export default function ParentDashboard() {
  {showMsgModal && (
  <Modal title="إرسال رسالة للمعلم" onClose={() => setShowMsgModal(false)}>
  {selectedChild && (
- <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 10, padding: '10px 14px', marginBottom: 16, fontSize: 13, color: 'rgba(238,238,245,0.6)' }}>
+ <div style={{ background: 'var(--bg-card)', borderRadius: 10, padding: '10px 14px', marginBottom: 16, fontSize: 13, color: 'rgba(238,238,245,0.6)' }}>
  الطالب: <strong style={{ color: '#EEEEF5' }}>{selectedChild.name}</strong>
  </div>
  )}
@@ -306,7 +306,7 @@ export default function ParentDashboard() {
  {showLeaveModal && (
  <Modal title="طلب إجازة للطالب" onClose={() => setShowLeaveModal(false)}>
  {selectedChild && (
- <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 10, padding: '10px 14px', marginBottom: 16, fontSize: 13, color: 'rgba(238,238,245,0.6)' }}>
+ <div style={{ background: 'var(--bg-card)', borderRadius: 10, padding: '10px 14px', marginBottom: 16, fontSize: 13, color: 'rgba(238,238,245,0.6)' }}>
  الطالب: <strong style={{ color: '#EEEEF5' }}>{selectedChild.name}</strong>
  </div>
  )}

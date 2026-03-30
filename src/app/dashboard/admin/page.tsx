@@ -9,7 +9,7 @@ import { getHeaders } from '@/lib/api';
 
 /* ─── Design: Dark #06060E + Gold #D4A843 — متين v5 ─── */
 const G = '#D4A843';
-const DARK = '#06060E';
+const DARK = 'var(--bg)';
 const CARD = 'rgba(255,255,255,0.03)';
 const BORDER = 'rgba(255,255,255,0.07)';
 
@@ -65,7 +65,7 @@ function Field({ label, value, onChange, type='text', required=false, placeholde
  type?:string; required?:boolean; placeholder?:string;
  options?:string[];
 }) {
- const base:React.CSSProperties = { width:'100%',padding:'10px 14px',background:'rgba(255,255,255,0.04)',border:`1px solid ${BORDER}`,borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' };
+ const base:React.CSSProperties = { width:'100%',padding:'10px 14px',background:'var(--bg-card)',border:`1px solid ${BORDER}`,borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' };
  return (
  <div style={{ marginBottom:16 }}>
  <label style={{ display:'block',color:'rgba(238,238,245,0.7)',fontSize:13,fontWeight:600,marginBottom:6 }}>
@@ -317,7 +317,7 @@ export default function AdminDashboard() {
  </div>
 
  {/* Tabs */}
- <div style={{ display:'flex',gap:4,marginBottom:20,background:'rgba(255,255,255,0.03)',borderRadius:12,padding:4,width:'fit-content' }}>
+ <div style={{ display:'flex',gap:4,marginBottom:20,background:'var(--bg-card)',borderRadius:12,padding:4,width:'fit-content' }}>
  {(['overview','students','teachers','classes'] as const).map(tab=>{
  const labels = { overview:'نظرة عامة',students:'الطلاب',teachers:'المعلمون',classes:'الفصول' };
  return (

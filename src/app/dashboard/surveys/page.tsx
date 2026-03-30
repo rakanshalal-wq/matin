@@ -4,7 +4,7 @@ import { BarChart3, CheckCircle, Circle, FileText, Lock, Users, X } from "lucide
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 const getH = (): Record<string, string> => { try { const t = localStorage.getItem('matin_token'); if (t) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + t }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
-const GOLD = '#D4A843', BG = '#0B0B16', CB = 'rgba(255,255,255,0.04)', BR = 'rgba(255,255,255,0.08)';
+const GOLD='var(--gold)', BG = 'var(--bg)', CB = 'rgba(255,255,255,0.04)', BR = 'rgba(255,255,255,0.08)';
 const STATUS_MAP: Record<string, { l: string; c: string }> = { draft: { l: 'مسودة', c: '#9CA3AF' }, active: { l: 'نشط', c: '#10B981' }, closed: { l: 'مغلق', c: '#EF4444' } };
 export default function SurveysPage() {
  const [surveys, setSurveys] = useState<any[]>([]);
@@ -21,10 +21,10 @@ export default function SurveysPage() {
  const inp: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid ' + BR, borderRadius: 8, padding: '10px 14px', color: 'white', fontSize: 14, outline: 'none', boxSizing: 'border-box' };
  const lbl: React.CSSProperties = { display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6 };
  return (
- <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
+ <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'var(--font)' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
  <div><h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_BarChart3" size={18} /> الاستبيانات</h1><p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>إنشاء وإدارة استبيانات الرأي والتقييم</p></div>
- <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ إنشاء استبيان</button>
+ <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: 'var(--bg)', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ إنشاء استبيان</button>
  </div>
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: 16, marginBottom: 28 }}>
  {[{ l: 'الإجمالي', v: surveys.length, c: GOLD, i: "ICON_BarChart3" }, { l: 'نشطة', v: surveys.filter((s: any) => s.status === 'active').length, c: '#10B981', i: "ICON_CheckCircle" }, { l: 'مسودات', v: surveys.filter((s: any) => s.status === 'draft').length, c: '#9CA3AF', i: "ICON_FileText" }, { l: 'مغلقة', v: surveys.filter((s: any) => s.status === 'closed').length, c: '#EF4444', i: "ICON_Lock" }].map((s, i) => (
@@ -33,7 +33,7 @@ export default function SurveysPage() {
  </div>
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(320px,1fr))', gap: 16 }}>
  {loading ? <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)', gridColumn: '1/-1' }}>جاري التحميل...</div> :
- surveys.length === 0 ? <div style={{ textAlign: 'center', padding: 60, gridColumn: '1/-1' }}><div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Circle size={19} color="#6B7280" /></div><p style={{ color: 'rgba(255,255,255,0.4)' }}>لا توجد استبيانات</p><button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>إنشاء أول استبيان</button></div> :
+ surveys.length === 0 ? <div style={{ textAlign: 'center', padding: 60, gridColumn: '1/-1' }}><div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Circle size={19} color="#6B7280" /></div><p style={{ color: 'rgba(255,255,255,0.4)' }}>لا توجد استبيانات</p><button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: 'var(--bg)', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>إنشاء أول استبيان</button></div> :
  surveys.map((s: any, i: number) => { const st = STATUS_MAP[s.status] || STATUS_MAP.draft; return (
  <div key={s.id || i} style={{ background: CB, border: '1px solid ' + BR, borderRadius: 16, padding: 20 }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
@@ -66,7 +66,7 @@ export default function SurveysPage() {
  <div><label style={lbl}>تاريخ الانتهاء</label><input type="date" value={form.deadline} onChange={e => setForm({ ...form, deadline: e.target.value })} style={inp} /></div>
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
- <button onClick={handleSave} disabled={saving} style={{ flex: 1, background: GOLD, border: 'none', borderRadius: 10, padding: 12, color: '#0B0B16', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 15, opacity: saving ? 0.7 : 1 }}>{saving ? 'جاري الحفظ...' : editItem ? 'حفظ' : 'إنشاء'}</button>
+ <button onClick={handleSave} disabled={saving} style={{ flex: 1, background: GOLD, border: 'none', borderRadius: 10, padding: 12, color: 'var(--bg)', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 15, opacity: saving ? 0.7 : 1 }}>{saving ? 'جاري الحفظ...' : editItem ? 'حفظ' : 'إنشاء'}</button>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ flex: 1, background: 'rgba(255,255,255,0.06)', border: '1px solid ' + BR, borderRadius: 10, padding: 12, color: 'white', cursor: 'pointer', fontSize: 15 }}>إلغاء</button>
  </div>
  </div>

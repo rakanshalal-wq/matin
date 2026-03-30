@@ -93,10 +93,10 @@ export default function ParentPaymentsPage() {
 
  const filtered = (data?.invoices || []).filter((i: any) => filterStatus === 'all' || i.status === filterStatus);
 
- if (loading) return <div style={{ padding: 24, direction: 'rtl', background: '#06060E', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#8B5CF6', fontSize: 18 }}><IconRenderer name="ICON_CreditCard" size={18} /> جاري التحميل...</div>;
+ if (loading) return <div style={{ padding: 24, direction: 'rtl', background: 'var(--bg)', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#8B5CF6', fontSize: 18 }}><IconRenderer name="ICON_CreditCard" size={18} /> جاري التحميل...</div>;
 
  return (
- <div style={{ padding: 24, direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic,Arial,sans-serif', background: '#06060E', minHeight: '100vh' }}>
+ <div style={{ padding: 24, direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic,Arial,sans-serif', background: 'var(--bg)', minHeight: '100vh' }}>
  <h1 style={{ color: '#8B5CF6', fontSize: 24, fontWeight: 800, margin: '0 0 4px' }}><CreditCard size={18} color="#6B7280" /> الفواتير والدفع</h1>
  <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, margin: '0 0 20px' }}>جميع رسوم أبنائك في مكان واحد</p>
 
@@ -114,7 +114,7 @@ export default function ParentPaymentsPage() {
  </div>
  )}
 
- <div style={{ display: 'flex', gap: 8, marginBottom: 20, background: 'rgba(255,255,255,0.04)', borderRadius: 12, padding: 6 }}>
+ <div style={{ display: 'flex', gap: 8, marginBottom: 20, background: 'var(--bg-card)', borderRadius: 12, padding: 6 }}>
  {[{ k: 'invoices', l: 'ClipboardList الفواتير' }, { k: 'history', l: 'Clock سجل المدفوعات' }].map(t => (
  <button key={t.k} onClick={() => setActiveTab(t.k as any)} style={{ flex: 1, padding: 10, borderRadius: 8, cursor: 'pointer', fontSize: 14, fontWeight: 600, textAlign: 'center', background: activeTab === t.k ? 'rgba(139,92,246,0.15)' : 'transparent', color: activeTab === t.k ? '#8B5CF6' : 'rgba(255,255,255,0.5)', border: activeTab === t.k ? '1px solid rgba(139,92,246,0.3)' : '1px solid transparent' }}>{t.l}</button>
  ))}
@@ -128,13 +128,13 @@ export default function ParentPaymentsPage() {
  ))}
  </div>
  {filtered.length === 0 ? (
- <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 40, textAlign: 'center' }}>
+ <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 16, padding: 40, textAlign: 'center' }}>
  <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center",margin:'0 auto 12px'}}><CreditCard size={19} color="#6B7280" /></div>
  <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>لا توجد فواتير</p>
  </div>
  ) : (
  filtered.map((inv: any) => (
- <div key={inv.id} onClick={() => openPayment(inv)} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '16px 20px', marginBottom: 10, cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+ <div key={inv.id} onClick={() => openPayment(inv)} style={{ background: 'var(--bg-card)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '16px 20px', marginBottom: 10, cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
  <div>
  <div style={{ color: 'white', fontWeight: 700, fontSize: 15 }}>{inv.title || `فاتورة ${inv.invoice_number}`}</div>
  <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, marginTop: 4 }}>{inv.school_name}</div>
@@ -151,7 +151,7 @@ export default function ParentPaymentsPage() {
 
  {selectedInvoice && (
  <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
- <div style={{ background: '#06060E', border: '1px solid rgba(139,92,246,0.3)', borderRadius: 20, padding: 28, width: '100%', maxWidth: 500, maxHeight: '90vh', overflowY: 'auto', direction: 'rtl' }}>
+ <div style={{ background: 'var(--bg)', border: '1px solid rgba(139,92,246,0.3)', borderRadius: 20, padding: 28, width: '100%', maxWidth: 500, maxHeight: '90vh', overflowY: 'auto', direction: 'rtl' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
  <h3 style={{ color: '#8B5CF6', fontSize: 18, fontWeight: 800, margin: 0 }}><CreditCard size={18} color="#6B7280" /> إتمام الدفع</h3>
  <button onClick={() => setSelectedInvoice(null)} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', width: 32, height: 32, borderRadius: '50%', cursor: 'pointer', fontSize: 18 }}>×</button>
@@ -176,7 +176,7 @@ export default function ParentPaymentsPage() {
  </div>
  </div>
  <div style={{ display: 'flex', gap: 10 }}>
- <button onClick={() => setSelectedInvoice(null)} style={{ flex: 1, padding: 13, borderRadius: 10, cursor: 'pointer', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)', fontSize: 14 }}>إلغاء</button>
+ <button onClick={() => setSelectedInvoice(null)} style={{ flex: 1, padding: 13, borderRadius: 10, cursor: 'pointer', background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border)', color: 'rgba(255,255,255,0.7)', fontSize: 14 }}>إلغاء</button>
  <button onClick={processPayment} disabled={!paymentMethod || paying} style={{ flex: 2, padding: 13, borderRadius: 10, cursor: 'pointer', background: paymentMethod ? 'linear-gradient(135deg,#8B5CF6,#6D28D9)' : 'rgba(255,255,255,0.1)', border: 'none', color: paymentMethod ? 'white' : 'rgba(255,255,255,0.3)', fontSize: 14, fontWeight: 700, opacity: paying ? 0.7 : 1 }}>
  {paying ? '⏳ جاري المعالجة...' : `<CreditCard size={18} color="#6B7280" /> ادفع ${Number(selectedInvoice.total).toLocaleString()} ريال`}
  </button>
@@ -189,12 +189,12 @@ export default function ParentPaymentsPage() {
  <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
  <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 440, direction: 'rtl' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
- <h2 style={{ color: '#D4A843', fontSize: 18, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_CreditCard" size={18} /> تفاصيل الفاتورة</h2>
+ <h2 style={{ color: 'var(--gold)', fontSize: 18, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_CreditCard" size={18} /> تفاصيل الفاتورة</h2>
  <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
  </div>
- <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 10, padding: 16, marginBottom: 20 }}>
+ <div style={{ background: 'var(--bg-card)', borderRadius: 10, padding: 16, marginBottom: 20 }}>
  <div style={{ color: '#fff', fontSize: 16, fontWeight: 700, marginBottom: 8 }}>{selectedInvoice.title || selectedInvoice.description || 'فاتورة'}</div>
- <div style={{ color: '#D4A843', fontSize: 22, fontWeight: 800, marginBottom: 4 }}>{selectedInvoice.amount} ر.س</div>
+ <div style={{ color: 'var(--gold)', fontSize: 22, fontWeight: 800, marginBottom: 4 }}>{selectedInvoice.amount} ر.س</div>
  <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>الحالة: {selectedInvoice.status === 'paid' ? 'CheckCircle مدفوعة' : selectedInvoice.status === 'pending' ? '⏳ معلقة' : 'Circle متأخرة'}</div>
  {selectedInvoice.due_date && <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, marginTop: 4 }}>تاريخ الاستحقاق: {new Date(selectedInvoice.due_date).toLocaleDateString('ar-SA')}</div>}
  </div>
@@ -208,7 +208,7 @@ export default function ParentPaymentsPage() {
  } catch {} finally { setSaving(false); }
  }} disabled={saving} style={{ width: '100%', background: saving ? 'rgba(16,185,129,0.3)' : 'rgba(16,185,129,0.15)', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 10, padding: '12px 0', cursor: saving ? 'not-allowed' : 'pointer', fontWeight: 700, fontSize: 14, marginBottom: 10 }}>{saving ? 'جاري...' : 'CheckCircle تأكيد الدفع'}</button>
  )}
- <button onClick={() => setShowModal(false)} style={{ width: '100%', padding: '12px 0', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إغلاق</button>
+ <button onClick={() => setShowModal(false)} style={{ width: '100%', padding: '12px 0', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إغلاق</button>
  </div>
  </div>
  )}

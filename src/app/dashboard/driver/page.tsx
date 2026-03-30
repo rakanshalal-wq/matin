@@ -8,7 +8,7 @@ import { getHeaders } from '@/lib/api';
 
 /* ─── Design: Dark #06060E + Gold #D4A843 — متين v5 ─── */
 const G = '#D4A843';
-const DARK = '#06060E';
+const DARK = 'var(--bg)';
 const CARD = 'rgba(255,255,255,0.03)';
 const BORDER = 'rgba(255,255,255,0.07)';
 
@@ -176,7 +176,7 @@ export default function DriverDashboard() {
  finally { setMsgLoading(false); }
  };
 
- const inp: React.CSSProperties = { width:'100%',padding:'10px 14px',background:'rgba(255,255,255,0.04)',border:`1px solid ${BORDER}`,borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' };
+ const inp: React.CSSProperties = { width:'100%',padding:'10px 14px',background:'var(--bg-card)',border:`1px solid ${BORDER}`,borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' };
  const lbl: React.CSSProperties = { display:'block',color:'rgba(238,238,245,0.7)',fontSize:13,fontWeight:600,marginBottom:6 };
  const fw: React.CSSProperties = { marginBottom:16 };
  const mkBtn = (color: string, disabled = false): React.CSSProperties => ({ padding:'10px 20px',background:disabled?'rgba(255,255,255,0.05)':`linear-gradient(135deg,${color},${color}CC)`,color:disabled?'rgba(238,238,245,0.3)':(color===G?'#000':'#fff'),border:'none',borderRadius:10,cursor:disabled?'not-allowed':'pointer',fontSize:14,fontWeight:700,display:'flex',alignItems:'center',gap:6,fontFamily:'inherit' });
@@ -374,7 +374,7 @@ export default function DriverDashboard() {
  <p style={{ color:'rgba(238,238,245,0.6)',fontSize:14,marginBottom:16 }}>اختر الطالب الذي ركب الحافلة:</p>
  <div style={{ display:'flex',flexDirection:'column',gap:8 }}>
  {students.filter(s=>!s.boarded).map((s,i) => (
- <button key={i} onClick={()=>setBoardStudent(s)} style={{ padding:'12px 16px',background:'rgba(255,255,255,0.04)',border:`1px solid ${BORDER}`,borderRadius:10,color:'#EEEEF5',cursor:'pointer',textAlign:'right',fontSize:14,fontFamily:'inherit',display:'flex',alignItems:'center',gap:10 }}>
+ <button key={i} onClick={()=>setBoardStudent(s)} style={{ padding:'12px 16px',background:'var(--bg-card)',border:`1px solid ${BORDER}`,borderRadius:10,color:'#EEEEF5',cursor:'pointer',textAlign:'right',fontSize:14,fontFamily:'inherit',display:'flex',alignItems:'center',gap:10 }}>
  <div style={{ width:32,height:32,borderRadius:'50%',background:'rgba(16,185,129,0.1)',display:'flex',alignItems:'center',justifyContent:'center',color:'#10B981',fontSize:13,fontWeight:700 }}>
  {(s.full_name||s.name||'؟')[0]}
  </div>

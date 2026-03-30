@@ -8,7 +8,7 @@ import { PageHeader, StatCard, FilterTabs, Modal, EmptyState, LoadingState, Badg
 const plans = [
   { id: 'basic', name: 'أساسي', price: 0, period: 'مجاني', color: '#6B7280', students: 50, teachers: 5, schools: 1, features: ['مدرسة واحدة', '5 معلمين', '50 طالب', 'الحضور والغياب', 'الدرجات الأساسية'] },
   { id: 'advanced', name: 'متقدم', price: 299, period: 'شهرياً', color: '#3B82F6', students: 500, teachers: 20, schools: 5, features: ['5 مدارس', '20 معلم', '500 طالب', 'بنك أسئلة AI', 'مراقبة اختبارات', 'التقارير المتقدمة', 'الدعم الفني'] },
-  { id: 'enterprise', name: 'مؤسسي', price: 599, period: 'شهرياً', color: '#D4A843', students: -1, teachers: -1, schools: -1, features: ['مدارس غير محدودة', 'معلمين غير محدود', 'طلاب غير محدود', 'كل الميزات', 'دعم 24/7', 'مدير حساب خاص', 'API مخصص'] },
+  { id: 'enterprise', name: 'مؤسسي', price: 599, period: 'شهرياً', color: 'var(--gold)', students: -1, teachers: -1, schools: -1, features: ['مدارس غير محدودة', 'معلمين غير محدود', 'طلاب غير محدود', 'كل الميزات', 'دعم 24/7', 'مدير حساب خاص', 'API مخصص'] },
 ];
 
 export default function SubscriptionsPage() {
@@ -144,7 +144,7 @@ export default function SubscriptionsPage() {
                       background: isCurrent ? undefined : `linear-gradient(135deg, ${plan.color}, ${plan.color}dd)`,
                       opacity: upgrading === plan.id ? 0.7 : 1,
                       cursor: isCurrent ? 'default' : 'pointer',
-                      color: isCurrent ? 'var(--text-muted)' : plan.id === 'basic' ? 'white' : '#06060E',
+                      color: isCurrent ? 'var(--text-muted)' : plan.id === 'basic' ? 'white' : 'var(--bg)',
                     }}
                   >
                     {isCurrent ? 'باقتك الحالية' : upgrading === plan.id ? 'جاري الترقية...' : plan.price === 0 ? 'اختر هذه الباقة' : `ترقية إلى ${plan.name}`}

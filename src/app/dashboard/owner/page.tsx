@@ -15,7 +15,7 @@ import IconRenderer from "@/components/IconRenderer";
 
 const G = '#D4A843'; // Gold
 const G2 = '#E2C46A'; // Gold Light
-const BG = '#06060E'; // Deep Black
+const BG='var(--bg)'; // Deep Black
 const BG2 = '#0D0D1A'; // Card BG
 const CARD = 'rgba(255,255,255,0.03)';
 const BORDER = 'rgba(255,255,255,0.07)';
@@ -176,7 +176,7 @@ const Toast = ({ msg, onClose }: any) => msg ? (
 ) : null;
 
 const inputStyle: any = {
- background: 'rgba(255,255,255,0.04)',
+ background: 'var(--bg-card)',
  border: `1px solid ${BORDER}`,
  borderRadius: 8,
  padding: '10px 14px',
@@ -455,7 +455,7 @@ export default function OwnerDashboard() {
  <button
  onClick={loadAll}
  style={{
- background: 'rgba(255,255,255,0.04)', color: TEXT2,
+ background: 'var(--bg-card)', color: TEXT2,
  border: `1px solid ${BORDER}`, borderRadius: 8,
  padding: '6px 10px', cursor: 'pointer',
  display: 'flex', alignItems: 'center', gap: 6,
@@ -466,7 +466,7 @@ export default function OwnerDashboard() {
  تحديث
  </button>
  <NextLink href="/dashboard" style={{
- background: 'rgba(255,255,255,0.04)', color: TEXT2,
+ background: 'var(--bg-card)', color: TEXT2,
  border: `1px solid ${BORDER}`, borderRadius: 8,
  padding: '6px 14px', fontSize: 12, textDecoration: 'none',
  display: 'flex', alignItems: 'center', gap: 6,

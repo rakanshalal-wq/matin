@@ -51,7 +51,7 @@ export default function PlatformAnalyticsPage() {
               <h3 className="card-section-title"><Diamond size={16} /> توزيع الباقات</h3>
               {[
                 { label: 'مجاني', limit: '200 طالب', color: '#6B7280' },
-                { label: 'متقدم — 299 ر.س', limit: '1000 طالب', color: '#D4A843' },
+                { label: 'متقدم — 299 ر.س', limit: '1000 طالب', color: 'var(--gold)' },
                 { label: 'مؤسسي — 599 ر.س', limit: 'غير محدود', color: '#8B5CF6' },
               ].map((pkg, i) => (
                 <div key={i} className={`list-row ${i < 2 ? 'list-row-border' : ''}`}>

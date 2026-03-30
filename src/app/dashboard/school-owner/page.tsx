@@ -10,7 +10,7 @@ import { getHeaders } from '@/lib/api';
 function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: React.ReactNode }) {
  return (
  <div style={{ position:'fixed',inset:0,zIndex:9999,background:'rgba(0,0,0,0.75)',backdropFilter:'blur(4px)',display:'flex',alignItems:'center',justifyContent:'center',padding:20 }} onClick={onClose}>
- <div style={{ background:'#0F0F1A',border:'1px solid rgba(255,255,255,0.08)',borderRadius:20,width:'100%',maxWidth:520,maxHeight:'90vh',overflowY:'auto',boxShadow:'0 24px 80px rgba(0,0,0,0.6)' }} onClick={e=>e.stopPropagation()}>
+ <div style={{ background:'#0F0F1A',border:'1px solid var(--border)',borderRadius:20,width:'100%',maxWidth:520,maxHeight:'90vh',overflowY:'auto',boxShadow:'0 24px 80px rgba(0,0,0,0.6)' }} onClick={e=>e.stopPropagation()}>
  <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center',padding:'20px 24px',borderBottom:'1px solid rgba(255,255,255,0.07)' }}>
  <h3 style={{ color:'#EEEEF5',fontSize:17,fontWeight:700,margin:0 }}>{title}</h3>
  <button onClick={onClose} style={{ background:'rgba(255,255,255,0.05)',border:'none',borderRadius:8,padding:'6px 10px',cursor:'pointer',color:'rgba(238,238,245,0.6)',fontSize:16 }}><X size={14} /></button>
@@ -24,7 +24,7 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
 const ErrBox = ({ msg }: { msg: string }) => msg ? <div style={{ background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.3)',borderRadius:8,padding:'10px 14px',color:'#EF4444',fontSize:13,marginBottom:12 }}>{msg}</div> : null;
 const OkBox = ({ msg }: { msg: string }) => msg ? <div style={{ background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.3)',borderRadius:8,padding:'10px 14px',color:'#10B981',fontSize:13,marginBottom:12 }}>{msg}</div> : null;
 
-const INP: React.CSSProperties = { width:'100%',padding:'10px 14px',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' };
+const INP: React.CSSProperties = { width:'100%',padding:'10px 14px',background:'var(--bg-card)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:10,color:'#EEEEF5',fontSize:14,outline:'none',boxSizing:'border-box',fontFamily:'inherit' };
 const LBL: React.CSSProperties = { display:'block',color:'rgba(238,238,245,0.7)',fontSize:13,fontWeight:600,marginBottom:6 };
 const FW: React.CSSProperties = { marginBottom:16 };
 
@@ -84,7 +84,7 @@ const SectionCard = ({ label, href, color, count }: any) => (
  }}
  >
  <div style={{ width: 8, height: 8, borderRadius: '50%', background: color, margin: '0 auto 10px' }} />
- <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 12, fontWeight: 600, fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>{label}</div>
+ <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 12, fontWeight: 600, fontFamily: 'var(--font)' }}>{label}</div>
  {count !== null && count !== undefined && (
  <div style={{ color: color, fontSize: 18, fontWeight: 800, marginTop: 6 }}>{count}</div>
  )}
@@ -223,14 +223,14 @@ export default function SchoolOwnerDashboard() {
  margin: '0 auto 16px',
  }} />
  <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
- <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>جاري التحميل...</div>
+ <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, fontFamily: 'var(--font)' }}>جاري التحميل...</div>
  </div>
  </div>
  );
 
  return (
  <>
- <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
+ <div style={{ padding: '24px', maxWidth: 1400, margin: '0 auto', fontFamily: 'var(--font)' }}>
 
  {}
  <div style={{
@@ -339,7 +339,7 @@ export default function SchoolOwnerDashboard() {
  { label: 'الموظفون', href: '/dashboard/employees', color: '#84CC16', count: null },
  { label: 'الرواتب', href: '/dashboard/salaries', color: '#22D3EE', count: null },
  { label: 'الإجازات', href: '/dashboard/leaves', color: '#FB923C', count: null },
- { label: 'المالية', href: '/dashboard/finance', color: '#D4A843', count: null },
+ { label: 'المالية', href: '/dashboard/finance', color: 'var(--gold)', count: null },
  { label: 'النقل', href: '/dashboard/transport', color: '#F43F5E', count: null },
  { label: 'الصحة', href: '/dashboard/health', color: '#34D399', count: null },
  { label: 'الكافتيريا', href: '/dashboard/cafeteria', color: '#FBBF24', count: null },
@@ -358,7 +358,7 @@ export default function SchoolOwnerDashboard() {
  <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(201,168,76,0.08)', borderRadius: 14, padding: '20px 24px' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
  <div style={{ color: 'rgba(201,168,76,0.6)', fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 2 }}>الاختبارات القادمة</div>
- <Link href="/dashboard/exams" style={{ color: '#D4A843', fontSize: 11, textDecoration: 'none', fontWeight: 600 }}>عرض الكل</Link>
+ <Link href="/dashboard/exams" style={{ color: 'var(--gold)', fontSize: 11, textDecoration: 'none', fontWeight: 600 }}>عرض الكل</Link>
  </div>
  {upcomingExams.length === 0 ? (
  <div style={{ color: 'rgba(255,255,255,0.2)', fontSize: 13, textAlign: 'center', padding: '20px 0' }}>لا توجد اختبارات قادمة</div>
@@ -380,7 +380,7 @@ export default function SchoolOwnerDashboard() {
  <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(201,168,76,0.08)', borderRadius: 14, padding: '20px 24px' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
  <div style={{ color: 'rgba(201,168,76,0.6)', fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 2 }}>طلبات الانضمام</div>
- <Link href="/dashboard/admissions" style={{ color: '#D4A843', fontSize: 11, textDecoration: 'none', fontWeight: 600 }}>عرض الكل</Link>
+ <Link href="/dashboard/admissions" style={{ color: 'var(--gold)', fontSize: 11, textDecoration: 'none', fontWeight: 600 }}>عرض الكل</Link>
  </div>
  {pendingAdmissions.length === 0 ? (
  <div style={{ color: 'rgba(255,255,255,0.2)', fontSize: 13, textAlign: 'center', padding: '20px 0' }}>لا توجد طلبات معلقة</div>
@@ -436,8 +436,8 @@ export default function SchoolOwnerDashboard() {
  <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
  <div style={{ background: 'rgba(201,168,76,0.08)', border: '1px solid rgba(201,168,76,0.2)', borderRadius: 8, padding: '6px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
  <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>matin.ink/school/</span>
- <span style={{ color: '#D4A843', fontSize: 12, fontWeight: 700 }}>{school.code}</span>
- <button onClick={() => navigator.clipboard.writeText(`https://matin.ink/school/${school.code}`)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#D4A843', fontSize: 12, fontWeight: 700 }}>
+ <span style={{ color: 'var(--gold)', fontSize: 12, fontWeight: 700 }}>{school.code}</span>
+ <button onClick={() => navigator.clipboard.writeText(`https://matin.ink/school/${school.code}`)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--gold)', fontSize: 12, fontWeight: 700 }}>
  نسخ
  </button>
  </div>
@@ -449,13 +449,13 @@ export default function SchoolOwnerDashboard() {
  )}
  </div>
  <div style={{ display: 'flex', gap: 8 }}>
- <a href={`https://matin.ink/school/${school.code}`} target="_blank" rel="noreferrer" style={{ background: 'rgba(201,168,76,0.1)', color: '#D4A843', fontSize: 12, padding: '8px 16px', borderRadius: 8, textDecoration: 'none', fontWeight: 600, border: '1px solid rgba(201,168,76,0.25)' }}>
+ <a href={`https://matin.ink/school/${school.code}`} target="_blank" rel="noreferrer" style={{ background: 'rgba(201,168,76,0.1)', color: 'var(--gold)', fontSize: 12, padding: '8px 16px', borderRadius: 8, textDecoration: 'none', fontWeight: 600, border: '1px solid rgba(201,168,76,0.25)' }}>
  معاينة الصفحة
  </a>
  <Link href="/dashboard/school-page" style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', fontSize: 12, padding: '8px 16px', borderRadius: 8, textDecoration: 'none', fontWeight: 600, border: '1px solid rgba(59,130,246,0.2)' }}>
  تعديل الصفحة
  </Link>
- <Link href="/dashboard/settings" style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)', fontSize: 12, padding: '8px 16px', borderRadius: 8, textDecoration: 'none', fontWeight: 600, border: '1px solid rgba(255,255,255,0.08)' }}>
+ <Link href="/dashboard/settings" style={{ background: 'var(--bg-card)', color: 'rgba(255,255,255,0.4)', fontSize: 12, padding: '8px 16px', borderRadius: 8, textDecoration: 'none', fontWeight: 600, border: '1px solid var(--border)' }}>
  ربط دومين
  </Link>
  </div>
@@ -504,7 +504,7 @@ export default function SchoolOwnerDashboard() {
 
  {}
  <div style={{ marginTop: 20, display: 'flex', justifyContent: 'flex-end' }}>
- <button onClick={openSchoolModal} style={{ background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.25)', borderRadius: 10, padding: '10px 20px', color: '#D4A843', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 14 }}>
+ <button onClick={openSchoolModal} style={{ background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.25)', borderRadius: 10, padding: '10px 20px', color: 'var(--gold)', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 14 }}>
  <Settings size={16} /> تعديل بيانات المدرسة
  </button>
  </div>
@@ -512,7 +512,7 @@ export default function SchoolOwnerDashboard() {
  {}
  {showAdmModal && selAdm && (
  <Modal title="مراجعة طلب الانضمام" onClose={() => { setShowAdmModal(false); setSelAdm(null); }}>
- <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: 16, marginBottom: 20 }}>
+ <div style={{ background: 'var(--bg-card)', borderRadius: 12, padding: 16, marginBottom: 20 }}>
  <div style={{ color: '#EEEEF5', fontSize: 15, fontWeight: 700, marginBottom: 8 }}>{selAdm.student_name || selAdm.name || '—'}</div>
  <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 13 }}>المرحلة: {selAdm.grade || selAdm.level || '—'}</div>
  {selAdm.parent_name && <div style={{ color: 'rgba(238,238,245,0.5)', fontSize: 13 }}>ولي الأمر: {selAdm.parent_name}</div>}

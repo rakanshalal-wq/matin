@@ -67,22 +67,22 @@ export default function SchedulesPage() {
  };
 
  const canAdd = ['super_admin', 'owner', 'admin'].includes(user?.role);
- const inputStyle = { width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: '#fff', fontSize: 14, fontFamily: 'IBM Plex Sans Arabic, sans-serif', outline: 'none', direction: 'rtl' as const };
+ const inputStyle = { width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: 10, color: '#fff', fontSize: 14, fontFamily: 'var(--font)', outline: 'none', direction: 'rtl' as const };
  const dayColors = ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EF4444'];
 
  const filtered = selectedClass ? schedules.filter(s => s.class_id === selectedClass) : schedules;
 
- if (loading) return <div style={{ padding: 40, textAlign: 'center', color: '#D4A843' }}>جاري التحميل...</div>;
+ if (loading) return <div style={{ padding: 40, textAlign: 'center', color: 'var(--gold)' }}>جاري التحميل...</div>;
 
  return (
- <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
+ <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'var(--font)' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
  <div>
- <h1 style={{ fontSize: 24, fontWeight: 700, color: '#D4A843', margin: 0 }}><IconRenderer name="ICON_Calendar" size={18} /> الجدول الدراسي</h1>
+ <h1 style={{ fontSize: 24, fontWeight: 700, color: 'var(--gold)', margin: 0 }}><IconRenderer name="ICON_Calendar" size={18} /> الجدول الدراسي</h1>
  <p style={{ color: '#9CA3AF', fontSize: 14, margin: '4px 0 0' }}>{filtered.length} حصة</p>
  </div>
  {canAdd && (
- <button onClick={() => setShowAdd(!showAdd)} style={{ padding: '10px 24px', background: showAdd ? '#374151' : 'linear-gradient(135deg, #D4A843, #E8C547)', color: showAdd ? '#fff' : '#000', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
+ <button onClick={() => setShowAdd(!showAdd)} style={{ padding: '10px 24px', background: showAdd ? '#374151' : 'linear-gradient(135deg, #D4A843, #E8C547)', color: showAdd ? '#fff' : '#000', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font)' }}>
  {showAdd ? ' إلغاء' : '+ إضافة حصة'}
  </button>
  )}
@@ -99,8 +99,8 @@ export default function SchedulesPage() {
  {msg && <div style={{ padding: 12, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 10, color: '#EF4444', marginBottom: 16, fontSize: 14 }}>{msg}</div>}
 
  {showAdd && (
- <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 24, marginBottom: 24 }}>
- <h3 style={{ color: '#D4A843', fontSize: 18, margin: '0 0 20px', fontWeight: 700 }}>إضافة حصة جديدة</h3>
+ <div style={{ background: 'var(--bg-card)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 24, marginBottom: 24 }}>
+ <h3 style={{ color: 'var(--gold)', fontSize: 18, margin: '0 0 20px', fontWeight: 700 }}>إضافة حصة جديدة</h3>
  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16 }}>
  <div>
  <label style={{ color: '#9CA3AF', fontSize: 13, marginBottom: 6, display: 'block' }}>اليوم *</label>
@@ -136,7 +136,7 @@ export default function SchedulesPage() {
  </div>
  </div>
  {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 12, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}
- <button onClick={handleAdd} disabled={saving} style={{ marginTop: 20, padding: '12px 32px', background: 'linear-gradient(135deg, #D4A843, #E8C547)', color: '#000', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif', opacity: saving ? 0.5 : 1 }}>
+ <button onClick={handleAdd} disabled={saving} style={{ marginTop: 20, padding: '12px 32px', background: 'linear-gradient(135deg, #D4A843, #E8C547)', color: '#000', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font)', opacity: saving ? 0.5 : 1 }}>
  {saving ? 'جاري الحفظ...' : 'Check حفظ الحصة'}
  </button>
  </div>
@@ -168,7 +168,7 @@ export default function SchedulesPage() {
  {s.room && <span style={{ color: '#6B7280', fontSize: 12 }}><IconRenderer name="ICON_Globe" size={18} /><IconRenderer name="ICON_Pin" size={18} /> {s.room}</span>}
  </div>
  {canAdd && (
- <button onClick={() => handleDelete(s.id)} style={{ padding: '4px 12px', background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 6, fontSize: 11, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}> </button>
+ <button onClick={() => handleDelete(s.id)} style={{ padding: '4px 12px', background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 6, fontSize: 11, cursor: 'pointer', fontFamily: 'var(--font)' }}> </button>
  )}
  </div>
  ))}

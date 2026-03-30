@@ -7,7 +7,7 @@ import { PageHeader, StatCard, Modal, EmptyState, LoadingState, Badge } from '..
 
 const pkgConfig: any = {
   basic: { name: 'أساسي', price: 0, color: '#6B7280', features: ['مدرسة واحدة', '5 معلمين', '50 طالب'] },
-  advanced: { name: 'متقدم', price: 299, color: '#D4A843', features: ['5 مدارس', '20 معلم', '500 طالب', 'بنك أسئلة AI', 'مراقبة اختبارات'] },
+  advanced: { name: 'متقدم', price: 299, color: 'var(--gold)', features: ['5 مدارس', '20 معلم', '500 طالب', 'بنك أسئلة AI', 'مراقبة اختبارات'] },
   enterprise: { name: 'مؤسسي', price: 599, color: '#8B5CF6', features: ['مدارس غير محدودة', 'معلمين غير محدود', 'طلاب غير محدود', 'كل الميزات', 'دعم فني أولوية', 'تقارير متقدمة'] },
 };
 

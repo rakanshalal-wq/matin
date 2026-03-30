@@ -4,7 +4,7 @@ import { AlertTriangle, CheckCircle, Coins, Package, Search, Triangle, X } from 
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 const getH = (): Record<string, string> => { try { const t = localStorage.getItem('matin_token'); if (t) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + t }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
-const GOLD = '#D4A843', BG = '#0B0B16', CB = 'rgba(255,255,255,0.04)', BR = 'rgba(255,255,255,0.08)';
+const GOLD='var(--gold)', BG = 'var(--bg)', CB = 'rgba(255,255,255,0.04)', BR = 'rgba(255,255,255,0.08)';
 export default function InventoryPage() {
  const [items, setItems] = useState<any[]>([]);
  const [loading, setLoading] = useState(true);
@@ -24,10 +24,10 @@ export default function InventoryPage() {
  const lbl: React.CSSProperties = { display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6 };
  const CATS = ['قرطاسية', 'أجهزة', 'أثاث', 'مواد تنظيف', 'رياضة', 'مختبر', 'اخرى'];
  return (
- <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
+ <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'var(--font)' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
  <div><h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Package" size={18} /> إدارة المخزون</h1><p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>تتبع مستلزمات وأصول المدرسة</p></div>
- <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ اضافة صنف</button>
+ <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: 'var(--bg)', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ اضافة صنف</button>
  </div>
  {lowStock.length > 0 && <div style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.3)', borderRadius: 12, padding: '14px 18px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}><span style={{ fontSize: 20 }}></span><span style={{ color: '#F59E0B', fontSize: 14 }}><strong>{lowStock.length} أصناف</strong> وصلت للحد الأدنى: {lowStock.map((r: any) => r.name).join('، ')}</span></div>}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: 16, marginBottom: 28 }}>
@@ -37,7 +37,7 @@ export default function InventoryPage() {
  </div>
  <input placeholder="بحث..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inp, width: 300, marginBottom: 20 }} />
  <div style={{ background: CB, border: '1px solid ' + BR, borderRadius: 16, overflow: 'hidden' }}>
- {loading ? <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>جاري التحميل...</div> : filtered.length === 0 ? <div style={{ textAlign: 'center', padding: 60 }}><div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Package size={19} color="#6B7280" /></div><p style={{ color: 'rgba(255,255,255,0.4)' }}>لا توجد اصناف</p><button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ اضافة</button></div> :
+ {loading ? <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>جاري التحميل...</div> : filtered.length === 0 ? <div style={{ textAlign: 'center', padding: 60 }}><div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Package size={19} color="#6B7280" /></div><p style={{ color: 'rgba(255,255,255,0.4)' }}>لا توجد اصناف</p><button onClick={() => setShowModal(true)} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: 'var(--bg)', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ اضافة</button></div> :
  <div style={{ overflowX: 'auto' }}><table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead><tr style={{ borderBottom: '1px solid ' + BR }}>{['الصنف', 'الفئة', 'الكمية', 'الوحدة', 'الحد الأدنى', 'الموقع', 'الحالة', 'اجراءات'].map(h => <th key={h} style={{ padding: '14px 16px', textAlign: 'right', color: 'rgba(255,255,255,0.5)', fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap' }}>{h}</th>)}</tr></thead>
  <tbody>{filtered.map((r: any, i: number) => {
@@ -69,7 +69,7 @@ export default function InventoryPage() {
  <div style={{ gridColumn: '1/-1' }}><label style={lbl}>ملاحظات</label><textarea value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} style={{ ...inp, height: 70, resize: 'vertical' as const }} /></div>
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
- <button onClick={handleSave} disabled={saving} style={{ flex: 1, background: GOLD, border: 'none', borderRadius: 10, padding: 12, color: '#0B0B16', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 15, opacity: saving ? 0.7 : 1 }}>{saving ? 'جاري الحفظ...' : editItem ? 'حفظ التعديلات' : 'اضافة الصنف'}</button>
+ <button onClick={handleSave} disabled={saving} style={{ flex: 1, background: GOLD, border: 'none', borderRadius: 10, padding: 12, color: 'var(--bg)', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 15, opacity: saving ? 0.7 : 1 }}>{saving ? 'جاري الحفظ...' : editItem ? 'حفظ التعديلات' : 'اضافة الصنف'}</button>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ flex: 1, background: 'rgba(255,255,255,0.06)', border: '1px solid ' + BR, borderRadius: 10, padding: 12, color: 'white', cursor: 'pointer', fontSize: 15 }}>الغاء</button>
  </div>
  </div>

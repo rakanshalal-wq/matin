@@ -117,11 +117,11 @@ export default function TeacherDashboard() {
  if (loading) return (
  <div style={{ minHeight: '100vh', background: DARK, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16 }}>
  <Spinner size={40} />
- <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 14, fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>جاري التحميل...</div>
+ <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 14, fontFamily: 'var(--font)' }}>جاري التحميل...</div>
  </div>
  );
 
- const inpStyle: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}`, borderRadius: 10, padding: '10px 14px', color: '#EEEEF5', fontSize: 14, fontFamily: 'IBM Plex Sans Arabic, sans-serif', outline: 'none', boxSizing: 'border-box' };
+ const inpStyle: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}`, borderRadius: 10, padding: '10px 14px', color: '#EEEEF5', fontSize: 14, fontFamily: 'var(--font)', outline: 'none', boxSizing: 'border-box' };
  const labelStyle: React.CSSProperties = { color: 'rgba(238,238,245,0.6)', fontSize: 13, marginBottom: 6, display: 'block', fontWeight: 500 };
 
  const tabs = [
@@ -133,7 +133,7 @@ export default function TeacherDashboard() {
  ];
 
  return (
- <div style={{ padding: '28px 24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif', minHeight: '100vh', background: DARK }}>
+ <div style={{ padding: '28px 24px', direction: 'rtl', fontFamily: 'var(--font)', minHeight: '100vh', background: DARK }}>
  {/* الهيدر */}
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -162,7 +162,7 @@ export default function TeacherDashboard() {
  style={{
  display: 'flex', alignItems: 'center', gap: 7,
  padding: '9px 18px', borderRadius: 9, border: 'none', fontSize: 13, fontWeight: 600,
- cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif', transition: 'all 0.2s',
+ cursor: 'pointer', fontFamily: 'var(--font)', transition: 'all 0.2s',
  background: activeTab === tab.id ? `linear-gradient(135deg, ${G}, #E2C46A)` : 'transparent',
  color: activeTab === tab.id ? '#000' : 'rgba(238,238,245,0.5)',
  }}>

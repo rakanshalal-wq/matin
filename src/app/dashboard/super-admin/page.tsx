@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 // ─── Design Tokens ────────────────────────────────────────
-const GOLD = '#D4A843';
-const BG = '#06060E';
+const GOLD='var(--gold)';
+const BG='var(--bg)';
 const BG_CARD = 'rgba(255,255,255,0.025)';
 const BORDER = 'rgba(255,255,255,0.07)';
 const BORDER2 = 'rgba(255,255,255,0.04)';
@@ -105,7 +105,7 @@ const BtnSm = ({ children, color, bg, border, onClick, disabled }: any) => (
       cursor: disabled ? 'not-allowed' : 'pointer',
       border: `1px solid ${border}`,
       background: bg, color,
-      fontFamily: 'IBM Plex Sans Arabic, sans-serif',
+      fontFamily: 'var(--font)',
       opacity: disabled ? 0.5 : 1,
       transition: 'all 0.15s',
     }}
@@ -162,11 +162,11 @@ function Modal({
 }
 
 const inputStyle: React.CSSProperties = {
-  width: '100%', background: 'rgba(255,255,255,0.04)',
+  width: '100%', background: 'var(--bg-card)',
   border: `1px solid ${BORDER}`, borderRadius: 8,
   padding: '10px 14px', color: TEXT, fontSize: 13,
   outline: 'none', boxSizing: 'border-box',
-  fontFamily: 'IBM Plex Sans Arabic, sans-serif',
+  fontFamily: 'var(--font)',
 };
 
 const labelStyle: React.CSSProperties = {
@@ -295,7 +295,7 @@ export default function SuperAdminDashboard() {
   );
 
   return (
-    <div style={{ direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
+    <div style={{ direction: 'rtl', fontFamily: 'var(--font)' }}>
       <style>{`
         @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
         .sa-fade { animation: fadeIn 0.3s ease forwards; }
@@ -364,8 +364,8 @@ export default function SuperAdminDashboard() {
           style={{
             background: `linear-gradient(135deg, ${GOLD}, #E8C060)`,
             border: 'none', borderRadius: 10, padding: '10px 20px',
-            color: '#06060E', fontWeight: 700, cursor: 'pointer', fontSize: 14,
-            fontFamily: 'IBM Plex Sans Arabic, sans-serif',
+            color: 'var(--bg)', fontWeight: 700, cursor: 'pointer', fontSize: 14,
+            fontFamily: 'var(--font)',
             display: 'flex', alignItems: 'center', gap: 7,
             boxShadow: '0 4px 16px rgba(212,168,67,0.25)',
             transition: 'all 0.2s',
@@ -497,7 +497,7 @@ export default function SuperAdminDashboard() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, maxWidth: 260, marginRight: 'auto', marginLeft: 16 }}>
             <div style={{
               flex: 1, display: 'flex', alignItems: 'center', gap: 8,
-              background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`,
+              background: 'var(--bg-card)', border: `1px solid ${BORDER}`,
               borderRadius: 8, padding: '6px 12px',
             }}>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={TEXT_MUTED} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -505,7 +505,7 @@ export default function SuperAdminDashboard() {
                 type="text" value={search}
                 onChange={e => setSearch(e.target.value)}
                 placeholder="بحث..."
-                style={{ background: 'none', border: 'none', outline: 'none', color: TEXT, fontSize: 12.5, width: '100%', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}
+                style={{ background: 'none', border: 'none', outline: 'none', color: TEXT, fontSize: 12.5, width: '100%', fontFamily: 'var(--font)' }}
               />
             </div>
           </div>
@@ -528,7 +528,7 @@ export default function SuperAdminDashboard() {
                 borderRadius: 7, padding: '5px 14px',
                 color: filter === tab.key ? GOLD : TEXT_DIM,
                 fontSize: 12, fontWeight: filter === tab.key ? 700 : 400,
-                cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif',
+                cursor: 'pointer', fontFamily: 'var(--font)',
               }}
             >
               {tab.label}
@@ -708,8 +708,8 @@ export default function SuperAdminDashboard() {
               flex: 1,
               background: saving ? 'rgba(212,168,67,0.4)' : `linear-gradient(135deg, ${GOLD}, #E8C060)`,
               border: 'none', borderRadius: 10, padding: '12px 0',
-              color: '#06060E', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer',
-              fontSize: 14, fontFamily: 'IBM Plex Sans Arabic, sans-serif',
+              color: 'var(--bg)', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer',
+              fontSize: 14, fontFamily: 'var(--font)',
             }}
           >
             {saving ? 'جاري الحفظ...' : editItem ? 'حفظ التعديلات' : 'إضافة المؤسسة'}
@@ -722,7 +722,7 @@ export default function SuperAdminDashboard() {
               border: `1px solid ${BORDER}`,
               borderRadius: 10, color: TEXT_DIM,
               cursor: 'pointer', fontSize: 14,
-              fontFamily: 'IBM Plex Sans Arabic, sans-serif',
+              fontFamily: 'var(--font)',
             }}
           >إلغاء</button>
         </div>

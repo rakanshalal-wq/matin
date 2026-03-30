@@ -9,12 +9,12 @@ export default function ActivitiesPage() {
     <main
       dir="rtl"
       className="min-h-screen flex items-center justify-center p-6"
-      style={{ background: '#06060E', color: '#EEEEF5' }}
+      style={{ background: 'var(--bg)', color: '#EEEEF5' }}
     >
       <div
         className="w-full max-w-2xl rounded-3xl p-8"
         style={{
-          background: 'rgba(255,255,255,0.03)',
+          background: 'var(--bg-card)',
           border: '1px solid rgba(212,168,67,0.18)',
           boxShadow: '0 20px 60px rgba(0,0,0,0.35)'
         }}
@@ -22,7 +22,7 @@ export default function ActivitiesPage() {
         <div
           className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl font-black"
           style={{
-            color: '#06060E',
+            color: 'var(--bg)',
             background: 'linear-gradient(135deg, #D4A843, #E8C060)'
           }}
         >
@@ -43,7 +43,7 @@ export default function ActivitiesPage() {
             href="/dashboard"
             className="rounded-2xl px-5 py-3 font-bold"
             style={{
-              color: '#06060E',
+              color: 'var(--bg)',
               background: 'linear-gradient(135deg, #D4A843, #E8C060)'
             }}
           >

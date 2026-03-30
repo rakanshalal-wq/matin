@@ -141,19 +141,19 @@ export default function WatchLecturePage() {
  return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
  };
 
- const inputStyle = { fontFamily: 'IBM Plex Sans Arabic, sans-serif' };
+ const inputStyle = { fontFamily: 'var(--font)' };
 
  if (msg && phase === 'loading') return (
- <div style={{ padding: 40, textAlign: 'center', color: '#EF4444', fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' as const }}>{msg}</div>
+ <div style={{ padding: 40, textAlign: 'center', color: '#EF4444', fontFamily: 'var(--font)', direction: 'rtl' as const }}>{msg}</div>
  );
 
  return (
- <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif', maxWidth: 800, margin: '0 auto' }}>
+ <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'var(--font)', maxWidth: 800, margin: '0 auto' }}>
 
  {/* === مرحلة المشاهدة === */}
  {phase === 'watching' && lecture && (
  <div>
- <h1 style={{ fontSize: 22, fontWeight: 700, color: '#D4A843', margin: '0 0 8px' }}><IconRenderer name="ICON_Video" size={18} /> {lecture.title}</h1>
+ <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--gold)', margin: '0 0 8px' }}><IconRenderer name="ICON_Video" size={18} /> {lecture.title}</h1>
  <p style={{ color: '#9CA3AF', fontSize: 14, margin: '0 0 24px' }}>شاهد المحاضرة كاملة بدون تقديم أو ترجيع — بعدها 5 أسئلة</p>
 
  {/* شاشة الفيديو */}
@@ -166,14 +166,14 @@ export default function WatchLecturePage() {
  <div style={{ textAlign: 'center' }}>
  <div style={{ width: 80, height: 80, borderRadius: 24, background: 'rgba(201,162,39,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px' }}><IconRenderer name="ICON_Video" size={40} /></div>
  <p style={{ color: '#6B7280', fontSize: 16 }}>المحاضرة جارية...</p>
- <p style={{ color: '#D4A843', fontSize: 32, fontWeight: 700, fontFamily: 'monospace' }}>{formatTime(elapsed)}</p>
+ <p style={{ color: 'var(--gold)', fontSize: 32, fontWeight: 700, fontFamily: 'monospace' }}>{formatTime(elapsed)}</p>
  </div>
  )}
 
  {/* منع التقديم/الترجيع */}
  <div style={{ position: 'absolute' as const, bottom: 0, left: 0, right: 0, padding: '8px 16px', background: 'rgba(0,0,0,0.7)' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
- <span style={{ color: '#D4A843', fontSize: 13 }}>⏱ {formatTime(elapsed)} / {lecture.duration_minutes || 45} دقيقة</span>
+ <span style={{ color: 'var(--gold)', fontSize: 13 }}>⏱ {formatTime(elapsed)} / {lecture.duration_minutes || 45} دقيقة</span>
  <span style={{ color: '#10B981', fontSize: 13 }}>[BarChart3] {progress}%</span>
  </div>
  <div style={{ width: '100%', height: 4, background: 'rgba(255,255,255,0.1)', borderRadius: 2, marginTop: 6 }}>
@@ -196,14 +196,14 @@ export default function WatchLecturePage() {
  {/* === مرحلة الأسئلة === */}
  {phase === 'quiz' && (
  <div>
- <h1 style={{ fontSize: 22, fontWeight: 700, color: '#D4A843', margin: '0 0 8px' }}><HelpCircle size={18} color="#3B82F6" /> أسئلة المحاضرة</h1>
+ <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--gold)', margin: '0 0 8px' }}><HelpCircle size={18} color="#3B82F6" /> أسئلة المحاضرة</h1>
  <p style={{ color: '#9CA3AF', fontSize: 14, margin: '0 0 24px' }}>أجب على 5 أسئلة — 3 صحيحة = حاضر</p>
 
  <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
  {questions.map((q, i) => (
- <div key={q.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 20 }}>
+ <div key={q.id} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, padding: 20 }}>
  <h3 style={{ color: '#fff', fontSize: 15, fontWeight: 700, margin: '0 0 12px' }}>
- <span style={{ color: '#D4A843' }}>س{i + 1}:</span> {q.question_text}
+ <span style={{ color: 'var(--gold)' }}>س{i + 1}:</span> {q.question_text}
  </h3>
  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
  {(q.options || []).map((opt: string, oi: number) => {
@@ -257,7 +257,7 @@ export default function WatchLecturePage() {
  </button>
  )}
 
- <a href="/dashboard/lectures" style={{ display: 'inline-block', marginTop: 16, padding: '12px 32px', background: 'rgba(255,255,255,0.05)', color: '#D4A843', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 12, fontSize: 14, textDecoration: 'none', ...inputStyle }}>
+ <a href="/dashboard/lectures" style={{ display: 'inline-block', marginTop: 16, padding: '12px 32px', background: 'rgba(255,255,255,0.05)', color: 'var(--gold)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 12, fontSize: 14, textDecoration: 'none', ...inputStyle }}>
  ← العودة للمحاضرات
  </a>
  </div>

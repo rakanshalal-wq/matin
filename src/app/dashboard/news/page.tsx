@@ -6,8 +6,8 @@ import { useState, useEffect } from 'react';
 import { getHeaders } from '@/lib/api';
 
 
-const GOLD = '#D4A843';
-const BG = '#0B0B16';
+const GOLD='var(--gold)';
+const BG='var(--bg)';
 const CARD_BG = 'rgba(255,255,255,0.04)';
 const BORDER = 'rgba(255,255,255,0.08)';
 
@@ -53,13 +53,13 @@ export default function Page() {
  const lbl: React.CSSProperties = { display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: 13, marginBottom: 6 };
 
  return (
- <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'Cairo, sans-serif' }}>
+ <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'var(--font)' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
  <div>
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>Newspaper الأخبار والإعلانات</h1>
  <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>نشر الأخبار والإعلانات المدرسية</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({}); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ اضافة جديد</button>
+ <button onClick={() => { setEditItem(null); setForm({}); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: 'var(--bg)', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ اضافة جديد</button>
  </div>
 
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 24 }}>
@@ -80,7 +80,7 @@ export default function Page() {
  <div style={{ textAlign: 'center', padding: 60 }}>
  <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Newspaper size={19} color="#6B7280" /></div>
  <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 16 }}>لا توجد بيانات بعد</p>
- <button onClick={() => { setForm({}); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ اضافة اول سجل</button>
+ <button onClick={() => { setForm({}); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: 'var(--bg)', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ اضافة اول سجل</button>
  </div>
  ) : (
  <div style={{ overflowX: 'auto' }}>
@@ -139,7 +139,7 @@ export default function Page() {
  )}
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
- <button onClick={handleSave} disabled={saving} style={{ flex: 1, background: GOLD, border: 'none', borderRadius: 10, padding: 12, color: '#0B0B16', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 15, opacity: saving ? 0.7 : 1 }}>{saving ? 'جاري الحفظ...' : editItem ? 'حفظ التعديلات' : 'اضافة'}</button>
+ <button onClick={handleSave} disabled={saving} style={{ flex: 1, background: GOLD, border: 'none', borderRadius: 10, padding: 12, color: 'var(--bg)', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 15, opacity: saving ? 0.7 : 1 }}>{saving ? 'جاري الحفظ...' : editItem ? 'حفظ التعديلات' : 'اضافة'}</button>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ flex: 1, background: 'rgba(255,255,255,0.06)', border: '1px solid ' + BORDER, borderRadius: 10, padding: 12, color: 'white', cursor: 'pointer', fontSize: 15 }}>الغاء</button>
  </div>
  </div>
