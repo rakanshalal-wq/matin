@@ -49,7 +49,7 @@ export default function DriversPage() {
  <div>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
  <div>
- <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}> السائقين والمشرفين</h1>
+ <h1 className="page-title"> السائقين والمشرفين</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة سائقي الباصات ومشرفي النقل</p>
  </div>
  <button onClick={() => { setEditItem(null); setFormData({ name: '', phone: '', license_number: '', bus_number: '', route: '', role: 'driver', status: 'active' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold2))', color: 'var(--bg)', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة سائق/مشرف</button>

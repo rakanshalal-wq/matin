@@ -71,7 +71,7 @@ export default function ParentsPage() {
  {/* Header */}
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
  <div>
- <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}> <IconRenderer name="ICON_User" size={18} /> أولياء الأمور</h1>
+ <h1 className="page-title"> <IconRenderer name="ICON_User" size={18} /> أولياء الأمور</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة بيانات أولياء الأمور وربطهم بالطلاب</p>
  </div>
  <button onClick={() => { setEditItem(null); setFormData({

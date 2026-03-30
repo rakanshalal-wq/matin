@@ -98,7 +98,7 @@ export default function StaffPage() {
  {/* Header */}
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
  <div>
- <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_School" size={18} /> إدارة الطاقم</h1>
+ <h1 className="page-title"><IconRenderer name="ICON_School" size={18} /> إدارة الطاقم</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إضافة وإدارة المعلمين والمدراء والموظفين</p>
  </div>
  <button onClick={() => { setEditItem(null); setForm({ name: '', email: '', password: '', phone: '', role: 'teacher', school_id: '', national_id: '' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold2))', color: 'var(--bg)', border: 'none', borderRadius: 12, padding: '12px 24px', cursor: 'pointer', fontWeight: 700, fontSize: 14 }}>

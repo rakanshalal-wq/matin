@@ -28,7 +28,7 @@ export default function SpecialNeedsPage(){
  return(
  <div style={{minHeight:'100vh',background:'var(--bg)',padding:'24px 28px',direction:'rtl',fontFamily:'var(--font)'}}>
  <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:32,flexWrap:'wrap',gap:16}}>
- <div><h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}>Accessibility ذوو الاحتياجات الخاصة</h1><p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>إدارة ملفات الطلاب ذوي الاحتياجات الخاصة وخطط الدعم</p></div>
+ <div><h1 className="page-title">Accessibility ذوو الاحتياجات الخاصة</h1><p className="page-sub">إدارة ملفات الطلاب ذوي الاحتياجات الخاصة وخطط الدعم</p></div>
  <button onClick={openAdd} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 20px',color:'var(--bg)',fontWeight:700,cursor:'pointer',fontSize:14}}>+ إضافة طالب</button>
  </div>
  <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(140px,1fr))',gap:14,marginBottom:28}}>

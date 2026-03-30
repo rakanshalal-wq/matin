@@ -59,7 +59,7 @@ export default function BusMaintenancePage() {
  <div>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
  <div>
- <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Wrench" size={18} /> صيانة الباصات</h1>
+ <h1 className="page-title"><IconRenderer name="ICON_Wrench" size={18} /> صيانة الباصات</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة سجلات صيانة الباصات المدرسية</p>
  </div>
  <button onClick={() => { setEditItem(null); setFormData({ bus_number: '', type: '', description: '', date: '', cost: '', status: 'pending' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold2))', color: 'var(--bg)', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><Plus size={18} color="#6B7280" /> إضافة صيانة</button>

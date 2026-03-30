@@ -28,7 +28,7 @@ export default function SubjectsPage(){
  return(
  <div style={{minHeight:'100vh',background:'var(--bg)',padding:'24px 28px',direction:'rtl',fontFamily:'var(--font)'}}>
  <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:32,flexWrap:'wrap',gap:16}}>
- <div><h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}><IconRenderer name="ICON_BookOpen" size={18} /> المواد الدراسية</h1><p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>إدارة جميع المواد الدراسية لكل المراحل والمسارات</p></div>
+ <div><h1 className="page-title"><IconRenderer name="ICON_BookOpen" size={18} /> المواد الدراسية</h1><p className="page-sub">إدارة جميع المواد الدراسية لكل المراحل والمسارات</p></div>
  <button onClick={openAdd} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 20px',color:'var(--bg)',fontWeight:700,cursor:'pointer',fontSize:14}}>+ إضافة مادة</button>
  </div>
  <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:16,marginBottom:28}}>
@@ -57,7 +57,7 @@ export default function SubjectsPage(){
  <tr key={i} style={{borderBottom:'1px solid '+BR}}>
  <td style={{padding:'12px 16px'}}><div style={{color:'white',fontWeight:600,fontSize:14}}>{s.name}</div>{s.name_en&&<div style={{color:'rgba(255,255,255,0.4)',fontSize:12}}>{s.name_en}</div>}</td>
  <td style={{padding:'12px 16px',color:GOLD,fontFamily:'monospace',fontSize:13}}>{s.code||'—'}</td>
- <td style={{padding:'12px 16px'}}><span style={{background:'rgba(59,130,246,0.15)',color:'#3B82F6',padding:'3px 10px',borderRadius:20,fontSize:12}}>{s.stage||'—'}</span></td>
+ <td style={{padding:'12px 16px'}}><span className="badge badge-blue">{s.stage||'—'}</span></td>
  <td style={{padding:'12px 16px',color:'rgba(255,255,255,0.6)',fontSize:13}}>{s.track||'—'}</td>
  <td style={{padding:'12px 16px',color:'white',fontWeight:600,textAlign:'center'}}>{s.weekly_hours||'—'}</td>
  <td style={{padding:'12px 16px',textAlign:'center'}}><span style={{color:s.is_mandatory!==false?'#10B981':'#6B7280',fontSize:16}}>{s.is_mandatory!==false?"ICON_Check":'—'}</span></td>

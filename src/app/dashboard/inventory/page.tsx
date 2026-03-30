@@ -26,7 +26,7 @@ export default function InventoryPage() {
  return (
  <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'var(--font)' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
- <div><h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Package" size={18} /> إدارة المخزون</h1><p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>تتبع مستلزمات وأصول المدرسة</p></div>
+ <div><h1 className="page-title"><IconRenderer name="ICON_Package" size={18} /> إدارة المخزون</h1><p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>تتبع مستلزمات وأصول المدرسة</p></div>
  <button onClick={() => { setEditItem(null); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: 'var(--bg)', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ اضافة صنف</button>
  </div>
  {lowStock.length > 0 && <div style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.3)', borderRadius: 12, padding: '14px 18px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}><span style={{ fontSize: 20 }}></span><span style={{ color: '#F59E0B', fontSize: 14 }}><strong>{lowStock.length} أصناف</strong> وصلت للحد الأدنى: {lowStock.map((r: any) => r.name).join('، ')}</span></div>}

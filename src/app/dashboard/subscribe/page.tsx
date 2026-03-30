@@ -142,7 +142,7 @@ export default function SubscribePage() {
  )}
 
  <div style={{ textAlign: 'center', marginBottom: 32 }}>
- <h1 style={{ fontSize: 28, fontWeight: 800, color: 'var(--gold)', margin: '0 0 8px' }}>باقات متين</h1>
+ <h1 className="page-title">باقات متين</h1>
  <p style={{ color: '#9CA3AF', fontSize: 15, margin: '0 0 20px' }}>اختر الباقة المناسبة لمؤسستك التعليمية</p>
  
  <div style={{ display: 'inline-flex', background: 'rgba(255,255,255,0.05)', borderRadius: 12, padding: 4 }}>

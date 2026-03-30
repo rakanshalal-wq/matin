@@ -56,7 +56,7 @@ export default function Page() {
  <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'var(--font)' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
  <div>
- <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_File" size={18} /> العقود والاتفاقيات</h1>
+ <h1 className="page-title"><IconRenderer name="ICON_File" size={18} /> العقود والاتفاقيات</h1>
  <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>إدارة عقود الموظفين والموردين</p>
  </div>
  <button onClick={() => { setEditItem(null); setForm({}); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 20px', color: 'var(--bg)', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>+ اضافة جديد</button>

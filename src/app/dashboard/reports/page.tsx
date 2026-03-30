@@ -253,7 +253,7 @@ export default function ReportsPage() {
  return (
  <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'var(--font)' }}>
  <div style={{ marginBottom: 24 }}>
- <h1 style={{ fontSize: 26, fontWeight: 800, color: 'var(--gold)', margin: 0 }}><IconRenderer name="ICON_TrendingUp" size={18} /> التقارير والإحصائيات</h1>
+ <h1 className="page-title"><IconRenderer name="ICON_TrendingUp" size={18} /> التقارير والإحصائيات</h1>
  <p style={{ color: '#9CA3AF', fontSize: 14, margin: '6px 0 0' }}>تقارير شاملة من بيانات المنصة الحقيقية</p>
  </div>
 

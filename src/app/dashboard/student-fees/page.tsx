@@ -97,7 +97,7 @@ export default function StudentFeesPage() {
  <div style={{ minHeight: '100vh', background: BG, padding: '32px 24px', direction: 'rtl', fontFamily: 'var(--font)' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
  <div>
- <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Coins" size={18} /> الرسوم الدراسية</h1>
+ <h1 className="page-title"><IconRenderer name="ICON_Coins" size={18} /> الرسوم الدراسية</h1>
  <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 6, fontSize: 14 }}>متابعة رسوم الطلاب والمدفوعات</p>
  </div>
  <div style={{ display: 'flex', gap: 12 }}>

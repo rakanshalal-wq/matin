@@ -50,7 +50,7 @@ export default function ExamRoomsPage() {
  <div>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
  <div>
- <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><Building size={18} color="#6B7280" />قاعات الاختبارات</h1>
+ <h1 className="page-title"><Building size={18} color="#6B7280" />قاعات الاختبارات</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة القاعات والفصول المخصصة للاختبارات</p>
  </div>
  <button onClick={() => { setEditItem(null); setFormData({ name: '', building: '', capacity: '', floor: '', equipment: '', status: 'active' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold2))', color: 'var(--bg)', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة قاعة</button>

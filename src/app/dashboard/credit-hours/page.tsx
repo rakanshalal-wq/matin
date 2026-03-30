@@ -50,7 +50,7 @@ export default function CreditHoursPage() {
  <div>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
  <div>
- <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>⏰ الساعات المعتمدة</h1>
+ <h1 className="page-title">⏰ الساعات المعتمدة</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة الساعات المعتمدة للمقررات الجامعية</p>
  </div>
  <button onClick={() => { setEditItem(null); setFormData({ subject_name: '', code: '', hours: '', type: 'required', semester: '', department: '' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold2))', color: 'var(--bg)', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة مقرر</button>

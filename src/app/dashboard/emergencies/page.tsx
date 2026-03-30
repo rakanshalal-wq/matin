@@ -77,7 +77,7 @@ export default function EmergenciesPage() {
  {/* Header */}
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
  <div>
- <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Ambulance" size={18} /> الحالات الطارئة</h1>
+ <h1 className="page-title"><IconRenderer name="ICON_Ambulance" size={18} /> الحالات الطارئة</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>تسجيل ومتابعة الحالات الطارئة والإصابات</p>
  </div>
  <button onClick={() => { setEditItem(null); setForm({ student_name: '', type: 'injury', description: '', action_taken: '', reported_by: '', severity: 'medium', date: '', status: 'open' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold2))', color: 'var(--bg)', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>

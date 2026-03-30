@@ -30,7 +30,7 @@ export default function SchedulePage(){
  return(
  <div style={{minHeight:'100vh',background:'var(--bg)',padding:'24px 28px',direction:'rtl',fontFamily:'var(--font)'}}>
  <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:32,flexWrap:'wrap',gap:16}}>
- <div><h1 style={{fontSize:28,fontWeight:800,color:'white',margin:0}}><IconRenderer name="ICON_Calendar" size={18} /> الجدول الدراسي</h1><p style={{color:'rgba(255,255,255,0.5)',marginTop:6,fontSize:14}}>إدارة جدول الحصص الدراسية</p></div>
+ <div><h1 className="page-title"><IconRenderer name="ICON_Calendar" size={18} /> الجدول الدراسي</h1><p className="page-sub">إدارة جدول الحصص الدراسية</p></div>
  <button onClick={openAdd} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 20px',color:'var(--bg)',fontWeight:700,cursor:'pointer',fontSize:14}}>+ إضافة حصة</button>
  </div>
  <div style={{display:'flex',gap:12,marginBottom:24,flexWrap:'wrap'}}>
@@ -48,7 +48,7 @@ export default function SchedulePage(){
  <div style={{overflowX:'auto'}}>
  <table style={{width:'100%',borderCollapse:'collapse',minWidth:700}}>
  <thead><tr style={{borderBottom:'1px solid '+BR}}>
- <th style={{padding:'14px 16px',textAlign:'right',color:'rgba(255,255,255,0.5)',fontSize:13,width:140}}>الحصة</th>
+ <th>الحصة</th>
  {DAYS.map(d=><th key={d} style={{padding:'14px 16px',textAlign:'center',color:'rgba(255,255,255,0.5)',fontSize:13}}>{d}</th>)}
  </tr></thead>
  <tbody>

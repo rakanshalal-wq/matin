@@ -64,7 +64,7 @@ export default function SchoolPageEditor() {
  <div style={{ fontFamily: 'var(--font)', direction: 'rtl' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
  <div>
- <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_School" size={18} /> صفحة المدرسة</h1>
+ <h1 className="page-title"><IconRenderer name="ICON_School" size={18} /> صفحة المدرسة</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>تخصيص الصفحة العامة لمدرستك</p>
  </div>
  <button onClick={() => setShowAdd(true)} style={{ background: 'linear-gradient(135deg, #D4A843, #D4B03D)', color: 'var(--bg)', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إنشاء صفحة</button>

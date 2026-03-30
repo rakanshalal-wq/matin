@@ -53,7 +53,7 @@ export default function Page() {
  <div>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
  <div>
- <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Book" size={18} /> قاعدة المعرفة</h1>
+ <h1 className="page-title"><IconRenderer name="ICON_Book" size={18} /> قاعدة المعرفة</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>قاعدة المعرفة والمساعدة</p>
  </div>
  <button onClick={() => { setEditItem(null); setFormData({ title: '', description: '', status: 'active' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold2))', color: 'var(--bg)', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة جديد</button>
