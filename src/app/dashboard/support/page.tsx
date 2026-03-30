@@ -1,229 +1,226 @@
 'use client';
 export const dynamic = 'force-dynamic';
-import { Angry, Calendar, CheckCircle, ClipboardList, Headphones, HelpCircle, Lightbulb, Plus, Search, Settings, Trash2, Unlock, Upload, User, Wrench, X, XCircle } from "lucide-react";
+import { Angry, Calendar, CheckCircle, ClipboardList, Headphones, HelpCircle, Lightbulb, Plus, Settings, Trash2, Unlock, Upload, User, Wrench, X, XCircle } from "lucide-react";
 import { useState, useEffect } from 'react';
-import IconRenderer from "@/components/IconRenderer";
+import { PageHeader, StatCard, SearchBar, EmptyState, LoadingState, Modal, FilterTabs } from '../_components';
 import { getHeaders } from '@/lib/api';
 
+const typeLabels: Record<string, string> = {
+  complaint: 'شكوى', suggestion: 'اقتراح', inquiry: 'استفسار', technical: 'مشكلة تقنية'
+};
+const typeIcons: Record<string, any> = {
+  complaint: <Angry size={13} />, suggestion: <Lightbulb size={13} />,
+  inquiry: <HelpCircle size={13} />, technical: <Wrench size={13} />
+};
+const priorityLabels: Record<string, { label: string; color: string }> = {
+  low: { label: 'منخفضة', color: '#10B981' },
+  medium: { label: 'متوسطة', color: '#F59E0B' },
+  high: { label: 'عالية', color: '#EF4444' },
+  urgent: { label: 'عاجلة', color: '#DC2626' },
+};
+const statusLabels: Record<string, { label: string; color: string; bg: string }> = {
+  open: { label: 'مفتوحة', color: '#3B82F6', bg: 'rgba(59,130,246,0.1)' },
+  in_progress: { label: 'قيد المعالجة', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' },
+  closed: { label: 'مغلقة', color: '#10B981', bg: 'rgba(16,185,129,0.1)' },
+  rejected: { label: 'مرفوضة', color: '#EF4444', bg: 'rgba(239,68,68,0.1)' },
+};
+
 export default function SupportPage() {
- const [tickets, setTickets] = useState<any[]>([]);
- const [loading, setLoading] = useState(true);
- const [showAdd, setShowAdd] = useState(false);
- const [saving, setSaving] = useState(false);
- const [editItem, setEditItem] = useState<any>(null);
- const [errMsg, setErrMsg] = useState('');
- const [search, setSearch] = useState('');
- const [statusFilter, setStatusFilter] = useState('all');
- const [msg, setMsg] = useState('');
- const [msgType, setMsgType] = useState<'success' | 'error'>('success');
- const [form, setForm] = useState({ subject: '', description: '', type: 'complaint', priority: 'medium' });
+  const [tickets, setTickets] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showAdd, setShowAdd] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
+  const [errMsg, setErrMsg] = useState('');
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [form, setForm] = useState({ subject: '', description: '', type: 'complaint', priority: 'medium' });
 
- useEffect(() => { fetchTickets(); }, []);
+  useEffect(() => { fetchTickets(); }, []);
 
- const fetchTickets = async () => {
- try {
- const res = await fetch('/api/support', { headers: getHeaders() });
- const data = await res.json();
- setTickets(Array.isArray(data) ? data : []);
- } catch (e) { console.error(e); } finally { setLoading(false); }
- };
+  const fetchTickets = async () => {
+    try {
+      const res = await fetch('/api/support', { headers: getHeaders() });
+      const data = await res.json();
+      setTickets(Array.isArray(data) ? data : []);
+    } catch (e) { console.error(e); } finally { setLoading(false); }
+  };
 
- const handleSave = async () => {
- if (!form.subject) { setErrMsg('أدخل عنوان التذكرة'); return; }
- setSaving(true); setErrMsg('');
- try {
- const method = editItem ? 'PUT' : 'POST';
- const url = editItem ? `/api/support?id=${editItem.id}` : '/api/support';
- const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify(form) });
- const data = await res.json();
- if (!res.ok) { setErrMsg(data.error || 'فشل الحفظ'); return; }
- setShowAdd(false); setEditItem(null); setForm({ subject: '', description: '', type: 'complaint', priority: 'medium' }); setErrMsg('');
- fetchTickets();
- } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
- };
- const handleEdit = (item: any) => {
- setEditItem(item);
- setForm({ ...{ subject: '', description: '', type: 'complaint', priority: 'medium' }, ...item });
- setErrMsg('');
- setShowAdd(true);
- };
+  const handleSave = async () => {
+    if (!form.subject) { setErrMsg('أدخل عنوان التذكرة'); return; }
+    setSaving(true); setErrMsg('');
+    try {
+      const method = editItem ? 'PUT' : 'POST';
+      const url = editItem ? `/api/support?id=${editItem.id}` : '/api/support';
+      const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify(form) });
+      const data = await res.json();
+      if (!res.ok) { setErrMsg(data.error || 'فشل الحفظ'); return; }
+      setShowAdd(false); setEditItem(null);
+      setForm({ subject: '', description: '', type: 'complaint', priority: 'medium' });
+      setErrMsg(''); fetchTickets();
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
+  };
 
- const handleUpdateStatus = async (id: number, status: string) => {
- try {
- await fetch('/api/support', { method: 'PUT', headers: getHeaders(), body: JSON.stringify({ id, status }) });
- setTickets(tickets.map(t => t.id === id ? { ...t, status } : t));
- } catch {}
- };
+  const handleEdit = (item: any) => {
+    setEditItem(item);
+    setForm({ ...{ subject: '', description: '', type: 'complaint', priority: 'medium' }, ...item });
+    setErrMsg('');
+    setShowAdd(true);
+  };
 
- const handleDelete = async (id: number) => {
- if (!confirm('هل أنت متأكد من حذف هذه التذكرة؟')) return;
- try {
- await fetch(`/api/support?id=${id}`, { method: 'DELETE', headers: getHeaders() });
- setTickets(tickets.filter(t => t.id !== id));
- } catch {}
- };
+  const handleUpdateStatus = async (id: number, status: string) => {
+    try {
+      await fetch('/api/support', { method: 'PUT', headers: getHeaders(), body: JSON.stringify({ id, status }) });
+      setTickets(tickets.map(t => t.id === id ? { ...t, status } : t));
+    } catch {}
+  };
 
- const filtered = tickets.filter(t => {
- const matchSearch = (t.subject || '').toLowerCase().includes(search.toLowerCase()) || (t.description || '').toLowerCase().includes(search.toLowerCase()) || (t.name || '').toLowerCase().includes(search.toLowerCase());
- const matchStatus = statusFilter === 'all' || t.status === statusFilter;
- return matchSearch && matchStatus;
- });
+  const handleDelete = async (id: number) => {
+    if (!confirm('هل أنت متأكد من حذف هذه التذكرة؟')) return;
+    try {
+      await fetch(`/api/support?id=${id}`, { method: 'DELETE', headers: getHeaders() });
+      setTickets(tickets.filter(t => t.id !== id));
+    } catch {}
+  };
 
- const stats = {
- total: tickets.length,
- open: tickets.filter(t => t.status === 'open').length,
- inProgress: tickets.filter(t => t.status === 'in_progress').length,
- closed: tickets.filter(t => t.status === 'closed').length,
- };
+  const filtered = tickets.filter(t => {
+    const matchSearch = (t.subject || '').toLowerCase().includes(search.toLowerCase()) ||
+      (t.description || '').toLowerCase().includes(search.toLowerCase()) ||
+      (t.name || '').toLowerCase().includes(search.toLowerCase());
+    const matchStatus = statusFilter === 'all' || t.status === statusFilter;
+    return matchSearch && matchStatus;
+  });
 
- const typeLabels: Record<string, string> = { complaint: 'Angry شكوى', suggestion: 'Lightbulb اقتراح', inquiry: 'HelpCircle استفسار', technical: 'Wrench مشكلة تقنية' };
- const priorityLabels: Record<string, { label: string; color: string }> = {
- low: { label: 'منخفضة', color: '#10B981' },
- medium: { label: 'متوسطة', color: '#F59E0B' },
- high: { label: 'عالية', color: '#EF4444' },
- urgent: { label: 'عاجلة', color: '#DC2626' },
- };
- const statusLabels: Record<string, { label: string; color: string; bg: string }> = {
- open: { label: 'Unlock مفتوحة', color: '#3B82F6', bg: 'rgba(59,130,246,0.1)' },
- in_progress: { label: '<Settings size={16} /> قيد المعالجة', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' },
- closed: { label: 'CheckCircle مغلقة', color: '#10B981', bg: 'rgba(16,185,129,0.1)' },
- rejected: { label: 'XCircle مرفوضة', color: '#EF4444', bg: 'rgba(239,68,68,0.1)' },
- };
+  const statusTabs = [
+    { key: 'all', label: 'الكل' },
+    { key: 'open', label: 'مفتوحة' },
+    { key: 'in_progress', label: 'قيد المعالجة' },
+    { key: 'closed', label: 'مغلقة' },
+  ];
 
- const inputStyle: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'IBM Plex Sans Arabic, sans-serif' };
+  if (loading) return <LoadingState message="جاري تحميل التذاكر..." />;
 
- if (loading) return <div style={{ padding: 40, textAlign: 'center', color: '#D4A843', fontSize: 18 }}>⏳ جاري التحميل...</div>;
+  return (
+    <div className="page-container">
+      <PageHeader
+        title="الدعم الفني"
+        subtitle="تذاكر الدعم والشكاوى والاستفسارات"
+        icon={<Headphones size={22} />}
+        action={
+          <button className={showAdd ? 'btn-ghost' : 'btn-gold'} onClick={() => { setShowAdd(!showAdd); setEditItem(null); }}>
+            {showAdd ? <><X size={16} /> إلغاء</> : <><Plus size={16} /> تذكرة جديدة</>}
+          </button>
+        }
+      />
 
- return (
- <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
- {/* الهيدر */}
- <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
- <div>
- <h1 style={{ fontSize: 26, fontWeight: 800, color: '#D4A843', margin: 0 }}><IconRenderer name="ICON_Headphones" size={18} /> الدعم الفني</h1>
- <p style={{ color: '#9CA3AF', fontSize: 14, margin: '6px 0 0' }}>تذاكر الدعم والشكاوى والاستفسارات</p>
- </div>
- <button onClick={() => setShowAdd(!showAdd)} style={{ padding: '10px 24px', background: showAdd ? '#374151' : 'linear-gradient(135deg, #D4A843, #E8C547)', color: showAdd ? '#fff' : '#000', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
- {showAdd ? ' إلغاء' : '+ تذكرة جديدة'}
- </button>
- </div>
+      <div className="stat-grid">
+        <StatCard label="الكل" value={tickets.length} icon={<ClipboardList size={20} />} color="#D4A843" />
+        <StatCard label="مفتوحة" value={tickets.filter(t => t.status === 'open').length} icon={<Unlock size={20} />} color="#3B82F6" />
+        <StatCard label="قيد المعالجة" value={tickets.filter(t => t.status === 'in_progress').length} icon={<Settings size={20} />} color="#F59E0B" />
+        <StatCard label="مغلقة" value={tickets.filter(t => t.status === 'closed').length} icon={<CheckCircle size={20} />} color="#10B981" />
+      </div>
 
- {/* رسالة */}
- {msg && <div style={{ padding: '12px 16px', borderRadius: 10, marginBottom: 20, fontSize: 14, fontWeight: 600, background: msgType === 'success' ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)', border: `1px solid ${msgType === 'success' ? 'rgba(16,185,129,0.3)' : 'rgba(239,68,68,0.3)'}`, color: msgType === 'success' ? '#10B981' : '#EF4444' }}>{msg}</div>}
+      {showAdd && (
+        <Modal
+          title={editItem ? 'تعديل التذكرة' : 'تذكرة جديدة'}
+          icon={editItem ? <Settings size={18} /> : <Plus size={18} />}
+          onClose={() => { setShowAdd(false); setEditItem(null); setErrMsg(''); }}
+          inline
+        >
+          <div className="form-row">
+            <div style={{ gridColumn: '1 / -1' }}>
+              <label className="form-label">الموضوع *</label>
+              <input className="input-field" placeholder="وصف مختصر للمشكلة" value={form.subject} onChange={e => setForm({ ...form, subject: e.target.value })} />
+            </div>
+            <div>
+              <label className="form-label">النوع</label>
+              <select className="input-field" value={form.type} onChange={e => setForm({ ...form, type: e.target.value })}>
+                <option value="complaint">شكوى</option>
+                <option value="suggestion">اقتراح</option>
+                <option value="inquiry">استفسار</option>
+                <option value="technical">مشكلة تقنية</option>
+              </select>
+            </div>
+            <div>
+              <label className="form-label">الأولوية</label>
+              <select className="input-field" value={form.priority} onChange={e => setForm({ ...form, priority: e.target.value })}>
+                <option value="low">منخفضة</option>
+                <option value="medium">متوسطة</option>
+                <option value="high">عالية</option>
+                <option value="urgent">عاجلة</option>
+              </select>
+            </div>
+            <div style={{ gridColumn: '1 / -1' }}>
+              <label className="form-label">التفاصيل</label>
+              <textarea className="input-field" style={{ minHeight: 100, resize: 'vertical' }} placeholder="اشرح المشكلة بالتفصيل..." value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} />
+            </div>
+          </div>
+          {errMsg && <div className="error-msg">{errMsg}</div>}
+          <div className="modal-footer">
+            <button className="btn-gold" onClick={handleSave} disabled={saving}>
+              {saving ? '⏳ جاري الإرسال...' : <><Upload size={15} /> إرسال التذكرة</>}
+            </button>
+          </div>
+        </Modal>
+      )}
 
- {/* إحصائيات */}
- <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 12, marginBottom: 24 }}>
- {[
- { label: 'الكل', value: stats.total, color: '#D4A843', icon: "ICON_ClipboardList" },
- { label: 'مفتوحة', value: stats.open, color: '#3B82F6', icon: "ICON_Unlock" },
- { label: 'قيد المعالجة', value: stats.inProgress, color: '#F59E0B', icon: '<Settings size={16} />' },
- { label: 'مغلقة', value: stats.closed, color: '#10B981', icon: "ICON_CheckCircle" },
- ].map((s, i) => (
- <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 16, textAlign: 'center' }}>
- <div style={{ fontSize: 24, marginBottom: 6 }}><IconRenderer name={s.icon} /></div>
- <div style={{ color: s.color, fontSize: 24, fontWeight: 800 }}>{s.value}</div>
- <div style={{ color: '#9CA3AF', fontSize: 12, marginTop: 4 }}>{s.label}</div>
- </div>
- ))}
- </div>
+      <div className="filters-bar">
+        <SearchBar value={search} onChange={setSearch} placeholder="بحث في التذاكر..." />
+        <FilterTabs tabs={statusTabs} active={statusFilter} onChange={setStatusFilter} />
+      </div>
 
- {/* فورم الإضافة */}
- {showAdd && (
- <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 24, marginBottom: 24 }}>
- <h3 style={{ color: '#D4A843', fontSize: 18, margin: '0 0 20px', fontWeight: 700 }}><IconRenderer name="ICON_Plus" size={18} /> تذكرة جديدة</h3>
- <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
- <div style={{ gridColumn: '1 / -1' }}>
- <label style={{ color: '#9CA3AF', fontSize: 13, marginBottom: 6, display: 'block' }}>الموضوع *</label>
- <input style={inputStyle} placeholder="وصف مختصر للمشكلة" value={form.subject} onChange={e => setForm({...form, subject: e.target.value})} />
- </div>
- <div>
- <label style={{ color: '#9CA3AF', fontSize: 13, marginBottom: 6, display: 'block' }}>النوع</label>
- <select style={{ ...inputStyle, cursor: 'pointer' }} value={form.type} onChange={e => setForm({...form, type: e.target.value})}>
- <option value="complaint">شكوى</option>
- <option value="suggestion">اقتراح</option>
- <option value="inquiry">استفسار</option>
- <option value="technical">مشكلة تقنية</option>
- </select>
- </div>
- <div>
- <label style={{ color: '#9CA3AF', fontSize: 13, marginBottom: 6, display: 'block' }}>الأولوية</label>
- <select style={{ ...inputStyle, cursor: 'pointer' }} value={form.priority} onChange={e => setForm({...form, priority: e.target.value})}>
- <option value="low">منخفضة</option>
- <option value="medium">متوسطة</option>
- <option value="high">عالية</option>
- <option value="urgent">عاجلة</option>
- </select>
- </div>
- <div style={{ gridColumn: '1 / -1' }}>
- <label style={{ color: '#9CA3AF', fontSize: 13, marginBottom: 6, display: 'block' }}>التفاصيل</label>
- <textarea style={{ ...inputStyle, minHeight: 100, resize: 'vertical' }} placeholder="اشرح المشكلة بالتفصيل..." value={form.description} onChange={e => setForm({...form, description: e.target.value})} />
- </div>
- </div>
- <button onClick={handleSave} disabled={saving} style={{ marginTop: 16, padding: '12px 32px', background: 'linear-gradient(135deg, #D4A843, #E8C547)', color: '#000', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif', opacity: saving ? 0.5 : 1 }}>
- {saving ? '⏳ جاري الإرسال...' : 'Upload إرسال التذكرة'}
- </button>
- </div>
- )}
-
- {/* فلاتر */}
- <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
- <input type="text" placeholder="بحث..." value={search} onChange={e => setSearch(e.target.value)} style={{ ...inputStyle, maxWidth: 300 }} />
- <select style={{ ...inputStyle, maxWidth: 200, cursor: 'pointer' }} value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
- <option value="all">كل الحالات</option>
- <option value="open">مفتوحة</option>
- <option value="in_progress">قيد المعالجة</option>
- <option value="closed">مغلقة</option>
- </select>
- </div>
-
- {/* قائمة التذاكر */}
- {filtered.length === 0 ? (
- <div style={{ textAlign: 'center', padding: 60, background: 'rgba(255,255,255,0.02)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)' }}>
- <div style={{width:44,height:44,borderRadius:10,background:"rgba(245,158,11,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Headphones size={19} color="#F59E0B" /></div>
- <h3 style={{ color: '#fff', fontSize: 18, margin: '0 0 8px' }}>لا توجد تذاكر</h3>
- <p style={{ color: '#9CA3AF', fontSize: 14 }}>أضف تذكرة جديدة للدعم الفني</p>
- </div>
- ) : (
- <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
- {filtered.map((ticket: any) => {
- const statusInfo = statusLabels[ticket.status] || statusLabels.open;
- const priorityInfo = priorityLabels[ticket.priority] || priorityLabels.medium;
- return (
- <div key={ticket.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 20 }}>
- <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
- <div style={{ flex: 1, minWidth: 0 }}>
- <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6, flexWrap: 'wrap' }}>
- <h3 style={{ color: 'white', fontSize: 15, fontWeight: 700, margin: 0 }}>{ticket.subject || ticket.name}</h3>
- <span style={{ padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600, background: statusInfo.bg, color: statusInfo.color }}>{statusInfo.label}</span>
- <span style={{ padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600, background: 'rgba(255,255,255,0.05)', color: priorityInfo.color }}>{priorityInfo.label}</span>
- </div>
- {ticket.description && <p style={{ color: '#9CA3AF', fontSize: 13, margin: 0 }}>{ticket.description}</p>}
- <div style={{ display: 'flex', gap: 16, marginTop: 8, flexWrap: 'wrap' }}>
- <span style={{ color: '#6B7280', fontSize: 12 }}><IconRenderer name="ICON_User" size={18} /> {ticket.name || 'مجهول'}</span>
- <span style={{ color: '#6B7280', fontSize: 12 }}><IconRenderer name="ICON_ClipboardList" size={18} /> {typeLabels[ticket.type] || ticket.type}</span>
- <span style={{ color: '#6B7280', fontSize: 12 }}><IconRenderer name="ICON_Calendar" size={18} /> {ticket.created_at ? new Date(ticket.created_at).toLocaleDateString('ar-SA') : ''}</span>
- </div>
- </div>
- <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
- {ticket.status === 'open' && (
- <button onClick={() => handleUpdateStatus(ticket.id, 'in_progress')} style={{ padding: '6px 12px', background: 'rgba(245,158,11,0.1)', color: '#F59E0B', border: '1px solid rgba(245,158,11,0.2)', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
- <Settings size={16} /> معالجة
- </button>
- )}
- {ticket.status !== 'closed' && (
- <button onClick={() => handleUpdateStatus(ticket.id, 'closed')} style={{ padding: '6px 12px', background: 'rgba(16,185,129,0.1)', color: '#10B981', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
- CheckCircle إغلاق
- </button>
- )}
- <button onClick={() => handleDelete(ticket.id)} style={{ padding: '6px 12px', background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
- <Trash2 size={16} />
- </button>
- </div>
- </div>
- </div>
- );
- })}
- </div>
- )}
- </div>
- );
+      {filtered.length === 0 ? (
+        <EmptyState
+          icon={<Headphones size={32} />}
+          title="لا توجد تذاكر"
+          description="أضف تذكرة جديدة للدعم الفني"
+        />
+      ) : (
+        <div className="posts-list">
+          {filtered.map((ticket: any) => {
+            const statusInfo = statusLabels[ticket.status] || statusLabels.open;
+            const priorityInfo = priorityLabels[ticket.priority] || priorityLabels.medium;
+            return (
+              <div key={ticket.id} className="dcard">
+                <div className="ticket-header">
+                  <div className="ticket-meta">
+                    <h3 className="cell-title">{ticket.subject || ticket.name}</h3>
+                    <div className="ticket-badges">
+                      <span className="badge" style={{ background: statusInfo.bg, color: statusInfo.color }}>
+                        {statusInfo.label}
+                      </span>
+                      <span className="badge" style={{ background: 'rgba(255,255,255,0.05)', color: priorityInfo.color }}>
+                        {priorityInfo.label}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="action-btns">
+                    {ticket.status === 'open' && (
+                      <button className="btn-sm btn-sm-gold" onClick={() => handleUpdateStatus(ticket.id, 'in_progress')}>
+                        <Settings size={12} /> معالجة
+                      </button>
+                    )}
+                    {ticket.status !== 'closed' && (
+                      <button className="btn-sm btn-sm-green" onClick={() => handleUpdateStatus(ticket.id, 'closed')}>
+                        <CheckCircle size={12} /> إغلاق
+                      </button>
+                    )}
+                    <button className="btn-sm btn-sm-red" onClick={() => handleDelete(ticket.id)}>
+                      <Trash2 size={13} />
+                    </button>
+                  </div>
+                </div>
+                {ticket.description && <p className="cell-sub" style={{ margin: '8px 0' }}>{ticket.description}</p>}
+                <div className="ticket-footer">
+                  <span className="cell-sub"><User size={12} /> {ticket.name || 'مجهول'}</span>
+                  <span className="cell-sub">{typeIcons[ticket.type]} {typeLabels[ticket.type] || ticket.type}</span>
+                  <span className="cell-sub"><Calendar size={12} /> {ticket.created_at ? new Date(ticket.created_at).toLocaleDateString('ar-SA') : ''}</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
 }
