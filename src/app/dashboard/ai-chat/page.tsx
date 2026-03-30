@@ -1,242 +1,216 @@
 'use client';
 export const dynamic = 'force-dynamic';
-import IconRenderer from "@/components/IconRenderer";
-import { Bot, ChevronRight, Settings, User } from "lucide-react";
+import { Bot, ChevronRight, Settings, User, X } from "lucide-react";
 import { useState, useRef, useEffect } from 'react';
+import { Modal } from '../_components';
 
 interface Message {
- role: 'user' | 'assistant' | 'system';
- content: string;
- timestamp: Date;
+  role: 'user' | 'assistant' | 'system';
+  content: string;
+  timestamp: Date;
 }
 
 export default function AIChatPage() {
- const [messages, setMessages] = useState<Message[]>([
- {
- role: 'assistant',
- content: 'مرحباً! أنا المساعد الذكي لمنصة متين. كيف يمكنني مساعدتك اليوم؟\n\nيمكنني مساعدتك في:\n- إدارة الطلاب والمعلمين\n- تحليل الدرجات والأداء\n- إنشاء التقارير\n- الإجابة على أسئلتك التعليمية\n- تقييم الأسئلة الامتحانية',
- timestamp: new Date()
- }
- ]);
- const [input, setInput] = useState('');
- const [loading, setLoading] = useState(false);
- const [editItem, setEditItem] = useState<any>(null);
- const [saving, setSaving] = useState(false);
- const [showModal, setShowModal] = useState(false);
- const [settingsForm, setSettingsForm] = useState({ model: 'gpt-4', language: 'ar', max_tokens: '2000' });
- const [errMsg, setErrMsg] = useState('');
- const messagesEndRef = useRef<HTMLDivElement>(null);
- const [suggestions] = useState([
- 'أعطني ملخص أداء الطلاب هذا الشهر',
- 'كيف أضيف اختبار جديد؟',
- 'ما هي نسبة الحضور اليوم؟',
- 'ساعدني في إنشاء سؤال امتحاني',
- 'أريد تقرير مالي للمدرسة',
- 'كيف أفعّل نظام النقل؟'
- ]);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      role: 'assistant',
+      content: 'مرحباً! أنا المساعد الذكي لمنصة متين. كيف يمكنني مساعدتك اليوم؟\n\nيمكنني مساعدتك في:\n- إدارة الطلاب والمعلمين\n- تحليل الدرجات والأداء\n- إنشاء التقارير\n- الإجابة على أسئلتك التعليمية\n- تقييم الأسئلة الامتحانية',
+      timestamp: new Date()
+    }
+  ]);
+  const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [settingsForm, setSettingsForm] = useState({ model: 'gpt-4', language: 'ar', max_tokens: '2000' });
+  const [errMsg, setErrMsg] = useState('');
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [suggestions] = useState([
+    'أعطني ملخص أداء الطلاب هذا الشهر',
+    'كيف أضيف اختبار جديد؟',
+    'ما هي نسبة الحضور اليوم؟',
+    'ساعدني في إنشاء سؤال امتحاني',
+    'أريد تقرير مالي للمدرسة',
+    'كيف أفعّل نظام النقل؟'
+  ]);
 
- const scrollToBottom = () => {
- messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
- };
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
- useEffect(() => {
- scrollToBottom();
- }, [messages]);
+  const handleSaveSettings = async () => {
+    setSaving(true); setErrMsg('');
+    try {
+      const token = localStorage.getItem('matin_token') || '';
+      const res = await fetch('/api/ai/settings', { method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, body: JSON.stringify(settingsForm) });
+      if (res.ok) { setShowModal(false); }
+      else { const d = await res.json(); setErrMsg(d.error || 'فشل حفظ الإعدادات'); }
+    } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
+  };
 
- const updateMessage = async (messageId: string, content: string) => {
- try {
- const token = document.cookie.split(';').find(c => c.trim().startsWith('token='))?.split('=')[1] 
- || localStorage.getItem('token') || '';
- const res = await fetch(`/api/ai/chat?id=${messageId}`, {
- method: 'PUT',
- headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
- body: JSON.stringify({ content })
- });
- if (!res.ok) { const d = await res.json(); setErrMsg(d.error || 'فشل التحديث'); }
- else setEditItem(null);
- } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); }
- };
- const handleSaveSettings = async () => {
- setSaving(true); setErrMsg('');
- try {
- const token = localStorage.getItem('matin_token') || '';
- const res = await fetch('/api/ai/settings', { method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, body: JSON.stringify(settingsForm) });
- if (res.ok) { setShowModal(false); }
- else { const d = await res.json(); setErrMsg(d.error || 'فشل حفظ الإعدادات'); }
- } catch (e: any) { setErrMsg(e.message || 'حدث خطأ'); } finally { setSaving(false); }
- };
- const sendMessage = async (text?: string) => {
- const messageText = text || input;
- if (!messageText.trim()) return;
+  const sendMessage = async (text?: string) => {
+    const messageText = text || input;
+    if (!messageText.trim()) return;
+    const userMessage: Message = { role: 'user', content: messageText, timestamp: new Date() };
+    setMessages(prev => [...prev, userMessage]);
+    setInput('');
+    setLoading(true);
+    try {
+      const token = document.cookie.split(';').find(c => c.trim().startsWith('token='))?.split('=')[1]
+        || localStorage.getItem('token') || '';
+      const res = await fetch('/api/ai/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ message: messageText, context: messages.slice(-6).map(m => ({ role: m.role, content: m.content })) })
+      });
+      const data = await res.json();
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: data.response || data.message || 'عذراً، حدث خطأ في المعالجة. يرجى المحاولة مرة أخرى.',
+        timestamp: new Date()
+      }]);
+    } catch (error: any) {
+      setErrMsg(error.message || 'حدث خطأ في الاتصال');
+      setMessages(prev => [...prev, { role: 'assistant', content: 'عذراً، حدث خطأ في الاتصال. يرجى المحاولة مرة أخرى.', timestamp: new Date() }]);
+    }
+    setLoading(false);
+  };
 
- const userMessage: Message = { role: 'user', content: messageText, timestamp: new Date() };
- setMessages(prev => [...prev, userMessage]);
- setInput('');
- setLoading(true);
+  return (
+    <div dir="rtl" className="ai-chat-wrap">
+      {/* Header */}
+      <div className="ai-chat-header">
+        <div className="ai-avatar-bot"><Bot size={22} /></div>
+        <div>
+          <h1 className="ai-chat-title">المساعد الذكي</h1>
+          <p className="ai-chat-sub">مدعوم بالذكاء الاصطناعي - متين AI</p>
+        </div>
+        <div className="ai-status">
+          <span className="ai-status-dot" />
+          <span>متصل</span>
+        </div>
+        <button className="btn-icon btn-icon-ghost" style={{ marginRight: 'auto' }} onClick={() => setShowModal(true)}>
+          <Settings size={18} />
+        </button>
+      </div>
 
- try {
- const token = document.cookie.split(';').find(c => c.trim().startsWith('token='))?.split('=')[1] 
- || localStorage.getItem('token') || '';
- 
- const res = await fetch('/api/ai/chat', {
- method: 'POST',
- headers: {
- 'Content-Type': 'application/json',
- 'Authorization': `Bearer ${token}`
- },
- body: JSON.stringify({
- message: messageText,
- context: messages.slice(-6).map(m => ({ role: m.role, content: m.content }))
- })
- });
+      {/* Messages */}
+      <div className="ai-messages">
+        {messages.map((msg, i) => (
+          <div key={i} className={`ai-msg-row ${msg.role === 'user' ? 'ai-msg-user' : 'ai-msg-bot'}`}>
+            {msg.role === 'user' && <div className="ai-avatar-user"><User size={16} /></div>}
+            <div className={`ai-bubble ${msg.role === 'user' ? 'ai-bubble-user' : 'ai-bubble-bot'}`}>
+              {msg.content}
+              <div className="ai-time">
+                {msg.timestamp.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' })}
+              </div>
+            </div>
+            {msg.role === 'assistant' && <div className="ai-avatar-bot ai-avatar-sm"><Bot size={16} /></div>}
+          </div>
+        ))}
+        {loading && (
+          <div className="ai-msg-row ai-msg-bot">
+            <div className="ai-bubble ai-bubble-bot">
+              <div className="ai-typing">
+                <span /><span /><span />
+              </div>
+            </div>
+            <div className="ai-avatar-bot ai-avatar-sm"><Bot size={16} /></div>
+          </div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
 
- const data = await res.json();
- const assistantMessage: Message = {
- role: 'assistant',
- content: data.response || data.message || 'عذراً، حدث خطأ في المعالجة. يرجى المحاولة مرة أخرى.',
- timestamp: new Date()
- };
- setMessages(prev => [...prev, assistantMessage]);
- } catch (error: any) {
- setErrMsg(error.message || 'حدث خطأ في الاتصال');
- setMessages(prev => [...prev, {
- role: 'assistant',
- content: 'عذراً، حدث خطأ في الاتصال. يرجى المحاولة مرة أخرى.',
- timestamp: new Date()
- }]);
- }
- setLoading(false);
- };
+      {/* Suggestions */}
+      {messages.length <= 1 && (
+        <div className="ai-suggestions">
+          {suggestions.map((s, i) => (
+            <button key={i} className="ai-suggestion-btn" onClick={() => sendMessage(s)}>{s}</button>
+          ))}
+        </div>
+      )}
 
- return (
- <div dir="rtl" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 80px)', background: '#f8f9fa' }}>
- {/* Header */}
- <div style={{ background: 'linear-gradient(135deg, #1e3a5f, #2d5a8e)', color: 'white', padding: '20px 24px', display: 'flex', alignItems: 'center', gap: '15px' }}>
- <div style={{ width: '45px', height: '45px', borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px' }}><IconRenderer name="ICON_Bot" size={36} /></div>
- <div>
- <h1 style={{ margin: 0, fontSize: '20px', fontWeight: 'bold' }}>المساعد الذكي</h1>
- <p style={{ margin: 0, fontSize: '13px', opacity: 0.8 }}>مدعوم بالذكاء الاصطناعي - متين AI</p>
- </div>
- <div style={{ marginRight: 'auto', display: 'flex', alignItems: 'center', gap: '6px' }}>
- <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#4caf50' }}></span>
- <span style={{ fontSize: '12px' }}>متصل</span>
- </div>
- </div>
+      {/* Input */}
+      <div className="ai-input-bar">
+        <input
+          type="text"
+          className="ai-input"
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          onKeyDown={e => e.key === 'Enter' && !e.shiftKey && sendMessage()}
+          placeholder="اكتب رسالتك هنا..."
+          disabled={loading}
+        />
+        <button
+          className={`ai-send-btn ${input.trim() ? 'ai-send-active' : ''}`}
+          onClick={() => sendMessage()}
+          disabled={loading || !input.trim()}
+        >
+          <ChevronRight size={20} />
+        </button>
+      </div>
 
- {/* Messages */}
- <div style={{ flex: 1, overflowY: 'auto', padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
- {messages.map((msg, i) => (
- <div key={i} style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-start' : 'flex-end', gap: '10px' }}>
- {msg.role === 'user' && (
- <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#1e3a5f', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '14px', flexShrink: 0 }}><IconRenderer name="ICON_User" size={36} /></div>
- )}
- <div style={{
- maxWidth: '75%',
- padding: '14px 18px',
- borderRadius: msg.role === 'user' ? '4px 18px 18px 18px' : '18px 4px 18px 18px',
- background: msg.role === 'user' ? '#1e3a5f' : 'white',
- color: msg.role === 'user' ? 'white' : '#333',
- boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
- lineHeight: '1.7',
- fontSize: '14px',
- whiteSpace: 'pre-wrap'
- }}>
- {msg.content}
- <div style={{ fontSize: '11px', opacity: 0.6, marginTop: '6px', textAlign: 'left' }}>
- {msg.timestamp.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' })}
- </div>
- </div>
- {msg.role === 'assistant' && (
- <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'linear-gradient(135deg, #4caf50, #2e7d32)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '14px', flexShrink: 0 }}><IconRenderer name="ICON_Bot" size={36} /></div>
- )}
- </div>
- ))}
- {loading && (
- <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
- <div style={{ padding: '14px 18px', borderRadius: '18px 4px 18px 18px', background: 'white', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
- <div style={{ display: 'flex', gap: '4px' }}>
- <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ccc', animation: 'bounce 1.4s infinite ease-in-out both', animationDelay: '-0.32s' }}></span>
- <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ccc', animation: 'bounce 1.4s infinite ease-in-out both', animationDelay: '-0.16s' }}></span>
- <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ccc', animation: 'bounce 1.4s infinite ease-in-out both' }}></span>
- </div>
- </div>
- </div>
- )}
- <div ref={messagesEndRef} />
- </div>
+      <style>{`
+        @keyframes bounce { 0%,80%,100%{transform:scale(0)} 40%{transform:scale(1)} }
+        .ai-chat-wrap { display:flex; flex-direction:column; height:calc(100vh - 80px); direction:rtl; }
+        .ai-chat-header { background:linear-gradient(135deg,#1e3a5f,#2d5a8e); color:white; padding:16px 20px; display:flex; align-items:center; gap:12px; }
+        .ai-avatar-bot { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,#4caf50,#2e7d32); display:flex; align-items:center; justify-content:center; color:white; flex-shrink:0; }
+        .ai-avatar-user { width:36px; height:36px; border-radius:50%; background:#1e3a5f; display:flex; align-items:center; justify-content:center; color:white; flex-shrink:0; }
+        .ai-avatar-sm { width:32px; height:32px; }
+        .ai-chat-title { margin:0; font-size:18px; font-weight:800; }
+        .ai-chat-sub { margin:0; font-size:12px; opacity:0.8; }
+        .ai-status { display:flex; align-items:center; gap:6px; font-size:12px; margin-right:auto; }
+        .ai-status-dot { width:8px; height:8px; border-radius:50%; background:#4caf50; }
+        .ai-messages { flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:16px; background:#f8f9fa; }
+        .ai-msg-row { display:flex; gap:10px; align-items:flex-end; }
+        .ai-msg-user { justify-content:flex-start; }
+        .ai-msg-bot { justify-content:flex-end; }
+        .ai-bubble { max-width:75%; padding:14px 18px; line-height:1.7; font-size:14px; white-space:pre-wrap; box-shadow:0 2px 8px rgba(0,0,0,0.08); }
+        .ai-bubble-user { background:#1e3a5f; color:white; border-radius:4px 18px 18px 18px; }
+        .ai-bubble-bot { background:white; color:#333; border-radius:18px 4px 18px 18px; }
+        .ai-time { font-size:11px; opacity:0.6; margin-top:6px; text-align:left; }
+        .ai-typing { display:flex; gap:4px; align-items:center; padding:4px 0; }
+        .ai-typing span { width:8px; height:8px; border-radius:50%; background:#ccc; animation:bounce 1.4s infinite ease-in-out both; }
+        .ai-typing span:nth-child(1){animation-delay:-0.32s} .ai-typing span:nth-child(2){animation-delay:-0.16s}
+        .ai-suggestions { padding:0 20px 10px; display:flex; flex-wrap:wrap; gap:8px; background:#f8f9fa; }
+        .ai-suggestion-btn { padding:8px 16px; background:white; border:1px solid #e0e0e0; border-radius:20px; font-size:13px; color:#555; cursor:pointer; transition:all 0.2s; font-family:inherit; }
+        .ai-suggestion-btn:hover { background:#e3f2fd; border-color:#1e3a5f; }
+        .ai-input-bar { padding:16px 20px; background:white; border-top:1px solid #e0e0e0; display:flex; gap:10px; align-items:center; }
+        .ai-input { flex:1; padding:12px 18px; border:2px solid #e0e0e0; border-radius:25px; font-size:14px; outline:none; direction:rtl; font-family:inherit; }
+        .ai-input:focus { border-color:#1e3a5f; }
+        .ai-send-btn { width:48px; height:48px; border-radius:50%; background:#e0e0e0; color:white; border:none; cursor:default; display:flex; align-items:center; justify-content:center; transition:all 0.2s; }
+        .ai-send-active { background:#1e3a5f; cursor:pointer; }
+      `}</style>
 
- {/* Suggestions */}
- {messages.length <= 1 && (
- <div style={{ padding: '0 20px 10px', display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
- {suggestions.map((s, i) => (
- <button
- key={i}
- onClick={() => sendMessage(s)}
- style={{ padding: '8px 16px', background: 'white', border: '1px solid #e0e0e0', borderRadius: '20px', fontSize: '13px', color: '#555', cursor: 'pointer', transition: 'all 0.2s' }}
- onMouseOver={(e) => { (e.target as HTMLElement).style.background = '#e3f2fd'; (e.target as HTMLElement).style.borderColor = '#1e3a5f'; }}
- onMouseOut={(e) => { (e.target as HTMLElement).style.background = 'white'; (e.target as HTMLElement).style.borderColor = '#e0e0e0'; }}
- >
- {s}
- </button>
- ))}
- </div>
- )}
-
- {/* Input */}
- <div style={{ padding: '16px 20px', background: 'white', borderTop: '1px solid #e0e0e0', display: 'flex', gap: '10px', alignItems: 'center' }}>
- <input
- type="text"
- value={input}
- onChange={(e) => setInput(e.target.value)}
- onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
- placeholder="اكتب رسالتك هنا..."
- disabled={loading}
- style={{ flex: 1, padding: '12px 18px', border: '2px solid #e0e0e0', borderRadius: '25px', fontSize: '14px', outline: 'none', direction: 'rtl' }}
- />
- <button
- onClick={() => sendMessage()}
- disabled={loading || !input.trim()}
- style={{ width: '48px', height: '48px', borderRadius: '50%', background: input.trim() ? '#1e3a5f' : '#e0e0e0', color: 'white', border: 'none', fontSize: '20px', cursor: input.trim() ? 'pointer' : 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s' }}
- >
- <ChevronRight size={18} color="#6B7280" />
- </button>
- </div>
-
- <style>{`
- @keyframes bounce {
- 0%, 80%, 100% { transform: scale(0); }
- 40% { transform: scale(1); }
- }
- `}</style>
-
- {/* Settings Modal */}
- {showModal && (
- <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
- <div style={{ background: '#0F0F1A', border: '1px solid rgba(139,92,246,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 440, direction: 'rtl' }}>
- <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
- <h2 style={{ color: '#8B5CF6', fontSize: 18, fontWeight: 700, margin: 0 }}>إعدادات المساعد الذكي</h2>
- <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
- </div>
- {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}
- <div style={{ marginBottom: 16 }}>
- <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>النموذج</label>
- <select value={settingsForm.model} onChange={e => setSettingsForm({ ...settingsForm, model: e.target.value })} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13 }}>
- <option value="gpt-4">GPT-4</option>
- <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
- <option value="claude-3">Claude 3</option>
- </select>
- </div>
- <div style={{ marginBottom: 16 }}>
- <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, display: 'block', marginBottom: 6 }}>الحد الأقصى للرموز</label>
- <input type="number" value={settingsForm.max_tokens} onChange={e => setSettingsForm({ ...settingsForm, max_tokens: e.target.value })} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13, boxSizing: 'border-box' as const }} />
- </div>
- <div style={{ display: 'flex', gap: 10 }}>
- <button onClick={handleSaveSettings} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(139,92,246,0.5)' : 'linear-gradient(135deg,#8B5CF6,#A78BFA)', border: 'none', borderRadius: 10, padding: '12px 0', color: '#fff', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري الحفظ...' : 'حفظ الإعدادات'}</button>
- <button onClick={() => setShowModal(false)} style={{ padding: '12px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
- </div>
- </div>
- </div>
- )}
- </div>
- );
+      {showModal && (
+        <Modal
+          title="إعدادات المساعد الذكي"
+          icon={<Settings size={18} />}
+          onClose={() => setShowModal(false)}
+        >
+          <div className="form-row">
+            <div style={{ gridColumn: '1 / -1' }}>
+              <label className="form-label">النموذج</label>
+              <select className="input-field" value={settingsForm.model} onChange={e => setSettingsForm({ ...settingsForm, model: e.target.value })}>
+                <option value="gpt-4">GPT-4</option>
+                <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                <option value="claude-3">Claude 3</option>
+              </select>
+            </div>
+            <div style={{ gridColumn: '1 / -1' }}>
+              <label className="form-label">الحد الأقصى للرموز</label>
+              <input type="number" className="input-field" value={settingsForm.max_tokens} onChange={e => setSettingsForm({ ...settingsForm, max_tokens: e.target.value })} />
+            </div>
+          </div>
+          {errMsg && <div className="error-msg">{errMsg}</div>}
+          <div className="modal-footer">
+            <button className="btn-gold" onClick={handleSaveSettings} disabled={saving}>
+              {saving ? 'جاري الحفظ...' : 'حفظ الإعدادات'}
+            </button>
+            <button className="btn-ghost" onClick={() => setShowModal(false)}><X size={15} /> إلغاء</button>
+          </div>
+        </Modal>
+      )}
+    </div>
+  );
 }
