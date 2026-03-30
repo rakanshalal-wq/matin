@@ -1,5 +1,5 @@
-import './dashboard-theme.css';
 'use client';
+import './dashboard-theme.css';
 import { Heart } from "lucide-react";
 import React, { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';

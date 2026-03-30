@@ -1,293 +1,277 @@
 'use client';
 export const dynamic = 'force-dynamic';
-import { Eye, GraduationCap, Pencil, Plus, Save, Search, Trash2, User, X } from "lucide-react";
+import { GraduationCap, User, Plus, Eye, Pencil, Trash2 } from "lucide-react";
 import { useState, useEffect } from 'react';
-import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
-
+import { PageHeader, StatCard, SearchBar, Modal, EmptyState, LoadingState } from '../_components';
 
 export default function StudentsPage() {
- const [students, setStudents] = useState<any[]>([]);
- const [loading, setLoading] = useState(true);
- const [searchTerm, setSearchTerm] = useState('');
- const [showAddModal, setShowAddModal] = useState(false);
- const [showViewModal, setShowViewModal] = useState(false);
- const [showEditModal, setShowEditModal] = useState(false);
- const [selectedStudent, setSelectedStudent] = useState<any>(null);
- const [saving, setSaving] = useState(false);
- const [formData, setFormData] = useState({ name: '', email: '', phone: '', national_id: '', gender: 'MALE', date_of_birth: '', class_id: '' });
- const [classes, setClasses] = useState<any[]>([]);
- const [editData, setEditData] = useState({ id: '', name: '', email: '', phone: '', national_id: '', gender: 'MALE', date_of_birth: '', student_id: '', class_id: '' });
+  const [students, setStudents] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState<any>(null);
+  const [saving, setSaving] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', national_id: '', gender: 'MALE', date_of_birth: '', class_id: '' });
+  const [classes, setClasses] = useState<any[]>([]);
+  const [editData, setEditData] = useState({ id: '', name: '', email: '', phone: '', national_id: '', gender: 'MALE', date_of_birth: '', student_id: '', class_id: '' });
 
- useEffect(() => { fetchStudents(); fetchClasses(); }, []);
+  useEffect(() => { fetchStudents(); fetchClasses(); }, []);
 
- const fetchClasses = async () => {
- try { const res = await fetch('/api/classes', { headers: getHeaders() }); const data = await res.json(); setClasses(Array.isArray(data) ? data : []); }
- catch (e) { console.error(e); }
- };
- const fetchStudents = async () => {
- try { const res = await fetch('/api/students', { headers: getHeaders(), credentials: 'include' }); const data = await res.json(); setStudents(Array.isArray(data) ? data : []); }
- catch (e) { console.error(e); } finally { setLoading(false); }
- };
+  const fetchClasses = async () => {
+    try { const res = await fetch('/api/classes', { headers: getHeaders() }); const data = await res.json(); setClasses(Array.isArray(data) ? data : []); }
+    catch (e) { console.error(e); }
+  };
+  const fetchStudents = async () => {
+    try { const res = await fetch('/api/students', { headers: getHeaders(), credentials: 'include' }); const data = await res.json(); setStudents(Array.isArray(data) ? data : []); }
+    catch (e) { console.error(e); } finally { setLoading(false); }
+  };
 
- const handleAdd = async () => {
- if (!formData.name) return alert('أدخل اسم الطالب');
- setSaving(true);
- try {
- const res = await fetch('/api/students', { method: 'POST', headers: getHeaders(), credentials: 'include', body: JSON.stringify(formData) });
- if (res.ok) { setShowAddModal(false); setFormData({ name: '', email: '', phone: '', national_id: '', gender: 'MALE', date_of_birth: '', class_id: '' }); fetchStudents(); alert('تم تسجيل الطالب بنجاح! تم إرسال بيانات الدخول لبريده الإلكتروني'); }
- else { const err = await res.json(); alert(err.error || 'فشل'); }
- } catch (e) { alert('خطأ في الاتصال'); } finally { setSaving(false); }
- };
+  const handleAdd = async () => {
+    if (!formData.name) return alert('أدخل اسم الطالب');
+    setSaving(true);
+    try {
+      const res = await fetch('/api/students', { method: 'POST', headers: getHeaders(), credentials: 'include', body: JSON.stringify(formData) });
+      if (res.ok) { setShowAddModal(false); setFormData({ name: '', email: '', phone: '', national_id: '', gender: 'MALE', date_of_birth: '', class_id: '' }); fetchStudents(); alert('تم تسجيل الطالب بنجاح! تم إرسال بيانات الدخول لبريده الإلكتروني'); }
+      else { const err = await res.json(); alert(err.error || 'فشل'); }
+    } catch (e) { alert('خطأ في الاتصال'); } finally { setSaving(false); }
+  };
 
- const handleView = (student: any) => { setSelectedStudent(student); setShowViewModal(true); };
+  const handleView = (student: any) => { setSelectedStudent(student); setShowViewModal(true); };
 
- const handleEditOpen = (student: any) => {
- setEditData({
- id: student.id, name: student.name || '', email: student.email || '', phone: student.phone || '',
- national_id: student.national_id || '', gender: student.gender || 'MALE',
- date_of_birth: student.date_of_birth ? student.date_of_birth.split('T')[0] : '',
- student_id: student.student_id || '',
- class_id: student.class_id || '',
- });
- setShowEditModal(true);
- };
+  const handleEditOpen = (student: any) => {
+    setEditData({
+      id: student.id, name: student.name || '', email: student.email || '', phone: student.phone || '',
+      national_id: student.national_id || '', gender: student.gender || 'MALE',
+      date_of_birth: student.date_of_birth ? student.date_of_birth.split('T')[0] : '',
+      student_id: student.student_id || '', class_id: student.class_id || '',
+    });
+    setShowEditModal(true);
+  };
 
- const handleEditSave = async () => {
- if (!editData.name) return alert('أدخل اسم الطالب');
- setSaving(true);
- try {
- const res = await fetch('/api/students', { method: 'PUT', headers: getHeaders(), credentials: 'include', body: JSON.stringify(editData) });
- if (res.ok) { setShowEditModal(false); fetchStudents(); alert('تم تحديث بيانات الطالب بنجاح'); }
- else { const err = await res.json(); alert(err.error || 'فشل التحديث'); }
- } catch (e) { console.error(e); } finally { setSaving(false); }
- };
+  const handleEditSave = async () => {
+    if (!editData.name) return alert('أدخل اسم الطالب');
+    setSaving(true);
+    try {
+      const res = await fetch('/api/students', { method: 'PUT', headers: getHeaders(), credentials: 'include', body: JSON.stringify(editData) });
+      if (res.ok) { setShowEditModal(false); fetchStudents(); alert('تم تحديث بيانات الطالب بنجاح'); }
+      else { const err = await res.json(); alert(err.error || 'فشل التحديث'); }
+    } catch (e) { console.error(e); } finally { setSaving(false); }
+  };
 
- const handleDelete = async (id: string) => { if (!confirm('هل أنت متأكد من حذف هذا الطالب؟')) return; await fetch('/api/students?id=' + id, { method: 'DELETE', headers: getHeaders(), credentials: 'include' }); fetchStudents(); };
+  const handleDelete = async (id: string) => { if (!confirm('هل أنت متأكد من حذف هذا الطالب؟')) return; await fetch('/api/students?id=' + id, { method: 'DELETE', headers: getHeaders(), credentials: 'include' }); fetchStudents(); };
 
- const filtered = students.filter(t => { const term = searchTerm.toLowerCase(); return t.name?.toLowerCase().includes(term) || t.phone?.includes(searchTerm) || t.student_id?.includes(searchTerm) || t.email?.toLowerCase().includes(term); });
+  const filtered = students.filter(t => { const term = searchTerm.toLowerCase(); return t.name?.toLowerCase().includes(term) || t.phone?.includes(searchTerm) || t.student_id?.includes(searchTerm) || t.email?.toLowerCase().includes(term); });
 
- const inputStyle: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none', boxSizing: 'border-box' };
- const modalOverlay: React.CSSProperties = { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 };
- const modalBox: React.CSSProperties = { background: '#06060E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 32, width: '90%', maxWidth: 600, maxHeight: '90vh', overflowY: 'auto' };
+  const infoRow = (label: string, value: string) => (
+    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid var(--border2)' }}>
+      <span style={{ color: 'var(--text-dim)', fontSize: 14 }}>{label}</span>
+      <span style={{ color: 'var(--text)', fontSize: 14, fontWeight: 600 }}>{value || '—'}</span>
+    </div>
+  );
 
- const infoRow = (label: string, value: string) => (
- <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
- <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>{label}</span>
- <span style={{ color: 'white', fontSize: 14, fontWeight: 600 }}>{value || '—'}</span>
- </div>
- );
+  if (loading) return <LoadingState />;
 
- return (
- <div>
- <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
- <div><h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_GraduationCap" size={18} /> الطلاب</h1><p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة بيانات الطلاب</p></div>
- <button onClick={() => setShowAddModal(true)} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة طالب</button>
- </div>
+  return (
+    <div>
+      <PageHeader
+        title="الطلاب"
+        subtitle="إدارة بيانات الطلاب"
+        icon={<GraduationCap size={20} color="#D4A843" />}
+        actions={
+          <button className="btn-gold" onClick={() => setShowAddModal(true)}>
+            <Plus size={15} /> إضافة طالب
+          </button>
+        }
+      />
 
- <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 24 }}>
- {[{ label: 'إجمالي الطلاب', value: students.length, icon: "ICON_GraduationCap", color: '#D4A843' }, { label: 'ذكور', value: students.filter(s => s.gender === 'MALE').length, icon: "ICON_User", color: '#3B82F6' }, { label: 'إناث', value: students.filter(s => s.gender === 'FEMALE').length, icon: "ICON_User", color: '#EC4899' }].map((s, i) => (
- <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
- <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><span style={{ fontSize: 28 }}><IconRenderer name={s.icon} /></span><span style={{ fontSize: 28, fontWeight: 800, color: s.color }}>{s.value}</span></div>
- <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, marginTop: 8 }}>{s.label}</p>
- </div>
- ))}
- </div>
+      <div className="stat-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+        <StatCard value={students.length} label="إجمالي الطلاب" icon={<GraduationCap size={17} color="#D4A843" />} color="#D4A843" />
+        <StatCard value={students.filter(s => s.gender === 'MALE').length} label="ذكور" icon={<User size={17} color="#3B82F6" />} color="#3B82F6" />
+        <StatCard value={students.filter(s => s.gender === 'FEMALE').length} label="إناث" icon={<User size={17} color="#EC4899" />} color="#EC4899" />
+      </div>
 
- <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 16, marginBottom: 24 }}>
- <input type="text" placeholder="بحث بالاسم، رقم الطالب، أو الجوال..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} style={{ ...inputStyle, maxWidth: 400 }} />
- </div>
+      <SearchBar value={searchTerm} onChange={setSearchTerm} placeholder="بحث بالاسم، رقم الطالب، أو الجوال..." />
 
- <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, overflow: 'hidden' }}>
- {loading ? <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>⏳ جاري التحميل...</p></div>
- : filtered.length === 0 ? (
- <div style={{ padding: 60, textAlign: 'center' }}>
- <div style={{width:44,height:44,borderRadius:10,background:"rgba(201,168,67,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><GraduationCap size={19} color="#D4A843" /></div>
- <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا يوجد طلاب مسجلين</p>
- <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة أول طالب</button>
- </div>
- ) : (
- <table style={{ width: '100%', borderCollapse: 'collapse' }}>
- <thead>
- <tr style={{ background: 'rgba(201,162,39,0.1)' }}>
- <th style={{ padding: 16, textAlign: 'right', color: '#D4A843', fontWeight: 700 }}>الطالب</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>رقم الطالب</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>الجنس</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>الجوال</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>المدرسة</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>إجراءات</th>
- </tr>
- </thead>
- <tbody>
- {filtered.map((st) => (
- <tr key={st.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
- <td style={{ padding: 16 }}>
- <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
- <div style={{ width: 40, height: 40, background: st.gender === 'FEMALE' ? 'rgba(236,72,153,0.1)' : 'rgba(59,130,246,0.1)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><IconRenderer name={st.gender === 'FEMALE' ? "ICON_User" : "ICON_User"} size={18} /></div>
- <div>
- <p style={{ color: 'white', fontWeight: 600, margin: 0 }}>{st.name || '—'}</p>
- <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, margin: 0 }}>{st.email || ''}</p>
- </div>
- </div>
- </td>
- <td style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontSize: 13, fontWeight: 600 }}>{st.student_id}</td>
- <td style={{ padding: 16, textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>{st.gender === 'MALE' ? 'ذكر' : 'أنثى'}</td>
- <td style={{ padding: 16, textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: 13, direction: 'ltr' }}>{st.phone || '—'}</td>
- <td style={{ padding: 16, textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>{st.school_name || '—'}</td>
- <td style={{ padding: 16, textAlign: 'center' }}>
- <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
- <button onClick={() => handleView(st)} style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Eye" size={18} /> عرض</button>
- <button onClick={() => handleEditOpen(st)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
- <button onClick={() => handleDelete(st.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
- </div>
- </td>
- </tr>
- ))}
- </tbody>
- </table>
- )}
- </div>
+      <div className="dcard">
+        {filtered.length === 0 ? (
+          <EmptyState
+            icon={<GraduationCap size={19} color="#D4A843" />}
+            message="لا يوجد طلاب مسجلين"
+            action={<button className="btn-gold" onClick={() => setShowAddModal(true)}><Plus size={15} /> إضافة أول طالب</button>}
+          />
+        ) : (
+          <div className="table-wrap">
+            <table className="dtable">
+              <thead>
+                <tr>
+                  <th>الطالب</th>
+                  <th style={{ textAlign: 'center' }}>رقم الطالب</th>
+                  <th style={{ textAlign: 'center' }}>الجنس</th>
+                  <th style={{ textAlign: 'center' }}>الجوال</th>
+                  <th style={{ textAlign: 'center' }}>المدرسة</th>
+                  <th style={{ textAlign: 'center' }}>إجراءات</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((st) => (
+                  <tr key={st.id}>
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                        <div className="stat-icon" style={{ width: 40, height: 40, background: st.gender === 'FEMALE' ? 'rgba(236,72,153,0.1)' : 'rgba(59,130,246,0.1)', border: 'none' }}>
+                          <User size={16} color={st.gender === 'FEMALE' ? '#EC4899' : '#3B82F6'} />
+                        </div>
+                        <div>
+                          <div style={{ fontWeight: 600, color: 'var(--text)' }}>{st.name || '—'}</div>
+                          <div style={{ color: 'var(--text-muted)', fontSize: 12 }}>{st.email || ''}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td style={{ textAlign: 'center', color: 'var(--gold)', fontWeight: 600 }}>{st.student_id}</td>
+                    <td style={{ textAlign: 'center' }}>{st.gender === 'MALE' ? 'ذكر' : 'أنثى'}</td>
+                    <td style={{ textAlign: 'center', direction: 'ltr' }}>{st.phone || '—'}</td>
+                    <td style={{ textAlign: 'center' }}>{st.school_name || '—'}</td>
+                    <td style={{ textAlign: 'center' }}>
+                      <div style={{ display: 'flex', gap: 6, justifyContent: 'center' }}>
+                        <button className="btn-sm btn-sm-blue" onClick={() => handleView(st)}><Eye size={12} /> عرض</button>
+                        <button className="btn-sm btn-sm-gold" onClick={() => handleEditOpen(st)}><Pencil size={12} /> تعديل</button>
+                        <button className="btn-sm btn-sm-red" onClick={() => handleDelete(st.id)}><Trash2 size={12} /> حذف</button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
 
- {/* Add Modal */}
- {showAddModal && (
- <div style={modalOverlay}>
- <div style={modalBox}>
- <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
- <h2 style={{ color: '#D4A843', fontSize: 22, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_GraduationCap" size={18} /> إضافة طالب جديد</h2>
- <button onClick={() => setShowAddModal(false)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>X</button>
- </div>
- <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, marginBottom: 20 }}>سيتم إرسال بيانات الدخول تلقائياً لبريد الطالب الإلكتروني</p>
- <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
- <div style={{ gridColumn: '1 / -1' }}>
- <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>اسم الطالب *</label>
- <input value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder="الاسم الكامل" style={inputStyle} />
- </div>
- <div>
- <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>البريد الإلكتروني *</label>
- <input type="email" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} placeholder="example@email.com" style={inputStyle} />
- </div>
- <div>
- <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>رقم الجوال</label>
- <input value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} placeholder="05XXXXXXXX" style={inputStyle} />
- </div>
- <div>
- <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>رقم الهوية</label>
- <input value={formData.national_id} onChange={e => setFormData({ ...formData, national_id: e.target.value })} placeholder="رقم الهوية" style={inputStyle} />
- </div>
- <div>
- <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>الجنس</label>
- <select value={formData.gender} onChange={e => setFormData({ ...formData, gender: e.target.value })} style={{ ...inputStyle, appearance: 'auto' as any }}>
- <option value="MALE">ذكر</option><option value="FEMALE">أنثى</option>
- </select>
- </div>
- <div>
- <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>تاريخ الميلاد</label>
- <input type="date" value={formData.date_of_birth} onChange={e => setFormData({ ...formData, date_of_birth: e.target.value })} style={inputStyle} />
- </div>
- <div style={{ gridColumn: 'span 2' }}>
- <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>الفصل الدراسي</label>
- <select value={formData.class_id} onChange={e => setFormData({ ...formData, class_id: e.target.value })} style={{ ...inputStyle, appearance: 'auto' as any }}>
- <option value="">-- بدون فصل --</option>
- {classes.map((cl: any) => <option key={cl.id} value={cl.id}>{cl.name_ar} - {cl.grade}</option>)}
- </select>
- </div>
- </div>
- <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
- <button onClick={handleAdd} disabled={saving} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>
- {saving ? '⏳ جاري الحفظ...' : 'Save تسجيل الطالب'}
- </button>
- <button onClick={() => setShowAddModal(false)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إلغاء</button>
- </div>
- </div>
- </div>
- )}
+      {/* Add Modal */}
+      <Modal open={showAddModal} onClose={() => setShowAddModal(false)} title="إضافة طالب جديد" titleIcon={<GraduationCap size={18} color="#D4A843" />} large>
+        <p style={{ color: 'var(--text-dim)', fontSize: 13, marginBottom: 20 }}>سيتم إرسال بيانات الدخول تلقائياً لبريد الطالب الإلكتروني</p>
+        <div className="form-row">
+          <div className="form-full">
+            <label className="form-label">اسم الطالب *</label>
+            <input className="input-field" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder="الاسم الكامل" />
+          </div>
+          <div>
+            <label className="form-label">البريد الإلكتروني *</label>
+            <input className="input-field" type="email" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} placeholder="example@email.com" />
+          </div>
+          <div>
+            <label className="form-label">رقم الجوال</label>
+            <input className="input-field" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} placeholder="05XXXXXXXX" />
+          </div>
+          <div>
+            <label className="form-label">رقم الهوية</label>
+            <input className="input-field" value={formData.national_id} onChange={e => setFormData({ ...formData, national_id: e.target.value })} placeholder="رقم الهوية" />
+          </div>
+          <div>
+            <label className="form-label">الجنس</label>
+            <select className="select-field" value={formData.gender} onChange={e => setFormData({ ...formData, gender: e.target.value })}>
+              <option value="MALE">ذكر</option><option value="FEMALE">أنثى</option>
+            </select>
+          </div>
+          <div>
+            <label className="form-label">تاريخ الميلاد</label>
+            <input className="input-field" type="date" value={formData.date_of_birth} onChange={e => setFormData({ ...formData, date_of_birth: e.target.value })} />
+          </div>
+          <div className="form-full">
+            <label className="form-label">الفصل الدراسي</label>
+            <select className="select-field" value={formData.class_id} onChange={e => setFormData({ ...formData, class_id: e.target.value })}>
+              <option value="">-- بدون فصل --</option>
+              {classes.map((cl: any) => <option key={cl.id} value={cl.id}>{cl.name_ar} - {cl.grade}</option>)}
+            </select>
+          </div>
+        </div>
+        <div className="modal-footer">
+          <button className="btn-gold" onClick={handleAdd} disabled={saving} style={{ opacity: saving ? 0.7 : 1 }}>
+            {saving ? 'جاري الحفظ...' : 'تسجيل الطالب'}
+          </button>
+          <button className="btn-outline" onClick={() => setShowAddModal(false)}>إلغاء</button>
+        </div>
+      </Modal>
 
- {/* View Modal */}
- {showViewModal && selectedStudent && (
- <div style={modalOverlay}>
- <div style={modalBox}>
- <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
- <h2 style={{ color: '#3B82F6', fontSize: 22, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_User" size={18} /> بيانات الطالب</h2>
- <button onClick={() => setShowViewModal(false)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>X</button>
- </div>
- <div style={{ textAlign: 'center', marginBottom: 24 }}>
- <div style={{ width: 80, height: 80, background: selectedStudent.gender === 'FEMALE' ? 'rgba(236,72,153,0.15)' : 'rgba(59,130,246,0.15)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36, margin: '0 auto 12px' }}><IconRenderer name={selectedStudent.gender === 'FEMALE' ? "ICON_User" : "ICON_User"} size={18} /></div>
- <h3 style={{ color: 'white', fontSize: 20, fontWeight: 700, margin: 0 }}>{selectedStudent.name}</h3>
- <p style={{ color: '#D4A843', fontSize: 14, marginTop: 4 }}>{selectedStudent.student_id}</p>
- </div>
- <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: '8px 20px' }}>
- {infoRow('البريد الإلكتروني', selectedStudent.email)}
- {infoRow('رقم الجوال', selectedStudent.phone)}
- {infoRow('رقم الهوية', selectedStudent.national_id)}
- {infoRow('الجنس', selectedStudent.gender === 'MALE' ? 'ذكر' : 'أنثى')}
- {infoRow('تاريخ الميلاد', selectedStudent.date_of_birth ? new Date(selectedStudent.date_of_birth).toLocaleDateString('ar-SA') : '—')}
- {infoRow('المدرسة', selectedStudent.school_name)}
- {infoRow('تاريخ التسجيل', selectedStudent.created_at ? new Date(selectedStudent.created_at).toLocaleDateString('ar-SA') : '—')}
- </div>
- <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
- <button onClick={() => { setShowViewModal(false); handleEditOpen(selectedStudent); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل البيانات</button>
- <button onClick={() => setShowViewModal(false)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إغلاق</button>
- </div>
- </div>
- </div>
- )}
+      {/* View Modal */}
+      <Modal open={showViewModal && !!selectedStudent} onClose={() => setShowViewModal(false)} title="بيانات الطالب" titleIcon={<User size={18} color="#60A5FA" />} large>
+        {selectedStudent && (
+          <>
+            <div style={{ textAlign: 'center', marginBottom: 24 }}>
+              <div style={{ width: 80, height: 80, background: selectedStudent.gender === 'FEMALE' ? 'rgba(236,72,153,0.15)' : 'rgba(59,130,246,0.15)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
+                <User size={32} color={selectedStudent.gender === 'FEMALE' ? '#EC4899' : '#3B82F6'} />
+              </div>
+              <h3 style={{ color: 'var(--text)', fontSize: 20, fontWeight: 700, margin: 0 }}>{selectedStudent.name}</h3>
+              <p style={{ color: 'var(--gold)', fontSize: 14, marginTop: 4 }}>{selectedStudent.student_id}</p>
+            </div>
+            <div className="dcard" style={{ marginBottom: 0 }}>
+              <div className="dcard-body">
+                {infoRow('البريد الإلكتروني', selectedStudent.email)}
+                {infoRow('رقم الجوال', selectedStudent.phone)}
+                {infoRow('رقم الهوية', selectedStudent.national_id)}
+                {infoRow('الجنس', selectedStudent.gender === 'MALE' ? 'ذكر' : 'أنثى')}
+                {infoRow('تاريخ الميلاد', selectedStudent.date_of_birth ? new Date(selectedStudent.date_of_birth).toLocaleDateString('ar-SA') : '—')}
+                {infoRow('المدرسة', selectedStudent.school_name)}
+                {infoRow('تاريخ التسجيل', selectedStudent.created_at ? new Date(selectedStudent.created_at).toLocaleDateString('ar-SA') : '—')}
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button className="btn-gold" onClick={() => { setShowViewModal(false); handleEditOpen(selectedStudent); }}><Pencil size={14} /> تعديل البيانات</button>
+              <button className="btn-outline" onClick={() => setShowViewModal(false)}>إغلاق</button>
+            </div>
+          </>
+        )}
+      </Modal>
 
- {/* Edit Modal */}
- {showEditModal && (
- <div style={modalOverlay}>
- <div style={modalBox}>
- <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
- <h2 style={{ color: '#D4A843', fontSize: 22, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل بيانات الطالب</h2>
- <button onClick={() => setShowEditModal(false)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 18 }}>X</button>
- </div>
- <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
- <div style={{ gridColumn: '1 / -1' }}>
- <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>اسم الطالب *</label>
- <input value={editData.name} onChange={e => setEditData({ ...editData, name: e.target.value })} style={inputStyle} />
- </div>
- <div>
- <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>رقم الطالب</label>
- <input value={editData.student_id} onChange={e => setEditData({ ...editData, student_id: e.target.value })} style={inputStyle} />
- </div>
- <div>
- <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>البريد الإلكتروني</label>
- <input type="email" value={editData.email} onChange={e => setEditData({ ...editData, email: e.target.value })} style={inputStyle} />
- </div>
- <div>
- <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>رقم الجوال</label>
- <input value={editData.phone} onChange={e => setEditData({ ...editData, phone: e.target.value })} style={inputStyle} />
- </div>
- <div>
- <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>رقم الهوية</label>
- <input value={editData.national_id} onChange={e => setEditData({ ...editData, national_id: e.target.value })} style={inputStyle} />
- </div>
- <div>
- <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>الجنس</label>
- <select value={editData.gender} onChange={e => setEditData({ ...editData, gender: e.target.value })} style={{ ...inputStyle, appearance: 'auto' as any }}>
- <option value="MALE">ذكر</option><option value="FEMALE">أنثى</option>
- </select>
- </div>
- <div>
- <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>تاريخ الميلاد</label>
- <input type="date" value={editData.date_of_birth} onChange={e => setEditData({ ...editData, date_of_birth: e.target.value })} style={inputStyle} />
- </div>
- <div style={{ gridColumn: 'span 2' }}>
- <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>الفصل الدراسي</label>
- <select value={editData.class_id} onChange={e => setEditData({ ...editData, class_id: e.target.value })} style={{ ...inputStyle, appearance: 'auto' as any }}>
- <option value="">-- بدون فصل --</option>
- {classes.map((cl: any) => <option key={cl.id} value={cl.id}>{cl.name_ar} - {cl.grade}</option>)}
- </select>
- </div>
- </div>
- <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
- <button onClick={handleEditSave} disabled={saving} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>
- {saving ? '⏳ جاري الحفظ...' : 'Save حفظ التعديلات'}
- </button>
- <button onClick={() => setShowEditModal(false)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إلغاء</button>
- </div>
- </div>
- </div>
- )}
- </div>
- );
+      {/* Edit Modal */}
+      <Modal open={showEditModal} onClose={() => setShowEditModal(false)} title="تعديل بيانات الطالب" titleIcon={<Pencil size={18} color="#D4A843" />} large>
+        <div className="form-row">
+          <div className="form-full">
+            <label className="form-label">اسم الطالب *</label>
+            <input className="input-field" value={editData.name} onChange={e => setEditData({ ...editData, name: e.target.value })} />
+          </div>
+          <div>
+            <label className="form-label">رقم الطالب</label>
+            <input className="input-field" value={editData.student_id} onChange={e => setEditData({ ...editData, student_id: e.target.value })} />
+          </div>
+          <div>
+            <label className="form-label">البريد الإلكتروني</label>
+            <input className="input-field" type="email" value={editData.email} onChange={e => setEditData({ ...editData, email: e.target.value })} />
+          </div>
+          <div>
+            <label className="form-label">رقم الجوال</label>
+            <input className="input-field" value={editData.phone} onChange={e => setEditData({ ...editData, phone: e.target.value })} />
+          </div>
+          <div>
+            <label className="form-label">رقم الهوية</label>
+            <input className="input-field" value={editData.national_id} onChange={e => setEditData({ ...editData, national_id: e.target.value })} />
+          </div>
+          <div>
+            <label className="form-label">الجنس</label>
+            <select className="select-field" value={editData.gender} onChange={e => setEditData({ ...editData, gender: e.target.value })}>
+              <option value="MALE">ذكر</option><option value="FEMALE">أنثى</option>
+            </select>
+          </div>
+          <div>
+            <label className="form-label">تاريخ الميلاد</label>
+            <input className="input-field" type="date" value={editData.date_of_birth} onChange={e => setEditData({ ...editData, date_of_birth: e.target.value })} />
+          </div>
+          <div className="form-full">
+            <label className="form-label">الفصل الدراسي</label>
+            <select className="select-field" value={editData.class_id} onChange={e => setEditData({ ...editData, class_id: e.target.value })}>
+              <option value="">-- بدون فصل --</option>
+              {classes.map((cl: any) => <option key={cl.id} value={cl.id}>{cl.name_ar} - {cl.grade}</option>)}
+            </select>
+          </div>
+        </div>
+        <div className="modal-footer">
+          <button className="btn-gold" onClick={handleEditSave} disabled={saving} style={{ opacity: saving ? 0.7 : 1 }}>
+            {saving ? 'جاري الحفظ...' : 'حفظ التعديلات'}
+          </button>
+          <button className="btn-outline" onClick={() => setShowEditModal(false)}>إلغاء</button>
+        </div>
+      </Modal>
+    </div>
+  );
 }
