@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Icon, ICONS, G, DARK, CARD, BORDER, Spinner } from '@/components/ui-icons';
 import { getHeaders } from '@/lib/api';
 
-/* ─── Design: Dark #06060E + Gold #C9A84C — متين v5 ─── */
+/* ─── Design: Dark #06060E + Gold #D4A843 — متين v5 ─── */
 
 
 export default function TeacherDashboard() {

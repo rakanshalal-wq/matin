@@ -92,7 +92,7 @@ export default function NotificationsPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Bell" size={18} /> الإشعارات</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة وإرسال الإشعارات لجميع المستخدمين</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({ title: '', message: '', type: 'info', target_audience: 'all', is_read: false, status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
+ <button onClick={() => { setEditItem(null); setForm({ title: '', message: '', type: 'info', target_audience: 'all', is_read: false, status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
  Plus إشعار جديد
  </button>
  </div>
@@ -100,7 +100,7 @@ export default function NotificationsPage() {
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي الإشعارات', value: stats.total, icon: "ICON_Bell", color: '#C9A227' },
+ { label: 'إجمالي الإشعارات', value: stats.total, icon: "ICON_Bell", color: '#D4A843' },
  { label: 'غير مقروء', value: stats.unread, icon: "ICON_Mailbox", color: '#3B82F6' },
  { label: 'عاجل', value: stats.urgent, icon: "ICON_Siren", color: '#EF4444' },
  { label: 'اليوم', value: stats.today, icon: "ICON_Calendar", color: '#10B981' },
@@ -143,7 +143,7 @@ export default function NotificationsPage() {
  </div>
  </div>
  <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>تعديل</button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>تعديل</button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>حذف</button>
  </div>
  </div>
@@ -200,7 +200,7 @@ export default function NotificationsPage() {
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
- <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Bell إرسال'}</button>
+ <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Bell إرسال'}</button>
  </div>
  </div>
  </div>

@@ -218,7 +218,7 @@ export default function SchoolOwnerDashboard() {
  <div style={{
  width: 48, height: 48, borderRadius: '50%',
  border: '3px solid rgba(201,168,76,0.15)',
- borderTopColor: '#C9A84C',
+ borderTopColor: '#D4A843',
  animation: 'spin 0.8s linear infinite',
  margin: '0 auto 16px',
  }} />
@@ -302,7 +302,7 @@ export default function SchoolOwnerDashboard() {
  <StatCard title="الفصول الدراسية" value={stats.classes ?? '—'} color="#10B981" link="/dashboard/classes" />
  <StatCard title="الاختبارات النشطة" value={stats.exams ?? '—'} color="#F59E0B" link="/dashboard/exams" />
  <StatCard title="نسبة الحضور" value={stats.attendance_rate ? `${stats.attendance_rate}٪` : '—'} color="#06B6D4" sub="متوسط هذا الأسبوع" link="/dashboard/attendance" />
- <StatCard title="الإيرادات هذا الشهر" value={stats.revenue ? `${stats.revenue} ر.س` : '—'} color="#C9A84C" link="/dashboard/finance" />
+ <StatCard title="الإيرادات هذا الشهر" value={stats.revenue ? `${stats.revenue} ر.س` : '—'} color="#D4A843" link="/dashboard/finance" />
  </div>
 
  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
@@ -339,7 +339,7 @@ export default function SchoolOwnerDashboard() {
  { label: 'الموظفون', href: '/dashboard/employees', color: '#84CC16', count: null },
  { label: 'الرواتب', href: '/dashboard/salaries', color: '#22D3EE', count: null },
  { label: 'الإجازات', href: '/dashboard/leaves', color: '#FB923C', count: null },
- { label: 'المالية', href: '/dashboard/finance', color: '#C9A84C', count: null },
+ { label: 'المالية', href: '/dashboard/finance', color: '#D4A843', count: null },
  { label: 'النقل', href: '/dashboard/transport', color: '#F43F5E', count: null },
  { label: 'الصحة', href: '/dashboard/health', color: '#34D399', count: null },
  { label: 'الكافتيريا', href: '/dashboard/cafeteria', color: '#FBBF24', count: null },
@@ -358,7 +358,7 @@ export default function SchoolOwnerDashboard() {
  <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(201,168,76,0.08)', borderRadius: 14, padding: '20px 24px' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
  <div style={{ color: 'rgba(201,168,76,0.6)', fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 2 }}>الاختبارات القادمة</div>
- <Link href="/dashboard/exams" style={{ color: '#C9A84C', fontSize: 11, textDecoration: 'none', fontWeight: 600 }}>عرض الكل</Link>
+ <Link href="/dashboard/exams" style={{ color: '#D4A843', fontSize: 11, textDecoration: 'none', fontWeight: 600 }}>عرض الكل</Link>
  </div>
  {upcomingExams.length === 0 ? (
  <div style={{ color: 'rgba(255,255,255,0.2)', fontSize: 13, textAlign: 'center', padding: '20px 0' }}>لا توجد اختبارات قادمة</div>
@@ -380,7 +380,7 @@ export default function SchoolOwnerDashboard() {
  <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(201,168,76,0.08)', borderRadius: 14, padding: '20px 24px' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
  <div style={{ color: 'rgba(201,168,76,0.6)', fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 2 }}>طلبات الانضمام</div>
- <Link href="/dashboard/admissions" style={{ color: '#C9A84C', fontSize: 11, textDecoration: 'none', fontWeight: 600 }}>عرض الكل</Link>
+ <Link href="/dashboard/admissions" style={{ color: '#D4A843', fontSize: 11, textDecoration: 'none', fontWeight: 600 }}>عرض الكل</Link>
  </div>
  {pendingAdmissions.length === 0 ? (
  <div style={{ color: 'rgba(255,255,255,0.2)', fontSize: 13, textAlign: 'center', padding: '20px 0' }}>لا توجد طلبات معلقة</div>
@@ -412,7 +412,7 @@ export default function SchoolOwnerDashboard() {
  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
  {recentActivity.map((act: any, i: number) => (
  <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
- <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#C9A84C', marginTop: 5, flexShrink: 0 }} />
+ <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#D4A843', marginTop: 5, flexShrink: 0 }} />
  <div>
  <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 12 }}>{act.description || act.action}</div>
  <div style={{ color: 'rgba(255,255,255,0.25)', fontSize: 11, marginTop: 2 }}>
@@ -436,8 +436,8 @@ export default function SchoolOwnerDashboard() {
  <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
  <div style={{ background: 'rgba(201,168,76,0.08)', border: '1px solid rgba(201,168,76,0.2)', borderRadius: 8, padding: '6px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
  <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>matin.ink/school/</span>
- <span style={{ color: '#C9A84C', fontSize: 12, fontWeight: 700 }}>{school.code}</span>
- <button onClick={() => navigator.clipboard.writeText(`https://matin.ink/school/${school.code}`)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#C9A84C', fontSize: 12, fontWeight: 700 }}>
+ <span style={{ color: '#D4A843', fontSize: 12, fontWeight: 700 }}>{school.code}</span>
+ <button onClick={() => navigator.clipboard.writeText(`https://matin.ink/school/${school.code}`)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#D4A843', fontSize: 12, fontWeight: 700 }}>
  نسخ
  </button>
  </div>
@@ -449,7 +449,7 @@ export default function SchoolOwnerDashboard() {
  )}
  </div>
  <div style={{ display: 'flex', gap: 8 }}>
- <a href={`https://matin.ink/school/${school.code}`} target="_blank" rel="noreferrer" style={{ background: 'rgba(201,168,76,0.1)', color: '#C9A84C', fontSize: 12, padding: '8px 16px', borderRadius: 8, textDecoration: 'none', fontWeight: 600, border: '1px solid rgba(201,168,76,0.25)' }}>
+ <a href={`https://matin.ink/school/${school.code}`} target="_blank" rel="noreferrer" style={{ background: 'rgba(201,168,76,0.1)', color: '#D4A843', fontSize: 12, padding: '8px 16px', borderRadius: 8, textDecoration: 'none', fontWeight: 600, border: '1px solid rgba(201,168,76,0.25)' }}>
  معاينة الصفحة
  </a>
  <Link href="/dashboard/school-page" style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', fontSize: 12, padding: '8px 16px', borderRadius: 8, textDecoration: 'none', fontWeight: 600, border: '1px solid rgba(59,130,246,0.2)' }}>
@@ -504,7 +504,7 @@ export default function SchoolOwnerDashboard() {
 
  {}
  <div style={{ marginTop: 20, display: 'flex', justifyContent: 'flex-end' }}>
- <button onClick={openSchoolModal} style={{ background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.25)', borderRadius: 10, padding: '10px 20px', color: '#C9A84C', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 14 }}>
+ <button onClick={openSchoolModal} style={{ background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.25)', borderRadius: 10, padding: '10px 20px', color: '#D4A843', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 14 }}>
  <Settings size={16} /> تعديل بيانات المدرسة
  </button>
  </div>
@@ -541,7 +541,7 @@ export default function SchoolOwnerDashboard() {
  <div style={FW}><label style={LBL}>البريد الإلكتروني</label><input value={schoolForm.email} onChange={e => setSchoolForm(f => ({...f, email: e.target.value}))} placeholder="school@example.com" style={INP} type="email" /></div>
  <ErrBox msg={schoolErr} />
  <OkBox msg={schoolOk} />
- <button onClick={handleSaveSchool} disabled={schoolLoading} style={{ width: '100%', padding: '11px', background: schoolLoading ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg,#C9A84C,#A07830)', border: 'none', borderRadius: 10, color: schoolLoading ? 'rgba(238,238,245,0.3)' : '#000', cursor: schoolLoading ? 'not-allowed' : 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 14 }}>
+ <button onClick={handleSaveSchool} disabled={schoolLoading} style={{ width: '100%', padding: '11px', background: schoolLoading ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg,#D4A843,#A07830)', border: 'none', borderRadius: 10, color: schoolLoading ? 'rgba(238,238,245,0.3)' : '#000', cursor: schoolLoading ? 'not-allowed' : 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 14 }}>
  {schoolLoading ? 'جارٍ الحفظ...' : 'حفظ التعديلات'}
  </button>
  </Modal>

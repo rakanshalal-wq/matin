@@ -71,7 +71,7 @@ export default function HealthPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Hospital" size={18} /> السجلات الصحية</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة السجلات الصحية للطلاب والموظفين</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({ student_name: '', type: 'checkup', description: '', doctor_name: '', date: '', blood_type: '', allergies: '', chronic_conditions: '', status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
+ <button onClick={() => { setEditItem(null); setForm({ student_name: '', type: 'checkup', description: '', doctor_name: '', date: '', blood_type: '', allergies: '', chronic_conditions: '', status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
  Plus إضافة سجل صحي
  </button>
  </div>
@@ -79,7 +79,7 @@ export default function HealthPage() {
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي السجلات', value: stats.total, icon: "ICON_Hospital", color: '#C9A227' },
+ { label: 'إجمالي السجلات', value: stats.total, icon: "ICON_Hospital", color: '#D4A843' },
  { label: 'نشط', value: stats.active, icon: "ICON_Heart", color: '#10B981' },
  { label: 'مغلق', value: stats.closed, icon: "ICON_Folder", color: '#6B7280' },
  { label: 'حرج', value: stats.critical, icon: "ICON_Siren", color: '#EF4444' },
@@ -143,7 +143,7 @@ export default function HealthPage() {
  </td>
  <td style={{ padding: '14px 16px' }}>
  <div style={{ display: 'flex', gap: 8 }}>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
  </div>
  </td>
@@ -216,7 +216,7 @@ export default function HealthPage() {
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
- <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
+ <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
  </div>
  </div>
  </div>

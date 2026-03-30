@@ -7,13 +7,13 @@ import IconRenderer from "@/components/IconRenderer";
 
 /* ═══════════════════════════════════════════════════
  MATIN OWNER DASHBOARD — Design System v7
- Primary: #C9A84C (Gold) Secondary: #10B981 (Green)
+ Primary: #D4A843 (Gold) Secondary: #10B981 (Green)
  Background: #06060E Cards: rgba(255,255,255,0.03)
  Font: Cairo / IBM Plex Sans Arabic
  Direction: RTL
 ═══════════════════════════════════════════════════ */
 
-const G = '#C9A84C'; // Gold
+const G = '#D4A843'; // Gold
 const G2 = '#E2C46A'; // Gold Light
 const BG = '#06060E'; // Deep Black
 const BG2 = '#0D0D1A'; // Card BG

@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 /* MATIN DESIGN SYSTEM — Pricing Page (Dynamic)
    يجلب الباقات ديناميكياً من /api/plans
    Dark Premium SaaS | RTL | Cairo Font */
@@ -260,7 +261,7 @@ export default function Pricing() {
                       href={
                         plan.price_monthly < 0
                           ? 'mailto:hello@matin.ink'
-                          : 'https://app.matin.ink/register'
+                          : '/register'
                       }
                       className={`block w-full py-2.5 rounded-xl text-xs font-bold text-center transition-all ${
                         isFeatured ? 'btn-gold' : isGovt ? '' : 'btn-outline-gold'

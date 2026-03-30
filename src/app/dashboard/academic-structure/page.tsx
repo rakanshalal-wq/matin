@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 const DARK = '#0A0A14';
 const CARD = '#0F0F1E';
 const BORDER = 'rgba(255,255,255,0.08)';
-const GOLD = '#C9A84C';
+const GOLD = '#D4A843';
 const BLUE = '#3B82F6';
 const GREEN = '#22C55E';
 const RED = '#EF4444';

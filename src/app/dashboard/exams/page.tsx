@@ -176,7 +176,7 @@ export default function SmartExamsPage() {
  Bot توليد بالذكاء الاصطناعي
  </button>
  <button onClick={() => setTab('create')} style={{
- background: 'linear-gradient(135deg, #C9A227, #f0c040)',
+ background: 'linear-gradient(135deg, #D4A843, #f0c040)',
  color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 700,
  }}>
  + إنشاء اختبار
@@ -194,13 +194,13 @@ export default function SmartExamsPage() {
  ].map(t => (
  <button key={t.key} onClick={() => setTab(t.key as any)} style={{
  background: tab === t.key ? 'rgba(201,162,39,0.2)' : 'transparent',
- color: tab === t.key ? '#C9A227' : '#9CA3AF',
+ color: tab === t.key ? '#D4A843' : '#9CA3AF',
  border: tab === t.key ? '1px solid rgba(201,162,39,0.3)' : '1px solid transparent',
  padding: '8px 16px', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 600,
  display: 'flex', alignItems: 'center', gap: 6,
  }}>
  {t.label}
- {t.count !== null && <span style={{ background: 'rgba(201,162,39,0.2)', color: '#C9A227', fontSize: 11, padding: '1px 6px', borderRadius: 10 }}>{t.count}</span>}
+ {t.count !== null && <span style={{ background: 'rgba(201,162,39,0.2)', color: '#D4A843', fontSize: 11, padding: '1px 6px', borderRadius: 10 }}>{t.count}</span>}
  </button>
  ))}
  </div>
@@ -234,10 +234,10 @@ export default function SmartExamsPage() {
  <div style={{ textAlign: 'center', padding: '48px', color: '#9CA3AF' }}>⏳ جاري التحميل...</div>
  ) : exams.length === 0 ? (
  <div style={{ textAlign: 'center', padding: '64px', background: 'rgba(255,255,255,0.02)', borderRadius: 20, border: '1px dashed rgba(255,255,255,0.1)' }}>
- <div style={{ width: 72, height: 72, borderRadius: 20, background: 'rgba(201,162,39,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}><FileText size={36} color="#C9A227" /></div>
+ <div style={{ width: 72, height: 72, borderRadius: 20, background: 'rgba(201,162,39,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}><FileText size={36} color="#D4A843" /></div>
  <div style={{ color: '#fff', fontSize: 18, fontWeight: 700 }}>لا توجد اختبارات بعد</div>
  <div style={{ color: '#9CA3AF', marginTop: 8 }}>أنشئ اختبارك الأول أو استخدم الذكاء الاصطناعي</div>
- <button onClick={() => setTab('create')} style={{ marginTop: 20, background: '#C9A227', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 10, cursor: 'pointer', fontWeight: 700 }}>
+ <button onClick={() => setTab('create')} style={{ marginTop: 20, background: '#D4A843', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 10, cursor: 'pointer', fontWeight: 700 }}>
  + إنشاء اختبار
  </button>
  </div>
@@ -274,8 +274,8 @@ export default function SmartExamsPage() {
  {exam.status === 'ACTIVE' && (
  <button onClick={() => updateExamStatus(exam.id, 'COMPLETED')} style={{ background: 'rgba(16,185,129,0.15)', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>⏹ إنهاء</button>
  )}
- <button onClick={() => { setSelectedExam(exam); fetchResults(exam.id); setModalType('results'); setShowModal(true); }} style={{ background: 'rgba(201,162,39,0.15)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_BarChart3" size={18} /> النتائج</button>
- <button onClick={() => openEditModal(exam)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.25)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+ <button onClick={() => { setSelectedExam(exam); fetchResults(exam.id); setModalType('results'); setShowModal(true); }} style={{ background: 'rgba(201,162,39,0.15)', color: '#D4A843', border: '1px solid rgba(201,162,39,0.3)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_BarChart3" size={18} /> النتائج</button>
+ <button onClick={() => openEditModal(exam)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: '1px solid rgba(201,162,39,0.25)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
  <button onClick={() => deleteExam(exam.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.2)', padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Trash2</button>
  </div>
  </div>
@@ -450,7 +450,7 @@ export default function SmartExamsPage() {
  <span style={{ color: '#E2E8F0', fontSize: 13 }}>{q.text?.substring(0, 60)}{q.text?.length > 60 ? '...' : ''}</span>
  </div>
  <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
- <span style={{ color: '#C9A227', fontSize: 12 }}>{q.marks} درجة</span>
+ <span style={{ color: '#D4A843', fontSize: 12 }}>{q.marks} درجة</span>
  <button onClick={() => setQuestions(prev => prev.filter((_, j) => j !== i))} style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer', fontSize: 16 }}>×</button>
  </div>
  </div>
@@ -461,7 +461,7 @@ export default function SmartExamsPage() {
  {/* زر الحفظ */}
  <button onClick={createExam} style={{
  width: '100%', marginTop: 16,
- background: 'linear-gradient(135deg, #C9A227, #f0c040)',
+ background: 'linear-gradient(135deg, #D4A843, #f0c040)',
  color: '#fff', border: 'none', padding: '14px', borderRadius: 12,
  cursor: 'pointer', fontSize: 15, fontWeight: 700,
  }}>
@@ -490,7 +490,7 @@ export default function SmartExamsPage() {
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
  { label: 'المشاركون', value: results.length, icon: "ICON_Users", color: '#3B82F6' },
- { label: 'متوسط الدرجات', value: `${Math.round(results.reduce((s, r) => s + (r.score || 0), 0) / results.length)}%`, icon: "ICON_BarChart3", color: '#C9A227' },
+ { label: 'متوسط الدرجات', value: `${Math.round(results.reduce((s, r) => s + (r.score || 0), 0) / results.length)}%`, icon: "ICON_BarChart3", color: '#D4A843' },
  { label: 'الناجحون', value: results.filter(r => r.passed).length, icon: "ICON_CheckCircle", color: '#10B981' },
  { label: 'الراسبون', value: results.filter(r => !r.passed).length, icon: "ICON_XCircle", color: '#EF4444' },
  ].map((s, i) => (
@@ -585,7 +585,7 @@ export default function SmartExamsPage() {
  <option value='CANCELLED'>ملغي</option>
  </select>
  </div>
- <button onClick={handleUpdateExam} disabled={editLoading} style={{ width:'100%',padding:'11px',background:editLoading?'rgba(255,255,255,0.05)':'linear-gradient(135deg,#C9A227,#f0c040)',border:'none',borderRadius:10,color:editLoading?'rgba(238,238,245,0.3)':'#000',cursor:editLoading?'not-allowed':'pointer',fontFamily:'inherit',fontWeight:700,fontSize:14 }}>
+ <button onClick={handleUpdateExam} disabled={editLoading} style={{ width:'100%',padding:'11px',background:editLoading?'rgba(255,255,255,0.05)':'linear-gradient(135deg,#D4A843,#f0c040)',border:'none',borderRadius:10,color:editLoading?'rgba(238,238,245,0.3)':'#000',cursor:editLoading?'not-allowed':'pointer',fontFamily:'inherit',fontWeight:700,fontSize:14 }}>
  {editLoading ? 'جارٍ التحديث...' : 'حفظ التعديلات'}
  </button>
  </div>

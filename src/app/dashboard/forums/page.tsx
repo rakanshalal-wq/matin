@@ -58,7 +58,7 @@ export default function ForumsPage() {
 
  const categoryLabels: any = { general: 'عام', academic: 'أكاديمي', activities: 'أنشطة', parents: 'أولياء الأمور', teachers: 'معلمين', students: 'طلاب', suggestions: 'اقتراحات', support: 'دعم فني' };
  const categoryIcons: any = { general: "ICON_MessageSquare", academic: "ICON_BookOpen", activities: "ICON_Target", parents: '<User size={16} /> User', teachers: '<User size={16} />School', students: "ICON_GraduationCap", suggestions: "ICON_Lightbulb", support: '<Settings size={16} />' };
- const categoryColors: any = { general: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, academic: { bg: 'rgba(139,92,246,0.1)', color: '#8B5CF6' }, activities: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, parents: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, teachers: { bg: 'rgba(201,162,39,0.1)', color: '#C9A227' }, students: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, suggestions: { bg: 'rgba(236,72,153,0.1)', color: '#EC4899' }, support: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280' } };
+ const categoryColors: any = { general: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, academic: { bg: 'rgba(139,92,246,0.1)', color: '#8B5CF6' }, activities: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, parents: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, teachers: { bg: 'rgba(201,162,39,0.1)', color: '#D4A843' }, students: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, suggestions: { bg: 'rgba(236,72,153,0.1)', color: '#EC4899' }, support: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280' } };
  const statusLabels: any = { active: 'نشط', closed: 'مغلق', archived: 'مؤرشف' };
  const statusColors: any = { active: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, closed: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' }, archived: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280' } };
 
@@ -72,7 +72,7 @@ export default function ForumsPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_MessageSquare" size={18} /> مجموعات النقاش</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة منتديات ومجموعات النقاش التعليمية</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({ title: '', category: 'general', author: '', description: '', members_count: '', posts_count: '', status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
+ <button onClick={() => { setEditItem(null); setForm({ title: '', category: 'general', author: '', description: '', members_count: '', posts_count: '', status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
  Plus إنشاء مجموعة
  </button>
  </div>
@@ -80,7 +80,7 @@ export default function ForumsPage() {
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي المجموعات', value: stats.total, icon: "ICON_MessageSquare", color: '#C9A227' },
+ { label: 'إجمالي المجموعات', value: stats.total, icon: "ICON_MessageSquare", color: '#D4A843' },
  { label: 'نشطة', value: stats.active, icon: "ICON_CheckCircle", color: '#10B981' },
  { label: 'إجمالي الأعضاء', value: stats.totalMembers, icon: "ICON_Users", color: '#3B82F6' },
  { label: 'إجمالي المنشورات', value: stats.totalPosts, icon: "ICON_FileText", color: '#8B5CF6' },
@@ -121,7 +121,7 @@ export default function ForumsPage() {
  </div>
  <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, margin: '0 0 16px 0', lineHeight: 1.6 }}>{item.description ? item.description.substring(0, 80) + (item.description.length > 80 ? '...' : '') : 'لا يوجد وصف'}</p>
  {item.author && (
- <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, marginBottom: 12 }}>أنشأها: <span style={{ color: '#C9A227' }}>{item.author}</span></div>
+ <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, marginBottom: 12 }}>أنشأها: <span style={{ color: '#D4A843' }}>{item.author}</span></div>
  )}
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 12 }}>
  <div style={{ display: 'flex', gap: 20 }}>
@@ -129,7 +129,7 @@ export default function ForumsPage() {
  <span style={{ color: '#8B5CF6', fontWeight: 700, fontSize: 14 }}>{item.posts_count || 0} منشور</span>
  </div>
  <div style={{ display: 'flex', gap: 8 }}>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>تعديل</button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>تعديل</button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>حذف</button>
  </div>
  </div>
@@ -191,7 +191,7 @@ export default function ForumsPage() {
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
- <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إنشاء'}</button>
+ <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إنشاء'}</button>
  </div>
  </div>
  </div>

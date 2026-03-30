@@ -138,7 +138,7 @@ export default function CollegesPage() {
  phone: '',
  description: '',
  }); setErrMsg(''); setShowAddModal(true); }} style={{
- background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)',
+ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)',
  color: '#06060E',
  padding: '12px 24px',
  borderRadius: 10,
@@ -156,7 +156,7 @@ export default function CollegesPage() {
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي الكليات', value: stats.total, icon: "ICON_GraduationCap", color: '#C9A227' },
+ { label: 'إجمالي الكليات', value: stats.total, icon: "ICON_GraduationCap", color: '#D4A843' },
  { label: 'الكليات النشطة', value: stats.active, icon: "ICON_CheckCircle", color: '#10B981' },
  { label: 'الأقسام العلمية', value: stats.departments, icon: "ICON_BookOpen", color: '#3B82F6' },
  { label: 'إجمالي الطلاب', value: stats.students.toLocaleString(), icon: '<User size={16} />GraduationCap', color: '#8B5CF6' },
@@ -206,11 +206,11 @@ export default function CollegesPage() {
  </div>
  ) : filteredColleges.length === 0 ? (
  <div style={{ padding: 60, textAlign: 'center' }}>
- <div style={{width:44,height:44,borderRadius:10,background:"rgba(201,168,67,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><GraduationCap size={19} color="#C9A84C" /></div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(201,168,67,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><GraduationCap size={19} color="#D4A843" /></div>
  <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد كليات أو أقسام</p>
  <button onClick={() => setShowAddModal(true)} style={{
  marginTop: 16,
- background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)',
+ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)',
  color: '#06060E',
  padding: '12px 24px',
  borderRadius: 10,
@@ -225,13 +225,13 @@ export default function CollegesPage() {
  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ background: 'rgba(201,162,39,0.1)' }}>
- <th style={{ padding: 16, textAlign: 'right', color: '#C9A227' }}>الكلية/القسم</th>
- <th style={{ padding: 16, textAlign: 'right', color: '#C9A227' }}>الجامعة/المعهد</th>
- <th style={{ padding: 16, textAlign: 'right', color: '#C9A227' }}>العميد/الرئيس</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227' }}>الأقسام</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227' }}>الطلاب</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227' }}>الحالة</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227' }}>إجراءات</th>
+ <th style={{ padding: 16, textAlign: 'right', color: '#D4A843' }}>الكلية/القسم</th>
+ <th style={{ padding: 16, textAlign: 'right', color: '#D4A843' }}>الجامعة/المعهد</th>
+ <th style={{ padding: 16, textAlign: 'right', color: '#D4A843' }}>العميد/الرئيس</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843' }}>الأقسام</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843' }}>الطلاب</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843' }}>الحالة</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843' }}>إجراءات</th>
  </tr>
  </thead>
  <tbody>
@@ -281,7 +281,7 @@ export default function CollegesPage() {
  }}><IconRenderer name="ICON_Eye" size={18} /> عرض</button>
  <button onClick={() => { setEditItem(college); setFormData({ school_id: String(college.school_id || ""), name: college.name || "", name_en: college.name_en || "", type: college.type || "college", dean_name: college.dean_name || "", email: college.email || "", phone: college.phone || "", description: "" }); setShowAddModal(true); setErrMsg(""); }} style={{
  background: 'rgba(201,162,39,0.1)',
- color: '#C9A227',
+ color: '#D4A843',
  padding: '8px 12px',
  borderRadius: 6,
  border: 'none',
@@ -320,7 +320,7 @@ export default function CollegesPage() {
  border: '1px solid rgba(201,162,39,0.2)',
  }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
- <h2 style={{ color: '#C9A227', fontSize: 22, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل' : 'Plus إضافة كلية/قسم جديد'}</h2>
+ <h2 style={{ color: '#D4A843', fontSize: 22, fontWeight: 700, margin: 0 }}>{editItem ? 'تعديل' : 'Plus إضافة كلية/قسم جديد'}</h2>
  <button onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{
  background: 'rgba(255,255,255,0.1)',
  border: 'none',
@@ -442,7 +442,7 @@ export default function CollegesPage() {
  cursor: 'pointer',
  }}>إلغاء</button>
  <button type="submit" disabled={saving} style={{
- background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)',
+ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)',
  border: 'none',
  color: '#06060E',
  padding: '12px 24px',

@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 
 /* MATIN DESIGN SYSTEM — Features Page
    Dark Premium SaaS | RTL | Cairo Font
@@ -397,7 +398,7 @@ export default function Features() {
             جاهز لتجربة <span className="text-gold-gradient">متين</span>؟
           </h2>
           <p className="text-gray-500 mb-8">ابدأ تجربتك المجانية اليوم — لا يلزم بطاقة ائتمانية</p>
-          <a href="https://app.matin.ink/register" className="btn-gold px-8 py-4 rounded-2xl text-base font-bold inline-flex items-center gap-2">
+          <a href="/register" className="btn-gold px-8 py-4 rounded-2xl text-base font-bold inline-flex items-center gap-2">
             ابدأ مجاناً الآن
             <ArrowLeft size={18} />
           </a>

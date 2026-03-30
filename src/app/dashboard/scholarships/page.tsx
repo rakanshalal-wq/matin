@@ -58,7 +58,7 @@ export default function ScholarshipsPage() {
  };
 
  const typeLabels: any = { full_scholarship: 'منحة كاملة', partial_scholarship: 'منحة جزئية', discount: 'خصم', sibling_discount: 'خصم أخوة', employee_discount: 'خصم موظفين', excellence: 'تميز أكاديمي', need_based: 'حاجة مادية', sports: 'منحة رياضية' };
- const typeColors: any = { full_scholarship: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, partial_scholarship: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, discount: { bg: 'rgba(201,162,39,0.1)', color: '#C9A227' }, sibling_discount: { bg: 'rgba(139,92,246,0.1)', color: '#8B5CF6' }, employee_discount: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, excellence: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, need_based: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' }, sports: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' } };
+ const typeColors: any = { full_scholarship: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, partial_scholarship: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, discount: { bg: 'rgba(201,162,39,0.1)', color: '#D4A843' }, sibling_discount: { bg: 'rgba(139,92,246,0.1)', color: '#8B5CF6' }, employee_discount: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, excellence: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, need_based: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' }, sports: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' } };
  const typeIcons: any = { full_scholarship: "ICON_GraduationCap", partial_scholarship: "ICON_BookMarked", discount: '<Tag size={16} />', sibling_discount: '<User size={16} /> User', employee_discount: "ICON_Shirt", excellence: '', need_based: "ICON_HandHeart", sports: "ICON_Trophy" };
  const statusLabels: any = { active: 'نشط', expired: 'منتهي', suspended: 'موقف', pending: 'قيد المراجعة' };
  const statusColors: any = { active: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, expired: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280' }, suspended: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' }, pending: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' } };
@@ -75,7 +75,7 @@ export default function ScholarshipsPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_GraduationCap" size={18} /> المنح والخصومات</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة المنح الدراسية وخصومات الرسوم</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({ student_name: '', type: 'discount', percentage: '', amount: '', reason: '', start_date: '', end_date: '', status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
+ <button onClick={() => { setEditItem(null); setForm({ student_name: '', type: 'discount', percentage: '', amount: '', reason: '', start_date: '', end_date: '', status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
  Plus إضافة منحة/خصم
  </button>
  </div>
@@ -83,7 +83,7 @@ export default function ScholarshipsPage() {
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي المنح', value: stats.total.toString(), icon: "ICON_GraduationCap", color: '#C9A227', suffix: '' },
+ { label: 'إجمالي المنح', value: stats.total.toString(), icon: "ICON_GraduationCap", color: '#D4A843', suffix: '' },
  { label: 'نشطة', value: stats.active.toString(), icon: "ICON_CheckCircle", color: '#10B981', suffix: '' },
  { label: 'منتهية', value: stats.expired.toString(), icon: "ICON_Folder", color: '#6B7280', suffix: '' },
  { label: 'إجمالي المبالغ', value: formatMoney(stats.totalAmount), icon: "ICON_Coins", color: '#3B82F6', suffix: ' ر.س' },
@@ -107,7 +107,7 @@ export default function ScholarshipsPage() {
  <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
  ) : filtered.length === 0 ? (
  <div style={{ padding: 60, textAlign: 'center' }}>
- <div style={{width:44,height:44,borderRadius:10,background:"rgba(201,168,67,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><GraduationCap size={19} color="#C9A84C" /></div>
+ <div style={{width:44,height:44,borderRadius:10,background:"rgba(201,168,67,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><GraduationCap size={19} color="#D4A843" /></div>
  <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد منح أو خصومات</p>
  <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "إضافة منحة/خصم" لإنشاء منحة جديدة</p>
  </div>
@@ -130,7 +130,7 @@ export default function ScholarshipsPage() {
  </div>
  </td>
  <td style={{ padding: '14px 16px' }}>
- <span style={{ background: typeColors[item.type]?.bg || 'rgba(201,162,39,0.1)', color: typeColors[item.type]?.color || '#C9A227', padding: '4px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600 }}>
+ <span style={{ background: typeColors[item.type]?.bg || 'rgba(201,162,39,0.1)', color: typeColors[item.type]?.color || '#D4A843', padding: '4px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600 }}>
  {typeLabels[item.type] || item.type}
  </span>
  </td>
@@ -142,7 +142,7 @@ export default function ScholarshipsPage() {
  <td style={{ padding: '14px 16px' }}>
  {parseFloat(item.amount) > 0 ? (
  <span>
- <span style={{ color: '#C9A227', fontWeight: 700, fontSize: 15, direction: 'ltr' as any }}>{formatMoney(parseFloat(item.amount))}</span>
+ <span style={{ color: '#D4A843', fontWeight: 700, fontSize: 15, direction: 'ltr' as any }}>{formatMoney(parseFloat(item.amount))}</span>
  <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11 }}> ر.س</span>
  </span>
  ) : '—'}
@@ -162,7 +162,7 @@ export default function ScholarshipsPage() {
  </td>
  <td style={{ padding: '14px 16px' }}>
  <div style={{ display: 'flex', gap: 8 }}>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
  </div>
  </td>
@@ -231,7 +231,7 @@ export default function ScholarshipsPage() {
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
- <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
+ <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
  </div>
  </div>
  </div>

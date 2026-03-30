@@ -78,7 +78,7 @@ export default function CouponsPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>كوبونات الخصم</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة أكواد الخصم والعروض الترويجية</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({ code: '', description: '', discount_type: 'percentage', discount_value: '', max_uses: '100', used_count: '0', start_date: '', end_date: '', status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
+ <button onClick={() => { setEditItem(null); setForm({ code: '', description: '', discount_type: 'percentage', discount_value: '', max_uses: '100', used_count: '0', start_date: '', end_date: '', status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
  Plus إنشاء كوبون
  </button>
  </div>
@@ -86,7 +86,7 @@ export default function CouponsPage() {
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي الكوبونات', value: stats.total, icon: '<Tag size={16} />', color: '#C9A227' },
+ { label: 'إجمالي الكوبونات', value: stats.total, icon: '<Tag size={16} />', color: '#D4A843' },
  { label: 'نشط', value: stats.active, icon: "ICON_CheckCircle", color: '#10B981' },
  { label: 'منتهي', value: stats.expired, icon: "ICON_Ban", color: '#EF4444' },
  { label: 'مستنفد', value: stats.fullyUsed, icon: "ICON_Lock", color: '#6B7280' },
@@ -110,7 +110,7 @@ export default function CouponsPage() {
  <div style={{ padding: 60, textAlign: 'center' }}><p style={{ color: 'rgba(255,255,255,0.6)' }}>⏳ جاري التحميل...</p></div>
  ) : filtered.length === 0 ? (
  <div style={{ padding: 60, textAlign: 'center' }}>
- <div style={{ width: 56, height: 56, borderRadius: 14, background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}><Star size={24} color="#C9A84C" /></div>
+ <div style={{ width: 56, height: 56, borderRadius: 14, background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}><Star size={24} color="#D4A843" /></div>
  <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد كوبونات خصم</p>
  <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "إنشاء كوبون" لإضافة كوبون جديد</p>
  </div>
@@ -129,7 +129,7 @@ export default function CouponsPage() {
  <td style={{ padding: '14px 16px' }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
  <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(201,162,39,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><Tag size={16} /></div>
- <span style={{ color: '#C9A227', fontWeight: 800, fontSize: 15, fontFamily: 'monospace', letterSpacing: 1, direction: 'ltr' as any }}>{item.code}</span>
+ <span style={{ color: '#D4A843', fontWeight: 800, fontSize: 15, fontFamily: 'monospace', letterSpacing: 1, direction: 'ltr' as any }}>{item.code}</span>
  </div>
  </td>
  <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>{item.description ? item.description.substring(0, 30) + (item.description.length > 30 ? '...' : '') : '—'}</td>
@@ -162,7 +162,7 @@ export default function CouponsPage() {
  <td style={{ padding: '14px 16px' }}>
  <div style={{ display: 'flex', gap: 8 }}>
  <button onClick={() => { navigator.clipboard.writeText(item.code); alert('تم نسخ الكود!'); }} style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_ClipboardList" size={18} /> نسخ</button>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
  </div>
  </td>
@@ -231,7 +231,7 @@ export default function CouponsPage() {
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
- <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إنشاء'}</button>
+ <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إنشاء'}</button>
  </div>
  </div>
  </div>

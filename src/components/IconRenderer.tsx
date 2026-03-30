@@ -1,4 +1,5 @@
 "use client";
+export const dynamic = 'force-dynamic';
 import * as LucideIcons from "lucide-react";
 
 const iconMap: Record<string, any> = {

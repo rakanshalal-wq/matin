@@ -102,7 +102,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/owner', request.url));
   }
   // 🔥 super_admin لا يدخل /dashboard/ — يُحوَّل لـ /owner
-  if (pathname.startsWith('/dashboard/') && !pathname.startsWith('/dashboard/owner')) {
+  if (pathname.startsWith('/dashboard/') && !pathname.startsWith('/dashboard/owner') && !pathname.startsWith('/dashboard/website-content')) {
     const { role: roleCheck } = getTokenPayload(request);
     if (roleCheck === 'super_admin') {
       return NextResponse.redirect(new URL('/owner', request.url));

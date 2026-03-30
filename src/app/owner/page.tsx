@@ -1,12 +1,24 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-const G = '#C9A84C';
+const G = '#D4A843';
 const DARK = '#06060E';
-const CARD = 'rgba(255,255,255,0.04)';
-const BORDER = 'rgba(255,255,255,0.08)';
+const CARD = 'rgba(255,255,255,0.025)';
+const BORDER = 'rgba(255,255,255,0.07)';
+const G2 = '#E8C060';
+const G_DIM = 'rgba(212,168,67,0.12)';
+const G_BORDER = 'rgba(212,168,67,0.22)';
+const BG_SB = '#08081A';
+const TEXT = '#EEEEF5';
+const TEXT_DIM = 'rgba(238,238,245,0.55)';
+const TEXT_MUTED = 'rgba(238,238,245,0.28)';
+const GREEN = '#10B981';
+const RED = '#EF4444';
+const BLUE = '#60A5FA';
+const PURPLE = '#A78BFA';
 
 // ─── SVG Icons ────────────────────────────────────────────────────────────────
 const SVG_PATHS: Record<string, string> = {
@@ -50,9 +62,20 @@ const TABS: { id: string; label: string; icon: string; badge?: string }[] = [
   { id: 'settings',       label: 'الإعدادات',        icon: 'settings' },
   { id: 'activity',       label: 'سجل النشاط',       icon: 'activity' },
   { id: 'library',         label: 'المكتبة الرقمية',    icon: 'activity' },
+  { id: 'website-content',  label: 'محرر الواجهة الأمامية', icon: 'ads' },
   { id: 'revenue',         label: 'الإيرادات',         icon: 'subscriptions' },
   { id: 'taxes',           label: 'الضرائب',           icon: 'plans' },
 ];
+// ─── Nav Groups (matching design) ─────────────────────────────────────────────
+const NAV_GROUPS: { title: string; items: typeof TABS }[] = [
+  { title: 'الرئيسية', items: TABS.filter(t => ['overview', 'activity'].includes(t.id)) },
+  { title: 'المالية السيادية', items: TABS.filter(t => ['revenue', 'taxes', 'subscriptions', 'plans'].includes(t.id)) },
+  { title: 'إدارة المنصة', items: TABS.filter(t => ['users', 'services', 'permissions'].includes(t.id)) },
+  { title: 'إدارة المؤسسات', items: TABS.filter(t => ['schools'].includes(t.id)) },
+  { title: 'الإعلانات والمحتوى', items: TABS.filter(t => ['ads', 'library', 'community', 'store', 'website-content'].includes(t.id)) },
+  { title: 'الأمان والتقني', items: TABS.filter(t => ['integrations', 'support', 'notifications', 'settings'].includes(t.id)) },
+];
+
 
 type TabId = string;
 
@@ -79,13 +102,13 @@ function Toast({ msg, ok }: { msg: string; ok: boolean }) {
 // ─── Modal ────────────────────────────────────────────────────────────────────
 function Modal({ title, onClose, children, wide }: { title: string; onClose: () => void; children: React.ReactNode; wide?: boolean }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)' }}>
-      <div className="rounded-2xl overflow-hidden w-full" style={{ background: '#0D0D1A', border: `1px solid ${BORDER}`, maxWidth: wide ? 800 : 520, maxHeight: '90vh', overflowY: 'auto' }}>
-        <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-          <h3 className="font-bold text-lg text-white">{title}</h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-white text-2xl leading-none">&times;</button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)' }}>
+      <div style={{ background: '#0A0A18', border: `1px solid ${BORDER}`, borderRadius: 14, overflow: 'hidden', width: '100%', maxWidth: wide ? 800 : 520, maxHeight: '90vh', overflowY: 'auto' as const }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 20px', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+          <h3 style={{ fontWeight: 700, fontSize: 15, color: TEXT, display: 'flex', alignItems: 'center', gap: 10 }}>{title}</h3>
+          <button onClick={onClose} style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}`, borderRadius: 8, width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: TEXT_DIM, fontSize: 18 }}>&times;</button>
         </div>
-        <div className="p-6">{children}</div>
+        <div style={{ padding: 24 }}>{children}</div>
       </div>
     </div>
   );
@@ -93,14 +116,13 @@ function Modal({ title, onClose, children, wide }: { title: string; onClose: () 
 
 // ─── Input ────────────────────────────────────────────────────────────────────
 function Inp({ label, value, onChange, type = 'text', placeholder = '', required = false, textarea = false, rows = 3 }: any) {
-  const cls = "w-full rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:ring-1 focus:ring-yellow-500/50";
-  const sty = { background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}` };
+  const sty: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, borderRadius: 8, padding: '10px 14px', color: TEXT, fontSize: 13, outline: 'none', fontFamily: 'inherit', transition: 'border-color 0.15s' };
   return (
-    <div className="flex flex-col gap-1">
-      {label && <label className="text-xs text-gray-400 font-medium">{label}{required && <span className="text-red-400 ml-1">*</span>}</label>}
+    <div style={{ marginBottom: 16 }}>
+      {label && <label style={{ display: 'block', fontSize: 12, color: TEXT_DIM, fontWeight: 600, marginBottom: 6 }}>{label}{required && <span style={{ color: RED, marginRight: 4 }}>*</span>}</label>}
       {textarea
-        ? <textarea className={cls} style={sty} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} rows={rows} />
-        : <input className={cls} style={sty} type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} />
+        ? <textarea style={{ ...sty, resize: 'vertical', minHeight: 80, lineHeight: 1.6 }} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} rows={rows} onFocus={e => e.target.style.borderColor = 'rgba(212,168,67,0.4)'} onBlur={e => e.target.style.borderColor = BORDER} />
+        : <input style={sty} type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} onFocus={e => e.target.style.borderColor = 'rgba(212,168,67,0.4)'} onBlur={e => e.target.style.borderColor = BORDER} />
       }
     </div>
   );
@@ -122,7 +144,7 @@ function Sel({ label, value, onChange, options }: { label?: string; value: strin
 // ─── Btn ──────────────────────────────────────────────────────────────────────
 function Btn({ children, onClick, variant = 'primary', size = 'md', disabled = false, type = 'button' }: any) {
   const variants: any = {
-    primary: { background: `linear-gradient(135deg, #D4A843, #C9A84C)`, color: '#000', fontWeight: 700 },
+    primary: { background: `linear-gradient(135deg, #D4A843, #E8C060)`, color: '#06060E', fontWeight: 700, boxShadow: '0 4px 16px rgba(212,168,67,0.25)' },
     danger:  { background: '#DC2626', color: 'white', fontWeight: 600 },
     ghost:   { background: 'rgba(255,255,255,0.05)', color: 'white', fontWeight: 500, border: `1px solid ${BORDER}` },
     success: { background: '#16A34A', color: 'white', fontWeight: 600 },
@@ -140,35 +162,29 @@ function Btn({ children, onClick, variant = 'primary', size = 'md', disabled = f
 // ─── StatCard ─────────────────────────────────────────────────────────────────
 function StatCard({ label, value, sub, color = G }: { label: string; value: string | number; sub?: string; color?: string }) {
   return (
-    <div className="rounded-2xl p-5" style={{
-      background: `linear-gradient(135deg, ${color}15 0%, rgba(16,16,30,0.8) 100%)`,
-      border: `1px solid ${color}35`,
-      position: 'relative',
-      overflow: 'hidden',
-      transition: 'all 0.3s',
+    <div style={{
+      background: CARD, border: '1px solid rgba(255,255,255,0.04)',
+      borderRadius: 14, padding: '18px 20px',
+      position: 'relative', overflow: 'hidden',
+      transition: 'all 0.2s', cursor: 'default',
     }}
-      onMouseEnter={e => {
-        (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)';
-        (e.currentTarget as HTMLElement).style.boxShadow = `0 12px 40px ${color}22`;
-        (e.currentTarget as HTMLElement).style.borderColor = `${color}70`;
-      }}
-      onMouseLeave={e => {
-        (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-        (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-        (e.currentTarget as HTMLElement).style.borderColor = `${color}40`;
-      }}
+      onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+      onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)'; }}
     >
-      <div style={{ position: 'absolute', top: 0, right: 0, width: 60, height: 60, background: `${color}12`, borderRadius: '0 16px 0 60px' }} />
-      <div className="text-xs mb-2.5 font-semibold" style={{ color: 'rgba(238,238,245,0.5)' }}>{label}</div>
-      <div className="font-black" style={{ color: '#fff', fontSize: 34, lineHeight: 1, letterSpacing: -1 }}>{typeof value === 'number' ? num(value) : value}</div>
-      {sub && <div className="text-xs mt-2 font-bold" style={{ color }}>↑ {sub}</div>}
+      <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(135deg, ${color}0D 0%, transparent 60%)`, pointerEvents: 'none' }} />
+      <div style={{ width: 38, height: 38, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14, background: `${color}18`, color }}>
+        <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+      </div>
+      <div style={{ fontSize: 28, fontWeight: 800, lineHeight: 1, marginBottom: 5, color: TEXT }}>{typeof value === 'number' ? num(value) : value}</div>
+      <div style={{ color: TEXT_MUTED, fontSize: 12 }}>{label}</div>
+      {sub && <div style={{ fontSize: 11, marginTop: 5, color: `${color}99` }}>↑ {sub}</div>}
     </div>
   );
 }
 
 // ─── Badge ────────────────────────────────────────────────────────────────────
 function Badge({ text, color = '#6B7280' }: { text: string; color?: string }) {
-  return <span className="px-2 py-0.5 rounded-full text-xs font-bold" style={{ background: `${color}22`, color }}>{text}</span>;
+  return <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600, background: `${color}18`, color, border: `1px solid ${color}33` }}>{text}</span>;
 }
 
 const STATUS_COLORS: Record<string, string> = {
@@ -850,7 +866,7 @@ export default function OwnerDashboard() {
   if (loading) return (
     <div className="flex items-center justify-center min-h-screen flex-col gap-4" style={{ background: DARK }}>
       <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-black text-black"
-        style={{ background: `linear-gradient(135deg, #D4A843, #C9A84C)` }}>م</div>
+        style={{ background: `linear-gradient(135deg, #D4A843, #D4A843)` }}>م</div>
       <p className="text-sm font-bold" style={{ color: G }}>جاري تحميل لوحة التحكم...</p>
       <div className="w-32 h-1 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.1)' }}>
         <div className="h-full rounded-full animate-pulse" style={{ background: G, width: '60%' }} />
@@ -864,68 +880,86 @@ export default function OwnerDashboard() {
       {toast && <Toast msg={toast.msg} ok={toast.ok} />}
 
       {/* ── Sidebar ── */}
-      <aside className="flex flex-col sticky top-0 h-screen overflow-y-auto flex-shrink-0" style={{ width: 228, background: '#0B0B16', borderLeft: '1px solid rgba(201,168,76,0.15)' }}>
-        {/* Logo */}
-        <div className="px-4 py-5" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center text-base font-black text-black"
-              style={{ background: 'linear-gradient(135deg, #C9A84C 0%, #E2C46A 100%)' }}>م</div>
+      <aside style={{ width: 268, flexShrink: 0, height: '100vh', background: '#08081A', borderLeft: `1px solid ${BORDER}`, display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'sticky', top: 0 }}>
+        {/* Gold accent line */}
+        <div style={{ position: 'absolute', top: 0, right: 0, width: 1, height: '100%', background: 'linear-gradient(180deg, transparent 0%, #D4A843 30%, #D4A843 70%, transparent 100%)', opacity: 0.15 }} />
+
+        {/* Logo Section */}
+        <div style={{ padding: '18px 16px 14px', borderBottom: `1px solid ${BORDER}`, flexShrink: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+            <div style={{ width: 38, height: 38, borderRadius: 11, background: `linear-gradient(135deg, ${G}, ${G2})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 900, color: '#000', boxShadow: '0 4px 16px rgba(212,168,67,0.3)' }}>م</div>
             <div>
-              <div className="font-black text-white text-sm" style={{ letterSpacing: '-0.3px' }}>متين</div>
-              <div className="text-xs" style={{ color: 'rgba(238,238,245,0.35)' }}>لوحة المالك</div>
+              <div style={{ fontSize: 19, fontWeight: 800, color: TEXT, letterSpacing: -0.5 }}>متين</div>
+              <div style={{ fontSize: 10, color: TEXT_MUTED, fontWeight: 500 }}>نظام إدارة التعليم</div>
+            </div>
+          </div>
+          {/* User Card */}
+          <div style={{ background: G_DIM, border: `1px solid ${G_BORDER}`, borderRadius: 10, padding: '10px 12px', display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ width: 34, height: 34, borderRadius: 9, background: 'rgba(255,255,255,0.06)', border: `1px solid ${G_BORDER}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 17, flexShrink: 0 }}>👑</div>
+            <div>
+              <div style={{ color: TEXT, fontSize: 13, fontWeight: 700 }}>{me?.name || 'المالك'}</div>
+              <div style={{ color: G, fontSize: 11, fontWeight: 600, marginTop: 1 }}>مالك المنصة</div>
             </div>
           </div>
         </div>
 
-        {/* Nav */}
-        <nav className="flex-1 p-2 overflow-y-auto">
-          {TABS.map(t => {
-            const isActive = tab === t.id;
-            const badgeCount = t.badge === 'support' ? openSupport : t.badge === 'join' ? joinRequests.length : t.badge === 'notif' ? unreadNotifs : 0;
-            return (
-              <button key={t.id} onClick={() => setTab(t.id)}
-                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl mb-0.5 text-right transition-all text-sm"
-                style={{
-                  background: isActive ? 'rgba(201,168,76,0.1)' : 'transparent',
-                  color: isActive ? '#C9A84C' : 'rgba(238,238,245,0.5)',
-                  fontWeight: isActive ? 700 : 500,
-                  borderRight: isActive ? '3px solid #C9A84C' : '3px solid transparent',
-                  fontSize: 13.5,
-                }}>
-                <SvgIcon id={t.icon} size={15} color={isActive ? G : '#94A3B8'} />
-                <span className="flex-1">{t.label}</span>
-                {badgeCount > 0 && (
-                  <span className="text-white text-xs font-bold px-1.5 py-0.5 rounded-full" style={{ background: t.badge === 'notif' ? '#3B82F6' : '#EF4444', minWidth: 18, textAlign: 'center' }}>
-                    {badgeCount}
-                  </span>
-                )}
-              </button>
-            );
-          })}
+        {/* Navigation */}
+        <nav style={{ flex: 1, padding: '8px 0 4px', overflowY: 'auto', overflowX: 'hidden' }}>
+          {NAV_GROUPS.map((group, gi) => (
+            <div key={gi}>
+              <div style={{ fontSize: 9.5, color: TEXT_MUTED, fontWeight: 700, letterSpacing: 1.2, textTransform: 'uppercase' as const, padding: '10px 16px 4px' }}>{group.title}</div>
+              {group.items.map(t => {
+                const isActive = tab === t.id;
+                const badgeCount = t.badge === 'support' ? openSupport : t.badge === 'join' ? joinRequests.length : t.badge === 'notif' ? unreadNotifs : 0;
+                return (
+                  <button key={t.id} onClick={() => setTab(t.id)}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 9, width: '100%',
+                      padding: '7px 14px 7px 16px', fontSize: 12.5,
+                      color: isActive ? TEXT : TEXT_DIM,
+                      cursor: 'pointer', border: 'none', fontFamily: 'inherit',
+                      borderRight: isActive ? `3px solid ${G}` : '3px solid transparent',
+                      margin: '1px 6px 1px 0', borderRadius: '0 8px 8px 0',
+                      transition: 'all 0.15s', textAlign: 'right' as const,
+                      background: isActive ? G_DIM : 'transparent',
+                      fontWeight: isActive ? 600 : 400,
+                    }}
+                    onMouseEnter={e => { if (!isActive) { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = TEXT; }}}
+                    onMouseLeave={e => { if (!isActive) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = TEXT_DIM; }}}
+                  >
+                    <SvgIcon id={t.icon} size={15} color={isActive ? G : 'currentColor'} />
+                    <span style={{ flex: 1 }}>{t.label}</span>
+                    {isActive && <span style={{ width: 5, height: 5, borderRadius: '50%', background: G, marginRight: 'auto', flexShrink: 0, boxShadow: `0 0 6px ${G}` }} />}
+                    {badgeCount > 0 && (
+                      <span style={{ background: 'rgba(239,68,68,0.15)', color: RED, fontSize: 10, fontWeight: 700, padding: '1px 7px', borderRadius: 10, border: '1px solid rgba(239,68,68,0.25)', marginRight: 'auto' }}>
+                        {badgeCount}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          ))}
         </nav>
 
-        {/* User Info */}
-        <div className="px-4 py-3" style={{ borderTop: `1px solid ${BORDER}` }}>
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold text-black flex-shrink-0"
-              style={{ background: `${G}44` }}>
-              {(me?.name || 'م')[0]}
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="text-xs font-bold text-white truncate">{me?.name || 'المالك'}</div>
-              <div className="text-xs" style={{ color: "rgba(238,238,245,0.4)" }}>مالك المنصة</div>
-            </div>
-            <button onClick={logout} className="text-red-400 hover:text-red-300 text-xs px-2 py-1 rounded-lg transition-colors" style={{ background: 'rgba(239,68,68,0.1)' }}>
-              خروج
-            </button>
-          </div>
+        {/* Footer */}
+        <div style={{ padding: '12px 14px', borderTop: `1px solid ${BORDER}`, flexShrink: 0 }}>
+          <button onClick={logout} style={{
+            width: '100%', background: 'rgba(248,113,113,0.07)', border: '1px solid rgba(248,113,113,0.15)',
+            borderRadius: 9, padding: '9px 14px', color: '#F87171', fontSize: 12.5, fontWeight: 600,
+            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, fontFamily: 'inherit',
+          }}>
+            <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            تسجيل الخروج
+          </button>
+          <div style={{ marginTop: 8, color: 'rgba(238,238,245,0.15)', fontSize: 10, textAlign: 'center' as const }}>متين v6 — النظام السيادي للتعليم</div>
         </div>
       </aside>
 
       {/* ── Main Content ── */}
-      <main className="flex-1 overflow-auto" style={{ background: '#06060E' }}>
+      <main className="flex-1 overflow-auto" style={{ background: 'radial-gradient(circle at 50% 0%, rgba(212,168,67,0.03) 0%, transparent 60%)' }}>
         {/* Header */}
-        <div className="sticky top-0 z-10 px-6 py-4 flex items-center justify-between" style={{ background: 'rgba(6,6,14,0.92)', borderBottom: '1px solid rgba(201,168,76,0.12)', backdropFilter: 'blur(24px) saturate(1.8)' }}>
+        <div className="sticky top-0 z-10 px-6 py-4 flex items-center justify-between" style={{ height: 62, background: 'rgba(6,6,14,0.85)', borderBottom: `1px solid ${BORDER}`, backdropFilter: 'blur(24px) saturate(1.8)', WebkitBackdropFilter: 'blur(24px) saturate(1.8)', zIndex: 10 }}>
           <div>
             <h1 className="text-lg font-black" style={{ color: "#EEEEF5", letterSpacing: "-0.5px" }}>{TABS.find(t => t.id === tab)?.label}</h1>
             <p className="text-xs" style={{ color: "rgba(238,238,245,0.4)" }}>منصة متين التعليمية</p>
@@ -950,95 +984,154 @@ export default function OwnerDashboard() {
         <div className="p-6">
           {/* ════ OVERVIEW ════ */}
           {tab === 'overview' && (
-            <div className="space-y-6">
-              {/* Stats Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                <StatCard label="المؤسسات" value={stats.schools || schools.length} color={G} />
-                <StatCard label="الملاك" value={stats.owners || 0} color="#3B82F6" />
-                <StatCard label="الطلاب" value={stats.students || 0} color="#22C55E" />
-                <StatCard label="المعلمون" value={stats.teachers || 0} color="#A855F7" />
-                <StatCard label="المعلقون" value={stats.pending || 0} color="#F59E0B" />
-                <StatCard label="المستخدمون النشطون" value={stats.active_users || 0} color="#06B6D4" />
+            <div style={{direction:'rtl'}}>
+              <style>{`
+                .ov-stat{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.04);border-radius:14px;padding:18px 20px;position:relative;overflow:hidden;transition:all 0.2s;cursor:pointer;display:block;}
+                .ov-stat:hover{transform:translateY(-2px);border-color:rgba(255,255,255,0.1);}
+                .ov-stat::before{content:'';position:absolute;inset:0;background:var(--ovg,rgba(0,0,0,0));pointer-events:none;}
+                .ov-si{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+                .ov-sv{font-size:28px;font-weight:800;line-height:1;margin-bottom:5px;}
+                .ov-sl{color:rgba(238,238,245,0.28);font-size:12px;}
+                .ov-ss{font-size:11px;margin-top:5px;}
+                .ov-sec{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.04);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all 0.2s;width:100%;text-align:right;font-family:inherit;}
+                .ov-sec:hover{transform:translateY(-2px);}
+                .ov-sei{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+                .ov-card{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);border-radius:14px;overflow:hidden;margin-bottom:20px;} .ov-tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+                .ov-card-hdr{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:space-between;gap:12px;}
+                .ov-card-title{display:flex;align-items:center;gap:10px;color:#EEEEF5;font-size:15px;font-weight:700;}
+                .ov-cnt{background:rgba(212,168,67,0.12);border:1px solid rgba(212,168,67,0.22);color:#D4A843;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;}
+                .ov-ftab{background:transparent;border:1px solid transparent;border-radius:7px;padding:5px 14px;color:rgba(238,238,245,0.55);font-size:12px;cursor:pointer;font-family:inherit;transition:all 0.15s;white-space:nowrap;}
+                .ov-ftab.act{background:rgba(212,168,67,0.12);border-color:rgba(212,168,67,0.22);color:#D4A843;font-weight:700;}
+                .ov-tbl{width:100%;border-collapse:collapse;min-width:600px;}
+                .ov-tbl thead tr{background:rgba(212,168,67,0.04);}
+                .ov-tbl th{padding:11px 16px;text-align:right;color:#D4A843;font-weight:700;font-size:11.5px;border-bottom:1px solid rgba(255,255,255,0.04);white-space:nowrap;}
+                .ov-tbl td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:13px;}
+                .ov-tbl tbody tr:hover td{background:rgba(255,255,255,0.015);}
+                .ov-tbl tbody tr:last-child td{border-bottom:none;}
+                .ov-bdg{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;}
+                .ov-qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;}
+                .ov-qi{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:10px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;transition:all 0.15s;font-family:inherit;width:100%;}
+                .ov-qi:hover{background:rgba(255,255,255,0.05);transform:translateY(-2px);}
+                .ov-qico{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;}
+                .ov-qlbl{font-size:11.5px;color:rgba(238,238,245,0.55);font-weight:500;}
+                .ov-alert{display:flex;align-items:center;gap:12px;background:rgba(212,168,67,0.06);border:1px solid rgba(212,168,67,0.18);border-radius:12px;padding:11px 16px;margin-bottom:20px;font-size:13px;color:rgba(238,238,245,0.55);}
+                
+                
+              `}</style>
+
+              {/* Alert */}
+              {joinRequests.length > 0 && (
+                <div className="ov-alert">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01"/></svg>
+                  <span><strong style={{color:'#D4A843'}}>{joinRequests.length} طلبات انضمام</strong> جديدة تنتظر المراجعة</span>
+                  <button onClick={() => setTab('permissions')} style={{color:'#D4A843',fontWeight:700,fontSize:12,marginRight:'auto',background:'none',border:'none',cursor:'pointer',fontFamily:'inherit'}}>مراجعة الآن ←</button>
+                </div>
+              )}
+
+              {/* Page Header */}
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:22,flexWrap:'wrap',gap:10}}>
+                <div>
+                  <div style={{color:'#D4A843',fontSize:22,fontWeight:800,letterSpacing:'-0.5px',display:'flex',alignItems:'center',gap:8}}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16M9 8h1M9 12h1M9 16h1M14 8h1M14 12h1M14 16h1"/></svg>
+                    لوحة مالك المنصة
+                  </div>
+                  <div style={{color:'rgba(238,238,245,0.28)',fontSize:13,marginTop:4}}>إدارة كاملة للمؤسسات والمستخدمين والمالية — آخر تحديث: منذ لحظات</div>
+                </div>
+                <button onClick={() => { setEditItem(null); setSf({}); setModal('school'); }} style={{background:'linear-gradient(135deg,#D4A843,#E8C060)',border:'none',borderRadius:10,padding:'10px 20px',color:'#06060E',fontWeight:700,fontSize:14,cursor:'pointer',fontFamily:'inherit',display:'flex',alignItems:'center',gap:7,boxShadow:'0 4px 16px rgba(212,168,67,0.25)'}}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#06060E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  إضافة مؤسسة
+                </button>
               </div>
 
-              {/* Revenue & Store */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="rounded-2xl p-5" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
-                  <div className="text-xs text-gray-400 mb-3 font-medium">إحصائيات المتجر</div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>المنتجات</span>
-                      <span className="text-sm font-bold text-white">{num(storeProductsTotal || storeProducts.length)}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>الطلبات</span>
-                      <span className="text-sm font-bold text-white">{num(storeOrdersTotal || storeOrders.length)}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>الطلبات المعلقة</span>
-                      <span className="text-sm font-bold" style={{ color: '#F59E0B' }}>{num(storeOrders.filter(o => o.status === 'pending').length)}</span>
-                    </div>
+              {/* Main Stats */}
+              <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:14,marginBottom:20}}>
+                {[
+                  {val:num(schools.length),lbl:'المؤسسات التعليمية',sub:`${schools.filter((s:any)=>s.status==='active').length} نشطة · ${schools.filter((s:any)=>s.status!=='active').length} متجمدة`,color:'#60A5FA',grad:'rgba(96,165,250,0.05)',
+                    icon:<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16M9 8h1M14 8h1"/></svg>},
+                  {val:num(stats.students||0),lbl:'إجمالي الطلاب',sub:`↑ ${stats.new_students||0} هذا الشهر`,color:'#10B981',grad:'rgba(16,185,129,0.05)',
+                    icon:<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5zM6 12v5c3 3 9 3 12 0v-5"/></svg>},
+                  {val:num(stats.teachers||0),lbl:'المعلمون والموظفون',sub:`${stats.owners||0} مالك مؤسسة`,color:'#A78BFA',grad:'rgba(167,139,250,0.05)',
+                    icon:<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>},
+                  {val:num(subs.filter((s:any)=>s.status==='active').length),lbl:'الاشتراكات النشطة',sub:`${subs.filter((s:any)=>s.status==='trial').length} تجريبية`,color:'#D4A843',grad:'rgba(212,168,67,0.05)',
+                    icon:<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>},
+                ].map((s,i) => (
+                  <div key={i} className="ov-stat" style={{'--ovg':` linear-gradient(135deg,${s.grad} 0%,transparent 60%)`} as any}>
+                    <div className="ov-si" style={{background:`${s.color}1a`,border:`1px solid ${s.color}33`}}>{s.icon}</div>
+                    <div className="ov-sv" style={{color:s.color}}>{s.val}</div>
+                    <div className="ov-sl">{s.lbl}</div>
+                    <div className="ov-ss" style={{color:`${s.color}99`}}>{s.sub}</div>
                   </div>
-                </div>
-                <div className="rounded-2xl p-5" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
-                  <div className="text-xs text-gray-400 mb-3 font-medium">الدعم والشكاوى</div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>مفتوحة</span>
-                      <span className="text-sm font-bold text-red-400">{num(support.filter(s => s.status === 'open').length)}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>قيد المعالجة</span>
-                      <span className="text-sm font-bold text-yellow-400">{num(support.filter(s => s.status === 'in_progress').length)}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>محلولة</span>
-                      <span className="text-sm font-bold text-green-400">{num(support.filter(s => s.status === 'closed' || s.status === 'resolved').length)}</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="rounded-2xl p-5" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
-                  <div className="text-xs text-gray-400 mb-3 font-medium">الاشتراكات</div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>نشطة</span>
-                      <span className="text-sm font-bold text-green-400">{num(subs.filter(s => s.status === 'active').length)}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>تجريبية</span>
-                      <span className="text-sm font-bold text-blue-400">{num(subs.filter(s => s.status === 'trial').length)}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>منتهية</span>
-                      <span className="text-sm font-bold text-red-400">{num(subs.filter(s => s.status === 'expired').length)}</span>
-                    </div>
-                  </div>
-                </div>
+                ))}
               </div>
 
-              {/* Recent Schools */}
-              <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
-                <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                  <h3 className="font-bold text-white text-sm">آخر المؤسسات المسجلة</h3>
-                  <button onClick={() => setTab('schools')} className="text-xs font-medium" style={{ color: G }}>عرض الكل</button>
+              {/* Secondary Stats */}
+              <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12,marginBottom:20}}>
+                <button onClick={() => setTab('ads')} className="ov-sec">
+                  <div className="ov-sei" style={{background:'rgba(251,146,60,0.1)',border:'1px solid rgba(251,146,60,0.2)'}}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FB923C" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                  </div>
+                  <div><div style={{fontSize:11,color:'rgba(238,238,245,0.28)',marginBottom:2}}>الإعلانات</div><div style={{fontSize:16,fontWeight:800,color:'#FB923C'}}>إدارة ←</div></div>
+                </button>
+                <button onClick={() => setTab('taxes')} className="ov-sec">
+                  <div className="ov-sei" style={{background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.2)'}}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+                  </div>
+                  <div><div style={{fontSize:11,color:'rgba(238,238,245,0.28)',marginBottom:2}}>الضرائب</div><div style={{fontSize:16,fontWeight:800,color:'#10B981'}}>عرض ←</div></div>
+                </button>
+                <button onClick={() => setTab('community')} className="ov-sec">
+                  <div className="ov-sei" style={{background:'rgba(34,211,238,0.1)',border:'1px solid rgba(34,211,238,0.2)'}}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  </div>
+                  <div><div style={{fontSize:11,color:'rgba(238,238,245,0.28)',marginBottom:2}}>الملتقى المجتمعي</div><div style={{fontSize:16,fontWeight:800,color:'#22D3EE'}}>عرض ←</div></div>
+                </button>
+                <button onClick={() => setTab('permissions')} className="ov-sec" style={joinRequests.length > 0 ? {borderColor:'rgba(239,68,68,0.25)'} : {}}>
+                  <div className="ov-sei" style={{background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.2)'}}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                  </div>
+                  <div><div style={{fontSize:11,color:'rgba(238,238,245,0.28)',marginBottom:2}}>طلبات الانضمام</div><div style={{fontSize:16,fontWeight:800,color:'#EF4444'}}>{joinRequests.length > 0 ? `${joinRequests.length} معلّقة ←` : 'عرض ←'}</div></div>
+                </button>
+              </div>
+
+              {/* Institutions Table */}
+              <div className="ov-card">
+                <div className="ov-card-hdr">
+                  <div className="ov-card-title">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16M9 8h1M14 8h1"/></svg>
+                    المؤسسات المسجلة
+                    <span className="ov-cnt">{schools.length}</span>
+                  </div>
+                  <div style={{display:'flex',alignItems:'center',gap:8,background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:8,padding:'6px 12px',minWidth:200}}>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(238,238,245,0.3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input style={{background:'none',border:'none',outline:'none',color:'#EEEEF5',fontSize:12.5,width:'100%',fontFamily:'inherit'}} placeholder="بحث عن مؤسسة..." value={schoolSearch} onChange={e => setSchoolSearch(e.target.value)} />
+                  </div>
                 </div>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
+                <div style={{display:'flex',gap:4,padding:'10px 16px',borderBottom:'1px solid rgba(255,255,255,0.04)',overflowX:'auto'}}>
+                  {([['all','الكل'],['active','نشطة'],['inactive','متجمدة']] as [string,string][]).map(([k,v]) => (
+                    <button key={k} className={`ov-ftab${schoolStatus===k?' act':''}`} onClick={()=>setSchoolStatus(k)}>
+                      {v} ({k==='all'?schools.length:schools.filter((s:any)=>k==='active'?s.status==='active':s.status!=='active').length})
+                    </button>
+                  ))}
+                </div>
+                <div style={{overflowX:'auto'}}>
+                  <table className="ov-tbl">
                     <thead>
-                      <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                        {['المؤسسة', 'النوع', 'الباقة', 'الحالة', 'تاريخ التسجيل'].map(h => (
-                          <th key={h} className="text-right px-4 py-3 text-xs font-medium text-gray-400">{h}</th>
-                        ))}
-                      </tr>
+                      <tr><th>المؤسسة</th><th>النوع</th><th>الباقة</th><th>الحالة</th><th>المالك</th><th>تاريخ التسجيل</th><th>الإجراءات</th></tr>
                     </thead>
                     <tbody>
-                      {schools.slice(0, 5).map(s => (
-                        <tr key={s.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }} className="hover:bg-white/2 transition-colors">
-                          <td className="px-4 py-3 font-medium text-white">{s.name_ar || s.name || '—'}</td>
-                          <td className="px-4 py-3 text-gray-400">{s.institution_type || '—'}</td>
-                          <td className="px-4 py-3"><Badge text={s.plan || 'مجاني'} color={G} /></td>
-                          <td className="px-4 py-3"><Badge text={STATUS_LABELS[s.status] || s.status} color={STATUS_COLORS[s.status] || '#6B7280'} /></td>
-                          <td className="px-4 py-3 text-gray-400 text-xs">{fmt(s.created_at)}</td>
+                      {schools.slice(0,8).map((s:any) => (
+                        <tr key={s.id}>
+                          <td><div style={{fontWeight:600,color:'#EEEEF5'}}>{s.name_ar||s.name||'—'}</div><div style={{color:'rgba(238,238,245,0.28)',fontSize:11,marginTop:2}}>{s.city||''}</div></td>
+                          <td style={{color:'rgba(238,238,245,0.55)',fontSize:12}}>{s.institution_type||'—'}</td>
+                          <td><span className="ov-bdg" style={{background:'rgba(212,168,67,0.12)',color:'#D4A843',border:'1px solid rgba(212,168,67,0.22)'}}>{s.plan||'مجاني'}</span></td>
+                          <td><span className="ov-bdg" style={{background:s.status==='active'?'rgba(16,185,129,0.1)':'rgba(239,68,68,0.1)',color:s.status==='active'?'#10B981':'#EF4444',border:`1px solid ${s.status==='active'?'rgba(16,185,129,0.2)':'rgba(239,68,68,0.2)'}`}}>● {STATUS_LABELS[s.status]||s.status}</span></td>
+                          <td style={{color:'rgba(238,238,245,0.55)',fontSize:12}}>{s.owner_name||'—'}</td>
+                          <td style={{color:'rgba(238,238,245,0.28)',fontSize:12,whiteSpace:'nowrap'}}>{fmt(s.created_at)}</td>
+                          <td>
+                            <div style={{display:'flex',gap:5}}>
+                              <button onClick={() => { setEditItem(s); setSf(s); setModal('school'); }} style={{background:'rgba(212,168,67,0.08)',color:'#D4A843',border:'1px solid rgba(212,168,67,0.2)',borderRadius:6,padding:'4px 11px',fontSize:11,fontWeight:600,cursor:'pointer',fontFamily:'inherit'}}>تعديل</button>
+                              <button onClick={() => setTab('schools')} style={{background:'rgba(96,165,250,0.08)',color:'#60A5FA',border:'1px solid rgba(96,165,250,0.2)',borderRadius:6,padding:'4px 11px',fontSize:11,fontWeight:600,cursor:'pointer',fontFamily:'inherit'}}>عرض</button>
+                            </div>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -1046,29 +1139,31 @@ export default function OwnerDashboard() {
                 </div>
               </div>
 
-              {/* Join Requests */}
-              {joinRequests.length > 0 && (
-                <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
-                  <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                    <h3 className="font-bold text-white text-sm">طلبات التسجيل الجديدة</h3>
-                    <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{ background: '#F59E0B22', color: '#F59E0B' }}>{joinRequests.length}</span>
-                  </div>
-                  <div className="divide-y" style={{ borderColor: BORDER }}>
-                    {joinRequests.slice(0, 3).map(r => (
-                      <div key={r.id} className="px-5 py-3 flex items-center justify-between">
-                        <div>
-                          <div className="text-sm font-medium text-white">{r.school_name || r.owner_name}</div>
-                          <div className="text-xs" style={{ color: "rgba(238,238,245,0.5)" }}>{r.email} · {r.city}</div>
-                        </div>
-                        <div className="flex gap-2">
-                          <Btn size="sm" onClick={() => approveJoinRequest(r.id)}>موافقة</Btn>
-                          <Btn size="sm" variant="danger" onClick={() => rejectJoinRequest(r.id)}>رفض</Btn>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+              {/* Quick Actions */}
+              <div style={{marginBottom:20}}>
+                <div style={{color:'rgba(238,238,245,0.28)',fontSize:10,fontWeight:700,letterSpacing:'1px',textTransform:'uppercase',marginBottom:12}}>إجراءات سريعة</div>
+                <div className="ov-qgrid">
+                  {[
+                    {label:'المستخدمون',tab:'users',color:'#60A5FA',icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>},
+                    {label:'الاشتراكات',tab:'subscriptions',color:'#D4A843',icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>},
+                    {label:'الإعلانات',tab:'ads',color:'#FB923C',icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FB923C" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>},
+                    {label:'الضرائب',tab:'taxes',color:'#10B981',icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>},
+                    {label:'المتجر',tab:'store',color:'#A78BFA',icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>},
+                    {label:'الملتقى',tab:'community',color:'#22D3EE',icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>},
+                    {label:'الصلاحيات',tab:'permissions',color:'#EF4444',icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4"/></svg>},
+                    {label:'النسخ الاحتياطي',tab:'settings',color:'#D4A843',icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><polyline points="21 15 15 15 15 21"/><polyline points="3 9 9 9 9 3"/><path d="M21 3l-6 6M3 21l6-6"/></svg>},
+                    {label:'سجل النشاط',tab:'activity',color:'#60A5FA',icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>},
+                    {label:'الباقات',tab:'plans',color:'#10B981',icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>},
+                    {label:'الدعم الفني',tab:'support',color:'#FB923C',icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FB923C" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>},
+                    {label:'الإعدادات',tab:'settings',color:'rgba(238,238,245,0.4)',icon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(238,238,245,0.4)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>},
+                  ].map((item,i) => (
+                    <button key={i} onClick={() => setTab(item.tab)} className="ov-qi">
+                      <div className="ov-qico" style={{background:`${item.color}1a`,border:`1px solid ${item.color}33`}}>{item.icon}</div>
+                      <span className="ov-qlbl">{item.label}</span>
+                    </button>
+                  ))}
                 </div>
-              )}
+              </div>
             </div>
           )}
 
@@ -1098,7 +1193,7 @@ export default function OwnerDashboard() {
               </div>
 
               {/* Stats */}
-              <div className="grid grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {[
                   { label: 'الكل', count: schools.length, color: G },
                   { label: 'نشطة', count: schools.filter(s => s.status === 'active').length, color: '#22C55E' },
@@ -1283,7 +1378,7 @@ export default function OwnerDashboard() {
                 <Btn onClick={() => { setEditItem(null); setPf({}); setModal('assign_plan'); }}>تعيين باقة لمؤسسة</Btn>
               </div>
 
-              <div className="grid grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {[
                   { label: 'الكل', count: subs.length, color: G },
                   { label: 'نشطة', count: subs.filter(s => s.status === 'active').length, color: '#22C55E' },
@@ -1522,7 +1617,7 @@ export default function OwnerDashboard() {
               {/* Orders */}
               {storeTab === 'orders' && (
                 <div className="space-y-4">
-                  <div className="grid grid-cols-4 gap-3">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     {[
                       { label: 'الكل', count: storeOrders.length, color: G },
                       { label: 'معلقة', count: storeOrders.filter(o => o.status === 'pending').length, color: '#F59E0B' },
@@ -1832,7 +1927,7 @@ export default function OwnerDashboard() {
               {/* Leads */}
               {leads.length > 0 && (
                 <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
-                  <div className="px-5 py-3 font-bold text-sm" style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}`, color: '#94A3B8' }}>
+                  <div className="px-5 py-3 font-bold text-sm" style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}`, color: TEXT_DIM }}>
                     العملاء المحتملون (Leads)
                   </div>
                   <div className="overflow-x-auto">
@@ -1981,7 +2076,7 @@ export default function OwnerDashboard() {
                             <button onClick={async () => {
                               const r = await api('/api/integrations', { method: 'PUT', body: JSON.stringify({ id: integ.id, is_active: !integ.is_active }) });
                               if (r.ok) { showToast('تم التحديث'); await fetchIntegrations(); }
-                            }} className="text-xs px-2 py-1 rounded-lg" style={{ background: 'rgba(255,255,255,0.05)', color: '#94A3B8', border: `1px solid ${BORDER}` }}>
+                            }} className="text-xs px-2 py-1 rounded-lg" style={{ background: 'rgba(255,255,255,0.05)', color: TEXT_DIM, border: `1px solid ${BORDER}` }}>
                               {integ.is_active ? 'تعطيل' : 'تفعيل'}
                             </button>
                           </div>
@@ -2206,6 +2301,7 @@ export default function OwnerDashboard() {
           )}
 
           {/* ════ ACTIVITY LOG ════ */}
+          {tab === 'website-content' && (<div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',height:'65vh',gap:24,textAlign:'center'}}><p style={{fontSize:56}}>&#127760;</p><p style={{color:'#EEEEF5',fontSize:22,fontWeight:800,margin:0}}>&#x645;&#x62d;&#x631;&#x631; &#x627;&#x644;&#x648;&#x627;&#x62c;&#x647;&#x629; &#x627;&#x644;&#x623;&#x645;&#x627;&#x645;&#x64a;&#x629;</p><a href='/dashboard/website-content' style={{background:'linear-gradient(135deg,#D4A843,#E8C060)',padding:'14px 32px',borderRadius:12,color:'#06060E',fontWeight:800,textDecoration:'none',fontSize:16,display:'inline-block',marginTop:8}}>&#x641;&#x62a;&#x62d; &#x627;&#x644;&#x645;&#x62d;&#x631;&#x631;</a></div>)}
           {tab === 'activity' && (
             <div className="space-y-4">
               <div className="flex justify-between items-center">

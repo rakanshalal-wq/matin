@@ -61,12 +61,12 @@ export default function CounselingPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Brain" size={18} /> الإرشاد النفسي</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>متابعة الحالات الإرشادية والنفسية للطلاب</p>
  </div>
- <button onClick={() => { setEditItem(null); setFormData({ student_name: '', counselor_name: '', type: '', description: '', status: 'open', notes: '' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة حالة</button>
+ <button onClick={() => { setEditItem(null); setFormData({ student_name: '', counselor_name: '', type: '', description: '', status: 'open', notes: '' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة حالة</button>
  </div>
 
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي الحالات', value: items.length, icon: "ICON_Brain", color: '#C9A227' },
+ { label: 'إجمالي الحالات', value: items.length, icon: "ICON_Brain", color: '#D4A843' },
  { label: 'مفتوحة', value: items.filter(i => i.status === 'open').length, icon: "ICON_FolderOpen", color: '#3B82F6' },
  { label: 'جاري المتابعة', value: items.filter(i => i.status === 'in_progress').length, icon: "ICON_RefreshCw", color: '#F59E0B' },
  { label: 'مغلقة', value: items.filter(i => i.status === 'closed').length, icon: "ICON_CheckCircle", color: '#10B981' },
@@ -89,18 +89,18 @@ export default function CounselingPage() {
  <div style={{ padding: 60, textAlign: 'center' }}>
  <div style={{width:44,height:44,borderRadius:10,background:"rgba(139,92,246,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Brain size={19} color="#8B5CF6" /></div>
  <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد حالات إرشادية</p>
- <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة أول حالة</button>
+ <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة أول حالة</button>
  </div>
  ) : (
  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ background: 'rgba(201,162,39,0.1)' }}>
- <th style={{ padding: 16, textAlign: 'right', color: '#C9A227', fontWeight: 700 }}>الطالب</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>المرشد</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>النوع</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>الحالة</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>التاريخ</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>إجراءات</th>
+ <th style={{ padding: 16, textAlign: 'right', color: '#D4A843', fontWeight: 700 }}>الطالب</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>المرشد</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>النوع</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>الحالة</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>التاريخ</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>إجراءات</th>
  </tr>
  </thead>
  <tbody>
@@ -123,7 +123,7 @@ export default function CounselingPage() {
  <td style={{ padding: 16, textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>{item.date ? new Date(item.date).toLocaleDateString('ar-SA') : '—'}</td>
  <td style={{ padding: 16, textAlign: 'center' }}>
  <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
  </div>
  </td>
@@ -151,7 +151,7 @@ export default function CounselingPage() {
  <div style={{ gridColumn: '1 / -1' }}><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>ملاحظات</label><textarea value={formData.notes} onChange={e => setFormData({ ...formData, notes: e.target.value })} placeholder="ملاحظات إضافية" rows={2} style={{ ...inputStyle, resize: 'vertical' } as any} /></div>
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-start' }}>
- <button onClick={handleSave} disabled={saving} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>{saving ? '⏳ جاري الحفظ...' : 'Save حفظ الحالة'}</button>
+ <button onClick={handleSave} disabled={saving} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>{saving ? '⏳ جاري الحفظ...' : 'Save حفظ الحالة'}</button>
  <button onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إلغاء</button>
  </div>
  </div>

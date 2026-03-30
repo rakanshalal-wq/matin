@@ -80,7 +80,7 @@ export default function LiveStreamPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Satellite" size={18} /> البث المباشر</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة البث المباشر للمحاضرات والفعاليات</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({ title: '', subject: '', teacher_name: '', class_name: '', platform: 'zoom', link: '', date: '', duration: '', viewers_count: '0', status: 'scheduled' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
+ <button onClick={() => { setEditItem(null); setForm({ title: '', subject: '', teacher_name: '', class_name: '', platform: 'zoom', link: '', date: '', duration: '', viewers_count: '0', status: 'scheduled' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
  Plus جدولة بث جديد
  </button>
  </div>
@@ -88,7 +88,7 @@ export default function LiveStreamPage() {
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي البثوث', value: stats.total, icon: "ICON_Satellite", color: '#C9A227' },
+ { label: 'إجمالي البثوث', value: stats.total, icon: "ICON_Satellite", color: '#D4A843' },
  { label: 'مباشر الآن', value: stats.live, icon: "ICON_Circle", color: '#10B981' },
  { label: 'مجدول', value: stats.scheduled, icon: "ICON_Calendar", color: '#3B82F6' },
  { label: 'إجمالي المشاهدات', value: stats.totalViewers, icon: '<Eye size={16} />', color: '#8B5CF6' },
@@ -145,7 +145,7 @@ export default function LiveStreamPage() {
  {platformLabels[item.platform] || item.platform}
  </span>
  </td>
- <td style={{ padding: '14px 16px', color: '#C9A227', fontWeight: 600, fontSize: 14 }}>{item.subject || '—'}</td>
+ <td style={{ padding: '14px 16px', color: '#D4A843', fontWeight: 600, fontSize: 14 }}>{item.subject || '—'}</td>
  <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.8)', fontSize: 14 }}>{item.teacher_name || '—'}</td>
  <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.8)', fontSize: 14 }}>{item.class_name || '—'}</td>
  <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.6)', fontSize: 13 }}>{item.date ? new Date(item.date).toLocaleString('ar-SA', { dateStyle: 'short', timeStyle: 'short' }) : '—'}</td>
@@ -166,7 +166,7 @@ export default function LiveStreamPage() {
  {item.link && item.status !== 'live' && (
  <button onClick={() => window.open(item.link, '_blank')} style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Link" size={18} /> رابط</button>
  )}
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
  </div>
  </td>
@@ -240,7 +240,7 @@ export default function LiveStreamPage() {
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
- <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus جدولة'}</button>
+ <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus جدولة'}</button>
  </div>
  </div>
  </div>

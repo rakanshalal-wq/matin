@@ -189,12 +189,12 @@ export default function ParentPaymentsPage() {
  <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
  <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 440, direction: 'rtl' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
- <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_CreditCard" size={18} /> تفاصيل الفاتورة</h2>
+ <h2 style={{ color: '#D4A843', fontSize: 18, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_CreditCard" size={18} /> تفاصيل الفاتورة</h2>
  <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
  </div>
  <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 10, padding: 16, marginBottom: 20 }}>
  <div style={{ color: '#fff', fontSize: 16, fontWeight: 700, marginBottom: 8 }}>{selectedInvoice.title || selectedInvoice.description || 'فاتورة'}</div>
- <div style={{ color: '#C9A227', fontSize: 22, fontWeight: 800, marginBottom: 4 }}>{selectedInvoice.amount} ر.س</div>
+ <div style={{ color: '#D4A843', fontSize: 22, fontWeight: 800, marginBottom: 4 }}>{selectedInvoice.amount} ر.س</div>
  <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>الحالة: {selectedInvoice.status === 'paid' ? 'CheckCircle مدفوعة' : selectedInvoice.status === 'pending' ? '⏳ معلقة' : 'Circle متأخرة'}</div>
  {selectedInvoice.due_date && <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, marginTop: 4 }}>تاريخ الاستحقاق: {new Date(selectedInvoice.due_date).toLocaleDateString('ar-SA')}</div>}
  </div>

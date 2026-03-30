@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import { User } from "lucide-react";
 
 import Link from 'next/link';

@@ -56,7 +56,7 @@ export default function CircularsPage() {
 
  const typeLabels: any = { general: 'عام', academic: 'أكاديمي', administrative: 'إداري', financial: 'مالي', event: 'فعالية', holiday: 'إجازة', policy: 'سياسة', safety: 'أمان' };
  const typeIcons: any = { general: "ICON_File", academic: "ICON_BookOpen", administrative: "ICON_Building", financial: "ICON_Coins", event: "ICON_PartyPopper", holiday: 'Palmtree ', policy: "ICON_ScrollText", safety: '<Shield size={16} />' };
- const typeColors: any = { general: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, academic: { bg: 'rgba(139,92,246,0.1)', color: '#8B5CF6' }, administrative: { bg: 'rgba(201,162,39,0.1)', color: '#C9A227' }, financial: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, event: { bg: 'rgba(236,72,153,0.1)', color: '#EC4899' }, holiday: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, policy: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280' }, safety: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' } };
+ const typeColors: any = { general: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, academic: { bg: 'rgba(139,92,246,0.1)', color: '#8B5CF6' }, administrative: { bg: 'rgba(201,162,39,0.1)', color: '#D4A843' }, financial: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, event: { bg: 'rgba(236,72,153,0.1)', color: '#EC4899' }, holiday: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, policy: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280' }, safety: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' } };
  const priorityLabels: any = { low: 'منخفض', normal: 'عادي', high: 'مرتفع', urgent: 'عاجل' };
  const priorityColors: any = { low: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280' }, normal: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, high: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, urgent: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' } };
  const statusLabels: any = { draft: 'مسودة', published: 'منشور', archived: 'مؤرشف' };
@@ -84,7 +84,7 @@ export default function CircularsPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Megaphone" size={18} /> التعاميم</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة ونشر التعاميم والقرارات الرسمية</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({ title: '', type: 'general', content: '', sender: '', target_audience: 'all', priority: 'normal', publish_date: '', status: 'draft' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
+ <button onClick={() => { setEditItem(null); setForm({ title: '', type: 'general', content: '', sender: '', target_audience: 'all', priority: 'normal', publish_date: '', status: 'draft' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
  Plus تعميم جديد
  </button>
  </div>
@@ -92,7 +92,7 @@ export default function CircularsPage() {
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي التعاميم', value: stats.total, icon: "ICON_Megaphone", color: '#C9A227' },
+ { label: 'إجمالي التعاميم', value: stats.total, icon: "ICON_Megaphone", color: '#D4A843' },
  { label: 'منشور', value: stats.published, icon: "ICON_CheckCircle", color: '#10B981' },
  { label: 'مسودة', value: stats.draft, icon: "ICON_FileText", color: '#6B7280' },
  { label: 'عاجل', value: stats.urgent, icon: "ICON_Siren", color: '#EF4444' },
@@ -137,7 +137,7 @@ export default function CircularsPage() {
  </div>
  </div>
  <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
- <button onClick={(e) => { e.stopPropagation(); handleEdit(item); }} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>تعديل</button>
+ <button onClick={(e) => { e.stopPropagation(); handleEdit(item); }} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>تعديل</button>
  <button onClick={(e) => { e.stopPropagation(); handleDelete(item.id); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>حذف</button>
  </div>
  </div>
@@ -162,7 +162,7 @@ export default function CircularsPage() {
  <span style={{ background: statusColors[viewItem.status]?.bg, color: statusColors[viewItem.status]?.color, padding: '4px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600 }}>{statusLabels[viewItem.status] || viewItem.status}</span>
  </div>
  <div style={{ display: 'flex', gap: 20, marginBottom: 16, padding: '12px 16px', background: 'rgba(255,255,255,0.03)', borderRadius: 10 }}>
- {viewItem.sender && <div><span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>من: </span><span style={{ color: '#C9A227', fontWeight: 600 }}>{viewItem.sender}</span></div>}
+ {viewItem.sender && <div><span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>من: </span><span style={{ color: '#D4A843', fontWeight: 600 }}>{viewItem.sender}</span></div>}
  <div><span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>إلى: </span><span style={{ color: 'white' }}>{audienceLabels[viewItem.target_audience] || viewItem.target_audience}</span></div>
  {viewItem.publish_date && <div><span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}><IconRenderer name="ICON_Calendar" size={18} /> </span><span style={{ color: 'rgba(255,255,255,0.7)' }}>{new Date(viewItem.publish_date).toLocaleDateString('ar-SA')}</span></div>}
  </div>
@@ -239,7 +239,7 @@ export default function CircularsPage() {
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
- <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Megaphone نشر'}</button>
+ <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Megaphone نشر'}</button>
  </div>
  </div>
  </div>

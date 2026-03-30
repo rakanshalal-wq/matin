@@ -113,13 +113,13 @@ export default function SettingsPage() {
  fontFamily: 'IBM Plex Sans Arabic, sans-serif',
  };
 
- if (loading) return <div style={{ padding: 40, textAlign: 'center', color: '#C9A227', fontSize: 18 }}>⏳ جاري التحميل...</div>;
+ if (loading) return <div style={{ padding: 40, textAlign: 'center', color: '#D4A843', fontSize: 18 }}>⏳ جاري التحميل...</div>;
 
  return (
  <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
  {/* الهيدر */}
  <div style={{ marginBottom: 28 }}>
- <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}>إعدادات المنصة</h1>
+ <h1 style={{ fontSize: 26, fontWeight: 800, color: '#D4A843', margin: 0 }}>إعدادات المنصة</h1>
  <p style={{ color: '#9CA3AF', fontSize: 14, margin: '6px 0 0' }}>تحكم في جميع إعدادات منصة متين</p>
  </div>
 
@@ -140,7 +140,7 @@ export default function SettingsPage() {
  {(categories.length > 0 ? categories : Object.keys(categoryLabels)).map(cat => (
  <button key={cat} onClick={() => setActiveCategory(cat)} style={{
  width: '100%', padding: '14px 16px', background: activeCategory === cat ? 'rgba(201,162,39,0.1)' : 'transparent',
- border: 'none', borderBottom: '1px solid rgba(255,255,255,0.05)', color: activeCategory === cat ? '#C9A227' : 'rgba(255,255,255,0.7)',
+ border: 'none', borderBottom: '1px solid rgba(255,255,255,0.05)', color: activeCategory === cat ? '#D4A843' : 'rgba(255,255,255,0.7)',
  fontSize: 14, fontWeight: activeCategory === cat ? 700 : 500, cursor: 'pointer', textAlign: 'right',
  fontFamily: 'IBM Plex Sans Arabic, sans-serif',
  }}>
@@ -161,7 +161,7 @@ export default function SettingsPage() {
  {categoryLabels[activeCategory] || activeCategory}
  </h2>
  <button onClick={handleSaveAll} disabled={saving === 'all'} style={{
- padding: '10px 24px', background: 'linear-gradient(135deg, #C9A227, #E8C547)',
+ padding: '10px 24px', background: 'linear-gradient(135deg, #D4A843, #E8C547)',
  color: '#06060E', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700,
  cursor: saving === 'all' ? 'not-allowed' : 'pointer', opacity: saving === 'all' ? 0.7 : 1,
  fontFamily: 'IBM Plex Sans Arabic, sans-serif',
@@ -185,7 +185,7 @@ export default function SettingsPage() {
  <div style={{ color: '#6B7280', fontSize: 12, marginTop: 2 }}>{s.key}</div>
  </div>
  <button onClick={() => handleSave(s.key)} disabled={saving === s.key} style={{
- padding: '6px 16px', background: 'rgba(201,162,39,0.1)', color: '#C9A227',
+ padding: '6px 16px', background: 'rgba(201,162,39,0.1)', color: '#D4A843',
  border: '1px solid rgba(201,162,39,0.3)', borderRadius: 8, fontSize: 12, fontWeight: 600,
  cursor: saving === s.key ? 'not-allowed' : 'pointer', opacity: saving === s.key ? 0.7 : 1,
  fontFamily: 'IBM Plex Sans Arabic, sans-serif',
@@ -206,7 +206,7 @@ export default function SettingsPage() {
  value={editValues[s.key] || ''}
  onChange={e => setEditValues({ ...editValues, [s.key]: e.target.value })}
  style={{ ...inputStyle, flex: 1 }}
- placeholder="#C9A227"
+ placeholder="#D4A843"
  />
  </div>
  ) : s.key.includes('enabled') ? (

@@ -92,17 +92,17 @@ export default function SupportPage() {
 
  const inputStyle: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '12px 16px', color: 'white', fontSize: 14, outline: 'none', fontFamily: 'IBM Plex Sans Arabic, sans-serif' };
 
- if (loading) return <div style={{ padding: 40, textAlign: 'center', color: '#C9A227', fontSize: 18 }}>⏳ جاري التحميل...</div>;
+ if (loading) return <div style={{ padding: 40, textAlign: 'center', color: '#D4A843', fontSize: 18 }}>⏳ جاري التحميل...</div>;
 
  return (
  <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
  {/* الهيدر */}
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
  <div>
- <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}><IconRenderer name="ICON_Headphones" size={18} /> الدعم الفني</h1>
+ <h1 style={{ fontSize: 26, fontWeight: 800, color: '#D4A843', margin: 0 }}><IconRenderer name="ICON_Headphones" size={18} /> الدعم الفني</h1>
  <p style={{ color: '#9CA3AF', fontSize: 14, margin: '6px 0 0' }}>تذاكر الدعم والشكاوى والاستفسارات</p>
  </div>
- <button onClick={() => setShowAdd(!showAdd)} style={{ padding: '10px 24px', background: showAdd ? '#374151' : 'linear-gradient(135deg, #C9A227, #E8C547)', color: showAdd ? '#fff' : '#000', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
+ <button onClick={() => setShowAdd(!showAdd)} style={{ padding: '10px 24px', background: showAdd ? '#374151' : 'linear-gradient(135deg, #D4A843, #E8C547)', color: showAdd ? '#fff' : '#000', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
  {showAdd ? ' إلغاء' : '+ تذكرة جديدة'}
  </button>
  </div>
@@ -113,7 +113,7 @@ export default function SupportPage() {
  {/* إحصائيات */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 12, marginBottom: 24 }}>
  {[
- { label: 'الكل', value: stats.total, color: '#C9A227', icon: "ICON_ClipboardList" },
+ { label: 'الكل', value: stats.total, color: '#D4A843', icon: "ICON_ClipboardList" },
  { label: 'مفتوحة', value: stats.open, color: '#3B82F6', icon: "ICON_Unlock" },
  { label: 'قيد المعالجة', value: stats.inProgress, color: '#F59E0B', icon: '<Settings size={16} />' },
  { label: 'مغلقة', value: stats.closed, color: '#10B981', icon: "ICON_CheckCircle" },
@@ -129,7 +129,7 @@ export default function SupportPage() {
  {/* فورم الإضافة */}
  {showAdd && (
  <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 24, marginBottom: 24 }}>
- <h3 style={{ color: '#C9A227', fontSize: 18, margin: '0 0 20px', fontWeight: 700 }}><IconRenderer name="ICON_Plus" size={18} /> تذكرة جديدة</h3>
+ <h3 style={{ color: '#D4A843', fontSize: 18, margin: '0 0 20px', fontWeight: 700 }}><IconRenderer name="ICON_Plus" size={18} /> تذكرة جديدة</h3>
  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
  <div style={{ gridColumn: '1 / -1' }}>
  <label style={{ color: '#9CA3AF', fontSize: 13, marginBottom: 6, display: 'block' }}>الموضوع *</label>
@@ -158,7 +158,7 @@ export default function SupportPage() {
  <textarea style={{ ...inputStyle, minHeight: 100, resize: 'vertical' }} placeholder="اشرح المشكلة بالتفصيل..." value={form.description} onChange={e => setForm({...form, description: e.target.value})} />
  </div>
  </div>
- <button onClick={handleSave} disabled={saving} style={{ marginTop: 16, padding: '12px 32px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#000', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif', opacity: saving ? 0.5 : 1 }}>
+ <button onClick={handleSave} disabled={saving} style={{ marginTop: 16, padding: '12px 32px', background: 'linear-gradient(135deg, #D4A843, #E8C547)', color: '#000', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif', opacity: saving ? 0.5 : 1 }}>
  {saving ? '⏳ جاري الإرسال...' : 'Upload إرسال التذكرة'}
  </button>
  </div>

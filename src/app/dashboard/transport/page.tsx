@@ -52,12 +52,12 @@ export default function TransportPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Bus" size={18} /> النقل المدرسي</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة مسارات النقل والباصات المدرسية</p>
  </div>
- <button onClick={() => { setEditItem(null); setFormData({ name: '', start_location: '', end_location: '', bus_number: '', driver_name: '', students_count: '', status: 'active' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة مسار</button>
+ <button onClick={() => { setEditItem(null); setFormData({ name: '', start_location: '', end_location: '', bus_number: '', driver_name: '', students_count: '', status: 'active' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة مسار</button>
  </div>
 
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي المسارات', value: items.length, icon: "ICON_Bus", color: '#C9A227' },
+ { label: 'إجمالي المسارات', value: items.length, icon: "ICON_Bus", color: '#D4A843' },
  { label: 'نشطة', value: items.filter(i => i.status === 'active').length, icon: "ICON_CheckCircle", color: '#10B981' },
  { label: 'متوقفة', value: items.filter(i => i.status !== 'active').length, icon: '⏸ ', color: '#EF4444' },
  ].map((stat, i) => (
@@ -79,20 +79,20 @@ export default function TransportPage() {
  <div style={{ padding: 60, textAlign: 'center' }}>
  <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Bus size={19} color="#6B7280" /></div>
  <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد مسارات نقل</p>
- <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة أول مسار</button>
+ <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة أول مسار</button>
  </div>
  ) : (
  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ background: 'rgba(201,162,39,0.1)' }}>
- <th style={{ padding: 16, textAlign: 'right', color: '#C9A227', fontWeight: 700 }}>المسار</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>من</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>إلى</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>رقم الباص</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>السائق</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>الطلاب</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>الحالة</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>إجراءات</th>
+ <th style={{ padding: 16, textAlign: 'right', color: '#D4A843', fontWeight: 700 }}>المسار</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>من</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>إلى</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>رقم الباص</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>السائق</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>الطلاب</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>الحالة</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>إجراءات</th>
  </tr>
  </thead>
  <tbody>
@@ -106,7 +106,7 @@ export default function TransportPage() {
  </td>
  <td style={{ padding: 16, textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>{item.start_location || '—'}</td>
  <td style={{ padding: 16, textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>{item.end_location || '—'}</td>
- <td style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontSize: 13, fontWeight: 600 }}>{item.bus_number || '—'}</td>
+ <td style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontSize: 13, fontWeight: 600 }}>{item.bus_number || '—'}</td>
  <td style={{ padding: 16, textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>{item.driver_name || '—'}</td>
  <td style={{ padding: 16, textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>{item.students_count || '0'}</td>
  <td style={{ padding: 16, textAlign: 'center' }}>
@@ -115,7 +115,7 @@ export default function TransportPage() {
  <td style={{ padding: 16, textAlign: 'center' }}>
  <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
  <button style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}> خريطة</button>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
  </div>
  </td>
@@ -143,7 +143,7 @@ export default function TransportPage() {
  <div><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>الحالة</label><select value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} style={{ ...inputStyle, appearance: 'auto' } as any}><option value="active" style={{ background: '#06060E' }}>نشط</option><option value="inactive" style={{ background: '#06060E' }}>متوقف</option></select></div>
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-start' }}>
- <button onClick={handleSave} disabled={saving} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>{saving ? '⏳ جاري الحفظ...' : 'Save حفظ المسار'}</button>
+ <button onClick={handleSave} disabled={saving} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>{saving ? '⏳ جاري الحفظ...' : 'Save حفظ المسار'}</button>
  <button onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إلغاء</button>
  </div>
  </div>

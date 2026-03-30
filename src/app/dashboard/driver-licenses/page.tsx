@@ -66,7 +66,7 @@ export default function DriverLicensesPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}>🪪 رخص السائقين</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>متابعة رخص القيادة وتواريخ الانتهاء</p>
  </div>
- <button onClick={() => { setEditItem(null); setFormData({ driver_name: '', license_number: '', type: '', issue_date: '', expiry_date: '', status: 'active' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة رخصة</button>
+ <button onClick={() => { setEditItem(null); setFormData({ driver_name: '', license_number: '', type: '', issue_date: '', expiry_date: '', status: 'active' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة رخصة</button>
  </div>
 
  {expiredCount > 0 && (
@@ -82,7 +82,7 @@ export default function DriverLicensesPage() {
 
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي الرخص', value: items.length, icon: '🪪', color: '#C9A227' },
+ { label: 'إجمالي الرخص', value: items.length, icon: '🪪', color: '#D4A843' },
  { label: 'سارية', value: items.filter(i => i.status === 'active' && !isExpired(i.expiry_date)).length, icon: "ICON_CheckCircle", color: '#10B981' },
  { label: 'قاربت على الانتهاء', value: expiringSoonCount, icon: 'Alert<Triangle size={16} />', color: '#F59E0B' },
  { label: 'منتهية', value: expiredCount, icon: "ICON_Siren", color: '#EF4444' },
@@ -105,19 +105,19 @@ export default function DriverLicensesPage() {
  <div style={{ padding: 60, textAlign: 'center' }}>
  <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><CreditCard size={19} color="#3B82F6" /></div>
  <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا توجد رخص مسجلة</p>
- <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة أول رخصة</button>
+ <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة أول رخصة</button>
  </div>
  ) : (
  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ background: 'rgba(201,162,39,0.1)' }}>
- <th style={{ padding: 16, textAlign: 'right', color: '#C9A227', fontWeight: 700 }}>السائق</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>رقم الرخصة</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>النوع</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>تاريخ الإصدار</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>تاريخ الانتهاء</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>الحالة</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>إجراءات</th>
+ <th style={{ padding: 16, textAlign: 'right', color: '#D4A843', fontWeight: 700 }}>السائق</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>رقم الرخصة</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>النوع</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>تاريخ الإصدار</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>تاريخ الانتهاء</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>الحالة</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>إجراءات</th>
  </tr>
  </thead>
  <tbody>
@@ -141,7 +141,7 @@ export default function DriverLicensesPage() {
  </td>
  <td style={{ padding: 16, textAlign: 'center' }}>
  <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
  </div>
  </td>
@@ -168,7 +168,7 @@ export default function DriverLicensesPage() {
  <div><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>تاريخ الانتهاء</label><input type="date" value={formData.expiry_date} onChange={e => setFormData({ ...formData, expiry_date: e.target.value })} style={inputStyle} /></div>
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-start' }}>
- <button onClick={handleSave} disabled={saving} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>{saving ? '⏳ جاري الحفظ...' : 'Save حفظ الرخصة'}</button>
+ <button onClick={handleSave} disabled={saving} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>{saving ? '⏳ جاري الحفظ...' : 'Save حفظ الرخصة'}</button>
  <button onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إلغاء</button>
  </div>
  </div>

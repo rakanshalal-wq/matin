@@ -22,7 +22,7 @@ export default function PlatformAnalyticsPage() {
  };
 
  const cards = stats ? [
- { label: 'المدارس النشطة', value: stats.schools || 0, icon: "ICON_School", color: '#C9A227' },
+ { label: 'المدارس النشطة', value: stats.schools || 0, icon: "ICON_School", color: '#D4A843' },
  { label: 'ملاك المدارس', value: stats.owners || 0, icon: "ICON_Crown", color: '#8B5CF6' },
  { label: 'إجمالي الطلاب', value: stats.students || 0, icon: '<User size={16} />GraduationCap', color: '#3B82F6' },
  { label: 'إجمالي المعلمين', value: stats.teachers || 0, icon: '<User size={16} />School', color: '#10B981' },
@@ -34,11 +34,11 @@ export default function PlatformAnalyticsPage() {
  <div style={{ padding: 24, background: '#06060E', minHeight: '100vh', fontFamily: 'Arial' }} dir="rtl">
  <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
  <div>
- <h1 style={{ color: '#C9A227', fontSize: 24, fontWeight: 800, margin: 0 }}><IconRenderer name="ICON_BarChart3" size={18} /> إحصاءات المنصة</h1>
+ <h1 style={{ color: '#D4A843', fontSize: 24, fontWeight: 800, margin: 0 }}><IconRenderer name="ICON_BarChart3" size={18} /> إحصاءات المنصة</h1>
  <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>نظرة شاملة على متين — مرئي للمؤسس فقط</p>
  </div>
  <button onClick={fetchStats}
- style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', borderRadius: 8, padding: '8px 16px', cursor: 'pointer', fontSize: 13 }}>
+ style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: '1px solid rgba(201,162,39,0.3)', borderRadius: 8, padding: '8px 16px', cursor: 'pointer', fontSize: 13 }}>
  RefreshCw تحديث
  </button>
  </div>
@@ -69,7 +69,7 @@ export default function PlatformAnalyticsPage() {
  <h3 style={{ color: 'white', margin: '0 0 16px 0', fontSize: 16 }}><IconRenderer name="ICON_Diamond" size={18} /> توزيع الباقات</h3>
  {[
  { label: 'مجاني', limit: '200 طالب', color: '#6B7280' },
- { label: 'متقدم — 299 ر.س', limit: '1000 طالب', color: '#C9A227' },
+ { label: 'متقدم — 299 ر.س', limit: '1000 طالب', color: '#D4A843' },
  { label: 'مؤسسي — 599 ر.س', limit: 'غير محدود', color: '#8B5CF6' },
  ].map((pkg, i) => (
  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>

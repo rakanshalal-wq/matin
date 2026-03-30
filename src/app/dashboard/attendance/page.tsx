@@ -6,7 +6,7 @@ import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
 
 
-const GOLD = '#C9A84C';
+const GOLD = '#D4A843';
 const BG = '#0B0B16';
 const CARD_BG = 'rgba(255,255,255,0.04)';
 const BORDER = 'rgba(255,255,255,0.08)';

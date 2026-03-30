@@ -4,7 +4,7 @@ import IconRenderer from "@/components/IconRenderer";
 import { User } from "lucide-react";
 import { useState, useEffect } from 'react';
 const getH=():Record<string,string>=>{try{const t=localStorage.getItem('matin_token');if(t)return{'Content-Type':'application/json','Authorization':'Bearer '+t};const u=JSON.parse(localStorage.getItem('matin_user')||'{}');return{'Content-Type':'application/json','x-user-id':String(u.id||'')}}catch{return{'Content-Type':'application/json'}}};
-const GOLD='#C9A84C',BG='#0B0B16',CB='rgba(255,255,255,0.04)',BR='rgba(255,255,255,0.08)';
+const GOLD='#D4A843',BG='#0B0B16',CB='rgba(255,255,255,0.04)',BR='rgba(255,255,255,0.08)';
 export default function Page(){
  const [items,setItems]=useState<any[]>([]);
  const [loading,setLoading]=useState(true);
@@ -29,7 +29,7 @@ export default function Page(){
  <button onClick={openAdd} style={{background:GOLD,border:'none',borderRadius:10,padding:'10px 20px',color:'#0B0B16',fontWeight:700,cursor:'pointer',fontSize:14}}>+ إضافة</button>
  </div>
  <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:16,marginBottom:28}}>
- <div key='إجمالي المندوبين' style={{background:CB,border:'1px solid '+BR,borderRadius:14,padding:'18px 20px'}}><div style={{fontSize:24,fontWeight:800,color:'#C9A84C'}}>items.length</div><div style={{fontSize:12,color:'rgba(255,255,255,0.5)',marginTop:4}}>إجمالي المندوبين</div></div><div key='نشطون' style={{background:CB,border:'1px solid '+BR,borderRadius:14,padding:'18px 20px'}}><div style={{fontSize:24,fontWeight:800,color:'#10B981'}}>active</div><div style={{fontSize:12,color:'rgba(255,255,255,0.5)',marginTop:4}}>نشطون</div></div><div key='موقوفون' style={{background:CB,border:'1px solid '+BR,borderRadius:14,padding:'18px 20px'}}><div style={{fontSize:24,fontWeight:800,color:'#F59E0B'}}>suspended</div><div style={{fontSize:12,color:'rgba(255,255,255,0.5)',marginTop:4}}>موقوفون</div></div><div key='منتهون' style={{background:CB,border:'1px solid '+BR,borderRadius:14,padding:'18px 20px'}}><div style={{fontSize:24,fontWeight:800,color:'#EF4444'}}>expired</div><div style={{fontSize:12,color:'rgba(255,255,255,0.5)',marginTop:4}}>منتهون</div></div>
+ <div key='إجمالي المندوبين' style={{background:CB,border:'1px solid '+BR,borderRadius:14,padding:'18px 20px'}}><div style={{fontSize:24,fontWeight:800,color:'#D4A843'}}>items.length</div><div style={{fontSize:12,color:'rgba(255,255,255,0.5)',marginTop:4}}>إجمالي المندوبين</div></div><div key='نشطون' style={{background:CB,border:'1px solid '+BR,borderRadius:14,padding:'18px 20px'}}><div style={{fontSize:24,fontWeight:800,color:'#10B981'}}>active</div><div style={{fontSize:12,color:'rgba(255,255,255,0.5)',marginTop:4}}>نشطون</div></div><div key='موقوفون' style={{background:CB,border:'1px solid '+BR,borderRadius:14,padding:'18px 20px'}}><div style={{fontSize:24,fontWeight:800,color:'#F59E0B'}}>suspended</div><div style={{fontSize:12,color:'rgba(255,255,255,0.5)',marginTop:4}}>موقوفون</div></div><div key='منتهون' style={{background:CB,border:'1px solid '+BR,borderRadius:14,padding:'18px 20px'}}><div style={{fontSize:24,fontWeight:800,color:'#EF4444'}}>expired</div><div style={{fontSize:12,color:'rgba(255,255,255,0.5)',marginTop:4}}>منتهون</div></div>
  </div>
  <div style={{marginBottom:20}}><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="بحث..." style={{...inp,width:300}}/></div>
  <div style={{background:CB,border:'1px solid '+BR,borderRadius:16,overflow:'hidden'}}>

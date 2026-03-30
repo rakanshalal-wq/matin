@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 
 import { useEffect } from 'react';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
@@ -106,7 +107,7 @@ export default function DashboardError({
               alignItems: 'center',
               gap: 8,
               padding: '12px 24px',
-              background: 'linear-gradient(135deg, #C9A227, #E8C547)',
+              background: 'linear-gradient(135deg, #D4A843, #E8C547)',
               color: '#06060E',
               border: 'none',
               borderRadius: 12,

@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 import { CalendarDays } from "lucide-react";
 import { useState, useEffect } from 'react';
 const getH=():Record<string,string>=>{try{const t=localStorage.getItem('matin_token');if(t)return{'Content-Type':'application/json','Authorization':'Bearer '+t};const u=JSON.parse(localStorage.getItem('matin_user')||'{}');return{'Content-Type':'application/json','x-user-id':String(u.id||'')}}catch{return{'Content-Type':'application/json'}}};
-const GOLD='#C9A84C',BG='#0B0B16',CB='rgba(255,255,255,0.04)',BR='rgba(255,255,255,0.08)';
+const GOLD='#D4A843',BG='#0B0B16',CB='rgba(255,255,255,0.04)',BR='rgba(255,255,255,0.08)';
 const EVENT_TYPES=[{v:'exam',l:'اختبار',c:'#EF4444'},{v:'holiday',l:'إجازة',c:'#10B981'},{v:'meeting',l:'اجتماع',c:'#3B82F6'},{v:'activity',l:'نشاط',c:'#8B5CF6'},{v:'trip',l:'رحلة',c:'#F59E0B'},{v:'other',l:'أخرى',c:'#6B7280'}];
 const DAYS_AR=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
 const MONTHS_AR=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];

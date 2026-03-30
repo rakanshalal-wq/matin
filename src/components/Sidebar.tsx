@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -185,6 +186,7 @@ const getMenuByRole = (role: string): MenuGroup[] => {
         { label: 'المكتبة الرقمية', icon: Icons.library, href: '/dashboard/library' },
         { label: 'الملتقى المجتمعي', icon: Icons.community, href: '/dashboard/community' },
         { label: 'المتجر', icon: Icons.store, href: '/dashboard/store' },
+        { label: 'محرر الواجهة الأمامية', icon: Icons.appearance, href: '/dashboard/website-content' },
       ]},
       { title: 'الذكاء الاصطناعي', items: [
         { label: 'المفتش الرقمي AI', icon: Icons.ai, href: '/dashboard/ai-chat' },

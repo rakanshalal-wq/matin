@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 
 /* MATIN DESIGN SYSTEM — Integrations Page
    Dark Premium SaaS | RTL | Cairo Font

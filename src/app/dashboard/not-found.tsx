@@ -20,7 +20,7 @@ export default function DashboardNotFound() {
           style={{
             fontSize: 96,
             fontWeight: 900,
-            background: 'linear-gradient(135deg, #C9A227, #E8C547)',
+            background: 'linear-gradient(135deg, #D4A843, #E8C547)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             lineHeight: 1,
@@ -44,7 +44,7 @@ export default function DashboardNotFound() {
             margin: '0 auto 24px',
           }}
         >
-          <Search size={36} color="#C9A227" />
+          <Search size={36} color="#D4A843" />
         </div>
 
         <h1
@@ -77,7 +77,7 @@ export default function DashboardNotFound() {
               alignItems: 'center',
               gap: 8,
               padding: '12px 24px',
-              background: 'linear-gradient(135deg, #C9A227, #E8C547)',
+              background: 'linear-gradient(135deg, #D4A843, #E8C547)',
               color: '#06060E',
               borderRadius: 12,
               fontSize: 14,

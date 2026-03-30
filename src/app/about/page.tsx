@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 
 /* MATIN DESIGN SYSTEM — About Page (Dynamic Stats)
    يجلب إحصاءات المنصة الحقيقية من /api/public?type=stats
@@ -312,7 +313,7 @@ export default function About() {
             كن جزءاً من <span className="text-gold-gradient">رحلة متين</span>
           </h2>
           <p className="text-gray-500 mb-8">انضم لمئات المؤسسات التي تثق بمتين لبناء مستقبل التعليم</p>
-          <a href="https://app.matin.ink/register" className="btn-gold px-8 py-4 rounded-2xl text-base font-bold inline-flex items-center gap-2">
+          <a href="/register" className="btn-gold px-8 py-4 rounded-2xl text-base font-bold inline-flex items-center gap-2">
             ابدأ رحلتك معنا
             <ArrowLeft size={18} />
           </a>

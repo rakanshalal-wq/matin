@@ -90,11 +90,11 @@ export default function UsersPage() {
  };
 
  const roleLabels: any = { super_admin: 'مالك المنصة', owner: 'مالك مدارس', admin: 'مدير', teacher: 'معلم', parent: 'ولي أمر', student: 'طالب', user: 'مستخدم' };
- const roleColors: any = { super_admin: '#C9A227', owner: '#8B5CF6', admin: '#3B82F6', teacher: '#10B981', parent: '#F59E0B', student: '#EC4899', user: '#6B7280' };
+ const roleColors: any = { super_admin: '#D4A843', owner: '#8B5CF6', admin: '#3B82F6', teacher: '#10B981', parent: '#F59E0B', student: '#EC4899', user: '#6B7280' };
  const statusLabels: any = { active: 'مفعّل', pending: 'قيد المراجعة', rejected: 'مرفوض', suspended: 'موقوف' };
  const statusColors: any = { active: '#10B981', pending: '#F59E0B', rejected: '#EF4444', suspended: '#6B7280' };
  const packageLabels: any = { basic: 'أساسي', advanced: 'متقدم', enterprise: 'مؤسسي' };
- const packageColors: any = { basic: '#10B981', advanced: '#3B82F6', enterprise: '#C9A227' };
+ const packageColors: any = { basic: '#10B981', advanced: '#3B82F6', enterprise: '#D4A843' };
 
  const timeAgo = (date: string) => {
  if (!date) return '';
@@ -293,7 +293,7 @@ export default function UsersPage() {
  <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
  <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 460, direction: 'rtl' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
- <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل المستخدم' : '+ إضافة مستخدم'}</h2>
+ <h2 style={{ color: '#D4A843', fontSize: 18, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل المستخدم' : '+ إضافة مستخدم'}</h2>
  <button onClick={() => { setShowModal(false); setErrMsg(''); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
  </div>
  {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}
@@ -318,7 +318,7 @@ export default function UsersPage() {
  </select>
  </div>
  <div style={{ display: 'flex', gap: 10 }}>
- <button onClick={handleSaveUser} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg,#C9A227,#E8C547)', border: 'none', borderRadius: 10, padding: '12px 0', color: '#06060E', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري الحفظ...' : editItem ? 'حفظ التعديلات' : 'إضافة المستخدم'}</button>
+ <button onClick={handleSaveUser} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg,#D4A843,#E8C547)', border: 'none', borderRadius: 10, padding: '12px 0', color: '#06060E', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري الحفظ...' : editItem ? 'حفظ التعديلات' : 'إضافة المستخدم'}</button>
  <button onClick={() => { setShowModal(false); setErrMsg(''); }} style={{ padding: '12px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
  </div>
  </div>

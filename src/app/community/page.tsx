@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import { useState, useEffect } from 'react';
 import { Heart, MessageCircle, PenSquare, LogIn, Globe, Lock, Send, X, RefreshCw } from 'lucide-react';
 import Link from 'next/link';

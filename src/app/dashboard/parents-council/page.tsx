@@ -60,7 +60,7 @@ export default function ParentsCouncilPage() {
 
  const typeLabels: any = { meeting: 'اجتماع', workshop: 'ورشة عمل', seminar: 'ندوة', election: 'انتخابات', event: 'فعالية', training: 'تدريب' };
  const typeIcons: any = { meeting: "ICON_Handshake", workshop: '<Settings size={16} />', seminar: "ICON_Mic", election: 'Vote ', event: "ICON_PartyPopper", training: "ICON_ClipboardList" };
- const typeColors: any = { meeting: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, workshop: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, seminar: { bg: 'rgba(139,92,246,0.1)', color: '#8B5CF6' }, election: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, event: { bg: 'rgba(236,72,153,0.1)', color: '#EC4899' }, training: { bg: 'rgba(201,162,39,0.1)', color: '#C9A227' } };
+ const typeColors: any = { meeting: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, workshop: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, seminar: { bg: 'rgba(139,92,246,0.1)', color: '#8B5CF6' }, election: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, event: { bg: 'rgba(236,72,153,0.1)', color: '#EC4899' }, training: { bg: 'rgba(201,162,39,0.1)', color: '#D4A843' } };
  const statusLabels: any = { scheduled: 'مجدول', confirmed: 'مؤكد', in_progress: 'جاري', completed: 'مكتمل', cancelled: 'ملغي', postponed: 'مؤجل' };
  const statusColors: any = { scheduled: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6' }, confirmed: { bg: 'rgba(16,185,129,0.1)', color: '#10B981' }, in_progress: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' }, completed: { bg: 'rgba(107,114,128,0.1)', color: '#6B7280' }, cancelled: { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' }, postponed: { bg: 'rgba(139,92,246,0.1)', color: '#8B5CF6' } };
 
@@ -88,7 +88,7 @@ export default function ParentsCouncilPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}> <IconRenderer name="ICON_User" size={18} /> مجلس الآباء</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة اجتماعات وفعاليات مجلس الآباء والأمهات</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({ title: '', type: 'meeting', date: '', location: '', attendees_count: '', agenda: '', notes: '', status: 'scheduled' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
+ <button onClick={() => { setEditItem(null); setForm({ title: '', type: 'meeting', date: '', location: '', attendees_count: '', agenda: '', notes: '', status: 'scheduled' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
  Plus إضافة اجتماع
  </button>
  </div>
@@ -96,7 +96,7 @@ export default function ParentsCouncilPage() {
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'الإجمالي', value: stats.total, icon: '<User size={16} /> User', color: '#C9A227' },
+ { label: 'الإجمالي', value: stats.total, icon: '<User size={16} /> User', color: '#D4A843' },
  { label: 'قادمة', value: stats.upcoming, icon: "ICON_Calendar", color: '#3B82F6' },
  { label: 'مكتملة', value: stats.completed, icon: "ICON_CheckCircle", color: '#10B981' },
  { label: 'إجمالي الحضور', value: stats.totalAttendees, icon: "ICON_Users", color: '#8B5CF6' },
@@ -140,7 +140,7 @@ export default function ParentsCouncilPage() {
  {item.agenda && <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, margin: '6px 0 0 0' }}>{item.agenda.substring(0, 80) + (item.agenda.length > 80 ? '...' : '')}</p>}
  </div>
  <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>تعديل</button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>تعديل</button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>حذف</button>
  </div>
  </div>
@@ -206,7 +206,7 @@ export default function ParentsCouncilPage() {
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
- <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
+ <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
  </div>
  </div>
  </div>

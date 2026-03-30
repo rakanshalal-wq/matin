@@ -153,7 +153,7 @@ export default function WatchLecturePage() {
  {/* === مرحلة المشاهدة === */}
  {phase === 'watching' && lecture && (
  <div>
- <h1 style={{ fontSize: 22, fontWeight: 700, color: '#C9A227', margin: '0 0 8px' }}><IconRenderer name="ICON_Video" size={18} /> {lecture.title}</h1>
+ <h1 style={{ fontSize: 22, fontWeight: 700, color: '#D4A843', margin: '0 0 8px' }}><IconRenderer name="ICON_Video" size={18} /> {lecture.title}</h1>
  <p style={{ color: '#9CA3AF', fontSize: 14, margin: '0 0 24px' }}>شاهد المحاضرة كاملة بدون تقديم أو ترجيع — بعدها 5 أسئلة</p>
 
  {/* شاشة الفيديو */}
@@ -166,18 +166,18 @@ export default function WatchLecturePage() {
  <div style={{ textAlign: 'center' }}>
  <div style={{ width: 80, height: 80, borderRadius: 24, background: 'rgba(201,162,39,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px' }}><IconRenderer name="ICON_Video" size={40} /></div>
  <p style={{ color: '#6B7280', fontSize: 16 }}>المحاضرة جارية...</p>
- <p style={{ color: '#C9A227', fontSize: 32, fontWeight: 700, fontFamily: 'monospace' }}>{formatTime(elapsed)}</p>
+ <p style={{ color: '#D4A843', fontSize: 32, fontWeight: 700, fontFamily: 'monospace' }}>{formatTime(elapsed)}</p>
  </div>
  )}
 
  {/* منع التقديم/الترجيع */}
  <div style={{ position: 'absolute' as const, bottom: 0, left: 0, right: 0, padding: '8px 16px', background: 'rgba(0,0,0,0.7)' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
- <span style={{ color: '#C9A227', fontSize: 13 }}>⏱ {formatTime(elapsed)} / {lecture.duration_minutes || 45} دقيقة</span>
+ <span style={{ color: '#D4A843', fontSize: 13 }}>⏱ {formatTime(elapsed)} / {lecture.duration_minutes || 45} دقيقة</span>
  <span style={{ color: '#10B981', fontSize: 13 }}>[BarChart3] {progress}%</span>
  </div>
  <div style={{ width: '100%', height: 4, background: 'rgba(255,255,255,0.1)', borderRadius: 2, marginTop: 6 }}>
- <div style={{ width: `${progress}%`, height: '100%', background: 'linear-gradient(90deg, #C9A227, #10B981)', borderRadius: 2, transition: 'width 1s' }}></div>
+ <div style={{ width: `${progress}%`, height: '100%', background: 'linear-gradient(90deg, #D4A843, #10B981)', borderRadius: 2, transition: 'width 1s' }}></div>
  </div>
  </div>
  </div>
@@ -196,20 +196,20 @@ export default function WatchLecturePage() {
  {/* === مرحلة الأسئلة === */}
  {phase === 'quiz' && (
  <div>
- <h1 style={{ fontSize: 22, fontWeight: 700, color: '#C9A227', margin: '0 0 8px' }}><HelpCircle size={18} color="#3B82F6" /> أسئلة المحاضرة</h1>
+ <h1 style={{ fontSize: 22, fontWeight: 700, color: '#D4A843', margin: '0 0 8px' }}><HelpCircle size={18} color="#3B82F6" /> أسئلة المحاضرة</h1>
  <p style={{ color: '#9CA3AF', fontSize: 14, margin: '0 0 24px' }}>أجب على 5 أسئلة — 3 صحيحة = حاضر</p>
 
  <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
  {questions.map((q, i) => (
  <div key={q.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 20 }}>
  <h3 style={{ color: '#fff', fontSize: 15, fontWeight: 700, margin: '0 0 12px' }}>
- <span style={{ color: '#C9A227' }}>س{i + 1}:</span> {q.question_text}
+ <span style={{ color: '#D4A843' }}>س{i + 1}:</span> {q.question_text}
  </h3>
  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
  {(q.options || []).map((opt: string, oi: number) => {
  const selected = answers[q.id] === opt;
  return (
- <button key={oi} onClick={() => setAnswers({...answers, [q.id]: opt})} style={{ padding: '10px 16px', background: selected ? 'rgba(201,162,39,0.15)' : 'rgba(255,255,255,0.03)', border: selected ? '2px solid #C9A227' : '1px solid rgba(255,255,255,0.08)', borderRadius: 10, color: selected ? '#C9A227' : '#fff', fontSize: 14, cursor: 'pointer', textAlign: 'right' as const, ...inputStyle }}>
+ <button key={oi} onClick={() => setAnswers({...answers, [q.id]: opt})} style={{ padding: '10px 16px', background: selected ? 'rgba(201,162,39,0.15)' : 'rgba(255,255,255,0.03)', border: selected ? '2px solid #D4A843' : '1px solid rgba(255,255,255,0.08)', borderRadius: 10, color: selected ? '#D4A843' : '#fff', fontSize: 14, cursor: 'pointer', textAlign: 'right' as const, ...inputStyle }}>
  {opt}
  </button>
  );
@@ -219,7 +219,7 @@ export default function WatchLecturePage() {
  ))}
  </div>
 
- <button onClick={submitQuiz} disabled={Object.keys(answers).length < 5 || saving} style={{ marginTop: 24, padding: '14px 40px', background: Object.keys(answers).length < 5 ? '#374151' : 'linear-gradient(135deg, #C9A227, #E8C547)', color: Object.keys(answers).length < 5 ? '#6B7280' : '#000', border: 'none', borderRadius: 12, fontSize: 16, fontWeight: 700, cursor: 'pointer', ...inputStyle }}>
+ <button onClick={submitQuiz} disabled={Object.keys(answers).length < 5 || saving} style={{ marginTop: 24, padding: '14px 40px', background: Object.keys(answers).length < 5 ? '#374151' : 'linear-gradient(135deg, #D4A843, #E8C547)', color: Object.keys(answers).length < 5 ? '#6B7280' : '#000', border: 'none', borderRadius: 12, fontSize: 16, fontWeight: 700, cursor: 'pointer', ...inputStyle }}>
  {saving ? '⏳ جاري الحفظ...' : `Check تسليم الإجابات (${Object.keys(answers).length}/5)`}
  </button>
  </div>
@@ -257,7 +257,7 @@ export default function WatchLecturePage() {
  </button>
  )}
 
- <a href="/dashboard/lectures" style={{ display: 'inline-block', marginTop: 16, padding: '12px 32px', background: 'rgba(255,255,255,0.05)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 12, fontSize: 14, textDecoration: 'none', ...inputStyle }}>
+ <a href="/dashboard/lectures" style={{ display: 'inline-block', marginTop: 16, padding: '12px 32px', background: 'rgba(255,255,255,0.05)', color: '#D4A843', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 12, fontSize: 14, textDecoration: 'none', ...inputStyle }}>
  ← العودة للمحاضرات
  </a>
  </div>

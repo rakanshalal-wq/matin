@@ -159,8 +159,8 @@ export default function CreateExamPage() {
  ].map(s => (
  <button key={s.num} onClick={() => setStep(s.num)} style={{
  flex: 1, padding: '12px 8px', borderRadius: 10, border: 'none', cursor: 'pointer',
- background: step === s.num ? '#C9A227' : step > s.num ? 'rgba(201,162,39,0.2)' : 'rgba(255,255,255,0.05)',
- color: step === s.num ? '#06060E' : step > s.num ? '#C9A227' : 'rgba(255,255,255,0.5)',
+ background: step === s.num ? '#D4A843' : step > s.num ? 'rgba(201,162,39,0.2)' : 'rgba(255,255,255,0.05)',
+ color: step === s.num ? '#06060E' : step > s.num ? '#D4A843' : 'rgba(255,255,255,0.5)',
  fontWeight: 700, fontSize: 14,
  }}>
  {s.num}. {s.label}
@@ -252,7 +252,7 @@ export default function CreateExamPage() {
  </div>
  </div>
  <div style={{ marginTop: 24, display: 'flex', justifyContent: 'flex-end' }}>
- <button onClick={() => setStep(2)} style={{ background: '#C9A227', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 28px', fontWeight: 700, fontSize: 15, cursor: 'pointer' }}>
+ <button onClick={() => setStep(2)} style={{ background: '#D4A843', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 28px', fontWeight: 700, fontSize: 15, cursor: 'pointer' }}>
  التالي: اختيار الأسئلة →
  </button>
  </div>
@@ -313,7 +313,7 @@ export default function CreateExamPage() {
  {q.lesson && <span style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)', fontSize: 11, padding: '2px 8px', borderRadius: 6 }}>{q.lesson}</span>}
  </div>
  </div>
- <div style={{ width: 24, height: 24, borderRadius: 6, background: isSelected ? '#C9A227' : 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 14, color: isSelected ? '#06060E' : 'transparent' }}>
+ <div style={{ width: 24, height: 24, borderRadius: 6, background: isSelected ? '#D4A843' : 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 14, color: isSelected ? '#06060E' : 'transparent' }}>
  </div>
  </div>
  </div>
@@ -326,7 +326,7 @@ export default function CreateExamPage() {
  <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 20, height: 'fit-content', position: 'sticky', top: 80 }}>
  <h2 style={{ color: 'white', fontSize: 16, fontWeight: 700, marginBottom: 8 }}>الأسئلة المختارة</h2>
  <div style={{ background: 'rgba(201,162,39,0.08)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 10, padding: '10px 14px', marginBottom: 16 }}>
- <div style={{ color: '#C9A227', fontSize: 13, fontWeight: 600 }}>{selectedQuestions.length} سؤال | {totalPoints} درجة</div>
+ <div style={{ color: '#D4A843', fontSize: 13, fontWeight: 600 }}>{selectedQuestions.length} سؤال | {totalPoints} درجة</div>
  </div>
  
  {selectedQuestions.length === 0 ? (
@@ -361,7 +361,7 @@ export default function CreateExamPage() {
  <button onClick={() => setStep(1)} style={{ background: 'rgba(255,255,255,0.08)', color: 'white', border: 'none', borderRadius: 10, padding: '12px 24px', fontWeight: 600, fontSize: 14, cursor: 'pointer' }}>
  ← السابق
  </button>
- <button onClick={() => setStep(3)} disabled={selectedQuestions.length === 0} style={{ background: selectedQuestions.length > 0 ? '#C9A227' : 'rgba(255,255,255,0.1)', color: selectedQuestions.length > 0 ? '#06060E' : 'rgba(255,255,255,0.3)', border: 'none', borderRadius: 10, padding: '12px 28px', fontWeight: 700, fontSize: 15, cursor: selectedQuestions.length > 0 ? 'pointer' : 'not-allowed' }}>
+ <button onClick={() => setStep(3)} disabled={selectedQuestions.length === 0} style={{ background: selectedQuestions.length > 0 ? '#D4A843' : 'rgba(255,255,255,0.1)', color: selectedQuestions.length > 0 ? '#06060E' : 'rgba(255,255,255,0.3)', border: 'none', borderRadius: 10, padding: '12px 28px', fontWeight: 700, fontSize: 15, cursor: selectedQuestions.length > 0 ? 'pointer' : 'not-allowed' }}>
  التالي: المراجعة →
  </button>
  </div>
@@ -375,7 +375,7 @@ export default function CreateExamPage() {
  
  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
  <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: 16 }}>
- <h3 style={{ color: '#C9A227', fontSize: 14, fontWeight: 700, marginBottom: 12 }}>معلومات الاختبار</h3>
+ <h3 style={{ color: '#D4A843', fontSize: 14, fontWeight: 700, marginBottom: 12 }}>معلومات الاختبار</h3>
  {[
  { label: 'العنوان', value: examData.title || '—' },
  { label: 'المادة', value: examData.subject || '—' },
@@ -392,7 +392,7 @@ export default function CreateExamPage() {
  </div>
  
  <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: 16 }}>
- <h3 style={{ color: '#C9A227', fontSize: 14, fontWeight: 700, marginBottom: 12 }}>إحصائيات الأسئلة</h3>
+ <h3 style={{ color: '#D4A843', fontSize: 14, fontWeight: 700, marginBottom: 12 }}>إحصائيات الأسئلة</h3>
  {[
  { label: 'إجمالي الأسئلة', value: selectedQuestions.length },
  { label: 'إجمالي الدرجات', value: totalPoints },
@@ -414,12 +414,12 @@ export default function CreateExamPage() {
  {selectedQuestions.map((sq, idx) => (
  <div key={sq.question.id} style={{ padding: '12px 14px', marginBottom: 8, borderRadius: 10, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
  <div style={{ flex: 1 }}>
- <span style={{ color: '#C9A227', fontSize: 12, fontWeight: 700, marginLeft: 8 }}>س{idx + 1}</span>
+ <span style={{ color: '#D4A843', fontSize: 12, fontWeight: 700, marginLeft: 8 }}>س{idx + 1}</span>
  <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>{sq.question.question_text.substring(0, 80)}{sq.question.question_text.length > 80 ? '...' : ''}</span>
  </div>
  <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0 }}>
  <span style={{ background: `${difficultyColors[sq.question.difficulty]}22`, color: difficultyColors[sq.question.difficulty], fontSize: 11, padding: '2px 8px', borderRadius: 6 }}>{difficultyLabels[sq.question.difficulty]}</span>
- <span style={{ color: '#C9A227', fontSize: 13, fontWeight: 700 }}>{sq.points} درجة</span>
+ <span style={{ color: '#D4A843', fontSize: 13, fontWeight: 700 }}>{sq.points} درجة</span>
  </div>
  </div>
  ))}
@@ -429,7 +429,7 @@ export default function CreateExamPage() {
  <button onClick={() => setStep(2)} style={{ background: 'rgba(255,255,255,0.08)', color: 'white', border: 'none', borderRadius: 10, padding: '12px 24px', fontWeight: 600, fontSize: 14, cursor: 'pointer' }}>
  ← السابق
  </button>
- <button onClick={handleSave} disabled={saving} style={{ background: '#C9A227', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 32px', fontWeight: 700, fontSize: 15, cursor: saving ? 'not-allowed' : 'pointer', opacity: saving ? 0.7 : 1 }}>
+ <button onClick={handleSave} disabled={saving} style={{ background: '#D4A843', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 32px', fontWeight: 700, fontSize: 15, cursor: saving ? 'not-allowed' : 'pointer', opacity: saving ? 0.7 : 1 }}>
  {saving ? 'جاري الحفظ...' : 'CheckCircle نشر الاختبار'}
  </button>
  </div>

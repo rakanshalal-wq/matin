@@ -8,7 +8,7 @@ import { getHeaders } from '@/lib/api';
 const plans = [
  { id: 'basic', name: 'أساسي', price: 0, period: 'مجاني', color: '#6B7280', icon: '', students: 50, teachers: 5, schools: 1, features: ['مدرسة واحدة', '5 معلمين', '50 طالب', 'الحضور والغياب', 'الدرجات الأساسية'] },
  { id: 'advanced', name: 'متقدم', price: 299, period: 'شهرياً', color: '#3B82F6', icon: '', students: 500, teachers: 20, schools: 5, features: ['5 مدارس', '20 معلم', '500 طالب', 'بنك أسئلة AI', 'مراقبة اختبارات', 'التقارير المتقدمة', 'الدعم الفني'] },
- { id: 'enterprise', name: 'مؤسسي', price: 599, period: 'شهرياً', color: '#C9A227', icon: "ICON_Trophy", students: -1, teachers: -1, schools: -1, features: ['مدارس غير محدودة', 'معلمين غير محدود', 'طلاب غير محدود', 'كل الميزات', 'دعم 24/7', 'مدير حساب خاص', 'API مخصص'] },
+ { id: 'enterprise', name: 'مؤسسي', price: 599, period: 'شهرياً', color: '#D4A843', icon: "ICON_Trophy", students: -1, teachers: -1, schools: -1, features: ['مدارس غير محدودة', 'معلمين غير محدود', 'طلاب غير محدود', 'كل الميزات', 'دعم 24/7', 'مدير حساب خاص', 'API مخصص'] },
 ];
 
 export default function SubscriptionsPage() {
@@ -70,15 +70,15 @@ export default function SubscriptionsPage() {
  const currentPlan = mySubscription?.package || user?.package || 'basic';
  const currentPlanData = plans.find(p => p.id === currentPlan);
 
- if (loading) return <div style={{ padding: 40, textAlign: 'center', color: '#C9A227', fontSize: 18 }}>⏳ جاري التحميل...</div>;
+ if (loading) return <div style={{ padding: 40, textAlign: 'center', color: '#D4A843', fontSize: 18 }}>⏳ جاري التحميل...</div>;
 
  return (
  <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
  <div>
- <h1 style={{ fontSize: 26, fontWeight: 800, color: '#C9A227', margin: 0 }}><IconRenderer name="ICON_Diamond" size={18} /> الباقات والاشتراكات</h1>
+ <h1 style={{ fontSize: 26, fontWeight: 800, color: '#D4A843', margin: 0 }}><IconRenderer name="ICON_Diamond" size={18} /> الباقات والاشتراكات</h1>
  <p style={{ color: '#9CA3AF', marginTop: 6, fontSize: 14 }}>
- باقتك الحالية: <span style={{ color: currentPlanData?.color || '#C9A227', fontWeight: 700 }}>{currentPlanData?.name || 'أساسي'}</span>
+ باقتك الحالية: <span style={{ color: currentPlanData?.color || '#D4A843', fontWeight: 700 }}>{currentPlanData?.name || 'أساسي'}</span>
  </p>
  </div>
  </div>
@@ -96,7 +96,7 @@ export default function SubscriptionsPage() {
  ].map(tab => (
  <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{
  padding: '10px 20px', borderRadius: 10, border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: 14,
- background: activeTab === tab.id ? 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)' : 'rgba(255,255,255,0.05)',
+ background: activeTab === tab.id ? 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)' : 'rgba(255,255,255,0.05)',
  color: activeTab === tab.id ? '#06060E' : 'rgba(255,255,255,0.7)',
  fontFamily: 'IBM Plex Sans Arabic, sans-serif',
  }}>{tab.label}</button>
@@ -110,7 +110,7 @@ export default function SubscriptionsPage() {
  const isCurrent = plan.id === currentPlan;
  return (
  <div key={plan.id} style={{
- background: isCurrent ? `rgba(${plan.color === '#C9A227' ? '201,162,39' : plan.color === '#3B82F6' ? '59,130,246' : '107,114,128'},0.08)` : 'rgba(255,255,255,0.03)',
+ background: isCurrent ? `rgba(${plan.color === '#D4A843' ? '201,162,39' : plan.color === '#3B82F6' ? '59,130,246' : '107,114,128'},0.08)` : 'rgba(255,255,255,0.03)',
  border: `2px solid ${isCurrent ? plan.color : 'rgba(255,255,255,0.08)'}`,
  borderRadius: 16, padding: 24, position: 'relative',
  }}>
@@ -181,17 +181,17 @@ export default function SubscriptionsPage() {
  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ background: 'rgba(201,162,39,0.08)' }}>
- <th style={{ padding: '14px 16px', textAlign: 'right', color: '#C9A227', fontWeight: 700 }}>الباقة</th>
- <th style={{ padding: '14px 16px', textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>المبلغ</th>
- <th style={{ padding: '14px 16px', textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>الحالة</th>
- <th style={{ padding: '14px 16px', textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>التاريخ</th>
+ <th style={{ padding: '14px 16px', textAlign: 'right', color: '#D4A843', fontWeight: 700 }}>الباقة</th>
+ <th style={{ padding: '14px 16px', textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>المبلغ</th>
+ <th style={{ padding: '14px 16px', textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>الحالة</th>
+ <th style={{ padding: '14px 16px', textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>التاريخ</th>
  </tr>
  </thead>
  <tbody>
  {subscriptions.map((s: any) => (
  <tr key={s.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
  <td style={{ padding: '12px 16px', color: 'white', fontSize: 14 }}>{s.package || s.description || 'اشتراك'}</td>
- <td style={{ padding: '12px 16px', textAlign: 'center', color: '#C9A227', fontWeight: 700, fontSize: 14 }}>{s.amount} ر.س</td>
+ <td style={{ padding: '12px 16px', textAlign: 'center', color: '#D4A843', fontWeight: 700, fontSize: 14 }}>{s.amount} ر.س</td>
  <td style={{ padding: '12px 16px', textAlign: 'center' }}>
  <span style={{ padding: '4px 12px', borderRadius: 20, fontSize: 12, fontWeight: 600, background: s.status === 'paid' ? 'rgba(16,185,129,0.1)' : 'rgba(245,158,11,0.1)', color: s.status === 'paid' ? '#10B981' : '#F59E0B' }}>
  {s.status === 'paid' ? 'Check مدفوع' : '⏳ معلق'}

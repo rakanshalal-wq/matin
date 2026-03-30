@@ -155,7 +155,7 @@ export default function ExamTakePage() {
  <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0C0E17', fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' as const }}>
  <div style={{ textAlign: 'center' }}>
  <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><FileText size={19} color="#6B7280" /></div>
- <p style={{ color: msg ? '#EF4444' : '#C9A227', fontSize: 16 }}>{msg || 'جاري تحميل الاختبار...'}</p>
+ <p style={{ color: msg ? '#EF4444' : '#D4A843', fontSize: 16 }}>{msg || 'جاري تحميل الاختبار...'}</p>
  </div>
  </div>
  );
@@ -165,7 +165,7 @@ export default function ExamTakePage() {
  <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0C0E17', fontFamily: 'IBM Plex Sans Arabic, sans-serif', direction: 'rtl' as const }}>
  <div style={{ textAlign: 'center', maxWidth: 500, padding: 40 }}>
  <div style={{ width: 80, height: 80, borderRadius: 24, background: 'rgba(201,162,39,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}><IconRenderer name="ICON_Lock" size={40} /></div>
- <h1 style={{ color: '#C9A227', fontSize: 24, fontWeight: 700, margin: '0 0 16px' }}>جاهز للاختبار؟</h1>
+ <h1 style={{ color: '#D4A843', fontSize: 24, fontWeight: 700, margin: '0 0 16px' }}>جاهز للاختبار؟</h1>
  <div style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 12, padding: 16, marginBottom: 24, textAlign: 'right' }}>
  <p style={{ color: '#EF4444', fontSize: 14, margin: '0 0 8px', fontWeight: 700 }}> تعليمات مهمة:</p>
  <p style={{ color: '#D4D4D8', fontSize: 13, margin: '0 0 4px' }}>• الاختبار سيفتح بوضع ملء الشاشة</p>
@@ -174,7 +174,7 @@ export default function ExamTakePage() {
  <p style={{ color: '#D4D4D8', fontSize: 13, margin: '0 0 4px' }}>• 5 مخالفات = إنهاء الاختبار تلقائياً</p>
  <p style={{ color: '#D4D4D8', fontSize: 13, margin: 0 }}>• {questions.length} سؤال — {formatTime(timeLeft)}</p>
  </div>
- <button onClick={enterFullscreen} style={{ padding: '14px 40px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#000', border: 'none', borderRadius: 12, fontSize: 18, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
+ <button onClick={enterFullscreen} style={{ padding: '14px 40px', background: 'linear-gradient(135deg, #D4A843, #E8C547)', color: '#000', border: 'none', borderRadius: 12, fontSize: 18, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
  <Rocket size={18} color="#8B5CF6" /> ابدأ الاختبار
  </button>
  </div>
@@ -193,7 +193,7 @@ export default function ExamTakePage() {
  {terminated ? 'تجاوزت الحد المسموح من المخالفات' : `النسبة: ${result?.percentage || 0}%`}
  </p>
  <p style={{ color: '#6B7280', fontSize: 14, margin: '0 0 24px' }}>المخالفات المسجلة: {violations}</p>
- <a href="/dashboard/exams" style={{ padding: '12px 32px', background: 'rgba(255,255,255,0.05)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 12, fontSize: 14, textDecoration: 'none', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
+ <a href="/dashboard/exams" style={{ padding: '12px 32px', background: 'rgba(255,255,255,0.05)', color: '#D4A843', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 12, fontSize: 14, textDecoration: 'none', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
  ← العودة للاختبارات
  </a>
  </div>
@@ -206,7 +206,7 @@ export default function ExamTakePage() {
  {/* الشريط العلوي */}
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 24px', background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
- <span style={{ color: isUrgent ? '#EF4444' : '#C9A227', fontSize: 20, fontWeight: 700, fontFamily: 'monospace' }}>⏱ {formatTime(timeLeft)}</span>
+ <span style={{ color: isUrgent ? '#EF4444' : '#D4A843', fontSize: 20, fontWeight: 700, fontFamily: 'monospace' }}>⏱ {formatTime(timeLeft)}</span>
  {violations > 0 && <span style={{ padding: '4px 12px', background: 'rgba(239,68,68,0.15)', color: '#EF4444', borderRadius: 20, fontSize: 12 }}>مخالفات: {violations}/5</span>}
  </div>
  <span style={{ color: '#9CA3AF', fontSize: 13 }}>سؤال {currentQ + 1} من {questions.length}</span>
@@ -215,7 +215,7 @@ export default function ExamTakePage() {
 
  {/* شريط التقدم */}
  <div style={{ height: 4, background: 'rgba(255,255,255,0.05)' }}>
- <div style={{ height: '100%', width: `${((currentQ + 1) / questions.length) * 100}%`, background: 'linear-gradient(90deg, #C9A227, #10B981)', transition: 'width 0.3s' }}></div>
+ <div style={{ height: '100%', width: `${((currentQ + 1) / questions.length) * 100}%`, background: 'linear-gradient(90deg, #D4A843, #10B981)', transition: 'width 0.3s' }}></div>
  </div>
 
  {/* السؤال */}
@@ -223,7 +223,7 @@ export default function ExamTakePage() {
  <div style={{ maxWidth: 700, margin: '40px auto', padding: '0 24px' }}>
  <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 32 }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
- <span style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(201,162,39,0.15)', color: '#C9A227', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 700 }}>{currentQ + 1}</span>
+ <span style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(201,162,39,0.15)', color: '#D4A843', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 700 }}>{currentQ + 1}</span>
  <span style={{ color: '#6B7280', fontSize: 12 }}>{q.marks || 1} درجة</span>
  </div>
  <h2 style={{ color: '#fff', fontSize: 18, fontWeight: 600, margin: '0 0 24px', lineHeight: 1.7 }}>{q.text_ar || q.text}</h2>
@@ -232,8 +232,8 @@ export default function ExamTakePage() {
  {(q.options || []).map((opt: string, i: number) => {
  const selected = answers[q.id] === opt;
  return (
- <button key={i} onClick={() => selectAnswer(q.id, opt)} style={{ padding: '14px 20px', background: selected ? 'rgba(201,162,39,0.12)' : 'rgba(255,255,255,0.02)', border: selected ? '2px solid #C9A227' : '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: selected ? '#C9A227' : '#D4D4D8', fontSize: 15, cursor: 'pointer', textAlign: 'right' as const, fontFamily: 'IBM Plex Sans Arabic, sans-serif', transition: 'all 0.2s' }}>
- <span style={{ marginLeft: 8, color: selected ? '#C9A227' : '#6B7280' }}>{String.fromCharCode(1571 + i)}</span> {opt}
+ <button key={i} onClick={() => selectAnswer(q.id, opt)} style={{ padding: '14px 20px', background: selected ? 'rgba(201,162,39,0.12)' : 'rgba(255,255,255,0.02)', border: selected ? '2px solid #D4A843' : '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: selected ? '#D4A843' : '#D4D4D8', fontSize: 15, cursor: 'pointer', textAlign: 'right' as const, fontFamily: 'IBM Plex Sans Arabic, sans-serif', transition: 'all 0.2s' }}>
+ <span style={{ marginLeft: 8, color: selected ? '#D4A843' : '#6B7280' }}>{String.fromCharCode(1571 + i)}</span> {opt}
  </button>
  );
  })}
@@ -246,7 +246,7 @@ export default function ExamTakePage() {
  → السابق
  </button>
  {currentQ < questions.length - 1 ? (
- <button onClick={() => setCurrentQ(currentQ + 1)} style={{ padding: '10px 24px', background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 10, fontSize: 14, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
+ <button onClick={() => setCurrentQ(currentQ + 1)} style={{ padding: '10px 24px', background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 10, fontSize: 14, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
  التالي ←
  </button>
  ) : (
@@ -258,7 +258,7 @@ export default function ExamTakePage() {
  {/* أرقام الأسئلة */}
  <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 24, flexWrap: 'wrap' }}>
  {questions.map((_, i) => (
- <button key={i} onClick={() => setCurrentQ(i)} style={{ width: 36, height: 36, borderRadius: '50%', border: 'none', background: answers[questions[i]?.id] ? 'rgba(16,185,129,0.15)' : i === currentQ ? 'rgba(201,162,39,0.15)' : 'rgba(255,255,255,0.03)', color: answers[questions[i]?.id] ? '#10B981' : i === currentQ ? '#C9A227' : '#6B7280', fontSize: 13, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
+ <button key={i} onClick={() => setCurrentQ(i)} style={{ width: 36, height: 36, borderRadius: '50%', border: 'none', background: answers[questions[i]?.id] ? 'rgba(16,185,129,0.15)' : i === currentQ ? 'rgba(201,162,39,0.15)' : 'rgba(255,255,255,0.03)', color: answers[questions[i]?.id] ? '#10B981' : i === currentQ ? '#D4A843' : '#6B7280', fontSize: 13, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
  {i + 1}
  </button>
  ))}

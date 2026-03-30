@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 
 /* MATIN DESIGN SYSTEM — News Page (Dynamic)
    يجلب الأخبار ديناميكياً من /api/public/news */

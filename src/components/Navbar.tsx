@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 
 /* MATIN DESIGN SYSTEM — Navbar Component
    Dark Premium SaaS | RTL | Cairo Font
@@ -133,14 +134,14 @@ export default function Navbar() {
           {/* CTA Buttons */}
           <div className="hidden lg:flex items-center gap-3">
             <a
-              href="https://app.matin.ink"
+              href="/login"
               className="px-4 py-2 text-sm font-semibold text-gray-300 hover:text-white transition-colors duration-200"
               style={{ fontFamily: 'Cairo, sans-serif' }}
             >
               تسجيل الدخول
             </a>
             <a
-              href="https://app.matin.ink/register"
+              href="/register"
               className="btn-gold px-5 py-2 rounded-xl text-sm font-bold"
               style={{ fontFamily: 'Cairo, sans-serif' }}
             >
@@ -207,14 +208,14 @@ export default function Navbar() {
 
             <div className="flex flex-col gap-2 mt-3 pt-3 border-t border-white/5">
               <a
-                href="https://app.matin.ink"
+                href="/login"
                 className="btn-outline-gold px-4 py-3 rounded-xl text-sm font-bold text-center"
                 style={{ fontFamily: 'Cairo, sans-serif' }}
               >
                 تسجيل الدخول
               </a>
               <a
-                href="https://app.matin.ink/register"
+                href="/register"
                 className="btn-gold px-4 py-3 rounded-xl text-sm font-bold text-center"
                 style={{ fontFamily: 'Cairo, sans-serif' }}
               >

@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 
 /* MATIN DESIGN SYSTEM — AI Page */
 
@@ -179,7 +180,7 @@ export default function AI() {
             ابنِ مستقبل <span className="text-gold-gradient">طلابك</span> معنا
           </h2>
           <p className="text-gray-500 mb-8">الذكاء الاصطناعي في متين ليس مجرد أداة — بل شريك في بناء الإنسان</p>
-          <a href="https://app.matin.ink/register" className="btn-gold px-8 py-4 rounded-2xl text-base font-bold inline-flex items-center gap-2">
+          <a href="/register" className="btn-gold px-8 py-4 rounded-2xl text-base font-bold inline-flex items-center gap-2">
             ابدأ تجربتك المجانية
             <ArrowLeft size={18} />
           </a>

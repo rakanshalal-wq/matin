@@ -68,13 +68,13 @@ export default function VisitorsPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_User" size={18} />s الزوار</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة زوار المدرسة والموقع</p>
  </div>
- <button onClick={() => { setEditItem(null); setFormData({ name: '', phone: '', national_id: '', purpose: '', school_id: '', notes: '' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة زائر</button>
+ <button onClick={() => { setEditItem(null); setFormData({ name: '', phone: '', national_id: '', purpose: '', school_id: '', notes: '' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843, #D4B03D)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة زائر</button>
  </div>
 
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'زوار المدرسة', value: visitors.length, icon: "ICON_School", color: '#C9A227' },
+ { label: 'زوار المدرسة', value: visitors.length, icon: "ICON_School", color: '#D4A843' },
  { label: 'زوار الموقع', value: guestUsers.length, icon: "ICON_Globe", color: '#3B82F6' },
  { label: 'اليوم', value: [...visitors, ...guestUsers].filter(v => new Date(v.created_at).toDateString() === new Date().toDateString()).length, icon: "ICON_Calendar", color: '#22C55E' },
  { label: 'الإجمالي', value: visitors.length + guestUsers.length, icon: "ICON_Users", color: '#8B5CF6' },
@@ -92,7 +92,7 @@ export default function VisitorsPage() {
  {/* Tabs */}
  <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
  {[{ key: 'school', label: 'School زوار المدرسة', count: visitors.length }, { key: 'guests', label: 'Globe زوار الموقع', count: guestUsers.length }].map(tab => (
- <button key={tab.key} onClick={() => setActiveTab(tab.key as any)} style={{ background: activeTab === tab.key ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'rgba(255,255,255,0.05)', color: activeTab === tab.key ? '#06060E' : 'rgba(255,255,255,0.7)', border: 'none', borderRadius: 20, padding: '8px 20px', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
+ <button key={tab.key} onClick={() => setActiveTab(tab.key as any)} style={{ background: activeTab === tab.key ? 'linear-gradient(135deg, #D4A843, #D4B03D)' : 'rgba(255,255,255,0.05)', color: activeTab === tab.key ? '#06060E' : 'rgba(255,255,255,0.7)', border: 'none', borderRadius: 20, padding: '8px 20px', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
  {tab.label} ({tab.count})
  </button>
  ))}
@@ -125,7 +125,7 @@ export default function VisitorsPage() {
  {activeTab === 'school' && (
  <td style={{ padding: '14px 16px' }}>
  <div style={{ display: 'flex', gap: 6 }}>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', borderRadius: 8, padding: '6px 12px', fontSize: 12, cursor: 'pointer' }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: '1px solid rgba(201,162,39,0.3)', borderRadius: 8, padding: '6px 12px', fontSize: 12, cursor: 'pointer' }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, padding: '6px 12px', fontSize: 12, cursor: 'pointer' }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
  </div>
  </td>
@@ -154,7 +154,7 @@ export default function VisitorsPage() {
  <input value={(formData as any)[f.key]} onChange={e => setFormData({ ...formData, [f.key]: e.target.value })} placeholder={f.ph} style={inputStyle} />
  </div>
  ))}
- <button onClick={handleSave} disabled={saving} style={{ width: '100%', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 800, cursor: 'pointer', marginTop: 8 }}>
+ <button onClick={handleSave} disabled={saving} style={{ width: '100%', background: 'linear-gradient(135deg, #D4A843, #D4B03D)', color: '#06060E', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 800, cursor: 'pointer', marginTop: 8 }}>
  {saving ? '⏳ جاري الحفظ...' : editItem ? 'Save حفظ التعديلات' : 'Save حفظ'}
  </button>
  </div>

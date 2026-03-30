@@ -70,7 +70,7 @@ export default function ElearningPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Laptop" size={18} /> التعليم الإلكتروني</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة المحتوى التعليمي الإلكتروني والدورات</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({ title: '', type: 'course', subject: '', instructor: '', description: '', duration: '', level: 'beginner', students_count: '0', status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
+ <button onClick={() => { setEditItem(null); setForm({ title: '', type: 'course', subject: '', instructor: '', description: '', duration: '', level: 'beginner', students_count: '0', status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
  Plus إضافة محتوى
  </button>
  </div>
@@ -78,7 +78,7 @@ export default function ElearningPage() {
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي المحتوى', value: stats.total, icon: "ICON_Laptop", color: '#C9A227' },
+ { label: 'إجمالي المحتوى', value: stats.total, icon: "ICON_Laptop", color: '#D4A843' },
  { label: 'نشط', value: stats.active, icon: "ICON_CheckCircle", color: '#10B981' },
  { label: 'مسودة', value: stats.draft, icon: "ICON_FileText", color: '#F59E0B' },
  { label: 'إجمالي الطلاب', value: stats.totalStudents, icon: '<User size={16} />GraduationCap', color: '#3B82F6' },
@@ -128,7 +128,7 @@ export default function ElearningPage() {
  </div>
  </td>
  <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.8)', fontSize: 14 }}>{typeLabels[item.type] || item.type}</td>
- <td style={{ padding: '14px 16px', color: '#C9A227', fontWeight: 600, fontSize: 14 }}>{item.subject || '—'}</td>
+ <td style={{ padding: '14px 16px', color: '#D4A843', fontWeight: 600, fontSize: 14 }}>{item.subject || '—'}</td>
  <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.8)', fontSize: 14 }}>{item.instructor || '—'}</td>
  <td style={{ padding: '14px 16px' }}>
  <span style={{ background: levelColors[item.level]?.bg || 'rgba(16,185,129,0.1)', color: levelColors[item.level]?.color || '#10B981', padding: '4px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600 }}>
@@ -147,7 +147,7 @@ export default function ElearningPage() {
  </td>
  <td style={{ padding: '14px 16px' }}>
  <div style={{ display: 'flex', gap: 8 }}>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
  </div>
  </td>
@@ -221,7 +221,7 @@ export default function ElearningPage() {
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
- <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
+ <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
  </div>
  </div>
  </div>

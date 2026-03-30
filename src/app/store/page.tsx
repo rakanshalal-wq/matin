@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 import { useState, useEffect } from 'react';
 import { ShoppingCart, Search, Filter, Star, Package, LogIn, Plus, Minus, X, CheckCircle } from 'lucide-react';
 import Link from 'next/link';

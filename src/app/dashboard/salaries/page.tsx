@@ -86,7 +86,7 @@ export default function SalariesPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Banknote" size={18} /> الرواتب</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة رواتب الموظفين والبدلات والخصومات</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({ employee_name: '', position: '', department: 'administration', basic_salary: '', allowances: '', deductions: '', month: '', payment_date: '', status: 'pending' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
+ <button onClick={() => { setEditItem(null); setForm({ employee_name: '', position: '', department: 'administration', basic_salary: '', allowances: '', deductions: '', month: '', payment_date: '', status: 'pending' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
  Plus إضافة راتب
  </button>
  </div>
@@ -94,7 +94,7 @@ export default function SalariesPage() {
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي السجلات', value: stats.total.toString(), icon: "ICON_Banknote", color: '#C9A227', suffix: '' },
+ { label: 'إجمالي السجلات', value: stats.total.toString(), icon: "ICON_Banknote", color: '#D4A843', suffix: '' },
  { label: 'إجمالي الرواتب', value: formatMoney(stats.totalNet), icon: "ICON_Coins", color: '#3B82F6', suffix: ' ر.س' },
  { label: 'تم الصرف', value: formatMoney(stats.paid), icon: "ICON_CheckCircle", color: '#10B981', suffix: ' ر.س' },
  { label: 'معلّق', value: formatMoney(stats.pending), icon: '⏳', color: '#F59E0B', suffix: ' ر.س' },
@@ -148,7 +148,7 @@ export default function SalariesPage() {
  <td style={{ padding: '14px 16px', color: '#10B981', fontSize: 13, fontWeight: 600, direction: 'ltr' as any }}>+{formatMoney(parseFloat(item.allowances) || 0)}</td>
  <td style={{ padding: '14px 16px', color: '#EF4444', fontSize: 13, fontWeight: 600, direction: 'ltr' as any }}>-{formatMoney(parseFloat(item.deductions) || 0)}</td>
  <td style={{ padding: '14px 16px' }}>
- <span style={{ color: '#C9A227', fontWeight: 700, fontSize: 15, direction: 'ltr' as any }}>{formatMoney(parseFloat(item.net_salary) || 0)}</span>
+ <span style={{ color: '#D4A843', fontWeight: 700, fontSize: 15, direction: 'ltr' as any }}>{formatMoney(parseFloat(item.net_salary) || 0)}</span>
  <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11 }}> ر.س</span>
  </td>
  <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.8)', fontSize: 14 }}>{item.month || '—'}</td>
@@ -159,7 +159,7 @@ export default function SalariesPage() {
  </td>
  <td style={{ padding: '14px 16px' }}>
  <div style={{ display: 'flex', gap: 8 }}>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
  </div>
  </td>
@@ -216,7 +216,7 @@ export default function SalariesPage() {
  {/* Net Salary Preview */}
  <div style={{ gridColumn: 'span 2', background: 'rgba(201,162,39,0.08)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 12, padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
  <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14 }}><IconRenderer name="ICON_Coins" size={18} /> صافي الراتب:</span>
- <span style={{ color: '#C9A227', fontWeight: 800, fontSize: 20, direction: 'ltr' as any }}>{formatMoney(calcNet())} <span style={{ fontSize: 13, fontWeight: 400 }}>ر.س</span></span>
+ <span style={{ color: '#D4A843', fontWeight: 800, fontSize: 20, direction: 'ltr' as any }}>{formatMoney(calcNet())} <span style={{ fontSize: 13, fontWeight: 400 }}>ر.س</span></span>
  </div>
 
  <div>
@@ -242,7 +242,7 @@ export default function SalariesPage() {
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
- <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
+ <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
  </div>
  </div>
  </div>

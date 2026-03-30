@@ -47,7 +47,7 @@ export default function LeadsPage() {
  case 'new': return { text: 'جديد', color: '#3B82F6', bg: 'rgba(59,130,246,0.1)' };
  case 'contacted': return { text: 'تم التواصل', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' };
  case 'interested': return { text: 'مهتم', color: '#10B981', bg: 'rgba(16,185,129,0.1)' };
- case 'converted': return { text: 'تم التحويل', color: '#C9A227', bg: 'rgba(201,162,39,0.1)' };
+ case 'converted': return { text: 'تم التحويل', color: '#D4A843', bg: 'rgba(201,162,39,0.1)' };
  case 'lost': return { text: 'خسارة', color: '#EF4444', bg: 'rgba(239,68,68,0.1)' };
  default: return { text: status, color: '#6B7280', bg: 'rgba(107,114,128,0.1)' };
  }
@@ -63,15 +63,15 @@ export default function LeadsPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Target" size={18} /> العملاء المحتملين</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>متابعة العملاء المحتملين وتحويلهم لمشتركين</p>
  </div>
- <button onClick={() => { setEditItem(null); setFormData({ name: '', email: '', phone: '', company: '', source: '', status: 'new', notes: '' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة عميل</button>
+ <button onClick={() => { setEditItem(null); setFormData({ name: '', email: '', phone: '', company: '', source: '', status: 'new', notes: '' }); setErrMsg(''); setShowAddModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة عميل</button>
  </div>
 
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي العملاء', value: items.length, icon: "ICON_Target", color: '#C9A227' },
+ { label: 'إجمالي العملاء', value: items.length, icon: "ICON_Target", color: '#D4A843' },
  { label: 'جديد', value: items.filter(i => i.status === 'new').length, icon: '', color: '#3B82F6' },
  { label: 'مهتم', value: items.filter(i => i.status === 'interested').length, icon: "ICON_CheckCircle", color: '#10B981' },
- { label: 'تم التحويل', value: items.filter(i => i.status === 'converted').length, icon: "ICON_Trophy", color: '#C9A227' },
+ { label: 'تم التحويل', value: items.filter(i => i.status === 'converted').length, icon: "ICON_Trophy", color: '#D4A843' },
  ].map((stat, i) => (
  <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: 20 }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -94,18 +94,18 @@ export default function LeadsPage() {
  <div style={{ padding: 60, textAlign: 'center' }}>
  <div style={{width:44,height:44,borderRadius:10,background:"rgba(107,114,128,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Target size={19} color="#6B7280" /></div>
  <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 18 }}>لا يوجد عملاء محتملين</p>
- <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة أول عميل</button>
+ <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة أول عميل</button>
  </div>
  ) : (
  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ background: 'rgba(201,162,39,0.1)' }}>
- <th style={{ padding: 16, textAlign: 'right', color: '#C9A227', fontWeight: 700 }}>العميل</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>الشركة/المدرسة</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>الجوال</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>المصدر</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>الحالة</th>
- <th style={{ padding: 16, textAlign: 'center', color: '#C9A227', fontWeight: 700 }}>إجراءات</th>
+ <th style={{ padding: 16, textAlign: 'right', color: '#D4A843', fontWeight: 700 }}>العميل</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>الشركة/المدرسة</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>الجوال</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>المصدر</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>الحالة</th>
+ <th style={{ padding: 16, textAlign: 'center', color: '#D4A843', fontWeight: 700 }}>إجراءات</th>
  </tr>
  </thead>
  <tbody>
@@ -131,7 +131,7 @@ export default function LeadsPage() {
  <td style={{ padding: 16, textAlign: 'center' }}>
  <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
  <button style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Eye" size={18} /> عرض</button>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', padding: '8px 12px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 12 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
  </div>
  </td>
@@ -160,7 +160,7 @@ export default function LeadsPage() {
  <div style={{ gridColumn: '1 / -1' }}><label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 6, display: 'block' }}>ملاحظات</label><textarea value={formData.notes} onChange={e => setFormData({ ...formData, notes: e.target.value })} placeholder="ملاحظات إضافية" rows={3} style={{ ...inputStyle, resize: 'vertical' } as any} /></div>
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-start' }}>
- <button onClick={handleSave} disabled={saving} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>{saving ? '⏳ جاري الحفظ...' : 'Save حفظ العميل'}</button>
+ <button onClick={handleSave} disabled={saving} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 32px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>{saving ? '⏳ جاري الحفظ...' : 'Save حفظ العميل'}</button>
  <button onClick={() => { setShowAddModal(false); setEditItem(null); setErrMsg(''); }} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', padding: '12px 24px', borderRadius: 10, cursor: 'pointer' }}>إلغاء</button>
  </div>
  </div>

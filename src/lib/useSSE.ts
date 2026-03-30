@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 /**
  * useSSE — React Hook للإشعارات الفورية عبر SSE
  * منصة متين

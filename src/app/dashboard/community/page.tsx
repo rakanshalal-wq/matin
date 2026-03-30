@@ -182,7 +182,7 @@ export default function CommunityPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Globe" size={18} /> الملتقى المجتمعي</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>تواصل مع زملائك وشارك أفكارك</p>
  </div>
- <button onClick={() => setShowNewPost(true)} style={{ padding: '12px 24px', background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', border: 'none', borderRadius: 10, color: '#06060E', fontSize: 15, fontWeight: 700, cursor: 'pointer' }}>
+ <button onClick={() => setShowNewPost(true)} style={{ padding: '12px 24px', background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', border: 'none', borderRadius: 10, color: '#06060E', fontSize: 15, fontWeight: 700, cursor: 'pointer' }}>
  <Pencil size={16} /> منشور جديد
  </button>
  </div>
@@ -192,7 +192,7 @@ export default function CommunityPage() {
  {[
  { label: 'إجمالي المنشورات', value: stats.total, icon: "ICON_FileText", color: '#3B82F6' },
  { label: 'منشورات اليوم', value: stats.today, icon: "ICON_Calendar", color: '#10B981' },
- { label: 'منشوراتي', value: stats.myPosts, icon: "ICON_User", color: '#C9A227' },
+ { label: 'منشوراتي', value: stats.myPosts, icon: "ICON_User", color: '#D4A843' },
  ...(isAdmin ? [{ label: 'المثبّتة', value: stats.pinned, icon: "ICON_Pin", color: '#8B5CF6' }] : []),
  ].map((s, i) => (
  <div key={i} style={cardStyle}>
@@ -211,7 +211,7 @@ export default function CommunityPage() {
  {isAdmin && (
  <div style={{ display: 'flex', gap: 8, marginBottom: 24, flexWrap: 'wrap' }}>
  {tabs.map(t => (
- <button key={t.id} onClick={() => setActiveTab(t.id)} style={{ padding: '10px 20px', background: activeTab === t.id ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'rgba(255,255,255,0.05)', border: '1px solid ' + (activeTab === t.id ? 'transparent' : 'rgba(255,255,255,0.1)'), borderRadius: 10, color: activeTab === t.id ? '#06060E' : 'rgba(255,255,255,0.7)', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>
+ <button key={t.id} onClick={() => setActiveTab(t.id)} style={{ padding: '10px 20px', background: activeTab === t.id ? 'linear-gradient(135deg, #D4A843, #D4B03D)' : 'rgba(255,255,255,0.05)', border: '1px solid ' + (activeTab === t.id ? 'transparent' : 'rgba(255,255,255,0.1)'), borderRadius: 10, color: activeTab === t.id ? '#06060E' : 'rgba(255,255,255,0.7)', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>
  {t.label}
  </button>
  ))}
@@ -225,7 +225,7 @@ export default function CommunityPage() {
  {showNewPost && (
  <div style={{ ...cardStyle, marginBottom: 24, border: '1px solid rgba(201,162,39,0.3)' }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
- <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 700, color: '#06060E' }}>
+ <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(135deg, #D4A843, #D4B03D)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 700, color: '#06060E' }}>
  {currentUser?.name?.charAt(0) || '؟'}
  </div>
  <div style={{ color: 'white', fontWeight: 600 }}>{currentUser?.name || 'مستخدم'}</div>
@@ -234,7 +234,7 @@ export default function CommunityPage() {
  <textarea value={newPost} onChange={e => setNewPost(e.target.value)} placeholder="شارك أفكارك مع المجتمع..." style={{ width: '100%', minHeight: 120, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: 16, color: 'white', fontSize: 15, resize: 'vertical', outline: 'none', direction: 'rtl', boxSizing: 'border-box' }} />
  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 12 }}>
  <button onClick={() => { setShowNewPost(false); setNewPost(''); setNewPostTitle(''); }} style={{ padding: '10px 20px', background: 'rgba(255,255,255,0.08)', border: 'none', borderRadius: 8, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
- <button onClick={savePost} disabled={!newPost.trim()} style={{ padding: '10px 24px', background: newPost.trim() ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'rgba(255,255,255,0.1)', border: 'none', borderRadius: 8, color: newPost.trim() ? '#06060E' : 'rgba(255,255,255,0.3)', fontWeight: 700, cursor: newPost.trim() ? 'pointer' : 'default', fontSize: 14 }}>{saving ? '⏳...' : editPost ? 'Save حفظ' : 'نشر'}</button>
+ <button onClick={savePost} disabled={!newPost.trim()} style={{ padding: '10px 24px', background: newPost.trim() ? 'linear-gradient(135deg, #D4A843, #D4B03D)' : 'rgba(255,255,255,0.1)', border: 'none', borderRadius: 8, color: newPost.trim() ? '#06060E' : 'rgba(255,255,255,0.3)', fontWeight: 700, cursor: newPost.trim() ? 'pointer' : 'default', fontSize: 14 }}>{saving ? '⏳...' : editPost ? 'Save حفظ' : 'نشر'}</button>
  </div>
  </div>
  )}
@@ -243,7 +243,7 @@ export default function CommunityPage() {
  <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
  <input value={searchText} onChange={e => setSearchText(e.target.value)} placeholder="Search ابحث في المنشورات..." style={{ flex: 1, minWidth: 200, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '10px 14px', color: 'white', fontSize: 14, outline: 'none', direction: 'rtl' }} />
  {['all', 'mine', ...(isAdmin ? ['pinned'] : [])].map(f => (
- <button key={f} onClick={() => setFilterType(f)} style={{ padding: '10px 18px', background: filterType === f ? 'rgba(201,162,39,0.2)' : 'rgba(255,255,255,0.05)', border: '1px solid ' + (filterType === f ? 'rgba(201,162,39,0.5)' : 'rgba(255,255,255,0.1)'), borderRadius: 10, color: filterType === f ? '#C9A227' : 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>
+ <button key={f} onClick={() => setFilterType(f)} style={{ padding: '10px 18px', background: filterType === f ? 'rgba(201,162,39,0.2)' : 'rgba(255,255,255,0.05)', border: '1px solid ' + (filterType === f ? 'rgba(201,162,39,0.5)' : 'rgba(255,255,255,0.1)'), borderRadius: 10, color: filterType === f ? '#D4A843' : 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>
  {f === 'all' ? 'الكل' : f === 'mine' ? 'منشوراتي' : 'المثبّتة'}
  </button>
  ))}
@@ -261,7 +261,7 @@ export default function CommunityPage() {
  <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
  {filteredPosts.map((post: any) => (
  <div key={post.id} style={{ ...cardStyle, border: post.pinned ? '1px solid rgba(201,162,39,0.4)' : '1px solid rgba(255,255,255,0.08)' }}>
- {post.pinned && <div style={{ color: '#C9A227', fontSize: 12, fontWeight: 700, marginBottom: 8 }}><IconRenderer name="ICON_Pin" size={18} /> منشور مثبّت</div>}
+ {post.pinned && <div style={{ color: '#D4A843', fontSize: 12, fontWeight: 700, marginBottom: 8 }}><IconRenderer name="ICON_Pin" size={18} /> منشور مثبّت</div>}
  {/* رأس المنشور */}
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -275,7 +275,7 @@ export default function CommunityPage() {
  </div>
  <div style={{ display: 'flex', gap: 8 }}>
  {isAdmin && (
- <button onClick={() => pinPost(post.id, post.pinned)} title={post.pinned ? 'إلغاء التثبيت' : 'تثبيت'} style={{ background: 'none', border: 'none', color: post.pinned ? '#C9A227' : 'rgba(255,255,255,0.3)', cursor: 'pointer', fontSize: 16 }}>Pin</button>
+ <button onClick={() => pinPost(post.id, post.pinned)} title={post.pinned ? 'إلغاء التثبيت' : 'تثبيت'} style={{ background: 'none', border: 'none', color: post.pinned ? '#D4A843' : 'rgba(255,255,255,0.3)', cursor: 'pointer', fontSize: 16 }}>Pin</button>
  )}
  {(post.user_id === currentUser?.id || isAdmin) && (
  <button onClick={() => deletePost(post.id)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer', fontSize: 18 }}>Trash2</button>
@@ -298,7 +298,7 @@ export default function CommunityPage() {
  <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
  <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
  <input value={commentText[post.id] || ''} onChange={e => setCommentText({ ...commentText, [post.id]: e.target.value })} onKeyDown={e => e.key === 'Enter' && addComment(post.id)} placeholder="اكتب تعليقاً..." style={{ flex: 1, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: 'white', fontSize: 14, outline: 'none', direction: 'rtl' }} />
- <button onClick={() => addComment(post.id)} style={{ padding: '10px 16px', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', border: 'none', borderRadius: 8, color: '#06060E', fontWeight: 700, cursor: 'pointer', fontSize: 13 }}>إرسال</button>
+ <button onClick={() => addComment(post.id)} style={{ padding: '10px 16px', background: 'linear-gradient(135deg, #D4A843, #D4B03D)', border: 'none', borderRadius: 8, color: '#06060E', fontWeight: 700, cursor: 'pointer', fontSize: 13 }}>إرسال</button>
  </div>
  {(comments[post.id] || []).map((c: any) => (
  <div key={c.id} style={{ display: 'flex', gap: 10, marginBottom: 12, padding: 12, background: 'rgba(255,255,255,0.03)', borderRadius: 10 }}>
@@ -383,7 +383,7 @@ export default function CommunityPage() {
  { label: 'إجمالي المنشورات', value: posts.length, icon: "ICON_FileText", color: '#3B82F6' },
  { label: 'إجمالي التفاعلات', value: posts.reduce((a, p) => a + (p.likes_count || 0), 0), icon: '<Heart size={16} />', color: '#EF4444' },
  { label: 'إجمالي التعليقات', value: posts.reduce((a, p) => a + (p.comments_count || 0), 0), icon: "ICON_MessageCircle", color: '#10B981' },
- { label: 'منشورات اليوم', value: posts.filter(p => new Date(p.created_at).toDateString() === new Date().toDateString()).length, icon: "ICON_Calendar", color: '#C9A227' },
+ { label: 'منشورات اليوم', value: posts.filter(p => new Date(p.created_at).toDateString() === new Date().toDateString()).length, icon: "ICON_Calendar", color: '#D4A843' },
  { label: 'المنشورات المثبّتة', value: posts.filter(p => p.pinned).length, icon: "ICON_Pin", color: '#8B5CF6' },
  { label: 'متوسط التفاعل', value: posts.length ? (posts.reduce((a, p) => a + (p.likes_count || 0), 0) / posts.length).toFixed(1) : 0, icon: "ICON_TrendingUp", color: '#F59E0B' },
  ].map((s, i) => (

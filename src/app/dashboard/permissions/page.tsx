@@ -4,7 +4,7 @@ import IconRenderer from "@/components/IconRenderer";
 import { Shield } from "lucide-react";
 import { useState, useEffect } from 'react';
 const getH=():Record<string,string>=>{try{const t=localStorage.getItem('matin_token');if(t)return{'Content-Type':'application/json','Authorization':'Bearer '+t};const u=JSON.parse(localStorage.getItem('matin_user')||'{}');return{'Content-Type':'application/json','x-user-id':String(u.id||'')}}catch{return{'Content-Type':'application/json'}}};
-const GOLD='#C9A84C',BG='#0B0B16',CB='rgba(255,255,255,0.04)',BR='rgba(255,255,255,0.08)';
+const GOLD='#D4A843',BG='#0B0B16',CB='rgba(255,255,255,0.04)',BR='rgba(255,255,255,0.08)';
 const ROLES=[{id:'admin',label:'مدير المدرسة',color:'#EF4444'},{id:'teacher',label:'معلم',color:'#3B82F6'},{id:'student',label:'طالب',color:'#10B981'},{id:'parent',label:'ولي أمر',color:'#8B5CF6'},{id:'driver',label:'سائق',color:'#F59E0B'}];
 const MODULES=[{id:'students',label:'الطلاب'},{id:'teachers',label:'المعلمون'},{id:'grades',label:'الدرجات'},{id:'attendance',label:'الحضور'},{id:'finance',label:'المالية'},{id:'reports',label:'التقارير'},{id:'exams',label:'الاختبارات'},{id:'library',label:'المكتبة'},{id:'cafeteria',label:'الكافتيريا'},{id:'transport',label:'النقل'},{id:'settings',label:'الإعدادات'},{id:'backup',label:'النسخ الاحتياطي'}];
 const ACTIONS=['view','create','edit','delete'];

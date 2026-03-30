@@ -80,7 +80,7 @@ export default function ChatPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_MessageCircle" size={18} /> الدردشة المباشرة</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة غرف الدردشة والمحادثات الجماعية</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({ name: '', type: 'group', members_count: '', last_message: '', status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
+ <button onClick={() => { setEditItem(null); setForm({ name: '', type: 'group', members_count: '', last_message: '', status: 'active' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
  Plus إنشاء محادثة
  </button>
  </div>
@@ -88,7 +88,7 @@ export default function ChatPage() {
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي المحادثات', value: stats.total, icon: "ICON_MessageCircle", color: '#C9A227' },
+ { label: 'إجمالي المحادثات', value: stats.total, icon: "ICON_MessageCircle", color: '#D4A843' },
  { label: 'نشطة', value: stats.active, icon: "ICON_CheckCircle", color: '#10B981' },
  { label: 'مجموعات', value: stats.groups, icon: "ICON_Users", color: '#3B82F6' },
  { label: 'محادثات خاصة', value: stats.direct, icon: "ICON_Lock", color: '#8B5CF6' },
@@ -138,7 +138,7 @@ export default function ChatPage() {
  <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{item.last_message_at ? timeAgo(item.last_message_at) : ''}</span>
  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
  <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}><IconRenderer name="ICON_User" size={18} />s {item.members_count || 0}</span>
- <button onClick={(e) => { e.stopPropagation(); handleEdit(item); }} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 6, padding: '4px 10px', cursor: 'pointer', fontSize: 11, fontWeight: 600 }}> </button>
+ <button onClick={(e) => { e.stopPropagation(); handleEdit(item); }} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: 'none', borderRadius: 6, padding: '4px 10px', cursor: 'pointer', fontSize: 11, fontWeight: 600 }}> </button>
  <button onClick={(e) => { e.stopPropagation(); handleDelete(item.id); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 6, padding: '4px 10px', cursor: 'pointer', fontSize: 11, fontWeight: 600 }}> </button>
  </div>
  </div>
@@ -187,7 +187,7 @@ export default function ChatPage() {
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
- <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إنشاء'}</button>
+ <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إنشاء'}</button>
  </div>
  </div>
  </div>

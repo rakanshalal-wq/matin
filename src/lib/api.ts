@@ -1,3 +1,4 @@
+'use client';
 // Helper لإرسال طلبات API مع التوكن
 export function getHeaders(): Record<string, string> {
   try {

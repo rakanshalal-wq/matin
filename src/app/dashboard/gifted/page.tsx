@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { getHeaders } from '@/lib/api';
 
 
-const GOLD = '#C9A84C';
+const GOLD = '#D4A843';
 const BG = '#0B0B16';
 const CARD_BG = 'rgba(255,255,255,0.04)';
 const BORDER = 'rgba(255,255,255,0.08)';
@@ -78,7 +78,7 @@ export default function Page() {
  <div style={{ textAlign: 'center', padding: 60, color: 'rgba(255,255,255,0.4)' }}>جاري التحميل...</div>
  ) : filtered.length === 0 ? (
  <div style={{ textAlign: 'center', padding: 60 }}>
- <div style={{ width: 56, height: 56, borderRadius: 14, background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}><Star size={24} color="#C9A84C" /></div>
+ <div style={{ width: 56, height: 56, borderRadius: 14, background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}><Star size={24} color="#D4A843" /></div>
  <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 16 }}>لا توجد بيانات بعد</p>
  <button onClick={() => { setForm({}); setShowModal(true); }} style={{ background: GOLD, border: 'none', borderRadius: 10, padding: '10px 24px', color: '#0B0B16', fontWeight: 700, cursor: 'pointer', marginTop: 16 }}>+ اضافة اول سجل</button>
  </div>

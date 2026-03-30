@@ -66,7 +66,7 @@ export default function RecordingsPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Video" size={18} /> التسجيلات</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>أرشيف تسجيلات المحاضرات والبثوث المباشرة</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({ title: '', subject: '', teacher_name: '', class_name: '', duration: '', file_url: '', file_size: '', views_count: '0', date: '', status: 'available' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
+ <button onClick={() => { setEditItem(null); setForm({ title: '', subject: '', teacher_name: '', class_name: '', duration: '', file_url: '', file_size: '', views_count: '0', date: '', status: 'available' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
  Plus إضافة تسجيل
  </button>
  </div>
@@ -74,7 +74,7 @@ export default function RecordingsPage() {
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي التسجيلات', value: stats.total, icon: "ICON_Video", color: '#C9A227' },
+ { label: 'إجمالي التسجيلات', value: stats.total, icon: "ICON_Video", color: '#D4A843' },
  { label: 'متاح', value: stats.available, icon: "ICON_CheckCircle", color: '#10B981' },
  { label: 'جاري المعالجة', value: stats.processing, icon: '⏳', color: '#F59E0B' },
  { label: 'إجمالي المشاهدات', value: stats.totalViews, icon: '<Eye size={16} />', color: '#8B5CF6' },
@@ -120,7 +120,7 @@ export default function RecordingsPage() {
  <div style={{ color: 'white', fontWeight: 600, fontSize: 14 }}>{item.title}</div>
  </div>
  </td>
- <td style={{ padding: '14px 16px', color: '#C9A227', fontWeight: 600, fontSize: 14 }}>{item.subject || '—'}</td>
+ <td style={{ padding: '14px 16px', color: '#D4A843', fontWeight: 600, fontSize: 14 }}>{item.subject || '—'}</td>
  <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.8)', fontSize: 14 }}>{item.teacher_name || '—'}</td>
  <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.8)', fontSize: 14 }}>{item.class_name || '—'}</td>
  <td style={{ padding: '14px 16px' }}>
@@ -144,7 +144,7 @@ export default function RecordingsPage() {
  {item.file_url && (
  <button onClick={() => window.open(item.file_url, '_blank')} style={{ background: 'rgba(16,185,129,0.1)', color: '#10B981', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> تشغيل</button>
  )}
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
  </div>
  </td>
@@ -212,7 +212,7 @@ export default function RecordingsPage() {
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
- <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
+ <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
  </div>
  </div>
  </div>

@@ -80,7 +80,7 @@ export default function MessagesPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_MessageCircle" size={18} /> التواصل</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة الرسائل والتواصل بين أطراف المنصة</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({ sender_name: '', receiver_name: '', subject: '', content: '', type: 'text', status: 'sent' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
+ <button onClick={() => { setEditItem(null); setForm({ sender_name: '', receiver_name: '', subject: '', content: '', type: 'text', status: 'sent' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
  رسالة جديدة
  </button>
  </div>
@@ -88,7 +88,7 @@ export default function MessagesPage() {
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي الرسائل', value: stats.total, icon: "ICON_MessageCircle", color: '#C9A227' },
+ { label: 'إجمالي الرسائل', value: stats.total, icon: "ICON_MessageCircle", color: '#D4A843' },
  { label: 'مرسلة', value: stats.sent, icon: "ICON_Upload", color: '#3B82F6' },
  { label: 'مقروءة', value: stats.read, icon: "ICON_CheckCircle", color: '#10B981' },
  { label: 'غير مقروءة', value: stats.unread, icon: "ICON_Mailbox", color: '#F59E0B' },
@@ -134,7 +134,7 @@ export default function MessagesPage() {
  <div style={{ color: 'white', fontWeight: 600, fontSize: 14 }}>{item.sender_name || '—'}</div>
  </div>
  </td>
- <td style={{ padding: '14px 16px', color: '#C9A227', fontWeight: 600, fontSize: 14 }}>{item.receiver_name || '—'}</td>
+ <td style={{ padding: '14px 16px', color: '#D4A843', fontWeight: 600, fontSize: 14 }}>{item.receiver_name || '—'}</td>
  <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.8)', fontSize: 14, fontWeight: item.status !== 'read' ? 700 : 400 }}>{item.subject || '—'}</td>
  <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.6)', fontSize: 13 }}>{item.content ? item.content.substring(0, 40) + (item.content.length > 40 ? '...' : '') : '—'}</td>
  <td style={{ padding: '14px 16px' }}>
@@ -150,7 +150,7 @@ export default function MessagesPage() {
  </td>
  <td style={{ padding: '14px 16px' }}>
  <div style={{ display: 'flex', gap: 8 }}>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
  </div>
  </td>
@@ -208,7 +208,7 @@ export default function MessagesPage() {
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
- <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Upload إرسال'}</button>
+ <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Upload إرسال'}</button>
  </div>
  </div>
  </div>

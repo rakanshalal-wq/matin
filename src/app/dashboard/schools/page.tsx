@@ -91,21 +91,21 @@ export default function SchoolsPage() {
  const inputStyle: React.CSSProperties = { width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: '#fff', fontSize: 14, fontFamily: 'IBM Plex Sans Arabic, sans-serif', outline: 'none', direction: 'rtl' };
  const labelStyle: React.CSSProperties = { color: '#9CA3AF', fontSize: 13, marginBottom: 6, display: 'block', fontFamily: 'IBM Plex Sans Arabic, sans-serif' };
 
- if (loading) return <div style={{ padding: 40, textAlign: 'center', color: '#C9A227', fontSize: 18 }}>⏳ جاري التحميل...</div>;
+ if (loading) return <div style={{ padding: 40, textAlign: 'center', color: '#D4A843', fontSize: 18 }}>⏳ جاري التحميل...</div>;
 
  return (
  <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
  {/* الهيدر */}
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
  <div>
- <h1 style={{ fontSize: 24, fontWeight: 700, color: '#C9A227', margin: 0 }}><IconRenderer name="ICON_School" size={18} /> المدارس والمؤسسات</h1>
+ <h1 style={{ fontSize: 24, fontWeight: 700, color: '#D4A843', margin: 0 }}><IconRenderer name="ICON_School" size={18} /> المدارس والمؤسسات</h1>
  <p style={{ color: '#9CA3AF', fontSize: 14, margin: '4px 0 0' }}>
  {schools.length} مؤسسة مسجلة | {schools.filter(s => s.status === 'ACTIVE').length} نشطة
  </p>
  </div>
  {canAdd && (
  <button onClick={() => { setShowAdd(!showAdd); setEditSchool(null); setForm({ name_ar: '', email: '', phone: '', city: '', address: '', status: 'TRIAL' }); }} style={{
- padding: '10px 24px', background: showAdd ? '#374151' : 'linear-gradient(135deg, #C9A227, #E8C547)',
+ padding: '10px 24px', background: showAdd ? '#374151' : 'linear-gradient(135deg, #D4A843, #E8C547)',
  color: showAdd ? '#fff' : '#000', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'pointer',
  fontFamily: 'IBM Plex Sans Arabic, sans-serif'
  }}>
@@ -122,7 +122,7 @@ export default function SchoolsPage() {
  {/* فورم الإضافة/التعديل */}
  {showAdd && (
  <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 24, marginBottom: 24 }}>
- <h3 style={{ color: '#C9A227', fontSize: 18, margin: '0 0 20px', fontWeight: 700 }}>
+ <h3 style={{ color: '#D4A843', fontSize: 18, margin: '0 0 20px', fontWeight: 700 }}>
  {editSchool ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل المؤسسة' : 'Plus إضافة مؤسسة جديدة'}
  </h3>
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
@@ -158,7 +158,7 @@ export default function SchoolsPage() {
  )}
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
- <button onClick={handleSave} disabled={saving} style={{ padding: '12px 32px', background: 'linear-gradient(135deg, #C9A227, #E8C547)', color: '#000', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif', opacity: saving ? 0.5 : 1 }}>
+ <button onClick={handleSave} disabled={saving} style={{ padding: '12px 32px', background: 'linear-gradient(135deg, #D4A843, #E8C547)', color: '#000', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif', opacity: saving ? 0.5 : 1 }}>
  {saving ? '⏳ جاري الحفظ...' : editSchool ? 'Check تحديث المؤسسة' : 'Check حفظ المؤسسة'}
  </button>
  <button onClick={() => { setShowAdd(false); setEditSchool(null); }} style={{ padding: '12px 24px', background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, fontSize: 14, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>

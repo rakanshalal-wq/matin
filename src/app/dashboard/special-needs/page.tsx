@@ -4,7 +4,7 @@ import IconRenderer from "@/components/IconRenderer";
 import { Accessibility, Calendar } from "lucide-react";
 import { useState, useEffect } from 'react';
 const getH=():Record<string,string>=>{try{const t=localStorage.getItem('matin_token');if(t)return{'Content-Type':'application/json','Authorization':'Bearer '+t};const u=JSON.parse(localStorage.getItem('matin_user')||'{}');return{'Content-Type':'application/json','x-user-id':String(u.id||'')}}catch{return{'Content-Type':'application/json'}}};
-const GOLD='#C9A84C',BG='#0B0B16',CB='rgba(255,255,255,0.04)',BR='rgba(255,255,255,0.08)';
+const GOLD='#D4A843',BG='#0B0B16',CB='rgba(255,255,255,0.04)',BR='rgba(255,255,255,0.08)';
 const NEEDS_TYPES=[{v:'learning_disability',l:'صعوبات التعلم',c:'#3B82F6'},{v:'physical',l:'إعاقة جسدية',c:'#F59E0B'},{v:'visual',l:'إعاقة بصرية',c:'#8B5CF6'},{v:'hearing',l:'إعاقة سمعية',c:'#EC4899'},{v:'autism',l:'طيف التوحد',c:'#10B981'},{v:'gifted',l:'موهوب',c:GOLD},{v:'other',l:'أخرى',c:'#6B7280'}];
 const SUPPORT_LEVELS=[{v:'low',l:'منخفض',c:'#10B981'},{v:'medium',l:'متوسط',c:'#F59E0B'},{v:'high',l:'مرتفع',c:'#EF4444'}];
 export default function SpecialNeedsPage(){

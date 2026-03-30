@@ -74,14 +74,14 @@ export default function StoreDashboard() {
  </div>
  <div style={{ display: 'flex', gap: 10 }}>
  <a href="/store" target="_blank" rel="noreferrer" style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 10, padding: '10px 18px', textDecoration: 'none', fontWeight: 700, fontSize: 14 }}> المتجر</a>
- <button onClick={openAdd} style={{ background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', padding: '10px 20px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> منتج جديد</button>
+ <button onClick={openAdd} style={{ background: 'linear-gradient(135deg, #D4A843, #D4B03D)', color: '#06060E', padding: '10px 20px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> منتج جديد</button>
  </div>
  </div>
 
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'المنتجات', value: products.length, icon: "ICON_Package", color: '#C9A227' },
+ { label: 'المنتجات', value: products.length, icon: "ICON_Package", color: '#D4A843' },
  { label: 'الطلبات', value: orders.length, icon: "ICON_ShoppingCart", color: '#3B82F6' },
  { label: 'طلبات جديدة', value: orders.filter(o => o.status === 'pending').length, icon: '⏳', color: '#F59E0B' },
  { label: 'الإيرادات', value: totalRevenue.toFixed(0) + ' ر.س', icon: "ICON_Coins", color: '#22C55E' },
@@ -99,7 +99,7 @@ export default function StoreDashboard() {
  {/* Tabs */}
  <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
  {[{ key: 'products', label: 'Package المنتجات', count: products.length }, { key: 'orders', label: '<ShoppingCart size={18} color="#6B7280" /> الطلبات', count: orders.length }].map(tab => (
- <button key={tab.key} onClick={() => setActiveTab(tab.key as any)} style={{ background: activeTab === tab.key ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'rgba(255,255,255,0.05)', color: activeTab === tab.key ? '#06060E' : 'rgba(255,255,255,0.7)', border: 'none', borderRadius: 20, padding: '8px 20px', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
+ <button key={tab.key} onClick={() => setActiveTab(tab.key as any)} style={{ background: activeTab === tab.key ? 'linear-gradient(135deg, #D4A843, #D4B03D)' : 'rgba(255,255,255,0.05)', color: activeTab === tab.key ? '#06060E' : 'rgba(255,255,255,0.7)', border: 'none', borderRadius: 20, padding: '8px 20px', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
  {tab.label} ({tab.count})
  </button>
  ))}
@@ -119,11 +119,11 @@ export default function StoreDashboard() {
  <span style={{ background: product.is_active ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)', color: product.is_active ? '#22C55E' : '#EF4444', fontSize: 11, padding: '3px 8px', borderRadius: 20, fontWeight: 700 }}>{product.is_active ? 'نشط' : 'مخفي'}</span>
  </div>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
- <span style={{ color: '#C9A227', fontWeight: 800 }}>{product.sale_price || product.price} ر.س</span>
+ <span style={{ color: '#D4A843', fontWeight: 800 }}>{product.sale_price || product.price} ر.س</span>
  <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>مخزون: {product.stock}</span>
  </div>
  <div style={{ display: 'flex', gap: 8 }}>
- <button onClick={() => openEdit(product)} style={{ flex: 1, background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.3)', borderRadius: 8, padding: '7px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+ <button onClick={() => openEdit(product)} style={{ flex: 1, background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: '1px solid rgba(201,162,39,0.3)', borderRadius: 8, padding: '7px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
  <button onClick={() => handleDelete(product.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, padding: '7px 12px', fontSize: 13, cursor: 'pointer' }}> </button>
  </div>
  </div>
@@ -147,7 +147,7 @@ export default function StoreDashboard() {
  <tbody>
  {orders.map((order, i) => (
  <tr key={order.id} style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
- <td style={{ padding: '14px 16px', color: '#C9A227', fontWeight: 700, fontSize: 13 }}>{order.order_number}</td>
+ <td style={{ padding: '14px 16px', color: '#D4A843', fontWeight: 700, fontSize: 13 }}>{order.order_number}</td>
  <td style={{ padding: '14px 16px', color: 'white', fontWeight: 600 }}>{order.customer_name}</td>
  <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.6)', fontSize: 13 }}>{order.customer_phone || '-'}</td>
  <td style={{ padding: '14px 16px', color: '#22C55E', fontWeight: 700 }}>{parseFloat(order.total).toFixed(2)} ر.س</td>
@@ -190,7 +190,7 @@ export default function StoreDashboard() {
  <input value={(form as any)[f.key]} onChange={e => setForm({ ...form, [f.key]: e.target.value })} type={['price', 'sale_price', 'stock'].includes(f.key) ? 'number' : 'text'} style={inputStyle} dir={f.key === 'image' ? 'ltr' : 'rtl'} />
  </div>
  ))}
- <button onClick={handleSave} disabled={saving} style={{ width: '100%', background: 'linear-gradient(135deg, #C9A227, #D4B03D)', color: '#06060E', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 800, cursor: 'pointer', marginTop: 8 }}>
+ <button onClick={handleSave} disabled={saving} style={{ width: '100%', background: 'linear-gradient(135deg, #D4A843, #D4B03D)', color: '#06060E', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 800, cursor: 'pointer', marginTop: 8 }}>
  {saving ? '⏳ جاري الحفظ...' : 'Save حفظ'}
  </button>
  </div>

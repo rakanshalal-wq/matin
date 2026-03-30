@@ -103,7 +103,7 @@ export default function InboxPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_Mail" size={18} /> البريد الداخلي</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>نظام المراسلات الداخلية بين المستخدمين</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({ sender: '', receiver: '', subject: '', body: '', is_read: false, is_starred: false, status: 'sent' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
+ <button onClick={() => { setEditItem(null); setForm({ sender: '', receiver: '', subject: '', body: '', is_read: false, is_starred: false, status: 'sent' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
  رسالة جديدة
  </button>
  </div>
@@ -111,7 +111,7 @@ export default function InboxPage() {
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي الرسائل', value: stats.total, icon: "ICON_Mail", color: '#C9A227' },
+ { label: 'إجمالي الرسائل', value: stats.total, icon: "ICON_Mail", color: '#D4A843' },
  { label: 'غير مقروءة', value: stats.unread, icon: "ICON_MailOpen", color: '#3B82F6' },
  { label: 'مميزة', value: stats.starred, icon: '', color: '#F59E0B' },
  { label: 'مرسلة', value: stats.sent, icon: "ICON_Upload", color: '#10B981' },
@@ -146,7 +146,7 @@ export default function InboxPage() {
  
  {/* Star */}
  <button onClick={(e) => { e.stopPropagation(); toggleStar(item); }} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 18, padding: '4px 8px', marginLeft: 8 }}>
- {item.is_starred ? <Star size={14} color="#C9A84C" fill="#C9A84C" /> : <Star size={14} color="rgba(238,238,245,0.25)" />}
+ {item.is_starred ? <Star size={14} color="#D4A843" fill="#D4A843" /> : <Star size={14} color="rgba(238,238,245,0.25)" />}
  </button>
 
  {/* Unread Dot */}
@@ -162,7 +162,7 @@ export default function InboxPage() {
  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
  <span style={{ color: 'white', fontWeight: !item.is_read ? 700 : 500, fontSize: 14 }}>{item.sender}</span>
  <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: 12 }}>→</span>
- <span style={{ color: '#C9A227', fontSize: 13, fontWeight: 600 }}>{item.receiver}</span>
+ <span style={{ color: '#D4A843', fontSize: 13, fontWeight: 600 }}>{item.receiver}</span>
  </div>
  <div style={{ color: !item.is_read ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: !item.is_read ? 600 : 400 }}>{item.subject || '(بدون موضوع)'}</div>
  <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, marginTop: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.body || ''}</div>
@@ -172,7 +172,7 @@ export default function InboxPage() {
  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6, flexShrink: 0 }}>
  <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11 }}>{timeAgo(item.created_at)}</span>
  <div style={{ display: 'flex', gap: 6 }}>
- <button onClick={(e) => { e.stopPropagation(); handleEdit(item); }} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 6, padding: '3px 8px', cursor: 'pointer', fontSize: 11 }}> </button>
+ <button onClick={(e) => { e.stopPropagation(); handleEdit(item); }} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: 'none', borderRadius: 6, padding: '3px 8px', cursor: 'pointer', fontSize: 11 }}> </button>
  <button onClick={(e) => { e.stopPropagation(); handleDelete(item.id); }} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 6, padding: '3px 8px', cursor: 'pointer', fontSize: 11 }}> </button>
  </div>
  </div>
@@ -190,7 +190,7 @@ export default function InboxPage() {
  </div>
  <div style={{ display: 'flex', gap: 16, marginBottom: 16, padding: '12px 16px', background: 'rgba(255,255,255,0.03)', borderRadius: 10 }}>
  <div><span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>من: </span><span style={{ color: 'white', fontWeight: 600 }}>{viewItem.sender}</span></div>
- <div><span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>إلى: </span><span style={{ color: '#C9A227', fontWeight: 600 }}>{viewItem.receiver}</span></div>
+ <div><span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>إلى: </span><span style={{ color: '#D4A843', fontWeight: 600 }}>{viewItem.receiver}</span></div>
  <div style={{ marginRight: 'auto' }}><span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>{viewItem.created_at ? new Date(viewItem.created_at).toLocaleString('ar-SA') : ''}</span></div>
  </div>
  <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 15, lineHeight: 1.8, padding: '16px 0', borderTop: '1px solid rgba(255,255,255,0.06)', whiteSpace: 'pre-wrap' }}>{viewItem.body || 'لا يوجد محتوى'}</div>
@@ -228,7 +228,7 @@ export default function InboxPage() {
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
- <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Upload إرسال'}</button>
+ <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Upload إرسال'}</button>
  </div>
  </div>
  </div>

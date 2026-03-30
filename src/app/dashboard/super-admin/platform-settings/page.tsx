@@ -89,7 +89,7 @@ export default function PlatformSettingsPage() {
 
  if (loading) return (
  <div style={{ minHeight: '100vh', background: '#06060E', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
- <div style={{ color: '#C9A227', fontSize: 18 }}>جاري تحميل الإعدادات...</div>
+ <div style={{ color: '#D4A843', fontSize: 18 }}>جاري تحميل الإعدادات...</div>
  </div>
  );
 
@@ -112,7 +112,7 @@ export default function PlatformSettingsPage() {
  <a href="/dashboard/super-admin" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: 14 }}>← العودة للوحة التحكم</a>
  <h1 style={{ color: 'white', fontSize: 22, fontWeight: 800, margin: 0 }}>إعدادات المنصة</h1>
  </div>
- <button onClick={saveSettings} disabled={saving} style={{ padding: '12px 32px', border: 'none', borderRadius: 10, cursor: saving ? 'wait' : 'pointer', fontWeight: 700, fontSize: 15, fontFamily: 'inherit', background: saved ? '#10B981' : 'linear-gradient(135deg, #C9A227, #D4B03D)', color: saved ? 'white' : '#06060E' }}>
+ <button onClick={saveSettings} disabled={saving} style={{ padding: '12px 32px', border: 'none', borderRadius: 10, cursor: saving ? 'wait' : 'pointer', fontWeight: 700, fontSize: 15, fontFamily: 'inherit', background: saved ? '#10B981' : 'linear-gradient(135deg, #D4A843, #D4B03D)', color: saved ? 'white' : '#06060E' }}>
  {saving ? 'جاري الحفظ...' : saved ? 'CheckCircle تم الحفظ' : 'Save حفظ التغييرات'}
  </button>
  </div>
@@ -120,7 +120,7 @@ export default function PlatformSettingsPage() {
  <div style={{ display: 'flex', maxWidth: 1200, margin: '0 auto', padding: 24, gap: 24 }}>
  <div style={{ width: 200, flexShrink: 0 }}>
  {tabs.map(tab => (
- <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ width: '100%', padding: '12px 16px', border: 'none', borderRadius: 10, cursor: 'pointer', marginBottom: 6, textAlign: 'right', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 10, background: activeTab === tab.id ? 'linear-gradient(135deg, #C9A227, #D4B03D)' : 'transparent', color: activeTab === tab.id ? '#06060E' : 'rgba(255,255,255,0.6)' }}>
+ <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ width: '100%', padding: '12px 16px', border: 'none', borderRadius: 10, cursor: 'pointer', marginBottom: 6, textAlign: 'right', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 10, background: activeTab === tab.id ? 'linear-gradient(135deg, #D4A843, #D4B03D)' : 'transparent', color: activeTab === tab.id ? '#06060E' : 'rgba(255,255,255,0.6)' }}>
  <span><IconRenderer name={tab.icon} /></span> {tab.label}
  </button>
  ))}
@@ -208,7 +208,7 @@ export default function PlatformSettingsPage() {
  <h2 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 0 }}><IconRenderer name="ICON_Package" size={18} /> أسعار الباقات</h2>
  {['free', 'basic', 'pro', 'enterprise'].map(plan => {
  const names: Record<string, string> = { free: 'المجانية', basic: 'الأساسية', pro: 'الاحترافية', enterprise: 'المؤسسات' };
- const colors: Record<string, string> = { free: '#94A3B8', basic: '#3B82F6', pro: '#C9A227', enterprise: '#8B5CF6' };
+ const colors: Record<string, string> = { free: '#94A3B8', basic: '#3B82F6', pro: '#D4A843', enterprise: '#8B5CF6' };
  const icons: Record<string, string> = { free: '', basic: '', pro: "ICON_Crown", enterprise: "ICON_Building" };
  return (
  <div key={plan} style={{ padding: 20, marginBottom: 16, background: 'rgba(255,255,255,0.02)', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)' }}>

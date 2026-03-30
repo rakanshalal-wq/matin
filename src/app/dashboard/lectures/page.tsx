@@ -129,7 +129,7 @@ export default function LecturesPage() {
  <button onClick={() => setTab('live')} style={{ background: 'linear-gradient(135deg, #EF4444, #F87171)', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 700 }}>
  Circle بث مباشر
  </button>
- <button onClick={() => setTab('create')} style={{ background: 'linear-gradient(135deg, #C9A227, #f0c040)', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 700 }}>
+ <button onClick={() => setTab('create')} style={{ background: 'linear-gradient(135deg, #D4A843, #f0c040)', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 700 }}>
  + محاضرة جديدة
  </button>
  </div>
@@ -145,13 +145,13 @@ export default function LecturesPage() {
  ].map(t => (
  <button key={t.key} onClick={() => setTab(t.key as any)} style={{
  background: tab === t.key ? 'rgba(201,162,39,0.2)' : 'transparent',
- color: tab === t.key ? '#C9A227' : '#9CA3AF',
+ color: tab === t.key ? '#D4A843' : '#9CA3AF',
  border: tab === t.key ? '1px solid rgba(201,162,39,0.3)' : '1px solid transparent',
  padding: '8px 16px', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 600,
  display: 'flex', alignItems: 'center', gap: 6,
  }}>
  {t.label}
- {t.count !== null && <span style={{ background: 'rgba(201,162,39,0.2)', color: '#C9A227', fontSize: 11, padding: '1px 6px', borderRadius: 10 }}>{t.count}</span>}
+ {t.count !== null && <span style={{ background: 'rgba(201,162,39,0.2)', color: '#D4A843', fontSize: 11, padding: '1px 6px', borderRadius: 10 }}>{t.count}</span>}
  </button>
  ))}
  </div>
@@ -185,9 +185,9 @@ export default function LecturesPage() {
  <div style={{ textAlign: 'center', padding: '48px', color: '#9CA3AF' }}>⏳ جاري التحميل...</div>
  ) : lectures.length === 0 ? (
  <div style={{ textAlign: 'center', padding: '64px', background: 'rgba(255,255,255,0.02)', borderRadius: 20, border: '1px dashed rgba(255,255,255,0.1)' }}>
- <div style={{ width: 72, height: 72, borderRadius: 20, background: 'rgba(201,162,39,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}><Mic size={36} color="#C9A227" /></div>
+ <div style={{ width: 72, height: 72, borderRadius: 20, background: 'rgba(201,162,39,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}><Mic size={36} color="#D4A843" /></div>
  <div style={{ color: '#fff', fontSize: 18, fontWeight: 700 }}>لا توجد محاضرات بعد</div>
- <button onClick={() => setTab('create')} style={{ marginTop: 20, background: '#C9A227', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 10, cursor: 'pointer', fontWeight: 700 }}>
+ <button onClick={() => setTab('create')} style={{ marginTop: 20, background: '#D4A843', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 10, cursor: 'pointer', fontWeight: 700 }}>
  + إضافة محاضرة
  </button>
  </div>
@@ -358,7 +358,7 @@ export default function LecturesPage() {
  borderRadius: 10, padding: '10px 8px', cursor: 'pointer', textAlign: 'center',
  }}>
  <div style={{ fontSize: 20 }}><IconRenderer name={t.icon} /></div>
- <div style={{ color: form.type === t.value ? '#C9A227' : '#9CA3AF', fontSize: 11, marginTop: 4 }}>{t.label}</div>
+ <div style={{ color: form.type === t.value ? '#D4A843' : '#9CA3AF', fontSize: 11, marginTop: 4 }}>{t.label}</div>
  </button>
  ))}
  </div>
@@ -415,7 +415,7 @@ export default function LecturesPage() {
  </div>
 
  <button onClick={createLecture} disabled={createLoading} style={{
- background: createLoading ? 'rgba(201,162,39,0.3)' : 'linear-gradient(135deg, #C9A227, #f0c040)',
+ background: createLoading ? 'rgba(201,162,39,0.3)' : 'linear-gradient(135deg, #D4A843, #f0c040)',
  color: '#fff', border: 'none', padding: '14px', borderRadius: 12,
  cursor: createLoading ? 'not-allowed' : 'pointer', fontSize: 15, fontWeight: 700,
  }}>
@@ -432,7 +432,7 @@ export default function LecturesPage() {
  {tab === 'courses' && (
  <div>
  <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
- <button style={{ background: '#C9A227', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 700 }}>
+ <button style={{ background: '#D4A843', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 700 }}>
  + إنشاء دورة
  </button>
  </div>
@@ -447,7 +447,7 @@ export default function LecturesPage() {
  {courses.map((c: any) => (
  <div key={c.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}>
  <div style={{ height: 140, background: 'linear-gradient(135deg, #1a2d4a, #06060E)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
- {c.thumbnail ? <img src={c.thumbnail} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{width:44,height:44,borderRadius:10,background:"rgba(201,168,67,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><BookOpen size={20} color="#C9A84C" /></div>}
+ {c.thumbnail ? <img src={c.thumbnail} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{width:44,height:44,borderRadius:10,background:"rgba(201,168,67,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><BookOpen size={20} color="#D4A843" /></div>}
  </div>
  <div style={{ padding: '14px 16px' }}>
  <h3 style={{ color: '#fff', fontSize: 15, fontWeight: 700, margin: '0 0 6px' }}>{c.title}</h3>
@@ -470,7 +470,7 @@ export default function LecturesPage() {
  <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, overflowY: 'auto', padding: 20 }}>
  <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 520, direction: 'rtl', margin: 'auto' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
- <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل المحاضرة' : '+ إضافة محاضرة'}</h2>
+ <h2 style={{ color: '#D4A843', fontSize: 18, fontWeight: 700, margin: 0 }}>{editItem ? 'Pencil<IconRenderer name="ICON_Pencil" size={18} /> تعديل المحاضرة' : '+ إضافة محاضرة'}</h2>
  <button onClick={() => { setShowModal(false); setErrMsg(''); }} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
  </div>
  {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}
@@ -496,7 +496,7 @@ export default function LecturesPage() {
  <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} rows={3} placeholder="وصف المحاضرة..." style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13, outline: 'none', resize: 'vertical', boxSizing: 'border-box' as const }} />
  </div>
  <div style={{ display: 'flex', gap: 10 }}>
- <button onClick={handleSaveLecture} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg,#C9A227,#E8C547)', border: 'none', borderRadius: 10, padding: '12px 0', color: '#06060E', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري الحفظ...' : editItem ? 'حفظ التعديلات' : 'إضافة المحاضرة'}</button>
+ <button onClick={handleSaveLecture} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg,#D4A843,#E8C547)', border: 'none', borderRadius: 10, padding: '12px 0', color: '#06060E', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري الحفظ...' : editItem ? 'حفظ التعديلات' : 'إضافة المحاضرة'}</button>
  <button onClick={() => { setShowModal(false); setErrMsg(''); }} style={{ padding: '12px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
  </div>
  </div>

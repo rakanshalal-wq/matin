@@ -8,7 +8,7 @@ import { getHeaders } from '@/lib/api';
 
 const pkgConfig: any = {
  basic: { name: 'أساسي', price: 0, color: '#6B7280', icon: '', features: ['مدرسة واحدة', '5 معلمين', '50 طالب'] },
- advanced: { name: 'متقدم', price: 299, color: '#C9A227', icon: '', features: ['5 مدارس', '20 معلم', '500 طالب', 'بنك أسئلة AI', 'مراقبة اختبارات'] },
+ advanced: { name: 'متقدم', price: 299, color: '#D4A843', icon: '', features: ['5 مدارس', '20 معلم', '500 طالب', 'بنك أسئلة AI', 'مراقبة اختبارات'] },
  enterprise: { name: 'مؤسسي', price: 599, color: '#8B5CF6', icon: "ICON_Trophy", features: ['مدارس غير محدودة', 'معلمين غير محدود', 'طلاب غير محدود', 'كل الميزات', 'دعم فني أولوية', 'تقارير متقدمة'] },
 };
 
@@ -83,11 +83,11 @@ export default function FinancePage() {
  const currentPkg = subscription?.package || user?.package || 'basic';
  const inputStyle = { fontFamily: 'IBM Plex Sans Arabic, sans-serif' };
 
- if (loading) return <div style={{ padding: 40, textAlign: 'center', color: '#C9A227' }}>جاري التحميل...</div>;
+ if (loading) return <div style={{ padding: 40, textAlign: 'center', color: '#D4A843' }}>جاري التحميل...</div>;
 
  return (
  <div style={{ padding: '24px', direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}>
- <h1 style={{ fontSize: 24, fontWeight: 700, color: '#C9A227', margin: '0 0 24px' }}><IconRenderer name="ICON_Coins" size={18} /> المالية والاشتراكات</h1>
+ <h1 style={{ fontSize: 24, fontWeight: 700, color: '#D4A843', margin: '0 0 24px' }}><IconRenderer name="ICON_Coins" size={18} /> المالية والاشتراكات</h1>
 
  {msg && <div style={{ padding: 12, background: msg.includes('فاتورة') || msg.includes('تم') ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)', border: `1px solid ${msg.includes('فاتورة') || msg.includes('تم') ? 'rgba(16,185,129,0.3)' : 'rgba(239,68,68,0.3)'}`, borderRadius: 10, color: msg.includes('فاتورة') || msg.includes('تم') ? '#10B981' : '#EF4444', marginBottom: 16, fontSize: 14 }}>{msg}</div>}
 
@@ -105,7 +105,7 @@ export default function FinancePage() {
  {(dashboard.subscriptions_by_package || []).map((s: any) => (
  <div key={s.package} style={{ background: 'rgba(201,162,39,0.08)', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 14, padding: 20 }}>
  <p style={{ color: '#9CA3AF', fontSize: 13, margin: '0 0 6px' }}>{pkgConfig[s.package]?.name || s.package}</p>
- <p style={{ color: '#C9A227', fontSize: 28, fontWeight: 700, margin: 0 }}>{s.count} <span style={{ fontSize: 14 }}>مشترك</span></p>
+ <p style={{ color: '#D4A843', fontSize: 28, fontWeight: 700, margin: 0 }}>{s.count} <span style={{ fontSize: 14 }}>مشترك</span></p>
  </div>
  ))}
  </div>
@@ -169,7 +169,7 @@ export default function FinancePage() {
  <span style={{ color: '#6B7280', fontSize: 12, marginRight: 12 }}>{p.created_at ? new Date(p.created_at).toLocaleDateString('ar-SA') : ''}</span>
  </div>
  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
- <span style={{ color: '#C9A227', fontSize: 15, fontWeight: 700 }}>{p.amount} ريال</span>
+ <span style={{ color: '#D4A843', fontSize: 15, fontWeight: 700 }}>{p.amount} ريال</span>
  <span style={{ padding: '3px 10px', borderRadius: 20, fontSize: 11, background: `${statusColors[p.status] || '#6B7280'}15`, color: statusColors[p.status] || '#6B7280' }}>{statusLabels[p.status] || p.status}</span>
  </div>
  </div>
@@ -182,7 +182,7 @@ export default function FinancePage() {
  <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
  <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 440, direction: 'rtl' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
- <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_CreditCard" size={18} /> إضافة دفعة</h2>
+ <h2 style={{ color: '#D4A843', fontSize: 18, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_CreditCard" size={18} /> إضافة دفعة</h2>
  <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
  </div>
  <div style={{ marginBottom: 16 }}>
@@ -202,7 +202,7 @@ export default function FinancePage() {
  <input type="text" value={paymentForm.description} onChange={e => setPaymentForm({ ...paymentForm, description: e.target.value })} placeholder="وصف الدفعة..." style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 14px', color: '#fff', fontSize: 13, boxSizing: 'border-box' as const }} />
  </div>
  <div style={{ display: 'flex', gap: 10 }}>
- <button onClick={handleAddPayment} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg,#C9A227,#E8C547)', border: 'none', borderRadius: 10, padding: '12px 0', color: '#06060E', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري الحفظ...' : 'تسجيل الدفعة'}</button>
+ <button onClick={handleAddPayment} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg,#D4A843,#E8C547)', border: 'none', borderRadius: 10, padding: '12px 0', color: '#06060E', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري الحفظ...' : 'تسجيل الدفعة'}</button>
  <button onClick={() => setShowModal(false)} style={{ padding: '12px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
  </div>
  </div>

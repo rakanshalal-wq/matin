@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 const DARK = '#0A0A14';
 const CARD = '#0F0F1E';
 const BORDER = 'rgba(255,255,255,0.08)';
-const GOLD = '#C9A84C';
+const GOLD = '#D4A843';
 const RED = '#EF4444';
 const GREEN = '#22C55E';
 
@@ -32,7 +32,7 @@ const btn = (bg: string, color = '#000') => ({
 const DAYS = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'];
 
 const SUBJECT_COLORS = [
- '#C9A84C', '#3B82F6', '#22C55E', '#8B5CF6', '#F59E0B',
+ '#D4A843', '#3B82F6', '#22C55E', '#8B5CF6', '#F59E0B',
  '#EC4899', '#14B8A6', '#EF4444', '#6366F1', '#84CC16',
 ];
 

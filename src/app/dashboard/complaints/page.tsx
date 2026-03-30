@@ -85,7 +85,7 @@ export default function ComplaintsPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_FileText" size={18} /> الشكاوى والاقتراحات</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>متابعة شكاوى واقتراحات واستفسارات المستخدمين</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({ person_name: '', type: 'complaint', category: 'general', subject: '', description: '', priority: 'medium', assigned_to: '', status: 'open' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
+ <button onClick={() => { setEditItem(null); setForm({ person_name: '', type: 'complaint', category: 'general', subject: '', description: '', priority: 'medium', assigned_to: '', status: 'open' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
  Plus إضافة جديد
  </button>
  </div>
@@ -93,7 +93,7 @@ export default function ComplaintsPage() {
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'الإجمالي', value: stats.total, icon: "ICON_FileText", color: '#C9A227' },
+ { label: 'الإجمالي', value: stats.total, icon: "ICON_FileText", color: '#D4A843' },
  { label: 'مفتوحة', value: stats.open, icon: "ICON_Unlock", color: '#EF4444' },
  { label: 'قيد المعالجة', value: stats.inProgress, icon: '⏳', color: '#F59E0B' },
  { label: 'تم الحل', value: stats.resolved, icon: "ICON_CheckCircle", color: '#10B981' },
@@ -154,7 +154,7 @@ export default function ComplaintsPage() {
  {item.priority === 'urgent' && 'Circle '}{priorityLabels[item.priority] || item.priority}
  </span>
  </td>
- <td style={{ padding: '14px 16px', color: item.assigned_to ? '#C9A227' : 'rgba(255,255,255,0.3)', fontWeight: item.assigned_to ? 600 : 400, fontSize: 13 }}>{item.assigned_to || 'غير محدد'}</td>
+ <td style={{ padding: '14px 16px', color: item.assigned_to ? '#D4A843' : 'rgba(255,255,255,0.3)', fontWeight: item.assigned_to ? 600 : 400, fontSize: 13 }}>{item.assigned_to || 'غير محدد'}</td>
  <td style={{ padding: '14px 16px' }}>
  <span style={{ background: statusColors[item.status]?.bg, color: statusColors[item.status]?.color, padding: '4px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600 }}>
  {statusLabels[item.status] || item.status}
@@ -163,7 +163,7 @@ export default function ComplaintsPage() {
  <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.5)', fontSize: 12 }}>{item.created_at ? new Date(item.created_at).toLocaleDateString('ar-SA') : '—'}</td>
  <td style={{ padding: '14px 16px' }}>
  <div style={{ display: 'flex', gap: 8 }}>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
  </div>
  </td>
@@ -244,7 +244,7 @@ export default function ComplaintsPage() {
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
- <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
+ <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
  </div>
  </div>
  </div>

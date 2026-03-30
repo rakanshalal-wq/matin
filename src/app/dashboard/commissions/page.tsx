@@ -86,7 +86,7 @@ export default function CommissionsPage() {
  <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: 0 }}><IconRenderer name="ICON_BadgeDollarSign" size={18} /> العمولات</h1>
  <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 8 }}>إدارة عمولات المندوبين والشركاء</p>
  </div>
- <button onClick={() => { setEditItem(null); setForm({ person_name: '', role: '', type: 'fixed', amount: '', percentage: '', source: '', month: '', status: 'pending' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
+ <button onClick={() => { setEditItem(null); setForm({ person_name: '', role: '', type: 'fixed', amount: '', percentage: '', source: '', month: '', status: 'pending' }); setShowModal(true); }} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}>
  Plus إضافة عمولة
  </button>
  </div>
@@ -94,7 +94,7 @@ export default function CommissionsPage() {
  {/* Stats */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 24 }}>
  {[
- { label: 'إجمالي السجلات', value: stats.total.toString(), icon: "ICON_BadgeDollarSign", color: '#C9A227', suffix: '' },
+ { label: 'إجمالي السجلات', value: stats.total.toString(), icon: "ICON_BadgeDollarSign", color: '#D4A843', suffix: '' },
  { label: 'تم الصرف', value: formatMoney(stats.paid), icon: "ICON_CheckCircle", color: '#10B981', suffix: ' ر.س' },
  { label: 'معلّق', value: formatMoney(stats.pending), icon: '⏳', color: '#F59E0B', suffix: ' ر.س' },
  { label: 'ملغي', value: stats.cancelled.toString(), icon: "ICON_XCircle", color: '#EF4444', suffix: '' },
@@ -147,7 +147,7 @@ export default function CommissionsPage() {
  </td>
  <td style={{ padding: '14px 16px', color: 'rgba(255,255,255,0.8)', fontSize: 14 }}>{typeLabels[item.type] || item.type}</td>
  <td style={{ padding: '14px 16px' }}>
- <span style={{ color: '#C9A227', fontWeight: 700, fontSize: 15, direction: 'ltr' as any }}>{formatMoney(parseFloat(item.amount) || 0)}</span>
+ <span style={{ color: '#D4A843', fontWeight: 700, fontSize: 15, direction: 'ltr' as any }}>{formatMoney(parseFloat(item.amount) || 0)}</span>
  <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11 }}> ر.س</span>
  </td>
  <td style={{ padding: '14px 16px' }}>
@@ -164,7 +164,7 @@ export default function CommissionsPage() {
  </td>
  <td style={{ padding: '14px 16px' }}>
  <div style={{ display: 'flex', gap: 8 }}>
- <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
+ <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#D4A843', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Pencil" size={18} /> تعديل</button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_Trash2" size={18} /> حذف</button>
  </div>
  </td>
@@ -239,7 +239,7 @@ export default function CommissionsPage() {
  </div>
  <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>
  <button onClick={() => { setShowModal(false); setEditItem(null); }} style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 600 }}>إلغاء</button>
- <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
+ <button onClick={handleSubmit} style={{ background: 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)', color: '#06060E', border: 'none', borderRadius: 10, padding: '12px 24px', cursor: 'pointer', fontWeight: 700 }}>{editItem ? 'Save تحديث' : 'Plus إضافة'}</button>
  </div>
  </div>
  </div>

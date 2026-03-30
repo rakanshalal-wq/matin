@@ -202,12 +202,12 @@ export default function QuestionBankPage() {
  <div style={s.page}>
  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
  <div>
- <div style={{ color: '#C9A227', fontSize: '24px', fontWeight: 800 }}><IconRenderer name="ICON_BookOpen" size={18} /> بنك الأسئلة</div>
+ <div style={{ color: '#D4A843', fontSize: '24px', fontWeight: 800 }}><IconRenderer name="ICON_BookOpen" size={18} /> بنك الأسئلة</div>
  <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', marginTop: '4px' }}>{questions.length} سؤال</div>
  </div>
  {canEdit && (
  <div style={{ display: 'flex', gap: '10px' }}>
- <button style={s.btn('#C9A227')} onClick={() => setShowImport(true)}><IconRenderer name="ICON_Download" size={18} /> استيراد Excel</button>
+ <button style={s.btn('#D4A843')} onClick={() => setShowImport(true)}><IconRenderer name="ICON_Download" size={18} /> استيراد Excel</button>
  <button style={s.btn('#10B981')} onClick={() => setShowAdd(true)}><Plus size={18} color="#6B7280" /> إضافة سؤال</button>
  </div>
  )}
@@ -215,7 +215,7 @@ export default function QuestionBankPage() {
 
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px', marginBottom: '24px' }}>
  {[
- { label: 'إجمالي', value: stats.total || questions.length, color: '#C9A227' },
+ { label: 'إجمالي', value: stats.total || questions.length, color: '#D4A843' },
  { label: 'سهل', value: stats.easy || questions.filter(q => q.difficulty === 'easy').length, color: '#10B981' },
  { label: 'متوسط', value: stats.medium || questions.filter(q => q.difficulty === 'medium').length, color: '#F59E0B' },
  { label: 'صعب', value: stats.hard || questions.filter(q => q.difficulty === 'hard').length, color: '#EF4444' },
@@ -260,7 +260,7 @@ export default function QuestionBankPage() {
  <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', marginBottom: '16px' }}>عرض {filtered.length} من {questions.length} سؤال</div>
 
  {loading ? (
- <div style={{ textAlign: 'center', color: '#C9A227', padding: '40px' }}>جاري التحميل...</div>
+ <div style={{ textAlign: 'center', color: '#D4A843', padding: '40px' }}>جاري التحميل...</div>
  ) : filtered.length === 0 ? (
  <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.3)', padding: '60px' }}>
  <div style={{ fontSize: '48px', marginBottom: '16px' }}><IconRenderer name="ICON_Mail" size={18} />box</div>
@@ -307,7 +307,7 @@ export default function QuestionBankPage() {
  {showAdd && (
  <div style={s.modal} onClick={() => setShowAdd(false)}>
  <div style={s.modalBox} onClick={e => e.stopPropagation()}>
- <div style={{ color: '#C9A227', fontSize: '18px', fontWeight: 700, marginBottom: '20px' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة سؤال جديد</div>
+ <div style={{ color: '#D4A843', fontSize: '18px', fontWeight: 700, marginBottom: '20px' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة سؤال جديد</div>
  {msg && <div style={{ color: msg.includes("ICON_CheckCircle") ? '#10B981' : '#EF4444', marginBottom: '12px', fontSize: '14px' }}>{msg}</div>}
  <label style={s.label}>نص السؤال *</label>
  <textarea style={{ ...s.input, minHeight: '80px', resize: 'vertical' }} placeholder="اكتب السؤال هنا..." value={form.question_text} onChange={e => setForm({ ...form, question_text: e.target.value })} />
@@ -349,7 +349,7 @@ export default function QuestionBankPage() {
  <label style={s.label}>الخيارات</label>
  {['أ', 'ب', 'ج', 'د'].map((letter, i) => (
  <div key={i} style={{ display: 'flex', gap: '8px', marginBottom: '8px', alignItems: 'center' }}>
- <span style={{ color: '#C9A227', width: '20px', flexShrink: 0 }}>{letter}</span>
+ <span style={{ color: '#D4A843', width: '20px', flexShrink: 0 }}>{letter}</span>
  <input style={{ ...s.input, marginBottom: 0, flex: 1 }} placeholder={`الخيار ${letter}`} value={form.options[i]} onChange={e => { const opts = [...form.options]; opts[i] = e.target.value; setForm({ ...form, options: opts }); }} />
  </div>
  ))}
@@ -375,7 +375,7 @@ export default function QuestionBankPage() {
  {showImport && (
  <div style={s.modal} onClick={() => !importing && setShowImport(false)}>
  <div style={{...s.modalBox, maxWidth: '560px', maxHeight: '90vh', overflowY: 'auto'}} onClick={e => e.stopPropagation()}>
- <div style={{ color: '#C9A227', fontSize: '18px', fontWeight: 700, marginBottom: '20px' }}><Download size={18} color="#6B7280" /> استيراد أسئلة من Excel</div>
+ <div style={{ color: '#D4A843', fontSize: '18px', fontWeight: 700, marginBottom: '20px' }}><Download size={18} color="#6B7280" /> استيراد أسئلة من Excel</div>
 
  {/* إعدادات الاستيراد */}
  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
@@ -456,7 +456,7 @@ export default function QuestionBankPage() {
  ) : (
  <>
  <div style={{ fontSize: '36px', marginBottom: '8px' }}>[BarChart3]</div>
- <div style={{ fontSize: '14px', color: '#C9A227', fontWeight: 600 }}>اسحب ملف Excel هنا أو انقر للاختيار</div>
+ <div style={{ fontSize: '14px', color: '#D4A843', fontWeight: 600 }}>اسحب ملف Excel هنا أو انقر للاختيار</div>
  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '6px' }}>يدعم: .xlsx, .xls - جميع هياكل ملفات متين</div>
  </>
  )}
@@ -466,7 +466,7 @@ export default function QuestionBankPage() {
 
  {/* رسالة الحالة */}
  {importProgress && (
- <div style={{ background: importProgress.includes("ICON_XCircle") ? 'rgba(239,68,68,0.1)' : 'rgba(201,162,39,0.1)', border: `1px solid ${importProgress.includes("ICON_XCircle") ? '#ef4444' : '#C9A227'}40`, borderRadius: '8px', padding: '10px 14px', marginBottom: '16px', color: importProgress.includes("ICON_XCircle") ? '#ef4444' : '#C9A227', fontSize: '13px' }}>
+ <div style={{ background: importProgress.includes("ICON_XCircle") ? 'rgba(239,68,68,0.1)' : 'rgba(201,162,39,0.1)', border: `1px solid ${importProgress.includes("ICON_XCircle") ? '#ef4444' : '#D4A843'}40`, borderRadius: '8px', padding: '10px 14px', marginBottom: '16px', color: importProgress.includes("ICON_XCircle") ? '#ef4444' : '#D4A843', fontSize: '13px' }}>
  {importProgress}
  </div>
  )}
@@ -494,7 +494,7 @@ export default function QuestionBankPage() {
 
  <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
  <button style={s.btn('#6B7280')} onClick={() => { setShowImport(false); setImportResult(null); setImportFile(null); setImportProgress(''); }} disabled={importing}>إغلاق</button>
- <button style={s.btn('#C9A227')} onClick={handleImport} disabled={importing || !importFile}>
+ <button style={s.btn('#D4A843')} onClick={handleImport} disabled={importing || !importFile}>
  {importing ? '⏳ جاري الاستيراد...' : 'Download استيراد الأسئلة'}
  </button>
  </div>

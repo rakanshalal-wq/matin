@@ -4,7 +4,7 @@ import IconRenderer from "@/components/IconRenderer";
 import { Save, Settings } from "lucide-react";
 import { useState, useEffect } from 'react';
 const getH = (): Record<string,string> => { try { const t = localStorage.getItem('matin_token'); if(t) return {'Content-Type':'application/json','Authorization':'Bearer '+t}; const u=JSON.parse(localStorage.getItem('matin_user')||'{}'); return {'Content-Type':'application/json','x-user-id':String(u.id||'')}; } catch { return {'Content-Type':'application/json'}; }};
-const GOLD='#C9A84C',BG='#0B0B16',CB='rgba(255,255,255,0.04)',BR='rgba(255,255,255,0.08)';
+const GOLD='#D4A843',BG='#0B0B16',CB='rgba(255,255,255,0.04)',BR='rgba(255,255,255,0.08)';
 export default function BackupPage() {
  const [backups, setBackups] = useState<any[]>([]);
  const [loading, setLoading] = useState(true);
@@ -114,7 +114,7 @@ export default function BackupPage() {
  <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
  <div style={{ background: '#0B0B16', border: '1px solid rgba(201,162,39,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 420, direction: 'rtl' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
- <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_Save" size={18} /> إنشاء نسخة احتياطية</h2>
+ <h2 style={{ color: '#D4A843', fontSize: 18, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_Save" size={18} /> إنشاء نسخة احتياطية</h2>
  <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
  </div>
  <div style={{ marginBottom: 16 }}>
@@ -133,7 +133,7 @@ export default function BackupPage() {
  </select>
  </div>
  <div style={{ display: 'flex', gap: 10 }}>
- <button onClick={handleCreateBackup} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(201,162,39,0.5)' : '#C9A227', border: 'none', borderRadius: 10, padding: '12px 0', color: '#0B0B16', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري الإنشاء...' : 'إنشاء النسخة'}</button>
+ <button onClick={handleCreateBackup} disabled={saving} style={{ flex: 1, background: saving ? 'rgba(201,162,39,0.5)' : '#D4A843', border: 'none', borderRadius: 10, padding: '12px 0', color: '#0B0B16', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontSize: 14 }}>{saving ? 'جاري الإنشاء...' : 'إنشاء النسخة'}</button>
  <button onClick={() => setShowModal(false)} style={{ padding: '12px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: 14 }}>إلغاء</button>
  </div>
  </div>

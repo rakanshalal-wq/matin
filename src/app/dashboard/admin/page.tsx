@@ -7,8 +7,8 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getHeaders } from '@/lib/api';
 
-/* ─── Design: Dark #06060E + Gold #C9A84C — متين v5 ─── */
-const G = '#C9A84C';
+/* ─── Design: Dark #06060E + Gold #D4A843 — متين v5 ─── */
+const G = '#D4A843';
 const DARK = '#06060E';
 const CARD = 'rgba(255,255,255,0.03)';
 const BORDER = 'rgba(255,255,255,0.07)';

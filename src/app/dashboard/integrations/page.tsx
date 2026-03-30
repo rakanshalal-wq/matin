@@ -1,4 +1,5 @@
 "use client";
+export const dynamic = 'force-dynamic';
 import { Bell, BookOpen, Bot, Building2, CheckCircle, ClipboardList, CreditCard, FlaskConical, GraduationCap, Hospital, Key, Link, Lock, Mail, MailOpen, Map, MessageCircle, Package, Pencil, Save, Shirt, ShoppingBag, Smartphone, Video, XCircle, Zap } from "lucide-react";
 import { useState, useEffect } from "react";
 import IconRenderer from "@/components/IconRenderer";

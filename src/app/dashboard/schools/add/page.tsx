@@ -123,7 +123,7 @@ export default function AddSchoolPage() {
  padding: 24,
  marginBottom: 24,
  }}>
- <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
+ <h2 style={{ color: '#D4A843', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
  School معلومات المدرسة الأساسية
  </h2>
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
@@ -168,7 +168,7 @@ export default function AddSchoolPage() {
  padding: 24,
  marginBottom: 24,
  }}>
- <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
+ <h2 style={{ color: '#D4A843', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
  Phone معلومات التواصل
  </h2>
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
@@ -195,7 +195,7 @@ export default function AddSchoolPage() {
  padding: 24,
  marginBottom: 24,
  }}>
- <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
+ <h2 style={{ color: '#D4A843', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
  MapPin العنوان
  </h2>
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
@@ -222,7 +222,7 @@ export default function AddSchoolPage() {
  padding: 24,
  marginBottom: 24,
  }}>
- <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
+ <h2 style={{ color: '#D4A843', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
  User معلومات المالك / المدير
  </h2>
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
@@ -249,7 +249,7 @@ export default function AddSchoolPage() {
  padding: 24,
  marginBottom: 24,
  }}>
- <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
+ <h2 style={{ color: '#D4A843', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
  File معلومات الترخيص
  </h2>
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
@@ -280,7 +280,7 @@ export default function AddSchoolPage() {
  padding: 24,
  marginBottom: 24,
  }}>
- <h2 style={{ color: '#C9A227', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
+ <h2 style={{ color: '#D4A843', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
  FileText ملاحظات
  </h2>
  <textarea
@@ -307,7 +307,7 @@ export default function AddSchoolPage() {
  إلغاء
  </Link>
  <button type="submit" disabled={loading} style={{
- background: loading ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)',
+ background: loading ? 'rgba(201,162,39,0.5)' : 'linear-gradient(135deg, #D4A843 0%, #D4B03D 100%)',
  border: 'none',
  color: '#06060E',
  padding: '14px 32px',

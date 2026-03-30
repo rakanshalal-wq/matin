@@ -164,7 +164,7 @@ export default function UniversityOwnerDashboard() {
  <StatCard title="الكليات" value={stats.my_classes??stats.classes??'—'} color="#10B981" link="/dashboard/colleges" />
  <StatCard title="الاختبارات النشطة" value={stats.active_exams??stats.exams??'—'} color="#EF4444" link="/dashboard/exams" />
  <StatCard title="طلبات القبول المعلقة" value={pendingAdmissions.length||'—'} color="#F59E0B" link="/dashboard/admission" />
- <StatCard title="الإيرادات هذا الشهر" value={stats.revenue?`${stats.revenue} ر.س`:'—'} color="#C9A84C" link="/dashboard/finance" />
+ <StatCard title="الإيرادات هذا الشهر" value={stats.revenue?`${stats.revenue} ر.س`:'—'} color="#D4A843" link="/dashboard/finance" />
  </div>
 
  {}
@@ -196,7 +196,7 @@ export default function UniversityOwnerDashboard() {
  { label:'الموظفون', href:'/dashboard/employees', color:'#84CC16', count:null },
  { label:'الرواتب', href:'/dashboard/salaries', color:'#22D3EE', count:null },
  { label:'الإجازات', href:'/dashboard/leaves', color:'#FB923C', count:null },
- { label:'المالية', href:'/dashboard/finance', color:'#C9A84C', count:null },
+ { label:'المالية', href:'/dashboard/finance', color:'#D4A843', count:null },
  { label:'الصحة', href:'/dashboard/health', color:'#34D399', count:null },
  { label:'الكافتيريا', href:'/dashboard/cafeteria', color:'#FBBF24', count:null },
  { label:'المكتبة', href:'/dashboard/library', color:'#A855F7', count:null },
@@ -284,7 +284,7 @@ export default function UniversityOwnerDashboard() {
  <div style={{ background:'rgba(255,255,255,0.02)', border:'1px solid rgba(201,168,76,0.08)', borderRadius:14, padding:'20px 24px' }}>
  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16 }}>
  <div style={{ color:'rgba(201,168,76,0.6)', fontSize:10, fontWeight:800, textTransform:'uppercase', letterSpacing:2 }}>الاختبارات القادمة</div>
- <Link href="/dashboard/exams" style={{ color:'#C9A84C', fontSize:11, textDecoration:'none', fontWeight:600 }}>عرض الكل</Link>
+ <Link href="/dashboard/exams" style={{ color:'#D4A843', fontSize:11, textDecoration:'none', fontWeight:600 }}>عرض الكل</Link>
  </div>
  {upcomingExams.length===0
  ? <div style={{ color:'rgba(255,255,255,0.2)', fontSize:13, textAlign:'center', padding:'20px 0' }}>لا توجد اختبارات قادمة</div>
@@ -301,7 +301,7 @@ export default function UniversityOwnerDashboard() {
  <div style={{ background:'rgba(255,255,255,0.02)', border:'1px solid rgba(201,168,76,0.08)', borderRadius:14, padding:'20px 24px' }}>
  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16 }}>
  <div style={{ color:'rgba(201,168,76,0.6)', fontSize:10, fontWeight:800, textTransform:'uppercase', letterSpacing:2 }}>طلبات القبول</div>
- <Link href="/dashboard/admission" style={{ color:'#C9A84C', fontSize:11, textDecoration:'none', fontWeight:600 }}>عرض الكل</Link>
+ <Link href="/dashboard/admission" style={{ color:'#D4A843', fontSize:11, textDecoration:'none', fontWeight:600 }}>عرض الكل</Link>
  </div>
  {pendingAdmissions.length===0
  ? <div style={{ color:'rgba(255,255,255,0.2)', fontSize:13, textAlign:'center', padding:'20px 0' }}>لا توجد طلبات معلقة</div>
@@ -346,8 +346,8 @@ export default function UniversityOwnerDashboard() {
  <div style={{ display:'flex', alignItems:'center', gap:8, flexWrap:'wrap' }}>
  <div style={{ background:'rgba(201,168,76,0.08)', border:'1px solid rgba(201,168,76,0.2)', borderRadius:8, padding:'6px 14px', display:'flex', alignItems:'center', gap:8 }}>
  <span style={{ color:'rgba(255,255,255,0.4)', fontSize:12 }}>matin.ink/school/</span>
- <span style={{ color:'#C9A84C', fontSize:12, fontWeight:700 }}>{school.code}</span>
- <button onClick={() => navigator.clipboard.writeText(`https://matin.ink/school/${school.code}`)} style={{ background:'none', border:'none', cursor:'pointer', color:'#C9A84C', fontSize:12, fontWeight:700 }}>نسخ</button>
+ <span style={{ color:'#D4A843', fontSize:12, fontWeight:700 }}>{school.code}</span>
+ <button onClick={() => navigator.clipboard.writeText(`https://matin.ink/school/${school.code}`)} style={{ background:'none', border:'none', cursor:'pointer', color:'#D4A843', fontSize:12, fontWeight:700 }}>نسخ</button>
  </div>
  {school.custom_domain && (
  <div style={{ background:'rgba(16,185,129,0.08)', border:'1px solid rgba(16,185,129,0.2)', borderRadius:8, padding:'6px 14px', display:'flex', alignItems:'center', gap:8 }}>
@@ -357,7 +357,7 @@ export default function UniversityOwnerDashboard() {
  )}
  </div>
  <div style={{ display:'flex', gap:8 }}>
- <a href={`https://matin.ink/school/${school.code}`} target="_blank" rel="noreferrer" style={{ background:'rgba(201,168,76,0.1)', color:'#C9A84C', fontSize:12, padding:'8px 16px', borderRadius:8, textDecoration:'none', fontWeight:600, border:'1px solid rgba(201,168,76,0.25)' }}>معاينة الصفحة</a>
+ <a href={`https://matin.ink/school/${school.code}`} target="_blank" rel="noreferrer" style={{ background:'rgba(201,168,76,0.1)', color:'#D4A843', fontSize:12, padding:'8px 16px', borderRadius:8, textDecoration:'none', fontWeight:600, border:'1px solid rgba(201,168,76,0.25)' }}>معاينة الصفحة</a>
  <Link href="/dashboard/school-page" style={{ background:`${ACCENT}15`, color:ACCENT, fontSize:12, padding:'8px 16px', borderRadius:8, textDecoration:'none', fontWeight:600, border:`1px solid ${ACCENT}25` }}>تعديل الصفحة</Link>
  <Link href="/dashboard/settings" style={{ background:'rgba(255,255,255,0.04)', color:'rgba(255,255,255,0.4)', fontSize:12, padding:'8px 16px', borderRadius:8, textDecoration:'none', fontWeight:600, border:'1px solid rgba(255,255,255,0.08)' }}>ربط دومين</Link>
  </div>
@@ -369,7 +369,7 @@ export default function UniversityOwnerDashboard() {
  <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
  <div style={{ background: '#0F0F1A', border: '1px solid rgba(201,168,76,0.2)', borderRadius: 16, padding: 28, width: '100%', maxWidth: 440, direction: 'rtl' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
- <h2 style={{ color: '#C9A84C', fontSize: 18, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_ClipboardList" size={18} /> مراجعة طلب الانضمام</h2>
+ <h2 style={{ color: '#D4A843', fontSize: 18, fontWeight: 700, margin: 0 }}><IconRenderer name="ICON_ClipboardList" size={18} /> مراجعة طلب الانضمام</h2>
  <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', fontSize: 20, cursor: 'pointer' }}>×</button>
  </div>
  {errMsg && <div style={{ padding: '10px 14px', borderRadius: 8, marginBottom: 16, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#EF4444', fontSize: 13 }}>{errMsg}</div>}
