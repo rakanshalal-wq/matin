@@ -37,6 +37,10 @@ const roleAccent: Record<string, { color: string; bg: string; border: string }> 
   institute_owner:     { color: '#F472B6', bg: 'rgba(244,114,182,0.10)', border: 'rgba(244,114,182,0.22)' },
   kindergarten_owner:  { color: '#FB923C', bg: 'rgba(251,146,60,0.10)',  border: 'rgba(251,146,60,0.22)' },
   training_owner:      { color: '#22D3EE', bg: 'rgba(34,211,238,0.10)',  border: 'rgba(34,211,238,0.22)' },
+  quran_admin:         { color: '#059669', bg: 'rgba(5,150,105,0.10)',   border: 'rgba(5,150,105,0.22)' },
+  quran_teacher:       { color: '#10B981', bg: 'rgba(16,185,129,0.10)',  border: 'rgba(16,185,129,0.22)' },
+  quran_supervisor:    { color: '#34D399', bg: 'rgba(52,211,153,0.10)',  border: 'rgba(52,211,153,0.22)' },
+  quran_student:       { color: '#6EE7B7', bg: 'rgba(110,231,183,0.10)', border: 'rgba(110,231,183,0.22)' },
   owner:               { color: '#34D399', bg: 'rgba(52,211,153,0.10)',  border: 'rgba(52,211,153,0.22)' },
   teacher:             { color: '#4ADE80', bg: 'rgba(74,222,128,0.10)',  border: 'rgba(74,222,128,0.22)' },
   student:             { color: '#38BDF8', bg: 'rgba(56,189,248,0.10)',  border: 'rgba(56,189,248,0.22)' },
@@ -199,6 +203,98 @@ const getMenuByRole = (role: string): MenuGroup[] => {
         { label: 'النسخ الاحتياطي', icon: Icons.backup, href: '/dashboard/backup' },
         { label: 'سجل الأخطاء', icon: Icons.errorLog, href: '/dashboard/error-logs' },
         { label: 'الإعدادات', icon: Icons.settings, href: '/dashboard/settings' },
+      ]},
+    ];
+  }
+
+
+  if (role === 'quran_admin') {
+    return [
+      { title: 'بوابة المركز', items: [
+        { label: 'لوحة التحكم', icon: Icons.dashboard, href: '/dashboard/quran-center' },
+        { label: 'الحلقة المباشرة', icon: Icons.live, href: '/dashboard/quran-session' },
+        { label: 'التقويم', icon: Icons.calendar, href: '/dashboard/calendar' },
+        { label: 'الإعدادات', icon: Icons.settings, href: '/dashboard/settings' },
+      ]},
+      { title: 'الحلقات القرآنية', items: [
+        { label: 'الحلقات', icon: Icons.classes, href: '/dashboard/classes' },
+        { label: 'الجداول', icon: Icons.schedule, href: '/dashboard/schedules' },
+        { label: 'خطط الحفظ', icon: Icons.curriculum, href: '/dashboard/curriculum' },
+      ]},
+      { title: 'الطلاب والمحفّظون', items: [
+        { label: 'الطلاب', icon: Icons.students, href: '/dashboard/students' },
+        { label: 'المحفّظون', icon: Icons.teachers, href: '/dashboard/teachers' },
+        { label: 'الحضور والغياب', icon: Icons.attendance, href: '/dashboard/attendance' },
+      ]},
+      { title: 'المتابعة والتقارير', items: [
+        { label: 'لوحة المشرف', icon: Icons.analytics, href: '/dashboard/quran-supervisor' },
+        { label: 'الإنجازات والشهادات', icon: Icons.certificates, href: '/dashboard/certificates' },
+        { label: 'التقارير', icon: Icons.reports, href: '/dashboard/reports' },
+      ]},
+    ];
+  }
+
+  if (role === 'quran_teacher') {
+    return [
+      { title: 'الرئيسية', items: [
+        { label: 'لوحة المحفّظ', icon: Icons.dashboard, href: '/dashboard/quran-teacher' },
+        { label: 'الحلقة المباشرة', icon: Icons.live, href: '/dashboard/quran-session' },
+      ]},
+      { title: 'الحلقات', items: [
+        { label: 'حلقاتي', icon: Icons.classes, href: '/dashboard/classes' },
+        { label: 'خطة الحفظ', icon: Icons.curriculum, href: '/dashboard/curriculum' },
+        { label: 'سجل التسميع', icon: Icons.exams, href: '/dashboard/exams' },
+      ]},
+      { title: 'الطلاب', items: [
+        { label: 'طلابي', icon: Icons.students, href: '/dashboard/students' },
+        { label: 'الحضور', icon: Icons.attendance, href: '/dashboard/attendance' },
+        { label: 'نقاط التحفيز', icon: Icons.activity, href: '/dashboard/activity-log' },
+      ]},
+      { title: 'التواصل', items: [
+        { label: 'رسائل أولياء الأمور', icon: Icons.messages, href: '/dashboard/messages' },
+        { label: 'الإعلانات', icon: Icons.announcements, href: '/dashboard/announcements' },
+      ]},
+    ];
+  }
+
+  if (role === 'quran_supervisor') {
+    return [
+      { title: 'الرئيسية', items: [
+        { label: 'لوحة المشرف', icon: Icons.dashboard, href: '/dashboard/quran-supervisor' },
+      ]},
+      { title: 'إدارة الحلقات', items: [
+        { label: 'الحلقات القرآنية', icon: Icons.classes, href: '/dashboard/classes' },
+        { label: 'الجداول', icon: Icons.schedule, href: '/dashboard/schedules' },
+        { label: 'خطط الحفظ', icon: Icons.curriculum, href: '/dashboard/curriculum' },
+        { label: 'المسابقات', icon: Icons.exams, href: '/dashboard/exams' },
+      ]},
+      { title: 'المحفّظون والطلاب', items: [
+        { label: 'المحفّظون', icon: Icons.teachers, href: '/dashboard/teachers' },
+        { label: 'الطلاب', icon: Icons.students, href: '/dashboard/students' },
+        { label: 'أولياء الأمور', icon: Icons.parents, href: '/dashboard/parents' },
+        { label: 'الحضور', icon: Icons.attendance, href: '/dashboard/attendance' },
+      ]},
+      { title: 'الإنجازات', items: [
+        { label: 'الختمات والإجازات', icon: Icons.certificates, href: '/dashboard/certificates' },
+        { label: 'التقارير', icon: Icons.reports, href: '/dashboard/reports' },
+      ]},
+    ];
+  }
+
+  if (role === 'quran_student') {
+    return [
+      { title: 'الرئيسية', items: [
+        { label: 'بوابتي', icon: Icons.dashboard, href: '/dashboard/quran-student' },
+      ]},
+      { title: 'متابعة الأبناء', items: [
+        { label: 'تقدم الحفظ', icon: Icons.grades, href: '/dashboard/grades' },
+        { label: 'سجل الحضور', icon: Icons.attendance, href: '/dashboard/attendance' },
+        { label: 'نقاط التحفيز', icon: Icons.activity, href: '/dashboard/activity-log' },
+        { label: 'التقارير الشهرية', icon: Icons.reports, href: '/dashboard/reports' },
+      ]},
+      { title: 'التواصل', items: [
+        { label: 'مراسلة المحفّظ', icon: Icons.messages, href: '/dashboard/messages' },
+        { label: 'إعلانات المركز', icon: Icons.announcements, href: '/dashboard/announcements' },
       ]},
     ];
   }
@@ -466,6 +562,10 @@ const roleLabels: Record<string, string> = {
   'institute_owner':    'مدير المعهد',
   'kindergarten_owner': 'مدير الروضة',
   'training_owner':     'مدير التدريب',
+  'quran_admin':        'مدير مركز القرآن',
+  'quran_teacher':      'محفّظ',
+  'quran_supervisor':   'مشرف الحلقات',
+  'quran_student':      'طالب / ولي أمر',
   'teacher':            'معلم',
   'student':            'طالب',
   'parent':             'ولي أمر',
@@ -485,6 +585,10 @@ const roleEmoji: Record<string, string> = {
   'institute_owner':    '🏢',
   'kindergarten_owner': '🌱',
   'training_owner':     '📚',
+  'quran_admin':        '🕌',
+  'quran_teacher':      '📖',
+  'quran_supervisor':   '🔍',
+  'quran_student':      '🌙',
   'teacher':            '👨‍🏫',
   'student':            '🎒',
   'parent':             '👨‍👩‍👧',
