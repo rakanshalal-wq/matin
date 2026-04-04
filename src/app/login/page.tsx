@@ -20,7 +20,7 @@ export default function LoginPage() {
 
   const ROLES_PATHS: Record<string, string> = {
     super_admin: '/owner',
-    owner: '/dashboard/owner',
+    owner: '/school-dashboard',
     admin: '/dashboard/admin',
     school_owner: '/dashboard/admin',
     university_owner: '/dashboard/admin',

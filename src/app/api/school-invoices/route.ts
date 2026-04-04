@@ -38,6 +38,7 @@ export async function GET(request: Request) {
       extraSQL += ` AND EXTRACT(YEAR FROM si.due_date) = $${params.length}`;
     }
 
+    const dataParams = [...params, limit, offset];
     const [countResult, dataResult] = await Promise.all([
       pool.query(
         `SELECT COUNT(*) FROM school_invoices si WHERE 1=1 ${extraSQL}`,
@@ -49,8 +50,8 @@ export async function GET(request: Request) {
          LEFT JOIN schools s ON si.school_id = s.id
          WHERE 1=1 ${extraSQL}
          ORDER BY si.created_at DESC
-         LIMIT $1 OFFSET $2`,
-        params
+         LIMIT $${params.length + 1} OFFSET $${params.length + 2}`,
+        dataParams
       ),
     ]);
 

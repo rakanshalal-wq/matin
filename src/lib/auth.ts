@@ -27,7 +27,7 @@ const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || '';
 const ALGORITHM = 'aes-256-gcm';
 
 // ===== الأدوار الستة المعتمدة في منصة متين =====
-export type UserRole = 'super_admin' | 'owner' | 'admin' | 'teacher' | 'parent' | 'student';
+export type UserRole = 'super_admin' | 'owner' | 'admin' | 'teacher' | 'parent' | 'student' | 'quran_admin' | 'quran_teacher' | 'quran_supervisor' | 'quran_student';
 
 export const ROLES: Record<UserRole, { label: string; dashboardPath: string; level: number }> = {
   super_admin: { label: 'مالك المنصة', dashboardPath: '/owner', level: 6 },
@@ -36,6 +36,10 @@ export const ROLES: Record<UserRole, { label: string; dashboardPath: string; lev
   teacher:     { label: 'معلم',         dashboardPath: '/dashboard/teacher', level: 3 },
   parent:      { label: 'ولي أمر',      dashboardPath: '/dashboard/parent', level: 2 },
   student:     { label: 'طالب',         dashboardPath: '/dashboard/student', level: 1 },
+  quran_admin:      { label: 'مدير مركز القرآن',  dashboardPath: '/dashboard/quran-center',     level: 4 },
+  quran_teacher:    { label: 'محفّظ',             dashboardPath: '/dashboard/quran-teacher',    level: 3 },
+  quran_supervisor: { label: 'مشرف حلقات',        dashboardPath: '/dashboard/quran-supervisor', level: 3 },
+  quran_student:    { label: 'طالب/ولي أمر قرآن', dashboardPath: '/dashboard/quran-student',    level: 1 },
 };
 
 export function getDashboardPath(role: string): string {
