@@ -121,3 +121,11 @@ tbody tr:last-child td { border-bottom: none; }
 .alert-bar strong { color: var(--gold); }
 .animate-fadeIn { animation: fadeIn 0.3s ease-out; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Force override Tailwind resets */
+.stat-card { background: rgba(255,255,255,0.025) !important; border: 1px solid rgba(255,255,255,0.04) !important; border-radius: 14px !important; padding: 18px 20px !important; position: relative !important; overflow: hidden !important; }
+.stat-card:hover { transform: translateY(-2px) !important; border-color: rgba(255,255,255,0.1) !important; }
+.stat-val { font-size: 28px !important; font-weight: 800 !important; line-height: 1 !important; margin-bottom: 5px !important; }
+.stat-lbl { color: rgba(238,238,245,0.28) !important; font-size: 12px !important; }
+.stat-sub { font-size: 11px !important; margin-top: 5px !important; }
+.stat-icon { width: 38px !important; height: 38px !important; border-radius: 10px !important; display: flex !important; align-items: center !important; justify-content: center !important; margin-bottom: 14px !important; }
