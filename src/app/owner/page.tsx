@@ -5,20 +5,20 @@ import { useRouter } from 'next/navigation';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const G = '#D4A843';
-const DARK = '#06060E';
-const CARD = 'rgba(255,255,255,0.025)';
-const BORDER = 'rgba(255,255,255,0.07)';
+const DARK = 'var(--bg)';
+const CARD = 'var(--bg-card)';
+const BORDER = 'var(--border)';
 const G2 = '#E8C060';
-const G_DIM = 'rgba(212,168,67,0.12)';
-const G_BORDER = 'rgba(212,168,67,0.22)';
-const BG_SB = '#08081A';
-const TEXT = '#EEEEF5';
-const TEXT_DIM = 'rgba(238,238,245,0.55)';
-const TEXT_MUTED = 'rgba(238,238,245,0.28)';
-const GREEN = '#10B981';
-const RED = '#EF4444';
-const BLUE = '#60A5FA';
-const PURPLE = '#A78BFA';
+const G_DIM = 'var(--gold-dim)';
+const G_BORDER = 'var(--gold-border)';
+const BG_SB = 'var(--bg)';
+const TEXT = 'var(--text)';
+const TEXT_DIM = 'var(--text-dim)';
+const TEXT_MUTED = 'var(--text-muted)';
+const GREEN = 'var(--green)';
+const RED = 'var(--red)';
+const BLUE = 'var(--blue)';
+const PURPLE = 'var(--purple)';
 
 // ─── SVG Icons ────────────────────────────────────────────────────────────────
 const SVG_PATHS: Record<string, string> = {
