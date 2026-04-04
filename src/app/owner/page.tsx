@@ -160,31 +160,23 @@ function Btn({ children, onClick, variant = 'primary', size = 'md', disabled = f
 }
 
 // ─── StatCard ─────────────────────────────────────────────────────────────────
-function StatCard({ label, value, sub, color = G }: { label: string; value: string | number; sub?: string; color?: string }) {
+function StatCard({ label, value, sub, color = G, icon }: { label: string; value: string | number; sub?: string; color?: string; icon?: React.ReactNode }) {
   return (
-    <div style={{
-      background: CARD, border: '1px solid rgba(255,255,255,0.04)',
-      borderRadius: 14, padding: '18px 20px',
-      position: 'relative', overflow: 'hidden',
-      transition: 'all 0.2s', cursor: 'default',
-    }}
-      onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
-      onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)'; }}
-    >
+    <div className="stat-card" style={{ ['--grad' as any]: `linear-gradient(135deg, ${color}0D 0%, transparent 60%)` }}>
       <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(135deg, ${color}0D 0%, transparent 60%)`, pointerEvents: 'none' }} />
-      <div style={{ width: 38, height: 38, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14, background: `${color}18`, color }}>
-        <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+      <div className="stat-icon" style={{ background: `${color}1a`, border: `1px solid ${color}33`, color }}>
+        {icon || <svg width={17} height={17} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>}
       </div>
-      <div style={{ fontSize: 28, fontWeight: 800, lineHeight: 1, marginBottom: 5, color: TEXT }}>{typeof value === 'number' ? num(value) : value}</div>
-      <div style={{ color: TEXT_MUTED, fontSize: 12 }}>{label}</div>
-      {sub && <div style={{ fontSize: 11, marginTop: 5, color: `${color}99` }}>↑ {sub}</div>}
+      <div className="stat-val" style={{ color }}>{typeof value === 'number' ? num(value) : value}</div>
+      <div className="stat-lbl">{label}</div>
+      {sub && <div className="stat-sub" style={{ color: `${color}99` }}>{sub}</div>}
     </div>
   );
 }
 
 // ─── Badge ────────────────────────────────────────────────────────────────────
 function Badge({ text, color = '#6B7280' }: { text: string; color?: string }) {
-  return <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600, background: `${color}18`, color, border: `1px solid ${color}33` }}>{text}</span>;
+  return <span className="badge" style={{ background: `${color}18`, color, border: `1px solid ${color}33` }}>{text}</span>;
 }
 
 const STATUS_COLORS: Record<string, string> = {
