@@ -1,649 +1,726 @@
-'use client';
-import { useState } from 'react';
+﻿'use client';
+import React, { useState } from 'react';
+import '../../styles/uni-faculty.css';
 
-const C = {
-  bg: '#06060E',
-  sidebar: '#07101A',
-  primary: '#22D3EE',
-  accent2: '#06B6D4',
-  gold: '#D4A843',
-  text: '#EEEEF5',
-  dim: 'rgba(238,238,245,0.55)',
-  muted: 'rgba(238,238,245,0.28)',
-  green: '#10B981',
-  red: '#EF4444',
-  blue: '#60A5FA',
-  purple: '#A78BFA',
-  orange: '#FB923C',
-  border: 'rgba(34,211,238,0.12)',
-  card: 'rgba(7,16,26,0.85)',
-};
-
-const font = "'IBM Plex Sans Arabic', sans-serif";
-
-type Section =
-  | 'home' | 'schedule' | 'profile' | 'leave'
-  | 'my-courses' | 'content' | 'assignments'
-  | 'online-lecture' | 'in-person-lecture' | 'recorded' | 'halls'
-  | 'attendance' | 'excuses' | 'attendance-stats'
-  | 'online-exam' | 'in-person-exam' | 'question-bank' | 'exam-schedule'
-  | 'enrolled' | 'grades' | 'performance'
-  | 'messages' | 'alerts' | 'notes'
-  | 'papers' | 'supervision' | 'advising';
-
-interface NavItem { id: Section; label: string; badge?: number; gold?: boolean }
-interface NavGroup { title: string; items: NavItem[] }
-
-const navGroups: NavGroup[] = [
-  {
-    title: 'الرئيسية',
-    items: [
-      { id: 'home', label: 'لوحتي' },
-      { id: 'schedule', label: 'الجدول الأسبوعي' },
-      { id: 'profile', label: 'ملفي الأكاديمي' },
-      { id: 'leave', label: 'رفع طلب إجازة', gold: true },
-    ],
-  },
-  {
-    title: 'المقررات الدراسية',
-    items: [
-      { id: 'my-courses', label: 'مقرراتي هذا الفصل' },
-      { id: 'content', label: 'المحتوى التعليمي' },
-      { id: 'assignments', label: 'التكاليف', badge: 2 },
-    ],
-  },
-  {
-    title: 'المحاضرات',
-    items: [
-      { id: 'online-lecture', label: 'محاضرة أونلاين مباشرة' },
-      { id: 'in-person-lecture', label: 'محاضرة حضورية' },
-      { id: 'recorded', label: 'المحاضرات المسجّلة' },
-      { id: 'halls', label: 'القاعات والمدرجات' },
-    ],
-  },
-  {
-    title: 'الحضور والغياب',
-    items: [
-      { id: 'attendance', label: 'رصد الحضور' },
-      { id: 'excuses', label: 'الأعذار الطبية — صحتي', badge: 3 },
-      { id: 'attendance-stats', label: 'إحصائيات الحضور' },
-    ],
-  },
-  {
-    title: 'الاختبارات والتقييم',
-    items: [
-      { id: 'online-exam', label: 'اختبار أونلاين' },
-      { id: 'in-person-exam', label: 'امتحان حضوري' },
-      { id: 'question-bank', label: 'بنك الأسئلة' },
-      { id: 'exam-schedule', label: 'جدول الامتحانات' },
-    ],
-  },
-  {
-    title: 'الطلاب والأداء',
-    items: [
-      { id: 'enrolled', label: 'الطلاب المسجّلون' },
-      { id: 'grades', label: 'رصد الدرجات' },
-      { id: 'performance', label: 'تقرير الأداء' },
-    ],
-  },
-  {
-    title: 'التواصل',
-    items: [
-      { id: 'messages', label: 'المراسلات', badge: 5 },
-      { id: 'alerts', label: 'تنبيهات جماعية' },
-      { id: 'notes', label: 'ملاحظات للطلاب', badge: 3 },
-    ],
-  },
-  {
-    title: 'البحث العلمي',
-    items: [
-      { id: 'papers', label: 'الأوراق البحثية' },
-      { id: 'supervision', label: 'الإشراف على رسائل الماجستير' },
-      { id: 'advising', label: 'ساعات الإرشاد' },
-    ],
-  },
-];
-
-const lectures = [
-  {
-    time: '8:00–9:30',
-    course: 'هندسة البرمجيات CS301',
-    section: 'شعبة أ',
-    location: 'مدرج A1',
-    mode: 'حضوري',
-    status: 'منتهية',
-    statusColor: C.muted,
-    borderColor: 'rgba(238,238,245,0.1)',
-    dimmed: true,
-  },
-  {
-    time: '10:00–11:30',
-    course: 'قواعد البيانات CS402',
-    section: 'شعبة ب',
-    location: 'مدرج B2',
-    mode: 'أونلاين',
-    status: 'الآن',
-    statusColor: C.primary,
-    borderColor: C.primary,
-    pulse: true,
-    hybrid: true,
-  },
-  {
-    time: '12:00–1:00',
-    course: 'استراحة',
-    section: '',
-    location: 'مكتب 4-208',
-    mode: 'إرشاد',
-    status: 'فراغ',
-    statusColor: C.dim,
-    borderColor: 'rgba(238,238,245,0.08)',
-    break: true,
-  },
-  {
-    time: '1:30–3:00',
-    course: 'الذكاء الاصطناعي CS501',
-    section: 'ماجستير',
-    location: 'قاعة 302',
-    mode: 'تسجيل',
-    status: 'التالية',
-    statusColor: C.gold,
-    borderColor: C.gold,
-  },
-];
-
-const attendanceStudents = [
-  { name: 'أحمد الزهراني', id: '201234', present: true },
-  { name: 'سارة العنزي', id: '201456', present: true },
-  { name: 'خالد الدوسري', id: '201789', present: false },
-  { name: 'نورة القحطاني', id: '201102', present: true },
-  { name: 'عمر الشمري', id: '201345', present: false },
-];
-
-const medicalExcuses = [
-  { name: 'خالد الدوسري', date: '7 أبريل', reason: 'مراجعة طبية — صحتي', auto: true },
-  { name: 'ليلى المطيري', date: '6 أبريل', reason: 'إجراء عملية', auto: true },
-  { name: 'فيصل الغامدي', date: '5 أبريل', reason: 'حادث طارئ', auto: true },
-];
-
-const upcomingExams = [
-  { course: 'قواعد البيانات CS402', type: 'اختبار أونلاين', date: '12 أبريل', duration: '60 دقيقة', questions: 40 },
-  { course: 'هندسة البرمجيات CS301', type: 'امتحان منتصف الفصل', date: '18 أبريل', duration: '90 دقيقة', questions: 0 },
-];
-
-const gradeStudents = [
-  { name: 'سارة العنزي', grade: 'A+', score: 98, color: C.green },
-  { name: 'أحمد الزهراني', grade: 'A', score: 91, color: C.green },
-  { name: 'نورة القحطاني', grade: 'B+', score: 84, color: C.blue },
-  { name: 'عمر الشمري', grade: 'C', score: 71, color: C.orange },
-  { name: 'خالد الدوسري', grade: 'F', score: 42, color: C.red },
-];
-
-const studentMessages = [
-  { name: 'أحمد الزهراني', time: 'منذ 5 دق', msg: 'دكتور، هل يمكن مراجعة درجة التكليف الأول؟', unread: true },
-  { name: 'سارة العنزي', time: 'منذ 20 دق', msg: 'شكراً على الشرح، هل التسجيل متاح للمشاهدة؟', unread: true },
-  { name: 'محمد القرني', time: 'منذ 1 س', msg: 'كيف نحسب الـ GPA عند الرسوب في مقرر؟', unread: true },
-  { name: 'لمى الشهري', time: 'منذ 2 س', msg: 'هل الاختبار الأسبوعي مؤجل لهذا الأسبوع؟', unread: true },
-];
-
-const quickActions = [
-  { label: 'محاضرة أونلاين', icon: '🎥', color: C.primary },
-  { label: 'محاضرة حضورية', icon: '🏛️', color: C.blue },
-  { label: 'تسجيل محاضرة', icon: '⏺️', color: C.purple },
-  { label: 'اختبار أونلاين', icon: '📝', color: C.green },
-  { label: 'امتحان حضوري', icon: '📋', color: C.orange },
-  { label: 'بنك الأسئلة', icon: '🗂️', color: C.accent2 },
-  { label: 'تكليف جديد', icon: '📌', color: C.blue },
-  { label: 'رصد الدرجات', icon: '🎯', color: C.green },
-  { label: 'رفع محتوى', icon: '📤', color: C.purple },
-  { label: 'رصد الحضور', icon: '✅', color: C.primary },
-  { label: 'تقرير الأداء', icon: '📊', color: C.orange },
-  { label: 'رفع إجازة', icon: '📅', color: C.gold },
-];
-
-export default function FacultyDashboard() {
-  const [activeSection, setActiveSection] = useState<Section>('home');
-  const [presentMap, setPresentMap] = useState<Record<string, boolean>>(
-    Object.fromEntries(attendanceStudents.map(s => [s.id, s.present]))
-  );
-
-  const togglePresent = (id: string) =>
-    setPresentMap(prev => ({ ...prev, [id]: !prev[id] }));
-
+export default function FacultyPage() {
+  const [activeSection, setActiveSection] = useState('home');
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: C.bg, fontFamily: font, direction: 'rtl', color: C.text }}>
+    <div className="page">
+<div className="ov" id="ov" onClick={() => {closeSb()}}></div>
 
-      {/* ── SIDEBAR ── */}
-      <aside style={{
-        width: 270, minHeight: '100vh', background: C.sidebar,
-        borderLeft: `1px solid ${C.border}`, display: 'flex', flexDirection: 'column',
-        position: 'sticky', top: 0, height: '100vh', overflowY: 'auto',
-        scrollbarWidth: 'none',
-      }}>
-        {/* Profile Card */}
-        <div style={{
-          margin: '20px 14px 8px', padding: '16px', borderRadius: 14,
-          background: 'linear-gradient(135deg, rgba(34,211,238,0.13) 0%, rgba(6,182,212,0.07) 100%)',
-          border: `1px solid ${C.border}`,
-        }}>
-          <div style={{
-            width: 52, height: 52, borderRadius: '50%',
-            background: `linear-gradient(135deg, ${C.primary}, ${C.accent2})`,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 22, fontWeight: 700, color: C.bg, marginBottom: 10,
-          }}>م</div>
-          <div style={{ fontSize: 15, fontWeight: 700, color: C.text }}>د. محمد العتيبي</div>
-          <div style={{ fontSize: 12, color: C.dim, marginTop: 3 }}>أستاذ مساعد</div>
-          <div style={{
-            marginTop: 8, fontSize: 11, color: C.primary,
-            background: 'rgba(34,211,238,0.1)', borderRadius: 6,
-            padding: '3px 8px', display: 'inline-block',
-          }}>كلية هندسة الحاسب</div>
+{/* MODAL: إعدادات المحاضرة الأونلاين */}
+<div className="modal-bg" id="lec-modal">
+  <div className="modal">
+    <div className="modal-h">
+      <div className="modal-t">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--c)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        إعدادات المحاضرة الأونلاين
+      </div>
+      <button className="modal-x" onClick={() => {closeModal('lec-modal')}}>×</button>
+    </div>
+    <div style={{padding:'16px'}}>
+      <div style={{background:'var(--cd)',border:'1px solid var(--cb)',borderRadius:'9px',padding:'10px 13px',marginBottom:'14px',fontSize:'12px',color:'var(--td)'}}>
+        <strong style={{color:'var(--c)'}}>قواعد البيانات CS402</strong> — شعبة ب · مدرج B2 + أونلاين
+      </div>
+
+      <div style={{fontSize:'10px',color:'var(--tm)',fontWeight:700,letterSpacing:'1px',textTransform:'uppercase',marginBottom:'10px'}}>ضوابط الحضور الأونلاين</div>
+      <div style={{background:'var(--card)',border:'1px solid var(--b2)',borderRadius:'9px',overflow:'hidden',marginBottom:'14px'}}>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 14px',borderBottom:'1px solid var(--b2)'}}>
+          <div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>إجبار تشغيل الكاميرا</div><div style={{fontSize:'10.5px',color:'var(--tm)',marginTop:'1px'}}>لا يُسمح بالحضور بدون كاميرا مفتوحة</div></div>
+          <label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label>
         </div>
-
-        {/* Nav Groups */}
-        <nav style={{ flex: 1, padding: '0 10px 20px' }}>
-          {navGroups.map(group => (
-            <div key={group.title} style={{ marginBottom: 6 }}>
-              <div style={{
-                fontSize: 10, fontWeight: 600, color: C.muted, letterSpacing: 1,
-                padding: '10px 6px 4px', textTransform: 'uppercase',
-              }}>{group.title}</div>
-              {group.items.map(item => {
-                const active = activeSection === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => setActiveSection(item.id)}
-                    style={{
-                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                      width: '100%', padding: '9px 12px', borderRadius: 9, border: 'none',
-                      background: active
-                        ? item.gold ? 'rgba(212,168,67,0.15)' : 'rgba(34,211,238,0.12)'
-                        : 'transparent',
-                      color: active ? (item.gold ? C.gold : C.primary) : (item.gold ? C.gold : C.dim),
-                      fontSize: 13, fontWeight: active ? 600 : 400,
-                      cursor: 'pointer', textAlign: 'right', transition: 'all 0.15s',
-                      marginBottom: 1, fontFamily: font,
-                    }}
-                  >
-                    <span>{item.label}</span>
-                    {item.badge ? (
-                      <span style={{
-                        background: item.gold ? C.gold : C.primary,
-                        color: C.bg, borderRadius: 10, fontSize: 10,
-                        fontWeight: 700, padding: '1px 7px', minWidth: 18, textAlign: 'center',
-                      }}>{item.badge}</span>
-                    ) : null}
-                  </button>
-                );
-              })}
-            </div>
-          ))}
-        </nav>
-
-        {/* Footer */}
-        <div style={{
-          padding: '12px 16px', borderTop: `1px solid ${C.border}`,
-          fontSize: 11, color: C.muted, textAlign: 'center',
-        }}>
-          متين v6 — كلية الهندسة والتقنية
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 14px',borderBottom:'1px solid var(--b2)'}}>
+          <div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>مراقبة الذكاء الاصطناعي</div><div style={{fontSize:'10.5px',color:'var(--tm)',marginTop:'1px'}}>رصد الغياب والانشغال تلقائياً</div></div>
+          <label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label>
         </div>
-      </aside>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 14px',borderBottom:'1px solid var(--b2)'}}>
+          <div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>منع مغادرة نافذة المحاضرة</div><div style={{fontSize:'10.5px',color:'var(--tm)',marginTop:'1px'}}>تحذير فوري عند الخروج من الشاشة</div></div>
+          <label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label>
+        </div>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 14px'}}>
+          <div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>تسجيل المحاضرة تلقائياً</div><div style={{fontSize:'10.5px',color:'var(--tm)',marginTop:'1px'}}>تُحفظ في قسم المحاضرات المسجّلة</div></div>
+          <label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label>
+        </div>
+      </div>
 
-      {/* ── MAIN CONTENT ── */}
-      <main style={{ flex: 1, overflowY: 'auto', padding: '28px 28px 40px' }}>
-        {activeSection === 'home' && (
-          <div>
+      <div style={{fontSize:'10px',color:'var(--tm)',fontWeight:700,letterSpacing:'1px',textTransform:'uppercase',marginBottom:'10px'}}>ضوابط الاختبار الأونلاين</div>
+      <div style={{background:'var(--card)',border:'1px solid var(--b2)',borderRadius:'9px',overflow:'hidden',marginBottom:'16px'}}>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 14px',borderBottom:'1px solid var(--b2)'}}>
+          <div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>مراقبة الاختبار بالذكاء الاصطناعي</div><div style={{fontSize:'10.5px',color:'var(--tm)',marginTop:'1px'}}>رصد الغش وتنبيه فوري</div></div>
+          <label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label>
+        </div>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 14px',borderBottom:'1px solid var(--b2)'}}>
+          <div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>إجبار الكاميرا أثناء الاختبار</div><div style={{fontSize:'10.5px',color:'var(--tm)',marginTop:'1px'}}>لا يبدأ الاختبار بدون كاميرا</div></div>
+          <label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label>
+        </div>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 14px'}}>
+          <div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>منع تبديل التطبيقات</div><div style={{fontSize:'10.5px',color:'var(--tm)',marginTop:'1px'}}>يُسجَّل كمحاولة غش</div></div>
+          <label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label>
+        </div>
+      </div>
 
-            {/* Greeting Bar */}
-            <div style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              background: 'linear-gradient(135deg, rgba(34,211,238,0.1) 0%, rgba(6,182,212,0.05) 100%)',
-              border: `1px solid ${C.border}`, borderRadius: 16, padding: '18px 24px',
-              marginBottom: 24,
-            }}>
-              <div>
-                <div style={{ fontSize: 22, fontWeight: 700 }}>مرحباً د. محمد 👋</div>
-                <div style={{ fontSize: 13, color: C.dim, marginTop: 4 }}>الثلاثاء، 8 أبريل 2026 — الفصل الثاني</div>
-              </div>
-              <div style={{ display: 'flex', gap: 10 }}>
-                <button style={btnStyle(C.primary)}>🎥 محاضرة الآن</button>
-                <button style={btnStyle(C.gold)}>📅 رفع إجازة</button>
-              </div>
-            </div>
+      <div style={{display:'flex',gap:'8px'}}>
+        <button onClick={() => {closeModal('lec-modal')}} style={{flex:1,background:'rgba(255,255,255,.05)',border:'1px solid var(--b1)',borderRadius:'9px',padding:'11px',color:'var(--td)',fontSize:'13px',cursor:'pointer',fontFamily:'var(--f)'}}>إلغاء</button>
+        <button onClick={() => {saveModal('lec-modal')}} style={{flex:2,background:'linear-gradient(135deg,var(--c),var(--c2))',border:'none',borderRadius:'9px',padding:'11px',color:'#06060E',fontWeight:800,fontSize:'13px',cursor:'pointer',fontFamily:'var(--f)'}}>بدء المحاضرة الآن ←</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-            {/* Today's Lectures Timeline */}
-            <div style={{ marginBottom: 24 }}>
-              <SectionTitle>محاضرات اليوم</SectionTitle>
-              <div style={{ display: 'flex', gap: 14, overflowX: 'auto', paddingBottom: 6, scrollbarWidth: 'none' }}>
-                {lectures.map((lec, i) => (
-                  <div key={i} style={{
-                    minWidth: 210, background: C.card,
-                    border: `1.5px solid ${lec.borderColor}`,
-                    borderRadius: 14, padding: '16px', flexShrink: 0,
-                    opacity: lec.dimmed ? 0.55 : 1,
-                    position: 'relative', overflow: 'hidden',
-                  }}>
-                    {lec.pulse && (
-                      <span style={{
-                        position: 'absolute', top: 12, left: 12,
-                        width: 9, height: 9, borderRadius: '50%',
-                        background: C.primary,
-                        boxShadow: `0 0 0 3px rgba(34,211,238,0.3)`,
-                        animation: 'pulse 1.5s infinite',
-                        display: 'inline-block',
-                      }} />
-                    )}
-                    <div style={{ fontSize: 11, color: C.muted, marginBottom: 6 }}>{lec.time}</div>
-                    <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 2 }}>{lec.course}</div>
-                    {lec.section && <div style={{ fontSize: 12, color: C.dim }}>{lec.section}</div>}
-                    <div style={{ fontSize: 12, color: C.dim, marginTop: 6 }}>
-                      {lec.location} · {lec.mode}
-                    </div>
-                    {lec.hybrid && (
-                      <div style={{ marginTop: 8, display: 'flex', gap: 6 }}>
-                        <Tag color={C.primary}>هجين</Tag>
-                        <Tag color={C.purple}>كاميرا AI</Tag>
-                      </div>
-                    )}
-                    <div style={{
-                      marginTop: 10, fontSize: 12, fontWeight: 600,
-                      color: lec.statusColor,
-                      background: `${lec.statusColor}18`,
-                      borderRadius: 6, padding: '3px 9px', display: 'inline-block',
-                    }}>{lec.status}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
+{/* MODAL: رفع إجازة */}
+<div className="modal-bg" id="leave-modal">
+  <div className="modal">
+    <div className="modal-h">
+      <div className="modal-t">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--gd)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+        رفع طلب إجازة
+      </div>
+      <button className="modal-x" onClick={() => {closeModal('leave-modal')}}>×</button>
+    </div>
+    <div style={{padding:'16px'}}>
+      <div style={{marginBottom:'12px'}}>
+        <label style={{fontSize:'11.5px',color:'var(--tm)',fontWeight:600,display:'block',marginBottom:'6px'}}>نوع الإجازة</label>
+        <select style={{width:'100%',background:'rgba(255,255,255,.04)',border:'1px solid var(--b1)',color:'var(--t)',fontSize:'13px',padding:'10px 12px',borderRadius:'8px',fontFamily:'var(--f)',outline:'none'}}>
+          <option>إجازة اعتيادية</option>
+          <option>إجازة مرضية</option>
+          <option>إجازة طارئة</option>
+          <option>مهمة رسمية</option>
+          <option>مؤتمر علمي</option>
+        </select>
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'10px',marginBottom:'12px'}}>
+        <div>
+          <label style={{fontSize:'11.5px',color:'var(--tm)',fontWeight:600,display:'block',marginBottom:'6px'}}>تاريخ البداية</label>
+          <input type="date" style={{width:'100%',background:'rgba(255,255,255,.04)',border:'1px solid var(--b1)',color:'var(--t)',fontSize:'13px',padding:'10px 12px',borderRadius:'8px',fontFamily:'var(--f)',outline:'none'}} />
+        </div>
+        <div>
+          <label style={{fontSize:'11.5px',color:'var(--tm)',fontWeight:600,display:'block',marginBottom:'6px'}}>تاريخ النهاية</label>
+          <input type="date" style={{width:'100%',background:'rgba(255,255,255,.04)',border:'1px solid var(--b1)',color:'var(--t)',fontSize:'13px',padding:'10px 12px',borderRadius:'8px',fontFamily:'var(--f)',outline:'none'}} />
+        </div>
+      </div>
+      <div style={{marginBottom:'12px'}}>
+        <label style={{fontSize:'11.5px',color:'var(--tm)',fontWeight:600,display:'block',marginBottom:'6px'}}>المحاضرات المتأثرة — من سيحل محلك؟</label>
+        <select style={{width:'100%',background:'rgba(255,255,255,.04)',border:'1px solid var(--b1)',color:'var(--t)',fontSize:'13px',padding:'10px 12px',borderRadius:'8px',fontFamily:'var(--f)',outline:'none'}}>
+          <option>اختر بديلاً...</option>
+          <option>د. سارة الزهراني</option>
+          <option>خالد المطيري (معيد)</option>
+          <option>تأجيل المحاضرة</option>
+        </select>
+      </div>
+      <div style={{marginBottom:'16px'}}>
+        <label style={{fontSize:'11.5px',color:'var(--tm)',fontWeight:600,display:'block',marginBottom:'6px'}}>السبب / الملاحظات</label>
+        <textarea style={{width:'100%',background:'rgba(255,255,255,.04)',border:'1px solid var(--b1)',color:'var(--t)',fontSize:'13px',padding:'10px 12px',borderRadius:'8px',fontFamily:'var(--f)',outline:'none',resize:'vertical',minHeight:'70px'}} placeholder="اكتب سبب الإجازة..."></textarea>
+      </div>
+      <div style={{display:'flex',gap:'8px'}}>
+        <button onClick={() => {closeModal('leave-modal')}} style={{flex:1,background:'rgba(255,255,255,.05)',border:'1px solid var(--b1)',borderRadius:'9px',padding:'11px',color:'var(--td)',fontSize:'13px',cursor:'pointer',fontFamily:'var(--f)'}}>إلغاء</button>
+        <button onClick={() => {saveModal('leave-modal')}} style={{flex:2,background:'linear-gradient(135deg,var(--gd),var(--gd2))',border:'none',borderRadius:'9px',padding:'11px',color:'#06060E',fontWeight:800,fontSize:'13px',cursor:'pointer',fontFamily:'var(--f)'}}>إرسال الطلب</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-            {/* Stats Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginBottom: 24 }}>
-              <StatCard value="248" label="إجمالي الطلاب" sub="3 مقررات · 5 شعب" color={C.primary} />
-              <StatCard value="87%" label="نسبة الحضور" color={C.green} />
-              <StatCard value="2" label="تكاليف للتصحيح" sub="بانتظار رصد الدرجات" color={C.orange} />
-              <StatCard value="2.8" label="متوسط GPA" color={C.purple} />
-            </div>
+{/* SIDEBAR */}
+<aside className="sb" id="sb">
+  <div className="sb-top">
+    <a className="logo-row" href="#">
+      <div className="logo-ic">م</div>
+      <div><div className="logo-t">متين</div><div className="logo-s">نظام إدارة التعليم</div></div>
+    </a>
+    <div className="doc-card">
+      <div className="doc-av">👨‍🏫</div>
+      <div style={{minWidth:0}}>
+        <div className="doc-n">د. محمد العتيبي</div>
+        <div className="doc-r">أستاذ مساعد</div>
+        <div className="doc-d">هندسة الحاسب · كلية الهندسة</div>
+      </div>
+    </div>
+  </div>
 
-            {/* Grid 2: Attendance + Medical Excuses */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 24 }}>
+  <nav className="nav">
+    <div className="ng">الرئيسية</div>
+    <a className="ni on" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      لوحتي <span className="dot"></span>
+    </a>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
+      الجدول الأسبوعي
+    </a>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      ملفي الأكاديمي
+    </a>
+    <a className="ni" href="#" onClick={() => {openModal('leave-modal')}}>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+      <span style={{color:'var(--gd)',fontWeight:600}}>رفع طلب إجازة</span>
+    </a>
 
-              {/* Attendance Roster */}
-              <Card>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-                  <div>
-                    <div style={{ fontSize: 15, fontWeight: 700 }}>رصد الحضور</div>
-                    <div style={{ fontSize: 12, color: C.dim, marginTop: 2 }}>CS402 قواعد البيانات — 52 طالب</div>
-                  </div>
-                  <span style={{ fontSize: 11, color: C.primary, background: 'rgba(34,211,238,0.1)', borderRadius: 6, padding: '3px 8px' }}>
-                    AI مراقبة
-                  </span>
-                </div>
-                <div style={{
-                  fontSize: 11, color: C.dim, background: 'rgba(34,211,238,0.06)',
-                  borderRadius: 8, padding: '8px 12px', marginBottom: 12, border: `1px solid ${C.border}`,
-                }}>
-                  نظام الكاميرا الذكية يرصد الحضور تلقائياً — يمكنك التعديل اليدوي
-                </div>
-                {attendanceStudents.map(s => (
-                  <div key={s.id} style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    padding: '8px 0', borderBottom: `1px solid ${C.border}`,
-                  }}>
-                    <div>
-                      <div style={{ fontSize: 13, fontWeight: 500 }}>{s.name}</div>
-                      <div style={{ fontSize: 11, color: C.muted }}>{s.id}</div>
-                    </div>
-                    <button
-                      onClick={() => togglePresent(s.id)}
-                      style={{
-                        padding: '4px 14px', borderRadius: 8, border: 'none',
-                        background: presentMap[s.id] ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)',
-                        color: presentMap[s.id] ? C.green : C.red,
-                        fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: font,
-                      }}
-                    >
-                      {presentMap[s.id] ? 'حضر' : 'غاب'}
-                    </button>
-                  </div>
-                ))}
-              </Card>
+    <div className="ng">المقررات الدراسية</div>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      مقرراتي هذا الفصل
+    </a>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      المحتوى التعليمي
+    </a>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 14l2 2 4-4"/></svg>
+      التكاليف <span className="nb nb-c">2</span>
+    </a>
 
-              {/* Medical Excuses */}
-              <Card>
-                <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6 }}>الأعذار الطبية — صحتي</div>
-                <div style={{ fontSize: 12, color: C.dim, marginBottom: 14 }}>3 أعذار معلّقة — معتمدة تلقائياً</div>
-                {medicalExcuses.map((ex, i) => (
-                  <div key={i} style={{
-                    padding: '12px', borderRadius: 10, marginBottom: 10,
-                    background: 'rgba(16,185,129,0.06)', border: `1px solid rgba(16,185,129,0.15)`,
-                  }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                      <div style={{ fontSize: 13, fontWeight: 600 }}>{ex.name}</div>
-                      <span style={{
-                        fontSize: 10, background: 'rgba(16,185,129,0.15)',
-                        color: C.green, borderRadius: 5, padding: '2px 7px',
-                      }}>معتمد تلقائياً</span>
-                    </div>
-                    <div style={{ fontSize: 12, color: C.dim, marginTop: 4 }}>{ex.reason}</div>
-                    <div style={{ fontSize: 11, color: C.muted, marginTop: 4 }}>{ex.date}</div>
-                  </div>
-                ))}
-              </Card>
-            </div>
+    <div className="ng">المحاضرات</div>
+    <a className="ni" href="#" onClick={() => {openModal('lec-modal')}}>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+      محاضرة أونلاين مباشرة
+    </a>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3h18v12H3z"/><path d="M8 21h8M12 17v4"/></svg>
+      محاضرة حضورية
+    </a>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+      المحاضرات المسجّلة
+    </a>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      القاعات والمدرجات
+    </a>
 
-            {/* Grid 3: Exams + Grades + Messages */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16, marginBottom: 24 }}>
+    <div className="ng">الحضور والغياب</div>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      رصد الحضور
+    </a>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      الأعذار الطبية — صحتي <span className="nb nb-c">3</span>
+    </a>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      إحصائيات الحضور
+    </a>
 
-              {/* Upcoming Exams */}
-              <Card>
-                <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 14 }}>الاختبارات القادمة</div>
-                {upcomingExams.map((ex, i) => (
-                  <div key={i} style={{
-                    padding: '12px', borderRadius: 10, marginBottom: 10,
-                    background: 'rgba(34,211,238,0.05)', border: `1px solid ${C.border}`,
-                  }}>
-                    <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 4 }}>{ex.course}</div>
-                    <div style={{ fontSize: 12, color: C.primary, marginBottom: 6 }}>{ex.type}</div>
-                    <div style={{ display: 'flex', gap: 8 }}>
-                      <Tag color={C.gold}>{ex.date}</Tag>
-                      <Tag color={C.dim}>{ex.duration}</Tag>
-                      {ex.questions > 0 && <Tag color={C.purple}>{ex.questions} سؤال</Tag>}
-                    </div>
-                  </div>
-                ))}
-              </Card>
+    <div className="ng">الاختبارات والتقييم</div>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/></svg>
+      اختبار أونلاين
+    </a>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      امتحان حضوري
+    </a>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      بنك الأسئلة
+    </a>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      جدول الامتحانات
+    </a>
 
-              {/* Grade Tracking */}
-              <Card>
-                <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6 }}>رصد الدرجات</div>
-                <div style={{ fontSize: 12, color: C.dim, marginBottom: 12 }}>CS402 قواعد البيانات</div>
-                {gradeStudents.map((st, i) => (
-                  <div key={i} style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    padding: '7px 0', borderBottom: i < gradeStudents.length - 1 ? `1px solid ${C.border}` : 'none',
-                  }}>
-                    <div style={{ fontSize: 13 }}>{st.name}</div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ fontSize: 12, color: C.muted }}>{st.score}</span>
-                      <span style={{
-                        fontSize: 12, fontWeight: 700, color: st.color,
-                        background: `${st.color}18`, borderRadius: 6, padding: '2px 8px',
-                      }}>{st.grade}</span>
-                    </div>
-                  </div>
-                ))}
-              </Card>
+    <div className="ng">الطلاب والأداء</div>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      الطلاب المسجّلون
+    </a>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      رصد الدرجات
+    </a>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      تقرير الأداء الأكاديمي
+    </a>
 
-              {/* Student Messages */}
-              <Card>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-                  <div style={{ fontSize: 15, fontWeight: 700 }}>رسائل الطلاب</div>
-                  <span style={{
-                    background: C.primary, color: C.bg, borderRadius: 10,
-                    fontSize: 11, fontWeight: 700, padding: '2px 8px',
-                  }}>5 جديدة</span>
-                </div>
-                {studentMessages.map((msg, i) => (
-                  <div key={i} style={{
-                    padding: '10px 0', borderBottom: i < studentMessages.length - 1 ? `1px solid ${C.border}` : 'none',
-                  }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
-                      <span style={{ fontSize: 13, fontWeight: 600 }}>{msg.name}</span>
-                      <span style={{ fontSize: 10, color: C.muted }}>{msg.time}</span>
-                    </div>
-                    <div style={{ fontSize: 12, color: C.dim, lineHeight: 1.5 }}>{msg.msg}</div>
-                  </div>
-                ))}
-              </Card>
-            </div>
+    <div className="ng">التواصل</div>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      المراسلات <span className="nb nb-r">5</span>
+    </a>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      تنبيهات جماعية
+    </a>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="12" y1="8" x2="12" y2="12"/></svg>
+      ملاحظات للطلاب <span className="nb nb-r">3</span>
+    </a>
 
-            {/* Quick Actions */}
-            <div style={{ marginBottom: 8 }}>
-              <SectionTitle>إجراءات سريعة</SectionTitle>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 12 }}>
-                {quickActions.map((qa, i) => (
-                  <button key={i} style={{
-                    background: C.card, border: `1px solid ${C.border}`,
-                    borderRadius: 12, padding: '14px 10px',
-                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
-                    cursor: 'pointer', transition: 'all 0.15s', fontFamily: font,
-                    color: C.text,
-                  }}
-                    onMouseEnter={e => {
-                      (e.currentTarget as HTMLButtonElement).style.borderColor = qa.color;
-                      (e.currentTarget as HTMLButtonElement).style.background = `${qa.color}10`;
-                    }}
-                    onMouseLeave={e => {
-                      (e.currentTarget as HTMLButtonElement).style.borderColor = C.border;
-                      (e.currentTarget as HTMLButtonElement).style.background = C.card;
-                    }}
-                  >
-                    <span style={{ fontSize: 22 }}>{qa.icon}</span>
-                    <span style={{ fontSize: 11, color: qa.color, fontWeight: 600, textAlign: 'center' }}>{qa.label}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
+    <div className="ng">البحث العلمي</div>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
+      الأوراق البحثية المنشورة
+    </a>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5zM6 12v5c3 3 9 3 12 0v-5"/></svg>
+      الإشراف على رسائل الماجستير
+    </a>
+    <a className="ni" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      ساعات الإرشاد الأكاديمي
+    </a>
+  </nav>
 
+  <div className="sb-ft">
+    <button className="lo-btn">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      تسجيل الخروج
+    </button>
+    <div style={{marginTop:'7px',color:'rgba(238,238,245,.14)',fontSize:'10px',textAlign:'center'}}>متين v6 — كلية الهندسة والتقنية</div>
+  </div>
+</aside>
+
+{/* MAIN */}
+<div className="main">
+  <header className="hdr">
+    <div className="hl">
+      <button className="mb" onClick={() => {toggleSb()}}>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div><div className="ht">لوحتي الأكاديمية</div><div className="hs">الأحد 27 مارس — الفصل الثاني 1445/1446</div></div>
+    </div>
+    <div className="hr">
+      <div className="sb-box">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(238,238,245,.3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input className="si" placeholder="بحث عن طالب أو مقرر..." />
+      </div>
+      <div className="hb"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span className="nd"></span></div>
+      <div className="hb"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span className="nd"></span></div>
+      <div className="ub">
+        <div className="ua">👨‍🏫</div>
+        <div className="ui"><div className="un">د. محمد العتيبي</div><div className="ur">أستاذ مساعد</div></div>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(238,238,245,.35)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+  </header>
+
+  <div className="con">
+
+    {/* PAGE HDR */}
+    <div className="ph">
+      <div>
+        <div className="pt">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5zM6 12v5c3 3 9 3 12 0v-5"/></svg>
+          مرحباً د. محمد 👋
+        </div>
+        <div className="ps">3 محاضرات اليوم — المحاضرة الثانية جارية الآن في مدرج B2 · 3 أعذار طبية جديدة عبر صحتي</div>
+      </div>
+      <div style={{display:'flex',gap:'8px',flexWrap:'wrap'}}>
+        <button className="btn-p" onClick={() => {openModal('lec-modal')}}>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          بدء محاضرة مباشرة
+        </button>
+        <button className="btn-o" onClick={() => {openModal('leave-modal')}}>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          رفع إجازة
+        </button>
+      </div>
+    </div>
+
+    {/* محاضرات اليوم */}
+    <div className="lbar">
+      <div className="lbar-lbl">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--c)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        محاضرات اليوم
+      </div>
+      <div className="lecs">
+        <div className="lec done">
+          <div className="lt">8:00 — 9:30</div>
+          <div className="ln">هندسة البرمجيات</div>
+          <div className="lc">CS301 · شعبة أ</div>
+          <div className="lv" style={{color:'var(--bl)'}}>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            مدرج A1 · حضوري
           </div>
-        )}
-
-        {activeSection !== 'home' && (
-          <PlaceholderSection section={activeSection} />
-        )}
-      </main>
-
-      <style>{`
-        @keyframes pulse {
-          0%, 100% { box-shadow: 0 0 0 3px rgba(34,211,238,0.3); }
-          50% { box-shadow: 0 0 0 7px rgba(34,211,238,0.05); }
-        }
-        ::-webkit-scrollbar { width: 0; height: 0; }
-      `}</style>
+          <div className="lty" style={{color:'var(--tm)'}}>منتهية</div>
+        </div>
+        <div className="lec now">
+          <span className="lbg now-b">● الآن</span>
+          <div className="lt">10:00 — 11:30</div>
+          <div className="ln" style={{color:'var(--c)'}}>قواعد البيانات</div>
+          <div className="lc">CS402 · شعبة ب</div>
+          <div className="lv" style={{color:'var(--c)'}}>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            مدرج B2 + أونلاين
+          </div>
+          <div className="lty" style={{color:'var(--c)'}}>هجين · كاميرا إجبارية · AI</div>
+        </div>
+        <div className="lec free">
+          <span className="lbg free-b">فراغ</span>
+          <div className="lt">12:00 — 1:00</div>
+          <div className="ln" style={{color:'var(--tm)'}}>استراحة</div>
+          <div className="lv" style={{color:'var(--gd)'}}>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            مكتب 4-208 · إرشاد
+          </div>
+        </div>
+        <div className="lec next">
+          <div className="lt">1:30 — 3:00</div>
+          <div className="ln">الذكاء الاصطناعي</div>
+          <div className="lc">CS501 · طلاب ماجستير</div>
+          <div className="lv" style={{color:'var(--pu)'}}>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            قاعة 302 + تسجيل
+          </div>
+          <div className="lty" style={{color:'var(--pu)'}}>حضوري + مسجّل تلقائياً</div>
+        </div>
+      </div>
     </div>
-  );
-}
 
-/* ── Helper Components ── */
-
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  return (
-    <div style={{
-      fontSize: 16, fontWeight: 700, color: C.text,
-      marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8,
-    }}>
-      <span style={{ display: 'inline-block', width: 3, height: 18, background: C.primary, borderRadius: 2 }} />
-      {children}
+    {/* STATS */}
+    <div className="sg">
+      <div className="sc">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(34,211,238,.05),transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="si2" style={{background:'rgba(34,211,238,.1)',border:'1px solid rgba(34,211,238,.2)'}}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div className="sv" style={{color:'var(--c)'}}>248</div>
+        <div className="sl">إجمالي الطلاب المسجّلين</div>
+        <div className="ss" style={{color:'rgba(34,211,238,.6)'}}>3 مقررات · 5 شعب</div>
+      </div>
+      <div className="sc">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(16,185,129,.05),transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="si2" style={{background:'rgba(16,185,129,.1)',border:'1px solid rgba(16,185,129,.2)'}}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/></svg>
+        </div>
+        <div className="sv" style={{color:'var(--gr)'}}>87%</div>
+        <div className="sl">نسبة الحضور الكلية</div>
+        <div className="ss" style={{color:'rgba(16,185,129,.6)'}}>هذا الفصل الدراسي</div>
+      </div>
+      <div className="sc">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(251,146,60,.05),transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="si2" style={{background:'rgba(251,146,60,.1)',border:'1px solid rgba(251,146,60,.2)'}}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FB923C" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/></svg>
+        </div>
+        <div className="sv" style={{color:'var(--or)'}}>2</div>
+        <div className="sl">تكاليف للتصحيح</div>
+        <div className="ss" style={{color:'rgba(251,146,60,.6)'}}>بانتظار رصد الدرجات</div>
+      </div>
+      <div className="sc">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(167,139,250,.05),transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="si2" style={{background:'rgba(167,139,250,.1)',border:'1px solid rgba(167,139,250,.2)'}}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <div className="sv" style={{color:'var(--pu)'}}>2.8</div>
+        <div className="sl">متوسط GPA طلابي</div>
+        <div className="ss" style={{color:'rgba(167,139,250,.6)'}}>آخر اختبار نصفي</div>
+      </div>
     </div>
-  );
-}
 
-function Card({ children }: { children: React.ReactNode }) {
-  return (
-    <div style={{
-      background: C.card, border: `1px solid ${C.border}`,
-      borderRadius: 16, padding: '18px',
-    }}>
-      {children}
+    {/* ROW: حضور + أعذار */}
+    <div className="g2">
+
+      {/* رصد حضور المحاضرة الحالية */}
+      <div className="card" style={{marginBottom:0}}>
+        <div className="ch">
+          <div className="ct">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--c)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/></svg>
+            رصد الحضور — CS402 قواعد البيانات · مدرج B2
+            <span className="cc">52 طالباً</span>
+          </div>
+          <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+            <span style={{fontSize:'11px',color:'var(--c)',fontWeight:700}}>حضر: 48</span>
+            <span style={{fontSize:'11px',color:'var(--rd)',fontWeight:700}}>غاب: 4</span>
+            <button className="btn-p" style={{padding:'5px 12px',fontSize:'11px'}}>حفظ</button>
+          </div>
+        </div>
+        {/* AI Notice */}
+        <div style={{background:'rgba(34,211,238,.05)',borderBottom:'1px solid var(--b2)',padding:'7px 14px',fontSize:'10.5px',color:'rgba(238,238,245,.5)',display:'flex',alignItems:'center',gap:'7px'}}>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--c)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          مراقبة الذكاء الاصطناعي مفعّلة · الكاميرا إجبارية · لا يمكن مغادرة النافذة
+        </div>
+        <div style={{maxHeight:'220px',overflowY:'auto'}}>
+          <div className="ar">
+            <div className="an">1</div>
+            <div className="aid">441001234</div>
+            <div className="aname">أحمد محمد الزهراني</div>
+            <div className="abtns">
+              <button className="abtn ap sel" onClick={() => {setA(this,'p')}}>حضر</button>
+              <button className="abtn aa" onClick={() => {setA(this,'a')}}>غاب</button>
+            </div>
+          </div>
+          <div className="ar">
+            <div className="an">2</div>
+            <div className="aid">441001235</div>
+            <div className="aname">سارة عبدالله العتيبي</div>
+            <div className="abtns">
+              <button className="abtn ap sel" onClick={() => {setA(this,'p')}}>حضر</button>
+              <button className="abtn aa" onClick={() => {setA(this,'a')}}>غاب</button>
+            </div>
+          </div>
+          <div className="ar" style={{background:'rgba(239,68,68,.04)'}}>
+            <div className="an">3</div>
+            <div className="aid">441001236</div>
+            <div className="aname">
+              خالد فهد الشمري
+              <span style={{fontSize:'9px',background:'rgba(16,185,129,.1)',color:'var(--gr)',border:'1px solid rgba(16,185,129,.2)',padding:'1px 6px',borderRadius:'5px',fontWeight:700,marginRight:'4px'}}>عذر صحتي</span>
+            </div>
+            <div className="abtns">
+              <button className="abtn ap" onClick={() => {setA(this,'p')}} disabled style={{opacity:'.4',cursor:'not-allowed'}}>حضر</button>
+              <button className="abtn aa sel" style={{opacity:'.7',cursor:'not-allowed'}} disabled>غاب</button>
+            </div>
+          </div>
+          <div className="ar">
+            <div className="an">4</div>
+            <div className="aid">441001237</div>
+            <div className="aname">نورة سعد الحربي</div>
+            <div className="abtns">
+              <button className="abtn ap sel" onClick={() => {setA(this,'p')}}>حضر</button>
+              <button className="abtn aa" onClick={() => {setA(this,'a')}}>غاب</button>
+            </div>
+          </div>
+          <div className="ar">
+            <div className="an">5</div>
+            <div className="aid">441001238</div>
+            <div className="aname">عمر علي القحطاني</div>
+            <div className="abtns">
+              <button className="abtn ap sel" onClick={() => {setA(this,'p')}}>حضر</button>
+              <button className="abtn aa" onClick={() => {setA(this,'a')}}>غاب</button>
+            </div>
+          </div>
+          <div className="ar" style={{background:'rgba(239,68,68,.04)'}}>
+            <div className="an">6</div>
+            <div className="aid">441001239</div>
+            <div className="aname">
+              ريم محمد المطيري
+              <span style={{fontSize:'9px',background:'rgba(16,185,129,.1)',color:'var(--gr)',border:'1px solid rgba(16,185,129,.2)',padding:'1px 6px',borderRadius:'5px',fontWeight:700,marginRight:'4px'}}>عذر صحتي</span>
+            </div>
+            <div className="abtns">
+              <button className="abtn ap" onClick={() => {setA(this,'p')}} disabled style={{opacity:'.4',cursor:'not-allowed'}}>حضر</button>
+              <button className="abtn aa sel" style={{opacity:'.7',cursor:'not-allowed'}} disabled>غاب</button>
+            </div>
+          </div>
+          <div className="ar">
+            <div className="an">7</div>
+            <div className="aid">441001240</div>
+            <div className="aname">فيصل عبدالرحمن النمر</div>
+            <div className="abtns">
+              <button className="abtn ap sel" onClick={() => {setA(this,'p')}}>حضر</button>
+              <button className="abtn aa" onClick={() => {setA(this,'a')}}>غاب</button>
+            </div>
+          </div>
+          <div style={{padding:'10px 12px',textAlign:'center',fontSize:'11px',color:'var(--tm)'}}>+ 45 طالباً آخر</div>
+        </div>
+      </div>
+
+      {/* الأعذار الطبية */}
+      <div style={{display:'flex',flexDirection:'column',gap:'12px'}}>
+        <div className="card" style={{marginBottom:0}}>
+          <div className="ch">
+            <div className="ct">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gr)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              الأعذار الطبية
+              <span style={{background:'rgba(16,185,129,.1)',border:'1px solid rgba(16,185,129,.2)',color:'var(--gr)',fontSize:'10px',fontWeight:700,padding:'2px 7px',borderRadius:'20px'}}>3</span>
+            </div>
+            <div style={{display:'inline-flex',alignItems:'center',gap:'4px',background:'rgba(255,255,255,.04)',border:'1px solid var(--b2)',color:'var(--tm)',fontSize:'9.5px',fontWeight:600,padding:'3px 8px',borderRadius:'7px'}}>
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              للاطلاع فقط
+            </div>
+          </div>
+          <div className="info-box" style={{background:'rgba(16,185,129,.05)',borderBottom:'1px solid var(--b2)'}}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            يصل مباشرة من <strong style={{color:'var(--gr)'}}>صحتي</strong> — مقبول تلقائياً ولا يُعدَّل
+          </div>
+          {/* عذر مقبول */}
+          <div className="ex">
+            <div className="ex-ic" style={{background:'rgba(16,185,129,.1)'}}>🏥</div>
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>خالد الشمري · 441001236</div>
+              <div style={{fontSize:'10.5px',color:'var(--tm)',marginTop:'2px'}}>CS402 · اليوم · مراجعة طوارئ</div>
+              <div style={{fontSize:'10px',color:'var(--gr)',fontWeight:700,marginTop:'3px',display:'flex',alignItems:'center',gap:'3px'}}>
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                صحتي — مستشفى الملك فهد
+              </div>
+            </div>
+            <span className="badge bg">مقبول تلقائياً</span>
+          </div>
+          <div className="ex">
+            <div className="ex-ic" style={{background:'rgba(16,185,129,.1)'}}>💊</div>
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>ريم المطيري · 441001239</div>
+              <div style={{fontSize:'10.5px',color:'var(--tm)',marginTop:'2px'}}>CS402 · اليوم · إجازة مرضية</div>
+              <div style={{fontSize:'10px',color:'var(--gr)',fontWeight:700,marginTop:'3px',display:'flex',alignItems:'center',gap:'3px'}}>
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                صحتي — عيادة جامعة الرياض
+              </div>
+            </div>
+            <span className="badge bg">مقبول تلقائياً</span>
+          </div>
+          <div className="ex" style={{borderBottom:'none'}}>
+            <div className="ex-ic" style={{background:'rgba(96,165,250,.1)'}}>🏥</div>
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>أحمد النمر · 441001240</div>
+              <div style={{fontSize:'10.5px',color:'var(--tm)',marginTop:'2px'}}>CS301 · أمس · مراجعة عيادة</div>
+              <div style={{fontSize:'10px',color:'var(--bl)',fontWeight:700,marginTop:'3px',display:'flex',alignItems:'center',gap:'3px'}}>
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                صحتي — محفوظ في السجل
+              </div>
+            </div>
+            <span className="badge bb">محفوظ</span>
+          </div>
+        </div>
+      </div>
     </div>
-  );
-}
 
-function StatCard({ value, label, sub, color }: { value: string; label: string; sub?: string; color: string }) {
-  return (
-    <div style={{
-      background: C.card, border: `1px solid ${C.border}`,
-      borderRadius: 14, padding: '18px 20px',
-    }}>
-      <div style={{ fontSize: 30, fontWeight: 800, color, marginBottom: 4 }}>{value}</div>
-      <div style={{ fontSize: 14, fontWeight: 600, color: C.text }}>{label}</div>
-      {sub && <div style={{ fontSize: 11, color: C.muted, marginTop: 4 }}>{sub}</div>}
+    {/* ROW: اختبارات + درجات + رسائل */}
+    <div className="g3">
+
+      {/* الاختبارات */}
+      <div className="card" style={{marginBottom:0}}>
+        <div className="ch">
+          <div className="ct">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--c)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/></svg>
+            الاختبارات والامتحانات
+          </div>
+          <button className="cl">+ إنشاء</button>
+        </div>
+        {/* Type tabs */}
+        <div style={{display:'flex',gap:'4px',padding:'7px 12px',borderBottom:'1px solid var(--b2)',overflowX:'auto'}}>
+          <button onClick={() => {switchT(this)}} style={{background:'var(--cd)',border:'1px solid var(--cb)',color:'var(--c)',borderRadius:'6px',padding:'3px 10px',fontSize:'10.5px',fontWeight:700,cursor:'pointer',fontFamily:'var(--f)',whiteSpace:'nowrap'}}>الكل</button>
+          <button onClick={() => {switchT(this)}} style={{background:'transparent',border:'1px solid transparent',color:'var(--tm)',borderRadius:'6px',padding:'3px 10px',fontSize:'10.5px',cursor:'pointer',fontFamily:'var(--f)',whiteSpace:'nowrap'}}>أونلاين</button>
+          <button onClick={() => {switchT(this)}} style={{background:'transparent',border:'1px solid transparent',color:'var(--tm)',borderRadius:'6px',padding:'3px 10px',fontSize:'10.5px',cursor:'pointer',fontFamily:'var(--f)',whiteSpace:'nowrap'}}>حضوري</button>
+          <button onClick={() => {switchT(this)}} style={{background:'transparent',border:'1px solid transparent',color:'var(--tm)',borderRadius:'6px',padding:'3px 10px',fontSize:'10.5px',cursor:'pointer',fontFamily:'var(--f)',whiteSpace:'nowrap'}}>بنك الأسئلة</button>
+        </div>
+        {/* Exam 1 */}
+        <div style={{display:'flex',alignItems:'center',gap:'10px',padding:'9px 13px',borderBottom:'1px solid var(--b2)'}}>
+          <div style={{background:'rgba(34,211,238,.1)',border:'1px solid rgba(34,211,238,.2)',borderRadius:'8px',padding:'5px 8px',textAlign:'center',flexShrink:0,minWidth:'38px'}}>
+            <div style={{fontSize:'15px',fontWeight:800,color:'var(--c)',lineHeight:1}}>29</div>
+            <div style={{fontSize:'8px',color:'var(--tm)',fontWeight:600}}>مارس</div>
+          </div>
+          <div style={{flex:1}}>
+            <div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>اختبار قواعد البيانات — نصفي</div>
+            <div style={{fontSize:'10.5px',color:'var(--tm)'}}>CS402 · أونلاين · 60 دقيقة · 40 درجة</div>
+            <div style={{fontSize:'10px',color:'var(--c)',marginTop:'2px',fontWeight:600}}>مراقبة AI · كاميرا إجبارية</div>
+          </div>
+          <span className="badge bc">غداً</span>
+        </div>
+        {/* Exam 2 */}
+        <div style={{display:'flex',alignItems:'center',gap:'10px',padding:'9px 13px',borderBottom:'1px solid var(--b2)'}}>
+          <div style={{background:'rgba(167,139,250,.1)',border:'1px solid rgba(167,139,250,.2)',borderRadius:'8px',padding:'5px 8px',textAlign:'center',flexShrink:0,minWidth:'38px'}}>
+            <div style={{fontSize:'15px',fontWeight:800,color:'var(--pu)',lineHeight:1}}>05</div>
+            <div style={{fontSize:'8px',color:'var(--tm)',fontWeight:600}}>أبريل</div>
+          </div>
+          <div style={{flex:1}}>
+            <div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>امتحان هندسة البرمجيات</div>
+            <div style={{fontSize:'10.5px',color:'var(--tm)'}}>CS301 · حضوري · مدرج A1 · 90 دقيقة</div>
+            <div style={{fontSize:'10px',color:'var(--pu)',marginTop:'2px',fontWeight:600}}>مراقبة تقليدية · ورقي</div>
+          </div>
+          <span className="badge bp">8 أيام</span>
+        </div>
+        <div style={{padding:'10px 13px'}}>
+          <button className="btn-p" style={{width:'100%',justifyContent:'center',fontSize:'11.5px',padding:'8px'}}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            إنشاء اختبار جديد
+          </button>
+        </div>
+      </div>
+
+      {/* رصد الدرجات */}
+      <div className="card" style={{marginBottom:0}}>
+        <div className="ch">
+          <div className="ct">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--pu)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            رصد الدرجات — CS402
+          </div>
+          <button className="cl" style={{color:'var(--pu)'}}>الكل</button>
+        </div>
+        <div className="tw">
+          <table>
+            <thead><tr><th>الطالب</th><th>الرقم الجامعي</th><th>الدرجة</th><th>التقدير</th></tr></thead>
+            <tbody>
+              <tr><td style={{fontWeight:600,color:'var(--t)'}}>أحمد الزهراني</td><td style={{color:'var(--tm)',fontSize:'10.5px'}}>441001234</td><td style={{color:'var(--c)',fontWeight:700}}>38/40</td><td><span className="badge bg">A+</span></td></tr>
+              <tr><td style={{fontWeight:600,color:'var(--t)'}}>سارة العتيبي</td><td style={{color:'var(--tm)',fontSize:'10.5px'}}>441001235</td><td style={{color:'var(--c)',fontWeight:700}}>35/40</td><td><span className="badge bb">A</span></td></tr>
+              <tr><td style={{fontWeight:600,color:'var(--t)'}}>نورة الحربي</td><td style={{color:'var(--tm)',fontSize:'10.5px'}}>441001237</td><td style={{color:'var(--c)',fontWeight:700}}>36/40</td><td><span className="badge bg">A</span></td></tr>
+              <tr><td style={{fontWeight:600,color:'var(--t)'}}>عمر القحطاني</td><td style={{color:'var(--tm)',fontSize:'10.5px'}}>441001238</td><td style={{color:'var(--or)',fontWeight:700}}>24/40</td><td><span className="badge bo">C+</span></td></tr>
+              <tr><td style={{fontWeight:600,color:'var(--t)'}}>فيصل النمر</td><td style={{color:'var(--tm)',fontSize:'10.5px'}}>441001240</td><td style={{color:'var(--rd)',fontWeight:700}}>14/40</td><td><span className="badge br">F</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* رسائل الطلاب */}
+      <div className="card" style={{marginBottom:0}}>
+        <div className="ch">
+          <div className="ct">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--bl)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            رسائل الطلاب
+            <span style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.2)',color:'var(--rd)',fontSize:'10px',fontWeight:700,padding:'2px 7px',borderRadius:'20px'}}>5</span>
+          </div>
+          <button className="cl" style={{color:'var(--bl)'}}>الكل</button>
+        </div>
+        <div>
+          <div className="msg">
+            <div className="munread"></div>
+            <div className="mv" style={{background:'rgba(251,146,60,.1)',color:'var(--or)'}}>أ</div>
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>أحمد الزهراني</div>
+              <div style={{fontSize:'11px',color:'var(--tm)',marginTop:'1px',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>دكتور، هل موعد الاختبار غداً؟</div>
+            </div>
+            <div style={{fontSize:'10px',color:'var(--tm)',whiteSpace:'nowrap'}}>8د</div>
+          </div>
+          <div className="msg">
+            <div className="munread"></div>
+            <div className="mv" style={{background:'rgba(167,139,250,.1)',color:'var(--pu)'}}>س</div>
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>سارة العتيبي</div>
+              <div style={{fontSize:'11px',color:'var(--tm)',marginTop:'1px',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>استفسار عن موضوع المشروع الأخير</div>
+            </div>
+            <div style={{fontSize:'10px',color:'var(--tm)',whiteSpace:'nowrap'}}>22د</div>
+          </div>
+          <div className="msg">
+            <div style={{width:'7px',flexShrink:0}}></div>
+            <div className="mv" style={{background:'rgba(96,165,250,.1)',color:'var(--bl)'}}>ع</div>
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>عمر القحطاني</div>
+              <div style={{fontSize:'11px',color:'var(--tm)',marginTop:'1px',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>طلب مراجعة درجة التكليف</div>
+            </div>
+            <div style={{fontSize:'10px',color:'var(--tm)',whiteSpace:'nowrap'}}>1س</div>
+          </div>
+          <div className="msg" style={{borderBottom:'none'}}>
+            <div style={{width:'7px',flexShrink:0}}></div>
+            <div className="mv" style={{background:'rgba(16,185,129,.1)',color:'var(--gr)'}}>ن</div>
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>نورة الحربي</div>
+              <div style={{fontSize:'11px',color:'var(--tm)',marginTop:'1px',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>شكراً على المحاضرة المسجّلة</div>
+            </div>
+            <div style={{fontSize:'10px',color:'var(--tm)',whiteSpace:'nowrap'}}>3س</div>
+          </div>
+        </div>
+        <div style={{padding:'10px 13px',borderTop:'1px solid var(--b2)'}}>
+          <button style={{width:'100%',background:'rgba(96,165,250,.06)',border:'1px solid rgba(96,165,250,.2)',borderRadius:'8px',padding:'8px',color:'var(--bl)',fontSize:'11.5px',fontWeight:700,cursor:'pointer',fontFamily:'var(--f)'}}>
+            إرسال تنبيه جماعي للطلاب
+          </button>
+        </div>
+      </div>
     </div>
-  );
-}
 
-function Tag({ color, children }: { color: string; children: React.ReactNode }) {
-  return (
-    <span style={{
-      fontSize: 10, fontWeight: 600, color,
-      background: `${color}18`, borderRadius: 5,
-      padding: '2px 7px', display: 'inline-block',
-    }}>{children}</span>
-  );
-}
+    {/* QUICK ACTIONS */}
+    <div style={{marginBottom:'6px'}}>
+      <div style={{color:'var(--tm)',fontSize:'10px',fontWeight:700,letterSpacing:'1px',textTransform:'uppercase',marginBottom:'10px'}}>إجراءات سريعة</div>
+      <div className="qg">
+        <a className="qi" href="#" onClick={() => {openModal('lec-modal')}}><div className="qic" style={{background:'rgba(34,211,238,.1)',border:'1px solid rgba(34,211,238,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><span className="ql">محاضرة أونلاين</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(96,165,250,.1)',border:'1px solid rgba(96,165,250,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3h18v12H3z"/><path d="M8 21h8M12 17v4"/></svg></div><span className="ql">محاضرة حضورية</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(34,211,238,.1)',border:'1px solid rgba(34,211,238,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div><span className="ql">تسجيل محاضرة</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(167,139,250,.1)',border:'1px solid rgba(167,139,250,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/></svg></div><span className="ql">اختبار أونلاين</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(16,185,129,.1)',border:'1px solid rgba(16,185,129,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div><span className="ql">امتحان حضوري</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(212,168,67,.1)',border:'1px solid rgba(212,168,67,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><span className="ql">بنك الأسئلة</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(251,146,60,.1)',border:'1px solid rgba(251,146,60,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FB923C" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 14l2 2 4-4"/></svg></div><span className="ql">تكليف جديد</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(167,139,250,.1)',border:'1px solid rgba(167,139,250,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><span className="ql">رصد الدرجات</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(16,185,129,.1)',border:'1px solid rgba(16,185,129,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div><span className="ql">رفع محتوى</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(34,211,238,.1)',border:'1px solid rgba(34,211,238,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/></svg></div><span className="ql">رصد الحضور</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(96,165,250,.1)',border:'1px solid rgba(96,165,250,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><span className="ql">تقرير الأداء</span></a>
+        <a className="qi" href="#" onClick={() => {openModal('leave-modal')}}><div className="qic" style={{background:'rgba(212,168,67,.1)',border:'1px solid rgba(212,168,67,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></div><span className="ql" style={{color:'var(--gd)'}}>رفع إجازة</span></a>
+      </div>
+    </div>
 
-function btnStyle(color: string): React.CSSProperties {
-  return {
-    background: `${color}18`, border: `1px solid ${color}40`,
-    color, borderRadius: 10, padding: '9px 18px',
-    fontSize: 13, fontWeight: 600, cursor: 'pointer',
-    fontFamily: font,
-  };
-}
+  </div>
 
-function PlaceholderSection({ section }: { section: Section }) {
-  const labels: Record<Section, string> = {
-    home: 'لوحتي',
-    schedule: 'الجدول الأسبوعي',
-    profile: 'ملفي الأكاديمي',
-    leave: 'رفع طلب إجازة',
-    'my-courses': 'مقرراتي هذا الفصل',
-    content: 'المحتوى التعليمي',
-    assignments: 'التكاليف',
-    'online-lecture': 'محاضرة أونلاين مباشرة',
-    'in-person-lecture': 'محاضرة حضورية',
-    recorded: 'المحاضرات المسجّلة',
-    halls: 'القاعات والمدرجات',
-    attendance: 'رصد الحضور',
-    excuses: 'الأعذار الطبية — صحتي',
-    'attendance-stats': 'إحصائيات الحضور',
-    'online-exam': 'اختبار أونلاين',
-    'in-person-exam': 'امتحان حضوري',
-    'question-bank': 'بنك الأسئلة',
-    'exam-schedule': 'جدول الامتحانات',
-    enrolled: 'الطلاب المسجّلون',
-    grades: 'رصد الدرجات',
-    performance: 'تقرير الأداء',
-    messages: 'المراسلات',
-    alerts: 'تنبيهات جماعية',
-    notes: 'ملاحظات للطلاب',
-    papers: 'الأوراق البحثية',
-    supervision: 'الإشراف على رسائل الماجستير',
-    advising: 'ساعات الإرشاد',
-  };
-  return (
-    <div style={{
-      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-      minHeight: 380, gap: 16,
-    }}>
-      <div style={{
-        width: 70, height: 70, borderRadius: '50%',
-        background: 'rgba(34,211,238,0.08)', border: `2px solid ${C.border}`,
-        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28,
-      }}>📂</div>
-      <div style={{ fontSize: 20, fontWeight: 700, color: C.text }}>{labels[section]}</div>
-      <div style={{ fontSize: 13, color: C.muted }}>هذا القسم قيد التطوير</div>
+  <footer className="ft">
+    <p>© 2026 متين — كلية الهندسة والتقنية · جامعة الرياض الأهلية</p>
+    <p>صنع بـ ❤️ في المملكة العربية السعودية</p>
+  </footer>
+</div>
     </div>
   );
 }

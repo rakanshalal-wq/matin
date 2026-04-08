@@ -1,444 +1,641 @@
-'use client';
-import { useState } from 'react';
+﻿'use client';
+import React, { useState } from 'react';
+import '../../styles/inst-owner.css';
 
-const PRIMARY = '#0EA5E9';
-const GOLD = '#D4A843';
-const BG = '#06060E';
-const SIDEBAR_BG = '#06101A';
-const TEXT = '#EEEEF5';
-const BORDER = 'rgba(14,165,233,0.12)';
-const CARD = 'rgba(255,255,255,0.025)';
-const GREEN = '#10B981';
-const RED = '#EF4444';
-const PURPLE = '#8B5CF6';
-
-// ── Sidebar menu definition ──
-const sidebarGroups = [
-  {
-    label: 'الرئيسية',
-    items: [
-      { id: 'home', label: 'لوحتي', icon: '🏠', badge: null },
-      { id: 'ads', label: 'إعلانات المنصة', icon: '📢', badge: 2 },
-    ],
-  },
-  {
-    label: 'البرامج والدورات',
-    items: [
-      { id: 'add-program', label: 'إضافة برنامج جديد', icon: '➕', badge: null, gold: true },
-      { id: 'all-programs', label: 'جميع البرامج', icon: '📚', badge: null },
-      { id: 'schedule', label: 'الجدول والمواعيد', icon: '📅', badge: null },
-      { id: 'halls', label: 'قاعات التدريب', icon: '🏛️', badge: null },
-    ],
-  },
-  {
-    label: 'المتدربون',
-    items: [
-      { id: 'trainees', label: 'المتدربون المسجلون', icon: '👥', badge: 284 },
-      { id: 'attendance', label: 'الحضور والغياب', icon: '📋', badge: null },
-      { id: 'assessments', label: 'الاختبارات والتقييم', icon: '📝', badge: 5 },
-      { id: 'issue-cert', label: 'إصدار شهادة', icon: '🏅', badge: null, gold: true },
-      { id: 'issued-certs', label: 'الشهادات الصادرة', icon: '📜', badge: null },
-    ],
-  },
-  {
-    label: 'المدربون',
-    items: [
-      { id: 'trainers', label: 'فريق المدربين', icon: '👨‍🏫', badge: null },
-      { id: 'contact-requests', label: 'طلبات التواصل', icon: '💬', badge: 3 },
-    ],
-  },
-  {
-    label: 'المالية',
-    items: [
-      { id: 'revenue', label: 'الإيرادات والمدفوعات', icon: '💰', badge: null },
-      { id: 'invoices', label: 'الفواتير الضريبية', icon: '🧾', badge: null },
-      { id: 'coupons', label: 'كوبونات الخصم', icon: '🎟️', badge: null },
-    ],
-  },
-  {
-    label: 'الإعدادات',
-    items: [
-      { id: 'page-settings', label: 'إعدادات صفحة المعهد', icon: '⚙️', badge: null },
-      { id: 'subscription', label: 'الباقة والاشتراك', icon: '💎', badge: null },
-      { id: 'security', label: 'الأمن والصلاحيات', icon: '🔐', badge: null },
-      { id: 'support', label: 'الدعم الفني', icon: '🎧', badge: null },
-    ],
-  },
-];
-
-const activePrograms = [
-  { name: 'تطوير الويب الشامل', trainees: 28, capacity: 30, fill: 93, color: PRIMARY },
-  { name: 'الذكاء الاصطناعي التطبيقي', trainees: 22, capacity: 25, fill: 88, color: GOLD },
-  { name: 'إدارة المشاريع PMP', trainees: 18, capacity: 25, fill: 72, color: GREEN },
-  { name: 'التحليل المالي المتقدم', trainees: 15, capacity: 20, fill: 75, color: '#8B5CF6' },
-  { name: 'الأمن السيبراني', trainees: 12, capacity: 15, fill: 80, color: RED },
-];
-
-const trainerPerformance = [
-  { name: 'سارة القحطاني', program: 'تطوير الويب', rating: 4.9, sessions: 24, completion: 96 },
-  { name: 'خالد المطيري', program: 'الذكاء الاصطناعي', rating: 4.8, sessions: 18, completion: 92 },
-  { name: 'نورة العمري', program: 'PMP', rating: 4.9, sessions: 20, completion: 98 },
-];
-
-const activeTrainees = [
-  { name: 'محمد العتيبي', program: 'تطوير الويب', progress: 78, status: 'نشط', payment: 'مدفوع' },
-  { name: 'فاطمة الحربي', program: 'الذكاء الاصطناعي', progress: 65, status: 'نشط', payment: 'قسط' },
-  { name: 'عبدالله الشمري', program: 'PMP', progress: 90, status: 'نشط', payment: 'مدفوع' },
-  { name: 'نورة الدوسري', program: 'التحليل المالي', progress: 45, status: 'متأخر', payment: 'قسط' },
-  { name: 'سعد المالكي', program: 'الأمن السيبراني', progress: 82, status: 'نشط', payment: 'مدفوع' },
-];
-
-const certsByProgram = [
-  { program: 'تطوير الويب', count: 18, color: PRIMARY },
-  { program: 'PMP', count: 15, color: GREEN },
-  { program: 'التحليل المالي', count: 14, color: GOLD },
-];
-
-export default function InstituteOwnerDashboard() {
-  const [activeItem, setActiveItem] = useState('home');
-  const [showAddProgram, setShowAddProgram] = useState(false);
-  const [showIssueCert, setShowIssueCert] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [quickToggles, setQuickToggles] = useState({ registration: true, payments: true, certificates: false, notifications: true });
-  const [newProgram, setNewProgram] = useState({ title: '', price: '', duration: '', level: '', method: '' });
-  const [certForm, setCertForm] = useState({ trainee: '', program: '', date: '', serial: '' });
-
-  const Toggle = ({ on, onChange }: { on: boolean; onChange: () => void }) => (
-    <div onClick={onChange} style={{ width: 42, height: 24, borderRadius: 12, background: on ? PRIMARY : 'rgba(255,255,255,0.1)', cursor: 'pointer', position: 'relative', transition: 'background 0.2s', flexShrink: 0, border: `1px solid ${on ? PRIMARY : 'rgba(255,255,255,0.15)'}` }}>
-      <div style={{ position: 'absolute', top: 3, right: on ? 3 : undefined, left: on ? undefined : 3, width: 16, height: 16, borderRadius: '50%', background: '#fff', transition: 'all 0.2s', boxShadow: '0 1px 4px rgba(0,0,0,0.3)' }} />
-    </div>
-  );
-
-  const FillBar = ({ pct, color }: { pct: number; color: string }) => (
-    <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: 4, height: 6, width: '100%', overflow: 'hidden' }}>
-      <div style={{ width: `${pct}%`, height: '100%', background: color, borderRadius: 4, transition: 'width 0.6s' }} />
-    </div>
-  );
-
-  const Stars = ({ rating }: { rating: number }) => (
-    <span style={{ color: GOLD, fontSize: 12 }}>{'★'.repeat(Math.floor(rating))}{'☆'.repeat(5 - Math.floor(rating))} {rating}</span>
-  );
-
-  const sidebarW = sidebarCollapsed ? 64 : 240;
-
+export default function InstituteOwnerPage() {
+  const [activeSection, setActiveSection] = useState('home');
   return (
-    <div style={{ direction: 'rtl', fontFamily: 'IBM Plex Sans Arabic, sans-serif', background: BG, color: TEXT, minHeight: '100vh', display: 'flex' }}>
+    <div className="page">
+<div className="ov" id="ov" onClick={() => {closeSb()}}></div>
 
-      {/* ── SIDEBAR ── */}
-      <div style={{ width: sidebarW, background: SIDEBAR_BG, borderLeft: `1px solid ${BORDER}`, display: 'flex', flexDirection: 'column', transition: 'width 0.25s', flexShrink: 0, position: 'sticky', top: 0, height: '100vh', overflowY: 'auto', overflowX: 'hidden' }}>
-        {/* Sidebar header */}
-        <div style={{ padding: sidebarCollapsed ? '20px 12px' : '20px 18px', borderBottom: `1px solid ${BORDER}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
-          {!sidebarCollapsed && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, overflow: 'hidden' }}>
-              <div style={{ width: 34, height: 34, borderRadius: 9, background: `linear-gradient(135deg,${PRIMARY},#0369A1)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, color: '#fff', fontSize: 14, flexShrink: 0 }}>إ</div>
-              <div style={{ overflow: 'hidden' }}>
-                <div style={{ color: TEXT, fontWeight: 800, fontSize: 13, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>معهد الإتقان</div>
-                <div style={{ color: GOLD, fontSize: 10, fontWeight: 600 }}>للتدريب المهني</div>
-              </div>
-            </div>
-          )}
-          <button onClick={() => setSidebarCollapsed(v => !v)} style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}`, borderRadius: 7, width: 28, height: 28, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(238,238,245,0.5)', fontSize: 14, flexShrink: 0 }}>{sidebarCollapsed ? '◀' : '▶'}</button>
+{/* MODAL: برنامج جديد */}
+<div className="modal-bg" id="prog-modal">
+  <div className="modal">
+    <div className="modal-h">
+      <div className="modal-t">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--c)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        إضافة برنامج تدريبي جديد
+      </div>
+      <div className="modal-x" onClick={() => {closeModal('prog-modal')}}>×</div>
+    </div>
+    <div className="modal-body">
+      <div style={{display:'flex',flexDirection:'column',gap:'11px'}}>
+        <div><label className="flbl">اسم البرنامج</label><input className="finp" placeholder="مثال: تطوير تطبيقات الويب" /></div>
+        <div><label className="flbl">وصف مختصر</label><textarea className="finp" rows="2" placeholder="وصف البرنامج وأهدافه..." style={{resize:'vertical'}}></textarea></div>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'10px'}}>
+          <div><label className="flbl">المدة (بالأسابيع)</label><input className="finp" type="number" placeholder="12" /></div>
+          <div><label className="flbl">السعر (ر.س)</label><input className="finp" type="number" placeholder="3200" /></div>
         </div>
-        {/* User card */}
-        {!sidebarCollapsed && (
-          <div style={{ margin: '14px 14px 0', background: `${PRIMARY}0D`, border: `1px solid ${PRIMARY}20`, borderRadius: 12, padding: '14px 14px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div style={{ width: 36, height: 36, borderRadius: 10, background: `linear-gradient(135deg,${GOLD},#b8942e)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, color: '#fff', fontSize: 15, flexShrink: 0 }}>أ</div>
-              <div>
-                <div style={{ color: TEXT, fontWeight: 700, fontSize: 13 }}>أحمد المحيسن</div>
-                <div style={{ color: GOLD, fontSize: 11, fontWeight: 600 }}>مدير المعهد</div>
-                <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 10 }}>معهد الإتقان للتدريب</div>
-              </div>
-            </div>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'10px'}}>
+          <div><label className="flbl">عدد المقاعد</label><input className="finp" type="number" placeholder="25" /></div>
+          <div>
+            <label className="flbl">المستوى</label>
+            <select className="finp"><option>مبتدئ</option><option>متوسط</option><option>متقدم</option><option>جميع المستويات</option></select>
           </div>
-        )}
-        {/* Nav groups */}
-        <div style={{ flex: 1, padding: '12px 0', overflowY: 'auto' }}>
-          {sidebarGroups.map(group => (
-            <div key={group.label} style={{ marginBottom: 4 }}>
-              {!sidebarCollapsed && (
-                <div style={{ color: 'rgba(238,238,245,0.25)', fontSize: 10, fontWeight: 800, letterSpacing: 2, padding: '10px 18px 6px', textTransform: 'uppercase' }}>{group.label}</div>
-              )}
-              {group.items.map(item => {
-                const isActive = activeItem === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => {
-                      setActiveItem(item.id);
-                      if (item.id === 'add-program') setShowAddProgram(true);
-                      if (item.id === 'issue-cert') setShowIssueCert(true);
-                    }}
-                    style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 10, padding: sidebarCollapsed ? '10px 0' : '9px 16px', background: isActive ? `${PRIMARY}18` : 'transparent', border: 'none', borderRight: isActive ? `3px solid ${item.gold ? GOLD : PRIMARY}` : '3px solid transparent', cursor: 'pointer', transition: 'all 0.15s', justifyContent: sidebarCollapsed ? 'center' : 'flex-start' }}
-                    onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'; }}
-                    onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
-                  >
-                    <span style={{ fontSize: 16, flexShrink: 0 }}>{item.icon}</span>
-                    {!sidebarCollapsed && (
-                      <>
-                        <span style={{ flex: 1, color: item.gold ? GOLD : isActive ? PRIMARY : 'rgba(238,238,245,0.65)', fontSize: 13, fontWeight: isActive || item.gold ? 700 : 500, textAlign: 'right', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.label}</span>
-                        {item.badge != null && (
-                          <span style={{ background: item.badge === 5 ? RED : PRIMARY, color: '#fff', fontSize: 10, fontWeight: 800, padding: '1px 7px', borderRadius: 10, flexShrink: 0 }}>{item.badge}</span>
-                        )}
-                      </>
-                    )}
-                  </button>
-                );
-              })}
+        </div>
+        <div>
+          <label className="flbl">طريقة التدريب</label>
+          <select className="finp"><option>حضوري</option><option>أونلاين مباشر</option><option>هجين</option><option>مسجل ذاتياً</option></select>
+        </div>
+        <div>
+          <label className="flbl">المدرب</label>
+          <select className="finp">
+            <option>اختر المدرب...</option>
+            <option>م. سارة القحطاني</option>
+            <option>د. خالد المطيري</option>
+            <option>م. نورة العمري</option>
+            <option>م. فيصل الشمري</option>
+          </select>
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'10px'}}>
+          <div><label className="flbl">تاريخ بدء الدفعة</label><input className="finp" type="date" /></div>
+          <div><label className="flbl">وقت الجلسة</label><input className="finp" type="time" /></div>
+        </div>
+        <div style={{display:'flex',gap:'8px',marginTop:'4px'}}>
+          <button onClick={() => {closeModal('prog-modal')}} style={{flex:1,background:'rgba(255,255,255,.05)',border:'1px solid var(--b1)',borderRadius:'9px',padding:'11px',color:'var(--td)',fontSize:'13px',cursor:'pointer',fontFamily:'var(--f)'}}>إلغاء</button>
+          <button className="btn-sub" style={{flex:2}}>إضافة البرنامج ←</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{/* MODAL: إصدار شهادة */}
+<div className="modal-bg" id="cert-modal">
+  <div className="modal">
+    <div className="modal-h">
+      <div className="modal-t">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gd)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+        إصدار شهادة
+      </div>
+      <div className="modal-x" onClick={() => {closeModal('cert-modal')}}>×</div>
+    </div>
+    <div className="modal-body">
+      <div style={{display:'flex',flexDirection:'column',gap:'11px'}}>
+        <div><label className="flbl">البرنامج</label><select className="finp"><option>تطوير تطبيقات الويب</option><option>الذكاء الاصطناعي</option><option>إدارة المشاريع PMP</option></select></div>
+        <div><label className="flbl">اسم المتدرب الكامل</label><input className="finp" placeholder="كما في الهوية الوطنية" /></div>
+        <div><label className="flbl">رقم الهوية الوطنية</label><input className="finp" placeholder="1xxxxxxxxx" /></div>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'10px'}}>
+          <div><label className="flbl">تاريخ الإتمام</label><input className="finp" type="date" /></div>
+          <div><label className="flbl">درجة الاختبار</label><input className="finp" type="number" placeholder="85" /></div>
+        </div>
+        <div style={{background:'rgba(14,165,233,.07)',border:'1px solid rgba(14,165,233,.2)',borderRadius:'9px',padding:'11px 13px',fontSize:'12px',color:'var(--td)'}}>
+          <strong style={{color:'var(--c)'}}>ملاحظة:</strong> الشهادة ستُصدر برمز QR فريد للتحقق، وتُرسل تلقائياً لبريد المتدرب وتُضاف لجواز سفر مهاراته في متين.
+        </div>
+        <div style={{display:'flex',gap:'8px'}}>
+          <button onClick={() => {closeModal('cert-modal')}} style={{flex:1,background:'rgba(255,255,255,.05)',border:'1px solid var(--b1)',borderRadius:'9px',padding:'11px',color:'var(--td)',fontSize:'13px',cursor:'pointer',fontFamily:'var(--f)'}}>إلغاء</button>
+          <button style={{flex:2,background:'linear-gradient(135deg,var(--gd),var(--gd2))',border:'none',borderRadius:'9px',padding:'11px',color:'#000',fontWeight:800,fontSize:'13px',cursor:'pointer',fontFamily:'var(--f)'}}>إصدار الشهادة ←</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{/* SIDEBAR */}
+<aside className="sb" id="sb">
+  <div className="sb-top">
+    <a className="logo-row" href="#">
+      <div className="logo-ic">م</div>
+      <div><div className="logo-t">متين</div><div className="logo-s">نظام إدارة التدريب</div></div>
+    </a>
+    <div className="inst-card">
+      <div className="ic-av">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--c)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div style={{minWidth:0}}>
+        <div className="ic-name">أحمد المحيسن</div>
+        <div className="ic-role">مدير المعهد</div>
+        <div className="ic-inst">معهد الإتقان للتدريب</div>
+      </div>
+    </div>
+  </div>
+
+  <nav className="nav">
+    <div className="ng">الرئيسية</div>
+    <a className="ni on" href="#">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      لوحتي <span className="dot"></span>
+    </a>
+    <a className="ni" href="#">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      إعلانات المنصة <span className="nb nb-b">2</span>
+    </a>
+
+    <div className="ng">البرامج والدورات</div>
+    <a className="ni" href="#" onClick={() => {openModal('prog-modal')}}>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+      <span style={{color:'var(--gd)',fontWeight:600}}>إضافة برنامج جديد</span>
+    </a>
+    <a className="ni" href="#">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      جميع البرامج
+    </a>
+    <a className="ni" href="#">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
+      الجدول والمواعيد
+    </a>
+    <a className="ni" href="#">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      قاعات التدريب
+    </a>
+
+    <div className="ng">المتدربون</div>
+    <a className="ni" href="#">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      المتدربون المسجلون <span className="nb nb-b">284</span>
+    </a>
+    <a className="ni" href="#">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      الحضور والغياب
+    </a>
+    <a className="ni" href="#">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 14l2 2 4-4"/></svg>
+      الاختبارات والتقييم <span className="nb nb-r">5</span>
+    </a>
+    <a className="ni" href="#" onClick={() => {openModal('cert-modal')}}>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+      <span style={{color:'var(--gd)',fontWeight:600}}>إصدار شهادة</span>
+    </a>
+    <a className="ni" href="#">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      الشهادات الصادرة
+    </a>
+
+    <div className="ng">المدربون</div>
+    <a className="ni" href="#">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      فريق المدربين
+    </a>
+    <a className="ni" href="#">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 3.07 13.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 2 2.84h3a2 2 0 0 0 2 1.72 12.84 12.84 0 0 0 .7 2.81A2 2 0 0 1 7 9.09l-1.27 1.27a16 16 0 0 0 6.29 6.29l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 0 22 16.92z"/></svg>
+      طلبات التواصل <span className="nb nb-b">3</span>
+    </a>
+
+    <div className="ng">المالية</div>
+    <a className="ni" href="#">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      الإيرادات والمدفوعات
+    </a>
+    <a className="ni" href="#">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      الفواتير الضريبية
+    </a>
+    <a className="ni" href="#">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      كوبونات الخصم
+    </a>
+
+    <div className="ng">الإعدادات</div>
+    <a className="ni" href="#">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      إعدادات صفحة المعهد
+    </a>
+    <a className="ni" href="#">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+      الباقة والاشتراك
+    </a>
+    <a className="ni" href="#">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      الأمان والصلاحيات
+    </a>
+    <a className="ni" href="#">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      الدعم الفني
+    </a>
+  </nav>
+
+  <div className="sb-foot">
+    <button className="logout-btn">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      تسجيل الخروج
+    </button>
+    <div className="sb-ver">متين v3.0 · معهد الإتقان</div>
+  </div>
+</aside>
+
+{/* MAIN */}
+<div className="main">
+  {/* HEADER */}
+  <header className="hdr">
+    <div className="hdr-l">
+      <button className="menu-btn" onClick={() => {openSb()}}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div>
+        <div className="hdr-title">لوحة مدير المعهد</div>
+        <div className="hdr-sub">معهد الإتقان للتدريب · ذو القعدة 1446 هـ</div>
+      </div>
+    </div>
+    <div className="hdr-r">
+      <div className="srch">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--tm)" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input placeholder="بحث في المتدربين والبرامج..." />
+      </div>
+      <div className="hdr-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <div className="ndot"></div>
+      </div>
+      <div className="user-btn">
+        <div className="u-av">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--c)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div>
+          <div className="u-name">أحمد المحيسن</div>
+          <div className="u-role">مدير المعهد</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {/* CONTENT */}
+  <div className="ct">
+
+    {/* ALERT */}
+    <div className="alert alert-b">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span style={{color:'var(--td)'}}>دفعة <strong style={{color:'var(--c)'}}>تطوير الويب</strong> تبدأ بعد 3 أيام — تأكد من توفر قاعة التدريب وجهاز المدرب</span>
+      <a href="#" style={{color:'var(--c)',fontWeight:700,fontSize:'11.5px',marginRight:'auto'}}>عرض التفاصيل ←</a>
+      <button onClick={() => {this.parentNode.style.display='none'}} style={{background:'none',border:'none',color:'var(--tm)',cursor:'pointer',fontSize:'16px'}}>×</button>
+    </div>
+
+    {/* PAGE HDR */}
+    <div className="pg-hdr">
+      <div>
+        <div className="pg-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          نظرة عامة
+        </div>
+        <div className="pg-sub">ذو القعدة 1446 · الدفعة الثانية · أسبوع 3 من 12</div>
+      </div>
+      <div style={{display:'flex',gap:'8px',flexWrap:'wrap'}}>
+        <button className="btn-p" onClick={() => {openModal('cert-modal')}}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+          إصدار شهادة
+        </button>
+        <button className="btn-p" style={{background:'linear-gradient(135deg,var(--gd),var(--gd2))',color:'#000',boxShadow:'0 4px 14px rgba(212,168,67,.25)'}} onClick={() => {openModal('prog-modal')}}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          برنامج جديد
+        </button>
+      </div>
+    </div>
+
+    {/* PERIOD BAR */}
+    <div className="period-bar">
+      <div className="pb-item">
+        <div className="pb-lbl">الشهر التدريبي</div>
+        <div className="pb-val">ذو القعدة 1446</div>
+        <div className="pb-sub" style={{color:'var(--c)'}}>تسجيل مفتوح</div>
+      </div>
+      <div className="pb-div"></div>
+      <div className="pb-item">
+        <div className="pb-lbl">دفعات جارية</div>
+        <div className="pb-val">5 دفعات</div>
+        <div className="pb-sub" style={{color:'var(--gr)'}}>3 حضوري · 2 أونلاين</div>
+      </div>
+      <div className="pb-div"></div>
+      <div className="pb-item">
+        <div className="pb-lbl">شهادات هذا الشهر</div>
+        <div className="pb-val">47 شهادة</div>
+        <div className="pb-sub" style={{color:'var(--or)'}}>تُصدر نهاية الشهر</div>
+      </div>
+      <div className="pb-div"></div>
+      <div className="pb-item pb-prog">
+        <div className="pb-lbl">نسبة امتلاء المعهد</div>
+        <div className="pb-val" style={{color:'var(--c)'}}>88.7%</div>
+        <div className="prog-bar"><div className="prog-fill" style={{width:'88.7%'}}></div></div>
+      </div>
+    </div>
+
+    {/* STATS */}
+    <div className="stats-grid">
+      <div className="stat-card">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(14,165,233,.05),transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="s-icon" style={{background:'rgba(14,165,233,.1)',border:'1px solid rgba(14,165,233,.2)'}}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div className="s-val" style={{color:'var(--c)'}}>284</div>
+        <div className="s-lbl">متدرب نشط</div>
+        <div className="s-sub" style={{color:'rgba(14,165,233,.7)'}}>↑ 38 هذا الشهر</div>
+      </div>
+      <div className="stat-card">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(16,185,129,.05),transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="s-icon" style={{background:'rgba(16,185,129,.1)',border:'1px solid rgba(16,185,129,.2)'}}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <div className="s-val" style={{color:'var(--gr)'}}>18</div>
+        <div className="s-lbl">برنامجاً نشطاً</div>
+        <div className="s-sub" style={{color:'rgba(16,185,129,.7)'}}>5 دفعات هذا الشهر</div>
+      </div>
+      <div className="stat-card">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(212,168,67,.05),transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="s-icon" style={{background:'var(--gdd)',border:'1px solid var(--gdb)'}}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+        </div>
+        <div className="s-val" style={{color:'var(--gd)'}}>47</div>
+        <div className="s-lbl">شهادة تُصدر هذا الشهر</div>
+        <div className="s-sub" style={{color:'rgba(212,168,67,.7)'}}>↑ 12 عن الشهر الماضي</div>
+      </div>
+      <div className="stat-card">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(251,146,60,.05),transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="s-icon" style={{background:'rgba(251,146,60,.1)',border:'1px solid rgba(251,146,60,.2)'}}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FB923C" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div className="s-val" style={{color:'var(--or)'}}>128,400</div>
+        <div className="s-lbl">إيرادات هذا الشهر (ر.س)</div>
+        <div className="s-sub" style={{color:'rgba(251,146,60,.7)'}}>↑ 22% عن الشهر السابق</div>
+      </div>
+    </div>
+
+    {/* ROW 1 */}
+    <div className="grid-62">
+      {/* PROGRAMS TABLE */}
+      <div className="card">
+        <div className="card-hdr">
+          <div className="card-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--c)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            البرامج النشطة
+          </div>
+          <span className="card-more" onClick={() => {openModal('prog-modal')}}>+ إضافة ←</span>
+        </div>
+        <div className="card-body" style={{padding:'14px'}}>
+          <div className="prog-mini">
+            <div className="pm-ic" style={{background:'rgba(14,165,233,.12)'}}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
             </div>
-          ))}
+            <div style={{flex:1,minWidth:0}}>
+              <div className="pm-name">تطوير تطبيقات الويب</div>
+              <div className="pm-meta">12 أسبوع · م. سارة القحطاني</div>
+              <div className="pm-bar-wrap"><div className="pm-bar"><div className="pm-fill" style={{width:'88%',background:'linear-gradient(90deg,var(--c),var(--cy))'}}></div></div></div>
+            </div>
+            <div className="pm-seats" style={{color:'var(--rd)'}}>22/25</div>
+          </div>
+          <div className="prog-mini">
+            <div className="pm-ic" style={{background:'rgba(167,139,250,.1)'}}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 0 2h-1v1a2 2 0 0 1-2 2v2h-2v-2H9v2H7v-2a2 2 0 0 1-2-2v-1H4a1 1 0 0 1 0-2h1a7 7 0 0 1 7-7h1V5.73A2 2 0 0 1 12 2z"/></svg>
+            </div>
+            <div style={{flex:1,minWidth:0}}>
+              <div className="pm-name">الذكاء الاصطناعي وتعلم الآلة</div>
+              <div className="pm-meta">8 أسابيع · د. خالد المطيري</div>
+              <div className="pm-bar-wrap"><div className="pm-bar"><div className="pm-fill" style={{width:'60%',background:'linear-gradient(90deg,var(--pu),#7C3AED)'}}></div></div></div>
+            </div>
+            <div className="pm-seats" style={{color:'var(--gr)'}}>12/20</div>
+          </div>
+          <div className="prog-mini">
+            <div className="pm-ic" style={{background:'rgba(251,146,60,.1)'}}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FB923C" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </div>
+            <div style={{flex:1,minWidth:0}}>
+              <div className="pm-name">إدارة المشاريع PMP</div>
+              <div className="pm-meta">6 أسابيع · م. نورة العمري</div>
+              <div className="pm-bar-wrap"><div className="pm-bar"><div className="pm-fill" style={{width:'73%',background:'linear-gradient(90deg,var(--or),#C2410C)'}}></div></div></div>
+            </div>
+            <div className="pm-seats" style={{color:'var(--or)'}}>18/25</div>
+          </div>
+          <div className="prog-mini">
+            <div className="pm-ic" style={{background:'rgba(239,68,68,.1)'}}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div style={{flex:1,minWidth:0}}>
+              <div className="pm-name">الأمن السيبراني المتقدم</div>
+              <div className="pm-meta">8 أسابيع · م. فيصل الشمري</div>
+              <div className="pm-bar-wrap"><div className="pm-bar"><div className="pm-fill" style={{width:'80%',background:'linear-gradient(90deg,var(--rd),#B91C1C)'}}></div></div></div>
+            </div>
+            <div className="pm-seats" style={{color:'var(--gr)'}}>8/10</div>
+          </div>
+          <div className="prog-mini">
+            <div className="pm-ic" style={{background:'rgba(16,185,129,.1)'}}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            </div>
+            <div style={{flex:1,minWidth:0}}>
+              <div className="pm-name">المالية والمحاسبة</div>
+              <div className="pm-meta">5 أسابيع · د. رنا الحربي</div>
+              <div className="pm-bar-wrap"><div className="pm-bar"><div className="pm-fill" style={{width:'50%',background:'linear-gradient(90deg,var(--gr),#059669)'}}></div></div></div>
+            </div>
+            <div className="pm-seats" style={{color:'var(--gr)'}}>12/24</div>
+          </div>
         </div>
       </div>
 
-      {/* ── MAIN CONTENT ── */}
-      <div style={{ flex: 1, padding: '28px 32px', overflowY: 'auto', maxHeight: '100vh' }}>
-
-        {/* ── Period Bar ── */}
-        <div style={{ display: 'flex', gap: 14, alignItems: 'center', background: `${GOLD}08`, border: `1px solid ${GOLD}20`, borderRadius: 14, padding: '14px 22px', marginBottom: 24, flexWrap: 'wrap', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', align: 'center', gap: 8 }}>
-            <span style={{ fontSize: 16 }}>📆</span>
-            <span style={{ color: GOLD, fontWeight: 700, fontSize: 14 }}>ذو القعدة 1446</span>
+      {/* SIDEBAR CARDS */}
+      <div style={{display:'flex',flexDirection:'column',gap:'10px'}}>
+        {/* REVENUE */}
+        <div className="card">
+          <div className="card-hdr">
+            <div className="card-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gd)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              ملخص الإيرادات
+            </div>
+            <span className="card-more">تفاصيل ←</span>
           </div>
-          {[{ v: '5', l: 'دفعات نشطة', c: PRIMARY }, { v: '47', l: 'شهادة أُصدرت', c: GREEN }, { v: '88.7%', l: 'امتلاء البرامج', c: GOLD }].map(s => (
-            <div key={s.l} style={{ display: 'flex', alignItems: 'center', gap: 10, background: `${s.c}10`, border: `1px solid ${s.c}20`, borderRadius: 10, padding: '8px 16px' }}>
-              <span style={{ color: s.c, fontSize: 18, fontWeight: 900 }}>{s.v}</span>
-              <span style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12 }}>{s.l}</span>
+          <div className="card-body">
+            <div className="rev-row">
+              <div className="rev-lbl">إيرادات اليوم</div>
+              <div className="rev-val" style={{color:'var(--gr)'}}>4,200 ر.س</div>
             </div>
-          ))}
-          <button style={{ background: `${PRIMARY}15`, border: `1px solid ${PRIMARY}30`, color: PRIMARY, fontSize: 12, fontWeight: 700, padding: '8px 16px', borderRadius: 9, cursor: 'pointer' }}>تصدير التقرير</button>
-        </div>
-
-        {/* ── Stats Grid ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16, marginBottom: 26 }}>
-          {[
-            { title: 'إجمالي المتدربين', value: '284', sub: '+12 هذا الشهر', color: PRIMARY, icon: '👥' },
-            { title: 'البرامج النشطة', value: '18', sub: '5 دفعات جارية', color: GOLD, icon: '📚' },
-            { title: 'الشهادات الصادرة', value: '47', sub: 'هذا الشهر', color: GREEN, icon: '🏅' },
-            { title: 'الإيرادات', value: '128,400', sub: 'ريال سعودي', color: PURPLE, icon: '💰' },
-          ].map(s => (
-            <div key={s.title} style={{ background: CARD, border: `1px solid ${s.color}20`, borderRadius: 16, padding: '20px 22px', position: 'relative', overflow: 'hidden', cursor: 'pointer', transition: 'all 0.2s' }}
-              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = `0 8px 28px ${s.color}18`; el.style.borderColor = `${s.color}45`; }}
-              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(0)'; el.style.boxShadow = 'none'; el.style.borderColor = `${s.color}20`; }}>
-              <div style={{ position: 'absolute', top: -20, left: -20, width: 80, height: 80, background: `${s.color}06`, borderRadius: '50%' }} />
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
-                <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 12, fontWeight: 600 }}>{s.title}</div>
-                <span style={{ fontSize: 22 }}>{s.icon}</span>
-              </div>
-              <div style={{ color: TEXT, fontSize: 32, fontWeight: 900, lineHeight: 1, marginBottom: 6 }}>{s.value}</div>
-              <div style={{ color: s.color, fontSize: 11, fontWeight: 600 }}>{s.sub}</div>
+            <div className="rev-row">
+              <div className="rev-lbl">هذا الأسبوع</div>
+              <div className="rev-val">28,600 ر.س</div>
             </div>
-          ))}
-        </div>
-
-        {/* ── Active Programs Table + Revenue Summary ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 20, marginBottom: 22 }}>
-          {/* Programs Table */}
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: '20px 22px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
-              <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 10, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase' }}>البرامج النشطة</div>
-              <button onClick={() => setShowAddProgram(true)} style={{ background: `${GOLD}15`, border: `1px solid ${GOLD}30`, color: GOLD, fontSize: 11, fontWeight: 700, padding: '5px 12px', borderRadius: 8, cursor: 'pointer' }}>+ إضافة برنامج</button>
+            <div className="rev-row">
+              <div className="rev-lbl">هذا الشهر</div>
+              <div className="rev-val" style={{color:'var(--or)'}}>128,400 ر.س</div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '2fr 0.6fr 0.6fr 1.4fr', gap: 0, marginBottom: 10, padding: '0 4px' }}>
-              {['البرنامج', 'متدرب', 'ظرفية', 'الامتلاء'].map(h => (
-                <div key={h} style={{ color: 'rgba(238,238,245,0.3)', fontSize: 11, fontWeight: 700 }}>{h}</div>
-              ))}
+            <div className="rev-row">
+              <div className="rev-lbl">عمولة متين</div>
+              <div className="rev-val" style={{color:'var(--rd)'}}>−6,420 ر.س</div>
             </div>
-            {activePrograms.map((p, i) => (
-              <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 0.6fr 0.6fr 1.4fr', alignItems: 'center', gap: 0, padding: '10px 4px', borderBottom: i < activePrograms.length - 1 ? `1px solid rgba(255,255,255,0.04)` : 'none' }}>
-                <div style={{ color: TEXT, fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</div>
-                <div style={{ color: p.color, fontSize: 13, fontWeight: 700 }}>{p.trainees}</div>
-                <div style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12 }}>{p.capacity}</div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <FillBar pct={p.fill} color={p.color} />
-                  <span style={{ color: p.color, fontSize: 11, fontWeight: 700, flexShrink: 0 }}>{p.fill}%</span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Revenue Summary */}
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: '20px 22px' }}>
-            <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 10, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 18 }}>ملخص الإيرادات</div>
-            {[
-              { label: 'إيرادات اليوم', value: '4,200 ر.س', color: GREEN, up: true },
-              { label: 'إيرادات الأسبوع', value: '22,800 ر.س', color: PRIMARY, up: true },
-              { label: 'إيرادات الشهر', value: '128,400 ر.س', color: GOLD, up: true },
-              { label: 'عمولة المنصة', value: '6,420 ر.س', color: RED, up: false },
-              { label: 'صافي الإيرادات', value: '121,980 ر.س', color: GREEN, up: true },
-            ].map((r, i) => (
-              <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: i < 4 ? `1px solid rgba(255,255,255,0.04)` : 'none' }}>
-                <span style={{ color: 'rgba(238,238,245,0.5)', fontSize: 12 }}>{r.label}</span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span style={{ color: r.up ? '▲' : '▼', fontSize: 10 }}>{r.up ? '▲' : '▼'}</span>
-                  <span style={{ color: r.color, fontWeight: 800, fontSize: 14 }}>{r.value}</span>
-                </div>
-              </div>
-            ))}
+            <div className="rev-row" style={{borderTop:'1px solid var(--b1)',marginTop:'4px',paddingTop:'8px'}}>
+              <div className="rev-lbl" style={{fontWeight:700,color:'var(--t)'}}>الصافي</div>
+              <div className="rev-val" style={{color:'var(--c)',fontSize:'15px'}}>121,980 ر.س</div>
+            </div>
           </div>
         </div>
 
-        {/* ── Trainer Performance + Active Trainees ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: 20, marginBottom: 22 }}>
-          {/* Trainer Performance */}
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: '20px 22px' }}>
-            <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 10, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 18 }}>أداء المدربين</div>
-            {trainerPerformance.map((t, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '12px 0', borderBottom: i < trainerPerformance.length - 1 ? `1px solid rgba(255,255,255,0.04)` : 'none' }}>
-                <div style={{ width: 38, height: 38, borderRadius: 10, background: `linear-gradient(135deg,${PRIMARY}80,${GOLD}60)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, color: '#fff', fontSize: 15, flexShrink: 0 }}>{t.name.charAt(0)}</div>
-                <div style={{ flex: 1, overflow: 'hidden' }}>
-                  <div style={{ color: TEXT, fontSize: 13, fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t.name}</div>
-                  <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 11 }}>{t.program}</div>
-                  <Stars rating={t.rating} />
-                </div>
-                <div style={{ textAlign: 'center', flexShrink: 0 }}>
-                  <div style={{ color: GREEN, fontWeight: 800, fontSize: 13 }}>{t.completion}%</div>
-                  <div style={{ color: 'rgba(238,238,245,0.3)', fontSize: 10 }}>إنجاز</div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Active Trainees Table */}
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: '20px 22px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
-              <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 10, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase' }}>المتدربون النشطون</div>
-              <span style={{ background: `${PRIMARY}15`, color: PRIMARY, fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 8, border: `1px solid ${PRIMARY}25` }}>284 متدرب</span>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1.2fr 0.8fr 0.7fr 0.7fr', gap: 0, marginBottom: 10, padding: '0 4px' }}>
-              {['المتدرب', 'البرنامج', 'التقدم', 'الحالة', 'الدفع'].map(h => (
-                <div key={h} style={{ color: 'rgba(238,238,245,0.3)', fontSize: 11, fontWeight: 700 }}>{h}</div>
-              ))}
-            </div>
-            {activeTrainees.map((t, i) => (
-              <div key={i} style={{ display: 'grid', gridTemplateColumns: '1.4fr 1.2fr 0.8fr 0.7fr 0.7fr', alignItems: 'center', gap: 0, padding: '10px 4px', borderBottom: i < activeTrainees.length - 1 ? `1px solid rgba(255,255,255,0.04)` : 'none' }}>
-                <div style={{ color: TEXT, fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t.name}</div>
-                <div style={{ color: 'rgba(238,238,245,0.45)', fontSize: 12, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t.program}</div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <div style={{ flex: 1, background: 'rgba(255,255,255,0.06)', borderRadius: 3, height: 5, overflow: 'hidden' }}>
-                    <div style={{ width: `${t.progress}%`, height: '100%', background: t.progress > 75 ? GREEN : t.progress > 50 ? GOLD : RED, borderRadius: 3 }} />
-                  </div>
-                  <span style={{ color: 'rgba(238,238,245,0.4)', fontSize: 10, flexShrink: 0 }}>{t.progress}%</span>
-                </div>
-                <span style={{ background: t.status === 'نشط' ? `${GREEN}18` : `${RED}18`, color: t.status === 'نشط' ? GREEN : RED, fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 5 }}>{t.status}</span>
-                <span style={{ background: t.payment === 'مدفوع' ? `${PRIMARY}15` : `${GOLD}15`, color: t.payment === 'مدفوع' ? PRIMARY : GOLD, fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 5 }}>{t.payment}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ── Certificates This Month + Quick Settings ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 22 }}>
-          {/* Certs this month */}
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: '20px 22px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
-              <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 10, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase' }}>شهادات الشهر الحالي</div>
-              <button onClick={() => setShowIssueCert(true)} style={{ background: `${GOLD}15`, border: `1px solid ${GOLD}30`, color: GOLD, fontSize: 11, fontWeight: 700, padding: '5px 12px', borderRadius: 8, cursor: 'pointer' }}>🏅 إصدار شهادة</button>
-            </div>
-            {certsByProgram.map((c, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '12px 0', borderBottom: i < certsByProgram.length - 1 ? `1px solid rgba(255,255,255,0.04)` : 'none' }}>
-                <div style={{ width: 40, height: 40, borderRadius: 10, background: `${c.color}15`, border: `1px solid ${c.color}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>🏅</div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ color: TEXT, fontSize: 13, fontWeight: 700 }}>{c.program}</div>
-                  <div style={{ marginTop: 6 }}><FillBar pct={(c.count / 47) * 100} color={c.color} /></div>
-                </div>
-                <div style={{ color: c.color, fontSize: 20, fontWeight: 900, flexShrink: 0 }}>{c.count}</div>
-              </div>
-            ))}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 16, paddingTop: 14, borderTop: `1px solid rgba(255,255,255,0.06)` }}>
-              <span style={{ color: 'rgba(238,238,245,0.4)', fontSize: 12 }}>الإجمالي هذا الشهر</span>
-              <span style={{ color: GREEN, fontSize: 18, fontWeight: 900 }}>47 شهادة</span>
+        {/* TOP TRAINERS */}
+        <div className="card">
+          <div className="card-hdr">
+            <div className="card-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--c)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              أداء المدربين
             </div>
           </div>
-
-          {/* Quick Settings */}
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: '20px 22px' }}>
-            <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 10, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 18 }}>الإعدادات السريعة</div>
-            {[
-              { key: 'registration', label: 'التسجيل في البرامج', desc: 'السماح بتلقي طلبات تسجيل جديدة', color: PRIMARY },
-              { key: 'payments', label: 'نظام الأقساط', desc: 'تفعيل خيار الدفع بالأقساط', color: GOLD },
-              { key: 'certificates', label: 'إصدار تلقائي للشهادات', desc: 'إصدار الشهادة عند إتمام البرنامج', color: GREEN },
-              { key: 'notifications', label: 'الإشعارات الفورية', desc: 'إرسال تنبيهات للمتدربين', color: PURPLE },
-            ].map(t => (
-              <div key={t.key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: `1px solid rgba(255,255,255,0.04)` }}>
-                <div>
-                  <div style={{ color: TEXT, fontSize: 13, fontWeight: 600 }}>{t.label}</div>
-                  <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 11, marginTop: 2 }}>{t.desc}</div>
-                </div>
-                <Toggle on={(quickToggles as any)[t.key]} onChange={() => setQuickToggles(prev => ({ ...prev, [t.key]: !(prev as any)[t.key] }))} />
+          <div className="card-body">
+            <div className="tr-row">
+              <div className="tr-av" style={{background:'rgba(14,165,233,.12)'}}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--c)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
               </div>
-            ))}
+              <div style={{flex:1,minWidth:0}}>
+                <div className="tr-name">م. سارة القحطاني</div>
+                <div className="tr-prog">تطوير الويب · 22 متدرب</div>
+              </div>
+              <div className="tr-rate">★ 4.9</div>
+            </div>
+            <div className="tr-row">
+              <div className="tr-av" style={{background:'rgba(167,139,250,.1)'}}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--pu)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <div style={{flex:1,minWidth:0}}>
+                <div className="tr-name">د. خالد المطيري</div>
+                <div className="tr-prog">الذكاء الاصطناعي · 12 متدرب</div>
+              </div>
+              <div className="tr-rate">★ 4.8</div>
+            </div>
+            <div className="tr-row">
+              <div className="tr-av" style={{background:'rgba(251,146,60,.1)'}}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--or)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <div style={{flex:1,minWidth:0}}>
+                <div className="tr-name">م. نورة العمري</div>
+                <div className="tr-prog">إدارة المشاريع · 18 متدرب</div>
+              </div>
+              <div className="tr-rate">★ 4.9</div>
+            </div>
           </div>
         </div>
       </div>
+    </div>
 
-      {/* ── MODAL: Add Program ── */}
-      {showAddProgram && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, backdropFilter: 'blur(4px)' }}>
-          <div style={{ background: '#080814', border: `1px solid ${GOLD}30`, borderRadius: 22, padding: 36, width: '100%', maxWidth: 480, direction: 'rtl', position: 'relative' }}>
-            <button onClick={() => setShowAddProgram(false)} style={{ position: 'absolute', top: 16, left: 16, background: 'rgba(255,255,255,0.06)', border: 'none', color: 'rgba(238,238,245,0.5)', width: 32, height: 32, borderRadius: 8, fontSize: 18, cursor: 'pointer' }}>×</button>
-            <div style={{ color: GOLD, fontSize: 20, fontWeight: 800, marginBottom: 6 }}>➕ إضافة برنامج جديد</div>
-            <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 12, marginBottom: 26 }}>أدخل تفاصيل البرنامج التدريبي الجديد</div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-              {[
-                { label: 'اسم البرنامج', key: 'title', ph: 'مثال: تطوير الويب', span: true },
-                { label: 'السعر (ر.س)', key: 'price', ph: '0000' },
-                { label: 'المدة (ساعة)', key: 'duration', ph: '48' },
-              ].map(f => (
-                <div key={f.key} style={{ gridColumn: f.span ? '1/-1' : undefined }}>
-                  <label style={{ display: 'block', color: 'rgba(238,238,245,0.5)', fontSize: 12, fontWeight: 600, marginBottom: 7 }}>{f.label}</label>
-                  <input placeholder={f.ph} value={(newProgram as any)[f.key]} onChange={e => setNewProgram(p => ({ ...p, [f.key]: e.target.value }))} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, borderRadius: 10, padding: '11px 14px', color: TEXT, fontSize: 13, outline: 'none', boxSizing: 'border-box', fontFamily: 'inherit' }} />
-                </div>
-              ))}
-              <div>
-                <label style={{ display: 'block', color: 'rgba(238,238,245,0.5)', fontSize: 12, fontWeight: 600, marginBottom: 7 }}>المستوى</label>
-                <select value={newProgram.level} onChange={e => setNewProgram(p => ({ ...p, level: e.target.value }))} style={{ width: '100%', background: '#0A0A18', border: `1px solid ${BORDER}`, borderRadius: 10, padding: '11px 14px', color: TEXT, fontSize: 13, outline: 'none', fontFamily: 'inherit' }}>
-                  <option value="">اختر</option>
-                  {['مبتدئ', 'متوسط', 'متقدم'].map(v => <option key={v} value={v} style={{ background: '#0A0A18' }}>{v}</option>)}
-                </select>
-              </div>
-              <div>
-                <label style={{ display: 'block', color: 'rgba(238,238,245,0.5)', fontSize: 12, fontWeight: 600, marginBottom: 7 }}>طريقة التدريب</label>
-                <select value={newProgram.method} onChange={e => setNewProgram(p => ({ ...p, method: e.target.value }))} style={{ width: '100%', background: '#0A0A18', border: `1px solid ${BORDER}`, borderRadius: 10, padding: '11px 14px', color: TEXT, fontSize: 13, outline: 'none', fontFamily: 'inherit' }}>
-                  <option value="">اختر</option>
-                  {['حضوري', 'أونلاين', 'مدمج'].map(v => <option key={v} value={v} style={{ background: '#0A0A18' }}>{v}</option>)}
-                </select>
-              </div>
+    {/* ROW 2: TRAINEES TABLE + CERTS */}
+    <div className="grid-62">
+      <div className="card">
+        <div className="card-hdr">
+          <div className="card-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--c)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            المتدربون النشطون
+          </div>
+          <span className="card-more">عرض الكل ←</span>
+        </div>
+        <div style={{overflowX:'auto'}}>
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th>المتدرب</th>
+                <th>البرنامج</th>
+                <th>الحضور</th>
+                <th>الدرجة</th>
+                <th>الحالة</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div className="tbl-name">محمد الشهري</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>1443xxxx</div></td>
+                <td>تطوير الويب</td>
+                <td style={{color:'var(--gr)'}}>92%</td>
+                <td style={{color:'var(--c)',fontWeight:700}}>88%</td>
+                <td><span className="badge b-g">نشط</span></td>
+              </tr>
+              <tr>
+                <td><div className="tbl-name">سارة العتيبي</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>1443xxxx</div></td>
+                <td>الذكاء الاصطناعي</td>
+                <td style={{color:'var(--gr)'}}>100%</td>
+                <td style={{color:'var(--gd)',fontWeight:700}}>94%</td>
+                <td><span className="badge b-g">متفوقة</span></td>
+              </tr>
+              <tr>
+                <td><div className="tbl-name">عبدالله القرني</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>1443xxxx</div></td>
+                <td>إدارة المشاريع</td>
+                <td style={{color:'var(--or)'}}>68%</td>
+                <td style={{color:'var(--or)',fontWeight:700}}>72%</td>
+                <td><span className="badge b-y">تحذير</span></td>
+              </tr>
+              <tr>
+                <td><div className="tbl-name">نورة الحربي</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>1443xxxx</div></td>
+                <td>الأمن السيبراني</td>
+                <td style={{color:'var(--gr)'}}>88%</td>
+                <td style={{color:'var(--c)',fontWeight:700}}>81%</td>
+                <td><span className="badge b-g">نشطة</span></td>
+              </tr>
+              <tr>
+                <td><div className="tbl-name">فهد المطيري</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>1443xxxx</div></td>
+                <td>تطوير الويب</td>
+                <td style={{color:'var(--rd)'}}>45%</td>
+                <td style={{color:'var(--rd)',fontWeight:700}}>58%</td>
+                <td><span className="badge b-r">خطر رسوب</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* CERTIFICATES + SETTINGS */}
+      <div style={{display:'flex',flexDirection:'column',gap:'10px'}}>
+        <div className="card">
+          <div className="card-hdr">
+            <div className="card-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gd)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+              الشهادات هذا الشهر
             </div>
-            <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
-              <button style={{ flex: 1, background: `linear-gradient(135deg,${GOLD},#b8942e)`, border: 'none', color: '#fff', padding: '13px 0', borderRadius: 12, fontSize: 14, fontWeight: 800, cursor: 'pointer' }}>حفظ البرنامج</button>
-              <button onClick={() => setShowAddProgram(false)} style={{ padding: '13px 22px', background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}`, borderRadius: 12, color: 'rgba(238,238,245,0.45)', fontSize: 13, cursor: 'pointer' }}>إلغاء</button>
+            <span className="card-more" onClick={() => {openModal('cert-modal')}}>إصدار ←</span>
+          </div>
+          <div className="card-body">
+            <div className="cert-row">
+              <div className="cert-ic" style={{background:'rgba(14,165,233,.12)'}}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--c)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
+              </div>
+              <div className="cert-name">تطوير تطبيقات الويب</div>
+              <div className="cert-count">18 شهادة</div>
+            </div>
+            <div className="cert-row">
+              <div className="cert-ic" style={{background:'rgba(167,139,250,.1)'}}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--pu)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7"/></svg>
+              </div>
+              <div className="cert-name">الذكاء الاصطناعي</div>
+              <div className="cert-count">11 شهادة</div>
+            </div>
+            <div className="cert-row">
+              <div className="cert-ic" style={{background:'rgba(251,146,60,.1)'}}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--or)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+              </div>
+              <div className="cert-name">إدارة المشاريع PMP</div>
+              <div className="cert-count">18 شهادة</div>
             </div>
           </div>
         </div>
-      )}
 
-      {/* ── MODAL: Issue Certificate ── */}
-      {showIssueCert && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, backdropFilter: 'blur(4px)' }}>
-          <div style={{ background: '#080814', border: `1px solid ${GREEN}30`, borderRadius: 22, padding: 36, width: '100%', maxWidth: 440, direction: 'rtl', position: 'relative' }}>
-            <button onClick={() => setShowIssueCert(false)} style={{ position: 'absolute', top: 16, left: 16, background: 'rgba(255,255,255,0.06)', border: 'none', color: 'rgba(238,238,245,0.5)', width: 32, height: 32, borderRadius: 8, fontSize: 18, cursor: 'pointer' }}>×</button>
-            <div style={{ color: GREEN, fontSize: 20, fontWeight: 800, marginBottom: 6 }}>🏅 إصدار شهادة</div>
-            <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 12, marginBottom: 26 }}>أدخل بيانات الشهادة للمتدرب</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {[
-                { label: 'اسم المتدرب', key: 'trainee', ph: 'الاسم الكامل' },
-                { label: 'البرنامج', key: 'program', ph: 'اسم البرنامج' },
-                { label: 'تاريخ الإصدار', key: 'date', ph: 'YYYY-MM-DD', type: 'date' },
-                { label: 'الرقم التسلسلي', key: 'serial', ph: 'CERT-2025-XXXX' },
-              ].map(f => (
-                <div key={f.key}>
-                  <label style={{ display: 'block', color: 'rgba(238,238,245,0.5)', fontSize: 12, fontWeight: 600, marginBottom: 7 }}>{f.label}</label>
-                  <input type={f.type || 'text'} placeholder={f.ph} value={(certForm as any)[f.key]} onChange={e => setCertForm(p => ({ ...p, [f.key]: e.target.value }))} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, borderRadius: 10, padding: '11px 14px', color: TEXT, fontSize: 13, outline: 'none', boxSizing: 'border-box', fontFamily: 'inherit' }} />
-                </div>
-              ))}
+        {/* QUICK SETTINGS */}
+        <div className="card">
+          <div className="card-hdr">
+            <div className="card-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--c)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+              إعدادات سريعة
             </div>
-            <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
-              <button style={{ flex: 1, background: `linear-gradient(135deg,${GREEN},#059669)`, border: 'none', color: '#fff', padding: '13px 0', borderRadius: 12, fontSize: 14, fontWeight: 800, cursor: 'pointer' }}>إصدار الشهادة</button>
-              <button onClick={() => setShowIssueCert(false)} style={{ padding: '13px 22px', background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}`, borderRadius: 12, color: 'rgba(238,238,245,0.45)', fontSize: 13, cursor: 'pointer' }}>إلغاء</button>
+          </div>
+          <div className="card-body" style={{display:'flex',flexDirection:'column',gap:'10px'}}>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+              <div>
+                <div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>فتح التسجيل للعامة</div>
+                <div style={{fontSize:'10.5px',color:'var(--tm)',marginTop:'1px'}}>صفحة المعهد العامة</div>
+              </div>
+              <label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label>
+            </div>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+              <div>
+                <div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>الملتقى المجتمعي</div>
+                <div style={{fontSize:'10.5px',color:'var(--tm)',marginTop:'1px'}}>للمتدربين الحاليين</div>
+              </div>
+              <label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label>
+            </div>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+              <div>
+                <div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>قائمة الانتظار</div>
+                <div style={{fontSize:'10.5px',color:'var(--tm)',marginTop:'1px'}}>عند امتلاء المقاعد</div>
+              </div>
+              <label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label>
+            </div>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+              <div>
+                <div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>الدفع بالأقساط</div>
+                <div style={{fontSize:'10.5px',color:'var(--tm)',marginTop:'1px'}}>تقسيط حتى 6 أشهر</div>
+              </div>
+              <label className="tog"><input type="checkbox" /><span className="tsl"></span></label>
             </div>
           </div>
         </div>
-      )}
+      </div>
+    </div>
+
+  </div>
+</div>
     </div>
   );
 }

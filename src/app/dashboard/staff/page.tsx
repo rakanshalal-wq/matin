@@ -1,489 +1,456 @@
-'use client';
-export const dynamic = 'force-dynamic';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+﻿'use client';
+import React, { useState } from 'react';
+import '../../styles/school-staff.css';
 
-const BG = '#06060E';
-const SB = '#14070A';
-const C = '#F97316';
-const GD = '#D4A843';
-const TXT = '#EEEEF5';
-const DIM = 'rgba(238,238,245,0.5)';
-const MUT = 'rgba(238,238,245,0.3)';
-const BD = 'rgba(255,255,255,0.08)';
-const CD = 'rgba(255,255,255,0.03)';
-const FONT = "'IBM Plex Sans Arabic', sans-serif";
-
-export default function StaffDashboard() {
-  const router = useRouter();
-  const [user, setUser] = useState<any>(null);
-  const [employees, setEmployees] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+export default function StaffPage() {
   const [activeSection, setActiveSection] = useState('home');
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [selectedBranch, setSelectedBranch] = useState('all');
-
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const [meRes, empRes] = await Promise.all([
-          fetch('/api/auth/me', { credentials: 'include' }),
-          fetch('/api/employees', { credentials: 'include' }),
-        ]);
-        if (meRes.ok) { const d = await meRes.json(); setUser(d.user || d); }
-        if (empRes.ok) { const d = await empRes.json(); setEmployees(Array.isArray(d) ? d : d.employees || []); }
-      } catch (e) {}
-      finally { setLoading(false); }
-    };
-    load();
-  }, []);
-
-  if (loading) return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: BG, color: C, fontFamily: FONT, direction: 'rtl' }}>جاري التحميل...</div>;
-
-  const hrName = user?.name || 'مسؤول الموارد البشرية';
-
-  const jobTitles = [
-    'معلم/معلمة', 'وكيل/وكيلة', 'مرشد/مرشدة طلابية', 'مشرف/مشرفة', 'محاسب/محاسبة',
-    'سائق', 'حارس أمن', 'عامل/عاملة نظافة', 'سكرتير/سكرتيرة', 'مربية أطفال',
-    'أخصائي نفسي', 'معلم تربية بدنية', 'مشرف نقل', 'فني صيانة', 'أمين مكتبة',
-  ];
-
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', fontFamily: FONT, direction: 'rtl', background: BG, color: TXT }}>
-      {/* SIDEBAR */}
-      <aside style={{ width: sidebarOpen ? 260 : 0, background: SB, borderLeft: `1px solid ${BD}`, display: 'flex', flexDirection: 'column', overflow: 'hidden', transition: 'width 0.3s', flexShrink: 0 }}>
-        <div style={{ padding: '16px 18px', borderBottom: `1px solid ${BD}`, display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{ width: 34, height: 34, borderRadius: 9, background: `linear-gradient(135deg, ${C}, #EA580C)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 900, color: '#fff' }}>م</div>
-          <div><div style={{ fontSize: 15, fontWeight: 800 }}>متين</div><div style={{ fontSize: 9, color: MUT }}>الموارد البشرية</div></div>
+    <div className="dashboard-page">
+<div className="ov" id="ov" onClick={() => {closeSb()}}></div>
+
+{/* ADD EMPLOYEE MODAL */}
+<div className="modal-bg" id="add-modal">
+  <div className="modal">
+    <div className="mh">
+      <div className="mt">➕ إضافة موظف جديد</div>
+      <button className="mx" onClick={() => {closeModal('add-modal')}}>×</button>
+    </div>
+    <div style={{padding:'16px'}}>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'10px',marginBottom:'2px'}}>
+        <div><label className="flbl">الاسم الكامل</label><input className="finp" type="text" placeholder="الاسم" style={{marginBottom:0}} /></div>
+        <div><label className="flbl">رقم الهوية</label><input className="finp" type="text" placeholder="10XXXXXXXX" style={{marginBottom:0}} /></div>
+      </div>
+      <div style={{height:'10px'}}></div>
+      <label className="flbl">المسمى الوظيفي</label>
+      <select className="finp">
+        <option>-- اختر الوظيفة --</option>
+        <optgroup label="التدريس">
+          <option>معلم / معلمة</option>
+          <option>معلم أول</option>
+          <option>وكيل المدرسة</option>
+          <option>المرشد الطلابي</option>
+        </optgroup>
+        <optgroup label="الإدارة والسكرتارية">
+          <option>موظف إداري</option>
+          <option>سكرتير/ة</option>
+          <option>مسؤول القبول والتسجيل</option>
+        </optgroup>
+        <optgroup label="خدمات الدعم">
+          <option>سائق باص مدرسي</option>
+          <option>فراش / عامل نظافة</option>
+          <option>حارس أمن</option>
+          <option>مشرف فناء</option>
+          <option>طباخ / كافتيريا</option>
+        </optgroup>
+        <optgroup label="الدعم التقني">
+          <option>مسؤول تقنية المعلومات</option>
+          <option>مشرف المختبر</option>
+        </optgroup>
+      </select>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'10px',marginBottom:'2px'}}>
+        <div>
+          <label className="flbl">الفرع</label>
+          <select className="finp" style={{marginBottom:0}} id="modal-branch">
+            <option>الفرع الرئيسي — حي النزهة</option>
+            <option>فرع حي الروضة</option>
+            <option>فرع حي العليا</option>
+          </select>
         </div>
-        <div style={{ padding: '14px 18px', borderBottom: `1px solid ${BD}` }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ width: 40, height: 40, borderRadius: 10, background: `${C}22`, border: `1px solid ${C}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>👤</div>
-            <div><div style={{ fontSize: 13, fontWeight: 700 }}>{hrName}</div><div style={{ fontSize: 10, color: C }}>مسؤول الموارد البشرية</div></div>
+        <div><label className="flbl">الراتب الأساسي (SAR)</label><input className="finp" type="number" placeholder="0.00" style={{marginBottom:0}} /></div>
+      </div>
+      <div style={{height:'10px'}}></div>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'10px',marginBottom:'10px'}}>
+        <div><label className="flbl">بداية العقد</label><input className="finp" type="date" style={{marginBottom:0}} /></div>
+        <div><label className="flbl">نهاية العقد</label><input className="finp" type="date" style={{marginBottom:0}} /></div>
+      </div>
+      {/* صلاحيات النظام */}
+      <div style={{background:'rgba(249,115,22,.05)',border:'1px solid var(--cb)',borderRadius:'9px',padding:'10px 13px',marginBottom:'14px'}}>
+        <div style={{fontSize:'11px',color:'var(--c)',fontWeight:700,marginBottom:'8px'}}>صلاحيات النظام — تُحدَّد تلقائياً حسب الوظيفة</div>
+        <div style={{display:'flex',flexDirection:'column',gap:'6px',fontSize:'11.5px',color:'var(--td)'}}>
+          <div style={{display:'flex',alignItems:'center',gap:'7px'}}><span style={{color:'var(--gr)'}}>✓</span> حساب في متين + تطبيق الجوال</div>
+          <div style={{display:'flex',alignItems:'center',gap:'7px'}}><span id="perm-att" style={{color:'var(--gr)'}}>✓</span> <span id="perm-att-lbl">تسجيل حضور الطلاب (للمعلمين)</span></div>
+          <div style={{display:'flex',alignItems:'center',gap:'7px'}}><span id="perm-grades" style={{color:'var(--tm)'}}>✗</span> <span id="perm-grades-lbl">رفع الدرجات والواجبات</span></div>
+          <div style={{display:'flex',alignItems:'center',gap:'7px'}}><span style={{color:'var(--gr)'}}>✓</span> تسجيل حضوره الشخصي + طلب إجازة</div>
+          <div style={{display:'flex',alignItems:'center',gap:'7px'}}><span style={{color:'var(--gr)'}}>✓</span> عرض كشف راتبه</div>
+        </div>
+      </div>
+      <div style={{background:'rgba(16,185,129,.05)',border:'1px solid rgba(16,185,129,.2)',borderRadius:'8px',padding:'8px 12px',marginBottom:'14px',fontSize:'11.5px',color:'var(--td)'}}>
+        ✅ سيتم إنشاء الحساب تلقائياً وإرسال بيانات الدخول عبر SMS
+      </div>
+      <div style={{display:'flex',gap:'8px'}}>
+        <button onClick={() => {closeModal('add-modal')}} style={{flex:1,background:'rgba(255,255,255,.05)',border:'1px solid var(--b1)',borderRadius:'9px',padding:'10px',color:'var(--td)',fontSize:'13px',cursor:'pointer',fontFamily:'var(--f)'}}>إلغاء</button>
+        <button onClick={() => {toast('✓ تم إضافة الموظف وإنشاء حسابه');closeModal('add-modal')}} style={{flex:2,background:'linear-gradient(135deg,var(--c),var(--c2))',border:'none',borderRadius:'9px',padding:'10px',color:'#fff',fontWeight:800,fontSize:'13px',cursor:'pointer',fontFamily:'var(--f)'}}>إضافة وإنشاء حساب ←</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{/* PERMISSIONS MODAL */}
+<div className="modal-bg" id="perm-modal">
+  <div className="modal">
+    <div className="mh">
+      <div className="mt">🔐 صلاحيات <span id="perm-name">موظف</span></div>
+      <button className="mx" onClick={() => {closeModal('perm-modal')}}>×</button>
+    </div>
+    <div style={{padding:'16px'}}>
+      <div style={{background:'var(--cd)',border:'1px solid var(--cb)',borderRadius:'9px',padding:'9px 13px',marginBottom:'14px',fontSize:'12px',color:'var(--td)'}}>
+        <strong style={{color:'var(--c)'}}>الموارد البشرية</strong> — تتحكم كامل في صلاحيات جميع موظفي المدرسة
+        <div style={{marginTop:'3px',fontSize:'10.5px',color:'var(--tm)'}}>الصلاحيات الأكاديمية للمعلمين تُفعَّل هنا · الخدمات الأخرى وصولهم محدود</div>
+      </div>
+
+      <div style={{fontSize:'10px',color:'var(--tm)',fontWeight:700,letterSpacing:'1px',marginBottom:'8px'}}>وصول النظام</div>
+      <div style={{background:'var(--card)',border:'1px solid var(--b2)',borderRadius:'9px',overflow:'hidden',marginBottom:'12px'}}>
+        <div className="perm-row"><div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>الدخول لنظام متين</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>حساب وكلمة مرور</div></div><label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label></div>
+        <div className="perm-row"><div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>تطبيق الجوال</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>وصول من الهاتف</div></div><label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label></div>
+      </div>
+
+      <div style={{fontSize:'10px',color:'var(--tm)',fontWeight:700,letterSpacing:'1px',marginBottom:'8px'}}>صلاحيات المعلمين (الأكاديمية)</div>
+      <div style={{background:'var(--card)',border:'1px solid var(--b2)',borderRadius:'9px',overflow:'hidden',marginBottom:'12px'}}>
+        <div className="perm-row"><div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>تسجيل حضور الطلاب</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>يومياً لكل حصة</div></div><label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label></div>
+        <div className="perm-row"><div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>رفع الدرجات والواجبات</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>إدخال نتائج الطلاب</div></div><label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label></div>
+        <div className="perm-row"><div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>إنشاء اختبارات</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>اختبارات ورقية وإلكترونية</div></div><label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label></div>
+        <div className="perm-row"><div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>مراسلة أولياء الأمور</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>رسائل مباشرة في النظام</div></div><label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label></div>
+        <div className="perm-row"><div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>تسجيل السلوك والانضباط</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>نقاط سلوك + / -</div></div><label className="tog"><input type="checkbox" /><span className="tsl"></span></label></div>
+      </div>
+
+      <div style={{fontSize:'10px',color:'var(--tm)',fontWeight:700,letterSpacing:'1px',marginBottom:'8px'}}>صلاحيات موظفي الخدمات</div>
+      <div style={{background:'var(--card)',border:'1px solid var(--b2)',borderRadius:'9px',overflow:'hidden',marginBottom:'12px'}}>
+        <div className="perm-row"><div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>تسجيل ركوب الطلاب (السائق)</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>حضور الباص المدرسي</div></div><label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label></div>
+        <div className="perm-row"><div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>خريطة المدرسة (الأمن)</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>للحراسة والدوريات</div></div><label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label></div>
+        <div className="perm-row"><div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>الوصول لبيانات الطلاب</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>محظور على الأمن والنظافة</div></div><label className="tog"><input type="checkbox" /><span className="tsl"></span></label></div>
+        <div className="perm-row"><div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>تقرير عمل يومي</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>للفراشين والسائقين</div></div><label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label></div>
+      </div>
+
+      <div style={{fontSize:'10px',color:'var(--tm)',fontWeight:700,letterSpacing:'1px',marginBottom:'8px'}}>صلاحيات شخصية (للجميع)</div>
+      <div style={{background:'var(--card)',border:'1px solid var(--b2)',borderRadius:'9px',overflow:'hidden',marginBottom:'14px'}}>
+        <div className="perm-row"><div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>تسجيل حضوره الشخصي</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>بصمة أو من الجوال</div></div><label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label></div>
+        <div className="perm-row"><div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>طلب إجازة عبر النظام</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>اعتيادية / طارئة / مرضية</div></div><label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label></div>
+        <div className="perm-row"><div><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>عرض كشف الراتب</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>قسيمة شهرية</div></div><label className="tog"><input type="checkbox" checked /><span className="tsl"></span></label></div>
+      </div>
+
+      {/* تجميد/حذف */}
+      <div style={{background:'rgba(239,68,68,.05)',border:'1px solid rgba(239,68,68,.18)',borderRadius:'9px',padding:'10px 13px',marginBottom:'14px'}}>
+        <div style={{fontSize:'11.5px',color:'var(--rd)',fontWeight:700,marginBottom:'7px'}}>⚠️ إجراءات إنهاء الخدمة</div>
+        <div style={{display:'flex',gap:'8px'}}>
+          <button onClick={() => {toast('✓ تم تجميد الحساب');closeModal('perm-modal')}} style={{flex:1,background:'rgba(239,68,68,.08)',border:'1px solid rgba(239,68,68,.25)',borderRadius:'7px',padding:'7px',color:'var(--rd)',fontSize:'11px',fontWeight:700,cursor:'pointer',fontFamily:'var(--f)'}}>🔒 تجميد الحساب</button>
+          <button onClick={() => {toast('✓ تم الحذف النهائي');closeModal('perm-modal')}} style={{flex:1,background:'rgba(239,68,68,.12)',border:'1px solid rgba(239,68,68,.3)',borderRadius:'7px',padding:'7px',color:'var(--rd)',fontSize:'11px',fontWeight:700,cursor:'pointer',fontFamily:'var(--f)'}}>🗑️ حذف نهائي</button>
+        </div>
+      </div>
+
+      <div style={{display:'flex',gap:'8px'}}>
+        <button onClick={() => {closeModal('perm-modal')}} style={{flex:1,background:'rgba(255,255,255,.05)',border:'1px solid var(--b1)',borderRadius:'9px',padding:'10px',color:'var(--td)',fontSize:'13px',cursor:'pointer',fontFamily:'var(--f)'}}>إلغاء</button>
+        <button onClick={() => {toast('✓ تم حفظ الصلاحيات');closeModal('perm-modal')}} style={{flex:2,background:'linear-gradient(135deg,var(--c),var(--c2))',border:'none',borderRadius:'9px',padding:'10px',color:'#fff',fontWeight:800,fontSize:'13px',cursor:'pointer',fontFamily:'var(--f)'}}>حفظ الصلاحيات ✓</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{/* SIDEBAR */}
+<aside className="sb" id="sb">
+  <div className="sb-top">
+    <a className="logo-r" href="#"><div className="li">م</div><div><div className="lt">متين</div><div className="ls">الموارد البشرية — المدرسة</div></div></a>
+    <div className="hr-card">
+      <div className="hr-av">👩‍💼</div>
+      <div style={{minWidth:0}}>
+        <div className="hr-n">ريم العتيبي</div>
+        <div className="hr-r">مديرة الموارد البشرية</div>
+        <div className="hr-d">مدرسة الأمل الدولية</div>
+      </div>
+    </div>
+    <div className="branch-sel">
+      <div className="branch-lbl">الفروع</div>
+      <div className="branch-list">
+        <div className="branch-item active" onClick={() => {selectBranch('all',this)}}>
+          <div className="branch-ic" style={{background:'rgba(249,115,22,.15)'}}>🏫</div>
+          <div style={{flex:1,minWidth:0}}><div className="branch-n">جميع الفروع</div><div className="branch-cnt">86 موظف</div></div>
+          <div className="branch-dot" style={{background:'var(--c)'}}></div>
+        </div>
+        <div className="branch-item" onClick={() => {selectBranch('main',this)}}>
+          <div className="branch-ic" style={{background:'rgba(96,165,250,.12)'}}>🏫</div>
+          <div style={{flex:1,minWidth:0}}><div className="branch-n">الرئيسي — النزهة</div><div className="branch-cnt">42 موظف</div></div>
+          <div className="branch-dot" style={{background:'var(--bl)'}}></div>
+        </div>
+        <div className="branch-item" onClick={() => {selectBranch('b2',this)}}>
+          <div className="branch-ic" style={{background:'rgba(167,139,250,.12)'}}>🏫</div>
+          <div style={{flex:1,minWidth:0}}><div className="branch-n">فرع الروضة</div><div className="branch-cnt">26 موظف</div></div>
+          <div className="branch-dot" style={{background:'var(--pu)'}}></div>
+        </div>
+        <div className="branch-item" onClick={() => {selectBranch('b3',this)}}>
+          <div className="branch-ic" style={{background:'rgba(16,185,129,.12)'}}>🏫</div>
+          <div style={{flex:1,minWidth:0}}><div className="branch-n">فرع العليا</div><div className="branch-cnt">18 موظف</div></div>
+          <div className="branch-dot" style={{background:'var(--gr)'}}></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav className="nav">
+    <div className="ng">الرئيسية</div>
+    <a className="ni on" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>لوحتي <span className="dot"></span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>التقويم</a>
+
+    <div className="ng">إدارة الموظفين</div>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>جميع الموظفين <span className="nb nb-c">86</span></a>
+    <a className="ni" href="#" onClick={() => {openModal('add-modal')}}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="12" y1="11" x2="12" y2="17"/></svg><span style={{color:'var(--c)',fontWeight:600}}>+ إضافة موظف جديد</span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>🔐 إدارة الصلاحيات</a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>العقود <span className="nb nb-r">6</span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>تقييم الأداء</a>
+
+    <div className="ng">فرق العمل بالنوع</div>
+    <a className="ni" href="#"><span style={{fontSize:'13px'}}>👩‍🏫</span> المعلمون/ات <span className="nb nb-c">52</span></a>
+    <a className="ni" href="#"><span style={{fontSize:'13px'}}>🚌</span> سائقو الباص <span className="nb nb-c">8</span></a>
+    <a className="ni" href="#"><span style={{fontSize:'13px'}}>🛡️</span> حراس الأمن <span className="nb nb-c">6</span></a>
+    <a className="ni" href="#"><span style={{fontSize:'13px'}}>🧹</span> الفراشون/ات <span className="nb nb-c">10</span></a>
+    <a className="ni" href="#"><span style={{fontSize:'13px'}}>📋</span> الإداريون/ات <span className="nb nb-c">10</span></a>
+
+    <div className="ng">الحضور والإجازات</div>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/></svg>حضور اليوم <span className="nb nb-c">اليوم</span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>طلبات الإجازة <span className="nb nb-r">9</span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>إحصائيات الحضور</a>
+
+    <div className="ng">الرواتب</div>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>مسير الرواتب</a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/></svg>قسائم الرواتب</a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/></svg>الزيادات والبدلات</a>
+
+    <div className="ng">الفروع</div>
+    <a className="ni" href="#"><span style={{fontSize:'13px'}}>🏫</span> الرئيسي — النزهة <span style={{background:'rgba(96,165,250,.1)',color:'var(--bl)',fontSize:'9px',fontWeight:700,padding:'1px 5px',borderRadius:'5px',marginRight:'auto',border:'1px solid rgba(96,165,250,.2)'}}>42</span></a>
+    <a className="ni" href="#"><span style={{fontSize:'13px'}}>🏫</span> فرع الروضة <span style={{background:'rgba(167,139,250,.1)',color:'var(--pu)',fontSize:'9px',fontWeight:700,padding:'1px 5px',borderRadius:'5px',marginRight:'auto',border:'1px solid rgba(167,139,250,.2)'}}>26</span></a>
+    <a className="ni" href="#"><span style={{fontSize:'13px'}}>🏫</span> فرع العليا <span style={{background:'rgba(16,185,129,.1)',color:'var(--gr)',fontSize:'9px',fontWeight:700,padding:'1px 5px',borderRadius:'5px',marginRight:'auto',border:'1px solid rgba(16,185,129,.2)'}}>18</span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span style={{color:'var(--c)'}}>إضافة فرع جديد</span></a>
+  </nav>
+
+  <div className="sb-ft">
+    <button className="lo"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>تسجيل الخروج</button>
+    <div style={{marginTop:'6px',color:'rgba(238,238,245,.14)',fontSize:'10px',textAlign:'center'}}>متين v6 — مدرسة الأمل الدولية</div>
+  </div>
+</aside>
+
+{/* MAIN */}
+<div className="main">
+  <header className="hdr">
+    <div className="hl">
+      <button className="mb" onClick={() => {toggleSb()}}><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      <div><div className="ht" id="hdr-title">الموارد البشرية — جميع الفروع</div><div className="hs">مدرسة الأمل الدولية · 3 فروع · 86 موظف</div></div>
+    </div>
+    <div className="hr2">
+      <div className="hb"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span className="nd"></span></div>
+      <button onClick={() => {openModal('add-modal')}} style={{background:'linear-gradient(135deg,var(--c),var(--c2))',border:'none',borderRadius:'9px',padding:'7px 14px',color:'#fff',fontSize:'12px',fontWeight:700,cursor:'pointer',fontFamily:'var(--f)',display:'flex',alignItems:'center',gap:'6px'}}>+ إضافة موظف</button>
+      <div className="ub">
+        <div className="ua">👩‍💼</div>
+        <div className="ui"><div className="un">ريم العتيبي</div><div className="ur">الموارد البشرية</div></div>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(238,238,245,.35)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+  </header>
+
+  {/* BRANCH TABS */}
+  <div className="branch-tabs" id="branch-tabs">
+    <button className="btab active" data-bid="all" onClick={() => {switchBranch('all',this)}} style={{color:'var(--c)',borderBottomColor:'var(--c)'}}>🏫 جميع الفروع <span style={{background:'var(--cd)',color:'var(--c)',fontSize:'9px',fontWeight:700,padding:'1px 6px',borderRadius:'8px',marginRight:'4px',border:'1px solid var(--cb)'}}>86</span></button>
+    <button className="btab" data-bid="main" onClick={() => {switchBranch('main',this)}}>🏫 الرئيسي — النزهة <span style={{background:'rgba(96,165,250,.1)',color:'var(--bl)',fontSize:'9px',fontWeight:700,padding:'1px 6px',borderRadius:'8px',marginRight:'4px',border:'1px solid rgba(96,165,250,.2)'}}>42</span></button>
+    <button className="btab" data-bid="b2" onClick={() => {switchBranch('b2',this)}}>🏫 فرع الروضة <span style={{background:'rgba(167,139,250,.1)',color:'var(--pu)',fontSize:'9px',fontWeight:700,padding:'1px 6px',borderRadius:'8px',marginRight:'4px',border:'1px solid rgba(167,139,250,.2)'}}>26</span></button>
+    <button className="btab" data-bid="b3" onClick={() => {switchBranch('b3',this)}}>🏫 فرع العليا <span style={{background:'rgba(16,185,129,.1)',color:'var(--gr)',fontSize:'9px',fontWeight:700,padding:'1px 6px',borderRadius:'8px',marginRight:'4px',border:'1px solid rgba(16,185,129,.2)'}}>18</span></button>
+  </div>
+
+  <div className="con">
+
+    {/* PAGE HDR */}
+    <div className="ph">
+      <div>
+        <div className="pt" id="page-title">👥 الموارد البشرية — جميع الفروع</div>
+        <div className="ps" id="page-sub">عرض شامل لجميع الموظفين في كل الفروع · المركزية مع استقلالية جزئية لكل فرع</div>
+      </div>
+      <button className="btn-p" onClick={() => {openModal('add-modal')}}>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        إضافة موظف
+      </button>
+    </div>
+
+    {/* BRANCHES OVERVIEW (all view) */}
+    <div id="branches-overview">
+      <div className="g3" style={{marginBottom:'13px'}}>
+        <div className="card" style={{marginBottom:0}}>
+          <div style={{padding:'14px'}}>
+            <div style={{display:'flex',alignItems:'center',gap:'10px',marginBottom:'10px'}}>
+              <div style={{width:'36px',height:'36px',borderRadius:'9px',background:'rgba(96,165,250,.12)',border:'1px solid rgba(96,165,250,.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'18px'}}>🏫</div>
+              <div><div style={{fontSize:'13px',fontWeight:700,color:'var(--t)'}}>الرئيسي — النزهة</div><div style={{fontSize:'10.5px',color:'var(--bl)'}}>الفرع الأم</div></div>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'8px',marginBottom:'10px'}}>
+              <div style={{textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--bl)'}}>42</div><div style={{fontSize:'9.5px',color:'var(--tm)'}}>موظف</div></div>
+              <div style={{textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--gr)'}}>96%</div><div style={{fontSize:'9.5px',color:'var(--tm)'}}>حضور</div></div>
+              <div style={{textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--or)'}}>3</div><div style={{fontSize:'9.5px',color:'var(--tm)'}}>إجازات</div></div>
+            </div>
+            <div className="pbar"><div className="pfill" style={{width:'96%',background:'var(--bl)'}}></div></div>
+            <div style={{display:'flex',justifyContent:'space-between',marginTop:'5px',fontSize:'10px',color:'var(--tm)'}}>
+              <span>حضور اليوم</span><span style={{color:'var(--bl)',fontWeight:700}}>40 / 42</span>
+            </div>
           </div>
         </div>
-        {/* Branch selector */}
-        <div style={{ padding: '12px 14px', borderBottom: `1px solid ${BD}` }}>
-          <div style={{ fontSize: 10, fontWeight: 700, color: MUT, marginBottom: 8 }}>الفرع</div>
-          {[
-            { id: 'all', label: 'جميع الفروع', icon: '🏢' },
-            { id: 'main', label: 'المدرسة الرئيسية', icon: '🏫' },
-            { id: 'kg', label: 'الروضة', icon: '🌱' },
-            { id: 'nursery', label: 'الحضانة', icon: '🍼' },
-          ].map(b => (
-            <button key={b.id} onClick={() => setSelectedBranch(b.id)} style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '7px 10px', borderRadius: 8, border: 'none', cursor: 'pointer', fontFamily: FONT, fontSize: 12, fontWeight: 600, background: selectedBranch === b.id ? `${C}18` : 'transparent', color: selectedBranch === b.id ? C : DIM, marginBottom: 2, textAlign: 'right' }}>
-              <span>{b.icon}</span> {b.label}
-            </button>
-          ))}
-        </div>
-        <div style={{ flex: 1, overflowY: 'auto', padding: '8px 14px' }}>
-          {[
-            { id: 'home', icon: '📊', label: 'نظرة عامة' },
-            { id: 'employees', icon: '👥', label: 'قائمة الموظفين' },
-            { id: 'add', icon: '➕', label: 'إضافة موظف' },
-            { id: 'contracts', icon: '📄', label: 'العقود' },
-            { id: 'salaries', icon: '💰', label: 'الرواتب' },
-            { id: 'leaves', icon: '🏖️', label: 'الإجازات' },
-            { id: 'attendance', icon: '✅', label: 'حضور الموظفين' },
-            { id: 'reports', icon: '📈', label: 'التقارير' },
-          ].map(nav => (
-            <button key={nav.id} onClick={() => setActiveSection(nav.id)} style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '8px 10px', borderRadius: 9, border: 'none', cursor: 'pointer', fontFamily: FONT, fontSize: 12, fontWeight: 600, background: activeSection === nav.id ? `${C}18` : 'transparent', color: activeSection === nav.id ? C : DIM, marginBottom: 2, textAlign: 'right' }}>
-              <span style={{ fontSize: 14 }}>{nav.icon}</span> {nav.label}
-            </button>
-          ))}
-        </div>
-      </aside>
-
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <header style={{ height: 56, padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: `1px solid ${BD}`, background: 'rgba(6,6,14,0.8)', backdropFilter: 'blur(12px)', flexShrink: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: DIM, fontSize: 18 }}>☰</button>
-            <h1 style={{ fontSize: 16, fontWeight: 700 }}>الموارد البشرية</h1>
+        <div className="card" style={{marginBottom:0}}>
+          <div style={{padding:'14px'}}>
+            <div style={{display:'flex',alignItems:'center',gap:'10px',marginBottom:'10px'}}>
+              <div style={{width:'36px',height:'36px',borderRadius:'9px',background:'rgba(167,139,250,.12)',border:'1px solid rgba(167,139,250,.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'18px'}}>🏫</div>
+              <div><div style={{fontSize:'13px',fontWeight:700,color:'var(--t)'}}>فرع الروضة</div><div style={{fontSize:'10.5px',color:'var(--pu)'}}>الفرع الثاني</div></div>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'8px',marginBottom:'10px'}}>
+              <div style={{textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--pu)'}}>26</div><div style={{fontSize:'9.5px',color:'var(--tm)'}}>موظف</div></div>
+              <div style={{textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--gr)'}}>92%</div><div style={{fontSize:'9.5px',color:'var(--tm)'}}>حضور</div></div>
+              <div style={{textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--or)'}}>4</div><div style={{fontSize:'9.5px',color:'var(--tm)'}}>إجازات</div></div>
+            </div>
+            <div className="pbar"><div className="pfill" style={{width:'92%',background:'var(--pu)'}}></div></div>
+            <div style={{display:'flex',justifyContent:'space-between',marginTop:'5px',fontSize:'10px',color:'var(--tm)'}}>
+              <span>حضور اليوم</span><span style={{color:'var(--pu)',fontWeight:700}}>24 / 26</span>
+            </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <button onClick={() => { setActiveSection('add'); setShowAddModal(true); }} style={{ background: C, border: 'none', borderRadius: 9, padding: '7px 16px', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: FONT }}>+ إضافة موظف</button>
-          </div>
-        </header>
-
-        <div style={{ flex: 1, overflowY: 'auto', padding: 24 }}>
-          {/* HOME */}
-          {activeSection === 'home' && (
-            <>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
-                {[
-                  { label: 'إجمالي الموظفين', value: employees.length || 86, icon: '👥', color: '#60A5FA' },
-                  { label: 'عقود نشطة', value: 72, icon: '📄', color: '#4ADE80' },
-                  { label: 'إجازات هذا الشهر', value: 5, icon: '🏖️', color: C },
-                  { label: 'مسمّى وظيفي', value: jobTitles.length, icon: '📋', color: '#A78BFA' },
-                ].map((s, i) => (
-                  <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '16px 18px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                      <span style={{ fontSize: 11, color: DIM }}>{s.label}</span>
-                      <span style={{ fontSize: 18 }}>{s.icon}</span>
-                    </div>
-                    <div style={{ fontSize: 26, fontWeight: 900, color: s.color }}>{s.value}</div>
-                  </div>
-                ))}
-              </div>
-              {/* Job Titles */}
-              <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16, marginBottom: 16 }}>
-                <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}>📋 المسميات الوظيفية</h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
-                  {jobTitles.map((jt, i) => (
-                    <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${BD}`, borderRadius: 8, padding: '10px 12px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <div style={{ width: 6, height: 6, borderRadius: '50%', background: C }} />
-                      <span style={{ fontSize: 12, color: DIM }}>{jt}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              {/* Recent Employees */}
-              <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-                <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}>👥 آخر الموظفين المضافين</h3>
-                {(employees.length > 0 ? employees.slice(0, 5) : [
-                  { name: 'أ. سارة العتيبي', role: 'معلمة رياضيات', branch: 'المدرسة', date: '2026-03-20' },
-                  { name: 'أ. فهد الحربي', role: 'معلم علوم', branch: 'المدرسة', date: '2026-03-15' },
-                  { name: 'منى القحطاني', role: 'مربية أطفال', branch: 'الحضانة', date: '2026-03-10' },
-                ]).map((emp: any, i: number) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: `1px solid ${BD}` }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <div style={{ width: 32, height: 32, borderRadius: 8, background: `${C}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>👤</div>
-                      <div>
-                        <div style={{ fontSize: 13, fontWeight: 600 }}>{emp.name}</div>
-                        <div style={{ fontSize: 10, color: MUT }}>{emp.role || emp.position || 'موظف'} · {emp.branch || ''}</div>
-                      </div>
-                    </div>
-                    <span style={{ fontSize: 10, color: MUT }}>{emp.date ? new Date(emp.date).toLocaleDateString('ar-SA') : ''}</span>
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
-
-          {/* EMPLOYEES LIST */}
-          {activeSection === 'employees' && (
-            <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 14 }}>
-                <h3 style={{ fontSize: 14, fontWeight: 700 }}>👥 قائمة الموظفين</h3>
-                <button onClick={() => setActiveSection('add')} style={{ background: C, border: 'none', borderRadius: 8, padding: '7px 16px', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: FONT }}>+ إضافة</button>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '40px 2fr 1fr 1fr 1fr 80px', gap: 8, padding: '10px 12px', background: 'rgba(255,255,255,0.03)', borderRadius: 8, marginBottom: 8, fontSize: 11, fontWeight: 700, color: MUT }}>
-                <span>#</span><span>الاسم</span><span>المسمى</span><span>الفرع</span><span>الحالة</span><span></span>
-              </div>
-              {(employees.length > 0 ? employees : [
-                { name: 'أ. سارة العتيبي', role: 'معلمة', branch: 'المدرسة', status: 'نشط' },
-                { name: 'أ. فهد الحربي', role: 'معلم', branch: 'المدرسة', status: 'نشط' },
-                { name: 'منى القحطاني', role: 'مربية', branch: 'الحضانة', status: 'نشط' },
-                { name: 'خالد السالم', role: 'سائق', branch: 'النقل', status: 'نشط' },
-                { name: 'نورة الزهراني', role: 'محاسبة', branch: 'الإدارة', status: 'إجازة' },
-              ]).map((emp: any, i: number) => (
-                <div key={i} style={{ display: 'grid', gridTemplateColumns: '40px 2fr 1fr 1fr 1fr 80px', gap: 8, padding: '10px 12px', borderBottom: `1px solid ${BD}`, fontSize: 12, alignItems: 'center' }}>
-                  <span style={{ color: MUT }}>{i+1}</span>
-                  <span style={{ fontWeight: 600 }}>{emp.name}</span>
-                  <span style={{ color: DIM }}>{emp.role || emp.position}</span>
-                  <span style={{ color: DIM }}>{emp.branch || ''}</span>
-                  <span style={{ background: (emp.status || 'نشط') === 'نشط' ? '#4ADE8018' : '#FB923C18', color: (emp.status || 'نشط') === 'نشط' ? '#4ADE80' : '#FB923C', fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 6, textAlign: 'center' }}>{emp.status || 'نشط'}</span>
-                  <button style={{ background: `${C}18`, border: `1px solid ${C}33`, borderRadius: 6, padding: '3px 8px', color: C, fontSize: 10, fontWeight: 600, cursor: 'pointer', fontFamily: FONT }}>تعديل</button>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* ADD EMPLOYEE */}
-          {activeSection === 'add' && (
-            <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 20 }}>
-              <h3 style={{ fontSize: 16, fontWeight: 800, marginBottom: 20 }}>➕ إضافة موظف جديد</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                  <div>
-                    <label style={{ fontSize: 11, fontWeight: 700, color: DIM, display: 'block', marginBottom: 4 }}>الاسم الكامل</label>
-                    <input placeholder="اسم الموظف" style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BD}`, borderRadius: 9, padding: '10px 12px', color: TXT, fontSize: 13, fontFamily: FONT, outline: 'none', boxSizing: 'border-box' }} />
-                  </div>
-                  <div>
-                    <label style={{ fontSize: 11, fontWeight: 700, color: DIM, display: 'block', marginBottom: 4 }}>رقم الهوية</label>
-                    <input placeholder="10XXXXXXXX" style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BD}`, borderRadius: 9, padding: '10px 12px', color: TXT, fontSize: 13, fontFamily: FONT, outline: 'none', boxSizing: 'border-box' }} />
-                  </div>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                  <div>
-                    <label style={{ fontSize: 11, fontWeight: 700, color: DIM, display: 'block', marginBottom: 4 }}>المسمى الوظيفي</label>
-                    <select style={{ width: '100%', background: '#0B0B16', border: `1px solid ${BD}`, borderRadius: 9, padding: '10px 12px', color: TXT, fontSize: 13, fontFamily: FONT, outline: 'none', boxSizing: 'border-box', cursor: 'pointer' }}>
-                      <option style={{ background: '#0B0B16', color: TXT }}>-- اختر المسمى --</option>
-                      {jobTitles.map((jt, i) => <option key={i} style={{ background: '#0B0B16', color: TXT }}>{jt}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label style={{ fontSize: 11, fontWeight: 700, color: DIM, display: 'block', marginBottom: 4 }}>الفرع</label>
-                    <select style={{ width: '100%', background: '#0B0B16', border: `1px solid ${BD}`, borderRadius: 9, padding: '10px 12px', color: TXT, fontSize: 13, fontFamily: FONT, outline: 'none', boxSizing: 'border-box', cursor: 'pointer' }}>
-                      <option style={{ background: '#0B0B16', color: TXT }}>المدرسة الرئيسية</option>
-                      <option style={{ background: '#0B0B16', color: TXT }}>الروضة</option>
-                      <option style={{ background: '#0B0B16', color: TXT }}>الحضانة</option>
-                    </select>
-                  </div>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                  <div>
-                    <label style={{ fontSize: 11, fontWeight: 700, color: DIM, display: 'block', marginBottom: 4 }}>الجوال</label>
-                    <input placeholder="05XXXXXXXX" type="tel" style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BD}`, borderRadius: 9, padding: '10px 12px', color: TXT, fontSize: 13, fontFamily: FONT, outline: 'none', boxSizing: 'border-box' }} />
-                  </div>
-                  <div>
-                    <label style={{ fontSize: 11, fontWeight: 700, color: DIM, display: 'block', marginBottom: 4 }}>البريد الإلكتروني</label>
-                    <input placeholder="email@example.com" type="email" style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BD}`, borderRadius: 9, padding: '10px 12px', color: TXT, fontSize: 13, fontFamily: FONT, outline: 'none', boxSizing: 'border-box' }} />
-                  </div>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                  <div>
-                    <label style={{ fontSize: 11, fontWeight: 700, color: DIM, display: 'block', marginBottom: 4 }}>تاريخ بداية العقد</label>
-                    <input type="date" style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BD}`, borderRadius: 9, padding: '10px 12px', color: TXT, fontSize: 13, fontFamily: FONT, outline: 'none', boxSizing: 'border-box' }} />
-                  </div>
-                  <div>
-                    <label style={{ fontSize: 11, fontWeight: 700, color: DIM, display: 'block', marginBottom: 4 }}>تاريخ نهاية العقد</label>
-                    <input type="date" style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BD}`, borderRadius: 9, padding: '10px 12px', color: TXT, fontSize: 13, fontFamily: FONT, outline: 'none', boxSizing: 'border-box' }} />
-                  </div>
-                </div>
-                <div>
-                  <label style={{ fontSize: 11, fontWeight: 700, color: DIM, display: 'block', marginBottom: 4 }}>الراتب الشهري (SAR)</label>
-                  <input placeholder="مثال: 8000" type="number" style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BD}`, borderRadius: 9, padding: '10px 12px', color: TXT, fontSize: 13, fontFamily: FONT, outline: 'none', boxSizing: 'border-box' }} />
-                </div>
-                <button style={{ background: C, border: 'none', borderRadius: 10, padding: '12px 24px', color: '#fff', fontSize: 14, fontWeight: 800, cursor: 'pointer', fontFamily: FONT, width: '100%' }}>
-                  إضافة الموظف ←
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* CONTRACTS */}
-          {activeSection === 'contracts' && (
-            <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}>📄 العقود</h3>
-              {[
-                { emp: 'أ. سارة العتيبي', type: 'سنوي', start: '2025-09-01', end: '2026-08-31', status: 'نشط' },
-                { emp: 'أ. فهد الحربي', type: 'سنوي', start: '2025-09-01', end: '2026-08-31', status: 'نشط' },
-                { emp: 'خالد السالم', type: 'مؤقت', start: '2026-01-01', end: '2026-06-30', status: 'قارب على الانتهاء' },
-              ].map((c, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: `1px solid ${BD}` }}>
-                  <div>
-                    <div style={{ fontSize: 13, fontWeight: 600 }}>{c.emp}</div>
-                    <div style={{ fontSize: 10, color: MUT }}>{c.type} · {c.start} → {c.end}</div>
-                  </div>
-                  <span style={{ background: c.status === 'نشط' ? '#4ADE8018' : '#FB923C18', color: c.status === 'نشط' ? '#4ADE80' : '#FB923C', fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 6 }}>{c.status}</span>
-                </div>
-              ))}
-              <button onClick={() => router.push('/dashboard/contracts')} style={{ background: `${C}18`, border: `1px solid ${C}33`, borderRadius: 8, padding: '8px 16px', color: C, fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: FONT, marginTop: 12 }}>عرض كل العقود</button>
-            </div>
-          )}
-
-          {/* SALARIES */}
-          {activeSection === 'salaries' && (
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>💰 مسير الرواتب — هذا الشهر</h2>
-                <div style={{ display: 'flex', gap: 8 }}>
-                  <span style={{ background: '#4ADE8018', color: '#4ADE80', border: '1px solid #4ADE8033', fontSize: 10, fontWeight: 700, padding: '4px 10px', borderRadius: 6 }}>جاهز ✓</span>
-                  <button style={{ background: C, border: 'none', borderRadius: 8, padding: '7px 16px', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: FONT }}>💸 صرف الرواتب</button>
-                </div>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 20 }}>
-                {[
-                  { branch: 'الرئيسي — النزهة', amount: '152,000', count: 42, color: '#60A5FA' },
-                  { branch: 'فرع الروضة', amount: '88,000', count: 26, color: '#A78BFA' },
-                  { branch: 'فرع العليا', amount: '64,000', count: 18, color: '#4ADE80' },
-                ].map((b, i) => (
-                  <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-                    <div style={{ fontSize: 12, color: DIM, marginBottom: 6 }}>{b.branch}</div>
-                    <div style={{ fontSize: 22, fontWeight: 900, color: b.color }}>{b.amount} <span style={{ fontSize: 11, color: MUT }}>SAR</span></div>
-                    <div style={{ fontSize: 10, color: MUT, marginTop: 4 }}>{b.count} موظف</div>
-                  </div>
-                ))}
-              </div>
-              <div style={{ background: CD, border: `1px solid ${C}33`, borderRadius: 14, padding: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                <div><div style={{ fontSize: 13, fontWeight: 700, color: C }}>إجمالي مسير الرواتب</div><div style={{ fontSize: 10, color: MUT }}>86 موظف — 3 فروع</div></div>
-                <div style={{ fontSize: 28, fontWeight: 900, color: C }}>304,000 <span style={{ fontSize: 12, color: MUT }}>SAR</span></div>
-              </div>
-              <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, overflow: 'hidden' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '40px 2fr 1fr 1fr 1fr 1fr', gap: 8, padding: '10px 14px', background: 'rgba(255,255,255,0.03)', fontSize: 11, fontWeight: 700, color: MUT }}>
-                  <span>#</span><span>الموظف</span><span>الأساسي</span><span>البدلات</span><span>الخصومات</span><span>الصافي</span>
-                </div>
-                {[
-                  { name: 'أ. محمد الغامدي', basic: '8,000', allowance: '1,500', deduction: '500', net: '9,000' },
-                  { name: 'أ. سارة الزهراني', basic: '7,500', allowance: '1,200', deduction: '400', net: '8,300' },
-                  { name: 'عبدالله الدوسري', basic: '5,000', allowance: '800', deduction: '250', net: '5,550' },
-                  { name: 'فيصل الشمري', basic: '4,500', allowance: '600', deduction: '200', net: '4,900' },
-                  { name: 'ريم السلمي', basic: '3,800', allowance: '500', deduction: '190', net: '4,110' },
-                  { name: 'نورة الحربي', basic: '6,000', allowance: '1,000', deduction: '300', net: '6,700' },
-                ].map((emp, i) => (
-                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '40px 2fr 1fr 1fr 1fr 1fr', gap: 8, padding: '10px 14px', borderTop: `1px solid ${BD}`, fontSize: 12, alignItems: 'center' }}>
-                    <span style={{ color: MUT }}>{i+1}</span>
-                    <span style={{ fontWeight: 600 }}>{emp.name}</span>
-                    <span style={{ color: DIM }}>{emp.basic}</span>
-                    <span style={{ color: '#4ADE80' }}>+{emp.allowance}</span>
-                    <span style={{ color: '#EF4444' }}>-{emp.deduction}</span>
-                    <span style={{ fontWeight: 800, color: C }}>{emp.net}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* LEAVES */}
-          {activeSection === 'leaves' && (
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>🏖️ طلبات الإجازات المعلقة</h2>
-                <span style={{ background: '#EF444418', color: '#EF4444', border: '1px solid #EF444433', fontSize: 11, fontWeight: 700, padding: '4px 10px', borderRadius: 6 }}>9 طلبات</span>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
-                {[
-                  { name: 'أ. محمد الغامدي', branch: 'الرئيسي', type: 'إجازة اعتيادية', days: '3 أيام', date: '5-7 أبريل', color: '#60A5FA' },
-                  { name: 'أ. سارة الزهراني', branch: 'الروضة', type: 'إجازة مرضية', days: 'يومين', date: '3-4 أبريل', color: '#EF4444' },
-                  { name: 'عبدالله الدوسري', branch: 'الرئيسي', type: 'استئذان', days: 'يوم واحد', date: '6 أبريل', color: '#FB923C' },
-                  { name: 'فيصل الشمري', branch: 'العليا', type: 'إجازة طارئة', days: '4 أيام', date: '3-6 أبريل', color: '#EF4444' },
-                  { name: 'ريم السلمي', branch: 'الروضة', type: 'إجازة اعتيادية', days: 'أسبوع', date: '10-16 أبريل', color: '#60A5FA' },
-                ].map((req, i) => (
-                  <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 12, padding: 14, display: 'flex', alignItems: 'center', gap: 14 }}>
-                    <div style={{ width: 40, height: 40, borderRadius: 10, background: `${req.color}18`, border: `1px solid ${req.color}33`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>👤</div>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 13, fontWeight: 700 }}>{req.name} <span style={{ fontSize: 10, color: MUT }}>— {req.branch}</span></div>
-                      <div style={{ fontSize: 11, color: DIM, marginTop: 2 }}>{req.type} · {req.days} · {req.date}</div>
-                    </div>
-                    <div style={{ display: 'flex', gap: 6 }}>
-                      <button style={{ background: '#4ADE8018', border: '1px solid #4ADE8033', borderRadius: 7, padding: '6px 14px', color: '#4ADE80', fontSize: 11, fontWeight: 700, cursor: 'pointer', fontFamily: FONT }}>قبول ✓</button>
-                      <button style={{ background: '#EF444418', border: '1px solid #EF444433', borderRadius: 7, padding: '6px 14px', color: '#EF4444', fontSize: 11, fontWeight: 700, cursor: 'pointer', fontFamily: FONT }}>رفض ✗</button>
-                    </div>
-                  </div>
-                ))}
-                <div style={{ textAlign: 'center', fontSize: 11, color: MUT, padding: 8 }}>+ 4 طلبات أخرى</div>
-              </div>
-              <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-                <h3 style={{ fontSize: 13, fontWeight: 700, marginBottom: 12 }}>📊 إحصائيات الإجازات — هذا الشهر</h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
-                  {[
-                    { label: 'طلبات معلقة', value: 9, color: '#EF4444' },
-                    { label: 'تم قبولها', value: 12, color: '#4ADE80' },
-                    { label: 'تم رفضها', value: 3, color: '#FB923C' },
-                    { label: 'إجمالي أيام الغياب', value: 28, color: '#60A5FA' },
-                  ].map((s, i) => (
-                    <div key={i} style={{ background: 'rgba(255,255,255,0.02)', border: `1px solid ${BD}`, borderRadius: 10, padding: '10px 12px', textAlign: 'center' }}>
-                      <div style={{ fontSize: 22, fontWeight: 900, color: s.color }}>{s.value}</div>
-                      <div style={{ fontSize: 10, color: MUT, marginTop: 4 }}>{s.label}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ATTENDANCE */}
-          {activeSection === 'attendance' && (
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>✅ حضور الموظفين — اليوم</h2>
-                <div style={{ fontSize: 12, color: DIM }}>{new Date().toLocaleDateString('ar-SA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 20 }}>
-                {[
-                  { label: 'حاضرون', value: '81', total: '/86', color: '#4ADE80', icon: '✅' },
-                  { label: 'غائبون', value: '2', total: '', color: '#EF4444', icon: '❌' },
-                  { label: 'متأخرون', value: '3', total: '', color: '#FB923C', icon: '⏰' },
-                  { label: 'نسبة الحضور', value: '94%', total: '', color: C, icon: '📊' },
-                ].map((s, i) => (
-                  <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <span style={{ fontSize: 22 }}>{s.icon}</span>
-                    <div>
-                      <div style={{ fontSize: 22, fontWeight: 900, color: s.color }}>{s.value}<span style={{ fontSize: 11, color: MUT }}>{s.total}</span></div>
-                      <div style={{ fontSize: 10, color: MUT }}>{s.label}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 20 }}>
-                {[
-                  { branch: 'الرئيسي — النزهة', present: 40, total: 42, pct: '96%', color: '#60A5FA' },
-                  { branch: 'فرع الروضة', present: 24, total: 26, pct: '92%', color: '#A78BFA' },
-                  { branch: 'فرع العليا', present: 16, total: 18, pct: '88%', color: '#4ADE80' },
-                ].map((b, i) => (
-                  <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                      <span style={{ fontSize: 12, fontWeight: 700 }}>{b.branch}</span>
-                      <span style={{ fontSize: 13, fontWeight: 800, color: b.color }}>{b.pct}</span>
-                    </div>
-                    <div style={{ height: 6, background: 'rgba(255,255,255,0.08)', borderRadius: 3, overflow: 'hidden', marginBottom: 6 }}>
-                      <div style={{ height: '100%', width: b.pct, background: b.color, borderRadius: 3 }} />
-                    </div>
-                    <div style={{ fontSize: 10, color: MUT }}>{b.present} حاضر من {b.total}</div>
-                  </div>
-                ))}
-              </div>
-              <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, overflow: 'hidden' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '40px 2fr 1fr 1fr 1fr', gap: 8, padding: '10px 14px', background: 'rgba(255,255,255,0.03)', fontSize: 11, fontWeight: 700, color: MUT }}>
-                  <span>#</span><span>الموظف</span><span>الوظيفة</span><span>وقت الحضور</span><span>الحالة</span>
-                </div>
-                {[
-                  { name: 'أ. محمد الغامدي', role: 'معلم رياضيات', time: '7:15 ص', status: 'حاضر', sColor: '#4ADE80' },
-                  { name: 'أ. سارة الزهراني', role: 'معلمة علوم', time: '7:20 ص', status: 'حاضر', sColor: '#4ADE80' },
-                  { name: 'عبدالله الدوسري', role: 'سائق باص', time: '6:45 ص', status: 'حاضر', sColor: '#4ADE80' },
-                  { name: 'فيصل الشمري', role: 'حارس أمن', time: '—', status: 'إجازة', sColor: '#FB923C' },
-                  { name: 'ريم السلمي', role: 'فراشة', time: '7:35 ص', status: 'متأخر', sColor: '#FB923C' },
-                  { name: 'نورة الحربي', role: 'إدارية', time: '7:05 ص', status: 'حاضر', sColor: '#4ADE80' },
-                ].map((emp, i) => (
-                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '40px 2fr 1fr 1fr 1fr', gap: 8, padding: '10px 14px', borderTop: `1px solid ${BD}`, fontSize: 12, alignItems: 'center' }}>
-                    <span style={{ color: MUT }}>{i+1}</span>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <div style={{ width: 28, height: 28, borderRadius: 7, background: `${emp.sColor}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>👤</div>
-                      <span style={{ fontWeight: 600 }}>{emp.name}</span>
-                    </div>
-                    <span style={{ color: DIM }}>{emp.role}</span>
-                    <span style={{ color: DIM }}>{emp.time}</span>
-                    <span style={{ background: `${emp.sColor}18`, color: emp.sColor, fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 6, textAlign: 'center' }}>{emp.status}</span>
-                  </div>
-                ))}
-                <div style={{ padding: '10px 14px', textAlign: 'center', fontSize: 11, color: MUT }}>+ 80 موظف آخر</div>
-              </div>
-            </div>
-          )}
-
-          {/* REPORTS */}
-          {activeSection === 'reports' && (
-            <div>
-              <h2 style={{ fontSize: 16, fontWeight: 800, marginBottom: 20 }}>📈 تقارير الموارد البشرية</h2>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14, marginBottom: 20 }}>
-                {[
-                  { icon: '📊', title: 'تقرير الحضور الشهري', desc: 'ملخص شامل لحضور جميع الموظفين', color: '#4ADE80' },
-                  { icon: '💰', title: 'تقرير الرواتب', desc: 'تفاصيل مسير الرواتب والبدلات', color: C },
-                  { icon: '📄', title: 'تقرير العقود', desc: 'حالة العقود والتجديدات', color: '#60A5FA' },
-                  { icon: '🏖️', title: 'تقرير الإجازات', desc: 'إحصائيات الإجازات حسب النوع', color: '#A78BFA' },
-                  { icon: '👥', title: 'تقرير التوظيف', desc: 'حركة التعيينات والاستقالات', color: '#FB923C' },
-                  { icon: '⭐', title: 'تقرير الأداء', desc: 'تقييمات الموظفين الفصلية', color: GD },
-                ].map((r, i) => (
-                  <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 18, cursor: 'pointer' }}>
-                    <div style={{ width: 40, height: 40, borderRadius: 10, background: `${r.color}18`, border: `1px solid ${r.color}33`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, marginBottom: 12 }}>{r.icon}</div>
-                    <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 6 }}>{r.title}</div>
-                    <div style={{ fontSize: 11, color: DIM, lineHeight: 1.5 }}>{r.desc}</div>
-                    <button style={{ marginTop: 12, background: `${r.color}18`, border: `1px solid ${r.color}33`, borderRadius: 7, padding: '5px 12px', color: r.color, fontSize: 10, fontWeight: 700, cursor: 'pointer', fontFamily: FONT }}>تحميل PDF</button>
-                  </div>
-                ))}
-              </div>
-              <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-                <h3 style={{ fontSize: 13, fontWeight: 700, marginBottom: 12 }}>📋 ملخص سريع</h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
-                  {[
-                    { label: 'متوسط الحضور', value: '94%', color: '#4ADE80' },
-                    { label: 'معدل الدوران', value: '4.2%', color: '#60A5FA' },
-                    { label: 'رضا الموظفين', value: '87%', color: '#A78BFA' },
-                    { label: 'عقود منتهية', value: '6', color: '#EF4444' },
-                  ].map((s, i) => (
-                    <div key={i} style={{ background: 'rgba(255,255,255,0.02)', border: `1px solid ${BD}`, borderRadius: 10, padding: '10px 12px', textAlign: 'center' }}>
-                      <div style={{ fontSize: 22, fontWeight: 900, color: s.color }}>{s.value}</div>
-                      <div style={{ fontSize: 10, color: MUT, marginTop: 4 }}>{s.label}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
         </div>
-      </main>
+        <div className="card" style={{marginBottom:0}}>
+          <div style={{padding:'14px'}}>
+            <div style={{display:'flex',alignItems:'center',gap:'10px',marginBottom:'10px'}}>
+              <div style={{width:'36px',height:'36px',borderRadius:'9px',background:'rgba(16,185,129,.12)',border:'1px solid rgba(16,185,129,.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'18px'}}>🏫</div>
+              <div><div style={{fontSize:'13px',fontWeight:700,color:'var(--t)'}}>فرع العليا</div><div style={{fontSize:'10.5px',color:'var(--gr)'}}>الفرع الثالث</div></div>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'8px',marginBottom:'10px'}}>
+              <div style={{textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--gr)'}}>18</div><div style={{fontSize:'9.5px',color:'var(--tm)'}}>موظف</div></div>
+              <div style={{textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--or)'}}>88%</div><div style={{fontSize:'9.5px',color:'var(--tm)'}}>حضور</div></div>
+              <div style={{textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--or)'}}>2</div><div style={{fontSize:'9.5px',color:'var(--tm)'}}>إجازات</div></div>
+            </div>
+            <div className="pbar"><div className="pfill" style={{width:'88%',background:'var(--gr)'}}></div></div>
+            <div style={{display:'flex',justifyContent:'space-between',marginTop:'5px',fontSize:'10px',color:'var(--tm)'}}>
+              <span>حضور اليوم</span><span style={{color:'var(--gr)',fontWeight:700}}>16 / 18</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* STATS */}
+    <div className="sg">
+      <div className="sc">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(249,115,22,.05),transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="si" style={{background:'rgba(249,115,22,.1)',border:'1px solid rgba(249,115,22,.2)'}}>👥</div>
+        <div className="sv" style={{color:'var(--c)'}} id="stat-total">86</div>
+        <div className="sl">إجمالي الموظفين</div>
+        <div className="ss" style={{color:'rgba(249,115,22,.6)'}} id="stat-total-sub">3 فروع</div>
+      </div>
+      <div className="sc">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(16,185,129,.05),transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="si" style={{background:'rgba(16,185,129,.1)',border:'1px solid rgba(16,185,129,.2)'}}>✅</div>
+        <div className="sv" style={{color:'var(--gr)'}} id="stat-att">94%</div>
+        <div className="sl">نسبة الحضور اليوم</div>
+        <div className="ss" style={{color:'rgba(16,185,129,.6)'}}>81 من 86 حضروا</div>
+      </div>
+      <div className="sc">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(239,68,68,.05),transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="si" style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.2)'}}>📋</div>
+        <div className="sv" style={{color:'var(--rd)'}}>9</div>
+        <div className="sl">طلبات إجازة معلقة</div>
+        <div className="ss" style={{color:'rgba(239,68,68,.6)'}}>تحتاج موافقة</div>
+      </div>
+      <div className="sc">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(239,68,68,.05),transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="si" style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.2)'}}>📄</div>
+        <div className="sv" style={{color:'var(--rd)'}}>6</div>
+        <div className="sl">عقود تنتهي قريباً</div>
+        <div className="ss" style={{color:'rgba(239,68,68,.6)'}}>خلال 30 يوم</div>
+      </div>
+    </div>
+
+    {/* EMPLOYEES TABLE */}
+    <div className="card">
+      <div className="ch">
+        <div className="ct">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--c)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          جميع الموظفين — التحكم الكامل
+          <span id="emp-count" style={{background:'var(--cd)',border:'1px solid var(--cb)',color:'var(--c)',fontSize:'10px',fontWeight:700,padding:'2px 7px',borderRadius:'20px'}}>86</span>
+        </div>
+        <div style={{display:'flex',gap:'6px',alignItems:'center',flexWrap:'wrap'}}>
+          <select style={{background:'rgba(255,255,255,.04)',border:'1px solid var(--b2)',color:'var(--td)',fontSize:'11px',padding:'4px 8px',borderRadius:'6px',fontFamily:'var(--f)',outline:'none'}}>
+            <option>الكل</option><option>معلمون</option><option>سائقون</option><option>أمن</option><option>نظافة</option><option>إداريون</option>
+          </select>
+          <select id="branch-filter" style={{background:'rgba(255,255,255,.04)',border:'1px solid var(--b2)',color:'var(--td)',fontSize:'11px',padding:'4px 8px',borderRadius:'6px',fontFamily:'var(--f)',outline:'none'}}>
+            <option>كل الفروع</option><option>الرئيسي — النزهة</option><option>فرع الروضة</option><option>فرع العليا</option>
+          </select>
+          <button onClick={() => {openModal('add-modal')}} style={{background:'linear-gradient(135deg,var(--c),var(--c2))',border:'none',borderRadius:'7px',padding:'5px 12px',color:'#fff',fontSize:'11px',fontWeight:700,cursor:'pointer',fontFamily:'var(--f)'}}>+ موظف</button>
+        </div>
+      </div>
+      <div className="tw">
+        <table>
+          <thead><tr><th>الموظف</th><th>الوظيفة</th><th>النوع</th><th>الفرع</th><th>الحالة</th><th>الحضور</th><th>الصلاحيات</th></tr></thead>
+          <tbody id="emp-table">
+            <tr><td><div style={{display:'flex',alignItems:'center',gap:'8px'}}><div style={{width:'26px',height:'26px',borderRadius:'6px',background:'rgba(249,115,22,.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'11px',fontWeight:700,color:'var(--c)',flexShrink:0}}>م</div><span style={{fontWeight:600,color:'var(--t)'}}>أ. محمد الغامدي</span></div></td><td style={{color:'var(--tm)',fontSize:'11px'}}>معلم رياضيات</td><td><span className="badge bb">معلم</span></td><td><span style={{fontSize:'10px',color:'var(--bl)'}}>● الرئيسي</span></td><td><span className="badge bg">نشط</span></td><td style={{color:'var(--gr)',fontWeight:700,fontSize:'11px'}}>✓ حاضر</td><td><button className="btn-sm" style={{background:'var(--cd)',color:'var(--c)',border:'1px solid var(--cb)'}} onClick={() => {openPerm('أ. محمد الغامدي')}}>🔐 صلاحيات</button></td></tr>
+            <tr><td><div style={{display:'flex',alignItems:'center',gap:'8px'}}><div style={{width:'26px',height:'26px',borderRadius:'6px',background:'rgba(52,211,153,.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'11px',fontWeight:700,color:'var(--gr)'}}>س</div><span style={{fontWeight:600,color:'var(--t)'}}>أ. سارة الزهراني</span></div></td><td style={{color:'var(--tm)',fontSize:'11px'}}>معلمة علوم</td><td><span className="badge bb">معلمة</span></td><td><span style={{fontSize:'10px',color:'var(--pu)'}}>● الروضة</span></td><td><span className="badge bg">نشط</span></td><td style={{color:'var(--gr)',fontWeight:700,fontSize:'11px'}}>✓ حاضر</td><td><button className="btn-sm" style={{background:'var(--cd)',color:'var(--c)',border:'1px solid var(--cb)'}} onClick={() => {openPerm('أ. سارة الزهراني')}}>🔐 صلاحيات</button></td></tr>
+            <tr><td><div style={{display:'flex',alignItems:'center',gap:'8px'}}><div style={{width:'26px',height:'26px',borderRadius:'6px',background:'rgba(96,165,250,.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'11px',fontWeight:700,color:'var(--bl)'}}>ع</div><span style={{fontWeight:600,color:'var(--t)'}}>عبدالله الدوسري</span></div></td><td style={{color:'var(--tm)',fontSize:'11px'}}>سائق باص</td><td><span className="badge bo">سائق</span></td><td><span style={{fontSize:'10px',color:'var(--bl)'}}>● الرئيسي</span></td><td><span className="badge bg">نشط</span></td><td style={{color:'var(--gr)',fontWeight:700,fontSize:'11px'}}>✓ حاضر</td><td><button className="btn-sm" style={{background:'var(--cd)',color:'var(--c)',border:'1px solid var(--cb)'}} onClick={() => {openPerm('عبدالله الدوسري')}}>🔐 صلاحيات</button></td></tr>
+            <tr><td><div style={{display:'flex',alignItems:'center',gap:'8px'}}><div style={{width:'26px',height:'26px',borderRadius:'6px',background:'rgba(239,68,68,.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'11px',fontWeight:700,color:'var(--rd)'}}>ف</div><span style={{fontWeight:600,color:'var(--t)'}}>فيصل الشمري</span></div></td><td style={{color:'var(--tm)',fontSize:'11px'}}>حارس أمن</td><td><span className="badge br">أمن</span></td><td><span style={{fontSize:'10px',color:'var(--gr)'}}>● العليا</span></td><td><span className="badge bo">إجازة</span></td><td style={{color:'var(--or)',fontWeight:700,fontSize:'11px'}}>✗ إجازة</td><td><button className="btn-sm" style={{background:'var(--cd)',color:'var(--c)',border:'1px solid var(--cb)'}} onClick={() => {openPerm('فيصل الشمري')}}>🔐 صلاحيات</button></td></tr>
+            <tr><td><div style={{display:'flex',alignItems:'center',gap:'8px'}}><div style={{width:'26px',height:'26px',borderRadius:'6px',background:'rgba(16,185,129,.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'11px',fontWeight:700,color:'var(--gr)'}}>ر</div><span style={{fontWeight:600,color:'var(--t)'}}>ريم السلمي</span></div></td><td style={{color:'var(--tm)',fontSize:'11px'}}>فراشة</td><td><span className="badge bg">نظافة</span></td><td><span style={{fontSize:'10px',color:'var(--pu)'}}>● الروضة</span></td><td><span className="badge bg">نشط</span></td><td style={{color:'var(--gr)',fontWeight:700,fontSize:'11px'}}>✓ حاضر</td><td><button className="btn-sm" style={{background:'var(--cd)',color:'var(--c)',border:'1px solid var(--cb)'}} onClick={() => {openPerm('ريم السلمي')}}>🔐 صلاحيات</button></td></tr>
+            <tr><td><div style={{display:'flex',alignItems:'center',gap:'8px'}}><div style={{width:'26px',height:'26px',borderRadius:'6px',background:'rgba(167,139,250,.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'11px',fontWeight:700,color:'var(--pu)'}}>ن</div><span style={{fontWeight:600,color:'var(--t)'}}>نورة الحربي</span></div></td><td style={{color:'var(--tm)',fontSize:'11px'}}>موظفة إدارية</td><td><span className="badge bp">إدارية</span></td><td><span style={{fontSize:'10px',color:'var(--bl)'}}>● الرئيسي</span></td><td><span className="badge bg">نشط</span></td><td style={{color:'var(--gr)',fontWeight:700,fontSize:'11px'}}>✓ حاضر</td><td><button className="btn-sm" style={{background:'var(--cd)',color:'var(--c)',border:'1px solid var(--cb)'}} onClick={() => {openPerm('نورة الحربي')}}>🔐 صلاحيات</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style={{padding:'9px 13px',textAlign:'center',fontSize:'11px',color:'var(--tm)'}}>+ 80 موظف آخر</div>
+    </div>
+
+    {/* LEAVES + CONTRACTS */}
+    <div className="g2">
+      {/* إجازات معلقة */}
+      <div className="card" style={{marginBottom:0}}>
+        <div className="ch">
+          <div className="ct">📋 طلبات الإجازة المعلقة <span style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.2)',color:'var(--rd)',fontSize:'10px',fontWeight:700,padding:'2px 7px',borderRadius:'20px',marginRight:'3px'}}>9</span></div>
+        </div>
+        ${['أ. محمد الغامدي — الرئيسي — إجازة اعتيادية 3 أيام','أ. سارة الزهراني — الروضة — إجازة مرضية','عبدالله الدوسري — الرئيسي — استئذان يوم','فيصل الشمري — العليا — إجازة طارئة','ريم السلمي — الروضة — إجازة اعتيادية أسبوع'].map(l=>{
+          const [name,branch,type] = l.split(' — ');
+          return `<div className="item"><div className="item-ic" style={{background:'rgba(249,115,22,.1)'}}>📋</div><div style={{flex:1,minWidth:0}}><div style={{fontSize:'12px',fontWeight:600,color:'var(--t)'}}>${name}</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>${branch} · ${type}</div></div><div style={{display:'flex',gap:'4px'}}><button className="btn-sm" style={{background:'rgba(16,185,129,.08)',color:'var(--gr)',border:'1px solid rgba(16,185,129,.2)'}}>قبول</button><button className="btn-sm" style={{background:'rgba(239,68,68,.08)',color:'var(--rd)',border:'1px solid rgba(239,68,68,.2)'}}>رفض</button></div></div>`;
+        }).join('')}
+        <div style={{padding:'8px 13px',textAlign:'center',fontSize:'11px',color:'var(--tm)'}}>+ 4 طلبات أخرى</div>
+      </div>
+
+      {/* عقود وراتب */}
+      <div style={{display:'flex',flexDirection:'column',gap:'12px'}}>
+        <div className="card" style={{marginBottom:0}}>
+          <div className="ch"><div className="ct">📄 عقود تنتهي قريباً <span style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.2)',color:'var(--rd)',fontSize:'10px',fontWeight:700,padding:'2px 7px',borderRadius:'20px',marginRight:'3px'}}>6</span></div></div>
+          ${[['أ. خالد النمر','معلم — الروضة','انتهى','br'],['ريم السلمي','فراشة — الروضة','بعد 8 أيام','bo'],['فيصل الشمري','أمن — العليا','بعد 20 يوم','bo'],['أ. هند الزهراني','معلمة — الرئيسي','بعد 28 يوم','bb']].map(([n,r,d,bc])=>`
+          <div className="item"><div className="item-ic" style={{background:'rgba(239,68,68,.1)'}}>📄</div><div style={{flex:1,minWidth:0}}><div style={{fontSize:'12px',fontWeight:600,color:'var(--t)'}}>${n}</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>${r} · ${d}</div></div><button className="btn-sm" style={{background:'var(--cd)',color:'var(--c)',border:'1px solid var(--cb)'}}>تجديد</button></div>`).join('')}
+        </div>
+
+        <div className="card" style={{marginBottom:0}}>
+          <div className="ch"><div className="ct">💰 مسير الرواتب — هذا الشهر</div><span className="badge bg">جاهز ✓</span></div>
+          <div style={{padding:'12px 13px'}}>
+            ${[['الرئيسي — النزهة','152,000 SAR','#60A5FA'],['فرع الروضة','88,000 SAR','#A78BFA'],['فرع العليا','64,000 SAR','#10B981']].map(([b,a,col])=>`
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'6px 0',borderBottom:'1px solid var(--b2)',fontSize:'12px'}}><span style={{color:'var(--td)'}}>${b}</span><strong style={{color:'${col}'}}>${a}</strong></div>`).join('')}
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'8px 0',fontSize:'13px',fontWeight:700}}><span style={{color:'var(--t)'}}>الإجمالي</span><span style={{color:'var(--c)'}}>304,000 SAR</span></div>
+            <button onClick={() => {toast('✓ تم صرف الرواتب')}} style={{width:'100%',background:'linear-gradient(135deg,var(--c),var(--c2))',border:'none',borderRadius:'8px',padding:'9px',color:'#fff',fontSize:'12px',fontWeight:700,cursor:'pointer',fontFamily:'var(--f)'}}>💸 صرف الرواتب الآن</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* QUICK ACTIONS */}
+    <div>
+      <div style={{color:'var(--tm)',fontSize:'10px',fontWeight:700,letterSpacing:'1px',textTransform:'uppercase',marginBottom:'10px'}}>إجراءات سريعة</div>
+      <div className="qg">
+        <a className="qi" href="#" onClick={() => {openModal('add-modal')}}><div className="qic" style={{background:'rgba(249,115,22,.1)',border:'1px solid rgba(249,115,22,.2)'}}>➕</div><span className="ql">إضافة موظف</span></a>
+        <a className="qi" href="#" onClick={() => {openModal('perm-modal')}}><div className="qic" style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.2)'}}>🔐</div><span className="ql">الصلاحيات</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(251,146,60,.1)',border:'1px solid rgba(251,146,60,.2)'}}>📋</div><span className="ql">معالجة إجازة</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(96,165,250,.1)',border:'1px solid rgba(96,165,250,.2)'}}>📄</div><span className="ql">تجديد عقد</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(16,185,129,.1)',border:'1px solid rgba(16,185,129,.2)'}}>💰</div><span className="ql">مسير الرواتب</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(167,139,250,.1)',border:'1px solid rgba(167,139,250,.2)'}}>⭐</div><span className="ql">تقييم الأداء</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(34,211,238,.1)',border:'1px solid rgba(34,211,238,.2)'}}>📊</div><span className="ql">تقرير HR</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(96,165,250,.1)',border:'1px solid rgba(96,165,250,.2)'}}>📑</div><span className="ql">قسائم الراتب</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(249,115,22,.1)',border:'1px solid rgba(249,115,22,.2)'}}>🚌</div><span className="ql">سائقو الباص</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.2)'}}>🛡️</div><span className="ql">حراس الأمن</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(16,185,129,.1)',border:'1px solid rgba(16,185,129,.2)'}}>🧹</div><span className="ql">الفراشون</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(212,168,67,.1)',border:'1px solid rgba(212,168,67,.2)'}}>🏫</div><span className="ql">إدارة الفروع</span></a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer className="ft">
+    <p>© 2026 متين — الموارد البشرية · مدرسة الأمل الدولية</p>
+    <p>صنع بـ ❤️ في المملكة العربية السعودية</p>
+  </footer>
+</div>
     </div>
   );
 }

@@ -1,760 +1,509 @@
-'use client';
-export const dynamic = 'force-dynamic';
+﻿'use client';
+import React, { useState } from 'react';
+import '../../styles/school-owner.css';
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { 
-  LayoutDashboard, Users, GraduationCap, School, Baby, Bus, 
-  Settings, Bell, LogOut, Plus, ChevronDown, Menu, X,
-  Wallet, FileText, Shield, Calendar, TrendingUp, BookOpen,
-  ClipboardCheck, CreditCard, Building2, UserCheck, AlertCircle
-} from 'lucide-react';
-import { getHeaders } from '@/lib/api';
-
-/* ═══════════════════════════════════════════════════════════════════
-   SCHOOL OWNER DASHBOARD — متين v6
-   للمدارس التابعة لمنصة متين (تحت إدارة مالك المنصة)
-   Primary: #34D399 (Green) | Secondary: #D4A843 (Gold)
-   ═══════════════════════════════════════════════════════════════════ */
-
-const C = '#34D399';      // Green Primary
-const C2 = '#059669';     // Green Dark
-const CD = 'rgba(52,211,153,0.1)';  // Green Dim
-const CB = 'rgba(52,211,153,0.22)'; // Green Border
-const GD = '#D4A843';     // Gold (للإشارة إنها تحت منصة متين)
-const GD2 = '#E8C060';
-const BG = '#06060E';
-const SB = '#070F0A';     // Sidebar Green-tinted
-const CARD = 'rgba(255,255,255,0.025)';
-const BORDER = 'rgba(255,255,255,0.07)';
-const BORDER2 = 'rgba(255,255,255,0.04)';
-const TEXT = '#EEEEF5';
-const TEXT_DIM = 'rgba(238,238,245,0.55)';
-const TEXT_MUTED = 'rgba(238,238,245,0.28)';
-const GREEN = '#10B981';
-const RED = '#EF4444';
-const BLUE = '#60A5FA';
-const PURPLE = '#A78BFA';
-const ORANGE = '#FB923C';
-const CYAN = '#22D3EE';
-
-// أنواع الوحدات التعليمية
-const UNIT_TYPES = {
-  school: { icon: '🏫', label: 'مدرسة', color: BLUE, bg: 'rgba(96,165,250,0.12)', border: 'rgba(96,165,250,0.2)' },
-  kg: { icon: '🌱', label: 'روضة', color: GREEN, bg: 'rgba(52,211,153,0.12)', border: 'rgba(52,211,153,0.2)' },
-  nursery: { icon: '🍼', label: 'حضانة', color: ORANGE, bg: 'rgba(251,146,60,0.12)', border: 'rgba(251,146,60,0.2)' },
-};
-
-export default function SchoolOwnerDashboard() {
-  const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [activeUnit, setActiveUnit] = useState<string>('all');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [showAddUnitModal, setShowAddUnitModal] = useState(false);
-  const [selectedUnitType, setSelectedUnitType] = useState<string>('school');
-  const [units, setUnits] = useState<any[]>([
-    { id: 'school', type: 'school', name: 'مدرسة الأمل', stages: 'ابتدائي + متوسط', students: 380, status: 'active' },
-    { id: 'kg', type: 'kg', name: 'روضة الأمل', stages: 'KG1-KG3', students: 76, status: 'active' },
-    { id: 'nursery', type: 'nursery', name: 'حضانة الأمل', stages: 'شهرين — 3 سنوات', students: 30, status: 'active' },
-  ]);
-
-  useEffect(() => {
-    const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
-    if (!u.id) { window.location.href = '/login'; return; }
-    setUser(u);
-    setLoading(false);
-  }, []);
-
-  const totalStudents = units.reduce((sum, u) => sum + u.students, 0);
-  const activeUnits = units.filter(u => u.status === 'active').length;
-
-  if (loading) return (
-    <div style={{ minHeight: '100vh', background: BG, display: 'flex', alignItems: 'center', justifyContent: 'center', color: TEXT }}>
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ width: 40, height: 40, border: `3px solid ${C}`, borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 16px' }} />
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-        <div>جاري التحميل...</div>
-      </div>
-    </div>
-  );
-
-  return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: BG, color: TEXT, fontFamily: "'IBM Plex Sans Arabic', sans-serif", direction: 'rtl' }}>
-      
-      {/* Overlay for mobile */}
-      <div 
-        style={{ 
-          display: sidebarOpen ? 'block' : 'none', 
-          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', 
-          zIndex: 299, backdropFilter: 'blur(4px)' 
-        }} 
-        onClick={() => setSidebarOpen(false)} 
-      />
-
-      {/* SIDEBAR */}
-      <aside style={{
-        width: 266, flexShrink: 0, height: '100vh', background: SB,
-        borderLeft: `1px solid ${BORDER}`, display: 'flex', flexDirection: 'column',
-        overflow: 'hidden', position: 'relative', zIndex: 300,
-        transform: sidebarOpen ? 'translateX(0)' : undefined,
-        transition: 'transform 0.3s cubic-bezier(0.4,0,0.2,1)',
-      }}>
-        {/* Green gradient line */}
-        <div style={{
-          position: 'absolute', top: 0, right: 0, width: 1, height: '100%',
-          background: `linear-gradient(180deg,transparent,${C} 30%,${C} 70%,transparent)`, opacity: 0.22
-        }} />
-
-        {/* Logo & User */}
-        <div style={{ padding: '14px 13px 11px', borderBottom: `1px solid ${BORDER}`, flexShrink: 0 }}>
-          <Link href="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10, textDecoration: 'none' }}>
-            <div style={{
-              width: 32, height: 32, borderRadius: 8,
-              background: `linear-gradient(135deg,${GD},${GD2})`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: 16, fontWeight: 900, color: '#000', flexShrink: 0
-            }}>م</div>
-            <div>
-              <div style={{ fontSize: 16, fontWeight: 800, color: TEXT, letterSpacing: -0.5 }}>متين</div>
-              <div style={{ fontSize: 9, color: TEXT_MUTED }}>لوحة مالك المدرسة</div>
-            </div>
-          </Link>
-
-          {/* User Card */}
-          <div style={{
-            background: CD, border: `1px solid ${CB}`, borderRadius: 9,
-            padding: '9px 11px', display: 'flex', alignItems: 'center', gap: 9, marginBottom: 10
-          }}>
-            <div style={{
-              width: 34, height: 34, borderRadius: 8,
-              background: 'rgba(52,211,153,0.15)', border: `1px solid ${CB}`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 17
-            }}>👨‍💼</div>
-            <div style={{ minWidth: 0 }}>
-              <div style={{ color: TEXT, fontSize: 12.5, fontWeight: 700 }}>{user?.name || 'أحمد المطيري'}</div>
-              <div style={{ color: C, fontSize: 10.5, fontWeight: 600, marginTop: 1 }}>مالك مدرسة الأمل</div>
-            </div>
-          </div>
-
-          {/* Units Label */}
-          <div style={{ fontSize: 9, color: TEXT_MUTED, fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>وحداتي التعليمية</div>
-
-          {/* Units List */}
-          <div>
-            <div 
-              onClick={() => setActiveUnit('all')}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 8, padding: '6px 9px', borderRadius: 7,
-                border: `1px solid ${activeUnit === 'all' ? CB : BORDER2}`,
-                background: activeUnit === 'all' ? CD : 'rgba(255,255,255,0.02)',
-                cursor: 'pointer', marginBottom: 4, transition: 'all 0.15s'
-              }}
-            >
-              <div style={{
-                width: 24, height: 24, borderRadius: 6, background: CD,
-                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13
-              }}>🏫</div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 11.5, fontWeight: 600, color: TEXT }}>جميع الوحدات</div>
-                <div style={{ fontSize: 9.5, color: TEXT_MUTED }}>{units.length} وحدات · {totalStudents} طالب</div>
-              </div>
-              <span style={{
-                fontSize: 9, fontWeight: 700, padding: '1px 6px', borderRadius: 8,
-                background: CD, color: C, border: `1px solid ${CB}`
-              }}>كل</span>
-            </div>
-
-            {units.map(unit => {
-              const typeConfig = UNIT_TYPES[unit.type as keyof typeof UNIT_TYPES];
-              return (
-                <div 
-                  key={unit.id}
-                  onClick={() => setActiveUnit(unit.id)}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: 8, padding: '6px 9px', borderRadius: 7,
-                    border: `1px solid ${activeUnit === unit.id ? typeConfig.border : BORDER2}`,
-                    background: activeUnit === unit.id ? typeConfig.bg : 'rgba(255,255,255,0.02)',
-                    cursor: 'pointer', marginBottom: 4, transition: 'all 0.15s'
-                  }}
-                >
-                  <div style={{
-                    width: 24, height: 24, borderRadius: 6, background: typeConfig.bg,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13
-                  }}>{typeConfig.icon}</div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 11.5, fontWeight: 600, color: TEXT }}>{unit.name}</div>
-                    <div style={{ fontSize: 9.5, color: TEXT_MUTED }}>{unit.stages} · {unit.students} طالب</div>
-                  </div>
-                  <span style={{
-                    fontSize: 9, fontWeight: 700, padding: '1px 6px', borderRadius: 8,
-                    background: typeConfig.bg, color: typeConfig.color, border: `1px solid ${typeConfig.border}`
-                  }}>{typeConfig.label}</span>
-                </div>
-              );
-            })}
-
-            {/* Add Unit Button */}
-            <div 
-              onClick={() => setShowAddUnitModal(true)}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 8, padding: '6px 9px', borderRadius: 7,
-                border: `1px dashed ${BORDER}`, cursor: 'pointer', justifyContent: 'center',
-                background: 'rgba(255,255,255,0.01)'
-              }}
-            >
-              <span style={{ fontSize: 13 }}>➕</span>
-              <span style={{ fontSize: 11.5, color: C, fontWeight: 600 }}>إضافة وحدة جديدة</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Navigation */}
-        <nav style={{ flex: 1, padding: '5px 0 4px', overflowY: 'auto' }}>
-          <NavGroup label="الرئيسية">
-            <NavItem icon={<LayoutDashboard size={13} />} label="لوحتي" active dot />
-            <NavItem icon={<TrendingUp size={13} />} label="الإحصائيات والتقارير" />
-          </NavGroup>
-
-          <NavGroup label="إدارة الوحدات">
-            <NavItem icon={<Plus size={13} />} label="+ إضافة وحدة" highlight onClick={() => setShowAddUnitModal(true)} />
-            <NavItem icon={<Building2 size={13} />} label="إعدادات الوحدات" />
-            <NavItem icon={<Calendar size={13} />} label="الجداول الدراسية" />
-          </NavGroup>
-
-          <NavGroup label="الموظفون">
-            <NavItem icon={<Users size={13} />} label="الموارد البشرية" badge="86" badgeColor="c" />
-            <NavItem icon={<Shield size={13} />} label="🔐 الصلاحيات" />
-            <NavItem icon={<FileText size={13} />} label="العقود" badge="6" badgeColor="r" />
-          </NavGroup>
-
-          <NavGroup label="الطلاب">
-            <NavItem icon={<School size={13} />} label="طلاب المدرسة" badge="380" badgeColor="c" />
-            <NavItem icon={<GraduationCap size={13} />} label="أطفال الروضة" badge="76" badgeColor="c" />
-            <NavItem icon={<Baby size={13} />} label="أطفال الحضانة" badge="30" badgeColor="c" />
-            <NavItem icon={<ClipboardCheck size={13} />} label="طلبات القبول" badge="14" badgeColor="r" />
-          </NavGroup>
-
-          <NavGroup label="المالية">
-            <NavItem icon={<Wallet size={13} />} label="الإيرادات والرسوم" />
-            <NavItem icon={<CreditCard size={13} />} label="الرسوم المعلقة" badge="38K" badgeColor="r" />
-            <NavItem icon={<TrendingUp size={13} />} label="المنح والإعفاءات" />
-          </NavGroup>
-
-          <NavGroup label="النقل">
-            <NavItem icon={<Bus size={13} />} label="الباصات المدرسية" />
-          </NavGroup>
-
-          <NavGroup label="الإعدادات">
-            <NavItem icon={<Settings size={13} />} label="إعدادات المدرسة" />
-            <NavItem icon={<BookOpen size={13} />} label="الاشتراك والباقة" />
-          </NavGroup>
-        </nav>
-
-        {/* Footer */}
-        <div style={{ padding: '9px 11px', borderTop: `1px solid ${BORDER}`, flexShrink: 0 }}>
-          <button style={{
-            width: '100%', background: 'rgba(248,113,113,0.07)', border: '1px solid rgba(248,113,113,0.15)',
-            borderRadius: 8, padding: 8, color: '#F87171', fontSize: 11.5, fontWeight: 600,
-            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
-            fontFamily: 'inherit'
-          }}>
-            <LogOut size={13} /> تسجيل الخروج
-          </button>
-          <div style={{ marginTop: 6, color: 'rgba(238,238,245,0.14)', fontSize: 10, textAlign: 'center' }}>
-            متين v6 — مدرسة الأمل الدولية
-          </div>
-        </div>
-      </aside>
-
-      {/* MAIN CONTENT */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden' }}>
-        
-        {/* Header */}
-        <header style={{
-          height: 62, background: 'rgba(6,6,14,0.88)', backdropFilter: 'blur(24px) saturate(1.8)',
-          borderBottom: `1px solid ${BORDER}`, display: 'flex', alignItems: 'center',
-          justifyContent: 'space-between', padding: '0 16px', flexShrink: 0, zIndex: 10
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <button 
-              onClick={() => setSidebarOpen(true)}
-              style={{
-                display: 'none', '@media(max-width:768px)': { display: 'flex' },
-                background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}`,
-                borderRadius: 9, width: 36, height: 36, alignItems: 'center', justifyContent: 'center',
-                cursor: 'pointer', color: TEXT_DIM
-              }}
-            >
-              <Menu size={17} />
-            </button>
-            <div>
-              <div style={{ fontSize: 15, fontWeight: 800, color: TEXT }}>
-                {activeUnit === 'all' ? 'جميع الوحدات — نظرة شاملة' : units.find(u => u.id === activeUnit)?.name}
-              </div>
-              <div style={{ fontSize: 10.5, color: 'rgba(238,238,245,0.35)', marginTop: 1 }}>
-                {units.length} وحدات تعليمية · {totalStudents} طالب وطفل · الفصل الثاني 1445/1446
-              </div>
-            </div>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            {/* Notification */}
-            <div style={{
-              background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`,
-              borderRadius: 9, width: 36, height: 36, display: 'flex', alignItems: 'center',
-              justifyContent: 'center', cursor: 'pointer', color: TEXT_DIM, position: 'relative'
-            }}>
-              <Bell size={16} />
-              <span style={{
-                position: 'absolute', top: 7, right: 7, width: 7, height: 7, borderRadius: '50%',
-                background: RED, border: `1.5px solid ${BG}`
-              }} />
-            </div>
-
-            {/* Add Unit Button */}
-            <button 
-              onClick={() => setShowAddUnitModal(true)}
-              style={{
-                background: `linear-gradient(135deg,${C},${C2})`, border: 'none', borderRadius: 9,
-                padding: '7px 14px', color: '#fff', fontSize: 12, fontWeight: 700,
-                cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: 6
-              }}
-            >
-              <Plus size={12} strokeWidth={2.5} /> إضافة وحدة
-            </button>
-
-            {/* User Button */}
-            <div style={{
-              background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`,
-              borderRadius: 10, padding: '4px 10px', display: 'flex', alignItems: 'center', gap: 7,
-              cursor: 'pointer'
-            }}>
-              <div style={{
-                width: 28, height: 28, borderRadius: 7, background: 'rgba(52,211,153,0.1)',
-                border: `1.5px solid rgba(52,211,153,0.3)`, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 14
-              }}>👨‍💼</div>
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <div style={{ fontSize: 12, fontWeight: 700, lineHeight: 1.2 }}>{user?.name || 'أحمد المطيري'}</div>
-                <div style={{ fontSize: 9.5, color: C, fontWeight: 700 }}>مالك المدرسة</div>
-              </div>
-              <ChevronDown size={12} color="rgba(238,238,245,0.35)" />
-            </div>
-          </div>
-        </header>
-
-        {/* Unit Tabs */}
-        <div style={{
-          display: 'flex', gap: 0, borderBottom: `1px solid ${BORDER}`, overflowX: 'auto',
-          flexShrink: 0, background: 'rgba(6,6,14,0.7)'
-        }}>
-          <TabButton 
-            active={activeUnit === 'all'} 
-            onClick={() => setActiveUnit('all')}
-            icon="🏫"
-            label="جميع الوحدات"
-          />
-          {units.map(unit => (
-            <TabButton 
-              key={unit.id}
-              active={activeUnit === unit.id}
-              onClick={() => setActiveUnit(unit.id)}
-              icon={UNIT_TYPES[unit.type as keyof typeof UNIT_TYPES].icon}
-              label={unit.name}
-            />
-          ))}
-          <button 
-            onClick={() => setShowAddUnitModal(true)}
-            style={{
-              display: 'flex', alignItems: 'center', gap: 6, padding: '10px 14px',
-              fontSize: 12, fontWeight: 600, color: C, opacity: 0.7,
-              cursor: 'pointer', whiteSpace: 'nowrap', background: 'none', border: 'none',
-              borderBottom: '3px solid transparent', fontFamily: 'inherit'
-            }}
-          >
-            ＋ إضافة وحدة
-          </button>
-        </div>
-
-        {/* Content */}
-        <div style={{ flex: 1, padding: '14px 16px', overflowY: 'auto' }}>
-          
-          {/* Page Header */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 13, flexWrap: 'wrap', gap: 10 }}>
-            <div>
-              <div style={{ fontSize: 17, fontWeight: 800, color: C, display: 'flex', alignItems: 'center', gap: 8 }}>
-                {activeUnit === 'all' ? '🏫 نظرة شاملة — جميع الوحدات' : `${UNIT_TYPES[units.find(u => u.id === activeUnit)?.type as keyof typeof UNIT_TYPES]?.icon || '🏫'} ${units.find(u => u.id === activeUnit)?.name}`}
-              </div>
-              <div style={{ color: TEXT_MUTED, fontSize: 12, marginTop: 3 }}>
-                {activeUnit === 'all' ? 'مدرسة + روضة + حضانة · كل شيء في مكان واحد' : units.find(u => u.id === activeUnit)?.stages}
-              </div>
-            </div>
-            <button 
-              onClick={() => setShowAddUnitModal(true)}
-              style={{
-                background: `linear-gradient(135deg,${C},${C2})`, border: 'none', borderRadius: 9,
-                padding: '9px 16px', color: '#fff', fontWeight: 700, fontSize: 12.5,
-                cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: 6
-              }}
-            >
-              <Plus size={13} strokeWidth={2.5} /> + إضافة وحدة جديدة
-            </button>
-          </div>
-
-          {/* Stats Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10, marginBottom: 13 }}>
-            <StatCard 
-              icon="👥" 
-              value={totalStudents} 
-              label="إجمالي الطلاب والأطفال"
-              sub={activeUnit === 'all' ? units.map(u => u.students).join(' + ') : undefined}
-              color={C}
-            />
-            <StatCard 
-              icon="👩‍🏫" 
-              value="86" 
-              label="إجمالي الموظفين"
-              sub="معلمون + خدمات"
-              color={BLUE}
-            />
-            <StatCard 
-              icon="💰" 
-              value="1.2M" 
-              label="الإيرادات الفصلية"
-              sub="SAR هذا الفصل"
-              color={GD}
-            />
-            <StatCard 
-              icon="📋" 
-              value="14" 
-              label="طلبات قبول معلقة"
-              sub="تحتاج مراجعة"
-              color={RED}
-            />
-          </div>
-
-          {/* Units Overview Cards */}
-          {activeUnit === 'all' && (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 12, marginBottom: 13 }}>
-              {units.map(unit => {
-                const typeConfig = UNIT_TYPES[unit.type as keyof typeof UNIT_TYPES];
-                return (
-                  <div 
-                    key={unit.id}
-                    onClick={() => setActiveUnit(unit.id)}
-                    style={{
-                      background: CARD, border: `1px solid ${BORDER}`, borderRadius: 11,
-                      overflow: 'hidden', cursor: 'pointer', marginBottom: 0
-                    }}
-                  >
-                    <div style={{ padding: 14 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-                        <div style={{
-                          width: 42, height: 42, borderRadius: 10, background: typeConfig.bg,
-                          border: `1px solid ${typeConfig.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          fontSize: 22
-                        }}>{typeConfig.icon}</div>
-                        <div>
-                          <div style={{ fontSize: 14, fontWeight: 800, color: TEXT }}>{unit.name}</div>
-                          <div style={{ fontSize: 11, color: typeConfig.color, marginTop: 1 }}>{unit.stages}</div>
-                        </div>
-                        <span style={{
-                          marginRight: 'auto', padding: '2px 7px', borderRadius: 20, fontSize: 10, fontWeight: 600,
-                          background: typeConfig.bg, color: typeConfig.color, border: `1px solid ${typeConfig.border}`
-                        }}>نشطة</span>
-                      </div>
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 10 }}>
-                        <div style={{
-                          background: 'rgba(255,255,255,0.02)', border: `1px solid ${BORDER2}`, borderRadius: 7,
-                          padding: 8, textAlign: 'center'
-                        }}>
-                          <div style={{ fontSize: 18, fontWeight: 800, color: typeConfig.color }}>{unit.students}</div>
-                          <div style={{ fontSize: 10, color: TEXT_MUTED }}>طالب</div>
-                        </div>
-                        <div style={{
-                          background: 'rgba(255,255,255,0.02)', border: `1px solid ${BORDER2}`, borderRadius: 7,
-                          padding: 8, textAlign: 'center'
-                        }}>
-                          <div style={{ fontSize: 18, fontWeight: 800, color: GREEN }}>{unit.type === 'school' ? '54' : unit.type === 'kg' ? '18' : '14'}</div>
-                          <div style={{ fontSize: 10, color: TEXT_MUTED }}>{unit.type === 'school' ? 'معلم' : unit.type === 'kg' ? 'معلمة' : 'مربية'}</div>
-                        </div>
-                      </div>
-                      <div style={{ fontSize: 11, color: TEXT_MUTED, marginBottom: 4 }}>الطاقة الاستيعابية</div>
-                      <div style={{ height: 5, background: 'rgba(255,255,255,0.07)', borderRadius: 3, overflow: 'hidden' }}>
-                        <div style={{
-                          height: '100%', width: unit.type === 'school' ? '84%' : unit.type === 'kg' ? '76%' : '60%',
-                          background: typeConfig.color, borderRadius: 3
-                        }} />
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: TEXT_MUTED, marginTop: 3 }}>
-                        <span>{unit.students} طالب</span>
-                        <span style={{ color: typeConfig.color }}>{unit.type === 'school' ? '84%' : unit.type === 'kg' ? '76%' : '60%'} ممتلئة</span>
-                      </div>
-                    </div>
-                    <div style={{
-                      padding: '8px 14px', background: typeConfig.bg, borderTop: `1px solid ${BORDER2}`,
-                      display: 'flex', alignItems: 'center', justifyContent: 'space-between'
-                    }}>
-                      <span style={{ fontSize: 11, color: typeConfig.color, fontWeight: 600 }}>📊 عرض التفاصيل ←</span>
-                      <span style={{ fontSize: 10, color: TEXT_MUTED }}>رسوم: {unit.type === 'school' ? '680K' : unit.type === 'kg' ? '342K' : '54K'} SAR</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {/* Quick Actions */}
-          <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 10, color: TEXT_MUTED, fontWeight: 700, letterSpacing: 1, marginBottom: 12 }}>إجراءات سريعة</div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: 8 }}>
-              <QuickAction icon="🌐" label="الواجهة الأمامية" color={GREEN} />
-              <QuickAction icon="👥" label="المستخدمون" color={BLUE} />
-              <QuickAction icon="📦" label="الاشتراكات" color={GD} />
-              <QuickAction icon="📢" label="الإعلانات" color={ORANGE} />
-              <QuickAction icon="📄" label="الضرائب" color={GREEN} />
-              <QuickAction icon="🛒" label="المتجر" color={PURPLE} />
-              <QuickAction icon="💬" label="الملتقى" color={CYAN} />
-              <QuickAction icon="🔐" label="الصلاحيات" color={RED} />
-              <QuickAction icon="💾" label="النسخ الاحتياطي" color={GD} />
-              <QuickAction icon="🔒" label="سجل الأمان" color={BLUE} />
-              <QuickAction icon="💰" label="الباقات" color={GREEN} />
-              <QuickAction icon="📊" label="التقارير" color={PURPLE} />
-              <QuickAction icon="⚙️" label="الإعدادات" color={TEXT_DIM} />
-            </div>
-          </div>
-
-        </div>
-
-        {/* Footer */}
-        <footer style={{
-          padding: '14px 28px', borderTop: `1px solid rgba(255,255,255,0.06)`,
-          display: 'flex', justifyContent: 'space-between', flexShrink: 0
-        }}>
-          <p style={{ color: 'rgba(238,238,245,0.25)', fontSize: 12 }}>© 2026 متين — جميع الحقوق محفوظة</p>
-          <p style={{ color: 'rgba(238,238,245,0.25)', fontSize: 12 }}>صنع بـ ❤️ في المملكة العربية السعودية</p>
-        </footer>
-      </div>
-
-      {/* Add Unit Modal */}
-      {showAddUnitModal && (
-        <div style={{
-          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', zIndex: 500,
-          display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(6px)'
-        }}>
-          <div style={{
-            background: SB, border: `1px solid ${CB}`, borderRadius: 16, padding: 0,
-            maxWidth: 520, width: '92%', maxHeight: '90vh', overflowY: 'auto'
-          }}>
-            {/* Modal Header */}
-            <div style={{
-              padding: '14px 16px', borderBottom: `1px solid ${BORDER2}`,
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between'
-            }}>
-              <div style={{ fontSize: 14, fontWeight: 800, color: TEXT, display: 'flex', alignItems: 'center', gap: 8 }}>
-                🏫 إضافة وحدة تعليمية جديدة
-              </div>
-              <button 
-                onClick={() => setShowAddUnitModal(false)}
-                style={{ background: 'none', border: 'none', color: TEXT_MUTED, cursor: 'pointer', fontSize: 20 }}
-              >×</button>
-            </div>
-
-            {/* Modal Body */}
-            <div style={{ padding: 16 }}>
-              <div style={{ fontSize: 11, color: TEXT_MUTED, fontWeight: 700, marginBottom: 10 }}>اختر نوع الوحدة</div>
-              
-              {/* Unit Type Picker */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, marginBottom: 14 }}>
-                {Object.entries(UNIT_TYPES).map(([key, config]) => (
-                  <div 
-                    key={key}
-                    onClick={() => setSelectedUnitType(key)}
-                    style={{
-                      border: `2px solid ${selectedUnitType === key ? C : BORDER2}`, borderRadius: 10,
-                      padding: '14px 10px', textAlign: 'center', cursor: 'pointer',
-                      background: selectedUnitType === key ? CD : 'rgba(255,255,255,0.02)'
-                    }}
-                  >
-                    <div style={{ fontSize: 28, marginBottom: 6 }}>{config.icon}</div>
-                    <div style={{ fontSize: 12.5, fontWeight: 700, color: TEXT }}>{config.label}</div>
-                    <div style={{ fontSize: 10, color: TEXT_MUTED, marginTop: 3 }}>
-                      {key === 'school' ? 'ابتدائي · متوسط · ثانوي' : key === 'kg' ? 'KG1 · KG2 · KG3 · تمهيدي' : 'من شهرين حتى 3 سنوات'}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Form Fields */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 2 }}>
-                <div>
-                  <label style={{ fontSize: 11, color: TEXT_MUTED, fontWeight: 600, display: 'block', marginBottom: 5 }}>اسم الوحدة</label>
-                  <input 
-                    type="text" 
-                    placeholder="مثال: روضة الأمل"
-                    style={{
-                      width: '100%', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`,
-                      color: TEXT, fontSize: 13, padding: '9px 12px', borderRadius: 8,
-                      fontFamily: 'inherit', outline: 'none', marginBottom: 10
-                    }}
-                  />
-                </div>
-                <div>
-                  <label style={{ fontSize: 11, color: TEXT_MUTED, fontWeight: 600, display: 'block', marginBottom: 5 }}>ترتبط بـ (الفرع)</label>
-                  <select style={{
-                    width: '100%', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`,
-                    color: TEXT, fontSize: 13, padding: '9px 12px', borderRadius: 8,
-                    fontFamily: 'inherit', outline: 'none', marginBottom: 10
-                  }}>
-                    <option>الفرع الرئيسي — النزهة</option>
-                    <option>فرع الروضة</option>
-                    <option>فرع العليا</option>
-                    <option>مستقلة</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Info Box */}
-              <div style={{
-                background: 'rgba(255,255,255,0.02)', border: `1px solid ${BORDER2}`,
-                borderRadius: 9, padding: 12, marginBottom: 14
-              }}>
-                <div style={{ fontSize: 11, color: C, fontWeight: 700, marginBottom: 8 }}>⚡ سيتم تلقائياً عند الإضافة</div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 5, fontSize: 11.5, color: TEXT_DIM }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}><span style={{ color: GREEN }}>✓</span> إنشاء تبويب مستقل في النظام</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}><span style={{ color: GREEN }}>✓</span> إعداد نماذج التقييم والتقارير المناسبة</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}><span style={{ color: GREEN }}>✓</span> ربط الوحدة بالموارد البشرية والمالية</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}><span style={{ color: GREEN }}>✓</span> تفعيل بوابة ولي الأمر للوحدة الجديدة</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}><span style={{ color: GREEN }}>✓</span> إضافة الوحدة لتبويبات الموارد البشرية</div>
-                </div>
-              </div>
-
-              {/* Buttons */}
-              <div style={{ display: 'flex', gap: 8 }}>
-                <button 
-                  onClick={() => setShowAddUnitModal(false)}
-                  style={{
-                    flex: 1, background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}`,
-                    borderRadius: 9, padding: 11, color: TEXT_DIM, fontSize: 13,
-                    cursor: 'pointer', fontFamily: 'inherit'
-                  }}
-                >إلغاء</button>
-                <button 
-                  style={{
-                    flex: 2, background: `linear-gradient(135deg,${C},${C2})`, border: 'none',
-                    borderRadius: 9, padding: 11, color: '#fff', fontWeight: 800, fontSize: 13,
-                    cursor: 'pointer', fontFamily: 'inherit'
-                  }}
-                >إضافة الوحدة ←</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════════
-   Sub Components
-   ═══════════════════════════════════════════════════════════════════ */
-
-function NavGroup({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <>
-      <div style={{ fontSize: 9, color: TEXT_MUTED, fontWeight: 700, letterSpacing: 1.2, padding: '8px 13px 3px' }}>{label}</div>
-      {children}
-    </>
-  );
-}
-
-function NavItem({ icon, label, active, dot, badge, badgeColor, highlight, onClick }: any) {
-  const badgeColors: any = {
-    c: { bg: CD, color: C, border: CB },
-    r: { bg: 'rgba(239,68,68,0.12)', color: RED, border: 'rgba(239,68,68,0.22)' },
-    g: { bg: 'rgba(212,168,67,0.12)', color: GD, border: 'rgba(212,168,67,0.22)' },
-  };
+export default function SchoolOwnerPage() {
+  const [activeSection, setActiveSection] = useState('home');
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   
   return (
-    <div 
-      onClick={onClick}
-      style={{
-        display: 'flex', alignItems: 'center', gap: 8, padding: '6px 11px 6px 13px',
-        fontSize: 11.5, color: highlight ? C : active ? TEXT : TEXT_DIM,
-        cursor: 'pointer', borderRight: `3px solid ${active ? C : 'transparent'}`,
-        margin: '1px 4px 1px 0', borderRadius: '0 7px 7px 0',
-        background: active ? CD : 'transparent', fontWeight: active || highlight ? 600 : 400,
-        transition: 'all 0.15s'
-      }}
-    >
-      {icon}
-      <span style={{ color: highlight ? C : undefined, fontWeight: highlight ? 600 : undefined }}>{label}</span>
-      {dot && <span style={{ width: 5, height: 5, borderRadius: '50%', background: C, marginRight: 'auto', boxShadow: `0 0 5px ${C}` }} />}
-      {badge && (
-        <span style={{
-          fontSize: 9.5, fontWeight: 700, padding: '1px 6px', borderRadius: 10, marginRight: 'auto',
-          background: badgeColors[badgeColor]?.bg, color: badgeColors[badgeColor]?.color,
-          border: `1px solid ${badgeColors[badgeColor]?.border}`
-        }}>{badge}</span>
-      )}
+    <div className="dashboard-page">
+<div className="ov" id="ov" onClick={() => {closeSb()}}></div>
+
+{/* ADD UNIT MODAL */}
+<div className="modal-bg" id="add-unit-modal">
+  <div className="modal">
+    <div className="mh">
+      <div className="mt">🏫 إضافة وحدة تعليمية جديدة</div>
+      <button className="mx" onClick={() => {closeModal('add-unit-modal')}}>×</button>
     </div>
-  );
-}
+    <div style={{padding:'16px'}}>
 
-function TabButton({ active, onClick, icon, label }: any) {
-  return (
-    <button 
-      onClick={onClick}
-      style={{
-        display: 'flex', alignItems: 'center', gap: 6, padding: '10px 14px',
-        fontSize: 12, fontWeight: 600, color: active ? TEXT : TEXT_DIM,
-        cursor: 'pointer', whiteSpace: 'nowrap', background: 'none', border: 'none',
-        borderBottom: `3px solid ${active ? C : 'transparent'}`, fontFamily: 'inherit',
-        transition: 'all 0.2s'
-      }}
-    >
-      {icon} {label}
-    </button>
-  );
-}
+      {/* نوع الوحدة */}
+      <div style={{fontSize:'11px',color:'var(--tm)',fontWeight:700,marginBottom:'10px'}}>اختر نوع الوحدة</div>
+      <div className="unit-picker">
+        <div className="unit-pick sel" id="pick-school" onClick={() => {pickUnit('school',this)}}>
+          <div className="unit-pick-ic">🏫</div>
+          <div className="unit-pick-n">مدرسة</div>
+          <div className="unit-pick-s">ابتدائي · متوسط · ثانوي</div>
+        </div>
+        <div className="unit-pick" id="pick-kg" onClick={() => {pickUnit('kg',this)}}>
+          <div className="unit-pick-ic">🌱</div>
+          <div className="unit-pick-n">روضة أطفال</div>
+          <div className="unit-pick-s">KG1 · KG2 · KG3 · تمهيدي</div>
+        </div>
+        <div className="unit-pick" id="pick-nursery" onClick={() => {pickUnit('nursery',this)}}>
+          <div className="unit-pick-ic">🍼</div>
+          <div className="unit-pick-n">حضانة</div>
+          <div className="unit-pick-s">من شهرين حتى 3 سنوات</div>
+        </div>
+      </div>
 
-function StatCard({ icon, value, label, sub, color }: any) {
-  return (
-    <div style={{
-      background: CARD, border: `1px solid ${BORDER2}`, borderRadius: 11,
-      padding: 12, position: 'relative', overflow: 'hidden', transition: 'all 0.2s'
-    }}>
-      <div style={{
-        position: 'absolute', inset: 0,
-        background: `linear-gradient(135deg,${color}05 0%,transparent 60%)`, pointerEvents: 'none'
-      }} />
-      <div style={{
-        width: 30, height: 30, borderRadius: 7,
-        background: `${color}18`, border: `1px solid ${color}30`,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        marginBottom: 8, fontSize: 15
-      }}>{icon}</div>
-      <div style={{ fontSize: 20, fontWeight: 800, lineHeight: 1, marginBottom: 2, color }}>{value}</div>
-      <div style={{ fontSize: 11, color: TEXT_MUTED }}>{label}</div>
-      {sub && <div style={{ fontSize: 10, marginTop: 3, color: `${color}99` }}>{sub}</div>}
+      {/* تفاصيل الوحدة */}
+      <div id="unit-details">
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'10px',marginBottom:'2px'}}>
+          <div><label className="flbl">اسم الوحدة</label><input className="finp" id="unit-name" type="text" placeholder="مثال: روضة الأمل" style={{marginBottom:0}} /></div>
+          <div>
+            <label className="flbl">ترتبط بـ (الفرع)</label>
+            <select className="finp" style={{marginBottom:0}}>
+              <option>الفرع الرئيسي — النزهة</option>
+              <option>فرع الروضة</option>
+              <option>فرع العليا</option>
+              <option>مستقلة</option>
+            </select>
+          </div>
+        </div>
+        <div style={{height:'10px'}}></div>
+
+        {/* ما يتغير حسب النوع */}
+        <div id="unit-type-fields">
+          {/* school fields (default) */}
+          <div id="fields-school">
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'10px',marginBottom:'10px'}}>
+              <div><label className="flbl">المراحل</label><select className="finp" style={{marginBottom:0}}><option>ابتدائي فقط</option><option>متوسط فقط</option><option>ثانوي فقط</option><option>ابتدائي + متوسط</option><option>الكل</option></select></div>
+              <div><label className="flbl">عدد الفصول</label><input className="finp" type="number" placeholder="12" style={{marginBottom:0}} /></div>
+              <div><label className="flbl">الطاقة الاستيعابية</label><input className="finp" type="number" placeholder="360" style={{marginBottom:0}} /></div>
+            </div>
+          </div>
+          {/* kg fields */}
+          <div id="fields-kg" style={{display:'none'}}>
+            <div style={{background:'rgba(52,211,153,.06)',border:'1px solid rgba(52,211,153,.18)',borderRadius:'9px',padding:'10px 13px',marginBottom:'10px',fontSize:'11.5px',color:'var(--td)'}}>
+              🌱 <strong style={{color:'var(--c)'}}>الروضة</strong> — التقييم يتحول لـ <strong>تقرير نمو</strong> بدل الدرجات · الواجبات تصير <strong>أنشطة منزلية</strong> · التواصل مع الأهل <strong>يومي</strong>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'10px',marginBottom:'10px'}}>
+              <div><label className="flbl">المستويات المتاحة</label><select className="finp" style={{marginBottom:0}}><option>KG1 فقط</option><option>KG1 + KG2</option><option>KG1 + KG2 + KG3</option><option>تمهيدي + KG1 + KG2 + KG3</option></select></div>
+              <div><label className="flbl">الطاقة الاستيعابية</label><input className="finp" type="number" placeholder="80" style={{marginBottom:0}} /></div>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'10px',marginBottom:'10px'}}>
+              <div><label className="flbl">وقت الدوام</label><input className="finp" type="text" placeholder="7:30 ص — 12:30 م" style={{marginBottom:0}} /></div>
+              <div><label className="flbl">وقت القيلولة</label><input className="finp" type="text" placeholder="11:00 ص — 11:30 ص" style={{marginBottom:0}} /></div>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'10px',marginBottom:'2px'}}>
+              <div><label className="flbl">رسوم القبول</label><input className="finp" type="number" placeholder="500 SAR" style={{marginBottom:0}} /></div>
+              <div><label className="flbl">الرسوم الفصلية</label><input className="finp" type="number" placeholder="4500 SAR" style={{marginBottom:0}} /></div>
+            </div>
+          </div>
+          {/* nursery fields */}
+          <div id="fields-nursery" style={{display:'none'}}>
+            <div style={{background:'rgba(251,146,60,.06)',border:'1px solid rgba(251,146,60,.2)',borderRadius:'9px',padding:'10px 13px',marginBottom:'10px',fontSize:'11.5px',color:'var(--td)'}}>
+              🍼 <strong style={{color:'var(--or)'}}>الحضانة</strong> — تقرير يومي مفصّل · رسوم <strong>شهرية</strong> · تواصل فوري مع الأهل · يحتاج <strong>مربية + ممرضة</strong>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'10px',marginBottom:'10px'}}>
+              <div><label className="flbl">الفئة العمرية</label><select className="finp" style={{marginBottom:0}}><option>من شهرين — سنة</option><option>من شهرين — سنتين</option><option>من شهرين — 3 سنوات</option><option>سنة — 3 سنوات</option></select></div>
+              <div><label className="flbl">الطاقة الاستيعابية</label><input className="finp" type="number" placeholder="30" style={{marginBottom:0}} /></div>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'10px',marginBottom:'10px'}}>
+              <div><label className="flbl">ساعات العمل</label><input className="finp" type="text" placeholder="7:00 ص — 5:00 م" style={{marginBottom:0}} /></div>
+              <div><label className="flbl">الرسوم الشهرية</label><input className="finp" type="number" placeholder="1800 SAR" style={{marginBottom:0}} /></div>
+            </div>
+            <label className="flbl">الخدمات المتاحة</label>
+            <div style={{display:'flex',flexWrap:'wrap',gap:'6px',marginBottom:'12px'}}>
+              ${['وجبات','قيلولة','أنشطة ترفيهية','كاميرات مراقبة','تقرير يومي للأهل','ممرضة متخصصة'].map(s=>`<label style={{display:'flex',alignItems:'center',gap:'5px',fontSize:'11.5px',color:'var(--td)',cursor:'pointer'}}><input type="checkbox" checked style={{accentColor:'var(--c)'}} /> ${s}</label>`).join('')}
+            </div>
+          </div>
+        </div>
+
+        {/* مشترك: الرسوم والموظفون */}
+        <div style={{background:'rgba(255,255,255,.02)',border:'1px solid var(--b2)',borderRadius:'9px',padding:'12px',marginBottom:'14px'}}>
+          <div style={{fontSize:'11px',color:'var(--c)',fontWeight:700,marginBottom:'8px'}}>⚡ سيتم تلقائياً عند الإضافة</div>
+          <div style={{display:'flex',flexDirection:'column',gap:'5px',fontSize:'11.5px',color:'var(--td)'}}>
+            <div style={{display:'flex',alignItems:'center',gap:'7px'}}><span style={{color:'var(--gr)'}}>✓</span> إنشاء تبويب مستقل في النظام</div>
+            <div style={{display:'flex',alignItems:'center',gap:'7px'}}><span style={{color:'var(--gr)'}}>✓</span> إعداد نماذج التقييم والتقارير المناسبة</div>
+            <div style={{display:'flex',alignItems:'center',gap:'7px'}}><span style={{color:'var(--gr)'}}>✓</span> ربط الوحدة بالموارد البشرية والمالية</div>
+            <div style={{display:'flex',alignItems:'center',gap:'7px'}}><span style={{color:'var(--gr)'}}>✓</span> تفعيل بوابة ولي الأمر للوحدة الجديدة</div>
+            <div style={{display:'flex',alignItems:'center',gap:'7px'}}><span style={{color:'var(--gr)'}}>✓</span> إضافة الوحدة لتبويبات الموارد البشرية</div>
+          </div>
+        </div>
+      </div>
+
+      <div style={{display:'flex',gap:'8px'}}>
+        <button onClick={() => {closeModal('add-unit-modal')}} style={{flex:1,background:'rgba(255,255,255,.05)',border:'1px solid var(--b1)',borderRadius:'9px',padding:'11px',color:'var(--td)',fontSize:'13px',cursor:'pointer',fontFamily:'var(--f)'}}>إلغاء</button>
+        <button onClick={() => {addUnit()}} style={{flex:2,background:'linear-gradient(135deg,var(--c),var(--c2))',border:'none',borderRadius:'9px',padding:'11px',color:'#fff',fontWeight:800,fontSize:'13px',cursor:'pointer',fontFamily:'var(--f)'}}>إضافة الوحدة ←</button>
+      </div>
     </div>
-  );
-}
+  </div>
+</div>
 
-function QuickAction({ icon, label, color }: any) {
-  return (
-    <div style={{
-      background: 'rgba(255,255,255,0.02)', border: `1px solid ${BORDER2}`, borderRadius: 8,
-      padding: '10px 5px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5,
-      cursor: 'pointer', transition: 'all 0.15s', textAlign: 'center'
-    }}>
-      <div style={{
-        width: 30, height: 30, borderRadius: 7,
-        background: `${color}18`, border: `1px solid ${color}30`,
-        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14
-      }}>{icon}</div>
-      <div style={{ fontSize: 10, color: TEXT_DIM, fontWeight: 500, textAlign: 'center', lineHeight: 1.3 }}>{label}</div>
+{/* SIDEBAR */}
+<aside className="sb" id="sb">
+  <div className="sb-top">
+    <a className="logo-r" href="#"><div className="li">م</div><div><div className="lt">متين</div><div className="ls">لوحة مالك المدرسة</div></div></a>
+    <div className="own-card">
+      <div className="own-av">👨‍💼</div>
+      <div style={{minWidth:0}}><div className="own-n">أحمد المطيري</div><div className="own-r">مالك مدرسة الأمل الدولية</div></div>
+    </div>
+    <div className="units-lbl">وحداتي التعليمية</div>
+    <div id="sb-units">
+      <div className="unit-item active" onClick={() => {switchUnit('all',this)}}>
+        <div className="unit-ic" style={{background:'var(--cd)'}}>🏫</div>
+        <div style={{flex:1,minWidth:0}}><div className="unit-n">جميع الوحدات</div><div className="unit-cnt">3 وحدات · 486 طالب</div></div>
+        <span className="unit-badge" style={{background:'var(--cd)',color:'var(--c)',border:'1px solid var(--cb)'}}>كل</span>
+      </div>
+      <div className="unit-item" onClick={() => {switchUnit('school',this)}}>
+        <div className="unit-ic" style={{background:'rgba(96,165,250,.12)'}}>🏫</div>
+        <div style={{flex:1,minWidth:0}}><div className="unit-n">مدرسة الأمل</div><div className="unit-cnt">ابتدائي + متوسط · 380 طالب</div></div>
+        <span className="unit-badge" style={{background:'rgba(96,165,250,.1)',color:'var(--bl)',border:'1px solid rgba(96,165,250,.2)'}}>مدرسة</span>
+      </div>
+      <div className="unit-item" onClick={() => {switchUnit('kg',this)}}>
+        <div className="unit-ic" style={{background:'rgba(52,211,153,.12)'}}>🌱</div>
+        <div style={{flex:1,minWidth:0}}><div className="unit-n">روضة الأمل</div><div className="unit-cnt">KG1-KG3 · 76 طفل</div></div>
+        <span className="unit-badge" style={{background:'rgba(52,211,153,.1)',color:'var(--gr)',border:'1px solid rgba(52,211,153,.2)'}}>روضة</span>
+      </div>
+      <div className="unit-item" onClick={() => {switchUnit('nursery',this)}}>
+        <div className="unit-ic" style={{background:'rgba(251,146,60,.12)'}}>🍼</div>
+        <div style={{flex:1,minWidth:0}}><div className="unit-n">حضانة الأمل</div><div className="unit-cnt">شهرين — 3 سنوات · 30 طفل</div></div>
+        <span className="unit-badge" style={{background:'rgba(251,146,60,.1)',color:'var(--or)',border:'1px solid rgba(251,146,60,.2)'}}>حضانة</span>
+      </div>
+      <div className="unit-item" id="add-unit-btn" onClick={() => {openModal('add-unit-modal')}} style={{borderStyle:'dashed',justifyContent:'center'}}>
+        <span style={{fontSize:'13px'}}>➕</span>
+        <span style={{fontSize:'11.5px',color:'var(--c)',fontWeight:600}}>إضافة وحدة جديدة</span>
+      </div>
+    </div>
+  </div>
+
+  <nav className="nav">
+    <div className="ng">الرئيسية</div>
+    <a className="ni on" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>لوحتي <span className="dot"></span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>الإحصائيات والتقارير</a>
+
+    <div className="ng">إدارة الوحدات</div>
+    <a className="ni" href="#" onClick={() => {openModal('add-unit-modal')}}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span style={{color:'var(--c)',fontWeight:600}}>+ إضافة وحدة</span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>إعدادات الوحدات</a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>الجداول الدراسية</a>
+
+    <div className="ng">الموظفون</div>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>الموارد البشرية <span className="nb nb-c">86</span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>🔐 الصلاحيات</a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>العقود <span className="nb nb-r">6</span></a>
+
+    <div className="ng">الطلاب</div>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/></svg>طلاب المدرسة <span className="nb nb-c">380</span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>أطفال الروضة <span className="nb nb-c">76</span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/></svg>أطفال الحضانة <span className="nb nb-c">30</span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="12" y1="11" x2="12" y2="17"/></svg>طلبات القبول <span className="nb nb-r">14</span></a>
+
+    <div className="ng">المالية</div>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>الإيرادات والرسوم</a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>الرسوم المعلقة <span className="nb nb-r">38K</span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/></svg>المنح والإعفاءات</a>
+
+    <div className="ng">النقل</div>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>الباصات المدرسية</a>
+
+    <div className="ng">الإعدادات</div>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>إعدادات المدرسة</a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>الاشتراك والباقة</a>
+  </nav>
+
+  <div className="sb-ft">
+    <button className="lo"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>تسجيل الخروج</button>
+    <div style={{marginTop:'6px',color:'rgba(238,238,245,.14)',fontSize:'10px',textAlign:'center'}}>متين v6 — مدرسة الأمل الدولية</div>
+  </div>
+</aside>
+
+{/* MAIN */}
+<div className="main">
+  <header className="hdr">
+    <div className="hl">
+      <button className="mb" onClick={() => {toggleSb()}}><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      <div><div className="ht" id="hdr-title">مدرسة الأمل الدولية — نظرة شاملة</div><div className="hs">3 وحدات تعليمية · 486 طالب وطفل · الفصل الثاني 1445/1446</div></div>
+    </div>
+    <div className="hr2">
+      <div className="hb"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span className="nd"></span></div>
+      <button onClick={() => {openModal('add-unit-modal')}} style={{background:'linear-gradient(135deg,var(--c),var(--c2))',border:'none',borderRadius:'9px',padding:'7px 14px',color:'#fff',fontSize:'12px',fontWeight:700,cursor:'pointer',fontFamily:'var(--f)',display:'flex',alignItems:'center',gap:'6px'}}>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        إضافة وحدة
+      </button>
+      <div className="ub">
+        <div className="ua">👨‍💼</div>
+        <div className="ui"><div className="un">أحمد المطيري</div><div className="ur">مالك المدرسة</div></div>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(238,238,245,.35)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+  </header>
+
+  {/* UNIT TABS */}
+  <div className="unit-tabs" id="unit-tabs">
+    <button className="utab active" data-uid="all" onClick={() => {switchUnit('all',this)}} style={{color:'var(--c)',borderBottomColor:'var(--c)'}}>🏫 جميع الوحدات</button>
+    <button className="utab" data-uid="school" onClick={() => {switchUnit('school',this)}}>🏫 مدرسة الأمل</button>
+    <button className="utab" data-uid="kg" onClick={() => {switchUnit('kg',this)}}>🌱 روضة الأمل</button>
+    <button className="utab" data-uid="nursery" onClick={() => {switchUnit('nursery',this)}}>🍼 حضانة الأمل</button>
+    <button className="utab add-tab" onClick={() => {openModal('add-unit-modal')}}>＋ إضافة وحدة</button>
+  </div>
+
+  <div className="con" id="main-con">
+
+    {/* ALL UNITS VIEW */}
+    <div id="view-all">
+      <div className="ph">
+        <div>
+          <div className="pt">🏫 نظرة شاملة — جميع الوحدات</div>
+          <div className="ps">مدرسة + روضة + حضانة · كل شيء في مكان واحد</div>
+        </div>
+        <button className="btn-p" onClick={() => {openModal('add-unit-modal')}}>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          + إضافة وحدة جديدة
+        </button>
+      </div>
+
+      {/* STATS */}
+      <div className="sg">
+        <div className="sc"><div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(52,211,153,.05),transparent 60%)',pointerEvents:'none'}}></div><div className="si" style={{background:'rgba(52,211,153,.1)',border:'1px solid rgba(52,211,153,.2)'}}>👥</div><div className="sv" style={{color:'var(--c)'}}>486</div><div className="sl">إجمالي الطلاب والأطفال</div><div className="ss" style={{color:'rgba(52,211,153,.6)'}}>380 + 76 + 30</div></div>
+        <div className="sc"><div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(96,165,250,.05),transparent 60%)',pointerEvents:'none'}}></div><div className="si" style={{background:'rgba(96,165,250,.1)',border:'1px solid rgba(96,165,250,.2)'}}>👩‍🏫</div><div className="sv" style={{color:'var(--bl)'}}>86</div><div className="sl">إجمالي الموظفين</div><div className="ss" style={{color:'rgba(96,165,250,.6)'}}>معلمون + خدمات</div></div>
+        <div className="sc"><div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(212,168,67,.05),transparent 60%)',pointerEvents:'none'}}></div><div className="si" style={{background:'var(--gdd)',border:'1px solid var(--gdb)'}}>💰</div><div className="sv" style={{color:'var(--gd)'}}>1.2M</div><div className="sl">الإيرادات الفصلية</div><div className="ss" style={{color:'rgba(212,168,67,.6)'}}>SAR هذا الفصل</div></div>
+        <div className="sc"><div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(239,68,68,.05),transparent 60%)',pointerEvents:'none'}}></div><div className="si" style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.2)'}}>📋</div><div className="sv" style={{color:'var(--rd)'}}>14</div><div className="sl">طلبات قبول معلقة</div><div className="ss" style={{color:'rgba(239,68,68,.6)'}}>تحتاج مراجعة</div></div>
+      </div>
+
+      {/* UNITS OVERVIEW CARDS */}
+      <div className="g3">
+
+        {/* مدرسة */}
+        <div className="card" style={{marginBottom:0,cursor:'pointer'}} onClick={() => {switchUnit('school',document.querySelector('[data-uid=school]'))}}>
+          <div style={{padding:'14px'}}>
+            <div style={{display:'flex',alignItems:'center',gap:'10px',marginBottom:'12px'}}>
+              <div style={{width:'42px',height:'42px',borderRadius:'10px',background:'rgba(96,165,250,.12)',border:'1px solid rgba(96,165,250,.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'22px'}}>🏫</div>
+              <div>
+                <div style={{fontSize:'14px',fontWeight:800,color:'var(--t)'}}>مدرسة الأمل</div>
+                <div style={{fontSize:'11px',color:'var(--bl)',marginTop:'1px'}}>ابتدائي + متوسط</div>
+              </div>
+              <span className="badge bb" style={{marginRight:'auto'}}>نشطة</span>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'8px',marginBottom:'10px'}}>
+              <div style={{background:'rgba(255,255,255,.02)',border:'1px solid var(--b2)',borderRadius:'7px',padding:'8px',textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--bl)'}}>380</div><div style={{fontSize:'10px',color:'var(--tm)'}}>طالب</div></div>
+              <div style={{background:'rgba(255,255,255,.02)',border:'1px solid var(--b2)',borderRadius:'7px',padding:'8px',textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--gr)'}}>54</div><div style={{fontSize:'10px',color:'var(--tm)'}}>معلم</div></div>
+              <div style={{background:'rgba(255,255,255,.02)',border:'1px solid var(--b2)',borderRadius:'7px',padding:'8px',textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--or)'}}>18</div><div style={{fontSize:'10px',color:'var(--tm)'}}>فصل دراسي</div></div>
+              <div style={{background:'rgba(255,255,255,.02)',border:'1px solid var(--b2)',borderRadius:'7px',padding:'8px',textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--gr)'}}>91%</div><div style={{fontSize:'10px',color:'var(--tm)'}}>نسبة الحضور</div></div>
+            </div>
+            <div style={{fontSize:'11px',color:'var(--tm)',marginBottom:'4px'}}>الطاقة الاستيعابية</div>
+            <div className="pbar"><div className="pfill" style={{width:'84%',background:'var(--bl)'}}></div></div>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:'10px',color:'var(--tm)',marginTop:'3px'}}><span>380 طالب</span><span style={{color:'var(--bl)'}}>84% ممتلئة</span></div>
+          </div>
+          <div style={{padding:'8px 14px',background:'rgba(96,165,250,.04)',borderTop:'1px solid var(--b2)',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+            <span style={{fontSize:'11px',color:'var(--bl)',fontWeight:600}}>📊 عرض التفاصيل ←</span>
+            <span style={{fontSize:'10px',color:'var(--tm)'}}>رسوم: 680K SAR</span>
+          </div>
+        </div>
+
+        {/* روضة */}
+        <div className="card" style={{marginBottom:0,cursor:'pointer'}} onClick={() => {switchUnit('kg',document.querySelector('[data-uid=kg]'))}}>
+          <div style={{padding:'14px'}}>
+            <div style={{display:'flex',alignItems:'center',gap:'10px',marginBottom:'12px'}}>
+              <div style={{width:'42px',height:'42px',borderRadius:'10px',background:'rgba(52,211,153,.12)',border:'1px solid rgba(52,211,153,.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'22px'}}>🌱</div>
+              <div>
+                <div style={{fontSize:'14px',fontWeight:800,color:'var(--t)'}}>روضة الأمل</div>
+                <div style={{fontSize:'11px',color:'var(--gr)',marginTop:'1px'}}>KG1 · KG2 · KG3</div>
+              </div>
+              <span className="badge bg" style={{marginRight:'auto'}}>نشطة</span>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'8px',marginBottom:'10px'}}>
+              <div style={{background:'rgba(255,255,255,.02)',border:'1px solid var(--b2)',borderRadius:'7px',padding:'8px',textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--gr)'}}>76</div><div style={{fontSize:'10px',color:'var(--tm)'}}>طفل</div></div>
+              <div style={{background:'rgba(255,255,255,.02)',border:'1px solid var(--b2)',borderRadius:'7px',padding:'8px',textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--gr)'}}>18</div><div style={{fontSize:'10px',color:'var(--tm)'}}>معلمة + مساعدة</div></div>
+              <div style={{background:'rgba(255,255,255,.02)',border:'1px solid var(--b2)',borderRadius:'7px',padding:'8px',textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--c)'}}>3</div><div style={{fontSize:'10px',color:'var(--tm)'}}>مستويات (KG1-3)</div></div>
+              <div style={{background:'rgba(255,255,255,.02)',border:'1px solid var(--b2)',borderRadius:'7px',padding:'8px',textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--gr)'}}>95%</div><div style={{fontSize:'10px',color:'var(--tm)'}}>نسبة الحضور</div></div>
+            </div>
+            {/* تقييم نمو بدل الدرجات */}
+            <div style={{background:'rgba(52,211,153,.06)',border:'1px solid rgba(52,211,153,.18)',borderRadius:'7px',padding:'8px 10px',marginBottom:'8px'}}>
+              <div style={{fontSize:'10px',color:'var(--c)',fontWeight:700,marginBottom:'4px'}}>📊 نظام التقييم الخاص</div>
+              <div style={{fontSize:'10.5px',color:'var(--td)'}}>تقرير نمو يومي · لا درجات · أنشطة منزلية بدل واجبات</div>
+            </div>
+            <div className="pbar"><div className="pfill" style={{width:'76%',background:'var(--gr)'}}></div></div>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:'10px',color:'var(--tm)',marginTop:'3px'}}><span>76 طفل</span><span style={{color:'var(--gr)'}}>76% ممتلئة</span></div>
+          </div>
+          <div style={{padding:'8px 14px',background:'rgba(52,211,153,.04)',borderTop:'1px solid var(--b2)',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+            <span style={{fontSize:'11px',color:'var(--gr)',fontWeight:600}}>📊 عرض التفاصيل ←</span>
+            <span style={{fontSize:'10px',color:'var(--tm)'}}>رسوم: 342K SAR</span>
+          </div>
+        </div>
+
+        {/* حضانة */}
+        <div className="card" style={{marginBottom:0,cursor:'pointer'}} onClick={() => {switchUnit('nursery',document.querySelector('[data-uid=nursery]'))}}>
+          <div style={{padding:'14px'}}>
+            <div style={{display:'flex',alignItems:'center',gap:'10px',marginBottom:'12px'}}>
+              <div style={{width:'42px',height:'42px',borderRadius:'10px',background:'rgba(251,146,60,.12)',border:'1px solid rgba(251,146,60,.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'22px'}}>🍼</div>
+              <div>
+                <div style={{fontSize:'14px',fontWeight:800,color:'var(--t)'}}>حضانة الأمل</div>
+                <div style={{fontSize:'11px',color:'var(--or)',marginTop:'1px'}}>شهرين — 3 سنوات</div>
+              </div>
+              <span className="badge bo" style={{marginRight:'auto'}}>نشطة</span>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'8px',marginBottom:'10px'}}>
+              <div style={{background:'rgba(255,255,255,.02)',border:'1px solid var(--b2)',borderRadius:'7px',padding:'8px',textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--or)'}}>30</div><div style={{fontSize:'10px',color:'var(--tm)'}}>طفل</div></div>
+              <div style={{background:'rgba(255,255,255,.02)',border:'1px solid var(--b2)',borderRadius:'7px',padding:'8px',textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--or)'}}>14</div><div style={{fontSize:'10px',color:'var(--tm)'}}>مربية + ممرضة</div></div>
+              <div style={{background:'rgba(255,255,255,.02)',border:'1px solid var(--b2)',borderRadius:'7px',padding:'8px',textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--cy)'}}>7:00—5م</div><div style={{fontSize:'10px',color:'var(--tm)'}}>ساعات العمل</div></div>
+              <div style={{background:'rgba(255,255,255,.02)',border:'1px solid var(--b2)',borderRadius:'7px',padding:'8px',textAlign:'center'}}><div style={{fontSize:'18px',fontWeight:800,color:'var(--gd)'}}>1800</div><div style={{fontSize:'10px',color:'var(--tm)'}}>SAR/شهر</div></div>
+            </div>
+            {/* تقرير يومي */}
+            <div style={{background:'rgba(251,146,60,.06)',border:'1px solid rgba(251,146,60,.18)',borderRadius:'7px',padding:'8px 10px',marginBottom:'8px'}}>
+              <div style={{fontSize:'10px',color:'var(--or)',fontWeight:700,marginBottom:'4px'}}>📋 نظام التقييم الخاص</div>
+              <div style={{fontSize:'10.5px',color:'var(--td)'}}>تقرير يومي مفصّل · رسوم شهرية · تواصل فوري مع الأهل</div>
+            </div>
+            <div className="pbar"><div className="pfill" style={{width:'100%',background:'var(--or)'}}></div></div>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:'10px',color:'var(--tm)',marginTop:'3px'}}><span>30 طفل</span><span style={{color:'var(--rd)',fontWeight:700}}>100% ممتلئة — قائمة انتظار</span></div>
+          </div>
+          <div style={{padding:'8px 14px',background:'rgba(251,146,60,.04)',borderTop:'1px solid var(--b2)',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+            <span style={{fontSize:'11px',color:'var(--or)',fontWeight:600}}>📊 عرض التفاصيل ←</span>
+            <span style={{fontSize:'10px',color:'var(--tm)'}}>رسوم: 54K SAR/شهر</span>
+          </div>
+        </div>
+      </div>
+
+      {/* إضافة وحدة جديدة */}
+      <div className="add-unit-card" onClick={() => {openModal('add-unit-modal')}}>
+        <div style={{fontSize:'36px',marginBottom:'10px'}}>➕</div>
+        <div style={{fontSize:'14px',fontWeight:700,color:'var(--c)',marginBottom:'5px'}}>إضافة وحدة تعليمية جديدة</div>
+        <div style={{fontSize:'12px',color:'var(--tm)',maxWidth:'320px',margin:'0 auto'}}>هل تريد إضافة مدرسة جديدة، روضة أطفال، أو حضانة؟<br />كل شيء يُضبط تلقائياً حسب نوع الوحدة</div>
+        <div style={{display:'flex',gap:'10px',justifyContent:'center',marginTop:'14px'}}>
+          <div style={{background:'rgba(96,165,250,.1)',border:'1px solid rgba(96,165,250,.2)',borderRadius:'9px',padding:'8px 16px',fontSize:'12px',color:'var(--bl)',fontWeight:600}}>🏫 مدرسة</div>
+          <div style={{background:'rgba(52,211,153,.1)',border:'1px solid rgba(52,211,153,.2)',borderRadius:'9px',padding:'8px 16px',fontSize:'12px',color:'var(--gr)',fontWeight:600}}>🌱 روضة</div>
+          <div style={{background:'rgba(251,146,60,.1)',border:'1px solid rgba(251,146,60,.2)',borderRadius:'9px',padding:'8px 16px',fontSize:'12px',color:'var(--or)',fontWeight:600}}>🍼 حضانة</div>
+        </div>
+      </div>
+
+      {/* قبول معلق + مالية */}
+      <div className="g2">
+        <div className="card" style={{marginBottom:0}}>
+          <div className="ch"><div className="ct">📝 طلبات القبول المعلقة <span style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.2)',color:'var(--rd)',fontSize:'10px',fontWeight:700,padding:'2px 7px',borderRadius:'20px',marginRight:'3px'}}>14</span></div><button className="cl">الكل</button></div>
+          <div className="tw"><table>
+            <thead><tr><th>الاسم</th><th>الوحدة</th><th>العمر</th><th>الحالة</th><th></th></tr></thead>
+            <tbody>
+              <tr><td style={{fontWeight:600,color:'var(--t)'}}>ياسر الشمري</td><td><span className="badge bb">مدرسة</span></td><td style={{color:'var(--tm)'}}>6 سنوات</td><td><span className="badge bo">قيد المراجعة</span></td><td><div style={{display:'flex',gap:'3px'}}><button className="btn-sm" style={{background:'rgba(16,185,129,.08)',color:'var(--gr)',border:'1px solid rgba(16,185,129,.2)'}}>قبول</button><button className="btn-sm" style={{background:'rgba(239,68,68,.08)',color:'var(--rd)',border:'1px solid rgba(239,68,68,.2)'}}>رفض</button></div></td></tr>
+              <tr><td style={{fontWeight:600,color:'var(--t)'}}>ليلى الحربي</td><td><span className="badge bg">روضة</span></td><td style={{color:'var(--tm)'}}>4 سنوات</td><td><span className="badge bo">قيد المراجعة</span></td><td><div style={{display:'flex',gap:'3px'}}><button className="btn-sm" style={{background:'rgba(16,185,129,.08)',color:'var(--gr)',border:'1px solid rgba(16,185,129,.2)'}}>قبول</button><button className="btn-sm" style={{background:'rgba(239,68,68,.08)',color:'var(--rd)',border:'1px solid rgba(239,68,68,.2)'}}>رفض</button></div></td></tr>
+              <tr><td style={{fontWeight:600,color:'var(--t)'}}>سلطان الغامدي</td><td><span className="badge bo">حضانة</span></td><td style={{color:'var(--tm)'}}>8 أشهر</td><td><span className="badge bc">قائمة انتظار</span></td><td><span style={{fontSize:'10px',color:'var(--tm)'}}>ممتلئة</span></td></tr>
+              <tr><td style={{fontWeight:600,color:'var(--t)'}}>نوف المطيري</td><td><span className="badge bg">روضة</span></td><td style={{color:'var(--tm)'}}>3 سنوات</td><td><span className="badge bg">مقبول ✓</span></td><td><span style={{fontSize:'10px',color:'var(--tm)'}}>—</span></td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div className="card" style={{marginBottom:0}}>
+          <div className="ch"><div className="ct">💰 الإيرادات حسب الوحدة</div></div>
+          <div style={{padding:'14px'}}>
+            ${[['🏫 مدرسة الأمل','680,000','#60A5FA',57],['🌱 روضة الأمل','342,000','#10B981',28],['🍼 حضانة الأمل','54,000','#FB923C',15]].map(([n,v,col,p])=>`
+            <div style={{marginBottom:'12px'}}>
+              <div style={{display:'flex',justifyContent:'space-between',fontSize:'12px',marginBottom:'4px'}}><span style={{color:'var(--td)'}}>${n}</span><strong style={{color:'${col}'}}>${v} SAR</strong></div>
+              <div className="pbar"><div className="pfill" style={{width:'${p}%',background:'${col}'}}></div></div>
+            </div>`).join('')}
+            <div style={{borderTop:'1px solid var(--b2)',paddingTop:'10px',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+              <span style={{fontSize:'12px',color:'var(--tm)'}}>الإجمالي هذا الفصل</span>
+              <strong style={{color:'var(--gd)',fontSize:'16px'}}>1,076,000 SAR</strong>
+            </div>
+            <div style={{marginTop:'4px',fontSize:'11px',color:'var(--rd)'}}>رسوم معلقة: 38,000 SAR من 22 طالب/طفل</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    {/* SCHOOL VIEW */}
+    <div id="view-school" style={{display:'none'}}>
+      <div className="ph">
+        <div><div className="pt">🏫 مدرسة الأمل — ابتدائي + متوسط</div><div className="ps">380 طالب · 18 فصل · 54 معلم</div></div>
+        <div style={{display:'flex',gap:'8px'}}><button className="btn-o" onClick={() => {switchUnit('all',document.querySelector('[data-uid=all]'))}}>← الكل</button><button className="btn-p">+ قبول طالب</button></div>
+      </div>
+      <div className="sg">
+        <div className="sc"><div className="si" style={{background:'rgba(96,165,250,.1)',border:'1px solid rgba(96,165,250,.2)'}}>👥</div><div className="sv" style={{color:'var(--bl)'}}>380</div><div className="sl">طلاب</div><div className="ss" style={{color:'rgba(96,165,250,.6)'}}>18 فصل</div></div>
+        <div className="sc"><div className="si" style={{background:'rgba(16,185,129,.1)',border:'1px solid rgba(16,185,129,.2)'}}>✅</div><div className="sv" style={{color:'var(--gr)'}}>91%</div><div className="sl">نسبة الحضور</div><div className="ss" style={{color:'rgba(16,185,129,.6)'}}>346/380 اليوم</div></div>
+        <div className="sc"><div className="si" style={{background:'rgba(251,146,60,.1)',border:'1px solid rgba(251,146,60,.2)'}}>📝</div><div className="sv" style={{color:'var(--or)'}}>8</div><div className="sl">طلبات قبول</div><div className="ss" style={{color:'rgba(251,146,60,.6)'}}>معلقة</div></div>
+        <div className="sc"><div className="si" style={{background:'rgba(212,168,67,.1)',border:'1px solid var(--gdb)'}}>💰</div><div className="sv" style={{color:'var(--gd)'}}>680K</div><div className="sl">إيرادات الفصل</div><div className="ss" style={{color:'rgba(212,168,67,.6)'}}>SAR</div></div>
+      </div>
+      <div className="card"><div className="ch"><div className="ct">📊 الفصول الدراسية</div><button className="cl">+ فصل جديد</button></div>
+      <div className="tw"><table><thead><tr><th>الفصل</th><th>المرحلة</th><th>المعلم المسؤول</th><th>الطلاب</th><th>الحضور اليوم</th></tr></thead><tbody>
+        <tr><td style={{fontWeight:600,color:'var(--t)'}}>الأول — أ</td><td><span className="badge bb">ابتدائي</span></td><td style={{color:'var(--tm)'}}>أ. محمد الغامدي</td><td style={{color:'var(--bl)',fontWeight:700}}>28</td><td><span className="badge bg">26/28 ✓</span></td></tr>
+        <tr><td style={{fontWeight:600,color:'var(--t)'}}>الأول — ب</td><td><span className="badge bb">ابتدائي</span></td><td style={{color:'var(--tm)'}}>أ. خالد النمر</td><td style={{color:'var(--bl)',fontWeight:700}}>26</td><td><span className="badge bg">25/26 ✓</span></td></tr>
+        <tr><td style={{fontWeight:600,color:'var(--t)'}}>الرابع — أ</td><td><span className="badge bb">ابتدائي</span></td><td style={{color:'var(--tm)'}}>أ. سارة الزهراني</td><td style={{color:'var(--bl)',fontWeight:700}}>30</td><td><span className="badge bo">27/30</span></td></tr>
+        <tr><td style={{fontWeight:600,color:'var(--t)'}}>الأول متوسط — أ</td><td><span className="badge bp">متوسط</span></td><td style={{color:'var(--tm)'}}>أ. هند الحربي</td><td style={{color:'var(--bl)',fontWeight:700}}>32</td><td><span className="badge bg">31/32 ✓</span></td></tr>
+      </tbody></table></div></div>
+    </div>
+
+    {/* KG VIEW */}
+    <div id="view-kg" style={{display:'none'}}>
+      <div className="ph">
+        <div><div className="pt">🌱 روضة الأمل — KG1 · KG2 · KG3</div><div className="ps">76 طفل · 3 مستويات · تقرير نمو يومي</div></div>
+        <div style={{display:'flex',gap:'8px'}}><button className="btn-o" onClick={() => {switchUnit('all',document.querySelector('[data-uid=all]'))}}>← الكل</button><button className="btn-p">+ قبول طفل</button></div>
+      </div>
+      {/* KG notice */}
+      <div style={{background:'rgba(52,211,153,.07)',border:'1px solid rgba(52,211,153,.2)',borderRadius:'11px',padding:'11px 14px',marginBottom:'13px',display:'flex',alignItems:'flex-start',gap:'10px',fontSize:'12px',color:'var(--td)'}}>
+        <span style={{fontSize:'18px',flexShrink:0}}>🌱</span>
+        <div><strong style={{color:'var(--c)'}}>نظام الروضة مختلف:</strong> التقييم هنا <strong>تقرير نمو</strong> بدل الدرجات — يشمل: اللغة، الحركة، الاجتماعي، الإبداع. الواجبات <strong>أنشطة منزلية</strong>. وقت القيلولة <strong>11:00—11:30</strong>. التواصل مع الأهل <strong>يومي</strong>.</div>
+      </div>
+      <div className="sg">
+        <div className="sc"><div className="si" style={{background:'rgba(52,211,153,.1)',border:'1px solid rgba(52,211,153,.2)'}}>👧</div><div className="sv" style={{color:'var(--gr)'}}>76</div><div className="sl">طفل مقيّد</div><div className="ss" style={{color:'rgba(52,211,153,.6)'}}>KG1: 28 · KG2: 26 · KG3: 22</div></div>
+        <div className="sc"><div className="si" style={{background:'rgba(16,185,129,.1)',border:'1px solid rgba(16,185,129,.2)'}}>✅</div><div className="sv" style={{color:'var(--gr)'}}>95%</div><div className="sl">نسبة الحضور</div><div className="ss" style={{color:'rgba(16,185,129,.6)'}}>72/76 اليوم</div></div>
+        <div className="sc"><div className="si" style={{background:'rgba(167,139,250,.1)',border:'1px solid rgba(167,139,250,.2)'}}>👩‍🏫</div><div className="sv" style={{color:'var(--pu)'}}>18</div><div className="sl">معلمة ومساعدة</div><div className="ss" style={{color:'rgba(167,139,250,.6)'}}>6 لكل مستوى</div></div>
+        <div className="sc"><div className="si" style={{background:'var(--gdd)',border:'1px solid var(--gdb)'}}>💰</div><div className="sv" style={{color:'var(--gd)'}}>342K</div><div className="sl">إيرادات الفصل</div><div className="ss" style={{color:'rgba(212,168,67,.6)'}}>4,500 SAR/طفل</div></div>
+      </div>
+      <div className="g3">
+        ${[['KG1','28','🌸','أطفال 3-4 سنوات','rgba(52,211,153,.12)','var(--gr)'],['KG2','26','🌻','أطفال 4-5 سنوات','rgba(96,165,250,.12)','var(--bl)'],['KG3','22','🌟','أطفال 5-6 سنوات (تمهيدي)','rgba(167,139,250,.12)','var(--pu)']].map(([l,n,ic,d,bg,col])=>`
+        <div className="card" style={{marginBottom:0}}><div style={{padding:'14px',textAlign:'center'}}>
+          <div style={{width:'48px',height:'48px',borderRadius:'12px',background:'${bg}',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'24px',margin:'0 auto 8px'}}>${ic}</div>
+          <div style={{fontSize:'15px',fontWeight:800,color:'var(--t)',marginBottom:'3px'}}>${l}</div>
+          <div style={{fontSize:'11px',color:'var(--tm)',marginBottom:'8px'}}>${d}</div>
+          <div style={{fontSize:'26px',fontWeight:800,color:'${col}',marginBottom:'3px'}}>${n}</div>
+          <div style={{fontSize:'10.5px',color:'var(--tm)'}}>طفل مقيّد</div>
+        </div></div>`).join('')}
+      </div>
+    </div>
+
+    {/* NURSERY VIEW */}
+    <div id="view-nursery" style={{display:'none'}}>
+      <div className="ph">
+        <div><div className="pt">🍼 حضانة الأمل — شهرين حتى 3 سنوات</div><div className="ps">30 طفل · مكتملة · قائمة انتظار نشطة</div></div>
+        <div style={{display:'flex',gap:'8px'}}><button className="btn-o" onClick={() => {switchUnit('all',document.querySelector('[data-uid=all]'))}}>← الكل</button><button className="btn-p">إدارة قائمة الانتظار</button></div>
+      </div>
+      {/* Nursery notice */}
+      <div style={{background:'rgba(251,146,60,.07)',border:'1px solid rgba(251,146,60,.2)',borderRadius:'11px',padding:'11px 14px',marginBottom:'13px',display:'flex',alignItems:'flex-start',gap:'10px',fontSize:'12px',color:'var(--td)'}}>
+        <span style={{fontSize:'18px',flexShrink:0}}>🍼</span>
+        <div><strong style={{color:'var(--or)'}}>نظام الحضانة مختلف:</strong> تقرير <strong>يومي مفصّل</strong> للأهل (أكل، نوم، نشاط، صحة). الرسوم <strong>شهرية</strong>. يحتاج مربية مخصصة + ممرضة. الطاقة الاستيعابية محدودة. الحضانة <strong>مكتملة حالياً</strong>.</div>
+      </div>
+      <div className="sg">
+        <div className="sc"><div className="si" style={{background:'rgba(251,146,60,.1)',border:'1px solid rgba(251,146,60,.2)'}}>🍼</div><div className="sv" style={{color:'var(--or)'}}>30</div><div className="sl">طفل (مكتملة)</div><div className="ss" style={{color:'rgba(251,146,60,.6)'}}>شهرين — 3 سنوات</div></div>
+        <div className="sc"><div className="si" style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.2)'}}>⏳</div><div className="sv" style={{color:'var(--rd)'}}>7</div><div className="sl">في قائمة الانتظار</div><div className="ss" style={{color:'rgba(239,68,68,.6)'}}>بانتظار مكان</div></div>
+        <div className="sc"><div className="si" style={{background:'rgba(167,139,250,.1)',border:'1px solid rgba(167,139,250,.2)'}}>👩‍⚕️</div><div className="sv" style={{color:'var(--pu)'}}>14</div><div className="sl">مربية وممرضة</div><div className="ss" style={{color:'rgba(167,139,250,.6)'}}>نسبة 2:1 لكل طفل</div></div>
+        <div className="sc"><div className="si" style={{background:'var(--gdd)',border:'1px solid var(--gdb)'}}>💰</div><div className="sv" style={{color:'var(--gd)'}}>54K</div><div className="sl">إيرادات شهرية</div><div className="ss" style={{color:'rgba(212,168,67,.6)'}}>1,800 SAR/طفل</div></div>
+      </div>
+      <div className="g2">
+        <div className="card" style={{marginBottom:0}}>
+          <div className="ch"><div className="ct">👶 أطفال الحضانة اليوم</div><span className="badge br">مكتملة</span></div>
+          <div className="tw"><table><thead><tr><th>الطفل</th><th>العمر</th><th>الحالة</th><th>التقرير</th></tr></thead><tbody>
+            <tr><td style={{fontWeight:600,color:'var(--t)'}}>ريان الزهراني</td><td style={{color:'var(--tm)'}}>8 أشهر</td><td><span className="badge bg">حاضر</span></td><td><button className="btn-sm" style={{background:'var(--cd)',color:'var(--c)',border:'1px solid var(--cb)'}}>تقرير اليوم</button></td></tr>
+            <tr><td style={{fontWeight:600,color:'var(--t)'}}>دانة الحربي</td><td style={{color:'var(--tm)'}}>14 شهر</td><td><span className="badge bg">حاضر</span></td><td><button className="btn-sm" style={{background:'var(--cd)',color:'var(--c)',border:'1px solid var(--cb)'}}>تقرير اليوم</button></td></tr>
+            <tr><td style={{fontWeight:600,color:'var(--t)'}}>عمر المطيري</td><td style={{color:'var(--tm)'}}>2.5 سنة</td><td><span className="badge bo">غائب</span></td><td><span style={{fontSize:'10px',color:'var(--tm)'}}>—</span></td></tr>
+            <tr><td style={{fontWeight:600,color:'var(--t)'}}>لجين الشمري</td><td style={{color:'var(--tm)'}}>18 شهر</td><td><span className="badge bg">حاضر</span></td><td><button className="btn-sm" style={{background:'var(--cd)',color:'var(--c)',border:'1px solid var(--cb)'}}>تقرير اليوم</button></td></tr>
+          </tbody></table></div>
+        </div>
+        <div className="card" style={{marginBottom:0}}>
+          <div className="ch"><div className="ct">⏳ قائمة الانتظار <span style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.2)',color:'var(--rd)',fontSize:'10px',fontWeight:700,padding:'2px 7px',borderRadius:'20px',marginRight:'3px'}}>7</span></div></div>
+          ${[['سلطان الغامدي','8 أشهر','تقديم 15 مارس'],['هنا العتيبي','6 أشهر','تقديم 18 مارس'],['فارس الشمري','10 أشهر','تقديم 20 مارس']].map(([n,a,d])=>`
+          <div className="item"><div className="item-ic" style={{background:'rgba(251,146,60,.1)'}}>⏳</div><div style={{flex:1,minWidth:0}}><div style={{fontSize:'12px',fontWeight:600,color:'var(--t)'}}>${n}</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>${a} · ${d}</div></div><button className="btn-sm" style={{background:'rgba(16,185,129,.08)',color:'var(--gr)',border:'1px solid rgba(16,185,129,.2)'}}>إدخال</button></div>`).join('')}
+          <div style={{padding:'8px 13px',textAlign:'center',fontSize:'11px',color:'var(--tm)'}}>+ 4 آخرون</div>
+        </div>
+      </div>
+    </div>
+
+    {/* QUICK ACTIONS */}
+    <div id="quick-actions">
+      <div style={{color:'var(--tm)',fontSize:'10px',fontWeight:700,letterSpacing:'1px',textTransform:'uppercase',marginBottom:'10px'}}>إجراءات سريعة</div>
+      <div className="qg">
+        <a className="qi" href="#" onClick={() => {openModal('add-unit-modal')}}><div className="qic" style={{background:'rgba(52,211,153,.1)',border:'1px solid rgba(52,211,153,.2)'}}>🏫</div><span className="ql">إضافة وحدة</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(96,165,250,.1)',border:'1px solid rgba(96,165,250,.2)'}}>📝</div><span className="ql">طلبات القبول</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(249,115,22,.1)',border:'1px solid rgba(249,115,22,.2)'}}>👥</div><span className="ql">الموارد البشرية</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(212,168,67,.1)',border:'1px solid var(--gdb)'}}>💰</div><span className="ql">الإيرادات</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.2)'}}>💳</div><span className="ql">الرسوم المعلقة</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(167,139,250,.1)',border:'1px solid rgba(167,139,250,.2)'}}>🔐</div><span className="ql">الصلاحيات</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(34,211,238,.1)',border:'1px solid rgba(34,211,238,.2)'}}>📊</div><span className="ql">التقارير</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(52,211,153,.1)',border:'1px solid rgba(52,211,153,.2)'}}>🌱</div><span className="ql">روضة الأمل</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(251,146,60,.1)',border:'1px solid rgba(251,146,60,.2)'}}>🍼</div><span className="ql">حضانة الأمل</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(96,165,250,.1)',border:'1px solid rgba(96,165,250,.2)'}}>🚌</div><span className="ql">الباصات</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(212,168,67,.1)',border:'1px solid var(--gdb)'}}>📅</div><span className="ql">التقويم</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.2)'}}>⚙️</div><span className="ql">الإعدادات</span></a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer className="ft">
+    <p>© 2026 متين — مدرسة الأمل الدولية</p>
+    <p>صنع بـ ❤️ في المملكة العربية السعودية</p>
+  </footer>
+</div>
     </div>
   );
 }

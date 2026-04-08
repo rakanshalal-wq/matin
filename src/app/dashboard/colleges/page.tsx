@@ -1,1020 +1,542 @@
-'use client';
+﻿'use client';
+import React, { useState } from 'react';
+import '../../styles/uni-colleges.css';
 
-import { useState } from 'react';
-
-const C = {
-  bg: '#06060E',
-  sidebar: '#09071A',
-  card: '#0D0B1F',
-  cardAlt: '#100E22',
-  border: 'rgba(167,139,250,0.13)',
-  borderGold: 'rgba(212,168,67,0.22)',
-  purple: '#A78BFA',
-  purple2: '#8B5CF6',
-  gold: '#D4A843',
-  text: '#EEEEF5',
-  dim: 'rgba(238,238,245,0.55)',
-  muted: 'rgba(238,238,245,0.28)',
-  green: '#10B981',
-  red: '#EF4444',
-  blue: '#60A5FA',
-  orange: '#FB923C',
-  cyan: '#22D3EE',
-};
-
-const SIDEBAR_SECTIONS = [
-  {
-    label: 'الرئيسية',
-    items: [
-      { id: 'dashboard', label: 'لوحتي', icon: '⊞' },
-      { id: 'calendar', label: 'التقويم الأكاديمي', icon: '📅' },
-    ],
-  },
-  {
-    label: 'الكلية',
-    items: [
-      { id: 'departments', label: 'الأقسام الأكاديمية', icon: '🏛' },
-      { id: 'curricula', label: 'المقررات والخطط', icon: '📚' },
-      { id: 'schedules', label: 'الجداول الدراسية', icon: '🗓' },
-      { id: 'halls', label: 'القاعات والمختبرات', icon: '🔬' },
-    ],
-  },
-  {
-    label: 'الطلاب',
-    items: [
-      { id: 'students', label: 'طلاب الكلية', icon: '🎓' },
-      { id: 'admissions', label: 'طلبات القبول', icon: '📥', badge: 8 },
-      { id: 'enrollment', label: 'التسجيل الفصلي', icon: '📝' },
-      { id: 'complaints', label: 'الشكاوى', icon: '📣', badge: 4 },
-      { id: 'certificates', label: 'الشهادات والتخرج', icon: '🏅' },
-    ],
-  },
-  {
-    label: 'هيئة التدريس',
-    items: [
-      { id: 'doctors', label: 'الدكاترة', icon: '👨‍🏫' },
-      { id: 'assistants', label: 'المعيدون', icon: '👩‍🎓' },
-      { id: 'admins', label: 'الموظفون الإداريون', icon: '🧑‍💼' },
-      { id: 'permissions', label: 'إدارة الصلاحيات', icon: '🔐', accent: true },
-      { id: 'leaves', label: 'الإجازات', icon: '🌴', badge: 3 },
-      { id: 'performance', label: 'تقييم الأداء', icon: '📊' },
-    ],
-  },
-  {
-    label: 'العمليات',
-    items: [
-      { id: 'attendance', label: 'الحضور', icon: '✅' },
-      { id: 'grades', label: 'الدرجات', icon: '📈' },
-      { id: 'reports', label: 'التقارير', icon: '📋' },
-      { id: 'research', label: 'الأبحاث', icon: '🔭' },
-      { id: 'postgrad', label: 'الدراسات العليا', icon: '🎖' },
-    ],
-  },
-  {
-    label: 'المالية',
-    items: [
-      { id: 'fees', label: 'رسوم الطلاب', icon: '💰', badge: 6 },
-      { id: 'grants', label: 'المنح', icon: '🎁' },
-      { id: 'budget', label: 'ميزانية الكلية', icon: '🏦' },
-    ],
-  },
-  {
-    label: 'التقنية',
-    items: [
-      { id: 'collegepage', label: 'صفحة الكلية', icon: '🌐', greenDot: true },
-      { id: 'settings', label: 'الإعدادات', icon: '⚙️' },
-    ],
-  },
-];
-
-const STATS = [
-  {
-    value: '820',
-    label: 'طلاب الكلية',
-    sub: '↑ 48 هذا الفصل',
-    color: C.purple,
-    icon: '🎓',
-    bg: 'rgba(167,139,250,0.10)',
-  },
-  {
-    value: '62',
-    label: 'هيئة التدريس',
-    sub: '42 دكتور · 12 معيد · 8 إداريين',
-    color: C.blue,
-    icon: '👨‍🏫',
-    bg: 'rgba(96,165,250,0.10)',
-  },
-  {
-    value: '89%',
-    label: 'نسبة الحضور',
-    sub: 'معدل الفصل الحالي',
-    color: C.green,
-    icon: '✅',
-    bg: 'rgba(16,185,129,0.10)',
-  },
-  {
-    value: '124',
-    label: 'متأهلون للتخرج',
-    sub: 'معدل قبول 96%',
-    color: C.gold,
-    icon: '🏅',
-    bg: 'rgba(212,168,67,0.10)',
-  },
-];
-
-const DEPARTMENTS = [
-  { name: 'الهندسة المدنية', students: 180, faculty: 8, labs: 3, color: C.blue },
-  { name: 'الهندسة الكهربائية', students: 160, faculty: 9, labs: 2, color: C.purple },
-  { name: 'علوم الحاسب', students: 210, faculty: 11, labs: 4, color: C.cyan },
-  { name: 'الهندسة الميكانيكية', students: 140, faculty: 7, labs: 2, color: C.orange },
-  { name: 'الهندسة المعمارية', students: 90, faculty: 5, labs: 1, color: C.green },
-  { name: 'الهندسة الكيميائية', students: 40, faculty: 2, labs: 0, color: C.gold },
-];
-
-const STAFF = [
-  { name: 'د. خالد العمري', role: 'أستاذ دكتور', dept: 'الهندسة المدنية', status: 'نشط', perm: 'مشرف قسم', statusColor: C.green },
-  { name: 'د. منال السالم', role: 'أستاذ مشارك', dept: 'علوم الحاسب', status: 'نشط', perm: 'عضو هيئة تدريس', statusColor: C.green },
-  { name: 'د. فيصل الحربي', role: 'أستاذ مساعد', dept: 'الكهربائية', status: 'إجازة', perm: 'عضو هيئة تدريس', statusColor: C.orange },
-  { name: 'م. سارة الزهراني', role: 'معيدة', dept: 'الميكانيكية', status: 'نشط', perm: 'معيد', statusColor: C.green },
-  { name: 'أ. طارق القحطاني', role: 'موظف إداري', dept: 'الإدارة', status: 'نشط', perm: 'قراءة فقط', statusColor: C.green },
-  { name: 'د. ريم العتيبي', role: 'أستاذ مشارك', dept: 'المعماري', status: 'غائب', perm: 'عضو هيئة تدريس', statusColor: C.red },
-];
-
-const LEAVES = [
-  { name: 'د. فيصل الحربي', type: 'إجازة مرضية', duration: '14 يوم', dept: 'الكهربائية' },
-  { name: 'م. سارة الزهراني', type: 'إجازة سنوية', duration: '7 أيام', dept: 'الميكانيكية' },
-  { name: 'أ. ماجد الدوسري', type: 'إجازة طارئة', duration: '3 أيام', dept: 'الإدارة' },
-];
-
-const ACTIVITY = [
-  { time: 'منذ 20 دقيقة', text: 'تم قبول طلب تسجيل — محمد السلمي (الميكانيكية)', icon: '✅', color: C.green },
-  { time: 'منذ ساعة', text: 'تقرير الحضور الأسبوعي متاح للمراجعة', icon: '📊', color: C.blue },
-  { time: 'منذ ساعتين', text: 'شكوى جديدة من طالب في قسم الحاسب', icon: '📣', color: C.orange },
-  { time: 'البارحة', text: 'اعتماد بحث علمي — د. خالد العمري', icon: '🔭', color: C.purple },
-  { time: 'البارحة', text: 'تحديث جدول قاعة 3-ب للفصل القادم', icon: '🗓', color: C.cyan },
-];
-
-const QUICK_ACTIONS = [
-  { label: 'الصلاحيات', icon: '🔐', color: C.purple },
-  { label: 'إضافة دكتور', icon: '👨‍🏫', color: C.blue },
-  { label: 'إضافة معيد', icon: '👩‍🎓', color: C.cyan },
-  { label: 'إضافة موظف', icon: '🧑‍💼', color: C.green },
-  { label: 'قبول طالب', icon: '📥', color: C.gold },
-  { label: 'شهادات', icon: '🏅', color: C.orange },
-  { label: 'التقارير', icon: '📋', color: C.blue },
-  { label: 'الأبحاث', icon: '🔭', color: C.purple },
-  { label: 'إشعار جماعي', icon: '📢', color: C.red },
-  { label: 'الرسوم', icon: '💰', color: C.gold },
-  { label: 'الدراسات العليا', icon: '🎖', color: C.cyan },
-  { label: 'الإعدادات', icon: '⚙️', color: C.muted },
-];
-
-export default function CollegesDeanDashboard() {
-  const [activeSection, setActiveSection] = useState('dashboard');
-  const [staffFilter, setStaffFilter] = useState('');
-
-  const filteredStaff = STAFF.filter(
-    (s) =>
-      staffFilter === '' ||
-      s.dept.includes(staffFilter) ||
-      s.role.includes(staffFilter) ||
-      s.name.includes(staffFilter)
-  );
-
+export default function CollegesPage() {
+  const [activeSection, setActiveSection] = useState('home');
   return (
-    <div
-      style={{
-        direction: 'rtl',
-        minHeight: '100vh',
-        background: C.bg,
-        color: C.text,
-        fontFamily: "'IBM Plex Sans Arabic', 'Segoe UI', sans-serif",
-        display: 'flex',
-      }}
-    >
-      {/* ===================== SIDEBAR ===================== */}
-      <aside
-        style={{
-          width: 260,
-          minWidth: 260,
-          background: C.sidebar,
-          borderLeft: `1px solid ${C.border}`,
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100vh',
-          position: 'sticky',
-          top: 0,
-          overflowY: 'auto',
-        }}
-      >
-        {/* Dean Card */}
-        <div
-          style={{
-            padding: '24px 20px 20px',
-            borderBottom: `1px solid ${C.border}`,
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 12,
-              marginBottom: 14,
-            }}
-          >
-            <div
-              style={{
-                width: 46,
-                height: 46,
-                borderRadius: '50%',
-                background: `linear-gradient(135deg, ${C.purple2}, ${C.purple})`,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 20,
-                flexShrink: 0,
-                boxShadow: `0 0 0 2px ${C.sidebar}, 0 0 0 4px ${C.purple2}`,
-              }}
-            >
-              👨‍💼
-            </div>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: 14, color: C.text }}>
-                د. سعد الرشيد
-              </div>
-              <div
-                style={{
-                  fontSize: 11,
-                  color: C.gold,
-                  marginTop: 2,
-                  fontWeight: 600,
-                }}
-              >
-                عميد الكلية
-              </div>
-            </div>
-          </div>
-          <div
-            style={{
-              background: 'rgba(167,139,250,0.08)',
-              border: `1px solid ${C.border}`,
-              borderRadius: 8,
-              padding: '8px 12px',
-              fontSize: 12,
-              color: C.dim,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-            }}
-          >
-            <span style={{ color: C.green, fontSize: 8 }}>●</span>
-            كلية الهندسة والتقنية
+    <div className="page">
+<div className="overlay" id="overlay" onClick={() => {closeSb()}}></div>
+
+{/* PERMISSIONS MODAL */}
+<div className="modal-overlay" id="perm-modal">
+  <div className="modal">
+    <div className="modal-hdr">
+      <div className="modal-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+        صلاحيات <span id="perm-staff-name">د. محمد العتيبي</span>
+      </div>
+      <button className="modal-close" onClick={() => {closePermModal()}}>×</button>
+    </div>
+    <div style={{padding:'14px'}}>
+      <div style={{background:'rgba(167,139,250,0.06)',border:'1px solid var(--accent-border)',borderRadius:'8px',padding:'10px 14px',marginBottom:'14px',fontSize:'12px',color:'var(--text-dim)'}}>
+        <strong style={{color:'var(--accent)'}}>الدور الحالي:</strong> <span id="perm-staff-role">دكتور — قسم الهندسة المدنية</span>
+      </div>
+
+      <div style={{fontSize:'10px',color:'var(--text-muted)',fontWeight:700,letterSpacing:'1px',textTransform:'uppercase',marginBottom:'10px'}}>الصلاحيات الأكاديمية</div>
+      <div style={{background:'var(--bg-card)',border:'1px solid var(--border2)',borderRadius:'10px',overflow:'hidden',marginBottom:'14px'}}>
+        <div className="perm-row">
+          <div><div className="perm-name">رفع الدرجات</div><div className="perm-desc">إدخال وتعديل درجات الطلاب</div></div>
+          <label className="toggle"><input type="checkbox" checked /><span className="tslider"></span></label>
+        </div>
+        <div className="perm-row">
+          <div><div className="perm-name">إنشاء الاختبارات</div><div className="perm-desc">إضافة وجدولة الاختبارات</div></div>
+          <label className="toggle"><input type="checkbox" checked /><span className="tslider"></span></label>
+        </div>
+        <div className="perm-row">
+          <div><div className="perm-name">إضافة واجبات</div><div className="perm-desc">رفع وإدارة الواجبات الدراسية</div></div>
+          <label className="toggle"><input type="checkbox" checked /><span className="tslider"></span></label>
+        </div>
+        <div className="perm-row">
+          <div><div className="perm-name">تسجيل الحضور</div><div className="perm-desc">حضور وغياب الطلاب</div></div>
+          <label className="toggle"><input type="checkbox" checked /><span className="tslider"></span></label>
+        </div>
+        <div className="perm-row">
+          <div><div className="perm-name">رفع المحتوى التعليمي</div><div className="perm-desc">محاضرات، ملفات، فيديوهات</div></div>
+          <label className="toggle"><input type="checkbox" checked /><span className="tslider"></span></label>
+        </div>
+        <div className="perm-row">
+          <div><div className="perm-name">بث مباشر</div><div className="perm-desc">إنشاء جلسات مباشرة</div></div>
+          <label className="toggle"><input type="checkbox" /><span className="tslider"></span></label>
+        </div>
+      </div>
+
+      <div style={{fontSize:'10px',color:'var(--text-muted)',fontWeight:700,letterSpacing:'1px',textTransform:'uppercase',marginBottom:'10px'}}>صلاحيات الإشراف</div>
+      <div style={{background:'var(--bg-card)',border:'1px solid var(--border2)',borderRadius:'10px',overflow:'hidden',marginBottom:'14px'}}>
+        <div className="perm-row">
+          <div><div className="perm-name">الإشراف على المعيدين</div><div className="perm-desc">متابعة وتوجيه المعيدين في قسمه</div></div>
+          <label className="toggle"><input type="checkbox" checked /><span className="tslider"></span></label>
+        </div>
+        <div className="perm-row">
+          <div><div className="perm-name">إشراف على رسائل الماجستير</div><div className="perm-desc">الإشراف الأكاديمي على الطلاب</div></div>
+          <label className="toggle"><input type="checkbox" checked /><span className="tslider"></span></label>
+        </div>
+        <div className="perm-row">
+          <div><div className="perm-name">الإشراف على رسائل الدكتوراه</div><div className="perm-desc">إشراف ومتابعة أطروحات الدكتوراه</div></div>
+          <label className="toggle"><input type="checkbox" /><span className="tslider"></span></label>
+        </div>
+        <div className="perm-row">
+          <div><div className="perm-name">نشر الأبحاث العلمية</div><div className="perm-desc">تسجيل ونشر الأوراق البحثية</div></div>
+          <label className="toggle"><input type="checkbox" checked /><span className="tslider"></span></label>
+        </div>
+      </div>
+
+      <div style={{fontSize:'10px',color:'var(--text-muted)',fontWeight:700,letterSpacing:'1px',textTransform:'uppercase',marginBottom:'10px'}}>صلاحيات التواصل</div>
+      <div style={{background:'var(--bg-card)',border:'1px solid var(--border2)',borderRadius:'10px',overflow:'hidden',marginBottom:'18px'}}>
+        <div className="perm-row">
+          <div><div className="perm-name">إرسال إشعارات للطلاب</div><div className="perm-desc">إشعارات فردية وجماعية</div></div>
+          <label className="toggle"><input type="checkbox" checked /><span className="tslider"></span></label>
+        </div>
+        <div className="perm-row">
+          <div><div className="perm-name">الوصول للملتقى المجتمعي</div><div className="perm-desc">المشاركة في الملتقى</div></div>
+          <label className="toggle"><input type="checkbox" checked /><span className="tslider"></span></label>
+        </div>
+        <div className="perm-row">
+          <div><div className="perm-name">عرض تقارير القسم</div><div className="perm-desc">الإحصائيات والتقارير الأكاديمية</div></div>
+          <label className="toggle"><input type="checkbox" /><span className="tslider"></span></label>
+        </div>
+      </div>
+
+      <div style={{display:'flex',gap:'10px'}}>
+        <button onClick={() => {closePermModal()}} style={{flex:1,background:'rgba(255,255,255,0.05)',border:'1px solid var(--border)',borderRadius:'9px',padding:'11px',color:'var(--text-dim)',fontSize:'13px',cursor:'pointer',fontFamily:'var(--font)'}}>إلغاء</button>
+        <button onClick={() => {savePerms()}} style={{flex:2,background:'linear-gradient(135deg,var(--accent),var(--accent2))',border:'none',borderRadius:'9px',padding:'11px',color:'#fff',fontWeight:800,fontSize:'13px',cursor:'pointer',fontFamily:'var(--font)'}}>
+          حفظ الصلاحيات ✓
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{/* SIDEBAR */}
+<aside className="sidebar" id="sidebar">
+  <div className="sb-top">
+    <a className="sb-logo" href="#"><div className="logo-icon">م</div><div><div className="logo-main">متين</div><div className="logo-sub">نظام إدارة التعليم</div></div></a>
+    <div className="dean-card">
+      <div className="dean-av">👨‍🏫</div>
+      <div style={{minWidth:0}}>
+        <div className="dean-name">د. سعد الرشيد</div>
+        <div className="dean-role">عميد الكلية</div>
+        <div className="dean-college">كلية الهندسة والتقنية</div>
+      </div>
+    </div>
+  </div>
+
+  <nav className="nav">
+    <div className="ng">الرئيسية</div>
+    <a className="ni active" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>لوحتي <span className="nav-dot"></span></a>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>التقويم الأكاديمي</a>
+
+    <div className="ng">الكلية</div>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>الأقسام الأكاديمية</a>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>المقررات والخطط</a>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>الجداول الدراسية</a>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>القاعات والمختبرات</a>
+
+    <div className="ng">الطلاب</div>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>طلاب الكلية</a>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>طلبات القبول <span className="nb nb-g">8</span></a>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/></svg>التسجيل الفصلي</a>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="12" y1="8" x2="12" y2="12"/></svg>الشكاوى <span className="nb nb-r">4</span></a>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>الشهادات والتخرج</a>
+
+    <div className="ng">هيئة التدريس والموظفون</div>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>الدكاترة والأستاذة</a>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>المعيدون والمحاضرون</a>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>الموظفون الإداريون</a>
+    <a className="ni" href="#" style={{color:'var(--accent)',fontWeight:600}} onClick={() => {openPermModal('الكل')}}>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      إدارة الصلاحيات
+      <span style={{background:'var(--accent-dim)',color:'var(--accent)',fontSize:'9px',fontWeight:700,padding:'1px 6px',borderRadius:'8px',marginRight:'auto',border:'1px solid var(--accent-border)'}}>رئيسي</span>
+    </a>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>الإجازات والاستئذانات <span className="nb nb-r">3</span></a>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/></svg>تقييم الأداء</a>
+
+    <div className="ng">العمليات الأكاديمية</div>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>الحضور والغياب</a>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>الدرجات والمعدلات</a>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>التقارير والإحصائيات</a>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/></svg>الأبحاث العلمية</a>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5zM6 12v5c3 3 9 3 12 0v-5"/></svg>الدراسات العليا</a>
+
+    <div className="ng">المالية</div>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>رسوم الطلاب <span className="nb nb-r">6</span></a>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/></svg>المنح والإعفاءات</a>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>ميزانية الكلية</a>
+
+    <div className="ng">التقنية</div>
+    <a className="ni" href="#" style={{color:'#10B981'}} onmouseenter="this.style.background='rgba(16,185,129,0.06)'" onmouseleave="this.style.background=''">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      <span style={{color:'#10B981',fontWeight:600}}>صفحة الكلية</span>
+    </a>
+    <a className="ni" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>الإعدادات</a>
+  </nav>
+
+  <div className="sb-footer">
+    <button className="logout-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>تسجيل الخروج</button>
+    <div className="sb-ver">متين v6 — كلية الهندسة والتقنية</div>
+  </div>
+</aside>
+
+{/* MAIN */}
+<div className="main">
+  <header className="header">
+    <div className="hdr-left">
+      <button className="menu-btn" onClick={() => {toggleSb()}}><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      <div><div className="hdr-title">لوحة عميد الكلية</div><div className="hdr-sub">كلية الهندسة والتقنية — الفصل الثاني 1446</div></div>
+    </div>
+    <div className="hdr-right">
+      <div className="search-box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(238,238,245,0.3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input className="srch-inp" placeholder="بحث..." /></div>
+      <div className="hdr-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span className="ndot"></span></div>
+      <div className="user-btn">
+        <div className="user-av">👨‍🏫</div>
+        <div className="uinfo"><div className="uname">د. سعد الرشيد</div><div className="urole">عميد الكلية</div></div>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(238,238,245,0.35)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+  </header>
+
+  <div className="content">
+
+    {/* PAGE HEADER */}
+    <div className="pg-hdr">
+      <div>
+        <div className="pg-title">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5zM6 12v5c3 3 9 3 12 0v-5"/></svg>
+          كلية الهندسة والتقنية
+        </div>
+        <div className="pg-sub">الأسبوع 10 من 16 — 6 أقسام · 820 طالب · 42 دكتور · 12 معيد · 8 موظفين</div>
+      </div>
+      <button className="btn-primary">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        إضافة عضو هيئة تدريس
+      </button>
+    </div>
+
+    {/* STATS */}
+    <div className="stats-grid">
+      <div className="stat-card">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(167,139,250,0.05) 0%,transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="stat-icon" style={{background:'rgba(167,139,250,0.1)',border:'1px solid rgba(167,139,250,0.2)'}}><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div className="stat-val" style={{color:'var(--accent)'}}>820</div>
+        <div className="stat-lbl">طلاب الكلية</div>
+        <div className="stat-sub" style={{color:'rgba(167,139,250,0.6)'}}>↑ 48 هذا الفصل</div>
+      </div>
+      <div className="stat-card">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(96,165,250,0.05) 0%,transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="stat-icon" style={{background:'rgba(96,165,250,0.1)',border:'1px solid rgba(96,165,250,0.2)'}}><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div className="stat-val" style={{color:'var(--blue)'}}>62</div>
+        <div className="stat-lbl">هيئة التدريس والموظفون</div>
+        <div className="stat-sub" style={{color:'rgba(96,165,250,0.6)'}}>42 دكتور · 12 معيد · 8 إداريين</div>
+      </div>
+      <div className="stat-card">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(16,185,129,0.05) 0%,transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="stat-icon" style={{background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.2)'}}><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/></svg></div>
+        <div className="stat-val" style={{color:'var(--green)'}}>89%</div>
+        <div className="stat-lbl">نسبة الحضور</div>
+        <div className="stat-sub" style={{color:'rgba(16,185,129,0.6)'}}>↑ هذا الأسبوع</div>
+      </div>
+      <div className="stat-card">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(212,168,67,0.05) 0%,transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="stat-icon" style={{background:'var(--gold-dim)',border:'1px solid var(--gold-border)'}}><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+        <div className="stat-val" style={{color:'var(--gold)'}}>124</div>
+        <div className="stat-lbl">متأهلون للتخرج</div>
+        <div className="stat-sub" style={{color:'rgba(212,168,67,0.6)'}}>معدل تخرج 96%</div>
+      </div>
+    </div>
+
+    {/* DEPARTMENTS */}
+    <div className="card">
+      <div className="card-hdr">
+        <div className="card-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          أقسام الكلية
+        </div>
+        <button className="card-link">إدارة الأقسام</button>
+      </div>
+      <div className="dept-grid">
+        <div className="dept-card">
+          <div className="dept-name">الهندسة المدنية</div>
+          <div className="dept-stats">
+            <div><div className="ds-val">180</div><div className="ds-lbl">طالب</div></div>
+            <div><div className="ds-val" style={{color:'var(--blue)'}}>8</div><div className="ds-lbl">دكتور</div></div>
+            <div><div className="ds-val" style={{color:'var(--orange)'}}>3</div><div className="ds-lbl">معيد</div></div>
           </div>
         </div>
+        <div className="dept-card">
+          <div className="dept-name">الهندسة الكهربائية</div>
+          <div className="dept-stats">
+            <div><div className="ds-val">160</div><div className="ds-lbl">طالب</div></div>
+            <div><div className="ds-val" style={{color:'var(--blue)'}}>9</div><div className="ds-lbl">دكتور</div></div>
+            <div><div className="ds-val" style={{color:'var(--orange)'}}>2</div><div className="ds-lbl">معيد</div></div>
+          </div>
+        </div>
+        <div className="dept-card">
+          <div className="dept-name">هندسة الحاسب</div>
+          <div className="dept-stats">
+            <div><div className="ds-val">210</div><div className="ds-lbl">طالب</div></div>
+            <div><div className="ds-val" style={{color:'var(--blue)'}}>11</div><div className="ds-lbl">دكتور</div></div>
+            <div><div className="ds-val" style={{color:'var(--orange)'}}>4</div><div className="ds-lbl">معيد</div></div>
+          </div>
+        </div>
+        <div className="dept-card">
+          <div className="dept-name">الهندسة الميكانيكية</div>
+          <div className="dept-stats">
+            <div><div className="ds-val">140</div><div className="ds-lbl">طالب</div></div>
+            <div><div className="ds-val" style={{color:'var(--blue)'}}>7</div><div className="ds-lbl">دكتور</div></div>
+            <div><div className="ds-val" style={{color:'var(--orange)'}}>2</div><div className="ds-lbl">معيد</div></div>
+          </div>
+        </div>
+        <div className="dept-card">
+          <div className="dept-name">هندسة المعماري</div>
+          <div className="dept-stats">
+            <div><div className="ds-val">90</div><div className="ds-lbl">طالب</div></div>
+            <div><div className="ds-val" style={{color:'var(--blue)'}}>5</div><div className="ds-lbl">دكتور</div></div>
+            <div><div className="ds-val" style={{color:'var(--orange)'}}>1</div><div className="ds-lbl">معيد</div></div>
+          </div>
+        </div>
+        <div className="dept-card">
+          <div className="dept-name">الهندسة الكيميائية</div>
+          <div className="dept-stats">
+            <div><div className="ds-val">40</div><div className="ds-lbl">طالب</div></div>
+            <div><div className="ds-val" style={{color:'var(--blue)'}}>2</div><div className="ds-lbl">دكتور</div></div>
+            <div><div className="ds-val" style={{color:'var(--orange)'}}>—</div><div className="ds-lbl">معيد</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        {/* Nav */}
-        <nav style={{ flex: 1, padding: '12px 0' }}>
-          {SIDEBAR_SECTIONS.map((section) => (
-            <div key={section.label} style={{ marginBottom: 4 }}>
-              <div
-                style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  color: C.muted,
-                  letterSpacing: '0.08em',
-                  padding: '10px 20px 4px',
-                  textTransform: 'uppercase',
-                }}
-              >
-                {section.label}
-              </div>
-              {section.items.map((item: any) => {
-                const isActive = activeSection === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => setActiveSection(item.id)}
-                    style={{
-                      width: '100%',
-                      background: isActive
-                        ? 'rgba(167,139,250,0.15)'
-                        : 'transparent',
-                      border: 'none',
-                      borderRight: isActive
-                        ? `3px solid ${C.purple}`
-                        : '3px solid transparent',
-                      color: isActive
-                        ? C.purple
-                        : item.accent
-                        ? C.purple
-                        : C.dim,
-                      padding: '10px 20px',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 10,
-                      fontSize: 13,
-                      fontWeight: isActive ? 700 : 400,
-                      textAlign: 'right',
-                      transition: 'all 0.15s',
-                    }}
-                  >
-                    <span style={{ fontSize: 16 }}>{item.icon}</span>
-                    <span style={{ flex: 1 }}>{item.label}</span>
-                    {item.greenDot && (
-                      <span
-                        style={{
-                          width: 8,
-                          height: 8,
-                          borderRadius: '50%',
-                          background: C.green,
-                          display: 'inline-block',
-                        }}
-                      />
-                    )}
-                    {item.badge && (
-                      <span
-                        style={{
-                          background: item.accent ? C.purple2 : C.red,
-                          color: '#fff',
-                          borderRadius: 20,
-                          padding: '2px 7px',
-                          fontSize: 11,
-                          fontWeight: 700,
-                          minWidth: 20,
-                          textAlign: 'center',
-                        }}
-                      >
-                        {item.badge}
-                      </span>
-                    )}
+    {/* STAFF TABLE + REQUESTS */}
+    <div className="grid-2">
+
+      {/* جدول هيئة التدريس والموظفين */}
+      <div className="card" style={{marginBottom:0}}>
+        <div className="card-hdr">
+          <div className="card-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            هيئة التدريس والموظفون
+            <span className="card-count">62</span>
+          </div>
+          <div style={{display:'flex',gap:'6px',alignItems:'center'}}>
+            <select style={{background:'rgba(255,255,255,0.04)',border:'1px solid var(--border2)',color:'var(--text-dim)',fontSize:'11px',padding:'4px 8px',borderRadius:'6px',fontFamily:'var(--font)',outline:'none'}}>
+              <option>الكل</option>
+              <option>دكاترة</option>
+              <option>معيدون</option>
+              <option>إداريون</option>
+            </select>
+            <button className="card-link">+ إضافة</button>
+          </div>
+        </div>
+        <div className="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>الاسم</th>
+                <th>الدور</th>
+                <th>القسم</th>
+                <th>الحالة</th>
+                <th>الصلاحيات</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+                    <div style={{width:'28px',height:'28px',borderRadius:'7px',background:'rgba(167,139,250,0.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'12px',fontWeight:700,color:'var(--accent)'}}>م</div>
+                    <span style={{fontWeight:600,color:'var(--text)'}}>د. محمد العتيبي</span>
+                  </div>
+                </td>
+                <td><span className="badge b-accent">دكتور</span></td>
+                <td style={{color:'var(--text-dim)',fontSize:'11.5px'}}>الهندسة المدنية</td>
+                <td><span className="badge b-green">● نشط</span></td>
+                <td>
+                  <button className="btn-sm" style={{background:'rgba(167,139,250,0.08)',color:'var(--accent)',border:'1px solid rgba(167,139,250,0.2)'}} onClick={() => {openPermModal('د. محمد العتيبي','دكتور — قسم الهندسة المدنية')}}>
+                    صلاحيات
                   </button>
-                );
-              })}
-            </div>
-          ))}
-        </nav>
-
-        {/* Sidebar Footer */}
-        <div
-          style={{
-            padding: '16px 20px',
-            borderTop: `1px solid ${C.border}`,
-            fontSize: 11,
-            color: C.muted,
-            textAlign: 'center',
-          }}
-        >
-          متين v6 — كلية الهندسة والتقنية
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+                    <div style={{width:'28px',height:'28px',borderRadius:'7px',background:'rgba(96,165,250,0.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'12px',fontWeight:700,color:'var(--blue)'}}>س</div>
+                    <span style={{fontWeight:600,color:'var(--text)'}}>د. سارة الزهراني</span>
+                  </div>
+                </td>
+                <td><span className="badge b-accent">دكتورة</span></td>
+                <td style={{color:'var(--text-dim)',fontSize:'11.5px'}}>هندسة الحاسب</td>
+                <td><span className="badge b-green">● نشط</span></td>
+                <td><button className="btn-sm" style={{background:'rgba(167,139,250,0.08)',color:'var(--accent)',border:'1px solid rgba(167,139,250,0.2)'}} onClick={() => {openPermModal('د. سارة الزهراني','دكتورة — قسم هندسة الحاسب')}}>صلاحيات</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+                    <div style={{width:'28px',height:'28px',borderRadius:'7px',background:'rgba(251,146,60,0.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'12px',fontWeight:700,color:'var(--orange)'}}>خ</div>
+                    <span style={{fontWeight:600,color:'var(--text)'}}>خالد المطيري</span>
+                  </div>
+                </td>
+                <td><span className="badge b-orange">معيد</span></td>
+                <td style={{color:'var(--text-dim)',fontSize:'11.5px'}}>الهندسة الكهربائية</td>
+                <td><span className="badge b-green">● نشط</span></td>
+                <td><button className="btn-sm" style={{background:'rgba(167,139,250,0.08)',color:'var(--accent)',border:'1px solid rgba(167,139,250,0.2)'}} onClick={() => {openPermModal('خالد المطيري','معيد — قسم الهندسة الكهربائية')}}>صلاحيات</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+                    <div style={{width:'28px',height:'28px',borderRadius:'7px',background:'rgba(34,211,238,0.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'12px',fontWeight:700,color:'var(--cyan)'}}>ن</div>
+                    <span style={{fontWeight:600,color:'var(--text)'}}>نورة الحربي</span>
+                  </div>
+                </td>
+                <td><span className="badge b-cyan">إدارية</span></td>
+                <td style={{color:'var(--text-dim)',fontSize:'11.5px'}}>شؤون الطلاب</td>
+                <td><span className="badge b-green">● نشط</span></td>
+                <td><button className="btn-sm" style={{background:'rgba(167,139,250,0.08)',color:'var(--accent)',border:'1px solid rgba(167,139,250,0.2)'}} onClick={() => {openPermModal('نورة الحربي','موظفة إدارية — شؤون الطلاب')}}>صلاحيات</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+                    <div style={{width:'28px',height:'28px',borderRadius:'7px',background:'rgba(239,68,68,0.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'12px',fontWeight:700,color:'var(--red)'}}>ع</div>
+                    <span style={{fontWeight:600,color:'var(--text)'}}>د. عمر الشمري</span>
+                  </div>
+                </td>
+                <td><span className="badge b-accent">دكتور</span></td>
+                <td style={{color:'var(--text-dim)',fontSize:'11.5px'}}>الهندسة الميكانيكية</td>
+                <td><span className="badge b-orange">إجازة</span></td>
+                <td><button className="btn-sm" style={{background:'rgba(167,139,250,0.08)',color:'var(--accent)',border:'1px solid rgba(167,139,250,0.2)'}} onClick={() => {openPermModal('د. عمر الشمري','دكتور — قسم الهندسة الميكانيكية')}}>صلاحيات</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+                    <div style={{width:'28px',height:'28px',borderRadius:'7px',background:'rgba(16,185,129,0.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'12px',fontWeight:700,color:'var(--green)'}}>ر</div>
+                    <span style={{fontWeight:600,color:'var(--text)'}}>ريم السلمي</span>
+                  </div>
+                </td>
+                <td><span className="badge b-orange">معيدة</span></td>
+                <td style={{color:'var(--text-dim)',fontSize:'11.5px'}}>هندسة الحاسب</td>
+                <td><span className="badge b-green">● نشط</span></td>
+                <td><button className="btn-sm" style={{background:'rgba(167,139,250,0.08)',color:'var(--accent)',border:'1px solid rgba(167,139,250,0.2)'}} onClick={() => {openPermModal('ريم السلمي','معيدة — قسم هندسة الحاسب')}}>صلاحيات</button></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </aside>
+      </div>
 
-      {/* ===================== MAIN CONTENT ===================== */}
-      <main style={{ flex: 1, overflowY: 'auto', padding: '32px 28px' }}>
-        {/* Page Header */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            marginBottom: 28,
-          }}
-        >
+      {/* جانبي: طلبات + نشاط */}
+      <div style={{display:'flex',flexDirection:'column',gap:'12px'}}>
+
+        {/* إجازات معلقة */}
+        <div className="card" style={{marginBottom:0}}>
+          <div className="card-hdr">
+            <div className="card-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+              طلبات الإجازات
+              <span className="card-count" style={{background:'rgba(251,146,60,0.1)',borderColor:'rgba(251,146,60,0.2)',color:'var(--orange)'}}>3</span>
+            </div>
+          </div>
           <div>
-            <h1
-              style={{
-                margin: 0,
-                fontSize: 26,
-                fontWeight: 800,
-                color: C.text,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 10,
-              }}
-            >
-              <span
-                style={{
-                  background: `linear-gradient(135deg, ${C.purple2}, ${C.purple})`,
-                  borderRadius: 10,
-                  width: 38,
-                  height: 38,
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: 18,
-                }}
-              >
-                ⊞
-              </span>
-              لوحة تحكم العميد
-            </h1>
-            <p
-              style={{
-                margin: '6px 0 0',
-                color: C.dim,
-                fontSize: 14,
-              }}
-            >
-              مرحباً، د. سعد — كلية الهندسة والتقنية · الفصل الدراسي الثاني 1446
-            </p>
-          </div>
-          <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-            <div
-              style={{
-                background: C.card,
-                border: `1px solid ${C.border}`,
-                borderRadius: 10,
-                padding: '8px 16px',
-                fontSize: 13,
-                color: C.dim,
-              }}
-            >
-              الثلاثاء، 8 أبريل 2026
-            </div>
-            <div
-              style={{
-                background: `rgba(16,185,129,0.12)`,
-                border: `1px solid rgba(16,185,129,0.3)`,
-                borderRadius: 10,
-                padding: '8px 16px',
-                fontSize: 13,
-                color: C.green,
-                fontWeight: 600,
-              }}
-            >
-              ● النظام يعمل
-            </div>
-          </div>
-        </div>
-
-        {/* ---- STATS GRID ---- */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: 16,
-            marginBottom: 28,
-          }}
-        >
-          {STATS.map((stat, i) => (
-            <div
-              key={i}
-              style={{
-                background: C.card,
-                border: `1px solid ${C.border}`,
-                borderRadius: 14,
-                padding: '20px 22px',
-                position: 'relative',
-                overflow: 'hidden',
-              }}
-            >
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  right: 0,
-                  width: 80,
-                  height: 80,
-                  background: stat.bg,
-                  borderRadius: '0 14px 0 80px',
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  justifyContent: 'flex-end',
-                  padding: '10px 12px',
-                  fontSize: 22,
-                }}
-              >
-                {stat.icon}
+            <div className="req-item">
+              <div style={{flex:1,minWidth:0}}>
+                <div style={{fontSize:'12.5px',fontWeight:600,color:'var(--text)'}}>د. عمر الشمري</div>
+                <div style={{fontSize:'10.5px',color:'var(--text-muted)'}}>إجازة مرضية — 5 أيام</div>
               </div>
-              <div
-                style={{
-                  fontSize: 34,
-                  fontWeight: 900,
-                  color: stat.color,
-                  letterSpacing: '-0.02em',
-                  lineHeight: 1,
-                  marginBottom: 6,
-                }}
-              >
-                {stat.value}
-              </div>
-              <div
-                style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 4 }}
-              >
-                {stat.label}
-              </div>
-              <div style={{ fontSize: 12, color: C.muted }}>{stat.sub}</div>
-            </div>
-          ))}
-        </div>
-
-        {/* ---- DEPARTMENTS GRID ---- */}
-        <div
-          style={{
-            background: C.card,
-            border: `1px solid ${C.border}`,
-            borderRadius: 14,
-            padding: '20px 22px',
-            marginBottom: 28,
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginBottom: 18,
-            }}
-          >
-            <h2
-              style={{
-                margin: 0,
-                fontSize: 17,
-                fontWeight: 700,
-                color: C.text,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 8,
-              }}
-            >
-              🏛 الأقسام الأكاديمية
-            </h2>
-            <span
-              style={{
-                background: 'rgba(167,139,250,0.12)',
-                color: C.purple,
-                fontSize: 12,
-                fontWeight: 700,
-                borderRadius: 20,
-                padding: '4px 12px',
-                border: `1px solid ${C.border}`,
-              }}
-            >
-              6 أقسام
-            </span>
-          </div>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: 14,
-            }}
-          >
-            {DEPARTMENTS.map((dept, i) => (
-              <div
-                key={i}
-                style={{
-                  background: C.cardAlt,
-                  border: `1px solid ${C.border}`,
-                  borderRadius: 12,
-                  padding: '16px 18px',
-                  borderTop: `3px solid ${dept.color}`,
-                  cursor: 'pointer',
-                  transition: 'all 0.15s',
-                }}
-              >
-                <div
-                  style={{
-                    fontWeight: 700,
-                    fontSize: 14,
-                    color: C.text,
-                    marginBottom: 12,
-                  }}
-                >
-                  {dept.name}
-                </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    gap: 12,
-                    fontSize: 12,
-                    color: C.dim,
-                  }}
-                >
-                  <span
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 4,
-                    }}
-                  >
-                    <span style={{ color: dept.color }}>🎓</span>
-                    {dept.students} طالب
-                  </span>
-                  <span
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 4,
-                    }}
-                  >
-                    <span style={{ color: dept.color }}>👨‍🏫</span>
-                    {dept.faculty} عضو
-                  </span>
-                  <span
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 4,
-                    }}
-                  >
-                    <span style={{ color: dept.color }}>🔬</span>
-                    {dept.labs > 0 ? `${dept.labs} مختبر` : '—'}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ---- GRID-2: Staff + Leaves + Activity ---- */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 20,
-            marginBottom: 28,
-          }}
-        >
-          {/* Staff Table */}
-          <div
-            style={{
-              background: C.card,
-              border: `1px solid ${C.border}`,
-              borderRadius: 14,
-              padding: '20px 22px',
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: 14,
-              }}
-            >
-              <h2
-                style={{
-                  margin: 0,
-                  fontSize: 16,
-                  fontWeight: 700,
-                  color: C.text,
-                }}
-              >
-                👨‍🏫 هيئة التدريس
-              </h2>
-              <input
-                type="text"
-                placeholder="تصفية..."
-                value={staffFilter}
-                onChange={(e) => setStaffFilter(e.target.value)}
-                style={{
-                  background: 'rgba(255,255,255,0.05)',
-                  border: `1px solid ${C.border}`,
-                  borderRadius: 8,
-                  padding: '6px 12px',
-                  color: C.text,
-                  fontSize: 12,
-                  outline: 'none',
-                  width: 130,
-                }}
-              />
-            </div>
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
-                <thead>
-                  <tr>
-                    {['الاسم', 'الدور', 'القسم', 'الحالة', 'الصلاحيات'].map((h) => (
-                      <th
-                        key={h}
-                        style={{
-                          padding: '8px 10px',
-                          textAlign: 'right',
-                          color: C.muted,
-                          fontWeight: 600,
-                          borderBottom: `1px solid ${C.border}`,
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredStaff.map((s, i) => (
-                    <tr
-                      key={i}
-                      style={{
-                        borderBottom: `1px solid ${C.border}`,
-                      }}
-                    >
-                      <td
-                        style={{
-                          padding: '10px 10px',
-                          color: C.text,
-                          fontWeight: 600,
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
-                        {s.name}
-                      </td>
-                      <td
-                        style={{
-                          padding: '10px 10px',
-                          color: C.dim,
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
-                        {s.role}
-                      </td>
-                      <td
-                        style={{
-                          padding: '10px 10px',
-                          color: C.dim,
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
-                        {s.dept}
-                      </td>
-                      <td style={{ padding: '10px 10px' }}>
-                        <span
-                          style={{
-                            background: `${s.statusColor}18`,
-                            color: s.statusColor,
-                            borderRadius: 20,
-                            padding: '3px 9px',
-                            fontSize: 11,
-                            fontWeight: 700,
-                            whiteSpace: 'nowrap',
-                          }}
-                        >
-                          {s.status}
-                        </span>
-                      </td>
-                      <td
-                        style={{
-                          padding: '10px 10px',
-                          color: C.muted,
-                          fontSize: 12,
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
-                        {s.perm}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Leaves + Activity */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {/* Leave Requests */}
-            <div
-              style={{
-                background: C.card,
-                border: `1px solid ${C.border}`,
-                borderRadius: 14,
-                padding: '18px 20px',
-                flex: 1,
-              }}
-            >
-              <h2
-                style={{
-                  margin: '0 0 14px',
-                  fontSize: 15,
-                  fontWeight: 700,
-                  color: C.text,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 8,
-                }}
-              >
-                🌴 طلبات الإجازة
-                <span
-                  style={{
-                    background: `rgba(251,146,60,0.15)`,
-                    color: C.orange,
-                    fontSize: 11,
-                    fontWeight: 700,
-                    borderRadius: 20,
-                    padding: '2px 8px',
-                    border: `1px solid rgba(251,146,60,0.3)`,
-                  }}
-                >
-                  3 معلّقة
-                </span>
-              </h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {LEAVES.map((lv, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      background: C.cardAlt,
-                      border: `1px solid ${C.border}`,
-                      borderRadius: 10,
-                      padding: '12px 14px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 10,
-                    }}
-                  >
-                    <div style={{ flex: 1 }}>
-                      <div
-                        style={{
-                          fontWeight: 600,
-                          fontSize: 13,
-                          color: C.text,
-                        }}
-                      >
-                        {lv.name}
-                      </div>
-                      <div style={{ fontSize: 11, color: C.muted, marginTop: 2 }}>
-                        {lv.type} · {lv.duration} · {lv.dept}
-                      </div>
-                    </div>
-                    <div style={{ display: 'flex', gap: 6 }}>
-                      <button
-                        style={{
-                          background: 'rgba(16,185,129,0.12)',
-                          border: `1px solid rgba(16,185,129,0.3)`,
-                          color: C.green,
-                          borderRadius: 7,
-                          padding: '5px 10px',
-                          fontSize: 12,
-                          fontWeight: 700,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        قبول
-                      </button>
-                      <button
-                        style={{
-                          background: 'rgba(239,68,68,0.10)',
-                          border: `1px solid rgba(239,68,68,0.3)`,
-                          color: C.red,
-                          borderRadius: 7,
-                          padding: '5px 10px',
-                          fontSize: 12,
-                          fontWeight: 700,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        رفض
-                      </button>
-                    </div>
-                  </div>
-                ))}
+              <div style={{display:'flex',gap:'4px'}}>
+                <button className="btn-sm" style={{background:'rgba(16,185,129,0.08)',color:'var(--green)',border:'1px solid rgba(16,185,129,0.2)'}}>قبول</button>
+                <button className="btn-sm" style={{background:'rgba(239,68,68,0.08)',color:'var(--red)',border:'1px solid rgba(239,68,68,0.2)'}}>رفض</button>
               </div>
             </div>
-
-            {/* Activity Log */}
-            <div
-              style={{
-                background: C.card,
-                border: `1px solid ${C.border}`,
-                borderRadius: 14,
-                padding: '18px 20px',
-                flex: 1,
-              }}
-            >
-              <h2
-                style={{
-                  margin: '0 0 14px',
-                  fontSize: 15,
-                  fontWeight: 700,
-                  color: C.text,
-                }}
-              >
-                📋 سجل النشاط
-              </h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {ACTIVITY.map((act, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'flex-start',
-                      gap: 10,
-                      paddingBottom: i < ACTIVITY.length - 1 ? 10 : 0,
-                      borderBottom:
-                        i < ACTIVITY.length - 1
-                          ? `1px solid ${C.border}`
-                          : 'none',
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: 18,
-                        lineHeight: 1,
-                        marginTop: 1,
-                      }}
-                    >
-                      {act.icon}
-                    </span>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 12, color: C.dim }}>{act.text}</div>
-                      <div style={{ fontSize: 11, color: C.muted, marginTop: 2 }}>
-                        {act.time}
-                      </div>
-                    </div>
-                  </div>
-                ))}
+            <div className="req-item">
+              <div style={{flex:1,minWidth:0}}>
+                <div style={{fontSize:'12.5px',fontWeight:600,color:'var(--text)'}}>خالد المطيري</div>
+                <div style={{fontSize:'10.5px',color:'var(--text-muted)'}}>استئذان — يوم واحد</div>
+              </div>
+              <div style={{display:'flex',gap:'4px'}}>
+                <button className="btn-sm" style={{background:'rgba(16,185,129,0.08)',color:'var(--green)',border:'1px solid rgba(16,185,129,0.2)'}}>قبول</button>
+                <button className="btn-sm" style={{background:'rgba(239,68,68,0.08)',color:'var(--red)',border:'1px solid rgba(239,68,68,0.2)'}}>رفض</button>
+              </div>
+            </div>
+            <div className="req-item" style={{borderBottom:'none'}}>
+              <div style={{flex:1,minWidth:0}}>
+                <div style={{fontSize:'12.5px',fontWeight:600,color:'var(--text)'}}>نورة الحربي</div>
+                <div style={{fontSize:'10.5px',color:'var(--text-muted)'}}>إجازة اعتيادية — أسبوع</div>
+              </div>
+              <div style={{display:'flex',gap:'4px'}}>
+                <button className="btn-sm" style={{background:'rgba(16,185,129,0.08)',color:'var(--green)',border:'1px solid rgba(16,185,129,0.2)'}}>قبول</button>
+                <button className="btn-sm" style={{background:'rgba(239,68,68,0.08)',color:'var(--red)',border:'1px solid rgba(239,68,68,0.2)'}}>رفض</button>
               </div>
             </div>
           </div>
         </div>
 
-        {/* ---- QUICK ACTIONS ---- */}
-        <div
-          style={{
-            background: C.card,
-            border: `1px solid ${C.border}`,
-            borderRadius: 14,
-            padding: '20px 22px',
-            marginBottom: 28,
-          }}
-        >
-          <h2
-            style={{
-              margin: '0 0 18px',
-              fontSize: 16,
-              fontWeight: 700,
-              color: C.text,
-            }}
-          >
-            ⚡ الإجراءات السريعة
-          </h2>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(6, 1fr)',
-              gap: 12,
-            }}
-          >
-            {QUICK_ACTIONS.map((qa, i) => (
-              <button
-                key={i}
-                style={{
-                  background: C.cardAlt,
-                  border: `1px solid ${C.border}`,
-                  borderRadius: 12,
-                  padding: '14px 10px',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: 8,
-                  transition: 'all 0.15s',
-                  color: C.text,
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.border = `1px solid ${qa.color}44`;
-                  (e.currentTarget as HTMLButtonElement).style.background = `${qa.color}10`;
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.border = `1px solid ${C.border}`;
-                  (e.currentTarget as HTMLButtonElement).style.background = C.cardAlt;
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: 22,
-                    width: 44,
-                    height: 44,
-                    borderRadius: 10,
-                    background: `${qa.color}18`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    border: `1px solid ${qa.color}33`,
-                  }}
-                >
-                  {qa.icon}
-                </span>
-                <span style={{ fontSize: 12, fontWeight: 600, color: C.dim, textAlign: 'center' }}>
-                  {qa.label}
-                </span>
-              </button>
-            ))}
+        {/* آخر النشاطات */}
+        <div className="card" style={{marginBottom:0}}>
+          <div className="card-hdr">
+            <div className="card-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              آخر النشاطات
+            </div>
+          </div>
+          <div>
+            <div className="act-item"><div className="act-dot" style={{background:'var(--accent)',boxShadow:'0 0 4px var(--accent)'}}></div><div className="act-text">تم تغيير صلاحيات <strong>د. محمد العتيبي</strong></div><div className="act-time">15د</div></div>
+            <div className="act-item"><div className="act-dot" style={{background:'var(--green)',boxShadow:'0 0 4px var(--green)'}}></div><div className="act-text">قبول <strong>8 طلاب</strong> في قسم هندسة الحاسب</div><div className="act-time">1س</div></div>
+            <div className="act-item"><div className="act-dot" style={{background:'var(--orange)',boxShadow:'0 0 4px var(--orange)'}}></div><div className="act-text">طلب إجازة من <strong>د. عمر الشمري</strong></div><div className="act-time">2س</div></div>
+            <div className="act-item"><div className="act-dot" style={{background:'var(--gold)',boxShadow:'0 0 4px var(--gold)'}}></div><div className="act-text">نشر بحث علمي من <strong>د. سارة الزهراني</strong></div><div className="act-time">3س</div></div>
+            <div className="act-item" style={{borderBottom:'none'}}><div className="act-dot" style={{background:'var(--red)',boxShadow:'0 0 4px var(--red)'}}></div><div className="act-text">شكوى جديدة من طالب في <strong>هندسة الحاسب</strong></div><div className="act-time">5س</div></div>
           </div>
         </div>
 
-        {/* ---- FOOTER ---- */}
-        <div
-          style={{
-            textAlign: 'center',
-            color: C.muted,
-            fontSize: 12,
-            padding: '12px 0 4px',
-            borderTop: `1px solid ${C.border}`,
-          }}
-        >
-          متين v6 — كلية الهندسة والتقنية
-        </div>
-      </main>
+      </div>
+    </div>
+
+    {/* QUICK ACTIONS */}
+    <div style={{marginBottom:'6px'}}>
+      <div style={{color:'var(--text-muted)',fontSize:'10px',fontWeight:700,letterSpacing:'1px',textTransform:'uppercase',marginBottom:'10px'}}>إجراءات سريعة</div>
+      <div className="quick-grid">
+        <a className="quick-item" href="#" onClick={() => {openPermModal('عضو جديد','')}}>
+          <div className="quick-icon" style={{background:'rgba(167,139,250,0.1)',border:'1px solid rgba(167,139,250,0.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <span className="quick-lbl">الصلاحيات</span>
+        </a>
+        <a className="quick-item" href="#">
+          <div className="quick-icon" style={{background:'rgba(96,165,250,0.1)',border:'1px solid rgba(96,165,250,0.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+          <span className="quick-lbl">إضافة دكتور</span>
+        </a>
+        <a className="quick-item" href="#">
+          <div className="quick-icon" style={{background:'rgba(251,146,60,0.1)',border:'1px solid rgba(251,146,60,0.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FB923C" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+          <span className="quick-lbl">إضافة معيد</span>
+        </a>
+        <a className="quick-item" href="#">
+          <div className="quick-icon" style={{background:'rgba(34,211,238,0.1)',border:'1px solid rgba(34,211,238,0.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
+          <span className="quick-lbl">إضافة موظف</span>
+        </a>
+        <a className="quick-item" href="#">
+          <div className="quick-icon" style={{background:'rgba(212,168,67,0.1)',border:'1px solid rgba(212,168,67,0.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          <span className="quick-lbl">قبول طالب</span>
+        </a>
+        <a className="quick-item" href="#">
+          <div className="quick-icon" style={{background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+          <span className="quick-lbl">شهادات</span>
+        </a>
+        <a className="quick-item" href="#">
+          <div className="quick-icon" style={{background:'rgba(167,139,250,0.1)',border:'1px solid rgba(167,139,250,0.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+          <span className="quick-lbl">التقارير</span>
+        </a>
+        <a className="quick-item" href="#">
+          <div className="quick-icon" style={{background:'rgba(96,165,250,0.1)',border:'1px solid rgba(96,165,250,0.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/></svg></div>
+          <span className="quick-lbl">الأبحاث</span>
+        </a>
+        <a className="quick-item" href="#">
+          <div className="quick-icon" style={{background:'rgba(251,146,60,0.1)',border:'1px solid rgba(251,146,60,0.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FB923C" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg></div>
+          <span className="quick-lbl">إشعار جماعي</span>
+        </a>
+        <a className="quick-item" href="#">
+          <div className="quick-icon" style={{background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <span className="quick-lbl">الرسوم</span>
+        </a>
+        <a className="quick-item" href="#">
+          <div className="quick-icon" style={{background:'rgba(34,211,238,0.1)',border:'1px solid rgba(34,211,238,0.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5zM6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+          <span className="quick-lbl">الدراسات العليا</span>
+        </a>
+        <a className="quick-item" href="#">
+          <div className="quick-icon" style={{background:'rgba(255,255,255,0.04)',border:'1px solid var(--border2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(238,238,245,0.4)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+          <span className="quick-lbl">الإعدادات</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer style={{padding:'10px 18px',borderTop:'1px solid rgba(255,255,255,0.06)',display:'flex',justifyContent:'space-between',flexShrink:0,flexWrap:'wrap',gap:'6px'}}>
+    <p style={{color:'rgba(238,238,245,0.2)',fontSize:'10.5px'}}>© 2026 متين — كلية الهندسة والتقنية</p>
+    <p style={{color:'rgba(238,238,245,0.2)',fontSize:'10.5px'}}>صنع بـ ❤️ في المملكة العربية السعودية</p>
+  </footer>
+</div>
     </div>
   );
 }

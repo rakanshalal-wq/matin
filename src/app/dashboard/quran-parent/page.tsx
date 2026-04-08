@@ -1,889 +1,260 @@
-'use client';
-import { useState } from 'react';
+﻿'use client';
+import React, { useState } from 'react';
+import '../../styles/quran-parent.css';
 
-const ACCENT = '#10B981';
-const QR = '#047857';
-const GOLD = '#D4A843';
-const BG = '#06060E';
-const SIDEBAR_BG = '#08081A';
-const BD = 'rgba(255,255,255,0.08)';
-const DIM = 'rgba(238,238,245,0.7)';
-const MUT = 'rgba(238,238,245,0.35)';
-
-/* ─── tiny inline SVG icons ─────────────────────────── */
-const IcHome = () => (
-  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-    <polyline points="9 22 9 12 15 12 15 22"/>
-  </svg>
-);
-const IcChild = () => (
-  <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-    <circle cx="12" cy="8" r="4"/>
-    <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-  </svg>
-);
-const IcProgress = () => (
-  <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-    <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
-    <line x1="6" y1="20" x2="6" y2="14"/>
-  </svg>
-);
-const IcCalendar = () => (
-  <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-    <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
-    <line x1="3" y1="10" x2="21" y2="10"/>
-  </svg>
-);
-const IcVideo = () => (
-  <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-    <path d="M23 7l-7 5 7 5V7z"/>
-    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-  </svg>
-);
-const IcStar = () => (
-  <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-  </svg>
-);
-const IcReport = () => (
-  <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-    <polyline points="14 2 14 8 20 8"/>
-    <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
-    <polyline points="10 9 9 9 8 9"/>
-  </svg>
-);
-const IcMsg = () => (
-  <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-  </svg>
-);
-const IcBell = () => (
-  <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-  </svg>
-);
-const IcSettings = () => (
-  <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="3"/>
-    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-  </svg>
-);
-const IcDownload = () => (
-  <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-    <polyline points="7 10 12 15 17 10"/>
-    <line x1="12" y1="15" x2="12" y2="3"/>
-  </svg>
-);
-const IcSend = () => (
-  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-    <line x1="22" y1="2" x2="11" y2="13"/>
-    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-  </svg>
-);
-const IcAward = () => (
-  <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-    <circle cx="12" cy="8" r="6"/>
-    <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
-  </svg>
-);
-
-/* ─── sidebar nav items ─────────────────────────────── */
-const NAV = [
-  { id: 'home', label: 'الرئيسية', Icon: IcHome },
-  { id: 'yousef', label: 'يوسف', badge: 'ممتاز', badgeColor: '#10B981', Icon: IcChild },
-  { id: 'omar', label: 'عمر', badge: 'جيد', badgeColor: '#3B82F6', Icon: IcChild },
-  { id: 'progress', label: 'تقدم الحفظ', Icon: IcProgress },
-  { id: 'attendance', label: 'سجل الحضور', Icon: IcCalendar },
-  { id: 'tasmi', label: 'التسميع المرئي', Icon: IcVideo, isNew: true },
-  { id: 'points', label: 'نقاط التحفيز', Icon: IcStar },
-  { id: 'reports', label: 'التقارير', Icon: IcReport },
-  { id: 'chat', label: 'مراسلة المحفظ', Icon: IcMsg, msgCount: 1 },
-  { id: 'announcements', label: 'إعلانات المركز', Icon: IcBell },
-  { id: 'settings', label: 'الإعدادات', Icon: IcSettings },
-];
-
-/* ─── chat messages ─────────────────────────────────── */
-const MESSAGES = [
-  { id: 1, from: 'muhaffiz', text: 'السلام عليكم، يوسف أدّى اليوم ختمته بامتياز ما شاء الله!', time: '09:14' },
-  { id: 2, from: 'parent', text: 'وعليكم السلام، جزاكم الله خيراً على متابعتكم', time: '09:20' },
-  { id: 3, from: 'muhaffiz', text: 'نرجو حضور حفل التخرج يوم الجمعة إن شاء الله', time: '09:22' },
-];
-
-/* ─── stats ──────────────────────────────────────────── */
-const STATS = [
-  { label: '30 جزء', sub: 'المحفوظ', color: QR },
-  { label: '95%', sub: 'الحضور', color: ACCENT },
-  { label: '480', sub: 'النقاط', color: GOLD },
-  { label: 'المركز 1', sub: 'الترتيب', color: '#A855F7' },
-];
-
-/* ─── achievements ───────────────────────────────────── */
-const ACHIEVEMENTS = [
-  { label: 'ختم القرآن الكريم', date: 'رمضان 1446', color: GOLD },
-  { label: 'حفظ جزء عم كاملاً', date: 'محرم 1446', color: ACCENT },
-  { label: 'حضور مستمر 3 أشهر', date: 'ربيع الأول 1446', color: '#3B82F6' },
-];
-
-/* ─── component ─────────────────────────────────────── */
 export default function QuranParentPage() {
-  const [activeNav, setActiveNav] = useState('home');
-  const [chatInput, setChatInput] = useState('');
-  const [messages, setMessages] = useState(MESSAGES);
-
-  const sendMsg = () => {
-    if (!chatInput.trim()) return;
-    setMessages((m) => [
-      ...m,
-      { id: Date.now(), from: 'parent', text: chatInput.trim(), time: 'الآن' },
-    ]);
-    setChatInput('');
-  };
-
+  const [activeSection, setActiveSection] = useState('home');
   return (
-    <div
-      style={{
-        fontFamily: "'IBM Plex Sans Arabic','Noto Naskh Arabic',sans-serif",
-        direction: 'rtl',
-        background: BG,
-        color: '#EEEEF5',
-        minHeight: '100vh',
-        display: 'flex',
-      }}
-    >
-      {/* ═══ SIDEBAR ═══════════════════════════════════ */}
-      <aside
-        style={{
-          width: 230,
-          background: SIDEBAR_BG,
-          borderLeft: '1px solid ' + BD,
-          display: 'flex',
-          flexDirection: 'column',
-          flexShrink: 0,
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
-          overflowY: 'auto',
-        }}
-      >
-        {/* Logo area */}
-        <div
-          style={{
-            padding: '20px 16px 14px',
-            borderBottom: '1px solid ' + BD,
-          }}
-        >
-          <div style={{ fontSize: 15, fontWeight: 800, color: ACCENT }}>مركز القرآن</div>
-          <div style={{ fontSize: 11, color: MUT, marginTop: 2 }}>بوابة أولياء الأمور</div>
+    <div className="page">
+<div className="sidebar" id="sidebar">
+  <div className="sb-top">
+    <a className="sb-logo"><div className="logo-icon"><span className="ic" style={{width:'18px',height:'18px'}}><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><text x="4" y="18" font-size="16" font-weight="900" font-family="serif">م</text></svg></span></div><div><div className="logo-main">متين</div><div className="logo-sub">منصة إدارة التعليم</div></div></a>
+    <div className="user-card">
+      <div className="user-av"><span className="ic" style={{width:'16px',height:'16px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span></div>
+      <div><div className="user-name">أبو يوسف السبيعي</div><div className="user-role">ولي أمر</div></div>
+    </div>
+  </div>
+  <div className="nav">
+    <div className="nav-grp">الرئيسية</div>
+    <a className="nav-item active"><span className="ic" style={{width:'15px',height:'15px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> الرئيسية</a>
+
+    <div className="nav-grp">متابعة الأبناء</div>
+    <a className="nav-item"><span className="ic" style={{width:'15px',height:'15px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span> يوسف <span className="nb nb-grn">ممتاز</span></a>
+    <a className="nav-item"><span className="ic" style={{width:'15px',height:'15px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span> عمر <span className="nb nb-gold">جيد</span></a>
+    <a className="nav-item"><span className="ic" style={{width:'15px',height:'15px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span> تقدم الحفظ</a>
+    <a className="nav-item"><span className="ic" style={{width:'15px',height:'15px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg></span> سجل الحضور</a>
+    <a className="nav-item" onClick={() => {openTasmi()}}><span className="ic" style={{width:'15px',height:'15px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span> التسميع المرئي <span className="nb nb-grn">جديد</span></a>
+    <a className="nav-item"><span className="ic" style={{width:'15px',height:'15px'}}><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span> نقاط التحفيز</a>
+    <a className="nav-item"><span className="ic" style={{width:'15px',height:'15px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> التقارير الشهرية</a>
+
+    <div className="nav-grp">التواصل</div>
+    <a className="nav-item"><span className="ic" style={{width:'15px',height:'15px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> مراسلة المحفّظ <span className="nb nb-red">1</span></a>
+    <a className="nav-item"><span className="ic" style={{width:'15px',height:'15px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 11l18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></span> إعلانات المركز</a>
+
+    <div className="nav-grp">أخرى</div>
+    <a className="nav-item"><span className="ic" style={{width:'15px',height:'15px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-2.82.66V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1.08-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06c.5-.5.63-1.25.33-1.82A1.65 1.65 0 0 0 3.09 14H3a2 2 0 1 1 0-4h.09c.7 0 1.33-.42 1.51-1.08a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06c.5.5 1.25.63 1.82.33A1.65 1.65 0 0 0 10 3.09V3a2 2 0 1 1 4 0v.09c0 .7.42 1.33 1.08 1.51.57.18 1.22.05 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06c-.5.5-.63 1.25-.33 1.82.2.4.58.67 1.01.73H21a2 2 0 1 1 0 4h-.09c-.7 0-1.33.42-1.51 1.08z"/></svg></span> الإعدادات</a>
+  </div>
+  <div className="sb-footer"><button className="logout-btn"><span className="ic" style={{width:'14px',height:'14px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span> تسجيل خروج</button></div>
+</div>
+<div className="overlay" id="overlay" onClick={() => {toggleSidebar()}}></div>
+
+<div className="main">
+  <div className="header">
+    <div className="hdr-left">
+      <button className="menu-btn" onClick={() => {toggleSidebar()}}>☰</button>
+      <div><div className="page-title">مرحباً أبو يوسف</div><div className="page-sub">متابعة أبنائك في مركز النور لتحفيظ القرآن</div></div>
+    </div>
+    <div className="hdr-actions">
+      <button className="hdr-btn"><span className="ic" style={{width:'14px',height:'14px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span> <span className="nb nb-red">1</span></button>
+      <button className="hdr-btn hdr-btn-p" onClick={() => {openTasmi()}}><span className="ic" style={{width:'14px',height:'14px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span> التسميع المرئي</button>
+    </div>
+  </div>
+  <div className="content">
+
+    {/* Children Cards */}
+    <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'12px',marginBottom:'18px'}}>
+      <div style={{background:'rgba(16,185,129,.06)',border:'2px solid rgba(16,185,129,.3)',borderRadius:'14px',padding:'16px',cursor:'pointer'}}>
+        <div style={{display:'flex',alignItems:'center',gap:'12px',marginBottom:'12px'}}>
+          <div style={{width:'48px',height:'48px',borderRadius:'12px',background:'rgba(16,185,129,.12)',border:'1px solid rgba(16,185,129,.25)',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--green)'}}><span className="ic" style={{width:'22px',height:'22px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span></div>
+          <div><div style={{fontSize:'15px',fontWeight:800}}>يوسف</div><div style={{fontSize:'11px',color:'var(--green)',fontWeight:600}}>حلقة الإتقان · حفظ كامل</div></div>
+          <span className="status" style={{background:'rgba(16,185,129,.15)',color:'var(--green)',border:'1px solid rgba(16,185,129,.3)',marginRight:'auto'}}>ممتاز</span>
         </div>
+        <div style={{display:'flex',justifyContent:'space-between',marginBottom:'6px',fontSize:'11px'}}><span style={{color:'var(--text-dim)'}}>تقدم الحفظ</span><span style={{color:'var(--green)',fontWeight:700}}>30/30 جزء</span></div>
+        <div className="prog-bar"><div className="prog-fill" style={{width:'100%',background:'var(--green)'}}></div></div>
+      </div>
+      <div style={{background:'var(--bg-card)',border:'1px solid var(--border)',borderRadius:'14px',padding:'16px',cursor:'pointer'}}>
+        <div style={{display:'flex',alignItems:'center',gap:'12px',marginBottom:'12px'}}>
+          <div style={{width:'48px',height:'48px',borderRadius:'12px',background:'rgba(96,165,250,.12)',border:'1px solid rgba(96,165,250,.25)',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--blue)'}}><span className="ic" style={{width:'22px',height:'22px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span></div>
+          <div><div style={{fontSize:'15px',fontWeight:800}}>عمر</div><div style={{fontSize:'11px',color:'var(--blue)',fontWeight:600}}>حلقة البراعم · جزء عمّ</div></div>
+          <span className="status" style={{background:'rgba(96,165,250,.15)',color:'var(--blue)',border:'1px solid rgba(96,165,250,.3)',marginRight:'auto'}}>جيد</span>
+        </div>
+        <div style={{display:'flex',justifyContent:'space-between',marginBottom:'6px',fontSize:'11px'}}><span style={{color:'var(--text-dim)'}}>تقدم الحفظ</span><span style={{color:'var(--blue)',fontWeight:700}}>جزء عمّ 80%</span></div>
+        <div className="prog-bar"><div className="prog-fill" style={{width:'80%',background:'var(--blue)'}}></div></div>
+      </div>
+    </div>
 
-        {/* User card */}
-        <div
-          style={{
-            padding: '14px 16px',
-            borderBottom: '1px solid ' + BD,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 10,
-          }}
-        >
-          <div
-            style={{
-              width: 38,
-              height: 38,
-              borderRadius: '50%',
-              background: QR + '25',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: 16,
-              fontWeight: 800,
-              color: QR,
-              flexShrink: 0,
-            }}
-          >
-            أ
+    {/* Congratulations Banner */}
+    <div style={{background:'linear-gradient(135deg,rgba(4,120,87,.06),rgba(212,168,67,.04))',border:'1px solid rgba(4,120,87,.18)',borderRadius:'16px',padding:'20px',marginBottom:'18px',display:'flex',alignItems:'center',gap:'14px'}}>
+      <div style={{width:'48px',height:'48px',borderRadius:'12px',background:'rgba(212,168,67,.12)',border:'1px solid rgba(212,168,67,.25)',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--gold)',flexShrink:0}}><span className="ic" style={{width:'24px',height:'24px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span></div>
+      <div><div style={{fontSize:'14px',fontWeight:800,color:'var(--gold)'}}>مبارك! يوسف أتمّ ختمة القرآن الكريم كاملاً</div><div style={{fontSize:'11px',color:'var(--text-dim)',marginTop:'2px'}}>المرحلة القادمة: التأهل للإجازة بالسند المتصل</div></div>
+    </div>
+
+    {/* Video Tasmi' CTA */}
+    <div style={{background:'linear-gradient(135deg,rgba(4,120,87,.08),rgba(16,185,129,.04))',border:'1px solid rgba(4,120,87,.2)',borderRadius:'14px',padding:'18px',marginBottom:'18px',display:'flex',alignItems:'center',justifyContent:'space-between',cursor:'pointer'}} onClick={() => {openTasmi()}}>
+      <div style={{display:'flex',alignItems:'center',gap:'14px'}}>
+        <div style={{width:'52px',height:'52px',borderRadius:'14px',background:'linear-gradient(135deg,var(--qr),#065F46)',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff',boxShadow:'0 6px 20px rgba(4,120,87,.3)'}}><span className="ic" style={{width:'24px',height:'24px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span></div>
+        <div><div style={{fontSize:'15px',fontWeight:800}}>التسميع المرئي</div><div style={{fontSize:'11px',color:'var(--text-dim)',marginTop:'2px'}}>ادخل حلقة التسميع مع الشيخ عبدالرحمن — الكاميرا + صفحة القرآن مباشرة</div></div>
+      </div>
+      <div style={{background:'rgba(16,185,129,.12)',border:'1px solid rgba(16,185,129,.25)',borderRadius:'10px',padding:'8px 16px',color:'var(--green)',fontSize:'12px',fontWeight:700}}>ابدأ الآن</div>
+    </div>
+
+    <div className="kpi-grid">
+      <div className="kpi"><div style={{position:'absolute',top:0,right:0,width:'3px',height:'100%',background:'var(--green)',borderRadius:'3px'}}></div><div className="kpi-top"><div className="kpi-ic" style={{background:'rgba(16,185,129,.1)',border:'1px solid rgba(16,185,129,.22)',color:'var(--green)'}}><span className="ic" style={{width:'18px',height:'18px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span></div></div><div className="kpi-val">30</div><div className="kpi-label">جزء محفوظ (يوسف)</div></div>
+      <div className="kpi"><div style={{position:'absolute',top:0,right:0,width:'3px',height:'100%',background:'var(--blue)',borderRadius:'3px'}}></div><div className="kpi-top"><div className="kpi-ic" style={{background:'rgba(96,165,250,.1)',border:'1px solid rgba(96,165,250,.22)',color:'var(--blue)'}}><span className="ic" style={{width:'18px',height:'18px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div></div><div className="kpi-val">95%</div><div className="kpi-label">نسبة الحضور</div></div>
+      <div className="kpi"><div style={{position:'absolute',top:0,right:0,width:'3px',height:'100%',background:'var(--gold)',borderRadius:'3px'}}></div><div className="kpi-top"><div className="kpi-ic" style={{background:'var(--gold-dim)',border:'1px solid var(--gold-border)',color:'var(--gold)'}}><span className="ic" style={{width:'18px',height:'18px'}}><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span></div></div><div className="kpi-val">480</div><div className="kpi-label">نقاط التحفيز</div></div>
+      <div className="kpi"><div style={{position:'absolute',top:0,right:0,width:'3px',height:'100%',background:'var(--purple)',borderRadius:'3px'}}></div><div className="kpi-top"><div className="kpi-ic" style={{background:'rgba(167,139,250,.1)',border:'1px solid rgba(167,139,250,.22)',color:'var(--purple)'}}><span className="ic" style={{width:'18px',height:'18px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span></div></div><div className="kpi-val">1</div><div className="kpi-label">المركز في المسابقة</div></div>
+    </div>
+
+    <div className="grid-2">
+      {/* Weekly Report */}
+      <div className="card">
+        <div className="card-hdr"><span className="card-title"><span className="ic" style={{width:'15px',height:'15px',color:'var(--green)'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> تقرير يوسف الأسبوعي</span><span className="status" style={{background:'rgba(16,185,129,.12)',color:'var(--green)',border:'1px solid rgba(16,185,129,.25)'}}>ممتاز</span></div>
+        <div className="card-body">
+          <div style={{marginBottom:'14px'}}>
+            <div style={{fontSize:'12px',fontWeight:700,marginBottom:'8px'}}>الحفظ الجديد</div>
+            <div style={{padding:'10px 12px',background:'rgba(255,255,255,.03)',border:'1px solid var(--border2)',borderRadius:'10px'}}>
+              <div style={{fontSize:'12px',color:'var(--text-dim)'}}>المقرر: <strong>سورة النساء (1-35)</strong></div>
+              <div style={{fontSize:'11px',color:'var(--green)',marginTop:'4px',fontWeight:600}}>تم الحفظ بتقدير ممتاز</div>
+            </div>
           </div>
-          <div>
-            <div style={{ fontSize: 12, fontWeight: 700, lineHeight: 1.3 }}>أبو يوسف السبيعي</div>
-            <div style={{ fontSize: 10, color: MUT, marginTop: 2 }}>ولي أمر</div>
+          <div style={{marginBottom:'14px'}}>
+            <div style={{fontSize:'12px',fontWeight:700,marginBottom:'8px'}}>المراجعة</div>
+            <div style={{padding:'10px 12px',background:'rgba(255,255,255,.03)',border:'1px solid var(--border2)',borderRadius:'10px'}}>
+              <div style={{fontSize:'12px',color:'var(--text-dim)'}}>تمت مراجعة: <strong>جزء 28 + 29 + 30</strong></div>
+              <div style={{fontSize:'11px',color:'var(--green)',marginTop:'4px',fontWeight:600}}>ممتاز — الحفظ متين</div>
+            </div>
+          </div>
+          <div style={{marginTop:'14px',padding:'10px',background:'rgba(212,168,67,.06)',border:'1px solid rgba(212,168,67,.15)',borderRadius:'8px'}}>
+            <div style={{fontSize:'11px',color:'var(--gold)',fontWeight:700}}>ملاحظة المحفّظ:</div>
+            <div style={{fontSize:'11.5px',color:'var(--text-dim)',marginTop:'4px',lineHeight:'1.5'}}>ماشاءالله تبارك الله، يوسف من أفضل الطلاب. ختم القرآن بإتقان وهو جاهز لمرحلة الإجازة.</div>
           </div>
         </div>
+      </div>
 
-        {/* Nav items */}
-        <nav style={{ flex: 1, padding: '10px 0' }}>
-          {NAV.map((item) => {
-            const active = activeNav === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => setActiveNav(item.id)}
-                style={{
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 10,
-                  padding: '9px 16px',
-                  background: active ? ACCENT + '18' : 'transparent',
-                  border: 'none',
-                  borderRight: active ? '3px solid ' + ACCENT : '3px solid transparent',
-                  color: active ? ACCENT : DIM,
-                  fontSize: 13,
-                  fontWeight: active ? 700 : 400,
-                  cursor: 'pointer',
-                  fontFamily: 'inherit',
-                  textAlign: 'right',
-                  transition: 'all 0.15s',
-                }}
-              >
-                <item.Icon />
-                <span style={{ flex: 1 }}>{item.label}</span>
-                {item.badge && (
-                  <span
-                    style={{
-                      fontSize: 10,
-                      fontWeight: 700,
-                      color: item.badgeColor,
-                      background: item.badgeColor + '20',
-                      border: '1px solid ' + item.badgeColor + '40',
-                      borderRadius: 10,
-                      padding: '1px 7px',
-                    }}
-                  >
-                    {item.badge}
-                  </span>
-                )}
-                {item.isNew && (
-                  <span
-                    style={{
-                      fontSize: 9,
-                      fontWeight: 700,
-                      color: '#fff',
-                      background: ACCENT,
-                      borderRadius: 10,
-                      padding: '1px 6px',
-                    }}
-                  >
-                    جديد
-                  </span>
-                )}
-                {item.msgCount && (
-                  <span
-                    style={{
-                      width: 18,
-                      height: 18,
-                      borderRadius: '50%',
-                      background: '#EF4444',
-                      color: '#fff',
-                      fontSize: 10,
-                      fontWeight: 700,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    {item.msgCount}
-                  </span>
-                )}
-              </button>
-            );
-          })}
-        </nav>
-      </aside>
-
-      {/* ═══ MAIN CONTENT ══════════════════════════════ */}
-      <main style={{ flex: 1, padding: '24px 28px', overflowY: 'auto', minHeight: '100vh' }}>
-
-        {/* Page header */}
-        <div style={{ marginBottom: 22 }}>
-          <h1 style={{ fontSize: 22, fontWeight: 800, margin: 0 }}>الرئيسية</h1>
-          <p style={{ fontSize: 13, color: MUT, marginTop: 4 }}>
-            مرحباً أبو يوسف — الثلاثاء 8 أبريل 2026
-          </p>
+      {/* Achievements */}
+      <div className="card">
+        <div className="card-hdr"><span className="card-title"><span className="ic" style={{width:'15px',height:'15px',color:'var(--gold)'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span> إنجازات يوسف</span></div>
+        <div className="card-body">
+          <div style={{padding:'14px',background:'linear-gradient(135deg,rgba(212,168,67,.08),rgba(4,120,87,.04))',border:'1px solid rgba(212,168,67,.2)',borderRadius:'12px',textAlign:'center',marginBottom:'16px'}}>
+            <div style={{width:'56px',height:'56px',margin:'0 auto 8px',borderRadius:'50%',background:'var(--gold-dim)',border:'2px solid var(--gold-border)',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--gold)'}}><span className="ic" style={{width:'28px',height:'28px'}}><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M22 10l-10-6L2 10l10 6 10-6z"/><path d="M6 12v5c0 1 2.7 3 6 3s6-2 6-3v-5" fill="none" stroke="currentColor" strokeWidth="2"/></svg></span></div>
+            <div style={{fontSize:'16px',fontWeight:800,color:'var(--gold)'}}>حافظ القرآن الكريم</div>
+            <div style={{fontSize:'11px',color:'var(--text-dim)',marginTop:'4px'}}>30 جزءاً كاملاً — بتقدير ممتاز</div>
+            <button style={{marginTop:'10px',background:'var(--gold-dim)',border:'1px solid var(--gold-border)',borderRadius:'8px',padding:'6px 16px',color:'var(--gold)',fontSize:'11px',fontWeight:700,cursor:'pointer',fontFamily:'var(--font)'}} onClick={() => {toast('جارٍ تحميل الشهادة','var(--gold)')}}>تحميل الشهادة</button>
+          </div>
+          <div style={{textAlign:'center',padding:'14px',background:'var(--gold-dim)',border:'1px solid var(--gold-border)',borderRadius:'10px'}}>
+            <div style={{fontSize:'24px',fontWeight:800,color:'var(--gold)'}}>480 نقطة</div>
+            <div style={{fontSize:'10px',color:'var(--text-muted)',marginTop:'2px'}}>الترتيب: الأول على الحلقة</div>
+          </div>
         </div>
+      </div>
+    </div>
 
-        {/* ── CONGRATULATIONS BANNER ── */}
-        <div
-          style={{
-            background: 'linear-gradient(120deg,rgba(4,120,87,0.18) 0%,rgba(212,168,67,0.12) 100%)',
-            border: '1px solid ' + GOLD + '44',
-            borderRadius: 14,
-            padding: '16px 20px',
-            marginBottom: 20,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 14,
-          }}
-        >
-          <div
-            style={{
-              width: 46,
-              height: 46,
-              borderRadius: 12,
-              background: GOLD + '22',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
-            }}
-          >
-            <IcAward />
-          </div>
-          <div>
-            <div style={{ fontSize: 16, fontWeight: 800, color: GOLD }}>
-              مبارك! يوسف أتمّ ختمة القرآن الكريم
-            </div>
-            <div style={{ fontSize: 12, color: DIM, marginTop: 3 }}>
-              بحمد الله أتمّ يوسف حفظ القرآن كاملاً — 30 جزءاً بإتقان وتميّز
+    {/* Chat */}
+    <div className="card">
+      <div className="card-hdr"><span className="card-title"><span className="ic" style={{width:'15px',height:'15px',color:'var(--cyan)'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> المحادثة مع المحفّظ</span></div>
+      <div className="card-body">
+        <div style={{display:'flex',flexDirection:'column',gap:'10px',marginBottom:'14px'}}>
+          <div style={{display:'flex',gap:'8px'}}>
+            <div style={{width:'28px',height:'28px',borderRadius:'7px',background:'rgba(212,168,67,.1)',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--gold)',flexShrink:0}}><span className="ic" style={{width:'14px',height:'14px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span></div>
+            <div style={{background:'rgba(255,255,255,.04)',border:'1px solid var(--border2)',borderRadius:'10px 10px 10px 2px',padding:'10px 14px',maxWidth:'75%'}}>
+              <div style={{fontSize:'10px',color:'var(--gold)',fontWeight:600,marginBottom:'4px'}}>الشيخ عبدالرحمن</div>
+              <div style={{fontSize:'12px',color:'var(--text-dim)',lineHeight:'1.5'}}>السلام عليكم، مبارك ختمة يوسف. يوسف جاهز للإجازة بإذن الله، نحتاج موافقتكم للبدء.</div>
+              <div style={{fontSize:'9px',color:'var(--text-muted)',marginTop:'4px'}}>أمس 8:30 م</div>
             </div>
           </div>
-          <button
-            style={{
-              marginRight: 'auto',
-              flexShrink: 0,
-              padding: '7px 16px',
-              borderRadius: 9,
-              border: '1px solid ' + GOLD + '55',
-              background: GOLD + '18',
-              color: GOLD,
-              fontSize: 12,
-              fontWeight: 700,
-              cursor: 'pointer',
-              fontFamily: 'inherit',
-            }}
-          >
-            شارك الخبر
-          </button>
-        </div>
-
-        {/* ── CHILDREN CARDS (2-col) ── */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 16,
-            marginBottom: 20,
-          }}
-        >
-          {/* Yousef */}
-          <div
-            style={{
-              background: 'rgba(255,255,255,0.025)',
-              border: '1px solid ' + QR + '44',
-              borderRadius: 14,
-              padding: '18px 18px',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <div
-                  style={{
-                    width: 42,
-                    height: 42,
-                    borderRadius: '50%',
-                    background: QR + '22',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: 17,
-                    fontWeight: 800,
-                    color: QR,
-                  }}
-                >
-                  ي
-                </div>
-                <div>
-                  <div style={{ fontSize: 15, fontWeight: 800 }}>يوسف</div>
-                  <div style={{ fontSize: 11, color: MUT }}>المجموعة الأولى</div>
-                </div>
-              </div>
-              <span
-                style={{
-                  fontSize: 11,
-                  fontWeight: 700,
-                  color: '#10B981',
-                  background: '#10B981' + '18',
-                  border: '1px solid #10B981' + '44',
-                  borderRadius: 10,
-                  padding: '3px 10px',
-                }}
-              >
-                ممتاز
-              </span>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-              <span style={{ fontSize: 12, color: MUT }}>تقدم الحفظ</span>
-              <span style={{ fontSize: 13, fontWeight: 700, color: GOLD }}>30 / 30 جزء</span>
-            </div>
-            <div style={{ height: 6, background: BD, borderRadius: 4, overflow: 'hidden', marginBottom: 14 }}>
-              <div style={{ width: '100%', height: '100%', background: GOLD, borderRadius: 4 }} />
-            </div>
-            <div style={{ display: 'flex', gap: 8 }}>
-              <div
-                style={{
-                  flex: 1,
-                  background: QR + '12',
-                  border: '1px solid ' + QR + '33',
-                  borderRadius: 9,
-                  padding: '8px 10px',
-                  textAlign: 'center',
-                }}
-              >
-                <div style={{ fontSize: 18, fontWeight: 800, color: QR }}>100%</div>
-                <div style={{ fontSize: 10, color: MUT, marginTop: 1 }}>الإنجاز</div>
-              </div>
-              <button
-                style={{
-                  flex: 1,
-                  background: QR + '18',
-                  border: '1px solid ' + QR + '44',
-                  borderRadius: 9,
-                  color: QR,
-                  fontSize: 12,
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  fontFamily: 'inherit',
-                }}
-              >
-                عرض التفاصيل
-              </button>
-            </div>
-          </div>
-
-          {/* Omar */}
-          <div
-            style={{
-              background: 'rgba(255,255,255,0.025)',
-              border: '1px solid ' + BD,
-              borderRadius: 14,
-              padding: '18px 18px',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <div
-                  style={{
-                    width: 42,
-                    height: 42,
-                    borderRadius: '50%',
-                    background: '#3B82F6' + '22',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: 17,
-                    fontWeight: 800,
-                    color: '#3B82F6',
-                  }}
-                >
-                  ع
-                </div>
-                <div>
-                  <div style={{ fontSize: 15, fontWeight: 800 }}>عمر</div>
-                  <div style={{ fontSize: 11, color: MUT }}>المجموعة الثانية</div>
-                </div>
-              </div>
-              <span
-                style={{
-                  fontSize: 11,
-                  fontWeight: 700,
-                  color: '#3B82F6',
-                  background: '#3B82F6' + '18',
-                  border: '1px solid #3B82F6' + '44',
-                  borderRadius: 10,
-                  padding: '3px 10px',
-                }}
-              >
-                جيد
-              </span>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-              <span style={{ fontSize: 12, color: MUT }}>حفظ جزء عمّ</span>
-              <span style={{ fontSize: 13, fontWeight: 700, color: ACCENT }}>24 / 30 سورة</span>
-            </div>
-            <div style={{ height: 6, background: BD, borderRadius: 4, overflow: 'hidden', marginBottom: 14 }}>
-              <div style={{ width: '80%', height: '100%', background: ACCENT, borderRadius: 4 }} />
-            </div>
-            <div style={{ display: 'flex', gap: 8 }}>
-              <div
-                style={{
-                  flex: 1,
-                  background: ACCENT + '10',
-                  border: '1px solid ' + ACCENT + '33',
-                  borderRadius: 9,
-                  padding: '8px 10px',
-                  textAlign: 'center',
-                }}
-              >
-                <div style={{ fontSize: 18, fontWeight: 800, color: ACCENT }}>80%</div>
-                <div style={{ fontSize: 10, color: MUT, marginTop: 1 }}>الإنجاز</div>
-              </div>
-              <button
-                style={{
-                  flex: 1,
-                  background: ACCENT + '12',
-                  border: '1px solid ' + ACCENT + '44',
-                  borderRadius: 9,
-                  color: ACCENT,
-                  fontSize: 12,
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  fontFamily: 'inherit',
-                }}
-              >
-                عرض التفاصيل
-              </button>
+          <div style={{display:'flex',gap:'8px',flexDirection:'row-reverse'}}>
+            <div style={{width:'28px',height:'28px',borderRadius:'7px',background:'rgba(16,185,129,.1)',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--green)',flexShrink:0}}><span className="ic" style={{width:'14px',height:'14px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span></div>
+            <div style={{background:'rgba(4,120,87,.08)',border:'1px solid rgba(4,120,87,.2)',borderRadius:'10px 10px 2px 10px',padding:'10px 14px',maxWidth:'75%'}}>
+              <div style={{fontSize:'12px',color:'var(--text-dim)',lineHeight:'1.5'}}>وعليكم السلام يا شيخنا، جزاكم الله خيراً. بكل سرور نوافق على البدء بالإجازة إن شاء الله.</div>
+              <div style={{fontSize:'9px',color:'var(--text-muted)',marginTop:'4px'}}>اليوم 9:15 ص</div>
             </div>
           </div>
         </div>
-
-        {/* ── STATS ROW ── */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4,1fr)',
-            gap: 12,
-            marginBottom: 20,
-          }}
-        >
-          {STATS.map((s) => (
-            <div
-              key={s.label}
-              style={{
-                background: s.color + '10',
-                border: '1px solid ' + s.color + '33',
-                borderRadius: 12,
-                padding: '14px 16px',
-                textAlign: 'center',
-              }}
-            >
-              <div style={{ fontSize: 22, fontWeight: 900, color: s.color }}>{s.label}</div>
-              <div style={{ fontSize: 11, color: MUT, marginTop: 3 }}>{s.sub}</div>
-            </div>
-          ))}
+        <div style={{display:'flex',gap:'8px'}}>
+          <input type="text" placeholder="اكتب رسالتك..." style={{flex:1,background:'rgba(255,255,255,.04)',border:'1px solid var(--border)',borderRadius:'10px',padding:'10px 14px',color:'var(--text)',fontSize:'12px',fontFamily:'var(--font)',outline:'none'}} />
+          <button style={{background:'linear-gradient(135deg,var(--qr),#065F46)',border:'none',borderRadius:'10px',padding:'10px 18px',color:'#fff',fontSize:'12px',fontWeight:700,cursor:'pointer',fontFamily:'var(--font)',display:'flex',alignItems:'center',gap:'5px'}} onClick={() => {toast('تم إرسال الرسالة','var(--green)')}}><span className="ic" style={{width:'14px',height:'14px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span> إرسال</button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        {/* ── VIDEO TASMI CTA ── */}
-        <div
-          style={{
-            background: 'linear-gradient(120deg,' + QR + '28 0%, ' + ACCENT + '18 100%)',
-            border: '1px solid ' + ACCENT + '44',
-            borderRadius: 14,
-            padding: '18px 22px',
-            marginBottom: 20,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 16,
-          }}
-        >
-          <div
-            style={{
-              width: 50,
-              height: 50,
-              borderRadius: 14,
-              background: ACCENT + '25',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
-            }}
-          >
-            <IcVideo />
-          </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 15, fontWeight: 800 }}>التسميع المرئي</div>
-            <div style={{ fontSize: 12, color: DIM, marginTop: 3 }}>
-              شاهد تسجيلات تسميع أبنائك مع المحفظ — متاح الآن
-            </div>
-          </div>
-          <button
-            style={{
-              padding: '9px 20px',
-              borderRadius: 10,
-              border: 'none',
-              background: ACCENT,
-              color: '#fff',
-              fontSize: 13,
-              fontWeight: 700,
-              cursor: 'pointer',
-              fontFamily: 'inherit',
-              flexShrink: 0,
-            }}
-          >
-            مشاهدة التسجيلات
-          </button>
+{/* ═══════════════════════════════════════════ */}
+{/* ═══ VIDEO TASMI' (RECITATION) MODAL ═══ */}
+{/* ═══════════════════════════════════════════ */}
+<div className="tasmi-modal" id="tasmi-modal">
+  <div className="tasmi-header">
+    <div className="tasmi-title">
+      <span className="ic" style={{width:'18px',height:'18px',color:'var(--green)'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span>
+      التسميع المرئي — الشيخ عبدالرحمن السديري
+    </div>
+    <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
+      <div className="tasmi-live"><div className="tasmi-live-dot"></div> مباشر</div>
+      <button className="tasmi-close" onClick={() => {closeTasmi()}}>إغلاق</button>
+    </div>
+  </div>
+
+  <div className="tasmi-body">
+    {/* Video Section */}
+    <div className="tasmi-video-section">
+      <div className="tasmi-video-bg"></div>
+      <div className="tasmi-video-placeholder" id="sheikh-video">
+        <div className="cam-icon"><span className="ic" style={{width:'24px',height:'24px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span></div>
+        <div className="tasmi-video-label">كاميرا الشيخ</div>
+        <div className="tasmi-video-name">الشيخ عبدالرحمن السديري</div>
+        <div style={{fontSize:'10px',color:'rgba(4,120,87,.7)',fontWeight:600,marginTop:'2px'}}>حفص عن عاصم · مجاز بالسند المتصل</div>
+      </div>
+      {/* Self Camera */}
+      <div className="self-cam">
+        <div>
+          <div style={{color:'var(--green)',marginBottom:'2px',display:'flex',justifyContent:'center'}}><span className="ic" style={{width:'16px',height:'16px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span></div>
+          <div className="self-cam-label">الطالب يوسف</div>
         </div>
+      </div>
+      {/* Connection status */}
+      <div style={{position:'absolute',top:'12px',right:'12px',background:'rgba(16,185,129,.12)',border:'1px solid rgba(16,185,129,.25)',borderRadius:'8px',padding:'4px 10px',fontSize:'10px',color:'var(--green)',fontWeight:600,display:'flex',alignItems:'center',gap:'5px',zIndex:3}}>
+        <span className="ic" style={{width:'12px',height:'12px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> متصل
+      </div>
+    </div>
 
-        {/* ── BOTTOM GRID: report + achievements + chat ── */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr 1fr',
-            gap: 16,
-          }}
-        >
-          {/* Weekly report */}
-          <div
-            style={{
-              background: 'rgba(255,255,255,0.025)',
-              border: '1px solid ' + BD,
-              borderRadius: 14,
-              padding: '16px 18px',
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 8,
-                marginBottom: 14,
-              }}
-            >
-              <IcReport />
-              <span style={{ fontSize: 14, fontWeight: 700 }}>التقرير الأسبوعي</span>
-            </div>
-
-            {[
-              { label: 'حضر يوسف', val: '5 / 5 أيام', color: ACCENT },
-              { label: 'حضر عمر', val: '4 / 5 أيام', color: '#3B82F6' },
-              { label: 'آيات يوسف', val: '45 آية جديدة', color: GOLD },
-              { label: 'آيات عمر', val: '12 آية جديدة', color: ACCENT },
-              { label: 'أخطاء التجويد', val: '2 ملاحظات', color: '#F59E0B' },
-            ].map((r) => (
-              <div
-                key={r.label}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '7px 0',
-                  borderBottom: '1px solid ' + BD,
-                }}
-              >
-                <span style={{ fontSize: 12, color: MUT }}>{r.label}</span>
-                <span style={{ fontSize: 12, fontWeight: 700, color: r.color }}>{r.val}</span>
-              </div>
-            ))}
-
-            <button
-              style={{
-                width: '100%',
-                marginTop: 12,
-                padding: '8px',
-                borderRadius: 9,
-                border: '1px solid ' + BD,
-                background: 'rgba(255,255,255,0.04)',
-                color: DIM,
-                fontSize: 12,
-                fontWeight: 600,
-                cursor: 'pointer',
-                fontFamily: 'inherit',
-              }}
-            >
-              عرض التقرير الكامل
-            </button>
-          </div>
-
-          {/* Achievements */}
-          <div
-            style={{
-              background: 'rgba(255,255,255,0.025)',
-              border: '1px solid ' + BD,
-              borderRadius: 14,
-              padding: '16px 18px',
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 8,
-                marginBottom: 14,
-              }}
-            >
-              <IcAward />
-              <span style={{ fontSize: 14, fontWeight: 700 }}>الإنجازات والشهادات</span>
-            </div>
-
-            {ACHIEVEMENTS.map((a) => (
-              <div
-                key={a.label}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 10,
-                  padding: '9px 10px',
-                  borderRadius: 9,
-                  border: '1px solid ' + a.color + '33',
-                  background: a.color + '0c',
-                  marginBottom: 8,
-                }}
-              >
-                <div
-                  style={{
-                    width: 8,
-                    height: 8,
-                    borderRadius: '50%',
-                    background: a.color,
-                    flexShrink: 0,
-                  }}
-                />
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 12, fontWeight: 600 }}>{a.label}</div>
-                  <div style={{ fontSize: 10, color: MUT, marginTop: 1 }}>{a.date}</div>
-                </div>
-                <button
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 4,
-                    padding: '4px 9px',
-                    borderRadius: 7,
-                    border: '1px solid ' + a.color + '44',
-                    background: a.color + '14',
-                    color: a.color,
-                    fontSize: 10,
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    fontFamily: 'inherit',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  <IcDownload />
-                  شهادة
-                </button>
-              </div>
-            ))}
-          </div>
-
-          {/* Chat with muhaffiz */}
-          <div
-            style={{
-              background: 'rgba(255,255,255,0.025)',
-              border: '1px solid ' + BD,
-              borderRadius: 14,
-              padding: '16px 18px',
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 8,
-                marginBottom: 12,
-              }}
-            >
-              <IcMsg />
-              <span style={{ fontSize: 14, fontWeight: 700 }}>مراسلة المحفظ</span>
-              <span
-                style={{
-                  marginRight: 'auto',
-                  fontSize: 10,
-                  fontWeight: 700,
-                  color: ACCENT,
-                  background: ACCENT + '18',
-                  border: '1px solid ' + ACCENT + '40',
-                  borderRadius: 10,
-                  padding: '1px 7px',
-                }}
-              >
-                متصل
-              </span>
-            </div>
-
-            {/* Messages */}
-            <div
-              style={{
-                flex: 1,
-                overflowY: 'auto',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 8,
-                marginBottom: 10,
-                maxHeight: 200,
-              }}
-            >
-              {messages.map((m) => {
-                const isParent = m.from === 'parent';
-                return (
-                  <div
-                    key={m.id}
-                    style={{
-                      display: 'flex',
-                      flexDirection: isParent ? 'row-reverse' : 'row',
-                      alignItems: 'flex-end',
-                      gap: 6,
-                    }}
-                  >
-                    <div
-                      style={{
-                        maxWidth: '80%',
-                        padding: '8px 11px',
-                        borderRadius: isParent ? '12px 12px 4px 12px' : '12px 12px 12px 4px',
-                        background: isParent ? QR + '25' : 'rgba(255,255,255,0.06)',
-                        border: '1px solid ' + (isParent ? QR + '44' : BD),
-                        fontSize: 12,
-                        lineHeight: 1.5,
-                      }}
-                    >
-                      {m.text}
-                      <div style={{ fontSize: 9, color: MUT, marginTop: 4, textAlign: 'left' }}>
-                        {m.time}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Input */}
-            <div style={{ display: 'flex', gap: 7 }}>
-              <input
-                value={chatInput}
-                onChange={(e) => setChatInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && sendMsg()}
-                placeholder="اكتب رسالة..."
-                style={{
-                  flex: 1,
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid ' + BD,
-                  color: '#EEEEF5',
-                  padding: '8px 11px',
-                  borderRadius: 9,
-                  fontSize: 12,
-                  fontFamily: 'inherit',
-                  outline: 'none',
-                }}
-              />
-              <button
-                onClick={sendMsg}
-                style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 9,
-                  border: 'none',
-                  background: ACCENT,
-                  color: '#fff',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  flexShrink: 0,
-                }}
-              >
-                <IcSend />
-              </button>
-            </div>
-          </div>
+    {/* Quran Section */}
+    <div className="tasmi-quran-section">
+      <div className="tasmi-quran-header">
+        <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+          <span className="ic" style={{width:'16px',height:'16px',color:'var(--gold)'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
+          <span className="surah-name">سورة الفاتحة</span>
         </div>
-      </main>
+        <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
+          <span className="ayah-counter">الآية: <strong id="current-ayah">1</strong> / 7</span>
+          <button style={{background:'rgba(212,168,67,.1)',border:'1px solid rgba(212,168,67,.2)',borderRadius:'6px',padding:'4px 10px',color:'var(--gold)',fontSize:'10px',fontWeight:700,cursor:'pointer',fontFamily:'var(--font)'}} onClick={() => {nextSurah()}}>السورة التالية</button>
+        </div>
+      </div>
+      <div className="tasmi-quran-body">
+        <div className="quran-text" id="quran-display">
+          <span className="ayah active" data-num="1" onClick={() => {setAyah(1)}}>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</span><span className="ayah-num">﴿١﴾</span>
+          <span className="ayah" data-num="2" onClick={() => {setAyah(2)}}>الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ</span><span className="ayah-num">﴿٢﴾</span>
+          <span className="ayah" data-num="3" onClick={() => {setAyah(3)}}>الرَّحْمَٰنِ الرَّحِيمِ</span><span className="ayah-num">﴿٣﴾</span>
+          <span className="ayah" data-num="4" onClick={() => {setAyah(4)}}>مَالِكِ يَوْمِ الدِّينِ</span><span className="ayah-num">﴿٤﴾</span>
+          <span className="ayah" data-num="5" onClick={() => {setAyah(5)}}>إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ</span><span className="ayah-num">﴿٥﴾</span>
+          <span className="ayah" data-num="6" onClick={() => {setAyah(6)}}>اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ</span><span className="ayah-num">﴿٦﴾</span>
+          <span className="ayah" data-num="7" onClick={() => {setAyah(7)}}>صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ</span><span className="ayah-num">﴿٧﴾</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* Controls */}
+  <div className="tasmi-controls">
+    <div style={{textAlign:'center'}}>
+      <button className="ctrl-btn ctrl-mic" id="mic-btn" onClick={() => {toggleMic()}}><span className="ic" style={{width:'20px',height:'20px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></span></button>
+      <div className="ctrl-label">الميكروفون</div>
+    </div>
+    <div style={{textAlign:'center'}}>
+      <button className="ctrl-btn ctrl-cam" id="cam-btn" onClick={() => {toggleCam()}}><span className="ic" style={{width:'20px',height:'20px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span></button>
+      <div className="ctrl-label">الكاميرا</div>
+    </div>
+    <div style={{textAlign:'center'}}>
+      <button className="ctrl-btn ctrl-end" onClick={() => {closeTasmi()}}><span className="ic" style={{width:'24px',height:'24px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.5 16.5l1.27-1.27a2 2 0 0 1 2.11-.45c.89.33 1.84.56 2.81.7a2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07"/><path d="M5 4.87a19.79 19.79 0 0 1-3.07-3.07A2 2 0 0 1 4.11 0h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 7.91"/></svg></span></button>
+      <div className="ctrl-label">إنهاء</div>
+    </div>
+    <div style={{textAlign:'center'}}>
+      <button className="ctrl-btn ctrl-next" onClick={() => {nextAyah()}}><span className="ic" style={{width:'20px',height:'20px'}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span></button>
+      <div className="ctrl-label">الآية التالية</div>
+    </div>
+  </div>
+</div>
+
+<div className="toast" id="toast-el"></div>
     </div>
   );
 }

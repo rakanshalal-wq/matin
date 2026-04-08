@@ -1,529 +1,448 @@
-'use client';
+﻿'use client';
 import React, { useState } from 'react';
+import '../../styles/uni-student.css';
 
-/* ─── Colors ─── */
-const BG = '#06060E';
-const SIDEBAR_BG = '#09071C';
-const PRIMARY = '#818CF8';
-const ACCENT2 = '#6366F1';
-const GOLD = '#D4A843';
-const BORDER = 'rgba(255,255,255,0.07)';
-const TEXT = '#EEEEF5';
-const MUTED = 'rgba(238,238,245,0.45)';
-
-/* ─── Sidebar Data ─── */
-const SIDEBAR_SECTIONS = [
-  {
-    title: 'الرئيسية',
-    items: [
-      { id: 'home', label: 'بوابتي', badge: null, active: true },
-      { id: 'schedule', label: 'جدولي الدراسي', badge: null },
-      { id: 'record', label: 'السجل الأكاديمي', badge: null },
-    ],
-  },
-  {
-    title: 'المحاضرات',
-    items: [
-      { id: 'online', label: 'محاضراتي الأونلاين', badge: 'الآن' },
-      { id: 'inperson', label: 'المحاضرات الحضورية', badge: null },
-      { id: 'recorded', label: 'المسجّلة', badge: null },
-    ],
-  },
-  {
-    title: 'المقررات',
-    items: [
-      { id: 'mycourses', label: 'مقرراتي الحالية', badge: null },
-      { id: 'register', label: 'تسجيل مقررات', badge: null },
-      { id: 'credits', label: 'الساعات المعتمدة', badge: null },
-      { id: 'elibrary', label: 'المكتبة الإلكترونية', badge: null },
-    ],
-  },
-  {
-    title: 'الاختبارات',
-    items: [
-      { id: 'myexams', label: 'اختباراتي', badge: 'غداً' },
-      { id: 'results', label: 'نتائج درجاتي', badge: null },
-      { id: 'analysis', label: 'تحليل أدائي', badge: null },
-      { id: 'qbank', label: 'بنك الأسئلة', badge: null },
-    ],
-  },
-  {
-    title: 'خدمات العمادة',
-    items: [
-      { id: 'request', label: 'تقديم طلب', badge: null },
-      { id: 'medical', label: 'الأعذار الطبية صحتي', badge: null },
-      { id: 'certs', label: 'الشهادات', badge: null },
-      { id: 'fees', label: 'الرسوم', badge: 'معلقة' },
-      { id: 'grants', label: 'المنح', badge: null },
-    ],
-  },
-  {
-    title: 'التواصل',
-    items: [
-      { id: 'messages', label: 'رسائل الدكاترة', badge: '3' },
-      { id: 'advisor', label: 'مرشدي الأكاديمي', badge: null },
-      { id: 'forum', label: 'الملتقى الطلابي', badge: null },
-    ],
-  },
-  {
-    title: 'الحياة الجامعية',
-    items: [
-      { id: 'cafeteria', label: 'الكافتيريا', badge: null },
-      { id: 'activities', label: 'الأنشطة', badge: null },
-      { id: 'transport', label: 'النقل الجامعي', badge: null },
-    ],
-  },
-];
-
-const SCHEDULE = [
-  { time: '08:00 - 09:30', subject: 'هياكل البيانات', room: 'قاعة A-204', type: 'حضوري', color: PRIMARY },
-  { time: '10:00 - 11:30', subject: 'قواعد البيانات', room: 'مختبر DB-1', type: 'مختبر', color: '#22D3EE' },
-  { time: '12:00 - 01:00', subject: 'تحليل الخوارزميات', room: 'قاعة B-107', type: 'حضوري', color: ACCENT2 },
-  { time: '02:00 - 03:30', subject: 'شبكات الحاسب', room: 'أونلاين', type: 'أونلاين', color: '#10B981' },
-];
-
-const QUICK_ACTIONS = [
-  { label: 'تسجيل مقرر', color: PRIMARY },
-  { label: 'طلب شهادة', color: '#22D3EE' },
-  { label: 'عذر طبي', color: '#F59E0B' },
-  { label: 'بنك الأسئلة', color: '#10B981' },
-  { label: 'جدول الاختبارات', color: '#EF4444' },
-  { label: 'المرشد الأكاديمي', color: ACCENT2 },
-  { label: 'الكافتيريا', color: GOLD },
-  { label: 'النقل الجامعي', color: '#A78BFA' },
-  { label: 'الملتقى الطلابي', color: '#FB923C' },
-  { label: 'الساعات المعتمدة', color: '#6366F1' },
-  { label: 'المكتبة الإلكترونية', color: '#06B6D4' },
-  { label: 'طلب منحة', color: '#EC4899' },
-];
-
-const WEAKNESSES = [
-  { subject: 'SQL Joins', pct: 38, color: '#EF4444' },
-  { subject: 'التكامل', pct: 55, color: '#F59E0B' },
-  { subject: 'خوارزميات', pct: 70, color: GOLD },
-];
-
-export default function StudentDashboard() {
+export default function StudentPage() {
   const [activeSection, setActiveSection] = useState('home');
-
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: BG, direction: 'rtl', fontFamily: "'IBM Plex Sans Arabic', system-ui, sans-serif" }}>
+    <div className="page">
+<div className="ov" id="ov" onClick={() => {closeSb()}}></div>
 
-      {/* ── Sidebar ── */}
-      <aside style={{ width: 264, minWidth: 264, background: SIDEBAR_BG, borderLeft: `1px solid ${BORDER}`, display: 'flex', flexDirection: 'column', position: 'sticky', top: 0, height: '100vh', overflowY: 'auto' }}>
+{/* MODAL: تقديم طلب */}
+<div className="modal-bg" id="req-modal">
+  <div className="modal">
+    <div className="mh">
+      <div className="mt"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--c)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>تقديم طلب رسمي</div>
+      <button className="mx" onClick={() => {closeModal('req-modal')}}>×</button>
+    </div>
+    <div style={{padding:'16px'}}>
+      <label className="flbl">نوع الطلب</label>
+      <select className="finp">
+        <option>حذف فصل دراسي (Withdrawal)</option>
+        <option>تحويل تخصص / كلية</option>
+        <option>تجميد القيد</option>
+        <option>اعتراض على درجة</option>
+        <option>طلب منحة دراسية</option>
+        <option>إعادة تسجيل مقرر</option>
+        <option>عذر غياب — غير طبي</option>
+        <option>إجازة دراسية</option>
+        <option>شهادة قيد وتقييد</option>
+        <option>نسخة من الكشف الأكاديمي</option>
+        <option>اعتراض على قرار</option>
+      </select>
+      <label className="flbl">وجهة الطلب</label>
+      <select className="finp">
+        <option>عمادة الكلية — هندسة الحاسب</option>
+        <option>د. محمد العتيبي (مرشد أكاديمي)</option>
+        <option>شؤون الطلاب</option>
+        <option>الشؤون المالية</option>
+        <option>عمادة القبول والتسجيل</option>
+        <option>عمادة شؤون الطلاب والخدمات</option>
+      </select>
+      <label className="flbl">التفاصيل والسبب</label>
+      <textarea className="finp" style={{resize:'vertical',minHeight:'70px'}} placeholder="اشرح سبب طلبك بالتفصيل..."></textarea>
+      <label className="flbl">مرفق داعم (اختياري)</label>
+      <div style={{border:'2px dashed var(--b1)',borderRadius:'8px',padding:'14px',textAlign:'center',marginBottom:'14px',cursor:'pointer'}} onClick={() => {document.getElementById('fup').click()}}>
+        <input type="file" id="fup" style={{display:'none'}} />
+        <div style={{fontSize:'20px',marginBottom:'4px'}}>📎</div>
+        <div style={{fontSize:'11.5px',color:'var(--tm)'}}>اضغط لرفع ملف</div>
+      </div>
+      <div style={{display:'flex',gap:'8px'}}>
+        <button onClick={() => {closeModal('req-modal')}} style={{flex:1,background:'rgba(255,255,255,.05)',border:'1px solid var(--b1)',borderRadius:'9px',padding:'11px',color:'var(--td)',fontSize:'13px',cursor:'pointer',fontFamily:'var(--f)'}}>إلغاء</button>
+        <button onClick={() => {saveModal()}} style={{flex:2,background:'linear-gradient(135deg,var(--c),var(--c2))',border:'none',borderRadius:'9px',padding:'11px',color:'#fff',fontWeight:800,fontSize:'13px',cursor:'pointer',fontFamily:'var(--f)'}}>إرسال الطلب ←</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-        {/* Logo */}
-        <div style={{ padding: '22px 20px 16px', borderBottom: `1px solid ${BORDER}` }}>
-          <div style={{ fontSize: 20, fontWeight: 800, color: TEXT, letterSpacing: -0.5 }}>
-            <span style={{ color: PRIMARY }}>متين</span> الجامعة
-          </div>
-          <div style={{ fontSize: 12, color: MUTED, marginTop: 2 }}>بوابة الطالب الجامعي</div>
+{/* MODAL: تسجيل مقررات */}
+<div className="modal-bg" id="reg-modal">
+  <div className="modal">
+    <div className="mh">
+      <div className="mt"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gr)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/></svg>تسجيل مقررات الفصل القادم</div>
+      <button className="mx" onClick={() => {closeModal('reg-modal')}}>×</button>
+    </div>
+    <div style={{padding:'16px'}}>
+      <div style={{background:'rgba(16,185,129,.06)',border:'1px solid rgba(16,185,129,.2)',borderRadius:'9px',padding:'10px 13px',marginBottom:'14px',fontSize:'12px',color:'var(--td)'}}>
+        ساعاتك المعتمدة: <strong style={{color:'var(--gr)'}}>78/130</strong> · يمكنك تسجيل حتى <strong style={{color:'var(--gr)'}}>18 ساعة</strong> هذا الفصل
+      </div>
+      <div style={{display:'flex',flexDirection:'column',gap:'7px',marginBottom:'14px'}}>
+        <div style={{display:'flex',alignItems:'center',gap:'10px',background:'rgba(255,255,255,.02)',border:'1px solid var(--b2)',borderRadius:'8px',padding:'9px 12px'}}>
+          <input type="checkbox" checked style={{accentColor:'var(--c)',width:'15px',height:'15px',flexShrink:0}} />
+          <div style={{flex:1}}><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>CS501 — الذكاء الاصطناعي</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>3 ساعات · د. محمد العتيبي · أونلاين</div></div>
+          <span className="badge bg2">متاح</span>
         </div>
-
-        {/* Student Card */}
-        <div style={{ margin: '14px 14px 8px', background: `linear-gradient(135deg, rgba(99,102,241,0.18), rgba(129,140,248,0.08))`, border: `1px solid rgba(129,140,248,0.25)`, borderRadius: 14, padding: '14px 16px' }}>
-          <div style={{ width: 40, height: 40, borderRadius: 12, background: `rgba(129,140,248,0.2)`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10, fontSize: 18, fontWeight: 800, color: PRIMARY }}>أ</div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: TEXT, lineHeight: 1.4 }}>أحمد محمد الزهراني</div>
-          <div style={{ fontSize: 11, color: MUTED, marginTop: 3 }}>هندسة الحاسب — المستوى 6</div>
-          <div style={{ marginTop: 8, display: 'flex', gap: 6 }}>
-            <span style={{ fontSize: 10, background: `rgba(129,140,248,0.15)`, color: PRIMARY, borderRadius: 20, padding: '2px 8px', fontWeight: 700 }}>طالب</span>
-            <span style={{ fontSize: 10, background: 'rgba(16,185,129,0.1)', color: '#10B981', borderRadius: 20, padding: '2px 8px', fontWeight: 700 }}>نشط</span>
-          </div>
+        <div style={{display:'flex',alignItems:'center',gap:'10px',background:'rgba(255,255,255,.02)',border:'1px solid var(--b2)',borderRadius:'8px',padding:'9px 12px'}}>
+          <input type="checkbox" style={{accentColor:'var(--c)',width:'15px',height:'15px',flexShrink:0}} />
+          <div style={{flex:1}}><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>CS510 — الشبكات المتقدمة</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>3 ساعات · د. سارة الزهراني · حضوري</div></div>
+          <span className="badge bg2">متاح</span>
         </div>
-
-        {/* Nav */}
-        <nav style={{ flex: 1, padding: '8px 10px 20px' }}>
-          {SIDEBAR_SECTIONS.map((sec) => (
-            <div key={sec.title} style={{ marginBottom: 4 }}>
-              <div style={{ fontSize: 10, fontWeight: 700, color: 'rgba(238,238,245,0.3)', padding: '10px 10px 4px', letterSpacing: 0.5, textTransform: 'uppercase' }}>{sec.title}</div>
-              {sec.items.map((item) => {
-                const isActive = activeSection === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => setActiveSection(item.id)}
-                    style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', borderRadius: 10, border: 'none', cursor: 'pointer', marginBottom: 2, background: isActive ? `rgba(129,140,248,0.15)` : 'transparent', color: isActive ? PRIMARY : MUTED, fontSize: 13, fontWeight: isActive ? 700 : 500, fontFamily: 'inherit', transition: 'all 0.15s', textAlign: 'right' }}
-                  >
-                    <span>{item.label}</span>
-                    {item.badge && (
-                      <span style={{ fontSize: 10, padding: '2px 7px', borderRadius: 20, fontWeight: 700, background: item.badge === 'الآن' ? 'rgba(16,185,129,0.15)' : item.badge === 'غداً' ? 'rgba(245,158,11,0.15)' : item.badge === 'معلقة' ? 'rgba(239,68,68,0.15)' : `rgba(129,140,248,0.15)`, color: item.badge === 'الآن' ? '#10B981' : item.badge === 'غداً' ? '#F59E0B' : item.badge === 'معلقة' ? '#EF4444' : PRIMARY }}>
-                        {item.badge}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          ))}
-        </nav>
-      </aside>
-
-      {/* ── Main Content ── */}
-      <main style={{ flex: 1, overflowY: 'auto', padding: '28px 28px 40px' }}>
-
-        {/* Top Bar */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 26 }}>
-          <div>
-            <h1 style={{ fontSize: 22, fontWeight: 800, color: TEXT, margin: 0 }}>مرحباً، أحمد الزهراني</h1>
-            <p style={{ color: MUTED, fontSize: 13, margin: '4px 0 0' }}>الثلاثاء، 8 أبريل 2026 — الفصل الدراسي الثاني</p>
-          </div>
-          <div style={{ display: 'flex', gap: 10 }}>
-            <button style={{ padding: '9px 18px', background: 'rgba(255,255,255,0.04)', border: `1px solid ${BORDER}`, borderRadius: 10, color: MUTED, cursor: 'pointer', fontFamily: 'inherit', fontSize: 13 }}>الإشعارات</button>
-            <button style={{ padding: '9px 18px', background: `linear-gradient(135deg, ${PRIMARY}, ${ACCENT2})`, border: 'none', borderRadius: 10, color: '#fff', cursor: 'pointer', fontFamily: 'inherit', fontSize: 13, fontWeight: 700 }}>ملفي الشخصي</button>
-          </div>
+        <div style={{display:'flex',alignItems:'center',gap:'10px',background:'rgba(255,255,255,.02)',border:'1px solid rgba(239,68,68,.2)',borderRadius:'8px',padding:'9px 12px',opacity:'.55'}}>
+          <input type="checkbox" disabled style={{width:'15px',height:'15px',flexShrink:0}} />
+          <div style={{flex:1}}><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>CS520 — نظم التشغيل المتقدمة</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>يتطلب اجتياز CS402 أولاً</div></div>
+          <span className="badge br2">محظور</span>
         </div>
+        <div style={{display:'flex',alignItems:'center',gap:'10px',background:'rgba(255,255,255,.02)',border:'1px solid var(--b2)',borderRadius:'8px',padding:'9px 12px'}}>
+          <input type="checkbox" checked style={{accentColor:'var(--c)',width:'15px',height:'15px',flexShrink:0}} />
+          <div style={{flex:1}}><div style={{fontSize:'12.5px',fontWeight:600,color:'var(--t)'}}>MATH301 — الرياضيات المتقدمة</div><div style={{fontSize:'10.5px',color:'var(--tm)'}}>2 ساعات · د. أحمد الخالد · حضوري</div></div>
+          <span className="badge bg2">متاح</span>
+        </div>
+      </div>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'14px',background:'var(--card)',border:'1px solid var(--b2)',borderRadius:'8px',padding:'10px 12px'}}>
+        <span style={{fontSize:'12px',color:'var(--tm)'}}>الساعات المحددة</span>
+        <strong style={{color:'var(--c)',fontSize:'16px'}}>8 ساعات</strong>
+      </div>
+      <div style={{display:'flex',gap:'8px'}}>
+        <button onClick={() => {closeModal('reg-modal')}} style={{flex:1,background:'rgba(255,255,255,.05)',border:'1px solid var(--b1)',borderRadius:'9px',padding:'11px',color:'var(--td)',fontSize:'13px',cursor:'pointer',fontFamily:'var(--f)'}}>إلغاء</button>
+        <button onClick={() => {saveModal()}} style={{flex:2,background:'linear-gradient(135deg,var(--gr),#059669)',border:'none',borderRadius:'9px',padding:'11px',color:'#fff',fontWeight:800,fontSize:'13px',cursor:'pointer',fontFamily:'var(--f)'}}>تأكيد التسجيل ←</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-        {/* ═══ SCHEDULE SECTION ═══ */}
-        {activeSection === 'schedule' && (
-          <div>
-            <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 20 }}>الجدول الدراسي الأسبوعي</h2>
-            <div style={{ background: 'rgba(255,255,255,0.025)', border: `1px solid ${BORDER}`, borderRadius: 16, overflow: 'hidden' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '100px repeat(5, 1fr)', fontSize: 12, fontWeight: 700, color: MUTED, borderBottom: `1px solid ${BORDER}` }}>
-                <div style={{ padding: 12, borderLeft: `1px solid ${BORDER}` }}>الوقت</div>
-                {['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'].map(d => (
-                  <div key={d} style={{ padding: 12, textAlign: 'center', borderLeft: `1px solid ${BORDER}` }}>{d}</div>
-                ))}
-              </div>
-              {['08:00-09:30', '10:00-11:30', '12:00-01:00', '02:00-03:30'].map((time, ti) => (
-                <div key={ti} style={{ display: 'grid', gridTemplateColumns: '100px repeat(5, 1fr)', borderBottom: `1px solid ${BORDER}` }}>
-                  <div style={{ padding: 10, fontSize: 11, color: MUTED, borderLeft: `1px solid ${BORDER}`, display: 'flex', alignItems: 'center' }}>{time}</div>
-                  {[0,1,2,3,4].map(di => {
-                    const cell = ti === 0 && (di === 0 || di === 2) ? { sub: 'هياكل البيانات', room: 'A-204', c: PRIMARY } :
-                                 ti === 1 && (di === 1 || di === 3) ? { sub: 'قواعد البيانات', room: 'DB-1', c: '#22D3EE' } :
-                                 ti === 2 && (di === 0 || di === 2 || di === 4) ? { sub: 'تحليل الخوارزميات', room: 'B-107', c: ACCENT2 } :
-                                 ti === 3 && di === 3 ? { sub: 'شبكات الحاسب', room: 'أونلاين', c: '#10B981' } : null;
-                    return (
-                      <div key={di} style={{ padding: 8, borderLeft: `1px solid ${BORDER}`, minHeight: 60 }}>
-                        {cell && (
-                          <div style={{ background: `${cell.c}12`, border: `1px solid ${cell.c}30`, borderRadius: 8, padding: '6px 8px' }}>
-                            <div style={{ fontSize: 11, fontWeight: 700, color: cell.c }}>{cell.sub}</div>
-                            <div style={{ fontSize: 10, color: MUTED }}>{cell.room}</div>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+{/* SIDEBAR */}
+<aside className="sb" id="sb">
+  <div className="sb-top">
+    <a className="logo-r" href="#"><div className="li2">م</div><div><div className="lt">متين</div><div className="ls">بوابة الطالب الجامعي</div></div></a>
+    <div className="std-card">
+      <div className="std-top">
+        <div className="std-av">🎓</div>
+        <div style={{minWidth:0}}><div className="std-n">أحمد محمد الزهراني</div><div className="std-id">441001234 · هندسة الحاسب</div></div>
+      </div>
+      <div className="std-grid">
+        <div className="kv"><span className="kk">المستوى:</span><span className="kv2">6</span></div>
+        <div className="kv"><span className="kk">GPA:</span><span className="kv2" style={{color:'var(--gr)'}}>4.2/5</span></div>
+        <div className="kv"><span className="kk">الساعات:</span><span className="kv2">78/130</span></div>
+        <div className="kv"><span className="kk">الفصل:</span><span className="kv2">الثاني</span></div>
+      </div>
+    </div>
+  </div>
+  <nav className="nav">
+    <div className="ng">الرئيسية</div>
+    <a className="ni on" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>بوابتي <span className="dot"></span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>جدولي الدراسي</a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>السجل الأكاديمي</a>
+    <div className="ng">المحاضرات</div>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>محاضراتي الأونلاين <span className="nb nb-c">الآن</span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>المحاضرات الحضورية</a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>المحاضرات المسجّلة</a>
+    <div className="ng">المقررات والتسجيل</div>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>مقرراتي الحالية</a>
+    <a className="ni" href="#" onClick={() => {openModal('reg-modal')}}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/></svg><span style={{color:'var(--gr)',fontWeight:600}}>تسجيل مقررات</span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>الساعات المعتمدة</a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>المكتبة الإلكترونية</a>
+    <div className="ng">الاختبارات والدرجات</div>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/></svg>اختباراتي <span className="nb nb-c">غداً</span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>نتائج درجاتي</a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>تحليل أدائي ونقاط الضعف</a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>بنك الأسئلة التدريبي</a>
+    <div className="ng">خدمات العمادة</div>
+    <a className="ni" href="#" onClick={() => {openModal('req-modal')}}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#818CF8" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg><span style={{color:'var(--c)',fontWeight:600}}>تقديم طلب رسمي</span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>الأعذار الطبية — صحتي</a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>الشهادات والوثائق الرسمية</a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>الرسوم الدراسية <span className="nb nb-r">معلقة</span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/></svg>المنح والإعفاءات</a>
+    <div className="ng">التواصل</div>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>رسائل الدكاترة <span className="nb nb-r">3</span></a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>مرشدي الأكاديمي</a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>الملتقى الطلابي</a>
+    <div className="ng">الحياة الجامعية</div>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>الكافتيريا</a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>الأنشطة والفعاليات</a>
+    <a className="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>النقل الجامعي</a>
+  </nav>
+  <div className="sb-ft">
+    <button className="lo"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>تسجيل الخروج</button>
+    <div style={{marginTop:'6px',color:'rgba(238,238,245,.14)',fontSize:'10px',textAlign:'center'}}>متين v6 — بوابة الطالب</div>
+  </div>
+</aside>
 
-        {/* ═══ COURSES SECTION ═══ */}
-        {activeSection === 'mycourses' && (
-          <div>
-            <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 20 }}>مقرراتي الحالية</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 14 }}>
-              {[
-                { code: 'CS301', name: 'هياكل البيانات', dr: 'د. عبدالرحمن السالم', hours: 3, grade: 'A', pct: 92, color: PRIMARY },
-                { code: 'CS310', name: 'قواعد البيانات', dr: 'د. فاطمة الحربي', hours: 3, grade: 'B+', pct: 85, color: '#22D3EE' },
-                { code: 'CS320', name: 'تحليل الخوارزميات', dr: 'د. محمد الشمري', hours: 3, grade: 'A-', pct: 88, color: ACCENT2 },
-                { code: 'CS330', name: 'شبكات الحاسب', dr: 'د. سعد الغامدي', hours: 3, grade: 'B', pct: 80, color: '#10B981' },
-                { code: 'MATH301', name: 'الاحتمالات والإحصاء', dr: 'د. خالد العتيبي', hours: 3, grade: 'C+', pct: 72, color: '#F59E0B' },
-              ].map((course, i) => (
-                <div key={i} style={{ background: `${course.color}08`, border: `1px solid ${course.color}22`, borderRadius: 16, padding: 18 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
-                    <div>
-                      <span style={{ fontSize: 10, color: course.color, fontWeight: 700, background: `${course.color}18`, padding: '2px 8px', borderRadius: 20 }}>{course.code}</span>
-                      <div style={{ fontSize: 15, fontWeight: 800, color: TEXT, marginTop: 6 }}>{course.name}</div>
-                      <div style={{ fontSize: 11, color: MUTED, marginTop: 2 }}>{course.dr} · {course.hours} ساعات</div>
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                      <div style={{ fontSize: 22, fontWeight: 900, color: course.color }}>{course.grade}</div>
-                      <div style={{ fontSize: 10, color: MUTED }}>متوقع</div>
-                    </div>
-                  </div>
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: MUTED, marginBottom: 4 }}>
-                      <span>التقدم</span><span style={{ color: course.color, fontWeight: 700 }}>{course.pct}%</span>
-                    </div>
-                    <div style={{ height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 99, overflow: 'hidden' }}>
-                      <div style={{ width: `${course.pct}%`, height: '100%', background: course.color, borderRadius: 99 }} />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+{/* MAIN */}
+<div className="main">
+  <header className="hdr">
+    <div className="hl">
+      <button className="mb" onClick={() => {toggleSb()}}><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      <div><div className="ht">بوابتي الجامعية</div><div className="hs">كلية الهندسة والتقنية — الفصل الثاني 1445/1446</div></div>
+    </div>
+    <div className="hr">
+      <div className="hb"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span className="nd"></span></div>
+      <div className="hb"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span className="nd"></span></div>
+      <div className="ub">
+        <div className="ua">🎓</div>
+        <div className="ui"><div className="un">أحمد الزهراني</div><div className="ur">طالب — المستوى 6</div></div>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(238,238,245,.35)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+  </header>
 
-        {/* ═══ EXAMS SECTION ═══ */}
-        {activeSection === 'myexams' && (
-          <div>
-            <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 20 }}>اختباراتي القادمة</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 24 }}>
-              {[
-                { subject: 'هياكل البيانات', type: 'اختبار فصلي ثاني', date: '12 أبريل 2026', time: '10:00 ص', room: 'قاعة A-204', days: 4, color: PRIMARY },
-                { subject: 'قواعد البيانات', type: 'اختبار عملي', date: '15 أبريل 2026', time: '02:00 م', room: 'مختبر DB-1', days: 7, color: '#22D3EE' },
-                { subject: 'تحليل الخوارزميات', type: 'اختبار نهائي', date: '28 أبريل 2026', time: '09:00 ص', room: 'قاعة الاختبارات', days: 20, color: ACCENT2 },
-                { subject: 'شبكات الحاسب', type: 'اختبار نهائي', date: '30 أبريل 2026', time: '01:00 م', room: 'أونلاين', days: 22, color: '#10B981' },
-              ].map((exam, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 16, background: `${exam.color}08`, border: `1px solid ${exam.color}22`, borderRadius: 14, padding: '14px 18px' }}>
-                  <div style={{ width: 50, height: 50, borderRadius: 12, background: `${exam.color}15`, border: `1px solid ${exam.color}30`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <div style={{ fontSize: 18, fontWeight: 900, color: exam.color }}>{exam.days}</div>
-                    <div style={{ fontSize: 8, color: MUTED }}>يوم</div>
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: TEXT }}>{exam.subject}</div>
-                    <div style={{ fontSize: 11, color: MUTED, marginTop: 2 }}>{exam.type} · {exam.date} · {exam.time}</div>
-                    <div style={{ fontSize: 10, color: `${exam.color}99`, marginTop: 2 }}>{exam.room}</div>
-                  </div>
-                  <button style={{ background: `${exam.color}18`, border: `1px solid ${exam.color}33`, borderRadius: 8, padding: '7px 14px', color: exam.color, fontSize: 11, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>مراجعة</button>
-                </div>
-              ))}
-            </div>
-            <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 14 }}>نتائج اختبارات سابقة</h3>
-            <div style={{ background: 'rgba(255,255,255,0.025)', border: `1px solid ${BORDER}`, borderRadius: 14, overflow: 'hidden' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', gap: 8, padding: '10px 14px', background: 'rgba(255,255,255,0.03)', fontSize: 11, fontWeight: 700, color: MUTED }}>
-                <span>المقرر</span><span>النوع</span><span>الدرجة</span><span>من</span><span>النسبة</span>
-              </div>
-              {[
-                { sub: 'هياكل البيانات', type: 'فصلي أول', score: 38, total: 40, pct: '95%', color: '#10B981' },
-                { sub: 'قواعد البيانات', type: 'فصلي أول', score: 33, total: 40, pct: '82%', color: '#22D3EE' },
-                { sub: 'تحليل الخوارزميات', type: 'فصلي أول', score: 35, total: 40, pct: '87%', color: ACCENT2 },
-                { sub: 'شبكات الحاسب', type: 'أعمال سنة', score: 28, total: 30, pct: '93%', color: '#10B981' },
-              ].map((r, i) => (
-                <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', gap: 8, padding: '10px 14px', borderTop: `1px solid ${BORDER}`, fontSize: 12, alignItems: 'center' }}>
-                  <span style={{ fontWeight: 600 }}>{r.sub}</span>
-                  <span style={{ color: MUTED }}>{r.type}</span>
-                  <span style={{ fontWeight: 800, color: r.color }}>{r.score}</span>
-                  <span style={{ color: MUTED }}>{r.total}</span>
-                  <span style={{ background: `${r.color}18`, color: r.color, fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 6, textAlign: 'center' }}>{r.pct}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+  <div className="con">
 
-        {/* ═══ ACADEMIC RECORD ═══ */}
-        {activeSection === 'record' && (
-          <div>
-            <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 20 }}>السجل الأكاديمي</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 20 }}>
-              {[
-                { label: 'المعدل التراكمي', value: '4.2/5.0', color: '#10B981' },
-                { label: 'ساعات مكتملة', value: '78', color: PRIMARY },
-                { label: 'ساعات متبقية', value: '52', color: '#F59E0B' },
-                { label: 'الفصل الحالي', value: 'السادس', color: ACCENT2 },
-              ].map((s, i) => (
-                <div key={i} style={{ background: `${s.color}0A`, border: `1px solid ${s.color}22`, borderRadius: 14, padding: '14px 16px', textAlign: 'center' }}>
-                  <div style={{ fontSize: 24, fontWeight: 900, color: s.color }}>{s.value}</div>
-                  <div style={{ fontSize: 11, color: MUTED, marginTop: 4 }}>{s.label}</div>
-                </div>
-              ))}
-            </div>
-            {[5, 4, 3].map(sem => (
-              <div key={sem} style={{ background: 'rgba(255,255,255,0.025)', border: `1px solid ${BORDER}`, borderRadius: 14, padding: 16, marginBottom: 14 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
-                  <span style={{ fontSize: 14, fontWeight: 700 }}>الفصل {sem === 5 ? 'الخامس' : sem === 4 ? 'الرابع' : 'الثالث'}</span>
-                  <span style={{ fontSize: 12, color: '#10B981', fontWeight: 700 }}>GPA: {sem === 5 ? '4.3' : sem === 4 ? '4.1' : '3.9'}</span>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 6, fontSize: 12 }}>
-                  {(sem === 5 ? [
-                    { name: 'هندسة البرمجيات', grade: 'A', hours: 3 },
-                    { name: 'أنظمة التشغيل', grade: 'A-', hours: 3 },
-                    { name: 'الذكاء الاصطناعي', grade: 'B+', hours: 3 },
-                  ] : sem === 4 ? [
-                    { name: 'البرمجة المتقدمة', grade: 'A', hours: 3 },
-                    { name: 'الرياضيات المتقطعة', grade: 'B+', hours: 3 },
-                    { name: 'نظم المعلومات', grade: 'A-', hours: 3 },
-                  ] : [
-                    { name: 'البرمجة الكائنية', grade: 'A-', hours: 3 },
-                    { name: 'التفاضل والتكامل', grade: 'B', hours: 3 },
-                    { name: 'مقدمة قواعد بيانات', grade: 'A', hours: 3 },
-                  ]).map((c, ci) => (
-                    <React.Fragment key={ci}>
-                      <span style={{ padding: '6px 0', color: TEXT, fontWeight: 600 }}>{c.name}</span>
-                      <span style={{ padding: '6px 0', color: MUTED, textAlign: 'center' }}>{c.hours} ساعات</span>
-                      <span style={{ padding: '6px 0', color: c.grade.startsWith('A') ? '#10B981' : '#F59E0B', fontWeight: 800, textAlign: 'center' }}>{c.grade}</span>
-                    </React.Fragment>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+    {/* ALERT نقطة ضعف */}
+    <div className="wk-alert">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--or)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0,marginTop:'1px'}}><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01"/></svg>
+      <div><strong style={{color:'var(--or)'}}>تنبيه من النظام:</strong> أداؤك في مادة <strong>قواعد البيانات CS402</strong> أقل من المتوسط. د. محمد العتيبي أرسل لك تنبيهاً بمراجعة وحدة الـ SQL. <a href="#" style={{color:'var(--or)',fontWeight:700}}>ابدأ التدريب من بنك الأسئلة ←</a></div>
+    </div>
 
-        {/* ═══ MESSAGES SECTION ═══ */}
-        {activeSection === 'messages' && (
-          <div>
-            <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 20 }}>رسائل الدكاترة</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {[
-                { from: 'د. عبدالرحمن السالم', subject: 'موعد تسليم مشروع هياكل البيانات', time: 'منذ ساعة', unread: true, color: PRIMARY },
-                { from: 'د. فاطمة الحربي', subject: 'نتائج الاختبار الفصلي الأول', time: 'منذ 3 ساعات', unread: true, color: '#22D3EE' },
-                { from: 'د. محمد الشمري', subject: 'تغيير موعد المحاضرة القادمة', time: 'أمس', unread: true, color: ACCENT2 },
-                { from: 'عمادة القبول', subject: 'تأكيد تسجيل مقررات الفصل القادم', time: 'قبل يومين', unread: false, color: '#A78BFA' },
-                { from: 'د. سعد الغامدي', subject: 'رابط المحاضرة الأونلاين محدّث', time: 'قبل 3 أيام', unread: false, color: '#10B981' },
-              ].map((msg, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 14, background: msg.unread ? `${msg.color}08` : 'rgba(255,255,255,0.02)', border: `1px solid ${msg.unread ? `${msg.color}22` : BORDER}`, borderRadius: 12, padding: '12px 16px', cursor: 'pointer' }}>
-                  <div style={{ width: 38, height: 38, borderRadius: 10, background: `${msg.color}18`, border: `1px solid ${msg.color}33`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 800, color: msg.color, flexShrink: 0 }}>{msg.from[0]}</div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 13, fontWeight: msg.unread ? 700 : 500, color: TEXT }}>{msg.from}</div>
-                    <div style={{ fontSize: 12, color: MUTED, marginTop: 2 }}>{msg.subject}</div>
-                  </div>
-                  <div style={{ textAlign: 'left' }}>
-                    <div style={{ fontSize: 10, color: MUTED }}>{msg.time}</div>
-                    {msg.unread && <div style={{ width: 8, height: 8, borderRadius: '50%', background: msg.color, marginTop: 4, marginRight: 'auto' }} />}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+    {/* GPA BANNER */}
+    <div className="gpa">
+      <div>
+        <div style={{fontSize:'10px',color:'var(--tm)',fontWeight:700,marginBottom:'3px'}}>المعدل التراكمي GPA</div>
+        <div className="gv" style={{color:'var(--gr)'}}>4.2 <span style={{fontSize:'14px',color:'var(--tm)'}}>/ 5.0</span></div>
+        <div style={{fontSize:'10px',color:'rgba(16,185,129,.6)',marginTop:'1px'}}>ممتاز · المستوى السادس</div>
+      </div>
+      <div className="gdi"></div>
+      <div style={{textAlign:'center'}}><div className="gv" style={{color:'var(--c)'}}>78</div><div className="gl">ساعة مكتملة</div></div>
+      <div className="gdi"></div>
+      <div style={{textAlign:'center'}}><div className="gv" style={{color:'var(--or)'}}>18K</div><div className="gl">رسوم معلقة (SAR)</div></div>
+      <div className="gdi"></div>
+      <div className="gpr">
+        <div style={{fontSize:'10px',color:'var(--tm)',fontWeight:700,marginBottom:'3px'}}>التقدم نحو التخرج</div>
+        <div style={{fontSize:'18px',fontWeight:800,color:'var(--c)'}}>60%</div>
+        <div className="pbar"><div className="pfill" style={{width:'60%'}}></div></div>
+        <div style={{fontSize:'10px',color:'var(--tm)',marginTop:'3px'}}>78 / 130 ساعة · يتبقى 52 ساعة</div>
+      </div>
+    </div>
 
-        {/* ═══ FEES SECTION ═══ */}
-        {activeSection === 'fees' && (
-          <div>
-            <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 20 }}>الرسوم الدراسية</h2>
-            <div style={{ background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 16, padding: '18px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-              <div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#EF4444' }}>رسوم معلقة</div>
-                <div style={{ fontSize: 11, color: MUTED, marginTop: 2 }}>موعد السداد: 20 أبريل 2026</div>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                <div style={{ fontSize: 26, fontWeight: 900, color: '#EF4444' }}>18,000 <span style={{ fontSize: 12 }}>SAR</span></div>
-                <button style={{ background: '#EF4444', border: 'none', borderRadius: 10, padding: '10px 20px', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>ادفع الآن</button>
-              </div>
-            </div>
-            <div style={{ background: 'rgba(255,255,255,0.025)', border: `1px solid ${BORDER}`, borderRadius: 14, overflow: 'hidden' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 8, padding: '10px 14px', background: 'rgba(255,255,255,0.03)', fontSize: 11, fontWeight: 700, color: MUTED }}>
-                <span>البند</span><span>المبلغ</span><span>المسدد</span><span>الحالة</span>
-              </div>
-              {[
-                { item: 'رسوم الفصل الثاني', amount: '15,000', paid: '15,000', status: 'مسدد', sColor: '#10B981' },
-                { item: 'رسوم المختبرات', amount: '2,000', paid: '0', status: 'معلق', sColor: '#EF4444' },
-                { item: 'رسوم النقل الجامعي', amount: '1,000', paid: '0', status: 'معلق', sColor: '#EF4444' },
-                { item: 'رسوم الفصل الأول', amount: '15,000', paid: '15,000', status: 'مسدد', sColor: '#10B981' },
-              ].map((f, i) => (
-                <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 8, padding: '10px 14px', borderTop: `1px solid ${BORDER}`, fontSize: 12, alignItems: 'center' }}>
-                  <span style={{ fontWeight: 600 }}>{f.item}</span>
-                  <span style={{ color: MUTED }}>{f.amount}</span>
-                  <span style={{ color: MUTED }}>{f.paid}</span>
-                  <span style={{ background: `${f.sColor}18`, color: f.sColor, fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 6, textAlign: 'center' }}>{f.status}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+    {/* STATS */}
+    <div className="sg">
+      <div className="sc">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(129,140,248,.05),transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="si" style={{background:'rgba(129,140,248,.1)',border:'1px solid rgba(129,140,248,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818CF8" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+        <div className="sv" style={{color:'var(--c)'}}>5</div><div className="sl">مقررات مسجّلة</div>
+        <div className="ss" style={{color:'rgba(129,140,248,.6)'}}>16 ساعة هذا الفصل</div>
+      </div>
+      <div className="sc">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(16,185,129,.05),transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="si" style={{background:'rgba(16,185,129,.1)',border:'1px solid rgba(16,185,129,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/></svg></div>
+        <div className="sv" style={{color:'var(--gr)'}}>87%</div><div className="sl">نسبة حضوري</div>
+        <div className="ss" style={{color:'rgba(16,185,129,.6)'}}>الحد الأدنى 75%</div>
+      </div>
+      <div className="sc">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(251,146,60,.05),transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="si" style={{background:'rgba(251,146,60,.1)',border:'1px solid rgba(251,146,60,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FB923C" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/></svg></div>
+        <div className="sv" style={{color:'var(--or)'}}>2</div><div className="sl">اختبارات قادمة</div>
+        <div className="ss" style={{color:'rgba(251,146,60,.6)'}}>أقربها غداً</div>
+      </div>
+      <div className="sc">
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(34,211,238,.05),transparent 60%)',pointerEvents:'none'}}></div>
+        <div className="si" style={{background:'rgba(34,211,238,.1)',border:'1px solid rgba(34,211,238,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/></svg></div>
+        <div className="sv" style={{color:'var(--cy)'}}>3</div><div className="sl">طلبات قيد المراجعة</div>
+        <div className="ss" style={{color:'rgba(34,211,238,.6)'}}>بانتظار الرد</div>
+      </div>
+    </div>
 
-        {/* ═══ HOME SECTION ═══ */}
-        {activeSection === 'home' && (<>
-        {/* ── GPA Banner ── */}
-        <div style={{ background: `linear-gradient(135deg, rgba(99,102,241,0.18) 0%, rgba(129,140,248,0.08) 100%)`, border: `1px solid rgba(129,140,248,0.22)`, borderRadius: 18, padding: '22px 28px', marginBottom: 22, display: 'flex', alignItems: 'center', gap: 32, flexWrap: 'wrap' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
-            <div style={{ width: 60, height: 60, borderRadius: 16, background: 'rgba(16,185,129,0.12)', border: '2px solid rgba(16,185,129,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ color: '#10B981', fontSize: 18, fontWeight: 800 }}>4.2</span>
-              <span style={{ color: 'rgba(16,185,129,0.7)', fontSize: 9, fontWeight: 600 }}>GPA</span>
-            </div>
-            <div>
-              <div style={{ color: '#10B981', fontSize: 22, fontWeight: 800 }}>4.2 / 5.0</div>
-              <div style={{ color: MUTED, fontSize: 12 }}>المعدل التراكمي</div>
-            </div>
+    {/* ROW: جدول اليوم + رسائل الدكاترة */}
+    <div className="g2">
+
+      {/* جدول اليوم */}
+      <div className="card" style={{marginBottom:0}}>
+        <div className="ch">
+          <div className="ct"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--c)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>محاضرات اليوم</div>
+          <button className="cl">الجدول الكامل</button>
+        </div>
+        <div className="lr" style={{opacity:'.45'}}>
+          <div className="ltime">8:00 — 9:30</div>
+          <div><div className="lname">هندسة البرمجيات</div><div className="lsub">CS301 · حضوري</div><div className="lroom"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>مدرج A1</div></div>
+          <span className="badge" style={{background:'rgba(255,255,255,.04)',color:'var(--tm)',border:'1px solid var(--b2)'}}>انتهت</span>
+        </div>
+        <div className="lr now2">
+          <div className="ltime" style={{color:'var(--c)'}}>10:00 — 11:30</div>
+          <div style={{flex:1}}>
+            <div className="lname" style={{color:'var(--c)'}}>قواعد البيانات</div>
+            <div className="lsub">CS402 · أونلاين هجين · د. محمد العتيبي</div>
+            <div className="lroom" style={{color:'var(--c)'}}><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>مدرج B2 + رابط أونلاين</div>
           </div>
-          <div style={{ width: 1, height: 48, background: BORDER }} />
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ color: PRIMARY, fontSize: 20, fontWeight: 800 }}>78</div>
-            <div style={{ color: MUTED, fontSize: 12 }}>ساعة مكتملة</div>
-          </div>
-          <div style={{ width: 1, height: 48, background: BORDER }} />
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ color: '#EF4444', fontSize: 20, fontWeight: 800 }}>18K</div>
-            <div style={{ color: MUTED, fontSize: 12 }}>رسوم معلقة</div>
-          </div>
-          <div style={{ width: 1, height: 48, background: BORDER }} />
-          <div style={{ flex: 1, minWidth: 180 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-              <span style={{ color: MUTED, fontSize: 12 }}>تقدم التخرج</span>
-              <span style={{ color: GOLD, fontSize: 13, fontWeight: 700 }}>60%</span>
-            </div>
-            <div style={{ height: 8, background: 'rgba(255,255,255,0.07)', borderRadius: 99, overflow: 'hidden' }}>
-              <div style={{ width: '60%', height: '100%', background: `linear-gradient(90deg, ${GOLD}, #E2C46A)`, borderRadius: 99 }} />
-            </div>
+          <div style={{display:'flex',flexDirection:'column',gap:'4px',alignItems:'flex-end'}}>
+            <span className="badge bc2">● الآن</span>
+            <button style={{background:'linear-gradient(135deg,var(--c),var(--c2))',border:'none',borderRadius:'6px',padding:'4px 10px',color:'#fff',fontSize:'10px',fontWeight:700,cursor:'pointer',fontFamily:'var(--f)'}}>انضم</button>
           </div>
         </div>
-
-        {/* ── Stats Grid ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginBottom: 22 }}>
-          {[
-            { label: 'مقررات', value: '5', color: PRIMARY, sub: 'هذا الفصل' },
-            { label: 'حضور', value: '87%', color: '#10B981', sub: 'نسبة ممتازة' },
-            { label: 'اختبارات', value: '2', color: '#F59E0B', sub: 'قادمة' },
-            { label: 'طلبات', value: '3', color: '#22D3EE', sub: 'قيد المعالجة' },
-          ].map((s, i) => (
-            <div key={i} style={{ background: `${s.color}0A`, border: `1px solid ${s.color}22`, borderRadius: 16, padding: '18px 20px' }}>
-              <div style={{ color: MUTED, fontSize: 12, marginBottom: 8 }}>{s.label}</div>
-              <div style={{ color: s.color, fontSize: 30, fontWeight: 800, lineHeight: 1 }}>{s.value}</div>
-              <div style={{ color: `${s.color}80`, fontSize: 11, marginTop: 6 }}>{s.sub}</div>
-            </div>
-          ))}
+        <div className="lr" style={{opacity:'.4'}}>
+          <div className="ltime">12:00 — 1:00</div>
+          <div><div className="lname" style={{color:'var(--tm)'}}>استراحة الغداء</div><div className="lsub">الكافتيريا · المبنى الرئيسي</div></div>
         </div>
-
-        {/* ── Two Column ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18, marginBottom: 22 }}>
-
-          {/* Today's Schedule */}
-          <div style={{ background: 'rgba(255,255,255,0.025)', border: `1px solid ${BORDER}`, borderRadius: 16, padding: '20px 22px' }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: TEXT, marginBottom: 16 }}>جدول اليوم</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {SCHEDULE.map((lec, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '10px 14px', background: `${lec.color}08`, border: `1px solid ${lec.color}20`, borderRadius: 12 }}>
-                  <div style={{ width: 4, height: 36, borderRadius: 99, background: lec.color, flexShrink: 0 }} />
-                  <div style={{ flex: 1 }}>
-                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 13 }}>{lec.subject}</div>
-                    <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{lec.room}</div>
-                  </div>
-                  <div style={{ textAlign: 'center' }}>
-                    <div style={{ color: lec.color, fontSize: 11, fontWeight: 700 }}>{lec.time}</div>
-                    <span style={{ fontSize: 10, color: lec.color, background: `${lec.color}18`, padding: '1px 7px', borderRadius: 20 }}>{lec.type}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+        <div className="lr">
+          <div className="ltime">1:30 — 3:00</div>
+          <div style={{flex:1}}>
+            <div className="lname">الذكاء الاصطناعي</div>
+            <div className="lsub">CS501 · حضوري + تسجيل · د. محمد العتيبي</div>
+            <div className="lroom"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>قاعة 302</div>
           </div>
+          <span className="badge bp2">قادمة</span>
+        </div>
+        <div className="lr" style={{borderBottom:'none'}}>
+          <div className="ltime">3:30 — 5:00</div>
+          <div style={{flex:1}}>
+            <div className="lname">الرياضيات المتقدمة</div>
+            <div className="lsub">MATH301 · حضوري · د. أحمد الخالد</div>
+            <div className="lroom"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>مدرج C3</div>
+          </div>
+          <span className="badge bp2">قادمة</span>
+        </div>
+      </div>
 
-          {/* Weakness Analysis */}
-          <div style={{ background: 'rgba(255,255,255,0.025)', border: `1px solid ${BORDER}`, borderRadius: 16, padding: '20px 22px' }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: TEXT, marginBottom: 4 }}>تحليل نقاط الضعف</div>
-            <div style={{ fontSize: 12, color: MUTED, marginBottom: 16 }}>المواضيع التي تحتاج مراجعة</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {WEAKNESSES.map((w, i) => (
-                <div key={i}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                    <span style={{ color: TEXT, fontSize: 13, fontWeight: 600 }}>{w.subject}</span>
-                    <span style={{ color: w.color, fontSize: 13, fontWeight: 800 }}>{w.pct}%</span>
-                  </div>
-                  <div style={{ height: 7, background: 'rgba(255,255,255,0.06)', borderRadius: 99, overflow: 'hidden' }}>
-                    <div style={{ width: `${w.pct}%`, height: '100%', background: w.color, borderRadius: 99, transition: 'width 0.6s ease' }} />
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div style={{ marginTop: 18, padding: '10px 14px', background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.15)', borderRadius: 10 }}>
-              <div style={{ color: '#EF4444', fontSize: 12, fontWeight: 600 }}>تنبيه: SQL Joins تحتاج اهتمام فوري</div>
-            </div>
+      {/* رسائل الدكاترة */}
+      <div className="card" style={{marginBottom:0}}>
+        <div className="ch">
+          <div className="ct"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--bl)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>رسائل الدكاترة <span style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.2)',color:'var(--rd)',fontSize:'10px',fontWeight:700,padding:'2px 7px',borderRadius:'20px'}}>3</span></div>
+          <button className="cl" style={{color:'var(--bl)'}}>الكل</button>
+        </div>
+        <div className="msg">
+          <div className="munread"></div>
+          <div className="mv" style={{background:'rgba(34,211,238,.1)',color:'var(--cy)'}}>م</div>
+          <div style={{flex:1,minWidth:0}}>
+            <div style={{fontSize:'12px',fontWeight:600,color:'var(--t)'}}>د. محمد العتيبي</div>
+            <div style={{fontSize:'10.5px',color:'var(--or)',fontWeight:600,marginTop:'1px'}}>⚠ تنبيه: ضعف في وحدة SQL Joins</div>
+            <div style={{fontSize:'10.5px',color:'var(--tm)'}}>راجع الوحدة قبل الاختبار غداً</div>
+          </div>
+          <div style={{fontSize:'10px',color:'var(--tm)'}}>10د</div>
+        </div>
+        <div className="msg">
+          <div className="munread"></div>
+          <div className="mv" style={{background:'rgba(167,139,250,.1)',color:'var(--pu)'}}>س</div>
+          <div style={{flex:1,minWidth:0}}>
+            <div style={{fontSize:'12px',fontWeight:600,color:'var(--t)'}}>د. سارة الزهراني</div>
+            <div style={{fontSize:'10.5px',color:'var(--tm)',marginTop:'1px'}}>اختبار الشبكات المتقدمة يوم الأحد...</div>
+          </div>
+          <div style={{fontSize:'10px',color:'var(--tm)'}}>1س</div>
+        </div>
+        <div className="msg" style={{borderBottom:'none'}}>
+          <div style={{width:'7px',flexShrink:0}}></div>
+          <div className="mv" style={{background:'rgba(16,185,129,.1)',color:'var(--gr)'}}>ع</div>
+          <div style={{flex:1,minWidth:0}}>
+            <div style={{fontSize:'12px',fontWeight:600,color:'var(--t)'}}>د. عبدالله الخالد — المرشد</div>
+            <div style={{fontSize:'10.5px',color:'var(--tm)',marginTop:'1px'}}>تمت الموافقة على خطتك الدراسية</div>
+          </div>
+          <div style={{fontSize:'10px',color:'var(--tm)'}}>أمس</div>
+        </div>
+        <div style={{padding:'9px 13px',borderTop:'1px solid var(--b2)'}}>
+          <button style={{width:'100%',background:'rgba(129,140,248,.06)',border:'1px solid var(--cb)',borderRadius:'8px',padding:'8px',color:'var(--c)',fontSize:'11px',fontWeight:700,cursor:'pointer',fontFamily:'var(--f)'}}>إرسال رسالة لدكتور</button>
+        </div>
+      </div>
+    </div>
+
+    {/* ROW: اختبارات + نتائج + نقاط ضعف */}
+    <div className="g3">
+
+      {/* الاختبارات */}
+      <div className="card" style={{marginBottom:0}}>
+        <div className="ch">
+          <div className="ct"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--or)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/></svg>اختباراتي القادمة</div>
+        </div>
+        <div style={{display:'flex',alignItems:'center',gap:'10px',padding:'10px 13px',borderBottom:'1px solid var(--b2)',background:'rgba(251,146,60,.04)'}}>
+          <div style={{background:'rgba(251,146,60,.1)',border:'1px solid rgba(251,146,60,.2)',borderRadius:'8px',padding:'5px 8px',textAlign:'center',flexShrink:0,minWidth:'38px'}}>
+            <div style={{fontSize:'15px',fontWeight:800,color:'var(--or)',lineHeight:1}}>29</div>
+            <div style={{fontSize:'8px',color:'var(--tm)',fontWeight:600}}>مارس</div>
+          </div>
+          <div style={{flex:1}}>
+            <div style={{fontSize:'12.5px',fontWeight:700,color:'var(--t)'}}>اختبار قواعد البيانات — نصفي</div>
+            <div style={{fontSize:'10.5px',color:'var(--tm)'}}>CS402 · أونلاين · 60 دقيقة · 40 درجة</div>
+            <div style={{fontSize:'10px',color:'var(--or)',fontWeight:600,marginTop:'2px'}}>كاميرا إجبارية · مراقبة AI</div>
+          </div>
+          <span className="badge bo2">غداً</span>
+        </div>
+        <div style={{display:'flex',alignItems:'center',gap:'10px',padding:'10px 13px'}}>
+          <div style={{background:'rgba(167,139,250,.1)',border:'1px solid rgba(167,139,250,.2)',borderRadius:'8px',padding:'5px 8px',textAlign:'center',flexShrink:0,minWidth:'38px'}}>
+            <div style={{fontSize:'15px',fontWeight:800,color:'var(--pu)',lineHeight:1}}>05</div>
+            <div style={{fontSize:'8px',color:'var(--tm)',fontWeight:600}}>أبريل</div>
+          </div>
+          <div style={{flex:1}}>
+            <div style={{fontSize:'12.5px',fontWeight:700,color:'var(--t)'}}>امتحان هندسة البرمجيات</div>
+            <div style={{fontSize:'10.5px',color:'var(--tm)'}}>CS301 · حضوري · مدرج A1 · 90 دقيقة</div>
+            <div style={{fontSize:'10px',color:'var(--pu)',fontWeight:600,marginTop:'2px'}}>ورقي · مراقبة تقليدية</div>
+          </div>
+          <span className="badge bp2">8 أيام</span>
+        </div>
+      </div>
+
+      {/* نتائج الدرجات */}
+      <div className="card" style={{marginBottom:0}}>
+        <div className="ch">
+          <div className="ct"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gr)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/></svg>نتائجي الأخيرة</div>
+          <button className="cl" style={{color:'var(--gr)'}}>الكل</button>
+        </div>
+        <div className="tw">
+          <table>
+            <thead><tr><th>المقرر</th><th>الدرجة</th><th>التقدير</th></tr></thead>
+            <tbody>
+              <tr><td style={{fontWeight:600,color:'var(--t)'}}>CS402 — نصفي</td><td style={{color:'var(--or)',fontWeight:700}}>24/40</td><td><span className="badge bo2">C+</span></td></tr>
+              <tr><td style={{fontWeight:600,color:'var(--t)'}}>CS301 — تكليف</td><td style={{color:'var(--gr)',fontWeight:700}}>18/20</td><td><span className="badge bg2">A</span></td></tr>
+              <tr><td style={{fontWeight:600,color:'var(--t)'}}>CS501 — مشاركة</td><td style={{color:'var(--gr)',fontWeight:700}}>9/10</td><td><span className="badge bg2">A+</span></td></tr>
+              <tr><td style={{fontWeight:600,color:'var(--t)'}}>MATH301 — تكليف</td><td style={{color:'var(--bl)',fontWeight:700}}>14/20</td><td><span className="badge bb2">B</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* نقاط الضعف */}
+      <div className="card" style={{marginBottom:0}}>
+        <div className="ch">
+          <div className="ct"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--rd)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>نقاط الضعف — اكتشفها النظام</div>
+        </div>
+        <div style={{padding:'4px 0'}}>
+          <div className="wk">
+            <div style={{flex:1,minWidth:0}}><div style={{fontSize:'12px',fontWeight:600,color:'var(--t)'}}>SQL Joins & Queries</div><div style={{fontSize:'10px',color:'var(--tm)'}}>CS402 · تنبيه من الدكتور</div></div>
+            <div style={{width:'80px'}}><div className="wkbar"><div className="wkfill" style={{width:'38%',background:'var(--rd)'}}></div></div><div style={{fontSize:'10px',color:'var(--rd)',fontWeight:700,marginTop:'3px',textAlign:'left'}}>38%</div></div>
+          </div>
+          <div className="wk">
+            <div style={{flex:1,minWidth:0}}><div style={{fontSize:'12px',fontWeight:600,color:'var(--t)'}}>التكامل والاشتقاق</div><div style={{fontSize:'10px',color:'var(--tm)'}}>MATH301 · اكتشفه النظام</div></div>
+            <div style={{width:'80px'}}><div className="wkbar"><div className="wkfill" style={{width:'55%',background:'var(--or)'}}></div></div><div style={{fontSize:'10px',color:'var(--or)',fontWeight:700,marginTop:'3px',textAlign:'left'}}>55%</div></div>
+          </div>
+          <div className="wk" style={{borderBottom:'none'}}>
+            <div style={{flex:1,minWidth:0}}><div style={{fontSize:'12px',fontWeight:600,color:'var(--t)'}}>خوارزميات البحث</div><div style={{fontSize:'10px',color:'var(--tm)'}}>CS301 · اكتشفه النظام</div></div>
+            <div style={{width:'80px'}}><div className="wkbar"><div className="wkfill" style={{width:'70%',background:'var(--gd)'}}></div></div><div style={{fontSize:'10px',color:'var(--gd)',fontWeight:700,marginTop:'3px',textAlign:'left'}}>70%</div></div>
           </div>
         </div>
-
-        {/* ── Quick Actions ── */}
-        <div style={{ background: 'rgba(255,255,255,0.025)', border: `1px solid ${BORDER}`, borderRadius: 16, padding: '20px 22px' }}>
-          <div style={{ fontSize: 15, fontWeight: 700, color: TEXT, marginBottom: 16 }}>الإجراءات السريعة</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 10 }}>
-            {QUICK_ACTIONS.map((a, i) => (
-              <button
-                key={i}
-                style={{ padding: '12px 8px', background: `${a.color}0A`, border: `1px solid ${a.color}22`, borderRadius: 12, cursor: 'pointer', color: a.color, fontSize: 12, fontWeight: 700, fontFamily: 'inherit', transition: 'all 0.15s', textAlign: 'center' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = `${a.color}18`; (e.currentTarget as HTMLButtonElement).style.borderColor = `${a.color}55`; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = `${a.color}0A`; (e.currentTarget as HTMLButtonElement).style.borderColor = `${a.color}22`; }}
-              >
-                {a.label}
-              </button>
-            ))}
-          </div>
+        <div style={{padding:'8px 13px',borderTop:'1px solid var(--b2)'}}>
+          <button style={{width:'100%',background:'rgba(239,68,68,.06)',border:'1px solid rgba(239,68,68,.2)',borderRadius:'7px',padding:'7px',color:'var(--rd)',fontSize:'11px',fontWeight:700,cursor:'pointer',fontFamily:'var(--f)'}}>تمرّن الآن — بنك الأسئلة</button>
         </div>
-        </>)}
+      </div>
+    </div>
 
-      </main>
+    {/* طلباتي */}
+    <div className="card">
+      <div className="ch">
+        <div className="ct"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--c)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/></svg>طلباتي المقدّمة للعمادة</div>
+        <button className="cl" onClick={() => {openModal('req-modal')}}>+ طلب جديد</button>
+      </div>
+      <div className="tw">
+        <table>
+          <thead><tr><th>نوع الطلب</th><th>الجهة</th><th>التاريخ</th><th>الحالة</th></tr></thead>
+          <tbody>
+            <tr><td style={{fontWeight:600,color:'var(--t)'}}>اعتراض على درجة CS402</td><td style={{color:'var(--tm)',fontSize:'11px'}}>د. محمد العتيبي</td><td style={{color:'var(--tm)',fontSize:'11px'}}>25 مارس</td><td><span className="badge bc2">قيد المراجعة</span></td></tr>
+            <tr><td style={{fontWeight:600,color:'var(--t)'}}>شهادة قيد وتقييد</td><td style={{color:'var(--tm)',fontSize:'11px'}}>عمادة القبول</td><td style={{color:'var(--tm)',fontSize:'11px'}}>20 مارس</td><td><span className="badge bg2">مقبول ✓</span></td></tr>
+            <tr><td style={{fontWeight:600,color:'var(--t)'}}>طلب منحة دراسية</td><td style={{color:'var(--tm)',fontSize:'11px'}}>شؤون الطلاب</td><td style={{color:'var(--tm)',fontSize:'11px'}}>15 مارس</td><td><span className="badge bo2">بانتظار وثائق</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {/* QUICK ACTIONS */}
+    <div>
+      <div style={{color:'var(--tm)',fontSize:'10px',fontWeight:700,letterSpacing:'1px',textTransform:'uppercase',marginBottom:'10px'}}>خدماتي — كل شيء بدون مراجعة أي مبنى</div>
+      <div className="qg">
+        <a className="qi" href="#" onClick={() => {openModal('reg-modal')}}><div className="qic" style={{background:'rgba(16,185,129,.1)',border:'1px solid rgba(16,185,129,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/></svg></div><span className="ql">تسجيل مقررات</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(129,140,248,.1)',border:'1px solid rgba(129,140,248,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818CF8" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><span className="ql">انضم للمحاضرة</span></a>
+        <a className="qi" href="#" onClick={() => {openModal('req-modal')}}><div className="qic" style={{background:'rgba(129,140,248,.1)',border:'1px solid rgba(129,140,248,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818CF8" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="12" y1="11" x2="12" y2="17"/></svg></div><span className="ql">تقديم طلب</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(212,168,67,.1)',border:'1px solid rgba(212,168,67,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div><span className="ql">شهادة قيد</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(239,68,68,.1)',border:'1px solid rgba(239,68,68,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div><span className="ql">دفع الرسوم</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(16,185,129,.1)',border:'1px solid rgba(16,185,129,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><span className="ql">عذر طبي صحتي</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(96,165,250,.1)',border:'1px solid rgba(96,165,250,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div><span className="ql">المكتبة الإلكترونية</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(167,139,250,.1)',border:'1px solid rgba(167,139,250,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><span className="ql">رسالة للدكتور</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(251,146,60,.1)',border:'1px solid rgba(251,146,60,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FB923C" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg></div><span className="ql">الكافتيريا</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(34,211,238,.1)',border:'1px solid rgba(34,211,238,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div><span className="ql">محاضرات مسجّلة</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(212,168,67,.1)',border:'1px solid rgba(212,168,67,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/></svg></div><span className="ql">المنح والإعفاءات</span></a>
+        <a className="qi" href="#"><div className="qic" style={{background:'rgba(129,140,248,.1)',border:'1px solid rgba(129,140,248,.2)'}}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818CF8" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><span className="ql">الأنشطة</span></a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer className="ft2">
+    <p>© 2026 متين — بوابة الطالب · كلية الهندسة والتقنية</p>
+    <p>صنع بـ ❤️ في المملكة العربية السعودية</p>
+  </footer>
+</div>
     </div>
   );
 }
