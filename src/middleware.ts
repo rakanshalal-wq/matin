@@ -53,7 +53,7 @@ export function middleware(request: NextRequest) {
     const subdomain = parts[0];
 
     // تجاهل www و app و api
-    if (subdomain && subdomain !== 'www' && subdomain !== 'app' && subdomain !== 'api') {
+    if (subdomain && subdomain !== 'www' && subdomain !== 'app' && subdomain !== 'api' && subdomain !== 'matin') {
       // إعادة توجيه لصفحة المؤسسة الديناميكية
       const url = new URL(`/institution/${subdomain}`, request.url);
       return NextResponse.rewrite(url);
