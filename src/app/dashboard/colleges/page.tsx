@@ -1,6 +1,6 @@
 ﻿'use client';
 import React, { useState } from 'react';
-import '../../styles/uni-colleges.css';
+import '../../../styles/uni-colleges.css';
 
 export default function CollegesPage() {
   const [activeSection, setActiveSection] = useState('home');

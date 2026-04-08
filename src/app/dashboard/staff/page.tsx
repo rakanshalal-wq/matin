@@ -1,6 +1,6 @@
 ﻿'use client';
 import React, { useState } from 'react';
-import '../../styles/school-staff.css';
+import '../../../styles/school-staff.css';
 
 export default function StaffPage() {
   const [activeSection, setActiveSection] = useState('home');

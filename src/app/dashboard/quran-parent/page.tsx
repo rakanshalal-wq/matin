@@ -1,6 +1,6 @@
 ﻿'use client';
 import React, { useState } from 'react';
-import '../../styles/quran-parent.css';
+import '../../../styles/quran-parent.css';
 
 export default function QuranParentPage() {
   const [activeSection, setActiveSection] = useState('home');

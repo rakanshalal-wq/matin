@@ -1,6 +1,6 @@
 ﻿'use client';
 import React, { useState } from 'react';
-import '../../styles/training-owner.css';
+import '../../../styles/training-owner.css';
 
 export default function TrainingOwnerPage() {
   const [activeSection, setActiveSection] = useState('home');

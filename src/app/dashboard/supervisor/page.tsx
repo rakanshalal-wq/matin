@@ -1,6 +1,6 @@
 ﻿'use client';
 import React, { useState } from 'react';
-import '../../styles/quran-supervisor.css';
+import '../../../styles/quran-supervisor.css';
 
 export default function SupervisorPage() {
   const [activeSection, setActiveSection] = useState('home');

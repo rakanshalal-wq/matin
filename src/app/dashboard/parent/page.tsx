@@ -1,6 +1,6 @@
 ﻿'use client';
 import React, { useState } from 'react';
-import '../../styles/school-parent.css';
+import '../../../styles/school-parent.css';
 
 export default function ParentPage() {
   const [activeSection, setActiveSection] = useState('home');

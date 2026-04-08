@@ -1,6 +1,6 @@
 ﻿'use client';
 import React, { useState } from 'react';
-import '../../styles/uni-admin.css';
+import '../../../styles/uni-admin.css';
 
 export default function AdminPage() {
   const [activeSection, setActiveSection] = useState('home');

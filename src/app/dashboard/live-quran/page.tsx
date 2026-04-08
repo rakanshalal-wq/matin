@@ -1,6 +1,6 @@
 ﻿'use client';
 import React, { useState } from 'react';
-import '../../styles/quran-live.css';
+import '../../../styles/quran-live.css';
 
 export default function LiveQuranPage() {
   const [activeSection, setActiveSection] = useState('home');

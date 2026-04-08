@@ -1,6 +1,6 @@
 ﻿'use client';
 import React, { useState } from 'react';
-import '../../styles/quran-muhaffiz.css';
+import '../../../styles/quran-muhaffiz.css';
 
 export default function MuhaffizPage() {
   const [activeSection, setActiveSection] = useState('home');
