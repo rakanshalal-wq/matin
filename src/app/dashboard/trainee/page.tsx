@@ -285,6 +285,180 @@ export default function TraineeDashboard() {
             </div>
           </div>
         </div>
+
+        {/* ===== SECTION: mycourses ===== */}
+        <div style={{ marginTop: 24 }}>
+          <div style={{ fontSize: 18, fontWeight: 900, color: TEXT, marginBottom: 16 }}>دوراتي المسجلة</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 16 }}>
+            {[
+              { name: 'تطوير تطبيقات الويب', trainer: 'م. خالد الحربي', progress: 61, remaining: 14, next: 'الثلاثاء 12م – 2م', color: '#E65100' },
+              { name: 'أساسيات قواعد البيانات', trainer: 'م. نورة الشمري', progress: 50, remaining: 10, next: 'الأربعاء 10ص – 12م', color: '#8B5CF6' },
+              { name: 'JavaScript المتقدم', trainer: 'م. عمر الغامدي', progress: 28, remaining: 18, next: 'الأحد 4م – 6م', color: '#3B82F6' },
+              { name: 'UI/UX التصميم', trainer: 'م. هيا الدوسري', progress: 15, remaining: 22, next: 'الخميس 2م – 4م', color: '#10B981' },
+            ].map((c, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${c.color}28`, borderRadius: 16, padding: 20 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 4 }}>{c.name}</div>
+                    <div style={{ fontSize: 11, color: DIM }}>👨‍🏫 {c.trainer}</div>
+                  </div>
+                  <div style={{ fontSize: 21, fontWeight: 900, color: c.color }}>{c.progress}%</div>
+                </div>
+                <div style={{ height: 8, background: 'rgba(255,255,255,0.06)', borderRadius: 5, overflow: 'hidden', marginBottom: 12 }}>
+                  <div style={{ width: `${c.progress}%`, height: '100%', background: `linear-gradient(90deg,${c.color},${c.color}99)`, borderRadius: 5 }} />
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: 11, color: MUT }}>{c.remaining} جلسة متبقية</span>
+                  <span style={{ fontSize: 11, color: c.color, background: `${c.color}15`, padding: '3px 10px', borderRadius: 6, fontWeight: 600 }}>🕐 {c.next}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ===== SECTION: assignments ===== */}
+        <div style={{ marginTop: 24 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+            <div style={{ fontSize: 18, fontWeight: 900, color: TEXT }}>الواجبات والتكاليف</div>
+            <div style={{ fontSize: 11, color: '#EF4444', background: 'rgba(239,68,68,0.12)', padding: '4px 12px', borderRadius: 7, fontWeight: 700 }}>2 معلق</div>
+          </div>
+          <div style={{ display: 'grid', gap: 12 }}>
+            {[
+              { title: 'مشروع صفحة HTML/CSS متجاوبة', course: 'تطوير الويب', deadline: 'اليوم 11:59م', status: 'معلق', grade: null, color: '#EF4444' },
+              { title: 'تمارين SQL – الوحدة 3', course: 'قواعد البيانات', deadline: 'الخميس 11:59م', status: 'قيد التنفيذ', grade: null, color: '#F59E0B' },
+              { title: 'اختبار JavaScript الأساسي', course: 'تطوير الويب', deadline: 'الأحد 10:00ص', status: 'معلق', grade: null, color: '#EF4444' },
+              { title: 'تقرير تصميم قاعدة بيانات', course: 'قواعد البيانات', deadline: '10 أبريل', status: 'مُسلَّم', grade: '88%', color: '#E65100' },
+              { title: 'مشروع React Component', course: 'JS المتقدم', deadline: '15 أبريل', status: 'متأخر', grade: null, color: '#EF4444' },
+            ].map((a, i) => {
+              const statusColor = a.status === 'مُسلَّم' ? GREEN : a.status === 'متأخر' ? '#EF4444' : a.status === 'قيد التنفيذ' ? '#F59E0B' : '#E65100';
+              const statusBg = a.status === 'مُسلَّم' ? 'rgba(16,185,129,0.12)' : a.status === 'متأخر' ? 'rgba(239,68,68,0.12)' : a.status === 'قيد التنفيذ' ? 'rgba(245,158,11,0.12)' : 'rgba(230,81,0,0.12)';
+              return (
+                <div key={i} style={{ background: CARD, border: `1px solid ${a.color}22`, borderRadius: 13, padding: '16px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 14 }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 5 }}>{a.title}</div>
+                    <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
+                      <span style={{ fontSize: 11, color: DIM }}>{a.course}</span>
+                      <span style={{ fontSize: 11, color: a.color }}>⏰ {a.deadline}</span>
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+                    {a.grade && <span style={{ fontSize: 13, fontWeight: 800, color: GREEN }}>{a.grade}</span>}
+                    <span style={{ fontSize: 11, fontWeight: 700, color: statusColor, background: statusBg, padding: '5px 12px', borderRadius: 7 }}>{a.status}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ===== SECTION: certificates ===== */}
+        <div style={{ marginTop: 24 }}>
+          <div style={{ fontSize: 18, fontWeight: 900, color: TEXT, marginBottom: 16 }}>شهاداتي</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16, marginBottom: 16 }}>
+            {[
+              { name: 'شهادة HTML & CSS الأساسية', date: 'مارس 2026', grade: '94%', color: '#E65100' },
+              { name: 'شهادة SQL للمبتدئين', date: 'يناير 2026', grade: '89%', color: '#8B5CF6' },
+              { name: 'شهادة JavaScript Essentials', date: 'نوفمبر 2025', grade: '91%', color: '#3B82F6' },
+            ].map((c, i) => (
+              <div key={i} style={{ background: `linear-gradient(145deg,${c.color}12,rgba(255,255,255,0.02))`, border: `1.5px solid ${c.color}35`, borderRadius: 16, padding: 20, textAlign: 'center' }}>
+                <div style={{ fontSize: 40, marginBottom: 10 }}>🎓</div>
+                <div style={{ fontSize: 13, fontWeight: 800, marginBottom: 6 }}>{c.name}</div>
+                <div style={{ fontSize: 11, color: DIM, marginBottom: 4 }}>صادرة: {c.date}</div>
+                <div style={{ fontSize: 14, fontWeight: 900, color: c.color, marginBottom: 14 }}>{c.grade}</div>
+                <button style={{ width: '100%', background: `${c.color}18`, border: `1px solid ${c.color}35`, borderRadius: 9, padding: '8px 0', color: c.color, fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>⬇️ تحميل الشهادة</button>
+              </div>
+            ))}
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            {[
+              { name: 'تطوير تطبيقات الويب المتكامل', progress: 61, color: '#E65100' },
+              { name: 'أساسيات قواعد البيانات', progress: 50, color: '#8B5CF6' },
+            ].map((c, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BD}`, borderRadius: 13, padding: '16px 18px', display: 'flex', alignItems: 'center', gap: 14 }}>
+                <div style={{ fontSize: 28 }}>📋</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, marginBottom: 6 }}>{c.name}</div>
+                  <div style={{ height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 4, overflow: 'hidden', marginBottom: 4 }}>
+                    <div style={{ width: `${c.progress}%`, height: '100%', background: `linear-gradient(90deg,${c.color},${c.color}88)`, borderRadius: 4 }} />
+                  </div>
+                  <div style={{ fontSize: 10, color: MUT }}>{c.progress}% مكتمل · قيد الإنجاز</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ===== SECTION: schedule ===== */}
+        <div style={{ marginTop: 24 }}>
+          <div style={{ fontSize: 18, fontWeight: 900, color: TEXT, marginBottom: 16 }}>الجدول الأسبوعي التفصيلي</div>
+          <div style={{ background: CARD, border: `1px solid ${BD}`, borderRadius: 16, padding: 20, overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 620 }}>
+              <thead>
+                <tr style={{ borderBottom: `1px solid ${BD}` }}>
+                  <th style={{ padding: '10px 14px', fontSize: 11, color: MUT, fontWeight: 700, textAlign: 'right', minWidth: 90 }}>الوقت</th>
+                  {['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'].map((d, i) => (
+                    <th key={i} style={{ padding: '10px 14px', fontSize: 12, fontWeight: 700, color: d === 'الثلاثاء' ? '#E65100' : DIM, textAlign: 'center' }}>{d}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { time: '10ص – 12م', slots: ['تطوير الويب · A1', '', '', 'قواعد البيانات · C1', ''] },
+                  { time: '12م – 2م', slots: ['', '', 'تطوير الويب · A1', '', ''] },
+                  { time: '2م – 4م', slots: ['', '', '', '', 'قواعد البيانات · C1'] },
+                  { time: '4م – 6م', slots: ['', 'JS المتقدم · B1', '', '', ''] },
+                  { time: '6م – 8م', slots: ['', '', '', 'UI/UX · D2', ''] },
+                ].map((row, ri) => (
+                  <tr key={ri} style={{ borderBottom: `1px solid rgba(255,255,255,0.04)` }}>
+                    <td style={{ padding: '10px 14px', fontSize: 11, fontWeight: 700, color: '#E65100' }}>{row.time}</td>
+                    {row.slots.map((slot, si) => (
+                      <td key={si} style={{ padding: '8px 10px', textAlign: 'center' }}>
+                        {slot
+                          ? <div style={{ background: 'rgba(230,81,0,0.12)', border: '1px solid rgba(230,81,0,0.28)', borderRadius: 8, padding: '7px 8px' }}>
+                              <div style={{ fontSize: 11, fontWeight: 700, color: '#E65100' }}>{slot.split(' · ')[0]}</div>
+                              <div style={{ fontSize: 10, color: MUT, marginTop: 2 }}>{slot.split(' · ')[1]}</div>
+                            </div>
+                          : <span style={{ fontSize: 12, color: MUT }}>—</span>
+                        }
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* ===== SECTION: messages ===== */}
+        <div style={{ marginTop: 24, marginBottom: 8 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+            <div style={{ fontSize: 18, fontWeight: 900, color: TEXT }}>صندوق الرسائل</div>
+            <div style={{ fontSize: 11, color: '#E65100', background: 'rgba(230,81,0,0.12)', padding: '4px 12px', borderRadius: 7, fontWeight: 700 }}>4 رسائل</div>
+          </div>
+          <div style={{ display: 'grid', gap: 12 }}>
+            {[
+              { from: 'م. خالد الحربي', course: 'تطوير الويب', message: 'تذكير: موعد تسليم مشروع HTML/CSS اليوم الساعة 11:59م. تأكد من رفع ملفاتك على المنصة.', time: 'منذ ساعتين', read: false, avatar: 'خ', color: '#E65100' },
+              { from: 'م. نورة الشمري', course: 'قواعد البيانات', message: 'أحسنت في اختبار الوحدة 2! درجتك 88%. سنبدأ الوحدة 3 يوم الأربعاء القادم.', time: 'منذ 5 ساعات', read: false, avatar: 'ن', color: '#8B5CF6' },
+              { from: 'م. عمر الغامدي', course: 'JS المتقدم', message: 'تم رفع محاضرة Async/Await على المنصة. يرجى مراجعتها قبل الجلسة القادمة يوم الأحد.', time: 'أمس', read: true, avatar: 'ع', color: '#3B82F6' },
+              { from: 'م. هيا الدوسري', course: 'UI/UX التصميم', message: 'مرحباً! نموذج التقييم لمشروع Wireframe متاح الآن. يُرجى إكماله قبل نهاية الأسبوع.', time: 'منذ يومين', read: true, avatar: 'ه', color: '#10B981' },
+            ].map((msg, i) => (
+              <div key={i} style={{ background: msg.read ? CARD : 'rgba(230,81,0,0.06)', border: `1px solid ${msg.read ? BD : 'rgba(230,81,0,0.25)'}`, borderRadius: 14, padding: '16px 18px', display: 'flex', gap: 14 }}>
+                <div style={{ width: 42, height: 42, borderRadius: '50%', background: `${msg.color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 800, color: msg.color, flexShrink: 0 }}>{msg.avatar}</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 5 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ fontSize: 13, fontWeight: 800 }}>{msg.from}</span>
+                      <span style={{ fontSize: 10, color: msg.color, background: `${msg.color}15`, padding: '2px 8px', borderRadius: 5, fontWeight: 600 }}>{msg.course}</span>
+                      {!msg.read && <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#E65100', display: 'inline-block' }} />}
+                    </div>
+                    <span style={{ fontSize: 10, color: MUT }}>{msg.time}</span>
+                  </div>
+                  <div style={{ fontSize: 12, color: DIM, lineHeight: 1.6 }}>{msg.message}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </main>
     </div>
   );

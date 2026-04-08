@@ -289,6 +289,200 @@ export default function TrainerDashboard() {
             </table>
           </div>
         </div>
+
+        {/* ===== SECTION: courses ===== */}
+        <div style={{ marginTop: 24 }}>
+          <div style={{ fontSize: 18, fontWeight: 900, color: TEXT, marginBottom: 16 }}>الدورات التي أدرّسها</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 16 }}>
+            {[
+              { name: 'تطوير الويب المتكامل', trainees: 42, progress: 75, schedule: 'الأحد والثلاثاء 9ص–11ص', materials: 18, color: '#E65100' },
+              { name: 'إدارة المشاريع PMP', trainees: 38, progress: 60, schedule: 'الاثنين والأربعاء 12م–2م', materials: 14, color: '#3B82F6' },
+              { name: 'تطوير تطبيقات الجوال', trainees: 30, progress: 50, schedule: 'الثلاثاء والخميس 4م–6م', materials: 11, color: '#8B5CF6' },
+              { name: 'أساسيات الأمن السيبراني', trainees: 25, progress: 35, schedule: 'الأحد والأربعاء 6م–8م', materials: 9, color: '#10B981' },
+            ].map((c, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${c.color}30`, borderRadius: 16, padding: 20 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 5 }}>{c.name}</div>
+                    <div style={{ fontSize: 11, color: DIM }}>📅 {c.schedule}</div>
+                  </div>
+                  <div style={{ fontSize: 22, fontWeight: 900, color: c.color }}>{c.progress}%</div>
+                </div>
+                <div style={{ height: 7, background: 'rgba(255,255,255,0.06)', borderRadius: 5, overflow: 'hidden', marginBottom: 14 }}>
+                  <div style={{ width: `${c.progress}%`, height: '100%', background: `linear-gradient(90deg,${c.color},${c.color}AA)`, borderRadius: 5 }} />
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                    <span style={{ fontSize: 14 }}>👥</span>
+                    <span style={{ fontSize: 12, color: DIM }}>{c.trainees} متدرب</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                    <span style={{ fontSize: 14 }}>📎</span>
+                    <span style={{ fontSize: 12, color: DIM }}>{c.materials} مادة</span>
+                  </div>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: c.color, background: `${c.color}15`, padding: '3px 10px', borderRadius: 6 }}>نشطة</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ===== SECTION: trainees ===== */}
+        <div style={{ marginTop: 24 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+            <div style={{ fontSize: 18, fontWeight: 900, color: TEXT }}>قائمة المتدربين</div>
+            <button style={{ background: 'rgba(230,81,0,0.15)', border: '1px solid rgba(230,81,0,0.35)', borderRadius: 9, padding: '7px 16px', color: '#E65100', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>تصدير التقرير</button>
+          </div>
+          <div style={{ background: CARD, border: `1px solid ${BD}`, borderRadius: 16, padding: 20, overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 700 }}>
+              <thead>
+                <tr style={{ borderBottom: `1px solid ${BD}` }}>
+                  {['المتدرب', 'الدورة', 'الحضور', 'الدرجة', 'آخر جلسة', 'الشهادة'].map((h, i) => (
+                    <th key={i} style={{ padding: '10px 14px', fontSize: 11, color: MUT, fontWeight: 700, textAlign: 'right' }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { name: 'أحمد العمري', course: 'تطوير الويب', attendance: 95, grade: 92, lastSession: 'الثلاثاء 8 أبريل', cert: 'قيد الإنجاز' },
+                  { name: 'سارة المالكي', course: 'تطوير الويب', attendance: 100, grade: 98, lastSession: 'الثلاثاء 8 أبريل', cert: 'مستحقة' },
+                  { name: 'محمد الشهري', course: 'PMP', attendance: 88, grade: 79, lastSession: 'الاثنين 7 أبريل', cert: 'قيد الإنجاز' },
+                  { name: 'نوف القحطاني', course: 'تطوير الجوال', attendance: 92, grade: 85, lastSession: 'الخميس 4 أبريل', cert: 'قيد الإنجاز' },
+                  { name: 'فهد الدوسري', course: 'PMP', attendance: 75, grade: 66, lastSession: 'الاثنين 7 أبريل', cert: 'غير مستحقة' },
+                  { name: 'ريم السالم', course: 'تطوير الجوال', attendance: 97, grade: 94, lastSession: 'الخميس 4 أبريل', cert: 'مستحقة' },
+                  { name: 'خالد الزهراني', course: 'الأمن السيبراني', attendance: 83, grade: 71, lastSession: 'الأربعاء 3 أبريل', cert: 'قيد الإنجاز' },
+                  { name: 'لمى العتيبي', course: 'تطوير الويب', attendance: 90, grade: 88, lastSession: 'الثلاثاء 8 أبريل', cert: 'قيد الإنجاز' },
+                ].map((t, i) => {
+                  const certColor = t.cert === 'مستحقة' ? GREEN : t.cert === 'غير مستحقة' ? '#EF4444' : '#F59E0B';
+                  const certBg = t.cert === 'مستحقة' ? 'rgba(16,185,129,0.12)' : t.cert === 'غير مستحقة' ? 'rgba(239,68,68,0.12)' : 'rgba(245,158,11,0.12)';
+                  return (
+                    <tr key={i} style={{ borderBottom: `1px solid rgba(255,255,255,0.04)` }}>
+                      <td style={{ padding: '11px 14px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+                          <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'rgba(230,81,0,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, color: '#E65100' }}>{t.name.charAt(0)}</div>
+                          <span style={{ fontSize: 13, fontWeight: 700 }}>{t.name}</span>
+                        </div>
+                      </td>
+                      <td style={{ padding: '11px 14px', fontSize: 12, color: DIM }}>{t.course}</td>
+                      <td style={{ padding: '11px 14px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                          <div style={{ width: 44, height: 5, background: 'rgba(255,255,255,0.06)', borderRadius: 3, overflow: 'hidden' }}>
+                            <div style={{ width: `${t.attendance}%`, height: '100%', background: t.attendance >= 90 ? GREEN : '#F59E0B', borderRadius: 3 }} />
+                          </div>
+                          <span style={{ fontSize: 11, color: t.attendance >= 90 ? GREEN : '#F59E0B', fontWeight: 700 }}>{t.attendance}%</span>
+                        </div>
+                      </td>
+                      <td style={{ padding: '11px 14px', fontSize: 13, fontWeight: 800, color: t.grade >= 90 ? GREEN : t.grade >= 75 ? '#E65100' : '#EF4444' }}>{t.grade}%</td>
+                      <td style={{ padding: '11px 14px', fontSize: 11, color: DIM }}>{t.lastSession}</td>
+                      <td style={{ padding: '11px 14px' }}>
+                        <span style={{ fontSize: 11, fontWeight: 700, color: certColor, background: certBg, padding: '4px 10px', borderRadius: 6 }}>{t.cert}</span>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* ===== SECTION: materials ===== */}
+        <div style={{ marginTop: 24 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+            <div style={{ fontSize: 18, fontWeight: 900, color: TEXT }}>المواد التعليمية</div>
+            <button style={{ background: 'linear-gradient(135deg,#E65100,#BF360C)', border: 'none', borderRadius: 9, padding: '9px 18px', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>+ رفع مادة جديدة</button>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16 }}>
+            {[
+              { title: 'مقدمة HTML وCSS', type: 'فيديو', size: '420 MB', downloads: 38, date: '1 مارس 2026', icon: '🎬', color: '#E65100' },
+              { title: 'دليل JavaScript للمبتدئين', type: 'PDF', size: '3.2 MB', downloads: 51, date: '8 مارس 2026', icon: '📄', color: '#3B82F6' },
+              { title: 'اختبار الوحدة 2 – PMP', type: 'اختبار', size: '—', downloads: 36, date: '15 مارس 2026', icon: '📝', color: '#8B5CF6' },
+              { title: 'شرح React Hooks', type: 'فيديو', size: '890 MB', downloads: 29, date: '20 مارس 2026', icon: '🎬', color: '#E65100' },
+              { title: 'نماذج إدارة المشاريع', type: 'PDF', size: '5.7 MB', downloads: 44, date: '28 مارس 2026', icon: '📄', color: '#3B82F6' },
+              { title: 'مراجعة نهائية – تطوير الجوال', type: 'اختبار', size: '—', downloads: 22, date: '5 أبريل 2026', icon: '📝', color: '#8B5CF6' },
+            ].map((m, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${m.color}25`, borderRadius: 14, padding: 18 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 11, background: `${m.color}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>{m.icon}</div>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 800, marginBottom: 3 }}>{m.title}</div>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: m.color, background: `${m.color}15`, padding: '2px 8px', borderRadius: 5, display: 'inline-block' }}>{m.type}</div>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+                  <span style={{ fontSize: 11, color: DIM }}>الحجم: {m.size}</span>
+                  <span style={{ fontSize: 11, color: DIM }}>⬇️ {m.downloads} تحميل</span>
+                </div>
+                <div style={{ fontSize: 10, color: MUT }}>رُفع: {m.date}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ===== SECTION: reports ===== */}
+        <div style={{ marginTop: 24, marginBottom: 8 }}>
+          <div style={{ fontSize: 18, fontWeight: 900, color: TEXT, marginBottom: 16 }}>تقارير التدريب</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 14, marginBottom: 18 }}>
+            {[
+              { label: 'معدل الإتمام', value: '87%', icon: '🏁', color: '#E65100' },
+              { label: 'متوسط الدرجات', value: '83.4', icon: '📊', color: '#3B82F6' },
+              { label: 'رضا المتدربين', value: '4.8/5', icon: '⭐', color: '#FBBF24' },
+              { label: 'شهادات صادرة', value: '31', icon: '🎓', color: GREEN },
+            ].map((r, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${r.color}22`, borderRadius: 14, padding: '18px 20px', textAlign: 'center' }}>
+                <div style={{ fontSize: 28, marginBottom: 8 }}>{r.icon}</div>
+                <div style={{ fontSize: 28, fontWeight: 900, color: r.color }}>{r.value}</div>
+                <div style={{ fontSize: 12, color: DIM, marginTop: 4 }}>{r.label}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            {/* Completion Rates per Course */}
+            <div style={{ background: CARD, border: `1px solid ${BD}`, borderRadius: 16, padding: 20 }}>
+              <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 16 }}>معدلات الإتمام لكل دورة</div>
+              {[
+                { name: 'تطوير الويب المتكامل', rate: 92 },
+                { name: 'إدارة المشاريع PMP', rate: 84 },
+                { name: 'تطوير تطبيقات الجوال', rate: 79 },
+                { name: 'أساسيات الأمن السيبراني', rate: 91 },
+              ].map((c, i) => (
+                <div key={i} style={{ marginBottom: 14 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+                    <span style={{ fontSize: 12, color: DIM }}>{c.name}</span>
+                    <span style={{ fontSize: 12, fontWeight: 800, color: '#E65100' }}>{c.rate}%</span>
+                  </div>
+                  <div style={{ height: 7, background: 'rgba(255,255,255,0.06)', borderRadius: 5, overflow: 'hidden' }}>
+                    <div style={{ width: `${c.rate}%`, height: '100%', background: 'linear-gradient(90deg,#E65100,#BF360C)', borderRadius: 5 }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* Satisfaction Survey */}
+            <div style={{ background: CARD, border: `1px solid ${BD}`, borderRadius: 16, padding: 20 }}>
+              <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 16 }}>نتائج استبيان الرضا</div>
+              {[
+                { label: 'جودة المحتوى', score: 4.9 },
+                { label: 'أسلوب التدريس', score: 4.8 },
+                { label: 'التنظيم والجدولة', score: 4.6 },
+                { label: 'التفاعل والدعم', score: 4.7 },
+                { label: 'الفائدة العملية', score: 4.9 },
+              ].map((s, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+                  <span style={{ fontSize: 12, color: DIM, flex: 1 }}>{s.label}</span>
+                  <div style={{ display: 'flex', gap: 3, marginLeft: 10 }}>
+                    {[1,2,3,4,5].map(star => (
+                      <span key={star} style={{ fontSize: 13, color: star <= Math.round(s.score) ? '#FBBF24' : 'rgba(255,255,255,0.12)' }}>★</span>
+                    ))}
+                  </div>
+                  <span style={{ fontSize: 12, fontWeight: 800, color: '#FBBF24', marginRight: 8, minWidth: 28, textAlign: 'left' }}>{s.score}</span>
+                </div>
+              ))}
+              <div style={{ marginTop: 8, padding: '10px 14px', background: 'rgba(230,81,0,0.08)', border: '1px solid rgba(230,81,0,0.2)', borderRadius: 9 }}>
+                <div style={{ fontSize: 11, color: MUT }}>شهادات صادرة هذا الشهر</div>
+                <div style={{ fontSize: 22, fontWeight: 900, color: '#E65100', marginTop: 4 }}>12 شهادة</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   );
