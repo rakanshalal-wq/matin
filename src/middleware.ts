@@ -33,7 +33,7 @@ const PROTECTED_ROUTES: { prefix: string; roles: string[] }[] = [
 ];
 
 // مسارات عامة لا تحتاج توثيق
-const PUBLIC_PATHS = ['/', '/login', '/register', '/api/auth'];
+const PUBLIC_PATHS = ['/', '/login', '/register', '/api/auth', '/api/public', '/institution'];
 
 function isPublic(pathname: string): boolean {
   return PUBLIC_PATHS.some(
@@ -43,6 +43,22 @@ function isPublic(pathname: string): boolean {
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // ===== نظام النطاقات الفرعية =====
+  const host = request.headers.get('host') || '';
+  const parts = host.split('.');
+
+  // إذا كان الطلب على subdomain (مثل school1.matin.ink)
+  if (parts.length >= 3 || (parts.length === 2 && !parts[0].includes('localhost'))) {
+    const subdomain = parts[0];
+
+    // تجاهل www و app و api
+    if (subdomain && subdomain !== 'www' && subdomain !== 'app' && subdomain !== 'api') {
+      // إعادة توجيه لصفحة المؤسسة الديناميكية
+      const url = new URL(`/institution/${subdomain}`, request.url);
+      return NextResponse.rewrite(url);
+    }
+  }
 
   // السماح للمسارات العامة
   if (isPublic(pathname)) return NextResponse.next();
