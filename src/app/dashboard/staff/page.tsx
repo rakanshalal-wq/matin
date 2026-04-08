@@ -276,33 +276,210 @@ export default function StaffDashboard() {
 
           {/* SALARIES */}
           {activeSection === 'salaries' && (
-            <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}>💰 الرواتب</h3>
-              <button onClick={() => router.push('/dashboard/salaries')} style={{ background: C, border: 'none', borderRadius: 8, padding: '10px 20px', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: FONT }}>فتح صفحة الرواتب</button>
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>💰 مسير الرواتب — هذا الشهر</h2>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <span style={{ background: '#4ADE8018', color: '#4ADE80', border: '1px solid #4ADE8033', fontSize: 10, fontWeight: 700, padding: '4px 10px', borderRadius: 6 }}>جاهز ✓</span>
+                  <button style={{ background: C, border: 'none', borderRadius: 8, padding: '7px 16px', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: FONT }}>💸 صرف الرواتب</button>
+                </div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 20 }}>
+                {[
+                  { branch: 'الرئيسي — النزهة', amount: '152,000', count: 42, color: '#60A5FA' },
+                  { branch: 'فرع الروضة', amount: '88,000', count: 26, color: '#A78BFA' },
+                  { branch: 'فرع العليا', amount: '64,000', count: 18, color: '#4ADE80' },
+                ].map((b, i) => (
+                  <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
+                    <div style={{ fontSize: 12, color: DIM, marginBottom: 6 }}>{b.branch}</div>
+                    <div style={{ fontSize: 22, fontWeight: 900, color: b.color }}>{b.amount} <span style={{ fontSize: 11, color: MUT }}>SAR</span></div>
+                    <div style={{ fontSize: 10, color: MUT, marginTop: 4 }}>{b.count} موظف</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ background: CD, border: `1px solid ${C}33`, borderRadius: 14, padding: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+                <div><div style={{ fontSize: 13, fontWeight: 700, color: C }}>إجمالي مسير الرواتب</div><div style={{ fontSize: 10, color: MUT }}>86 موظف — 3 فروع</div></div>
+                <div style={{ fontSize: 28, fontWeight: 900, color: C }}>304,000 <span style={{ fontSize: 12, color: MUT }}>SAR</span></div>
+              </div>
+              <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, overflow: 'hidden' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '40px 2fr 1fr 1fr 1fr 1fr', gap: 8, padding: '10px 14px', background: 'rgba(255,255,255,0.03)', fontSize: 11, fontWeight: 700, color: MUT }}>
+                  <span>#</span><span>الموظف</span><span>الأساسي</span><span>البدلات</span><span>الخصومات</span><span>الصافي</span>
+                </div>
+                {[
+                  { name: 'أ. محمد الغامدي', basic: '8,000', allowance: '1,500', deduction: '500', net: '9,000' },
+                  { name: 'أ. سارة الزهراني', basic: '7,500', allowance: '1,200', deduction: '400', net: '8,300' },
+                  { name: 'عبدالله الدوسري', basic: '5,000', allowance: '800', deduction: '250', net: '5,550' },
+                  { name: 'فيصل الشمري', basic: '4,500', allowance: '600', deduction: '200', net: '4,900' },
+                  { name: 'ريم السلمي', basic: '3,800', allowance: '500', deduction: '190', net: '4,110' },
+                  { name: 'نورة الحربي', basic: '6,000', allowance: '1,000', deduction: '300', net: '6,700' },
+                ].map((emp, i) => (
+                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '40px 2fr 1fr 1fr 1fr 1fr', gap: 8, padding: '10px 14px', borderTop: `1px solid ${BD}`, fontSize: 12, alignItems: 'center' }}>
+                    <span style={{ color: MUT }}>{i+1}</span>
+                    <span style={{ fontWeight: 600 }}>{emp.name}</span>
+                    <span style={{ color: DIM }}>{emp.basic}</span>
+                    <span style={{ color: '#4ADE80' }}>+{emp.allowance}</span>
+                    <span style={{ color: '#EF4444' }}>-{emp.deduction}</span>
+                    <span style={{ fontWeight: 800, color: C }}>{emp.net}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
           {/* LEAVES */}
           {activeSection === 'leaves' && (
-            <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}>🏖️ طلبات الإجازات</h3>
-              <button onClick={() => router.push('/dashboard/leaves')} style={{ background: C, border: 'none', borderRadius: 8, padding: '10px 20px', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: FONT }}>فتح صفحة الإجازات</button>
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>🏖️ طلبات الإجازات المعلقة</h2>
+                <span style={{ background: '#EF444418', color: '#EF4444', border: '1px solid #EF444433', fontSize: 11, fontWeight: 700, padding: '4px 10px', borderRadius: 6 }}>9 طلبات</span>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
+                {[
+                  { name: 'أ. محمد الغامدي', branch: 'الرئيسي', type: 'إجازة اعتيادية', days: '3 أيام', date: '5-7 أبريل', color: '#60A5FA' },
+                  { name: 'أ. سارة الزهراني', branch: 'الروضة', type: 'إجازة مرضية', days: 'يومين', date: '3-4 أبريل', color: '#EF4444' },
+                  { name: 'عبدالله الدوسري', branch: 'الرئيسي', type: 'استئذان', days: 'يوم واحد', date: '6 أبريل', color: '#FB923C' },
+                  { name: 'فيصل الشمري', branch: 'العليا', type: 'إجازة طارئة', days: '4 أيام', date: '3-6 أبريل', color: '#EF4444' },
+                  { name: 'ريم السلمي', branch: 'الروضة', type: 'إجازة اعتيادية', days: 'أسبوع', date: '10-16 أبريل', color: '#60A5FA' },
+                ].map((req, i) => (
+                  <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 12, padding: 14, display: 'flex', alignItems: 'center', gap: 14 }}>
+                    <div style={{ width: 40, height: 40, borderRadius: 10, background: `${req.color}18`, border: `1px solid ${req.color}33`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>👤</div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 13, fontWeight: 700 }}>{req.name} <span style={{ fontSize: 10, color: MUT }}>— {req.branch}</span></div>
+                      <div style={{ fontSize: 11, color: DIM, marginTop: 2 }}>{req.type} · {req.days} · {req.date}</div>
+                    </div>
+                    <div style={{ display: 'flex', gap: 6 }}>
+                      <button style={{ background: '#4ADE8018', border: '1px solid #4ADE8033', borderRadius: 7, padding: '6px 14px', color: '#4ADE80', fontSize: 11, fontWeight: 700, cursor: 'pointer', fontFamily: FONT }}>قبول ✓</button>
+                      <button style={{ background: '#EF444418', border: '1px solid #EF444433', borderRadius: 7, padding: '6px 14px', color: '#EF4444', fontSize: 11, fontWeight: 700, cursor: 'pointer', fontFamily: FONT }}>رفض ✗</button>
+                    </div>
+                  </div>
+                ))}
+                <div style={{ textAlign: 'center', fontSize: 11, color: MUT, padding: 8 }}>+ 4 طلبات أخرى</div>
+              </div>
+              <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
+                <h3 style={{ fontSize: 13, fontWeight: 700, marginBottom: 12 }}>📊 إحصائيات الإجازات — هذا الشهر</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
+                  {[
+                    { label: 'طلبات معلقة', value: 9, color: '#EF4444' },
+                    { label: 'تم قبولها', value: 12, color: '#4ADE80' },
+                    { label: 'تم رفضها', value: 3, color: '#FB923C' },
+                    { label: 'إجمالي أيام الغياب', value: 28, color: '#60A5FA' },
+                  ].map((s, i) => (
+                    <div key={i} style={{ background: 'rgba(255,255,255,0.02)', border: `1px solid ${BD}`, borderRadius: 10, padding: '10px 12px', textAlign: 'center' }}>
+                      <div style={{ fontSize: 22, fontWeight: 900, color: s.color }}>{s.value}</div>
+                      <div style={{ fontSize: 10, color: MUT, marginTop: 4 }}>{s.label}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
 
           {/* ATTENDANCE */}
           {activeSection === 'attendance' && (
-            <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}>✅ حضور الموظفين</h3>
-              <button onClick={() => router.push('/dashboard/attendance')} style={{ background: C, border: 'none', borderRadius: 8, padding: '10px 20px', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: FONT }}>فتح صفحة الحضور</button>
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>✅ حضور الموظفين — اليوم</h2>
+                <div style={{ fontSize: 12, color: DIM }}>{new Date().toLocaleDateString('ar-SA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 20 }}>
+                {[
+                  { label: 'حاضرون', value: '81', total: '/86', color: '#4ADE80', icon: '✅' },
+                  { label: 'غائبون', value: '2', total: '', color: '#EF4444', icon: '❌' },
+                  { label: 'متأخرون', value: '3', total: '', color: '#FB923C', icon: '⏰' },
+                  { label: 'نسبة الحضور', value: '94%', total: '', color: C, icon: '📊' },
+                ].map((s, i) => (
+                  <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <span style={{ fontSize: 22 }}>{s.icon}</span>
+                    <div>
+                      <div style={{ fontSize: 22, fontWeight: 900, color: s.color }}>{s.value}<span style={{ fontSize: 11, color: MUT }}>{s.total}</span></div>
+                      <div style={{ fontSize: 10, color: MUT }}>{s.label}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 20 }}>
+                {[
+                  { branch: 'الرئيسي — النزهة', present: 40, total: 42, pct: '96%', color: '#60A5FA' },
+                  { branch: 'فرع الروضة', present: 24, total: 26, pct: '92%', color: '#A78BFA' },
+                  { branch: 'فرع العليا', present: 16, total: 18, pct: '88%', color: '#4ADE80' },
+                ].map((b, i) => (
+                  <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+                      <span style={{ fontSize: 12, fontWeight: 700 }}>{b.branch}</span>
+                      <span style={{ fontSize: 13, fontWeight: 800, color: b.color }}>{b.pct}</span>
+                    </div>
+                    <div style={{ height: 6, background: 'rgba(255,255,255,0.08)', borderRadius: 3, overflow: 'hidden', marginBottom: 6 }}>
+                      <div style={{ height: '100%', width: b.pct, background: b.color, borderRadius: 3 }} />
+                    </div>
+                    <div style={{ fontSize: 10, color: MUT }}>{b.present} حاضر من {b.total}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, overflow: 'hidden' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '40px 2fr 1fr 1fr 1fr', gap: 8, padding: '10px 14px', background: 'rgba(255,255,255,0.03)', fontSize: 11, fontWeight: 700, color: MUT }}>
+                  <span>#</span><span>الموظف</span><span>الوظيفة</span><span>وقت الحضور</span><span>الحالة</span>
+                </div>
+                {[
+                  { name: 'أ. محمد الغامدي', role: 'معلم رياضيات', time: '7:15 ص', status: 'حاضر', sColor: '#4ADE80' },
+                  { name: 'أ. سارة الزهراني', role: 'معلمة علوم', time: '7:20 ص', status: 'حاضر', sColor: '#4ADE80' },
+                  { name: 'عبدالله الدوسري', role: 'سائق باص', time: '6:45 ص', status: 'حاضر', sColor: '#4ADE80' },
+                  { name: 'فيصل الشمري', role: 'حارس أمن', time: '—', status: 'إجازة', sColor: '#FB923C' },
+                  { name: 'ريم السلمي', role: 'فراشة', time: '7:35 ص', status: 'متأخر', sColor: '#FB923C' },
+                  { name: 'نورة الحربي', role: 'إدارية', time: '7:05 ص', status: 'حاضر', sColor: '#4ADE80' },
+                ].map((emp, i) => (
+                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '40px 2fr 1fr 1fr 1fr', gap: 8, padding: '10px 14px', borderTop: `1px solid ${BD}`, fontSize: 12, alignItems: 'center' }}>
+                    <span style={{ color: MUT }}>{i+1}</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div style={{ width: 28, height: 28, borderRadius: 7, background: `${emp.sColor}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>👤</div>
+                      <span style={{ fontWeight: 600 }}>{emp.name}</span>
+                    </div>
+                    <span style={{ color: DIM }}>{emp.role}</span>
+                    <span style={{ color: DIM }}>{emp.time}</span>
+                    <span style={{ background: `${emp.sColor}18`, color: emp.sColor, fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 6, textAlign: 'center' }}>{emp.status}</span>
+                  </div>
+                ))}
+                <div style={{ padding: '10px 14px', textAlign: 'center', fontSize: 11, color: MUT }}>+ 80 موظف آخر</div>
+              </div>
             </div>
           )}
 
           {/* REPORTS */}
           {activeSection === 'reports' && (
-            <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}>📈 تقارير الموارد البشرية</h3>
-              <button onClick={() => router.push('/dashboard/reports')} style={{ background: C, border: 'none', borderRadius: 8, padding: '10px 20px', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: FONT }}>فتح التقارير</button>
+            <div>
+              <h2 style={{ fontSize: 16, fontWeight: 800, marginBottom: 20 }}>📈 تقارير الموارد البشرية</h2>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14, marginBottom: 20 }}>
+                {[
+                  { icon: '📊', title: 'تقرير الحضور الشهري', desc: 'ملخص شامل لحضور جميع الموظفين', color: '#4ADE80' },
+                  { icon: '💰', title: 'تقرير الرواتب', desc: 'تفاصيل مسير الرواتب والبدلات', color: C },
+                  { icon: '📄', title: 'تقرير العقود', desc: 'حالة العقود والتجديدات', color: '#60A5FA' },
+                  { icon: '🏖️', title: 'تقرير الإجازات', desc: 'إحصائيات الإجازات حسب النوع', color: '#A78BFA' },
+                  { icon: '👥', title: 'تقرير التوظيف', desc: 'حركة التعيينات والاستقالات', color: '#FB923C' },
+                  { icon: '⭐', title: 'تقرير الأداء', desc: 'تقييمات الموظفين الفصلية', color: GD },
+                ].map((r, i) => (
+                  <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 18, cursor: 'pointer' }}>
+                    <div style={{ width: 40, height: 40, borderRadius: 10, background: `${r.color}18`, border: `1px solid ${r.color}33`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, marginBottom: 12 }}>{r.icon}</div>
+                    <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 6 }}>{r.title}</div>
+                    <div style={{ fontSize: 11, color: DIM, lineHeight: 1.5 }}>{r.desc}</div>
+                    <button style={{ marginTop: 12, background: `${r.color}18`, border: `1px solid ${r.color}33`, borderRadius: 7, padding: '5px 12px', color: r.color, fontSize: 10, fontWeight: 700, cursor: 'pointer', fontFamily: FONT }}>تحميل PDF</button>
+                  </div>
+                ))}
+              </div>
+              <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
+                <h3 style={{ fontSize: 13, fontWeight: 700, marginBottom: 12 }}>📋 ملخص سريع</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
+                  {[
+                    { label: 'متوسط الحضور', value: '94%', color: '#4ADE80' },
+                    { label: 'معدل الدوران', value: '4.2%', color: '#60A5FA' },
+                    { label: 'رضا الموظفين', value: '87%', color: '#A78BFA' },
+                    { label: 'عقود منتهية', value: '6', color: '#EF4444' },
+                  ].map((s, i) => (
+                    <div key={i} style={{ background: 'rgba(255,255,255,0.02)', border: `1px solid ${BD}`, borderRadius: 10, padding: '10px 12px', textAlign: 'center' }}>
+                      <div style={{ fontSize: 22, fontWeight: 900, color: s.color }}>{s.value}</div>
+                      <div style={{ fontSize: 10, color: MUT, marginTop: 4 }}>{s.label}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
         </div>

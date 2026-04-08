@@ -515,6 +515,67 @@ const SchoolTemplate: React.FC<SchoolTemplateProps> = ({ data }) => {
         </div>
       </section>
 
+      {/* ════ COMMUNITY ════ */}
+      <section style={{ padding: '60px 24px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '5px 14px', fontSize: 11, color: 'rgba(238,238,245,0.5)', fontWeight: 700, marginBottom: 12 }}>🤝 الملتقى المجتمعي</div>
+            <h2 style={{ fontSize: 30, fontWeight: 900 }}>ملتقى أسرة <span style={{ color: pc }}>{schoolName}</span></h2>
+            <p style={{ fontSize: 13, color: 'rgba(238,238,245,0.4)', marginTop: 8 }}>تواصل مع أولياء الأمور والمعلمين والإدارة — اسأل، شارك، تابع</p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 24 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {[
+                { av: '🏫', name: 'إدارة المدرسة', role: 'إدارة رسمية', time: 'منذ 3 ساعات', body: `تذكير: موعد سداد رسوم الفصل الثالث قبل 10 أبريل. يمكن الدفع إلكترونياً من البوابة مباشرة.`, likes: 15, comments: 3, color: pc },
+                { av: '👩‍👦', name: 'أم عبدالله المطيري', role: 'ولي أمر', time: 'منذ ساعتين', body: 'ماشاءالله التطبيق ممتاز، أقدر أتابع ابني من البيت وأشوف درجاته فوراً. شكراً للإدارة', likes: 24, comments: 8, color: '#FB923C' },
+                { av: '👨‍👦', name: 'أبو سارة الشمري', role: 'ولي أمر', time: 'أمس', body: 'سؤال: هل الرحلة العلمية تتطلب موافقة مكتوبة؟ وأين أسجّل البنت؟', likes: 4, comments: 6, color: '#A78BFA' },
+                { av: '👨‍🏫', name: 'أ. محمد الغامدي', role: 'معلم رياضيات', time: 'قبل يومين', body: 'نبّه أولياء الأمور: الواجب النهائي لمادة الرياضيات موعد تسليمه الأسبوع القادم. التفاصيل على التطبيق.', likes: 11, comments: 2, color: '#10B981' },
+              ].map((post, i) => (
+                <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 18 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+                    <div style={{ width: 38, height: 38, borderRadius: 10, background: `${post.color}18`, border: `1px solid ${post.color}33`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{post.av}</div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: '#EEEEF5' }}>{post.name}</div>
+                      <div style={{ fontSize: 10.5, color: 'rgba(238,238,245,0.4)' }}>{post.role} · {post.time}</div>
+                    </div>
+                  </div>
+                  <div style={{ fontSize: 13, color: 'rgba(238,238,245,0.7)', lineHeight: 1.65, marginBottom: 14 }}>{post.body}</div>
+                  <div style={{ display: 'flex', gap: 16, borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 10 }}>
+                    <button style={{ background: 'none', border: 'none', color: 'rgba(238,238,245,0.4)', fontSize: 12, cursor: 'pointer', fontFamily: "'IBM Plex Sans Arabic', sans-serif" }}>&#128077; {post.likes}</button>
+                    <button style={{ background: 'none', border: 'none', color: 'rgba(238,238,245,0.4)', fontSize: 12, cursor: 'pointer', fontFamily: "'IBM Plex Sans Arabic', sans-serif" }}>&#128172; {post.comments} تعليق</button>
+                    <button style={{ background: 'none', border: 'none', color: 'rgba(238,238,245,0.4)', fontSize: 12, cursor: 'pointer', fontFamily: "'IBM Plex Sans Arabic', sans-serif" }}>مشاركة</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div>
+              <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 18, marginBottom: 14 }}>
+                <textarea placeholder={`شارك رأيك مع أسرة ${schoolName}...`} style={{ width: '100%', background: 'none', border: 'none', color: '#EEEEF5', fontSize: 13, fontFamily: "'IBM Plex Sans Arabic', sans-serif", outline: 'none', resize: 'none', minHeight: 80 }} />
+                <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 10, display: 'flex', justifyContent: 'flex-end' }}>
+                  <button style={{ background: `linear-gradient(135deg, ${pc}, ${sc})`, border: 'none', borderRadius: 9, padding: '8px 20px', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: "'IBM Plex Sans Arabic', sans-serif" }}>نشر</button>
+                </div>
+              </div>
+              <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 16 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#EEEEF5', marginBottom: 12 }}>الأكثر تفاعلاً</div>
+                {[
+                  { name: 'أم عبدالله', posts: 24, color: '#FB923C' },
+                  { name: 'أ. محمد الغامدي', posts: 18, color: '#10B981' },
+                  { name: 'إدارة المدرسة', posts: 15, color: pc },
+                  { name: 'أبو سارة', posts: 12, color: '#A78BFA' },
+                ].map((u, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0', borderBottom: i < 3 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
+                    <div style={{ width: 28, height: 28, borderRadius: 8, background: `${u.color}18`, border: `1px solid ${u.color}33`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 900, color: u.color }}>{i + 1}</div>
+                    <div style={{ flex: 1, fontSize: 12, fontWeight: 600, color: '#EEEEF5' }}>{u.name}</div>
+                    <span style={{ fontSize: 11, color: 'rgba(238,238,245,0.35)' }}>{u.posts} مشاركة</span>
+                  </div>
+                ))}
+                <div style={{ fontSize: 11, color: 'rgba(238,238,245,0.3)', marginTop: 10, textAlign: 'center' }}>290 عضو في الملتقى</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ════ FOOTER ════ */}
       <footer style={{ background: 'rgba(255,255,255,0.02)', borderTop: '1px solid rgba(255,255,255,0.08)', padding: '48px 24px 24px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>

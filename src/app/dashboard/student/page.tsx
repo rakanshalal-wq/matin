@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 /* ─── Colors ─── */
 const BG = '#06060E';
@@ -173,6 +173,242 @@ export default function StudentDashboard() {
           </div>
         </div>
 
+        {/* ═══ SCHEDULE SECTION ═══ */}
+        {activeSection === 'schedule' && (
+          <div>
+            <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 20 }}>الجدول الدراسي الأسبوعي</h2>
+            <div style={{ background: 'rgba(255,255,255,0.025)', border: `1px solid ${BORDER}`, borderRadius: 16, overflow: 'hidden' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '100px repeat(5, 1fr)', fontSize: 12, fontWeight: 700, color: MUTED, borderBottom: `1px solid ${BORDER}` }}>
+                <div style={{ padding: 12, borderLeft: `1px solid ${BORDER}` }}>الوقت</div>
+                {['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'].map(d => (
+                  <div key={d} style={{ padding: 12, textAlign: 'center', borderLeft: `1px solid ${BORDER}` }}>{d}</div>
+                ))}
+              </div>
+              {['08:00-09:30', '10:00-11:30', '12:00-01:00', '02:00-03:30'].map((time, ti) => (
+                <div key={ti} style={{ display: 'grid', gridTemplateColumns: '100px repeat(5, 1fr)', borderBottom: `1px solid ${BORDER}` }}>
+                  <div style={{ padding: 10, fontSize: 11, color: MUTED, borderLeft: `1px solid ${BORDER}`, display: 'flex', alignItems: 'center' }}>{time}</div>
+                  {[0,1,2,3,4].map(di => {
+                    const cell = ti === 0 && (di === 0 || di === 2) ? { sub: 'هياكل البيانات', room: 'A-204', c: PRIMARY } :
+                                 ti === 1 && (di === 1 || di === 3) ? { sub: 'قواعد البيانات', room: 'DB-1', c: '#22D3EE' } :
+                                 ti === 2 && (di === 0 || di === 2 || di === 4) ? { sub: 'تحليل الخوارزميات', room: 'B-107', c: ACCENT2 } :
+                                 ti === 3 && di === 3 ? { sub: 'شبكات الحاسب', room: 'أونلاين', c: '#10B981' } : null;
+                    return (
+                      <div key={di} style={{ padding: 8, borderLeft: `1px solid ${BORDER}`, minHeight: 60 }}>
+                        {cell && (
+                          <div style={{ background: `${cell.c}12`, border: `1px solid ${cell.c}30`, borderRadius: 8, padding: '6px 8px' }}>
+                            <div style={{ fontSize: 11, fontWeight: 700, color: cell.c }}>{cell.sub}</div>
+                            <div style={{ fontSize: 10, color: MUTED }}>{cell.room}</div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ═══ COURSES SECTION ═══ */}
+        {activeSection === 'mycourses' && (
+          <div>
+            <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 20 }}>مقرراتي الحالية</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 14 }}>
+              {[
+                { code: 'CS301', name: 'هياكل البيانات', dr: 'د. عبدالرحمن السالم', hours: 3, grade: 'A', pct: 92, color: PRIMARY },
+                { code: 'CS310', name: 'قواعد البيانات', dr: 'د. فاطمة الحربي', hours: 3, grade: 'B+', pct: 85, color: '#22D3EE' },
+                { code: 'CS320', name: 'تحليل الخوارزميات', dr: 'د. محمد الشمري', hours: 3, grade: 'A-', pct: 88, color: ACCENT2 },
+                { code: 'CS330', name: 'شبكات الحاسب', dr: 'د. سعد الغامدي', hours: 3, grade: 'B', pct: 80, color: '#10B981' },
+                { code: 'MATH301', name: 'الاحتمالات والإحصاء', dr: 'د. خالد العتيبي', hours: 3, grade: 'C+', pct: 72, color: '#F59E0B' },
+              ].map((course, i) => (
+                <div key={i} style={{ background: `${course.color}08`, border: `1px solid ${course.color}22`, borderRadius: 16, padding: 18 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
+                    <div>
+                      <span style={{ fontSize: 10, color: course.color, fontWeight: 700, background: `${course.color}18`, padding: '2px 8px', borderRadius: 20 }}>{course.code}</span>
+                      <div style={{ fontSize: 15, fontWeight: 800, color: TEXT, marginTop: 6 }}>{course.name}</div>
+                      <div style={{ fontSize: 11, color: MUTED, marginTop: 2 }}>{course.dr} · {course.hours} ساعات</div>
+                    </div>
+                    <div style={{ textAlign: 'center' }}>
+                      <div style={{ fontSize: 22, fontWeight: 900, color: course.color }}>{course.grade}</div>
+                      <div style={{ fontSize: 10, color: MUTED }}>متوقع</div>
+                    </div>
+                  </div>
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: MUTED, marginBottom: 4 }}>
+                      <span>التقدم</span><span style={{ color: course.color, fontWeight: 700 }}>{course.pct}%</span>
+                    </div>
+                    <div style={{ height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 99, overflow: 'hidden' }}>
+                      <div style={{ width: `${course.pct}%`, height: '100%', background: course.color, borderRadius: 99 }} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ═══ EXAMS SECTION ═══ */}
+        {activeSection === 'myexams' && (
+          <div>
+            <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 20 }}>اختباراتي القادمة</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 24 }}>
+              {[
+                { subject: 'هياكل البيانات', type: 'اختبار فصلي ثاني', date: '12 أبريل 2026', time: '10:00 ص', room: 'قاعة A-204', days: 4, color: PRIMARY },
+                { subject: 'قواعد البيانات', type: 'اختبار عملي', date: '15 أبريل 2026', time: '02:00 م', room: 'مختبر DB-1', days: 7, color: '#22D3EE' },
+                { subject: 'تحليل الخوارزميات', type: 'اختبار نهائي', date: '28 أبريل 2026', time: '09:00 ص', room: 'قاعة الاختبارات', days: 20, color: ACCENT2 },
+                { subject: 'شبكات الحاسب', type: 'اختبار نهائي', date: '30 أبريل 2026', time: '01:00 م', room: 'أونلاين', days: 22, color: '#10B981' },
+              ].map((exam, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 16, background: `${exam.color}08`, border: `1px solid ${exam.color}22`, borderRadius: 14, padding: '14px 18px' }}>
+                  <div style={{ width: 50, height: 50, borderRadius: 12, background: `${exam.color}15`, border: `1px solid ${exam.color}30`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div style={{ fontSize: 18, fontWeight: 900, color: exam.color }}>{exam.days}</div>
+                    <div style={{ fontSize: 8, color: MUTED }}>يوم</div>
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: TEXT }}>{exam.subject}</div>
+                    <div style={{ fontSize: 11, color: MUTED, marginTop: 2 }}>{exam.type} · {exam.date} · {exam.time}</div>
+                    <div style={{ fontSize: 10, color: `${exam.color}99`, marginTop: 2 }}>{exam.room}</div>
+                  </div>
+                  <button style={{ background: `${exam.color}18`, border: `1px solid ${exam.color}33`, borderRadius: 8, padding: '7px 14px', color: exam.color, fontSize: 11, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>مراجعة</button>
+                </div>
+              ))}
+            </div>
+            <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 14 }}>نتائج اختبارات سابقة</h3>
+            <div style={{ background: 'rgba(255,255,255,0.025)', border: `1px solid ${BORDER}`, borderRadius: 14, overflow: 'hidden' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', gap: 8, padding: '10px 14px', background: 'rgba(255,255,255,0.03)', fontSize: 11, fontWeight: 700, color: MUTED }}>
+                <span>المقرر</span><span>النوع</span><span>الدرجة</span><span>من</span><span>النسبة</span>
+              </div>
+              {[
+                { sub: 'هياكل البيانات', type: 'فصلي أول', score: 38, total: 40, pct: '95%', color: '#10B981' },
+                { sub: 'قواعد البيانات', type: 'فصلي أول', score: 33, total: 40, pct: '82%', color: '#22D3EE' },
+                { sub: 'تحليل الخوارزميات', type: 'فصلي أول', score: 35, total: 40, pct: '87%', color: ACCENT2 },
+                { sub: 'شبكات الحاسب', type: 'أعمال سنة', score: 28, total: 30, pct: '93%', color: '#10B981' },
+              ].map((r, i) => (
+                <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', gap: 8, padding: '10px 14px', borderTop: `1px solid ${BORDER}`, fontSize: 12, alignItems: 'center' }}>
+                  <span style={{ fontWeight: 600 }}>{r.sub}</span>
+                  <span style={{ color: MUTED }}>{r.type}</span>
+                  <span style={{ fontWeight: 800, color: r.color }}>{r.score}</span>
+                  <span style={{ color: MUTED }}>{r.total}</span>
+                  <span style={{ background: `${r.color}18`, color: r.color, fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 6, textAlign: 'center' }}>{r.pct}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ═══ ACADEMIC RECORD ═══ */}
+        {activeSection === 'record' && (
+          <div>
+            <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 20 }}>السجل الأكاديمي</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 20 }}>
+              {[
+                { label: 'المعدل التراكمي', value: '4.2/5.0', color: '#10B981' },
+                { label: 'ساعات مكتملة', value: '78', color: PRIMARY },
+                { label: 'ساعات متبقية', value: '52', color: '#F59E0B' },
+                { label: 'الفصل الحالي', value: 'السادس', color: ACCENT2 },
+              ].map((s, i) => (
+                <div key={i} style={{ background: `${s.color}0A`, border: `1px solid ${s.color}22`, borderRadius: 14, padding: '14px 16px', textAlign: 'center' }}>
+                  <div style={{ fontSize: 24, fontWeight: 900, color: s.color }}>{s.value}</div>
+                  <div style={{ fontSize: 11, color: MUTED, marginTop: 4 }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+            {[5, 4, 3].map(sem => (
+              <div key={sem} style={{ background: 'rgba(255,255,255,0.025)', border: `1px solid ${BORDER}`, borderRadius: 14, padding: 16, marginBottom: 14 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
+                  <span style={{ fontSize: 14, fontWeight: 700 }}>الفصل {sem === 5 ? 'الخامس' : sem === 4 ? 'الرابع' : 'الثالث'}</span>
+                  <span style={{ fontSize: 12, color: '#10B981', fontWeight: 700 }}>GPA: {sem === 5 ? '4.3' : sem === 4 ? '4.1' : '3.9'}</span>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 6, fontSize: 12 }}>
+                  {(sem === 5 ? [
+                    { name: 'هندسة البرمجيات', grade: 'A', hours: 3 },
+                    { name: 'أنظمة التشغيل', grade: 'A-', hours: 3 },
+                    { name: 'الذكاء الاصطناعي', grade: 'B+', hours: 3 },
+                  ] : sem === 4 ? [
+                    { name: 'البرمجة المتقدمة', grade: 'A', hours: 3 },
+                    { name: 'الرياضيات المتقطعة', grade: 'B+', hours: 3 },
+                    { name: 'نظم المعلومات', grade: 'A-', hours: 3 },
+                  ] : [
+                    { name: 'البرمجة الكائنية', grade: 'A-', hours: 3 },
+                    { name: 'التفاضل والتكامل', grade: 'B', hours: 3 },
+                    { name: 'مقدمة قواعد بيانات', grade: 'A', hours: 3 },
+                  ]).map((c, ci) => (
+                    <React.Fragment key={ci}>
+                      <span style={{ padding: '6px 0', color: TEXT, fontWeight: 600 }}>{c.name}</span>
+                      <span style={{ padding: '6px 0', color: MUTED, textAlign: 'center' }}>{c.hours} ساعات</span>
+                      <span style={{ padding: '6px 0', color: c.grade.startsWith('A') ? '#10B981' : '#F59E0B', fontWeight: 800, textAlign: 'center' }}>{c.grade}</span>
+                    </React.Fragment>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* ═══ MESSAGES SECTION ═══ */}
+        {activeSection === 'messages' && (
+          <div>
+            <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 20 }}>رسائل الدكاترة</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {[
+                { from: 'د. عبدالرحمن السالم', subject: 'موعد تسليم مشروع هياكل البيانات', time: 'منذ ساعة', unread: true, color: PRIMARY },
+                { from: 'د. فاطمة الحربي', subject: 'نتائج الاختبار الفصلي الأول', time: 'منذ 3 ساعات', unread: true, color: '#22D3EE' },
+                { from: 'د. محمد الشمري', subject: 'تغيير موعد المحاضرة القادمة', time: 'أمس', unread: true, color: ACCENT2 },
+                { from: 'عمادة القبول', subject: 'تأكيد تسجيل مقررات الفصل القادم', time: 'قبل يومين', unread: false, color: '#A78BFA' },
+                { from: 'د. سعد الغامدي', subject: 'رابط المحاضرة الأونلاين محدّث', time: 'قبل 3 أيام', unread: false, color: '#10B981' },
+              ].map((msg, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 14, background: msg.unread ? `${msg.color}08` : 'rgba(255,255,255,0.02)', border: `1px solid ${msg.unread ? `${msg.color}22` : BORDER}`, borderRadius: 12, padding: '12px 16px', cursor: 'pointer' }}>
+                  <div style={{ width: 38, height: 38, borderRadius: 10, background: `${msg.color}18`, border: `1px solid ${msg.color}33`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 800, color: msg.color, flexShrink: 0 }}>{msg.from[0]}</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13, fontWeight: msg.unread ? 700 : 500, color: TEXT }}>{msg.from}</div>
+                    <div style={{ fontSize: 12, color: MUTED, marginTop: 2 }}>{msg.subject}</div>
+                  </div>
+                  <div style={{ textAlign: 'left' }}>
+                    <div style={{ fontSize: 10, color: MUTED }}>{msg.time}</div>
+                    {msg.unread && <div style={{ width: 8, height: 8, borderRadius: '50%', background: msg.color, marginTop: 4, marginRight: 'auto' }} />}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ═══ FEES SECTION ═══ */}
+        {activeSection === 'fees' && (
+          <div>
+            <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 20 }}>الرسوم الدراسية</h2>
+            <div style={{ background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 16, padding: '18px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#EF4444' }}>رسوم معلقة</div>
+                <div style={{ fontSize: 11, color: MUTED, marginTop: 2 }}>موعد السداد: 20 أبريل 2026</div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                <div style={{ fontSize: 26, fontWeight: 900, color: '#EF4444' }}>18,000 <span style={{ fontSize: 12 }}>SAR</span></div>
+                <button style={{ background: '#EF4444', border: 'none', borderRadius: 10, padding: '10px 20px', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>ادفع الآن</button>
+              </div>
+            </div>
+            <div style={{ background: 'rgba(255,255,255,0.025)', border: `1px solid ${BORDER}`, borderRadius: 14, overflow: 'hidden' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 8, padding: '10px 14px', background: 'rgba(255,255,255,0.03)', fontSize: 11, fontWeight: 700, color: MUTED }}>
+                <span>البند</span><span>المبلغ</span><span>المسدد</span><span>الحالة</span>
+              </div>
+              {[
+                { item: 'رسوم الفصل الثاني', amount: '15,000', paid: '15,000', status: 'مسدد', sColor: '#10B981' },
+                { item: 'رسوم المختبرات', amount: '2,000', paid: '0', status: 'معلق', sColor: '#EF4444' },
+                { item: 'رسوم النقل الجامعي', amount: '1,000', paid: '0', status: 'معلق', sColor: '#EF4444' },
+                { item: 'رسوم الفصل الأول', amount: '15,000', paid: '15,000', status: 'مسدد', sColor: '#10B981' },
+              ].map((f, i) => (
+                <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 8, padding: '10px 14px', borderTop: `1px solid ${BORDER}`, fontSize: 12, alignItems: 'center' }}>
+                  <span style={{ fontWeight: 600 }}>{f.item}</span>
+                  <span style={{ color: MUTED }}>{f.amount}</span>
+                  <span style={{ color: MUTED }}>{f.paid}</span>
+                  <span style={{ background: `${f.sColor}18`, color: f.sColor, fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 6, textAlign: 'center' }}>{f.status}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ═══ HOME SECTION ═══ */}
+        {activeSection === 'home' && (<>
         {/* ── GPA Banner ── */}
         <div style={{ background: `linear-gradient(135deg, rgba(99,102,241,0.18) 0%, rgba(129,140,248,0.08) 100%)`, border: `1px solid rgba(129,140,248,0.22)`, borderRadius: 18, padding: '22px 28px', marginBottom: 22, display: 'flex', alignItems: 'center', gap: 32, flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
@@ -285,6 +521,7 @@ export default function StudentDashboard() {
             ))}
           </div>
         </div>
+        </>)}
 
       </main>
     </div>
