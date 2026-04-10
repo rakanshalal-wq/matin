@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { pool, getUserFromRequest } from '@/lib/auth';
+import { chat } from '@/lib/ai';
 
 export async function GET(req: NextRequest) {
   try {
@@ -24,27 +25,38 @@ export async function POST(req: NextRequest) {
     if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
 
     const body = await req.json();
-    const { message, school_id } = body;
+    const { message, school_id, history } = body;
 
     if (!message) return NextResponse.json({ error: 'الرسالة مطلوبة' }, { status: 400 });
 
-    // رد ذكي بسيط
-    const replies: Record<string, string> = {
-      'مرحبا': 'مرحباً! كيف يمكنني مساعدتك اليوم؟',
-      'مساعدة': 'بالطبع! أنا هنا لمساعدتك. ما الذي تحتاجه؟',
-      'طلاب': 'يمكنني مساعدتك في إدارة بيانات الطلاب وتتبع أدائهم.',
-      'حضور': 'يمكنني مساعدتك في تسجيل الحضور والغياب ومتابعته.',
-      'درجات': 'يمكنني مساعدتك في إدارة الدرجات والتقارير الأكاديمية.',
-    };
+    const messages: { role: 'system' | 'user' | 'assistant'; content: string }[] = [
+      {
+        role: 'system',
+        content: 'أنت مساعد تعليمي ذكي لمنصة متين. ساعد المستخدم في إدارة المدرسة والطلاب والمعلمين والاختبارات. أجب بالعربية بشكل واضح ومختصر.',
+      },
+    ];
 
-    let reply = 'مرحباً! أنا مساعد متين الذكي. يمكنني مساعدتك في إدارة المدرسة، متابعة الطلاب، والتقارير. كيف يمكنني مساعدتك؟';
-    for (const [key, val] of Object.entries(replies)) {
-      if (message.includes(key)) { reply = val; break; }
+    if (Array.isArray(history)) {
+      for (const item of history) {
+        if (item.role && item.content) {
+          messages.push({ role: item.role, content: String(item.content) });
+        }
+      }
+    }
+
+    messages.push({ role: 'user', content: message });
+
+    let reply: string;
+    try {
+      const result = await chat(messages, { maxTokens: 500 });
+      reply = result.text;
+    } catch {
+      reply = 'مرحباً! أنا مساعد متين الذكي. يمكنني مساعدتك في إدارة المدرسة، متابعة الطلاب، والتقارير. كيف يمكنني مساعدتك؟';
     }
 
     await pool.query(
       `INSERT INTO ai_chats (user_id, message, reply, school_id, created_at)
-       VALUES ($1, $2, $3, $4, NOW()`,
+       VALUES ($1, $2, $3, $4, NOW())`,
       [String(user.id), message, reply, school_id || null]
     ).catch(() => {});
 
@@ -73,4 +85,3 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: 'خطأ في الحذف' }, { status: 500 });
   }
 }
-

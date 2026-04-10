@@ -33,20 +33,13 @@ export async function GET(request: Request) {
 
     // ===== owner - مالك المدرسة =====
     if (user.role === 'owner') {
-      const schoolId = user.school_id;
-      if (!schoolId) {
-        return NextResponse.json({
-          my_schools: 0, students: 0, teachers: 0,
-          classes: 0, active_exams: 0, revenue: 0,
-          attendance_today: 0, pending_fees: 0, messages: 0,
-        });
-      }
+      const ownerId = String(user.id);
       const [my_schools, my_students, my_teachers, classes, exams] = await Promise.all([
-        pool.query("SELECT COUNT(*) FROM schools WHERE owner_id = $1::text", [String(user.id)]),
-        pool.query("SELECT COUNT(*) FROM students WHERE school_id = $1", [schoolId]),
-        pool.query("SELECT COUNT(*) FROM teachers WHERE school_id = $1", [schoolId]),
-        pool.query("SELECT COUNT(*) FROM classes WHERE school_id = $1", [schoolId]),
-        pool.query("SELECT COUNT(*) FROM exams WHERE school_id = $1 AND status IN ('SCHEDULED', 'ONGOING')", [schoolId]),
+        pool.query("SELECT COUNT(*) FROM schools WHERE owner_id = $1::text", [ownerId]),
+        pool.query("SELECT COUNT(*) FROM students s WHERE EXISTS (SELECT 1 FROM schools sc WHERE sc.id::text = s.school_id::text AND sc.owner_id = $1::text)", [ownerId]),
+        pool.query("SELECT COUNT(*) FROM teachers t WHERE EXISTS (SELECT 1 FROM schools sc WHERE sc.id::text = t.school_id::text AND sc.owner_id = $1::text)", [ownerId]),
+        pool.query("SELECT COUNT(*) FROM classes c WHERE EXISTS (SELECT 1 FROM schools sc WHERE sc.id::text = c.school_id::text AND sc.owner_id = $1::text)", [ownerId]),
+        pool.query("SELECT COUNT(*) FROM exams e WHERE EXISTS (SELECT 1 FROM schools sc WHERE sc.id::text = e.school_id::text AND sc.owner_id = $1::text) AND e.status IN ('SCHEDULED', 'ONGOING')", [ownerId]),
       ]);
       return NextResponse.json({
         my_schools: Number(my_schools.rows[0].count),

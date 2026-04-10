@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getUserFromRequest } from '@/lib/auth';
-import pool from '@/lib/db';
-import * as XLSX from 'xlsx';
+import { getUserFromRequest, pool } from '@/lib/auth';
+import ExcelJS from 'exceljs';
 
 // =====================================================
 // API استيراد بنك الأسئلة من Excel — منصة متين
@@ -52,7 +51,7 @@ interface ParsedQuestion {
 }
 
 function parseQuestionRow(
-  row: any[], structure: StructureType,
+  row: (string | null)[], structure: StructureType,
   defaultSubject: string, defaultGrade: string,
   defaultTrack: string, defaultStage: string,
 ): ParsedQuestion | null {
@@ -132,7 +131,8 @@ export async function POST(req: NextRequest) {
     if (!grade) return NextResponse.json({ error: 'يجب تحديد الصف الدراسي' }, { status: 400 });
 
     const buffer = await file.arrayBuffer();
-    const workbook = XLSX.read(new Uint8Array(buffer), { type: 'array' });
+    const workbook = new ExcelJS.Workbook();
+    await workbook.xlsx.load(Buffer.from(buffer));
 
     let totalImported = 0, totalSkipped = 0;
     const sheetResults: Array<{ sheet: string; imported: number; skipped: number; structure: string }> = [];
@@ -150,11 +150,24 @@ export async function POST(req: NextRequest) {
         }
       }
 
-      for (const sheetName of workbook.SheetNames) {
+      for (const worksheet of workbook.worksheets) {
+        const sheetName = worksheet.name;
         if (/ملخص|summary|cover|غلاف|تعليمات|instructions|مرجع|reference/i.test(sheetName)) continue;
 
-        const worksheet = workbook.Sheets[sheetName];
-        const rows: any[][] = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: null, raw: false });
+        // تحويل ورقة العمل إلى مصفوفة ثنائية
+        const rows: (string | null)[][] = [];
+        worksheet.eachRow({ includeEmpty: true }, (row) => {
+          const rowData = (row.values as (ExcelJS.CellValue | null)[])
+            .slice(1)
+            .map((cell) => {
+              if (cell === null || cell === undefined) return null;
+              if (typeof cell === 'object' && 'text' in cell) return String((cell as ExcelJS.CellRichTextValue).text ?? '').trim() || null;
+              if (typeof cell === 'object' && 'result' in cell) return String((cell as ExcelJS.CellFormulaValue).result ?? '').trim() || null;
+              return String(cell).trim() || null;
+            });
+          rows.push(rowData);
+        });
+
         if (rows.length < 3) continue;
 
         let semester = '1';
@@ -162,13 +175,13 @@ export async function POST(req: NextRequest) {
 
         let headerRowIndex = 1;
         for (let i = 0; i < Math.min(6, rows.length); i++) {
-          const rowText = (rows[i] || []).map((c: any) => String(c || '')).join(' ');
+          const rowText = (rows[i] || []).map((c) => String(c || '')).join(' ');
           if (/السؤال|الصعوبة|نوع السؤال|question|المرحلة|المسار/i.test(rowText)) {
             headerRowIndex = i; break;
           }
         }
 
-        const headers = (rows[headerRowIndex] || []).map((h: any) => String(h || '').trim());
+        const headers = (rows[headerRowIndex] || []).map((h) => String(h || '').trim());
         const structure = detectStructure(headers);
         let sheetImported = 0, sheetSkipped = 0;
 
