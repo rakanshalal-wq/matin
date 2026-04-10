@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 
@@ -135,7 +135,7 @@ export default function FrontendEditor() {
   return (
     <>
       <style>{styles}</style>
-      <div style={{ fontFamily: 'IBM Plex Sans Arabic, sans-serif', background: '#06060E', color: '#EEEEF5', minHeight: '100vh', padding: 24 }}>
+      <div dir="rtl" style={{ fontFamily: 'IBM Plex Sans Arabic, sans-serif', background: '#06060E', color: '#EEEEF5', minHeight: '100vh', padding: 24 }}>
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
         
         {/* PAGE HEADER */}
@@ -259,3 +259,4 @@ export default function FrontendEditor() {
     \u003c/>
   );
 }
+
