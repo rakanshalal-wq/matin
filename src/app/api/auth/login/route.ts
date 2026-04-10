@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     const { email, password } = parsed.data;
 
     const result = await pool.query(
-      'SELECT id, name, email, password, role, school_id, owner_id, package, status, must_change_password FROM users WHERE email = $1',
+      'SELECT id, name, email, password, role, school_id, owner_id, package, status, must_change_password, totp_enabled, totp_secret FROM users WHERE email = $1',
       [email]
     );
 
@@ -57,6 +57,16 @@ export async function POST(request: Request) {
         { success: false, message: 'البريد الإلكتروني أو كلمة المرور غير صحيحة' },
         { status: 401 }
       );
+    }
+
+    // ===== التحقق من المصادقة الثنائية (TOTP) — الأولوية القصوى =====
+    if (user.totp_enabled && user.totp_secret) {
+      return NextResponse.json({
+        success: true,
+        require2FA: true,
+        userId: user.id,
+        message: 'أدخل رمز تطبيق المصادقة (Google Authenticator / Authy)',
+      });
     }
 
     // ✅ التحقق من إعداد OTP من قاعدة البيانات

@@ -1,0 +1,37 @@
+# ملفات البيئة (تحتوي على أسرار)
+.env
+.env.local
+.env.*.local
+
+# ملفات Git
+.git
+.gitignore
+
+# ملفات التطوير
+.next
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ملفات الاختبارات
+__tests__
+*.test.ts
+*.test.tsx
+jest.config.js
+coverage
+
+# ملفات التوثيق
+README.md
+SETUP.md
+DEVELOPMENT_SUMMARY.md
+PROJECT_AUDIT.md
+*.pdf
+
+# ملفات CI/CD
+.github
+
+# ملفات النشر
+Dockerfile
+docker-compose.yml
+ecosystem.config.js

@@ -1,0 +1,121 @@
+# ===================================================
+# CI/CD Pipeline — منصة متين
+# يعمل عند: push على main/develop، أو فتح Pull Request
+# ===================================================
+
+name: CI
+
+on:
+  push:
+    branches: [main, develop, master]
+  pull_request:
+    branches: [main, develop, master]
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  # =====================
+  # فحص جودة الكود (Lint)
+  # =====================
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+  # ========================
+  # تشغيل الاختبارات (Tests)
+  # ========================
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://matin:matin_pass@localhost:5432/matin_test
+      MATIN_DATABASE_URL: postgresql://matin:matin_pass@localhost:5432/matin_test
+      JWT_SECRET: test_jwt_secret_at_least_64_characters_long_for_ci_pipeline_testing
+      ENCRYPTION_KEY: 0000000000000000000000000000000000000000000000000000000000000000
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: matin_test
+          POSTGRES_USER: matin
+          POSTGRES_PASSWORD: matin_pass
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test -- --passWithNoTests --forceExit
+
+  # =======================
+  # بناء التطبيق (Build)
+  # =======================
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    env:
+      DATABASE_URL: postgresql://matin:matin_pass@localhost:5432/matin_build
+      MATIN_DATABASE_URL: postgresql://matin:matin_pass@localhost:5432/matin_build
+      JWT_SECRET: build_jwt_secret_at_least_64_characters_long_for_ci_pipeline_build
+      ENCRYPTION_KEY: 0000000000000000000000000000000000000000000000000000000000000000
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+      NEXT_TELEMETRY_DISABLED: '1'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        if: github.ref == 'refs/heads/main'
+        with:
+          name: nextjs-build-${{ github.sha }}
+          path: .next/
+          retention-days: 7
