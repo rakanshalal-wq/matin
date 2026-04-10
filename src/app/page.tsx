@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 const CSS = `
@@ -50,7 +50,6 @@ nav{
   transition:all 0.2s;
 }
 .nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,168,67,0.4);}
-.nav-mobile-menu{display:none;background:none;border:1px solid var(--border);border-radius:8px;width:36px;height:36px;align-items:center;justify-content:center;cursor:pointer;color:var(--text-dim);}
 
 .hero{
   min-height:100vh;
@@ -59,99 +58,46 @@ nav{
   position:relative;overflow:hidden;
 }
 .hero-glow{position:absolute;width:min(700px,90vw);height:min(700px,90vw);border-radius:50%;background:radial-gradient(circle,rgba(212,168,67,0.07) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-60%);pointer-events:none;}
-.hero-glow2{position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(96,165,250,0.05) 0%,transparent 70%);bottom:15%;right:5%;pointer-events:none;}
-.hero-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--gold-dim);border:1px solid var(--gold-border);
-  border-radius:20px;padding:6px 16px;
-  font-size:12px;font-weight:600;color:var(--gold);
-  margin-bottom:28px;
-}
-.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse-dot 2s infinite;}
-.hero-title{
-  font-size:clamp(36px,6vw,72px);
-  font-weight:800;line-height:1.1;letter-spacing:-2px;
-  margin-bottom:10px;
-}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;color:var(--gold);margin-bottom:28px;}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite;}
+.hero-title{font-size:clamp(36px,6vw,72px);font-weight:800;line-height:1.1;letter-spacing:-2px;margin-bottom:10px;}
 .hero-title-gold{color:var(--gold);}
-.hero-sub{
-  font-size:clamp(15px,2vw,19px);color:var(--text-dim);
-  max-width:560px;margin:0 auto 40px;line-height:1.75;font-weight:400;
-}
+.hero-sub{font-size:clamp(15px,2vw,19px);color:var(--text-dim);max-width:560px;margin:0 auto 40px;line-height:1.75;font-weight:400;}
 .hero-actions{display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap;}
-.btn-primary{
-  background:linear-gradient(135deg,var(--gold),var(--gold2));
-  border:none;border-radius:12px;padding:14px 28px;
-  color:#06060E;font-weight:800;font-size:15px;
-  cursor:pointer;font-family:var(--font);
-  box-shadow:0 6px 22px rgba(212,168,67,0.3);
-  transition:all 0.2s;display:flex;align-items:center;gap:8px;white-space:nowrap;
-  text-decoration:none;
-}
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:12px;padding:14px 28px;color:#06060E;font-weight:800;font-size:15px;cursor:pointer;font-family:var(--font);box-shadow:0 6px 22px rgba(212,168,67,0.3);transition:all 0.2s;display:flex;align-items:center;gap:8px;white-space:nowrap;}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(212,168,67,0.45);}
-.btn-secondary{
-  background:rgba(255,255,255,0.05);border:1px solid var(--border);
-  border-radius:12px;padding:14px 24px;
-  color:var(--text);font-weight:600;font-size:15px;
-  cursor:pointer;font-family:var(--font);
-  transition:all 0.2s;display:flex;align-items:center;gap:8px;white-space:nowrap;
-}
+.btn-secondary{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;padding:14px 24px;color:var(--text);font-weight:600;font-size:15px;cursor:pointer;font-family:var(--font);transition:all 0.2s;display:flex;align-items:center;gap:8px;white-space:nowrap;}
 .btn-secondary:hover{background:rgba(255,255,255,0.09);border-color:rgba(255,255,255,0.15);}
-.hero-cards{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:14px;margin-top:56px;width:100%;max-width:1000px;
-}
-.hero-card{
-  background:rgba(255,255,255,0.03);border:1px solid var(--border2);
-  border-radius:16px;padding:22px 20px;transition:all 0.2s;
-}
+.hero-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:56px;width:100%;max-width:1000px;}
+.hero-card{background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:16px;padding:22px 20px;transition:all 0.2s;}
 .hero-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,0.1);}
-.hero-card-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.hero-card-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:24px;}
 .hero-card-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:7px;}
-.hero-card-desc{font-size:12.5px;color:var(--text-muted);line-height:1.65;margin-bottom:12px;}
-.hero-card-tag{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;}
+.hero-card-desc{font-size:12.5px;color:var(--text-muted);line-height:1.65;}
 
 section{padding:clamp(60px,8vw,100px) 5%;position:relative;z-index:1;}
 .sec-center{text-align:center;margin-bottom:clamp(40px,5vw,64px);}
-.sec-tag{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--gold-dim);border:1px solid var(--gold-border);
-  border-radius:20px;padding:5px 14px;
-  font-size:11px;font-weight:700;color:var(--gold);
-  letter-spacing:0.5px;text-transform:uppercase;margin-bottom:18px;
-}
+.sec-tag{display:inline-flex;align-items:center;gap:8px;background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:20px;padding:5px 14px;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:18px;}
 .sec-title{font-size:clamp(26px,4vw,44px);font-weight:800;letter-spacing:-1px;margin-bottom:14px;line-height:1.15;}
 .sec-sub{font-size:clamp(14px,1.5vw,16px);color:var(--text-dim);line-height:1.75;max-width:520px;margin:0 auto;}
 
-.inst-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
-.inst-card{
-  background:var(--card);border:1px solid var(--border2);
-  border-radius:16px;padding:clamp(20px,3vw,28px);
-  transition:all 0.25s;position:relative;overflow:hidden;
-}
+.inst-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;}
+.inst-card{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:clamp(20px,3vw,28px);transition:all 0.25s;position:relative;overflow:hidden;cursor:pointer;text-decoration:none;display:block;}
 .inst-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,0.1);}
-.inst-icon-wrap{
-  width:48px;height:48px;border-radius:13px;
-  display:flex;align-items:center;justify-content:center;
-  margin-bottom:16px;flex-shrink:0;
-}
-.inst-name{font-size:16px;font-weight:700;margin-bottom:8px;}
+.inst-icon-wrap{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;flex-shrink:0;font-size:24px;}
+.inst-name{font-size:16px;font-weight:700;margin-bottom:8px;color:var(--text);}
 .inst-desc{font-size:13px;color:var(--text-muted);line-height:1.65;}
-.inst-tag{margin-top:14px;font-size:11px;font-weight:700;letter-spacing:0.3px;}
+.inst-tag{display:inline-block;margin-top:14px;font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px;margin-left:6px;}
 
-.features-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,80px);align-items:center;}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(40px,6vw,80px);align-items:center;}
 .features-list{display:flex;flex-direction:column;gap:16px;}
-.feature-item{
-  display:flex;gap:16px;align-items:flex-start;
-  padding:18px;border-radius:14px;border:1px solid transparent;
-  transition:all 0.2s;cursor:default;
-}
+.feature-item{display:flex;gap:16px;align-items:flex-start;padding:18px;border-radius:14px;border:1px solid transparent;transition:all 0.2s;cursor:default;}
 .feature-item:hover{background:rgba(255,255,255,0.03);border-color:var(--border);}
-.feature-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.feature-title{font-size:15px;font-weight:700;margin-bottom:5px;}
+.feature-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;}
+.feature-title{font-size:15px;font-weight:700;margin-bottom:5px;color:var(--text);}
 .feature-desc{font-size:13px;color:var(--text-muted);line-height:1.65;}
 
-.mockup-wrap{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.04);}
+.mockup-wrap{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);}
 .mockup-bar{padding:12px 16px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px;}
 .mockup-dot{width:9px;height:9px;border-radius:50%;}
 .mockup-url{flex:1;text-align:center;font-size:10px;color:rgba(238,238,245,0.25);}
@@ -159,46 +105,29 @@ section{padding:clamp(60px,8vw,100px) 5%;position:relative;z-index:1;}
 .mockup-title{font-size:12px;font-weight:700;color:var(--gold);margin-bottom:12px;}
 .m-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
 .m-stat{background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:9px;padding:12px;}
-.m-val{font-size:20px;font-weight:800;line-height:1;}
+.m-val{font-size:20px;font-weight:800;line-height:1;color:var(--text);}
 .m-lbl{font-size:9px;color:var(--text-muted);margin-top:3px;}
-.m-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:rgba(255,255,255,0.02);border-radius:7px;margin-bottom:5px;font-size:11px;}
 .m-progress{height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;margin-top:12px;}
 .m-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--blue));border-radius:2px;}
-.m-prog-labels{display:flex;justify-content:space-between;margin-top:4px;font-size:9px;color:var(--text-muted);}
 
-.roles-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
-.role-card{
-  background:var(--card);border:1px solid var(--border2);
-  border-radius:13px;padding:18px 14px;text-align:center;
-  transition:all 0.2s;
-}
+.roles-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
+.role-card{background:var(--card);border:1px solid var(--border2);border-radius:13px;padding:18px 14px;text-align:center;transition:all 0.2s;}
 .role-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,0.1);}
-.role-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;}
-.role-name{font-size:13px;font-weight:700;margin-bottom:4px;}
+.role-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:20px;}
+.role-name{font-size:13px;font-weight:700;margin-bottom:4px;color:var(--text);}
 .role-desc{font-size:11px;color:var(--text-muted);line-height:1.5;}
 
 .int-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:40px;}
-.int-chip{
-  display:flex;align-items:center;gap:8px;
-  background:var(--card);border:1px solid var(--border2);
-  border-radius:10px;padding:9px 16px;
-  font-size:13px;font-weight:600;color:var(--text-dim);
-  transition:all 0.2s;
-}
+.int-chip{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:9px 16px;font-size:13px;font-weight:600;color:var(--text-dim);transition:all 0.2s;}
 .int-chip:hover{border-color:var(--gold-border);color:var(--text);}
-.int-chip svg{flex-shrink:0;}
 
-.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
-.price-card{
-  background:var(--card);border:1px solid var(--border2);
-  border-radius:20px;padding:clamp(24px,3vw,32px);
-  position:relative;overflow:hidden;transition:all 0.25s;
-}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;}
+.price-card{background:var(--card);border:1px solid var(--border2);border-radius:20px;padding:clamp(24px,3vw,32px);position:relative;overflow:hidden;transition:all 0.25s;}
 .price-card:hover{transform:translateY(-4px);}
 .price-card.featured{background:linear-gradient(135deg,rgba(212,168,67,0.07),rgba(212,168,67,0.02));border-color:var(--gold-border);box-shadow:0 0 50px rgba(212,168,67,0.07);}
 .price-badge{position:absolute;top:18px;left:18px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;font-size:10px;font-weight:800;padding:3px 11px;border-radius:20px;letter-spacing:0.5px;}
 .price-name{font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
-.price-amount{font-size:clamp(28px,3vw,38px);font-weight:800;line-height:1;}
+.price-amount{font-size:clamp(28px,3vw,38px);font-weight:800;line-height:1;color:var(--text);}
 .price-amount span{font-size:13px;color:var(--text-muted);font-weight:400;}
 .price-period{font-size:12px;color:var(--text-muted);margin-top:4px;}
 .price-divider{height:1px;background:var(--border);margin:22px 0;}
@@ -207,10 +136,10 @@ section{padding:clamp(60px,8vw,100px) 5%;position:relative;z-index:1;}
 .price-features li.off{color:var(--text-muted);}
 .check-icon{flex-shrink:0;color:var(--green);}
 .off-icon{flex-shrink:0;color:var(--text-muted);}
-.btn-price{width:100%;padding:12px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all 0.2s;}
+.btn-price{width:100%;padding:12px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all 0.2s;border:none;}
 .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text-dim);}
 .btn-outline:hover{border-color:var(--gold-border);color:var(--gold);}
-.btn-gold-p{background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;color:#000;box-shadow:0 4px 14px rgba(212,168,67,0.3);}
+.btn-gold-p{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;box-shadow:0 4px 14px rgba(212,168,67,0.3);}
 .btn-gold-p:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,168,67,0.45);}
 
 .cta-wrap{text-align:center;padding:clamp(60px,8vw,100px) 5%;position:relative;overflow:hidden;}
@@ -227,441 +156,300 @@ footer p{color:var(--text-muted);font-size:12px;}
 .footer-links a{color:var(--text-muted);font-size:12px;text-decoration:none;transition:color 0.2s;}
 .footer-links a:hover{color:var(--gold);}
 
-@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.4)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.55s ease,transform 0.55s ease;}
-.fade-in.visible{opacity:1;transform:translateY(0);}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.4)}}
 
-@media(max-width:1024px){
-  .inst-grid{grid-template-columns:repeat(2,1fr);}
-  .features-grid{grid-template-columns:1fr;}
-  .mockup-wrap{max-width:500px;margin:0 auto;}
-  .pricing-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto;}
-  .roles-grid{grid-template-columns:repeat(3,1fr);}
-  .hero-cards{grid-template-columns:repeat(2,1fr);max-width:600px;}
-}
 @media(max-width:768px){
   .nav-links{display:none;}
-  .nav-mobile-menu{display:flex;}
-  .inst-grid{grid-template-columns:1fr 1fr;}
-  .roles-grid{grid-template-columns:repeat(2,1fr);}
   .hero-cards{grid-template-columns:1fr;max-width:400px;}
-  .hero-title{letter-spacing:-1px;}
   footer{flex-direction:column;text-align:center;}
   .footer-links{justify-content:center;}
 }
-@media(max-width:480px){
-  .inst-grid{grid-template-columns:1fr;}
-  .roles-grid{grid-template-columns:repeat(2,1fr);}
-  .btn-primary,.btn-secondary{width:100%;justify-content:center;}
-  .hero-actions{flex-direction:column;width:100%;max-width:320px;}
-  .cta-actions{flex-direction:column;align-items:center;}
-  .hero-cards{grid-template-columns:1fr;}
-}
 `;
 
-export default function HomePage() {
+// 🏛️ أنواع المؤسسات
+const institutions = [
+  { name: 'المدارس', desc: 'إدارة شاملة للمدارس الأهلية والعالمية', icon: '🏫', color: '#60A5FA', bg: 'rgba(96,165,250,0.1)', features: ['جداول دراسية', 'نظام الحضور', 'التقييم'] },
+  { name: 'حلقات القرآن', desc: 'متابعة الحفظ والمراجعة للطلاب', icon: '📖', color: '#10B981', bg: 'rgba(16,185,129,0.1)', features: ['تتبع الحفظ', 'تسجيل المراجعة', 'تقارير'] },
+  { name: 'المعاهد', desc: 'إدارة الدورات والمتدربين', icon: '📚', color: '#A78BFA', bg: 'rgba(167,139,250,0.1)', features: ['إدارة الدورات', 'شهادات', 'التقييم'] },
+  { name: 'مراكز التدريب', desc: 'تدريب مهني وتطوير الموارد البشرية', icon: '💼', color: '#FB923C', bg: 'rgba(251,146,60,0.1)', features: ['خطط تدريب', 'مهارات', 'تقييم'] },
+  { name: 'الجامعات', desc: 'نظام متكامل للجامعات والكليات', icon: '🎓', color: '#3B82F6', bg: 'rgba(59,130,246,0.1)', features: ['ساعات معتمدة', 'مناهج', 'بحث'] },
+  { name: 'الحضانات', desc: 'رعاية وتعليم الأطفال', icon: '🧸', color: '#EC4899', bg: 'rgba(236,72,153,0.1)', features: ['متابعة النمو', 'أنشطة', 'تواصل'] },
+];
+
+// 👥 الأدوار
+const roles = [
+  { name: 'مالك المنصة', desc: 'إدارة كاملة', icon: '👑', color: '#D4A843', bg: 'rgba(212,168,67,0.1)' },
+  { name: 'مدير المؤسسة', desc: 'إدارة يومية', icon: '⚡', color: '#60A5FA', bg: 'rgba(96,165,250,0.1)' },
+  { name: 'المعلم', desc: 'إدارة الطلاب', icon: '📖', color: '#10B981', bg: 'rgba(16,185,129,0.1)' },
+  { name: 'ولي الأمر', desc: 'متابعة الأبناء', icon: '👨‍👩‍👧', color: '#A78BFA', bg: 'rgba(167,139,250,0.1)' },
+];
+
+// 💰 خطط الأسعار
+const pricingPlans = [
+  { name: 'مجاني', price: '0', period: 'للأبد', desc: 'للمؤسسات الصغيرة', featured: false, buttonText: 'ابدأ مجاناً', features: [
+    { text: '100 طالب', included: true }, { text: '5 معلمين', included: true }, { text: 'مميزات أساسية', included: true },
+    { text: 'دعم بالبريد', included: true }, { text: 'تقارير متقدمة', included: false }, { text: 'تكامل حكومي', included: false }
+  ]},
+  { name: 'متقدم', price: '299', period: 'ريال/شهر', desc: 'للمؤسسات المتوسطة', featured: true, buttonText: 'اشترك الآن', features: [
+    { text: '500 طالب', included: true }, { text: '20 معلم', included: true }, { text: 'جميع المميزات', included: true },
+    { text: 'دعم فني 24/7', included: true }, { text: 'تقارير متقدمة', included: true }, { text: 'تكامل حكومي', included: false }
+  ]},
+  { name: 'مؤسسي', price: '599', period: 'ريال/شهر', desc: 'للمنظمات الكبيرة', featured: false, buttonText: 'تواصل معنا', features: [
+    { text: 'غير محدود', included: true }, { text: 'دعم VIP', included: true }, { text: 'تخصيص كامل', included: true },
+    { text: 'مدير حساب', included: true }, { text: 'تدريب شامل', included: true }, { text: 'تكامل حكومي', included: true }
+  ]},
+];
+
+// 🔗 التكاملات
+const integrations = ['نظام نور 🏛️', 'أبشر 🆔', 'قوى 💼', 'النفاذ الوطني 🔐', 'فارس 🎖️', 'مدرستي 📱', 'توكلنا ✅', 'سدايا 🤖'];
+
+// ✨ المميزات
+const features = [
+  { icon: '🎨', title: 'تخصيص كامل', desc: 'صمم منصتك بألوان وهوية خاصة', color: '#D4A843', bg: 'rgba(212,168,67,0.1)' },
+  { icon: '📊', title: 'تقارير ذكية', desc: 'تحليلات متقدمة لأداء المؤسسة', color: '#60A5FA', bg: 'rgba(96,165,250,0.1)' },
+  { icon: '🔒', title: 'أمان عالي', desc: 'حماية البيانات بتشفير متقدم', color: '#10B981', bg: 'rgba(16,185,129,0.1)' },
+  { icon: '📱', title: 'تطبيق جوال', desc: 'وصول من أي مكان وفي أي وقت', color: '#A78BFA', bg: 'rgba(167,139,250,0.1)' },
+];
+
+export default function LandingPage() {
+  const [scrolled, setScrolled] = useState(false);
+
   useEffect(() => {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e, i) => {
-        if (e.isIntersecting) {
-          setTimeout(() => (e.target as HTMLElement).classList.add('visible'), i * 70);
-        }
-      });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
-    return () => io.disconnect();
+    const style = document.createElement('style');
+    style.textContent = CSS;
+    document.head.appendChild(style);
+    
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      document.head.removeChild(style);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
-    <>
-      <style dangerouslySetInnerHTML={{ __html: CSS }} />
-
-      {/* NAV */}
-      <nav>
-        <a className="nav-logo" href="#">
+    <div dir="rtl">
+      {/* 🧭 Navigation */}
+      <nav style={{ background: scrolled ? 'rgba(6,6,14,0.95)' : undefined }}>
+        <Link href="/" className="nav-logo">
           <div className="nav-logo-icon">م</div>
           <div>
             <div className="nav-logo-main">متين</div>
             <div className="nav-logo-sub">MATIN.INK</div>
           </div>
-        </a>
+        </Link>
+        
         <div className="nav-links">
-          <a href="#features">المميزات</a>
-          <a href="#institutions">المؤسسات</a>
-          <a href="#pricing">الأسعار</a>
-          <a href="#roles">الأدوار</a>
+          <Link href="#features">المميزات</Link>
+          <Link href="#institutions">المؤسسات</Link>
+          <Link href="#pricing">الأسعار</Link>
+          <Link href="#roles">الأدوار</Link>
           <Link href="/login">تسجيل الدخول</Link>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <button className="nav-mobile-menu">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-          </button>
-          <Link href="/login" className="nav-cta">ابدأ مجاناً</Link>
-        </div>
+        
+        <Link href="/register">
+          <button className="nav-cta">ابدأ مجاناً</button>
+        </Link>
       </nav>
 
-      {/* HERO */}
+      {/* 🦸 Hero */}
       <section className="hero">
-        <div className="hero-glow" />
-        <div className="hero-glow2" />
+        <div className="hero-glow"></div>
+        
         <div className="hero-badge">
-          <span className="hero-badge-dot" />
-          منصة التعليم الأذكى للمؤسسات الخاصة في السعودية
+          <span className="hero-badge-dot"></span>
+          منصة سعودية 100%
         </div>
+        
         <h1 className="hero-title">
-          كل مؤسستك في<br />
-          <span className="hero-title-gold">لوحة تحكم واحدة</span>
+          نظام إدارة التعليم<br />
+          <span className="hero-title-gold">الأكثر تكاملاً</span>
         </h1>
-        <p className="hero-sub">من الحضور والدرجات إلى الرسوم والنقل — متين يدير كل شيء حتى تركّز أنت على التعليم.</p>
+        
+        <p className="hero-sub">
+          حل شامل وذكي لإدارة المؤسسات التعليمية بالذكاء الاصطناعي<br />
+          متكامل مع الأنظمة الحكومية السعودية
+        </p>
+        
         <div className="hero-actions">
-          <Link href="/login" className="btn-primary">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            ابدأ تجربتك المجانية
+          <Link href="/register">
+            <button className="btn-primary">🚀 ابدأ مجاناً</button>
           </Link>
-          <button className="btn-secondary">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-            شاهد العرض
-          </button>
+          <Link href="/demo">
+            <button className="btn-secondary">▶️ شاهد العرض</button>
+          </Link>
         </div>
-        <div className="hero-cards fade-in">
-          <div className="hero-card">
-            <div className="hero-card-icon" style={{ background: 'rgba(167,139,250,0.1)', border: '1px solid rgba(167,139,250,0.2)' }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
+        
+        <div className="hero-cards">
+          {[
+            { icon: '🎓', title: '6 أنواع مؤسسات', desc: 'مدارس، جامعات، معاهد، حضانات، تحفيظ، تدريب', color: '#60A5FA' },
+            { icon: '👥', title: '11 دور مستخدم', desc: 'من مالك المنصة حتى الطالب والولي', color: '#10B981' },
+            { icon: '🤖', title: 'ذكاء اصطناعي', desc: 'تحليلات ذكية وتقارير تنبؤية', color: '#A78BFA' },
+            { icon: '🔐', title: 'تكامل حكومي', desc: 'نور، أبشر، قوى، النفاذ الوطني', color: '#FB923C' },
+          ].map((card, i) => (
+            <div key={i} className="hero-card">
+              <div className="hero-card-icon" style={{ background: `${card.color}15` }}>{card.icon}</div>
+              <div className="hero-card-title">{card.title}</div>
+              <div className="hero-card-desc">{card.desc}</div>
             </div>
-            <div className="hero-card-title">المتجر الإلكتروني</div>
-            <div className="hero-card-desc">متجر خاص لكل مؤسسة لبيع الكتب، الأدوات، والمنتجات التعليمية مباشرة للطلاب.</div>
-            <div className="hero-card-tag" style={{ color: '#A78BFA' }}>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              مدفوعات إلكترونية مدمجة
-            </div>
-          </div>
-          <div className="hero-card">
-            <div className="hero-card-icon" style={{ background: 'rgba(96,165,250,0.1)', border: '1px solid rgba(96,165,250,0.2)' }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-            </div>
-            <div className="hero-card-title">المكتبة الرقمية</div>
-            <div className="hero-card-desc">مستودع محتوى تعليمي ثري — كتب، مقاطع، ملفات، ومراجع في متناول الطلاب والمعلمين.</div>
-            <div className="hero-card-tag" style={{ color: '#60A5FA' }}>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              وصول 24/7 من أي جهاز
-            </div>
-          </div>
-          <div className="hero-card">
-            <div className="hero-card-icon" style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.2)' }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            </div>
-            <div className="hero-card-title">الملتقى المجتمعي</div>
-            <div className="hero-card-desc">فضاء تفاعلي يجمع الطلاب والمعلمين وأولياء الأمور — نقاشات، فعاليات، وإعلانات.</div>
-            <div className="hero-card-tag" style={{ color: '#10B981' }}>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              تواصل حقيقي داخل المؤسسة
-            </div>
-          </div>
-          <div className="hero-card">
-            <div className="hero-card-icon" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)' }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-            </div>
-            <div className="hero-card-title">الإعلانات</div>
-            <div className="hero-card-desc">أنشئ إعلانات وأظهرها داخل لوحات التحكم لجميع مستخدمي المنصة باستهداف دقيق.</div>
-            <div className="hero-card-tag" style={{ color: '#EF4444' }}>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              استهداف حسب الدور والمؤسسة
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* INSTITUTIONS */}
-      <section id="institutions" style={{ background: 'rgba(255,255,255,0.01)' }}>
-        <div className="sec-center fade-in">
-          <div className="sec-tag">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16M9 8h1M14 8h1"/></svg>
-            المؤسسات المدعومة
-          </div>
-          <h2 className="sec-title">لكل مؤسسة تعليمية<br /><span style={{ color: 'var(--gold)' }}>حل مخصص</span></h2>
-          <p className="sec-sub">من الروضة للجامعة — متين يتكيف مع طبيعة مؤسستك وهيكلها الأكاديمي.</p>
+      {/* 🏛️ Institutions */}
+      <section id="institutions">
+        <div className="sec-center">
+          <div className="sec-tag">🏛️ المؤسسات</div>
+          <h2 className="sec-title">حلول لكل نوع من المؤسسات</h2>
+          <p className="sec-sub">منصة متين تدعم 6 أنواع مختلفة من المؤسسات التعليمية</p>
         </div>
+        
         <div className="inst-grid">
-          <div className="inst-card fade-in">
-            <div className="inst-icon-wrap" style={{ background: 'rgba(96,165,250,0.1)', border: '1px solid rgba(96,165,250,0.2)' }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16M9 8h1M9 12h1M9 16h1M14 8h1M14 12h1M14 16h1"/></svg>
-            </div>
-            <div className="inst-name">المدارس</div>
-            <div className="inst-desc">إدارة كاملة للفصول، المناهج، الحضور، الدرجات، والتواصل مع أولياء الأمور.</div>
-            <div className="inst-tag" style={{ color: 'var(--blue)' }}>الأكثر استخداماً</div>
-          </div>
-          <div className="inst-card fade-in">
-            <div className="inst-icon-wrap" style={{ background: 'rgba(167,139,250,0.1)', border: '1px solid rgba(167,139,250,0.2)' }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5zM6 12v5c3 3 9 3 12 0v-5"/></svg>
-            </div>
-            <div className="inst-name">الجامعات</div>
-            <div className="inst-desc">نظام أكاديمي متقدم يدعم التسجيل، الساعات المعتمدة، والمقررات الإلكترونية.</div>
-            <div className="inst-tag" style={{ color: 'var(--purple)' }}>دعم متعدد الأقسام</div>
-          </div>
-          <div className="inst-card fade-in">
-            <div className="inst-icon-wrap" style={{ background: 'rgba(251,146,60,0.1)', border: '1px solid rgba(251,146,60,0.2)' }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FB923C" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-            </div>
-            <div className="inst-name">رياض الأطفال</div>
-            <div className="inst-desc">متابعة يومية للنشاطات، التغذية، الحضور، وتقارير النمو لأولياء الأمور.</div>
-            <div className="inst-tag" style={{ color: 'var(--orange)' }}>تواصل لحظي مع الأهل</div>
-          </div>
-          <div className="inst-card fade-in">
-            <div className="inst-icon-wrap" style={{ background: 'rgba(252,211,77,0.1)', border: '1px solid rgba(252,211,77,0.2)' }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FCD34D" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-            </div>
-            <div className="inst-name">حضانات الأطفال</div>
-            <div className="inst-desc">إدارة الحضانة بالكامل — تسجيل الأطفال، جداول الرعاية، وتقارير يومية للأهل.</div>
-            <div className="inst-tag" style={{ color: '#FCD34D' }}>متابعة دقيقة بالدقيقة</div>
-          </div>
-          <div className="inst-card fade-in">
-            <div className="inst-icon-wrap" style={{ background: 'rgba(34,211,238,0.1)', border: '1px solid rgba(34,211,238,0.2)' }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-            </div>
-            <div className="inst-name">مراكز التدريب</div>
-            <div className="inst-desc">إدارة الدورات، المدربين، الحضور، الشهادات، والمدفوعات في منظومة واحدة.</div>
-            <div className="inst-tag" style={{ color: 'var(--cyan)' }}>إصدار شهادات رقمية</div>
-          </div>
-          <div className="inst-card fade-in">
-            <div className="inst-icon-wrap" style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.2)' }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-            </div>
-            <div className="inst-name">المعاهد التقنية</div>
-            <div className="inst-desc">مناهج تقنية، مشاريع التخرج، التدريب الميداني، ومتابعة الكفاءات العملية.</div>
-            <div className="inst-tag" style={{ color: 'var(--green)' }}>تكامل مع سوق العمل</div>
-          </div>
-          <div className="inst-card fade-in">
-            <div className="inst-icon-wrap" style={{ background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.2)' }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            </div>
-            <div className="inst-name">المساجد والحلقات</div>
-            <div className="inst-desc">إدارة حلقات التحفيظ، المستويات، الحضور، والتقييم الديني بشكل منظم.</div>
-            <div className="inst-tag" style={{ color: 'var(--gold)' }}>خصوصية تامة</div>
-          </div>
+          {institutions.map((inst, i) => (
+            <Link key={i} href={`/institutions/${inst.name}`} className="inst-card">
+              <div className="inst-icon-wrap" style={{ background: inst.bg }}>{inst.icon}</div>
+              <div className="inst-name">{inst.name}</div>
+              <div className="inst-desc">{inst.desc}</div>
+              <div style={{ marginTop: 14 }}>
+                {inst.features.map((feat, j) => (
+                  <span key={j} className="inst-tag" style={{ color: inst.color, background: `${inst.color}15` }}>{feat}</span>
+                ))}
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
-      {/* FEATURES */}
+      {/* ✨ Features */}
       <section id="features">
         <div className="features-grid">
           <div>
-            <div className="fade-in">
-              <div className="sec-tag">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                المميزات الأساسية
-              </div>
-              <h2 className="sec-title">كل ما تحتاجه<br /><span style={{ color: 'var(--gold)' }}>في مكان واحد</span></h2>
-              <p className="sec-sub">نظام متكامل يغطي كل جوانب إدارة المؤسسة التعليمية.</p>
-            </div>
-            <div className="features-list" style={{ marginTop: 32 }}>
-              <div className="feature-item fade-in">
-                <div className="feature-icon" style={{ background: 'rgba(96,165,250,0.1)', border: '1px solid rgba(96,165,250,0.2)' }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <div className="sec-tag">✨ المميزات</div>
+            <h2 className="sec-title">كل ما تحتاجه في منصة واحدة</h2>
+            <p className="sec-sub">متين تجمع بين القوة والبساطة لتقديم تجربة فريدة</p>
+            
+            <div className="features-list">
+              {features.map((feat, i) => (
+                <div key={i} className="feature-item">
+                  <div className="feature-icon" style={{ background: feat.bg }}>{feat.icon}</div>
+                  <div>
+                    <div className="feature-title">{feat.title}</div>
+                    <div className="feature-desc">{feat.desc}</div>
+                  </div>
                 </div>
-                <div><div className="feature-title">إدارة متعددة الأدوار</div><div className="feature-desc">15+ دور من مالك المنصة لولي الأمر — كل دور بصلاحياته الدقيقة.</div></div>
-              </div>
-              <div className="feature-item fade-in">
-                <div className="feature-icon" style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.2)' }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-                </div>
-                <div><div className="feature-title">حضور وغياب ذكي</div><div className="feature-desc">تسجيل فوري مع إشعارات لحظية لأولياء الأمور عبر واتساب و SMS.</div></div>
-              </div>
-              <div className="feature-item fade-in">
-                <div className="feature-icon" style={{ background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.2)' }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                </div>
-                <div><div className="feature-title">إدارة مالية متكاملة</div><div className="feature-desc">رسوم الطلاب، الرواتب، الفواتير، والمنح — مع تقارير مالية تلقائية.</div></div>
-              </div>
-              <div className="feature-item fade-in">
-                <div className="feature-icon" style={{ background: 'rgba(167,139,250,0.1)', border: '1px solid rgba(167,139,250,0.2)' }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M15 10l4.553-2.069A1 1 0 0 1 21 8.87v6.26a1 1 0 0 1-1.447.899L15 14M3 8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-                </div>
-                <div><div className="feature-title">تعليم إلكتروني مدمج</div><div className="feature-desc">محاضرات مسجّلة، بث مباشر، واجبات إلكترونية، وبنك أسئلة متقدم.</div></div>
-              </div>
-              <div className="feature-item fade-in">
-                <div className="feature-icon" style={{ background: 'rgba(251,146,60,0.1)', border: '1px solid rgba(251,146,60,0.2)' }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FB923C" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1zM16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-                </div>
-                <div><div className="feature-title">نقل مدرسي مع GPS</div><div className="feature-desc">تتبع حافلات المدرسة في الوقت الفعلي مع إشعارات وصول وانصراف.</div></div>
-              </div>
+              ))}
             </div>
           </div>
-          <div className="fade-in">
-            <div className="mockup-wrap">
-              <div className="mockup-bar">
-                <div className="mockup-dot" style={{ background: '#EF4444' }} />
-                <div className="mockup-dot" style={{ background: '#F59E0B' }} />
-                <div className="mockup-dot" style={{ background: '#10B981' }} />
-                <div className="mockup-url">matin.ink/dashboard</div>
+          
+          <div className="mockup-wrap">
+            <div className="mockup-bar">
+              {['#EF4444', '#F59E0B', '#10B981'].map((c, i) => (
+                <div key={i} className="mockup-dot" style={{ background: c }}></div>
+              ))}
+              <div className="mockup-url">dashboard.matin.ink</div>
+            </div>
+            <div className="mockup-body">
+              <div className="mockup-title">📊 إحصائيات اليوم</div>
+              <div className="m-grid">
+                {[{ val: '1,247', lbl: 'طالب نشط' }, { val: '89%', lbl: 'نسبة الحضور' }, { val: '156', lbl: 'حلقة اليوم' }].map((s, i) => (
+                  <div key={i} className="m-stat">
+                    <div className="m-val">{s.val}</div>
+                    <div className="m-lbl">{s.lbl}</div>
+                  </div>
+                ))}
               </div>
-              <div className="mockup-body">
-                <div className="mockup-title">لوحة التحكم — مدرسة الأمل الدولية</div>
-                <div className="m-grid">
-                  <div className="m-stat"><div className="m-val" style={{ color: 'var(--blue)' }}>1,240</div><div className="m-lbl">طالب</div></div>
-                  <div className="m-stat"><div className="m-val" style={{ color: 'var(--green)' }}>96%</div><div className="m-lbl">حضور اليوم</div></div>
-                  <div className="m-stat"><div className="m-val" style={{ color: 'var(--gold)' }}>48</div><div className="m-lbl">معلم</div></div>
-                </div>
-                <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 8, fontWeight: 600 }}>آخر النشاطات</div>
-                <div className="m-row"><span style={{ color: 'var(--text-dim)' }}>أحمد محمد</span><span style={{ color: 'var(--green)', fontSize: 10 }}>حضر ✓</span></div>
-                <div className="m-row"><span style={{ color: 'var(--text-dim)' }}>فاطمة علي</span><span style={{ color: 'var(--gold)', fontSize: 10 }}>رسوم معلقة</span></div>
-                <div className="m-row"><span style={{ color: 'var(--text-dim)' }}>اختبار الرياضيات</span><span style={{ color: 'var(--purple)', fontSize: 10 }}>غداً 9:00</span></div>
-                <div className="m-row"><span style={{ color: 'var(--text-dim)' }}>محاضرة العلوم</span><span style={{ color: 'var(--blue)', fontSize: 10 }}>مباشر الآن</span></div>
-                <div className="m-progress"><div className="m-fill" style={{ width: '78%' }} /></div>
-                <div className="m-prog-labels"><span>التخزين: 78%</span><span>85.6 / 120 GB</span></div>
-              </div>
+              <div className="m-progress"><div className="m-fill" style={{ width: '75%' }}></div></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ROLES */}
-      <section id="roles" style={{ background: 'rgba(255,255,255,0.01)' }}>
-        <div className="sec-center fade-in">
-          <div className="sec-tag">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            الأدوار والصلاحيات
-          </div>
-          <h2 className="sec-title">منظومة أدوار <span style={{ color: 'var(--gold)' }}>متكاملة</span></h2>
-          <p className="sec-sub">كل مستخدم يرى ما يحتاجه فقط — بصلاحيات دقيقة وآمنة.</p>
+      {/* 👥 Roles */}
+      <section id="roles">
+        <div className="sec-center">
+          <div className="sec-tag">👥 الأدوار</div>
+          <h2 className="sec-title">نظام أدوار مرن ومتكامل</h2>
         </div>
+        
         <div className="roles-grid">
-          {[
-            { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="7"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>, bg: 'rgba(212,168,67,0.1)', border: 'rgba(212,168,67,0.2)', name: 'مالك المنصة', desc: 'تحكم سيادي كامل في كل المؤسسات' },
-            { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16M9 8h1M14 8h1"/></svg>, bg: 'rgba(16,185,129,0.1)', border: 'rgba(16,185,129,0.2)', name: 'مالك المؤسسة', desc: 'إدارة كاملة لمؤسسته وفروعها' },
-            { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>, bg: 'rgba(96,165,250,0.1)', border: 'rgba(96,165,250,0.2)', name: 'مدير المدرسة', desc: 'إشراف على العمليات اليومية' },
-            { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>, bg: 'rgba(74,222,128,0.1)', border: 'rgba(74,222,128,0.2)', name: 'المعلم', desc: 'فصله، درجاته، محاضراته' },
-            { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5zM6 12v5c3 3 9 3 12 0v-5"/></svg>, bg: 'rgba(56,189,248,0.1)', border: 'rgba(56,189,248,0.2)', name: 'الطالب', desc: 'جدوله، واجباته، درجاته' },
-            { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F9A8D4" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8M15 11h6M18 8v6"/></svg>, bg: 'rgba(249,168,212,0.1)', border: 'rgba(249,168,212,0.2)', name: 'ولي الأمر', desc: 'متابعة أبنائه لحظة بلحظة' },
-            { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FCD34D" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1zM16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>, bg: 'rgba(252,211,77,0.1)', border: 'rgba(252,211,77,0.2)', name: 'السائق', desc: 'GPS ومتابعة الطلاب في رحلته' },
-            { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F87171" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, bg: 'rgba(248,113,113,0.1)', border: 'rgba(248,113,113,0.2)', name: 'حارس الأمن', desc: 'سجل الزوار والطوارئ' },
-          ].map((r) => (
-            <div key={r.name} className="role-card fade-in">
-              <div className="role-icon" style={{ background: r.bg, border: `1px solid ${r.border}` }}>{r.icon}</div>
-              <div className="role-name">{r.name}</div>
-              <div className="role-desc">{r.desc}</div>
+          {roles.map((role, i) => (
+            <div key={i} className="role-card">
+              <div className="role-icon" style={{ background: role.bg }}>{role.icon}</div>
+              <div className="role-name">{role.name}</div>
+              <div className="role-desc">{role.desc}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* INTEGRATIONS */}
+      {/* 🔗 Integrations */}
       <section>
-        <div className="sec-center fade-in">
-          <div className="sec-tag">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-            التكاملات
-          </div>
-          <h2 className="sec-title" style={{ fontSize: 'clamp(24px,3.5vw,36px)' }}>متصل بكل ما تحتاجه</h2>
+        <div className="sec-center">
+          <h2 className="sec-title">متصل بـ <span style={{ color: '#D4A843' }}>الأنظمة الحكومية</span></h2>
         </div>
-        <div className="int-grid fade-in">
-          {[
-            { color: '#25D366', icon: <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>, label: 'واتساب Business' },
-            { color: '#60A5FA', icon: <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.4h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l1.87-1.87a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>, label: 'SMS محلي' },
-            { color: '#10B981', icon: <><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16M9 8h1M14 8h1"/></>, label: 'نظام نور' },
-            { color: '#D4A843', icon: <><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></>, label: 'مدى / فيزا' },
-            { color: '#34D399', icon: <><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></>, label: 'تحويل بنكي' },
-            { color: '#F87171', icon: <><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></>, label: 'تقارير PDF' },
-            { color: '#38BDF8', icon: <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>, label: 'تخزين سحابي' },
-            { color: '#C084FC', icon: <><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></>, label: 'ذكاء اصطناعي' },
-            { color: '#FB923C', icon: <><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></>, label: 'GPS تتبع' },
-            { color: '#FCD34D', icon: <><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></>, label: 'إشعارات فورية' },
-            { color: '#10B981', icon: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4"/>, label: 'SSL وأمان' },
-          ].map((chip) => (
-            <div key={chip.label} className="int-chip">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={chip.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{chip.icon}</svg>
-              {chip.label}
+        <div className="int-grid">
+          {integrations.map((int, i) => (
+            <div key={i} className="int-chip">{int}</div>
+          ))}
+        </div>
+      </section>
+
+      {/* 💰 Pricing */}
+      <section id="pricing">
+        <div className="sec-center">
+          <div className="sec-tag">💰 الأسعار</div>
+          <h2 className="sec-title">اختر خطتك</h2>
+          <p className="sec-sub">أسعار مرنة تناسب كل مؤسسة</p>
+        </div>
+        
+        <div className="pricing-grid">
+          {pricingPlans.map((plan, i) => (
+            <div key={i} className={`price-card ${plan.featured ? 'featured' : ''}`}>
+              {plan.featured && <div className="price-badge">الأكثر شعبية</div>}
+              <div className="price-name">{plan.name}</div>
+              <div className="price-amount">{plan.price} <span>{plan.period}</span></div>
+              <div className="price-period">{plan.desc}</div>
+              <div className="price-divider"></div>
+              <ul className="price-features">
+                {plan.features.map((feat, j) => (
+                  <li key={j} className={feat.included ? '' : 'off'}>
+                    <span className={feat.included ? 'check-icon' : 'off-icon'}>{feat.included ? '✓' : '✗'}</span>
+                    {feat.text}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/register">
+                <button className={`btn-price ${plan.featured ? 'btn-gold-p' : 'btn-outline'}`}>{plan.buttonText}</button>
+              </Link>
             </div>
           ))}
         </div>
       </section>
 
-      {/* PRICING */}
-      <section id="pricing" style={{ background: 'rgba(255,255,255,0.01)' }}>
-        <div className="sec-center fade-in">
-          <div className="sec-tag">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            الأسعار
-          </div>
-          <h2 className="sec-title">باقة لكل <span style={{ color: 'var(--gold)' }}>مؤسسة</span></h2>
-          <p className="sec-sub">ابدأ مجاناً وطوّر حسب احتياجك.</p>
-        </div>
-        <div className="pricing-grid">
-          <div className="price-card fade-in">
-            <div className="price-name">أساسي</div>
-            <div className="price-amount">مجاناً <span>للبداية</span></div>
-            <div className="price-period">تجربة 30 يوم كاملة</div>
-            <div className="price-divider" />
-            <ul className="price-features">
-              {['حتى 100 طالب','لوحة تحكم أساسية','الحضور والغياب','الدرجات والتقارير'].map(f => (
-                <li key={f}><svg className="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>{f}</li>
-              ))}
-              {['النقل المدرسي','التعليم الإلكتروني','دعم مخصص'].map(f => (
-                <li key={f} className="off"><svg className="off-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>{f}</li>
-              ))}
-            </ul>
-            <button className="btn-price btn-outline">ابدأ مجاناً</button>
-          </div>
-          <div className="price-card featured fade-in">
-            <div className="price-badge">الأكثر شعبية</div>
-            <div className="price-name" style={{ color: 'var(--gold)' }}>متقدم</div>
-            <div className="price-amount" style={{ color: 'var(--gold)' }}>1,200 <span>ريال / سنة</span></div>
-            <div className="price-period">100 ريال شهرياً</div>
-            <div className="price-divider" style={{ background: 'var(--gold-border)' }} />
-            <ul className="price-features">
-              {['حتى 500 طالب','جميع مميزات الأساسي','التعليم الإلكتروني','النقل المدرسي + GPS','إدارة مالية كاملة','تكاملات واتساب/SMS'].map(f => (
-                <li key={f}><svg className="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>{f}</li>
-              ))}
-              <li className="off"><svg className="off-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>دعم مخصص 24/7</li>
-            </ul>
-            <button className="btn-price btn-gold-p">اشترك الآن</button>
-          </div>
-          <div className="price-card fade-in">
-            <div className="price-name">مؤسسي</div>
-            <div className="price-amount">حسب الطلب</div>
-            <div className="price-period">للمؤسسات الكبيرة</div>
-            <div className="price-divider" />
-            <ul className="price-features">
-              {['طلاب غير محدودين','جميع المميزات','دعم مخصص 24/7','تكاملات مخصصة','تدريب الفريق','SLA مضمون 99.9%','White Label متاح'].map(f => (
-                <li key={f}><svg className="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>{f}</li>
-              ))}
-            </ul>
-            <button className="btn-price btn-outline" style={{ borderColor: 'var(--gold-border)', color: 'var(--gold)' }}>تواصل معنا</button>
-          </div>
+      {/* 🎯 CTA */}
+      <section className="cta-wrap">
+        <div className="cta-bg"></div>
+        <h2 className="cta-title">جاهز لتحويل <span style={{ color: '#D4A843' }}>مؤسستك؟</span></h2>
+        <p className="cta-sub">انضم للمئات من المؤسسات التعليمية التي تثق بمتين</p>
+        <div className="cta-actions">
+          <Link href="/register"><button className="btn-primary">🚀 ابدأ مجاناً الآن</button></Link>
+          <Link href="/contact"><button className="btn-secondary">📞 تحدث مع فريقنا</button></Link>
         </div>
       </section>
 
-      {/* CTA */}
-      <div className="cta-wrap">
-        <div className="cta-bg" />
-        <div className="sec-tag fade-in" style={{ margin: '0 auto 22px' }}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          ابدأ اليوم
-        </div>
-        <h2 className="cta-title fade-in">جاهز لتحويل<br /><span style={{ color: 'var(--gold)' }}>مؤسستك التعليمية؟</span></h2>
-        <p className="cta-sub fade-in">انضم لأكثر من 47 مؤسسة تعليمية في المملكة تثق بمتين.</p>
-        <div className="cta-actions fade-in">
-          <Link href="/login" className="btn-primary">ابدأ تجربتك المجانية</Link>
-          <button className="btn-secondary">تحدث مع فريقنا</button>
-        </div>
-      </div>
-
-      {/* FOOTER */}
+      {/* 🦶 Footer */}
       <footer>
         <div className="footer-logo">
           <div className="footer-logo-icon">م</div>
-          <div>
-            <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--text)' }}>متين</div>
-            <div style={{ fontSize: 9, color: 'var(--text-muted)', fontWeight: 500 }}>النظام السيادي للتعليم</div>
-          </div>
+          <p>© 2026 متين - جميع الحقوق محفوظة</p>
         </div>
-        <p>© 2026 متين — جميع الحقوق محفوظة · صنع بـ ❤️ في المملكة العربية السعودية</p>
         <div className="footer-links">
-          <a href="#">سياسة الخصوصية</a>
-          <a href="#">الشروط والأحكام</a>
-          <a href="#">تواصل معنا</a>
+          <Link href="/privacy">سياسة الخصوصية</Link>
+          <Link href="/terms">الشروط والأحكام</Link>
+          <Link href="/contact">تواصل معنا</Link>
         </div>
       </footer>
-    </>
+    </div>
   );
 }
