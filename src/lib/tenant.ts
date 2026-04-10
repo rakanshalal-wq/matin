@@ -139,6 +139,56 @@ CREATE TABLE IF NOT EXISTS uploaded_files (
 );
 `;
 
+// ── بيانات أولية تُدرج تلقائياً في كل Schema جديد ────────────────
+const TENANT_SEED_SQL = /* sql */ `
+-- المواد الدراسية الأساسية
+CREATE TABLE IF NOT EXISTS subjects (
+  id          SERIAL PRIMARY KEY,
+  name_ar     VARCHAR(100) NOT NULL,
+  name_en     VARCHAR(100),
+  code        VARCHAR(20),
+  grade_level VARCHAR(50),
+  created_at  TIMESTAMP DEFAULT NOW()
+);
+
+INSERT INTO subjects (name_ar, name_en, code) VALUES
+  ('الرياضيات',    'Mathematics',         'MATH'),
+  ('اللغة العربية', 'Arabic Language',    'ARAB'),
+  ('اللغة الإنجليزية', 'English Language','ENG'),
+  ('العلوم',       'Science',             'SCI'),
+  ('الدراسات الاجتماعية', 'Social Studies','SOC'),
+  ('التربية الإسلامية', 'Islamic Studies', 'ISL'),
+  ('التربية البدنية', 'Physical Education','PE'),
+  ('الحاسب الآلي', 'Computer Science',    'CS'),
+  ('الفنون',       'Arts',                'ART'),
+  ('التربية الوطنية', 'Civic Education',  'CIV')
+ON CONFLICT DO NOTHING;
+
+-- الفصول الدراسية الافتراضية
+INSERT INTO classes (name, grade_level, academic_year, capacity)
+VALUES
+  ('الصف الأول أ',   'الصف الأول',   '2025-2026', 30),
+  ('الصف الثاني أ',  'الصف الثاني',  '2025-2026', 30),
+  ('الصف الثالث أ',  'الصف الثالث',  '2025-2026', 30)
+ON CONFLICT DO NOTHING;
+
+-- الأدوار الوظيفية
+CREATE TABLE IF NOT EXISTS roles (
+  id          SERIAL PRIMARY KEY,
+  name_ar     VARCHAR(100) NOT NULL,
+  name_en     VARCHAR(100),
+  permissions JSONB DEFAULT '[]',
+  created_at  TIMESTAMP DEFAULT NOW()
+);
+
+INSERT INTO roles (name_ar, name_en, permissions) VALUES
+  ('مدير المؤسسة',  'Institution Admin',  '["all"]'),
+  ('معلم',          'Teacher',            '["students:read","grades:write","attendance:write"]'),
+  ('موظف إداري',    'Administrative Staff','["students:read","reports:read"]'),
+  ('ولي أمر',       'Parent',             '["students:own:read"]')
+ON CONFLICT DO NOTHING;
+`;
+
 // ─────────────────────────────────────────────────────────────────
 // دالة إنشاء Schema جديد لمؤسسة
 // ─────────────────────────────────────────────────────────────────
@@ -154,6 +204,9 @@ export async function createTenantSchema(schoolId: string | number): Promise<str
     // تعيين search_path وإنشاء الجداول
     await client.query(`SET LOCAL search_path = "${schemaName}", public`);
     await client.query(TENANT_SCHEMA_DDL);
+
+    // إدراج البيانات الأولية (Seed) في Schema الجديد
+    await client.query(TENANT_SEED_SQL);
 
     await client.query('COMMIT');
     return schemaName;
