@@ -4,6 +4,8 @@ import { pool, getUserFromRequest } from '@/lib/auth';
 import { getPaginationParams, buildPaginatedResponse } from '@/lib/pagination';
 import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
+import { guardStudentAdd } from '@/lib/quota-guard';
+import { incrementStudentQuota } from '@/lib/tenant';
 
 function generatePassword(): string {
   const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789@#$!';
@@ -134,6 +136,17 @@ export async function POST(request: Request) {
       schoolName = s.rows[0]?.name || ''; schoolSlug = s.rows[0]?.slug || '';
     }
 
+    // ✅ فحص حصة الطلاب قبل الإضافة
+    if (schoolId) {
+      const guard = await guardStudentAdd(schoolId);
+      if (!guard.allowed) {
+        return NextResponse.json(
+          { error: guard.error, upgrade_url: guard.upgrade_url, current: guard.current, limit: guard.limit },
+          { status: 402 }
+        );
+      }
+    }
+
     const cnt = await pool.query('SELECT COUNT(*) FROM students WHERE school_id = $1', [schoolId]);
     const studentId = 'STD-' + String(parseInt(cnt.rows[0].count) + 1).padStart(4, '0');
     const recId = crypto.randomUUID();
@@ -163,6 +176,13 @@ export async function POST(request: Request) {
 
     if (email && email.includes('@') && !email.endsWith('@matin.ink')) {
       sendPasswordEmail(em.toLowerCase().trim(), name, autoPassword, schoolName, schoolSlug);
+    }
+
+    // تحديث عداد الطلاب في tenant_quotas
+    if (schoolId) {
+      incrementStudentQuota(schoolId).catch((err) => {
+        console.error('[Quota] فشل تحديث عداد الطلاب:', err);
+      });
     }
 
     return NextResponse.json(result.rows[0], { status: 201 });

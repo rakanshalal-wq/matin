@@ -3,6 +3,8 @@ import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { existsSync } from 'fs';
 import { getUserFromRequest } from '@/lib/auth';
+import { guardFileUpload } from '@/lib/quota-guard';
+import { incrementStorageQuota } from '@/lib/tenant';
 
 export async function POST(request: Request) {
   try {
@@ -55,6 +57,18 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: `حجم الملف يجب أن يكون أقل من ${maxMB}MB` }, { status: 400 });
     }
 
+    // ✅ فحص حصة التخزين قبل الرفع
+    const schoolId = user.school_id || null;
+    if (schoolId) {
+      const guard = await guardFileUpload(schoolId, file.size);
+      if (!guard.allowed) {
+        return NextResponse.json(
+          { error: guard.error, upgrade_url: guard.upgrade_url },
+          { status: 402 }
+        );
+      }
+    }
+
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
@@ -73,6 +87,13 @@ export async function POST(request: Request) {
     const filePath = join(uploadDir, fileName);
 
     await writeFile(filePath, buffer);
+
+    // تحديث عداد التخزين في tenant_quotas
+    if (schoolId) {
+      incrementStorageQuota(schoolId, file.size).catch((err) => {
+        console.error('[Quota] فشل تحديث عداد التخزين:', err);
+      });
+    }
 
     const fileUrl = `/uploads/${category}/${fileName}`;
 

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { pool, generateToken } from '@/lib/auth';
 import bcrypt from 'bcryptjs';
 import { RegisterSchema, formatZodError } from '@/lib/schemas';
+import { provisionTenant } from '@/lib/tenant';
 
 export async function POST(request: Request) {
   try {
@@ -45,6 +46,14 @@ export async function POST(request: Request) {
 
     const user = result.rows[0];
     const token = generateToken(user);
+
+    // إنشاء Schema معزول للمالك الجديد (يتم لاحقاً عند ربط المدرسة)
+    // نحاول في الخلفية — لا نُوقف التسجيل إذا فشل
+    if (user.school_id) {
+      provisionTenant(user.id, user.school_id).catch((err) => {
+        console.error('[Tenant] فشل إنشاء Schema للمؤسسة:', err);
+      });
+    }
 
     const response = NextResponse.json({
       success: true,

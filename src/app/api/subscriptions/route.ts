@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { pool, getUserFromRequest } from "@/lib/auth";
+import { pool, getUserFromRequest, generateToken } from "@/lib/auth";
 import { getPaymentCredentials } from "@/lib/integrations";
+import { invalidateTenantQuotaCache } from "@/lib/tenant";
 
 export async function GET(request: Request) {
   try {
@@ -79,7 +80,7 @@ export async function PUT(request: Request) {
     const user = await getUserFromRequest(request);
     if (!user) return NextResponse.json({ error: "غير مصرح" }, { status: 401 });
     const body = await request.json();
-    const { id, status, plan, amount, end_date } = body;
+    const { id, status, plan, plan_id, amount, end_date } = body;
     if (!id) return NextResponse.json({ error: "المعرف مطلوب" }, { status: 400 });
     // super_admin يقدر يعدل أي اشتراك
     if (user.role !== "super_admin") {
@@ -90,6 +91,7 @@ export async function PUT(request: Request) {
     const params: any[] = [];
     if (status !== undefined) { params.push(status); updates.push(`status = $${params.length}`); }
     if (plan !== undefined) { params.push(plan); updates.push(`plan = $${params.length}`); }
+    if (plan_id !== undefined) { params.push(plan_id); updates.push(`plan_id = $${params.length}`); }
     if (amount !== undefined) { params.push(amount); updates.push(`amount = $${params.length}`); }
     if (end_date !== undefined) { params.push(end_date); updates.push(`end_date = $${params.length}`); }
     if (updates.length === 0) return NextResponse.json({ error: "لا شيء للتعديل" }, { status: 400 });
@@ -98,7 +100,27 @@ export async function PUT(request: Request) {
       `UPDATE subscriptions SET ${updates.join(", ")} WHERE id = $${params.length} RETURNING *`,
       params
     );
-    return NextResponse.json(result.rows[0]);
+    const updated = result.rows[0];
+
+    // ✅ إبطال كاش الحصص فوراً عند ترقية الباقة
+    if (updated?.school_id) {
+      invalidateTenantQuotaCache(updated.school_id);
+    }
+
+    // إعادة إصدار JWT بالباقة الجديدة إن طلب المستخدم الحالي الترقية
+    let newToken: string | undefined;
+    if (plan && updated?.owner_id === String(user.id)) {
+      const updatedUser = await pool.query(
+        'SELECT id, name, email, role, school_id, owner_id, package, status FROM users WHERE id = $1',
+        [user.id]
+      );
+      if (updatedUser.rows[0]) {
+        const u = updatedUser.rows[0];
+        newToken = generateToken({ ...u, package: plan });
+      }
+    }
+
+    return NextResponse.json({ ...updated, ...(newToken ? { token: newToken } : {}) });
   } catch (error) {
     console.error("Subscriptions PUT error:", error);
     return NextResponse.json({ error: "فشل" }, { status: 500 });
