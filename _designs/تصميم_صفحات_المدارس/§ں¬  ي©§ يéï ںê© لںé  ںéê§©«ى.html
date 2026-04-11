@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>متين — بوابة ولي أمر المدرسة</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --c:#34D399;--c2:#059669;--cd:rgba(52,211,153,0.1);--cb:rgba(52,211,153,0.22);
+  --gd:#D4A843;--gd2:#E8C060;--gdd:rgba(212,168,67,0.1);--gdb:rgba(212,168,67,0.22);
+  --bg:#06060E;--sb:#070F0A;--card:rgba(255,255,255,0.025);
+  --b1:rgba(255,255,255,0.07);--b2:rgba(255,255,255,0.04);
+  --t:#EEEEF5;--td:rgba(238,238,245,0.55);--tm:rgba(238,238,245,0.28);
+  --gr:#10B981;--rd:#EF4444;--bl:#60A5FA;--pu:#A78BFA;--or:#FB923C;--cy:#22D3EE;
+  --f:'IBM Plex Sans Arabic',sans-serif;--sw:264px;--hh:62px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:var(--f);background:var(--bg);color:var(--t);display:flex;height:100vh;overflow:hidden;}
+
+/* SIDEBAR */
+.sb{width:var(--sw);flex-shrink:0;height:100vh;background:var(--sb);border-left:1px solid var(--b1);display:flex;flex-direction:column;overflow:hidden;position:relative;z-index:300;transition:transform .3s cubic-bezier(.4,0,.2,1);}
+.sb::after{content:'';position:absolute;top:0;right:0;width:1px;height:100%;background:linear-gradient(180deg,transparent,var(--c) 30%,var(--c) 70%,transparent);opacity:.22;}
+.sb-top{padding:14px 13px 12px;border-bottom:1px solid var(--b1);flex-shrink:0;}
+.logo-r{display:flex;align-items:center;gap:8px;margin-bottom:10px;text-decoration:none;}
+.li{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--gd),var(--gd2));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#000;flex-shrink:0;}
+.lt{font-size:16px;font-weight:800;color:var(--t);letter-spacing:-.5px;}
+.ls{font-size:9px;color:var(--tm);}
+.par-card{background:var(--cd);border:1px solid var(--cb);border-radius:9px;padding:9px 11px;}
+.par-top{display:flex;align-items:center;gap:9px;margin-bottom:8px;}
+.par-av{width:34px;height:34px;border-radius:8px;background:rgba(52,211,153,.15);border:1px solid var(--cb);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.par-n{color:var(--t);font-size:12.5px;font-weight:700;}
+.par-r{color:var(--c);font-size:10.5px;font-weight:600;margin-top:1px;}
+.child-row{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:1px solid var(--b2);border-radius:7px;padding:7px 9px;cursor:pointer;transition:all .15s;margin-bottom:5px;}
+.child-row:last-child{margin-bottom:0;}
+.child-row:hover{background:rgba(52,211,153,.06);border-color:var(--cb);}
+.child-row.active{background:var(--cd);border-color:var(--cb);}
+.child-av{width:26px;height:26px;border-radius:6px;background:rgba(52,211,153,.15);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.child-n{font-size:11.5px;font-weight:600;color:var(--t);}
+.child-s{font-size:10px;color:var(--tm);margin-top:1px;}
+.loc-dot{width:8px;height:8px;border-radius:50%;margin-right:auto;flex-shrink:0;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.4;}}
+.blink{animation:blink 1.5s infinite;}
+
+.nav{flex:1;padding:5px 0 4px;overflow-y:auto;overflow-x:hidden;}
+.nav::-webkit-scrollbar{width:3px;}
+.nav::-webkit-scrollbar-thumb{background:rgba(52,211,153,.18);border-radius:2px;}
+.ng{font-size:9px;color:var(--tm);font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:8px 13px 3px;}
+.ni{display:flex;align-items:center;gap:8px;padding:6px 11px 6px 13px;font-size:11.5px;color:var(--td);cursor:pointer;border-right:3px solid transparent;margin:1px 4px 1px 0;border-radius:0 7px 7px 0;transition:all .15s;text-decoration:none;}
+.ni:hover{background:rgba(255,255,255,.04);color:var(--t);}
+.ni.on{background:var(--cd);border-right-color:var(--c);color:var(--t);font-weight:600;}
+.nb{font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:10px;margin-right:auto;}
+.nb-r{background:rgba(239,68,68,.12);color:var(--rd);border:1px solid rgba(239,68,68,.22);}
+.nb-c{background:var(--cd);color:var(--c);border:1px solid var(--cb);}
+.nb-g{background:var(--gdd);color:var(--gd);border:1px solid var(--gdb);}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--c);margin-right:auto;flex-shrink:0;box-shadow:0 0 5px var(--c);}
+.sb-ft{padding:9px 11px;border-top:1px solid var(--b1);flex-shrink:0;}
+.lo{width:100%;background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.15);border-radius:8px;padding:8px;color:#F87171;font-size:11.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;font-family:var(--f);}
+
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:299;backdrop-filter:blur(4px);}
+.ov.show{display:block;}
+
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;}
+.hdr{height:var(--hh);background:rgba(6,6,14,.88);backdrop-filter:blur(24px) saturate(1.8);border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0;z-index:10;}
+.hl{display:flex;align-items:center;gap:10px;}
+.mb{display:none;background:rgba(255,255,255,.05);border:1px solid var(--b1);border-radius:9px;width:36px;height:36px;align-items:center;justify-content:center;cursor:pointer;color:var(--td);flex-shrink:0;}
+.ht{font-size:15px;font-weight:800;color:var(--t);}
+.hs{font-size:10.5px;color:rgba(238,238,245,.35);margin-top:1px;}
+.hr2{display:flex;align-items:center;gap:6px;}
+.hb{background:rgba(255,255,255,.04);border:1px solid var(--b1);border-radius:9px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--td);position:relative;flex-shrink:0;}
+.nd{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--rd);border:1.5px solid var(--bg);}
+.ub{background:rgba(255,255,255,.04);border:1px solid var(--b1);border-radius:10px;padding:4px 10px;display:flex;align-items:center;gap:7px;cursor:pointer;flex-shrink:0;}
+.ua{width:28px;height:28px;border-radius:7px;background:rgba(52,211,153,.1);border:1.5px solid rgba(52,211,153,.3);display:flex;align-items:center;justify-content:center;font-size:14px;}
+.ui{display:flex;flex-direction:column;}
+.un{font-size:12px;font-weight:700;line-height:1.2;}
+.ur{font-size:9.5px;color:var(--c);font-weight:700;}
+
+.con{flex:1;padding:14px 16px;overflow-y:auto;background:radial-gradient(circle at 65% 0%,rgba(52,211,153,.02) 0%,transparent 55%);}
+.con::-webkit-scrollbar{width:4px;}
+.con::-webkit-scrollbar-thumb{background:rgba(52,211,153,.15);border-radius:2px;}
+
+/* CHILD BANNER */
+.child-banner{background:linear-gradient(135deg,rgba(52,211,153,.1),rgba(5,150,105,.04));border:1px solid var(--cb);border-radius:13px;padding:13px 16px;margin-bottom:13px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.cb-av{width:48px;height:48px;border-radius:12px;background:rgba(52,211,153,.15);border:2px solid var(--cb);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.cb-info{flex:1;min-width:180px;}
+.cb-name{font-size:16px;font-weight:800;color:var(--t);}
+.cb-sub{font-size:11px;color:var(--tm);margin-top:2px;}
+.cb-loc{display:flex;align-items:center;gap:6px;margin-top:5px;font-size:11px;font-weight:600;}
+.cb-stat{text-align:center;min-width:60px;}
+.cb-sv{font-size:20px;font-weight:800;}
+.cb-sl{font-size:10px;color:var(--tm);margin-top:1px;}
+.cb-div{width:1px;height:32px;background:var(--b1);}
+
+/* MAP */
+.map-wrap{background:#0A1520;border:1px solid var(--b1);border-radius:12px;overflow:hidden;position:relative;margin-bottom:13px;}
+.map-body{height:200px;position:relative;background:linear-gradient(135deg,#0B1E2D,#0E2540);}
+.map-body::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:36px 36px;}
+.map-hdr{position:absolute;top:0;right:0;left:0;padding:9px 13px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(6,6,14,.9),transparent);z-index:5;}
+.map-ft{position:absolute;bottom:0;right:0;left:0;padding:9px 13px;background:linear-gradient(0deg,rgba(6,6,14,.92),transparent);display:flex;align-items:center;gap:10px;z-index:5;}
+.live-badge{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:var(--rd);font-size:9.5px;font-weight:700;padding:2px 8px;border-radius:10px;display:flex;align-items:center;gap:4px;}
+.road{position:absolute;background:rgba(255,255,255,.07);border-radius:2px;}
+.bldg{position:absolute;border-radius:6px;border:1px solid;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;color:rgba(255,255,255,.5);}
+.pin{position:absolute;z-index:10;transform:translate(50%,-50%);cursor:pointer;}
+@keyframes pinPulse{0%,100%{box-shadow:0 0 0 0 rgba(52,211,153,.5);}50%{box-shadow:0 0 0 8px rgba(52,211,153,0);}}
+.pin-ring{width:36px;height:36px;border-radius:50%;background:rgba(52,211,153,.15);border:2px solid var(--c);display:flex;align-items:center;justify-content:center;animation:pinPulse 2s infinite;}
+.pin-ic{width:20px;height:20px;border-radius:50%;background:var(--c);display:flex;align-items:center;justify-content:center;font-size:11px;}
+.pin-lbl{position:absolute;top:-26px;right:50%;transform:translateX(50%);background:var(--c);color:#06060E;font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:6px;white-space:nowrap;}
+@keyframes busPulse{0%,100%{box-shadow:0 0 0 0 rgba(96,165,250,.4);}50%{box-shadow:0 0 0 6px rgba(96,165,250,0);}}
+.bus-pin{position:absolute;z-index:9;transform:translate(50%,-50%);background:rgba(96,165,250,.18);border:2px solid var(--bl);border-radius:9px;padding:4px 8px;font-size:13px;animation:busPulse 2.5s infinite;cursor:pointer;}
+.trail{position:absolute;width:5px;height:5px;border-radius:50%;background:rgba(52,211,153,.35);transform:translate(50%,-50%);}
+
+/* STATS */
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:13px;}
+.sc{background:var(--card);border:1px solid var(--b2);border-radius:11px;padding:12px;position:relative;overflow:hidden;transition:all .2s;}
+.sc:hover{transform:translateY(-2px);}
+.si{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;font-size:15px;}
+.sv{font-size:20px;font-weight:800;line-height:1;margin-bottom:2px;}
+.sl{color:var(--tm);font-size:11px;}
+.ss{font-size:10px;margin-top:3px;}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:13px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:13px;}
+
+.card{background:var(--card);border:1px solid var(--b1);border-radius:11px;overflow:hidden;margin-bottom:13px;}
+.ch{padding:10px 13px;border-bottom:1px solid var(--b2);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.ct{font-size:13px;font-weight:700;color:var(--t);display:flex;align-items:center;gap:7px;}
+.cl{color:var(--c);font-size:11px;font-weight:600;cursor:pointer;background:none;border:none;font-family:var(--f);}
+
+.tw{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;min-width:340px;}
+thead tr{background:rgba(52,211,153,.04);}
+th{padding:7px 11px;text-align:right;color:var(--c);font-weight:700;font-size:10.5px;border-bottom:1px solid var(--b2);white-space:nowrap;}
+td{padding:8px 11px;border-bottom:1px solid var(--b2);font-size:12px;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover td{background:rgba(255,255,255,.015);}
+
+.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:600;white-space:nowrap;}
+.bg{background:rgba(16,185,129,.1);color:var(--gr);border:1px solid rgba(16,185,129,.2);}
+.br{background:rgba(239,68,68,.1);color:var(--rd);border:1px solid rgba(239,68,68,.2);}
+.bb{background:rgba(96,165,250,.1);color:var(--bl);border:1px solid rgba(96,165,250,.2);}
+.bp{background:rgba(167,139,250,.1);color:var(--pu);border:1px solid rgba(167,139,250,.2);}
+.bo{background:rgba(251,146,60,.1);color:var(--or);border:1px solid rgba(251,146,60,.2);}
+.bc{background:var(--cd);color:var(--c);border:1px solid var(--cb);}
+.bgd{background:var(--gdd);color:var(--gd);border:1px solid var(--gdb);}
+
+.btn-sm{padding:3px 9px;border-radius:5px;font-size:10.5px;font-weight:600;cursor:pointer;font-family:var(--f);border:none;white-space:nowrap;}
+.btn-p{background:linear-gradient(135deg,var(--c),var(--c2));border:none;border-radius:9px;padding:9px 16px;color:#fff;font-weight:700;font-size:12.5px;cursor:pointer;font-family:var(--f);display:flex;align-items:center;gap:6px;white-space:nowrap;}
+
+.item{display:flex;align-items:center;gap:10px;padding:9px 13px;border-bottom:1px solid var(--b2);}
+.item:last-child{border-bottom:none;}
+.item-ic{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+
+/* ATTENDANCE WEEK */
+.att-week{display:flex;gap:6px;padding:12px 13px;}
+.att-day{flex:1;border-radius:8px;padding:8px 5px;text-align:center;border:1px solid var(--b2);background:rgba(255,255,255,.02);}
+.att-day.present{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25);}
+.att-day.absent{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.25);}
+.att-day.late{background:rgba(251,146,60,.1);border-color:rgba(251,146,60,.25);}
+.att-day.today{border-width:2px;}
+.att-dname{font-size:10px;color:var(--tm);font-weight:600;margin-bottom:4px;}
+.att-icon{font-size:16px;margin-bottom:2px;}
+.att-label{font-size:9px;font-weight:700;}
+
+/* LESSON ROW */
+.lesson{display:flex;align-items:center;gap:10px;padding:8px 13px;border-bottom:1px solid var(--b2);}
+.lesson:last-child{border-bottom:none;}
+.lesson.now{background:rgba(52,211,153,.04);}
+.ltime{font-size:10px;color:var(--tm);font-weight:600;width:80px;flex-shrink:0;}
+.lname{font-size:12.5px;font-weight:700;color:var(--t);}
+.lteacher{font-size:10.5px;color:var(--tm);margin-top:1px;}
+
+/* MSG */
+.msg{display:flex;align-items:flex-start;gap:9px;padding:9px 13px;border-bottom:1px solid var(--b2);cursor:pointer;transition:background .12s;}
+.msg:hover{background:rgba(255,255,255,.015);}
+.msg:last-child{border-bottom:none;}
+.mv{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;}
+.munread{width:7px;height:7px;border-radius:50%;background:var(--c);flex-shrink:0;margin-top:4px;}
+
+/* PBAR */
+.pbar{height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;margin-top:4px;}
+.pfill{height:100%;border-radius:3px;}
+
+/* QUICK */
+.qg{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;}
+.qi{background:rgba(255,255,255,.02);border:1px solid var(--b2);border-radius:8px;padding:10px 5px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;transition:all .15s;text-decoration:none;}
+.qi:hover{background:rgba(255,255,255,.05);transform:translateY(-2px);}
+.qic{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;}
+.ql{font-size:10px;color:var(--td);font-weight:500;text-align:center;line-height:1.3;}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
+.modal-bg.show{display:flex;}
+.modal{background:#070F0A;border:1px solid var(--cb);border-radius:16px;padding:0;max-width:460px;width:92%;max-height:88vh;overflow-y:auto;}
+.mh{padding:14px 16px;border-bottom:1px solid var(--b2);display:flex;align-items:center;justify-content:space-between;}
+.mt{font-size:14px;font-weight:800;color:var(--t);display:flex;align-items:center;gap:8px;}
+.mx{background:none;border:none;color:var(--tm);cursor:pointer;font-size:20px;}
+.finp{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--b1);color:var(--t);font-size:13px;padding:9px 12px;border-radius:8px;font-family:var(--f);outline:none;margin-bottom:10px;}
+.flbl{font-size:11px;color:var(--tm);font-weight:600;display:block;margin-bottom:5px;}
+
+.ft{padding:10px 16px;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;flex-shrink:0;flex-wrap:wrap;gap:6px;}
+.ft p{color:rgba(238,238,245,.2);font-size:10.5px;}
+
+@media(max-width:1100px){.sg{grid-template-columns:repeat(2,1fr);}.qg{grid-template-columns:repeat(4,1fr);}}
+@media(max-width:900px){.g2,.g3{grid-template-columns:1fr;}.qg{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:768px){body{overflow:auto;height:auto;min-height:100vh;}.sb{position:fixed;top:0;right:0;height:100vh;transform:translateX(110%);}.sb.open{transform:translateX(0);}.main{width:100%;min-height:100vh;overflow:auto;}.mb{display:flex;}.ui{display:none;}.sg{grid-template-columns:1fr 1fr;}.qg{grid-template-columns:repeat(3,1fr);}.con{padding:12px;}.hdr{padding:0 12px;}}
+@media(max-width:480px){.sg{grid-template-columns:1fr 1fr;}.qg{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<div class="ov" id="ov" onclick="closeSb()"></div>
+
+<!-- EXCUSE MODAL -->
+<div class="modal-bg" id="excuse-modal">
+  <div class="modal">
+    <div class="mh">
+      <div class="mt">📋 تقديم عذر غياب</div>
+      <button class="mx" onclick="closeModal('excuse-modal')">×</button>
+    </div>
+    <div style="padding:16px;">
+      <label class="flbl">نوع العذر</label>
+      <select class="finp">
+        <option>مرض</option><option>ظرف عائلي</option><option>سفر</option><option>موعد طبي</option><option>أخرى</option>
+      </select>
+      <label class="flbl">تاريخ الغياب</label>
+      <input class="finp" type="date">
+      <label class="flbl">التفاصيل</label>
+      <textarea class="finp" style="resize:vertical;min-height:65px;" placeholder="اشرح سبب الغياب..."></textarea>
+      <label class="flbl">مرفق طبي (اختياري)</label>
+      <div style="border:2px dashed var(--b1);border-radius:8px;padding:14px;text-align:center;margin-bottom:14px;cursor:pointer;">
+        <div style="font-size:18px;margin-bottom:3px;">📎</div>
+        <div style="font-size:11px;color:var(--tm);">اضغط لرفع تقرير طبي</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="closeModal('excuse-modal')" style="flex:1;background:rgba(255,255,255,.05);border:1px solid var(--b1);border-radius:9px;padding:10px;color:var(--td);font-size:13px;cursor:pointer;font-family:var(--f);">إلغاء</button>
+        <button onclick="toast('تم إرسال العذر للمدرسة ✓');closeModal('excuse-modal')" style="flex:2;background:linear-gradient(135deg,var(--c),var(--c2));border:none;border-radius:9px;padding:10px;color:#fff;font-weight:800;font-size:13px;cursor:pointer;font-family:var(--f);">إرسال ←</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MESSAGE MODAL -->
+<div class="modal-bg" id="msg-modal">
+  <div class="modal">
+    <div class="mh">
+      <div class="mt">💬 رسالة للمعلم</div>
+      <button class="mx" onclick="closeModal('msg-modal')">×</button>
+    </div>
+    <div style="padding:16px;">
+      <label class="flbl">المعلم</label>
+      <select class="finp">
+        <option>أ. محمد الغامدي — الرياضيات</option>
+        <option>أ. سارة الزهراني — العلوم</option>
+        <option>أ. خالد المطيري — اللغة العربية</option>
+        <option>إدارة المدرسة</option>
+      </select>
+      <label class="flbl">الرسالة</label>
+      <textarea class="finp" style="resize:vertical;min-height:90px;" placeholder="اكتب رسالتك هنا..."></textarea>
+      <div style="display:flex;gap:8px;">
+        <button onclick="closeModal('msg-modal')" style="flex:1;background:rgba(255,255,255,.05);border:1px solid var(--b1);border-radius:9px;padding:10px;color:var(--td);font-size:13px;cursor:pointer;font-family:var(--f);">إلغاء</button>
+        <button onclick="toast('تم إرسال الرسالة ✓');closeModal('msg-modal')" style="flex:2;background:linear-gradient(135deg,var(--c),var(--c2));border:none;border-radius:9px;padding:10px;color:#fff;font-weight:800;font-size:13px;cursor:pointer;font-family:var(--f);">إرسال ←</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAY MODAL -->
+<div class="modal-bg" id="pay-modal">
+  <div class="modal">
+    <div class="mh">
+      <div class="mt">💳 دفع الرسوم الدراسية</div>
+      <button class="mx" onclick="closeModal('pay-modal')">×</button>
+    </div>
+    <div style="padding:16px;">
+      <div style="background:rgba(52,211,153,.06);border:1px solid var(--cb);border-radius:9px;padding:12px;margin-bottom:14px;">
+        <div style="font-size:12px;color:var(--td);margin-bottom:6px;">المبلغ المستحق</div>
+        <div style="font-size:26px;font-weight:800;color:var(--c);">2,500 <span style="font-size:14px;color:var(--tm);">SAR</span></div>
+        <div style="font-size:11px;color:var(--tm);margin-top:3px;">الرسوم الفصلية — الفصل الثاني 1445</div>
+      </div>
+      <label class="flbl">طريقة الدفع</label>
+      <select class="finp">
+        <option>بطاقة مدى</option><option>فيزا / ماستركارد</option><option>Apple Pay</option><option>تحويل بنكي</option>
+      </select>
+      <label class="flbl">رقم البطاقة</label>
+      <input class="finp" type="text" placeholder="XXXX XXXX XXXX XXXX">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+        <div><label class="flbl">تاريخ الانتهاء</label><input class="finp" type="text" placeholder="MM/YY" style="margin-bottom:0;"></div>
+        <div><label class="flbl">CVV</label><input class="finp" type="text" placeholder="XXX" style="margin-bottom:0;"></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <button onclick="closeModal('pay-modal')" style="flex:1;background:rgba(255,255,255,.05);border:1px solid var(--b1);border-radius:9px;padding:10px;color:var(--td);font-size:13px;cursor:pointer;font-family:var(--f);">إلغاء</button>
+        <button onclick="toast('تم الدفع بنجاح ✓');closeModal('pay-modal')" style="flex:2;background:linear-gradient(135deg,var(--c),var(--c2));border:none;border-radius:9px;padding:10px;color:#fff;font-weight:800;font-size:13px;cursor:pointer;font-family:var(--f);">ادفع الآن ←</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="sb" id="sb">
+  <div class="sb-top">
+    <a class="logo-r" href="#"><div class="li">م</div><div><div class="lt">متين</div><div class="ls">بوابة ولي الأمر</div></div></a>
+    <div class="par-card">
+      <div class="par-top">
+        <div class="par-av">👨‍👦</div>
+        <div style="min-width:0;"><div class="par-n">محمد الزهراني</div><div class="par-r">ولي أمر — مدرسة الأمل</div></div>
+      </div>
+      <div style="font-size:9px;color:var(--tm);font-weight:700;letter-spacing:1px;margin-bottom:6px;">أبنائي في المدرسة</div>
+      <div class="child-row active" onclick="selectChild('فهد',this)">
+        <div class="child-av">👦</div>
+        <div style="flex:1;min-width:0;"><div class="child-n">فهد محمد</div><div class="child-s">الصف الرابع — ب</div></div>
+        <div class="loc-dot blink" style="background:var(--gr);" title="في المدرسة"></div>
+      </div>
+      <div class="child-row" onclick="selectChild('نورة',this)">
+        <div class="child-av">👧</div>
+        <div style="flex:1;min-width:0;"><div class="child-n">نورة محمد</div><div class="child-s">الصف الأول — أ</div></div>
+        <div class="loc-dot blink" style="background:var(--or);" title="في الباص"></div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <div class="ng">الرئيسية</div>
+    <a class="ni on" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>بوابتي <span class="dot"></span></a>
+    <a class="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>الجدول الدراسي</a>
+
+    <div class="ng">النقل المدرسي 🚌</div>
+    <a class="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>حالة الباص الآن <span class="nb nb-c">في الطريق</span></a>
+    <a class="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>تتبع GPS الباص</a>
+    <a class="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>تتبع GPS الجوال</a>
+    <a class="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>سجل الركوب والنزول</a>
+
+    <div class="ng">الحضور</div>
+    <a class="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/></svg>الحضور والغياب اليومي</a>
+    <a class="ni" href="#" onclick="openModal('excuse-modal')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg><span style="color:var(--c);font-weight:600;">تقديم عذر غياب</span></a>
+    <a class="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>إحصائيات الحضور</a>
+
+    <div class="ng">الأداء الأكاديمي</div>
+    <a class="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/></svg>الدرجات والنتائج</a>
+    <a class="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 14l2 2 4-4"/></svg>الواجبات المنزلية <span class="nb nb-c">3</span></a>
+    <a class="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>الاختبارات القادمة <span class="nb nb-c">2</span></a>
+    <a class="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>التقييم الشامل</a>
+
+    <div class="ng">السلوك</div>
+    <a class="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>سجل السلوك <span class="nb nb-c">جيد</span></a>
+    <a class="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><circle cx="12" cy="12" r="10"/></svg>النقاط والمكافآت ⭐</a>
+
+    <div class="ng">التواصل</div>
+    <a class="ni" href="#" onclick="openModal('msg-modal')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span style="color:var(--c);font-weight:600;">راسل المعلم</span> <span class="nb nb-r">2</span></a>
+    <a class="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg>التنبيهات <span class="nb nb-r">4</span></a>
+    <a class="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>الملتقى والأنشطة</a>
+
+    <div class="ng">المالية</div>
+    <a class="ni" href="#" onclick="openModal('pay-modal')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg><span style="color:var(--rd);font-weight:600;">الرسوم الدراسية</span> <span class="nb nb-r">معلقة</span></a>
+    <a class="ni" href="#"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/></svg>سجل المدفوعات</a>
+  </nav>
+
+  <div class="sb-ft">
+    <button class="lo"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>تسجيل الخروج</button>
+    <div style="margin-top:6px;color:rgba(238,238,245,.14);font-size:10px;text-align:center;">متين v6 — مدرسة الأمل الدولية</div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <header class="hdr">
+    <div class="hl">
+      <button class="mb" onclick="toggleSb()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      <div><div class="ht" id="hdr-title">متابعة فهد محمد</div><div class="hs">مدرسة الأمل الدولية — الفصل الثاني 1445/1446</div></div>
+    </div>
+    <div class="hr2">
+      <div class="hb"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="nd"></span></div>
+      <div class="hb"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="nd"></span></div>
+      <div class="ub">
+        <div class="ua">👨‍👦</div>
+        <div class="ui"><div class="un">محمد الزهراني</div><div class="ur">ولي أمر</div></div>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(238,238,245,.35)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+  </header>
+
+  <div class="con">
+
+    <!-- BUS ALERT -->
+    <div id="bus-notif" style="display:flex;align-items:center;gap:10px;background:rgba(52,211,153,.07);border:1px solid rgba(52,211,153,.22);border-radius:11px;padding:10px 14px;margin-bottom:12px;font-size:12.5px;flex-wrap:wrap;">
+      <span style="font-size:20px;">🚌</span>
+      <div style="flex:1;">
+        <div style="font-weight:700;color:var(--c);">✓ فهد ركب الباص — طريق المدرسة</div>
+        <div style="color:var(--td);font-size:11px;margin-top:1px;">سجّله السائق عبدالله الدوسري · الخط 2 · 7:08 ص · وصل المدرسة 7:35 ص</div>
+      </div>
+      <button onclick="this.parentNode.style.display='none'" style="background:none;border:none;color:var(--tm);cursor:pointer;font-size:18px;">×</button>
+    </div>
+
+    <!-- CHILD BANNER -->
+    <div class="child-banner" id="child-banner">
+      <div class="cb-av" id="cb-av">👦</div>
+      <div class="cb-info">
+        <div class="cb-name" id="cb-name">فهد محمد الزهراني</div>
+        <div class="cb-sub" id="cb-sub">الصف الرابع — الفصل ب · مدرسة الأمل الدولية</div>
+        <div class="cb-loc" id="cb-loc" style="color:var(--gr);">
+          <div style="width:8px;height:8px;border-radius:50%;background:var(--gr);box-shadow:0 0 5px var(--gr);"></div>
+          داخل المدرسة — الفصل الدراسي
+        </div>
+      </div>
+      <div class="cb-div"></div>
+      <div class="cb-stat"><div class="cb-sv" style="color:var(--c);">92%</div><div class="cb-sl">نسبة الحضور</div></div>
+      <div class="cb-div"></div>
+      <div class="cb-stat"><div class="cb-sv" style="color:var(--gr);">88%</div><div class="cb-sl">متوسط الدرجات</div></div>
+      <div class="cb-div"></div>
+      <div class="cb-stat"><div class="cb-sv" style="color:var(--pu);">⭐ 45</div><div class="cb-sl">نقاط السلوك</div></div>
+      <div class="cb-div"></div>
+      <div class="cb-stat"><div class="cb-sv" style="color:var(--rd);">2.5K</div><div class="cb-sl">رسوم معلقة</div></div>
+    </div>
+
+    <!-- GPS MAPS ROW -->
+    <div class="g2">
+
+      <!-- GPS الباص -->
+      <div class="map-wrap" style="margin-bottom:0;">
+        <div style="padding:9px 13px;border-bottom:1px solid var(--b2);display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:12.5px;font-weight:700;color:var(--t);display:flex;align-items:center;gap:7px;">
+            🚌 GPS الباص المدرسي
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <div class="live-badge">● وصل</div>
+            <button onclick="toast('جارٍ التحديث...')" style="background:var(--cd);border:1px solid var(--cb);border-radius:6px;padding:3px 10px;color:var(--c);font-size:10px;font-weight:700;cursor:pointer;font-family:var(--f);">تحديث</button>
+          </div>
+        </div>
+        <div class="map-body" style="height:165px;">
+          <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:32px 32px;"></div>
+          <!-- Route SVG -->
+          <svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 500 165" preserveAspectRatio="none">
+            <path d="M 25 135 Q 70 120 110 105 Q 150 88 190 82 Q 230 76 270 74 Q 310 72 340 70" stroke="#10B981" stroke-width="3" fill="none" opacity=".8"/>
+            <path d="M 340 70 Q 380 68 420 66 Q 455 64 475 62" stroke="#60A5FA" stroke-width="2.5" fill="none" stroke-dasharray="6,4" opacity=".6"/>
+          </svg>
+          <!-- Stops -->
+          <div style="position:absolute;right:5%;top:80%;transform:translate(50%,-50%);text-align:center;">
+            <div style="width:10px;height:10px;border-radius:50%;background:var(--gr);margin:0 auto 2px;"></div>
+            <div style="font-size:8px;color:rgba(255,255,255,.4);">المنزل</div>
+            <div style="font-size:7.5px;color:var(--gr);">7:08</div>
+          </div>
+          <div style="position:absolute;right:32%;top:46%;transform:translate(50%,-50%);text-align:center;">
+            <div style="width:9px;height:9px;border-radius:50%;background:var(--gr);margin:0 auto 2px;"></div>
+            <div style="font-size:7.5px;color:rgba(255,255,255,.35);">محطة وسط</div>
+          </div>
+          <!-- Bus icon (arrived at school) -->
+          <div style="position:absolute;right:67%;top:42%;transform:translate(50%,-50%);z-index:5;">
+            <div style="background:rgba(16,185,129,.2);border:2px solid var(--gr);border-radius:8px;padding:3px 7px;font-size:13px;">🚌</div>
+            <div style="font-size:8px;color:var(--gr);font-weight:700;text-align:center;">وصل ✓</div>
+          </div>
+          <!-- School -->
+          <div style="position:absolute;right:87%;top:36%;transform:translate(50%,-50%);text-align:center;">
+            <div style="width:14px;height:14px;border-radius:4px;background:rgba(52,211,153,.25);border:2px solid var(--c);display:flex;align-items:center;justify-content:center;margin:0 auto 2px;font-size:9px;">🏫</div>
+            <div style="font-size:8px;color:var(--c);font-weight:700;">المدرسة</div>
+            <div style="font-size:7.5px;color:rgba(52,211,153,.6);">7:35 وصل</div>
+          </div>
+          <!-- Footer -->
+          <div style="position:absolute;bottom:6px;right:10px;font-size:9.5px;color:var(--gr);font-weight:700;">✓ فهد وصل المدرسة · 7:35 ص</div>
+          <div style="position:absolute;bottom:6px;left:10px;font-size:9.5px;color:var(--tm);">العودة: 2:30 م</div>
+        </div>
+        <!-- Bus info footer -->
+        <div style="padding:8px 13px;display:flex;align-items:center;gap:12px;border-top:1px solid var(--b2);flex-wrap:wrap;background:rgba(255,255,255,.01);">
+          <div style="font-size:11px;color:var(--td);"><span style="color:var(--c);font-weight:700;">الخط 2</span> — السائق عبدالله الدوسري</div>
+          <button onclick="toast('جارٍ الاتصال...')" style="background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.2);border-radius:6px;padding:4px 10px;color:var(--bl);font-size:10.5px;font-weight:700;cursor:pointer;font-family:var(--f);margin-right:auto;">📞 اتصل بالسائق</button>
+        </div>
+      </div>
+
+      <!-- GPS الجوال -->
+      <div class="map-wrap" style="margin-bottom:0;">
+        <div style="padding:9px 13px;border-bottom:1px solid var(--b2);display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:12.5px;font-weight:700;color:var(--t);display:flex;align-items:center;gap:7px;">
+            📍 GPS جوال فهد
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <div style="background:rgba(52,211,153,.12);border:1px solid var(--cb);color:var(--c);font-size:9.5px;font-weight:700;padding:2px 8px;border-radius:10px;display:flex;align-items:center;gap:4px;"><div style="width:5px;height:5px;border-radius:50%;background:var(--c);animation:blink 1.5s infinite;"></div>مباشر</div>
+          </div>
+        </div>
+        <div class="map-body" style="height:165px;">
+          <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:32px 32px;"></div>
+          <!-- School building -->
+          <div style="position:absolute;right:20%;top:20%;width:55%;height:50%;background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.18);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10px;color:rgba(52,211,153,.5);font-weight:700;">مبنى المدرسة</div>
+          <!-- Corridors -->
+          <div style="position:absolute;right:40%;top:10%;width:2px;height:20%;background:rgba(255,255,255,.06);"></div>
+          <div style="position:absolute;right:20%;top:40%;width:55%;height:2px;background:rgba(255,255,255,.06);"></div>
+          <!-- Student pin inside school -->
+          <div class="pin" style="right:45%;top:52%;" id="mobile-pin">
+            <div class="pin-lbl" id="mobile-lbl">فهد 👦</div>
+            <div class="pin-ring" style="width:30px;height:30px;">
+              <div class="pin-ic" style="width:16px;height:16px;font-size:10px;">👦</div>
+            </div>
+          </div>
+          <!-- Location zones -->
+          <div style="position:absolute;right:20%;top:75%;font-size:8.5px;color:rgba(255,255,255,.25);">الفناء الخارجي</div>
+          <div style="position:absolute;right:3%;top:20%;width:15%;height:60%;background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.07);border-radius:5px;display:flex;align-items:center;justify-content:center;">
+            <div style="font-size:7.5px;color:rgba(255,255,255,.3);writing-mode:vertical-rl;">مدخل</div>
+          </div>
+          <!-- Footer -->
+          <div style="position:absolute;bottom:6px;right:10px;font-size:9.5px;color:var(--c);font-weight:700;">📍 داخل الفصل الدراسي</div>
+          <div style="position:absolute;bottom:6px;left:10px;font-size:9.5px;color:var(--tm);" id="mobile-time">10:22 ص</div>
+        </div>
+        <div style="padding:8px 13px;border-top:1px solid var(--b2);display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.01);">
+          <div style="font-size:11px;color:var(--td);">مرتبط بجوال فهد · تحديث كل دقيقة</div>
+          <div style="margin-right:auto;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);border-radius:6px;padding:3px 9px;font-size:10px;color:var(--c);font-weight:700;">✓ داخل النطاق الآمن</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="sg">
+      <div class="sc">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(52,211,153,.05),transparent 60%);pointer-events:none;"></div>
+        <div class="si" style="background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);">✅</div>
+        <div class="sv" style="color:var(--c);">92%</div><div class="sl">نسبة الحضور</div>
+        <div class="ss" style="color:rgba(52,211,153,.6);">45/48 يوم حضر</div>
+      </div>
+      <div class="sc">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(96,165,250,.05),transparent 60%);pointer-events:none;"></div>
+        <div class="si" style="background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.2);">📝</div>
+        <div class="sv" style="color:var(--bl);">88%</div><div class="sl">متوسط الدرجات</div>
+        <div class="ss" style="color:rgba(96,165,250,.6);">↑ الفصل الأول 82%</div>
+      </div>
+      <div class="sc">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(167,139,250,.05),transparent 60%);pointer-events:none;"></div>
+        <div class="si" style="background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.2);">⭐</div>
+        <div class="sv" style="color:var(--pu);">45</div><div class="sl">نقاط السلوك</div>
+        <div class="ss" style="color:rgba(167,139,250,.6);">ممتاز — هذا الفصل</div>
+      </div>
+      <div class="sc">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(251,146,60,.05),transparent 60%);pointer-events:none;"></div>
+        <div class="si" style="background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.2);">📚</div>
+        <div class="sv" style="color:var(--or);">3</div><div class="sl">واجبات مطلوبة</div>
+        <div class="ss" style="color:rgba(251,146,60,.6);">بانتظار التسليم</div>
+      </div>
+    </div>
+
+    <!-- ROW: جدول اليوم + رسائل المعلم -->
+    <div class="g2">
+
+      <!-- جدول اليوم + حضور الأسبوع -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="ch">
+          <div class="ct"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--c)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>جدول اليوم — الأحد</div>
+          <button class="cl">الأسبوع</button>
+        </div>
+        <!-- حضور الأسبوع -->
+        <div class="att-week">
+          <div class="att-day present"><div class="att-dname">الأحد</div><div class="att-icon">✅</div><div class="att-label" style="color:var(--gr);">حضر</div></div>
+          <div class="att-day present"><div class="att-dname">الاثنين</div><div class="att-icon">✅</div><div class="att-label" style="color:var(--gr);">حضر</div></div>
+          <div class="att-day late"><div class="att-dname">الثلاثاء</div><div class="att-icon">⏰</div><div class="att-label" style="color:var(--or);">متأخر</div></div>
+          <div class="att-day present"><div class="att-dname">الأربعاء</div><div class="att-icon">✅</div><div class="att-label" style="color:var(--gr);">حضر</div></div>
+          <div class="att-day today bc" style="border-color:var(--c);"><div class="att-dname" style="color:var(--c);">الخميس</div><div class="att-icon">🕐</div><div class="att-label" style="color:var(--c);">اليوم</div></div>
+        </div>
+        <!-- الحصص -->
+        <div class="lesson now">
+          <div class="ltime" style="color:var(--c);">8:00 — 8:45</div>
+          <div style="flex:1;"><div class="lname" style="color:var(--c);">الرياضيات</div><div class="lteacher">أ. محمد الغامدي · الفصل 4/ب</div></div>
+          <span class="badge bc">● الآن</span>
+        </div>
+        <div class="lesson">
+          <div class="ltime">8:45 — 9:30</div>
+          <div style="flex:1;"><div class="lname">اللغة العربية</div><div class="lteacher">أ. خالد المطيري</div></div>
+          <span class="badge bp">قادمة</span>
+        </div>
+        <div class="lesson">
+          <div class="ltime">9:45 — 10:30</div>
+          <div style="flex:1;"><div class="lname">العلوم</div><div class="lteacher">أ. سارة الزهراني</div></div>
+          <span class="badge bp">قادمة</span>
+        </div>
+        <div class="lesson" style="opacity:.45;">
+          <div class="ltime">10:30 — 10:45</div>
+          <div style="flex:1;"><div class="lname" style="color:var(--tm);">استراحة</div></div>
+        </div>
+        <div class="lesson">
+          <div class="ltime">10:45 — 11:30</div>
+          <div style="flex:1;"><div class="lname">التربية الإسلامية</div><div class="lteacher">أ. عبدالله الحربي</div></div>
+          <span class="badge bp">قادمة</span>
+        </div>
+        <div class="lesson" style="border-bottom:none;">
+          <div class="ltime">11:30 — 12:15</div>
+          <div style="flex:1;"><div class="lname">التربية البدنية</div><div class="lteacher">أ. فهد الشمري</div></div>
+          <span class="badge bp">قادمة</span>
+        </div>
+      </div>
+
+      <!-- رسائل المعلمين + تنبيهات -->
+      <div style="display:flex;flex-direction:column;gap:12px;">
+
+        <!-- رسائل المعلمين -->
+        <div class="card" style="margin-bottom:0;">
+          <div class="ch">
+            <div class="ct"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--bl)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>رسائل المعلمين <span style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:var(--rd);font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;margin-right:3px;">2</span></div>
+            <button class="cl" onclick="openModal('msg-modal')" style="color:var(--bl)">رد</button>
+          </div>
+          <div class="msg">
+            <div class="munread"></div>
+            <div class="mv" style="background:rgba(96,165,250,.1);color:var(--bl);">م</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:12px;font-weight:600;color:var(--t)">أ. محمد الغامدي — رياضيات</div>
+              <div style="font-size:10.5px;color:var(--or);font-weight:600;margin-top:1px;">⚠ فهد لم يسلّم واجب الجمعة</div>
+              <div style="font-size:10.5px;color:var(--tm);">يرجى المتابعة وتسليمه غداً</div>
+            </div>
+            <div style="font-size:10px;color:var(--tm);">أمس</div>
+          </div>
+          <div class="msg" style="border-bottom:none;">
+            <div class="munread"></div>
+            <div class="mv" style="background:rgba(52,211,153,.1);color:var(--c);">س</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:12px;font-weight:600;color:var(--t)">أ. سارة الزهراني — علوم</div>
+              <div style="font-size:10.5px;color:var(--gr);font-weight:600;margin-top:1px;">🌟 أداء ممتاز في مشروع العلوم</div>
+              <div style="font-size:10.5px;color:var(--tm);">حصل على أعلى درجة في الفصل</div>
+            </div>
+            <div style="font-size:10px;color:var(--tm);">2 أيام</div>
+          </div>
+          <div style="padding:8px 13px;border-top:1px solid var(--b2);">
+            <button onclick="openModal('msg-modal')" style="width:100%;background:var(--cd);border:1px solid var(--cb);border-radius:7px;padding:7px;color:var(--c);font-size:11px;font-weight:700;cursor:pointer;font-family:var(--f);">💬 راسل معلم</button>
+          </div>
+        </div>
+
+        <!-- السلوك والنقاط -->
+        <div class="card" style="margin-bottom:0;">
+          <div class="ch">
+            <div class="ct"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--pu)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>السلوك والانضباط</div>
+            <span class="badge bg">ممتاز ⭐</span>
+          </div>
+          <div style="padding:10px 13px;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px;">
+              <span style="color:var(--tm);">نقاط السلوك هذا الفصل</span>
+              <span style="color:var(--pu);font-weight:700;">45 / 50 نقطة</span>
+            </div>
+            <div class="pbar"><div class="pfill" style="width:90%;background:var(--pu);"></div></div>
+          </div>
+          <div class="item">
+            <div class="item-ic" style="background:rgba(16,185,129,.1);">🌟</div>
+            <div style="flex:1;"><div style="font-size:12px;font-weight:600;color:var(--t);">مشاركة مميزة في الصف</div><div style="font-size:10.5px;color:var(--tm);">أ. محمد الغامدي · أمس</div></div>
+            <span class="badge bg">+3 نقاط</span>
+          </div>
+          <div class="item">
+            <div class="item-ic" style="background:rgba(251,146,60,.1);">⚠️</div>
+            <div style="flex:1;"><div style="font-size:12px;font-weight:600;color:var(--t);">تأخر عن الحصة</div><div style="font-size:10.5px;color:var(--tm);">الثلاثاء الماضي</div></div>
+            <span class="badge bo">-1 نقطة</span>
+          </div>
+          <div class="item" style="border-bottom:none;">
+            <div class="item-ic" style="background:rgba(212,168,67,.1);">🏆</div>
+            <div style="flex:1;"><div style="font-size:12px;font-weight:600;color:var(--t);">طالب الأسبوع</div><div style="font-size:10.5px;color:var(--tm);">الأسبوع الماضي</div></div>
+            <span class="badge bgd">+5 نقاط</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ROW: الدرجات + الواجبات + الاختبارات -->
+    <div class="g3">
+
+      <!-- درجات المواد -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="ch">
+          <div class="ct"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--bl)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/></svg>درجات المواد</div>
+          <button class="cl" style="color:var(--bl)">الكل</button>
+        </div>
+        <div class="tw"><table>
+          <thead><tr><th>المادة</th><th>الدرجة</th><th>التقدير</th></tr></thead>
+          <tbody>
+            <tr><td style="font-weight:600;color:var(--t)">الرياضيات</td><td style="color:var(--gr);font-weight:700">92/100</td><td><span class="badge bg">ممتاز</span></td></tr>
+            <tr><td style="font-weight:600;color:var(--t)">العلوم</td><td style="color:var(--gr);font-weight:700">95/100</td><td><span class="badge bg">ممتاز</span></td></tr>
+            <tr><td style="font-weight:600;color:var(--t)">اللغة العربية</td><td style="color:var(--bl);font-weight:700">78/100</td><td><span class="badge bb">جيد جداً</span></td></tr>
+            <tr><td style="font-weight:600;color:var(--t)">التربية الإسلامية</td><td style="color:var(--gr);font-weight:700">90/100</td><td><span class="badge bg">ممتاز</span></td></tr>
+            <tr><td style="font-weight:600;color:var(--t)">اللغة الإنجليزية</td><td style="color:var(--or);font-weight:700">72/100</td><td><span class="badge bo">جيد</span></td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <!-- الواجبات المنزلية -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="ch">
+          <div class="ct"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--or)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/></svg>الواجبات المنزلية</div>
+          <span style="background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.2);color:var(--or);font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;">3 معلّقة</span>
+        </div>
+        <div class="item" style="background:rgba(239,68,68,.03);">
+          <div class="item-ic" style="background:rgba(239,68,68,.1);">📐</div>
+          <div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:600;color:var(--t);">واجب الرياضيات</div><div style="font-size:10.5px;color:var(--tm);">ص 45 — تسليم غداً</div></div>
+          <span class="badge br">متأخر!</span>
+        </div>
+        <div class="item">
+          <div class="item-ic" style="background:rgba(251,146,60,.1);">📖</div>
+          <div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:600;color:var(--t);">قراءة العربي</div><div style="font-size:10.5px;color:var(--tm);">الدرس السابع — بعد يومين</div></div>
+          <span class="badge bo">قريباً</span>
+        </div>
+        <div class="item">
+          <div class="item-ic" style="background:rgba(96,165,250,.1);">🔬</div>
+          <div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:600;color:var(--t);">تقرير العلوم</div><div style="font-size:10.5px;color:var(--tm);">تجربة المياه — نهاية الأسبوع</div></div>
+          <span class="badge bb">5 أيام</span>
+        </div>
+        <div class="item" style="border-bottom:none;">
+          <div class="item-ic" style="background:rgba(16,185,129,.1);">✅</div>
+          <div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:600;color:var(--td);">حفظ الأناشيد</div><div style="font-size:10.5px;color:var(--tm);">سُلّم أمس</div></div>
+          <span class="badge bg">منتهي ✓</span>
+        </div>
+      </div>
+
+      <!-- الاختبارات القادمة + الرسوم -->
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="card" style="margin-bottom:0;">
+          <div class="ch">
+            <div class="ct"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--pu)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/></svg>الاختبارات القادمة</div>
+          </div>
+          <div class="item">
+            <div style="background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.2);border-radius:7px;padding:5px 8px;text-align:center;flex-shrink:0;min-width:36px;"><div style="font-size:14px;font-weight:800;color:var(--pu);line-height:1;">30</div><div style="font-size:7.5px;color:var(--tm);">مارس</div></div>
+            <div style="flex:1;"><div style="font-size:12px;font-weight:600;color:var(--t);">اختبار الرياضيات</div><div style="font-size:10.5px;color:var(--tm);">الضرب والقسمة · 30 درجة</div></div>
+            <span class="badge bp">غداً</span>
+          </div>
+          <div class="item" style="border-bottom:none;">
+            <div style="background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.2);border-radius:7px;padding:5px 8px;text-align:center;flex-shrink:0;min-width:36px;"><div style="font-size:14px;font-weight:800;color:var(--bl);line-height:1;">05</div><div style="font-size:7.5px;color:var(--tm);">أبريل</div></div>
+            <div style="flex:1;"><div style="font-size:12px;font-weight:600;color:var(--t);">اختبار العلوم</div><div style="font-size:10.5px;color:var(--tm);">الفصل الثاني · 40 درجة</div></div>
+            <span class="badge bb">8 أيام</span>
+          </div>
+        </div>
+
+        <!-- الرسوم -->
+        <div class="card" style="margin-bottom:0;">
+          <div class="ch">
+            <div class="ct"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--rd)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>الرسوم الدراسية</div>
+            <span class="badge br">معلقة</span>
+          </div>
+          <div style="padding:12px 13px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <span style="font-size:12px;color:var(--tm);">رسوم الفصل الثاني</span>
+              <span style="font-size:18px;font-weight:800;color:var(--rd);">2,500 SAR</span>
+            </div>
+            <div class="pbar" style="margin-bottom:8px;"><div class="pfill" style="width:40%;background:var(--gr);"></div></div>
+            <div style="font-size:10.5px;color:var(--tm);margin-bottom:10px;">تم دفع 1,500 · المتبقي 1,000 SAR</div>
+            <button onclick="openModal('pay-modal')" style="width:100%;background:linear-gradient(135deg,var(--c),var(--c2));border:none;border-radius:8px;padding:9px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--f);">💳 دفع المتبقي الآن</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <div>
+      <div style="color:var(--tm);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">خدمات ولي الأمر</div>
+      <div class="qg">
+        <a class="qi" href="#"><div class="qic" style="background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);">🗺️</div><span class="ql">GPS الباص</span></a>
+        <a class="qi" href="#"><div class="qic" style="background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.2);">📍</div><span class="ql">GPS الجوال</span></a>
+        <a class="qi" href="#"><div class="qic" style="background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.2);">✅</div><span class="ql">الحضور</span></a>
+        <a class="qi" href="#" onclick="openModal('excuse-modal')"><div class="qic" style="background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.2);">📋</div><span class="ql">تقديم عذر</span></a>
+        <a class="qi" href="#" onclick="openModal('msg-modal')"><div class="qic" style="background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.2);">💬</div><span class="ql">راسل المعلم</span></a>
+        <a class="qi" href="#"><div class="qic" style="background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.2);">📊</div><span class="ql">الدرجات</span></a>
+        <a class="qi" href="#"><div class="qic" style="background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.2);">📚</div><span class="ql">الواجبات</span></a>
+        <a class="qi" href="#"><div class="qic" style="background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.2);">🛡️</div><span class="ql">السلوك</span></a>
+        <a class="qi" href="#"><div class="qic" style="background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.2);">📝</div><span class="ql">الاختبارات</span></a>
+        <a class="qi" href="#" onclick="openModal('pay-modal')"><div class="qic" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);">💳</div><span class="ql">دفع الرسوم</span></a>
+        <a class="qi" href="#"><div class="qic" style="background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);">🏆</div><span class="ql">التقييم</span></a>
+        <a class="qi" href="#"><div class="qic" style="background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.2);">📅</div><span class="ql">الجدول</span></a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="ft">
+    <p>© 2026 متين — بوابة ولي الأمر · مدرسة الأمل الدولية</p>
+    <p>صنع بـ ❤️ في المملكة العربية السعودية</p>
+  </footer>
+</div>
+
+<script>
+function toggleSb(){document.getElementById('sb').classList.toggle('open');document.getElementById('ov').classList.toggle('show');}
+function closeSb(){document.getElementById('sb').classList.remove('open');document.getElementById('ov').classList.remove('show');}
+function openModal(id){document.getElementById(id).classList.add('show');}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+function toast(msg){
+  const t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--c);color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:700;z-index:999;font-family:var(--f);box-shadow:0 4px 14px rgba(52,211,153,.3);';
+  t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2500);
+}
+function selectChild(name,el){
+  document.querySelectorAll('.child-row').forEach(r=>r.classList.remove('active'));
+  el.classList.add('active');
+  const isF = name==='فهد';
+  document.getElementById('hdr-title').textContent=`متابعة ${name} محمد`;
+  document.getElementById('cb-av').textContent=isF?'👦':'👧';
+  document.getElementById('cb-name').textContent=`${name} محمد الزهراني`;
+  document.getElementById('cb-sub').textContent=isF?'الصف الرابع — الفصل ب':'الصف الأول — الفصل أ';
+  document.getElementById('cb-loc').textContent=isF?'داخل المدرسة — الفصل الدراسي':'في الباص المدرسي — طريق المدرسة';
+  document.getElementById('cb-loc').style.color=isF?'var(--gr)':'var(--or)';
+  document.getElementById('mobile-lbl').textContent=`${name} ${isF?'👦':'👧'}`;
+  document.getElementById('mobile-time').textContent=new Date().toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit'})+' ص';
+  if(isF){
+    document.getElementById('bus-notif').style.display='flex';
+  }
+}
+// Live time
+setInterval(()=>{
+  document.getElementById('mobile-time').textContent=new Date().toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit'})+' ص';
+},30000);
+</script>
+</body>
+</html>

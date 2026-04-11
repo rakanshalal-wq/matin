@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>متين — محرر الواجهة الأمامية</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold:#D4A843; --gold2:#E8C060;
+  --gold-dim:rgba(212,168,67,0.12); --gold-border:rgba(212,168,67,0.22);
+  --bg:#06060E; --bg-card:rgba(255,255,255,0.025);
+  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.04);
+  --text:#EEEEF5; --text-dim:rgba(238,238,245,0.55); --text-muted:rgba(238,238,245,0.28);
+  --green:#10B981; --red:#EF4444; --blue:#60A5FA; --purple:#A78BFA; --orange:#FB923C;
+  --font:'IBM Plex Sans Arabic',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:var(--font);background:var(--bg);color:var(--text);direction:rtl;}
+
+/* ── LAYOUT ── */
+.page-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+.page-title{color:var(--gold);font-size:20px;font-weight:800;display:flex;align-items:center;gap:8px;}
+.page-sub{color:var(--text-muted);font-size:13px;margin-top:4px;}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:6px;margin-bottom:24px;border-bottom:1px solid var(--border);padding-bottom:0;overflow-x:auto;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab-btn{
+  background:transparent;border:none;border-bottom:2px solid transparent;
+  padding:10px 18px;color:var(--text-dim);font-size:13px;font-weight:500;
+  cursor:pointer;font-family:var(--font);white-space:nowrap;
+  transition:all 0.15s;margin-bottom:-1px;
+}
+.tab-btn:hover{color:var(--text);}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);font-weight:700;}
+
+/* ── SECTION PANEL ── */
+.panel{display:none;}
+.panel.active{display:block;}
+
+/* ── CARD ── */
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px;}
+.card-hdr{padding:14px 18px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.card-title{font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;}
+.card-body{padding:18px;}
+
+/* ── FORM ELEMENTS ── */
+.field{margin-bottom:16px;}
+.field:last-child{margin-bottom:0;}
+.label{color:var(--text-dim);font-size:12px;font-weight:600;display:block;margin-bottom:6px;}
+.input{
+  width:100%;background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);border-radius:8px;
+  padding:10px 14px;color:var(--text);font-size:13px;
+  outline:none;font-family:var(--font);
+  transition:border-color 0.15s;
+}
+.input:focus{border-color:rgba(212,168,67,0.4);}
+.input::placeholder{color:rgba(238,238,245,0.2);}
+textarea.input{resize:vertical;min-height:80px;line-height:1.6;}
+.input-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* ── IMAGE UPLOAD ── */
+.img-upload{
+  border:2px dashed var(--border);border-radius:10px;
+  padding:24px;text-align:center;cursor:pointer;
+  transition:all 0.2s;background:rgba(255,255,255,0.02);
+  position:relative;overflow:hidden;
+}
+.img-upload:hover{border-color:rgba(212,168,67,0.35);background:rgba(212,168,67,0.03);}
+.img-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;}
+.img-upload svg{color:var(--text-muted);margin-bottom:8px;}
+.img-upload-text{font-size:12.5px;color:var(--text-muted);}
+.img-upload-hint{font-size:11px;color:rgba(238,238,245,0.2);margin-top:4px;}
+.img-preview{
+  width:100%;height:160px;border-radius:8px;
+  object-fit:cover;display:none;
+  border:1px solid var(--border);
+}
+
+/* ── TOGGLE ── */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border2);}
+.toggle-row:last-child{border-bottom:none;}
+.toggle-info{}
+.toggle-name{font-size:13px;font-weight:600;color:var(--text);}
+.toggle-desc{font-size:11px;color:var(--text-muted);margin-top:2px;}
+.toggle{position:relative;width:42px;height:24px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-slider{
+  position:absolute;inset:0;background:rgba(255,255,255,0.1);
+  border-radius:24px;cursor:pointer;transition:0.2s;
+}
+.toggle-slider::before{
+  content:'';position:absolute;width:18px;height:18px;
+  background:#fff;border-radius:50%;bottom:3px;right:3px;
+  transition:0.2s;
+}
+.toggle input:checked + .toggle-slider{background:var(--gold);}
+.toggle input:checked + .toggle-slider::before{transform:translateX(-18px);}
+
+/* ── BUTTONS ── */
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border:none;border-radius:9px;padding:10px 20px;
+  color:#06060E;font-weight:700;font-size:13px;
+  cursor:pointer;font-family:var(--font);
+  display:inline-flex;align-items:center;gap:7px;
+  box-shadow:0 4px 14px rgba(212,168,67,0.25);
+  transition:all 0.2s;white-space:nowrap;
+}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,168,67,0.4);}
+.btn-outline{
+  background:transparent;border:1px solid var(--border);
+  border-radius:9px;padding:9px 18px;color:var(--text-dim);
+  font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);
+  display:inline-flex;align-items:center;gap:7px;transition:all 0.2s;
+}
+.btn-outline:hover{border-color:rgba(255,255,255,0.15);color:var(--text);}
+.btn-red{
+  background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);
+  border-radius:8px;padding:6px 12px;color:var(--red);
+  font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);
+  display:inline-flex;align-items:center;gap:5px;transition:all 0.15s;
+}
+.btn-red:hover{background:rgba(239,68,68,0.14);}
+.btn-green-sm{
+  background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);
+  border-radius:8px;padding:6px 12px;color:var(--green);
+  font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);
+  display:inline-flex;align-items:center;gap:5px;transition:all 0.15s;
+}
+
+/* ── LIST ITEMS (features, testimonials, etc) ── */
+.list-item{
+  background:rgba(255,255,255,0.02);border:1px solid var(--border2);
+  border-radius:10px;padding:14px 16px;
+  display:flex;align-items:flex-start;gap:12px;
+  margin-bottom:10px;
+}
+.list-item:last-child{margin-bottom:0;}
+.list-item-body{flex:1;min-width:0;}
+.list-item-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.list-item-sub{font-size:12px;color:var(--text-muted);}
+.list-item-actions{display:flex;gap:6px;flex-shrink:0;}
+.drag-handle{color:var(--text-muted);cursor:grab;padding-top:2px;}
+
+/* ── COLOR PICKER ── */
+.color-row{display:flex;align-items:center;gap:10px;}
+.color-input{width:40px;height:40px;border-radius:8px;border:1px solid var(--border);cursor:pointer;padding:2px;background:rgba(255,255,255,0.04);}
+.color-label{font-size:12px;color:var(--text-dim);}
+
+/* ── PREVIEW BADGE ── */
+.preview-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.2);
+  border-radius:8px;padding:6px 12px;font-size:12px;color:var(--blue);font-weight:600;
+}
+
+/* ── SAVE BAR ── */
+.save-bar{
+  position:sticky;bottom:0;
+  background:rgba(6,6,14,0.92);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border);
+  padding:14px 0;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;margin-top:24px;
+}
+.save-bar-msg{font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:6px;}
+
+/* ── PRICING TABLE ── */
+.pricing-editor{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.price-editor-card{background:rgba(255,255,255,0.02);border:1px solid var(--border2);border-radius:12px;padding:16px;}
+.price-editor-name{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px;}
+
+/* ── FEATURE ICON SELECT ── */
+.icon-select{
+  display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;
+}
+.icon-opt{
+  width:36px;height:36px;border-radius:8px;
+  background:rgba(255,255,255,0.04);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all 0.15s;
+}
+.icon-opt:hover,.icon-opt.selected{background:var(--gold-dim);border-color:var(--gold-border);}
+
+/* ── STAR RATING ── */
+.stars{display:flex;gap:4px;}
+.star{cursor:pointer;transition:color 0.1s;}
+.star.on{color:var(--gold);}
+.star.off{color:rgba(255,255,255,0.15);}
+
+/* ── SECTION HEADER ── */
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.sec-hdr-title{font-size:15px;font-weight:700;color:var(--text);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .input-row{grid-template-columns:1fr;}
+  .pricing-editor{grid-template-columns:1fr;}
+  .save-bar{flex-direction:column;text-align:center;}
+}
+@media(max-width:480px){
+  .list-item{flex-wrap:wrap;}
+  .list-item-actions{width:100%;justify-content:flex-end;}
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE HEADER -->
+<div class="page-hdr">
+  <div>
+    <div class="page-title">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4A843" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      محرر الواجهة الأمامية
+    </div>
+    <div class="page-sub">تحكم كامل في محتوى وتصميم صفحة مatin.ink</div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;">
+    <a href="#" class="preview-badge">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      معاينة الموقع
+    </a>
+    <button class="btn-gold" onclick="saveAll()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      حفظ التغييرات
+    </button>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('hero',this)">الهيرو</button>
+  <button class="tab-btn" onclick="switchTab('institutions',this)">المؤسسات</button>
+  <button class="tab-btn" onclick="switchTab('features',this)">المميزات</button>
+  <button class="tab-btn" onclick="switchTab('pricing',this)">الأسعار</button>
+  <button class="tab-btn" onclick="switchTab('testimonials',this)">شهادات العملاء</button>
+  <button class="tab-btn" onclick="switchTab('integrations',this)">التكاملات</button>
+  <button class="tab-btn" onclick="switchTab('faq',this)">FAQ</button>
+  <button class="tab-btn" onclick="switchTab('footer',this)">الفوتر</button>
+  <button class="tab-btn" onclick="switchTab('sections',this)">الأقسام</button>
+</div>
+
+<!-- ══════════════ HERO ══════════════ -->
+<div class="panel active" id="panel-hero">
+
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D4A843" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        خلفية الصفحة الرئيسية
+      </div>
+    </div>
+    <div class="card-body">
+
+      <!-- نوع الخلفية -->
+      <div class="field">
+        <label class="label">نوع الخلفية</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="bg-type-btns">
+          <button class="bg-type-btn active" onclick="setBgType('color',this)" style="background:rgba(212,168,67,0.12);border:1px solid rgba(212,168,67,0.3);color:var(--gold);border-radius:8px;padding:8px 16px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:var(--font);">
+            لون ثابت
+          </button>
+          <button class="bg-type-btn" onclick="setBgType('gradient',this)" style="background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--text-dim);border-radius:8px;padding:8px 16px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:var(--font);">
+            تدرج لوني
+          </button>
+          <button class="bg-type-btn" onclick="setBgType('image',this)" style="background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--text-dim);border-radius:8px;padding:8px 16px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:var(--font);">
+            صورة
+          </button>
+        </div>
+      </div>
+
+      <!-- لون ثابت -->
+      <div id="bg-color-section">
+        <div class="field">
+          <label class="label">لون الخلفية</label>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <input type="color" id="bg-color-picker" value="#06060E"
+              style="width:56px;height:44px;border-radius:10px;border:1px solid var(--border);cursor:pointer;padding:4px;background:rgba(255,255,255,0.04);"
+              oninput="updateBgPreview()">
+            <input class="input" id="bg-color-hex" type="text" value="#06060E" style="max-width:140px;"
+              oninput="syncColorFromHex()">
+            <div style="font-size:12px;color:var(--text-muted);">أو اختر من الألوان الجاهزة:</div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+            <div onclick="pickColor('#06060E',this)" class="color-swatch active" style="width:36px;height:36px;border-radius:8px;background:#06060E;border:2px solid var(--gold);cursor:pointer;" title="الأصلي"></div>
+            <div onclick="pickColor('#0A0A1A',this)" class="color-swatch" style="width:36px;height:36px;border-radius:8px;background:#0A0A1A;border:1px solid var(--border2);cursor:pointer;" title="أزرق داكن"></div>
+            <div onclick="pickColor('#0D0D0D',this)" class="color-swatch" style="width:36px;height:36px;border-radius:8px;background:#0D0D0D;border:1px solid var(--border2);cursor:pointer;" title="أسود"></div>
+            <div onclick="pickColor('#0A1628',this)" class="color-swatch" style="width:36px;height:36px;border-radius:8px;background:#0A1628;border:1px solid var(--border2);cursor:pointer;" title="أزرق بحري"></div>
+            <div onclick="pickColor('#0D1117',this)" class="color-swatch" style="width:36px;height:36px;border-radius:8px;background:#0D1117;border:1px solid var(--border2);cursor:pointer;" title="رمادي غامق"></div>
+            <div onclick="pickColor('#1A0A00',this)" class="color-swatch" style="width:36px;height:36px;border-radius:8px;background:#1A0A00;border:1px solid var(--border2);cursor:pointer;" title="بني داكن"></div>
+            <div onclick="pickColor('#0A1A0A',this)" class="color-swatch" style="width:36px;height:36px;border-radius:8px;background:#0A1A0A;border:1px solid var(--border2);cursor:pointer;" title="أخضر داكن"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- تدرج لوني -->
+      <div id="bg-gradient-section" style="display:none;">
+        <div class="field">
+          <label class="label">التدرجات الجاهزة</label>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+            <div onclick="pickGradient('linear-gradient(135deg,#06060E 0%,#0A1628 100%)',this)" class="grad-swatch active"
+              style="width:80px;height:48px;border-radius:8px;background:linear-gradient(135deg,#06060E 0%,#0A1628 100%);border:2px solid var(--gold);cursor:pointer;"></div>
+            <div onclick="pickGradient('linear-gradient(135deg,#06060E 0%,#1A0D00 100%)',this)" class="grad-swatch"
+              style="width:80px;height:48px;border-radius:8px;background:linear-gradient(135deg,#06060E 0%,#1A0D00 100%);border:1px solid var(--border2);cursor:pointer;"></div>
+            <div onclick="pickGradient('linear-gradient(135deg,#0A0A1A 0%,#1A0A1A 100%)',this)" class="grad-swatch"
+              style="width:80px;height:48px;border-radius:8px;background:linear-gradient(135deg,#0A0A1A 0%,#1A0A1A 100%);border:1px solid var(--border2);cursor:pointer;"></div>
+            <div onclick="pickGradient('linear-gradient(180deg,#06060E 0%,#0D1A2E 100%)',this)" class="grad-swatch"
+              style="width:80px;height:48px;border-radius:8px;background:linear-gradient(180deg,#06060E 0%,#0D1A2E 100%);border:1px solid var(--border2);cursor:pointer;"></div>
+            <div onclick="pickGradient('linear-gradient(135deg,#0A0A0A 0%,#141414 50%,#0A0A0A 100%)',this)" class="grad-swatch"
+              style="width:80px;height:48px;border-radius:8px;background:linear-gradient(135deg,#0A0A0A 0%,#141414 50%,#0A0A0A 100%);border:1px solid var(--border2);cursor:pointer;"></div>
+          </div>
+          <div class="input-row">
+            <div class="field">
+              <label class="label">لون البداية</label>
+              <input type="color" id="grad-color1" value="#06060E" style="width:100%;height:42px;border-radius:8px;border:1px solid var(--border);cursor:pointer;padding:4px;background:rgba(255,255,255,0.04);" oninput="updateGradPreview()">
+            </div>
+            <div class="field">
+              <label class="label">لون النهاية</label>
+              <input type="color" id="grad-color2" value="#0A1628" style="width:100%;height:42px;border-radius:8px;border:1px solid var(--border);cursor:pointer;padding:4px;background:rgba(255,255,255,0.04);" oninput="updateGradPreview()">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">اتجاه التدرج</label>
+            <select class="input" id="grad-dir" onchange="updateGradPreview()">
+              <option value="135deg">مائل (135°) — الافتراضي</option>
+              <option value="180deg">من أعلى لأسفل</option>
+              <option value="90deg">من اليمين لليسار</option>
+              <option value="45deg">مائل (45°)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- صورة -->
+      <div id="bg-image-section" style="display:none;">
+        <div class="field">
+          <label class="label">رفع صورة خلفية</label>
+          <div class="img-upload" id="bg-img-drop" onclick="document.getElementById('bg-img-file').click()">
+            <input type="file" id="bg-img-file" accept="image/*" style="display:none" onchange="previewBgImage(this)">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 8px;display:block;color:var(--text-muted)"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <div class="img-upload-text">اضغط لاختيار صورة أو اسحبها هنا</div>
+            <div class="img-upload-hint">PNG, JPG, WebP — بحد أقصى 5MB</div>
+          </div>
+          <img id="bg-img-preview" class="img-preview" style="margin-top:10px;max-height:200px;width:100%;object-fit:cover;">
+        </div>
+        <div class="field">
+          <label class="label">أو أدخل رابط الصورة مباشرة</label>
+          <div style="display:flex;gap:8px;">
+            <input class="input" id="bg-img-url" type="url" placeholder="https://example.com/image.jpg" style="flex:1;" oninput="previewBgImageUrl()">
+            <button class="btn-outline" onclick="previewBgImageUrl()">معاينة</button>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">طريقة عرض الصورة</label>
+          <select class="input" id="bg-img-size">
+            <option value="cover">تغطية كاملة (Cover)</option>
+            <option value="contain">ملاءمة (Contain)</option>
+            <option value="center">مركزية</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="label">شفافية التعتيم فوق الصورة</label>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <input type="range" id="bg-overlay" min="0" max="90" value="70" style="flex:1;accent-color:var(--gold);" oninput="updateOverlayLabel()">
+            <span id="overlay-label" style="color:var(--gold);font-weight:700;font-size:13px;min-width:36px;text-align:center;">70%</span>
+          </div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">0% = الصورة واضحة كاملاً · 90% = تعتيم شبه كامل</div>
+        </div>
+      </div>
+
+      <!-- معاينة -->
+      <div class="field" style="margin-top:8px;">
+        <label class="label">معاينة الخلفية</label>
+        <div id="bg-preview-box" style="width:100%;height:120px;border-radius:10px;background:#06060E;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all 0.3s;position:relative;overflow:hidden;">
+          <div id="bg-preview-overlay" style="position:absolute;inset:0;background:rgba(0,0,0,0.7);display:none;"></div>
+          <div style="position:relative;z-index:1;text-align:center;">
+            <div style="font-size:18px;font-weight:800;color:#EEEEF5;">كل مؤسستك في</div>
+            <div style="font-size:18px;font-weight:800;color:#D4A843;">لوحة تحكم واحدة</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D4A843" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+        الشريط الإعلاني (أعلى الصفحة)
+      </div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+    </div>
+    <div class="card-body">
+      <div class="field">
+        <label class="label">نص الشريط</label>
+        <input class="input" type="text" value="منصة التعليم الأذكى للمؤسسات الخاصة في السعودية" placeholder="نص الشريط الإعلاني">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D4A843" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        قسم الهيرو الرئيسي
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="field">
+        <label class="label">العنوان الرئيسي (السطر الأول)</label>
+        <input class="input" type="text" value="كل مؤسستك في" placeholder="العنوان الأول">
+      </div>
+      <div class="field">
+        <label class="label">العنوان الرئيسي (السطر الثاني — ذهبي)</label>
+        <input class="input" type="text" value="لوحة تحكم واحدة" placeholder="العنوان الثاني بالذهبي">
+      </div>
+      <div class="field">
+        <label class="label">الوصف</label>
+        <textarea class="input" placeholder="وصف الهيرو">من الحضور والدرجات إلى الرسوم والنقل — متين يدير كل شيء حتى تركّز أنت على التعليم.</textarea>
+      </div>
+      <div class="input-row">
+        <div class="field">
+          <label class="label">نص الزر الأول</label>
+          <input class="input" type="text" value="ابدأ تجربتك المجانية">
+        </div>
+        <div class="field">
+          <label class="label">نص الزر الثاني</label>
+          <input class="input" type="text" value="شاهد العرض">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D4A843" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        النوافذ الثلاث (تحت الهيرو)
+      </div>
+    </div>
+    <div class="card-body">
+      <div id="hero-cards-list">
+
+        <div class="list-item">
+          <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+          <div class="list-item-body">
+            <div class="input-row" style="margin-bottom:8px;">
+              <input class="input" type="text" value="المتجر الإلكتروني" placeholder="العنوان">
+              <input class="input" type="text" value="مدفوعات إلكترونية مدمجة" placeholder="التاق">
+            </div>
+            <textarea class="input" style="min-height:56px;">متجر خاص لكل مؤسسة لبيع الكتب، الأدوات، والمنتجات التعليمية.</textarea>
+          </div>
+          <div class="list-item-actions">
+            <button class="btn-red" onclick="removeItem(this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+          </div>
+        </div>
+
+        <div class="list-item">
+          <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+          <div class="list-item-body">
+            <div class="input-row" style="margin-bottom:8px;">
+              <input class="input" type="text" value="المكتبة الرقمية" placeholder="العنوان">
+              <input class="input" type="text" value="وصول 24/7 من أي جهاز" placeholder="التاق">
+            </div>
+            <textarea class="input" style="min-height:56px;">مستودع محتوى تعليمي ثري — كتب، مقاطع، ملفات، ومراجع.</textarea>
+          </div>
+          <div class="list-item-actions">
+            <button class="btn-red" onclick="removeItem(this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+          </div>
+        </div>
+
+        <div class="list-item">
+          <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+          <div class="list-item-body">
+            <div class="input-row" style="margin-bottom:8px;">
+              <input class="input" type="text" value="الملتقى المجتمعي" placeholder="العنوان">
+              <input class="input" type="text" value="تواصل حقيقي داخل المؤسسة" placeholder="التاق">
+            </div>
+            <textarea class="input" style="min-height:56px;">فضاء تفاعلي يجمع الطلاب والمعلمين وأولياء الأمور.</textarea>
+          </div>
+          <div class="list-item-actions">
+            <button class="btn-red" onclick="removeItem(this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+          </div>
+        </div>
+
+        <div class="list-item">
+          <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+          <div class="list-item-body">
+            <div class="input-row" style="margin-bottom:8px;">
+              <input class="input" type="text" value="الإعلانات" placeholder="العنوان">
+              <input class="input" type="text" value="استهداف حسب الدور والمؤسسة" placeholder="التاق">
+            </div>
+            <textarea class="input" style="min-height:56px;">أنشئ إعلانات وأظهرها داخل لوحات التحكم لجميع المستخدمين.</textarea>
+          </div>
+          <div class="list-item-actions">
+            <button class="btn-red" onclick="removeItem(this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+          </div>
+        </div>
+
+      </div>
+      <button class="btn-green-sm" style="margin-top:12px" onclick="addHeroCard()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        إضافة نافذة
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════ INSTITUTIONS ══════════════ -->
+<div class="panel" id="panel-institutions">
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-title">عنوان قسم المؤسسات</div>
+    </div>
+    <div class="card-body">
+      <div class="input-row">
+        <div class="field">
+          <label class="label">العنوان (السطر الأول)</label>
+          <input class="input" type="text" value="لكل مؤسسة تعليمية">
+        </div>
+        <div class="field">
+          <label class="label">العنوان (السطر الثاني — ذهبي)</label>
+          <input class="input" type="text" value="حل مخصص">
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">الوصف</label>
+        <textarea class="input">من الروضة للجامعة — متين يتكيف مع طبيعة مؤسستك وهيكلها الأكاديمي.</textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-title">بطاقات المؤسسات</div>
+      <button class="btn-green-sm" onclick="addInst()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        إضافة مؤسسة
+      </button>
+    </div>
+    <div class="card-body" id="inst-list">
+
+      <div class="list-item">
+        <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+        <div class="list-item-body">
+          <div class="input-row" style="margin-bottom:8px;">
+            <input class="input" type="text" value="المدارس" placeholder="اسم المؤسسة">
+            <input class="input" type="text" value="الأكثر استخداماً" placeholder="التاق">
+          </div>
+          <textarea class="input" style="min-height:52px;">إدارة كاملة للفصول، المناهج، الحضور، الدرجات، والتواصل مع أولياء الأمور.</textarea>
+        </div>
+        <div class="list-item-actions">
+          <button class="btn-red" onclick="removeItem(this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+        <div class="list-item-body">
+          <div class="input-row" style="margin-bottom:8px;">
+            <input class="input" type="text" value="الجامعات" placeholder="اسم المؤسسة">
+            <input class="input" type="text" value="دعم متعدد الأقسام" placeholder="التاق">
+          </div>
+          <textarea class="input" style="min-height:52px;">نظام أكاديمي متقدم يدعم التسجيل، الساعات المعتمدة، والمقررات الإلكترونية.</textarea>
+        </div>
+        <div class="list-item-actions">
+          <button class="btn-red" onclick="removeItem(this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+        <div class="list-item-body">
+          <div class="input-row" style="margin-bottom:8px;">
+            <input class="input" type="text" value="رياض الأطفال" placeholder="اسم المؤسسة">
+            <input class="input" type="text" value="تواصل لحظي مع الأهل" placeholder="التاق">
+          </div>
+          <textarea class="input" style="min-height:52px;">متابعة يومية للنشاطات، التغذية، الحضور، وتقارير النمو لأولياء الأمور.</textarea>
+        </div>
+        <div class="list-item-actions">
+          <button class="btn-red" onclick="removeItem(this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+        <div class="list-item-body">
+          <div class="input-row" style="margin-bottom:8px;">
+            <input class="input" type="text" value="حضانات الأطفال" placeholder="اسم المؤسسة">
+            <input class="input" type="text" value="متابعة دقيقة بالدقيقة" placeholder="التاق">
+          </div>
+          <textarea class="input" style="min-height:52px;">إدارة الحضانة بالكامل — تسجيل الأطفال، جداول الرعاية، وتقارير يومية.</textarea>
+        </div>
+        <div class="list-item-actions">
+          <button class="btn-red" onclick="removeItem(this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ FEATURES ══════════════ -->
+<div class="panel" id="panel-features">
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-title">عنوان قسم المميزات</div>
+    </div>
+    <div class="card-body">
+      <div class="input-row">
+        <div class="field">
+          <label class="label">السطر الأول</label>
+          <input class="input" type="text" value="كل ما تحتاجه">
+        </div>
+        <div class="field">
+          <label class="label">السطر الثاني — ذهبي</label>
+          <input class="input" type="text" value="في مكان واحد">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-title">قائمة المميزات</div>
+      <button class="btn-green-sm" onclick="addFeature()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        إضافة ميزة
+      </button>
+    </div>
+    <div class="card-body" id="features-list">
+
+      <div class="list-item">
+        <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+        <div class="list-item-body">
+          <div class="input-row" style="margin-bottom:8px;">
+            <input class="input" type="text" value="إدارة متعددة الأدوار" placeholder="عنوان الميزة">
+            <input class="input" type="color" value="#60A5FA" style="height:42px;padding:4px 8px;cursor:pointer;">
+          </div>
+          <textarea class="input" style="min-height:52px;">15+ دور من مالك المنصة لولي الأمر — كل دور بصلاحياته الدقيقة.</textarea>
+        </div>
+        <div class="list-item-actions">
+          <button class="btn-red" onclick="removeItem(this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+        <div class="list-item-body">
+          <div class="input-row" style="margin-bottom:8px;">
+            <input class="input" type="text" value="حضور وغياب ذكي" placeholder="عنوان الميزة">
+            <input class="input" type="color" value="#10B981" style="height:42px;padding:4px 8px;cursor:pointer;">
+          </div>
+          <textarea class="input" style="min-height:52px;">تسجيل فوري مع إشعارات لحظية لأولياء الأمور عبر واتساب و SMS.</textarea>
+        </div>
+        <div class="list-item-actions">
+          <button class="btn-red" onclick="removeItem(this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+        <div class="list-item-body">
+          <div class="input-row" style="margin-bottom:8px;">
+            <input class="input" type="text" value="إدارة مالية متكاملة" placeholder="عنوان الميزة">
+            <input class="input" type="color" value="#D4A843" style="height:42px;padding:4px 8px;cursor:pointer;">
+          </div>
+          <textarea class="input" style="min-height:52px;">رسوم الطلاب، الرواتب، الفواتير، والمنح — مع تقارير مالية تلقائية.</textarea>
+        </div>
+        <div class="list-item-actions">
+          <button class="btn-red" onclick="removeItem(this)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PRICING ══════════════ -->
+<div class="panel" id="panel-pricing">
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-title">عنوان قسم الأسعار</div>
+    </div>
+    <div class="card-body">
+      <div class="input-row">
+        <div class="field">
+          <label class="label">العنوان</label>
+          <input class="input" type="text" value="باقة لكل مؤسسة">
+        </div>
+        <div class="field">
+          <label class="label">الوصف</label>
+          <input class="input" type="text" value="ابدأ مجاناً وطوّر حسب احتياجك.">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pricing-editor">
+
+    <div class="price-editor-card">
+      <div class="price-editor-name">الباقة الأساسية</div>
+      <div class="field"><label class="label">اسم الباقة</label><input class="input" type="text" value="أساسي"></div>
+      <div class="field"><label class="label">السعر</label><input class="input" type="text" value="مجاناً"></div>
+      <div class="field"><label class="label">الفترة</label><input class="input" type="text" value="تجربة 30 يوم كاملة"></div>
+      <div class="field">
+        <label class="label">المميزات (سطر لكل ميزة)</label>
+        <textarea class="input" style="min-height:120px;">حتى 100 طالب
+لوحة تحكم أساسية
+الحضور والغياب
+الدرجات والتقارير</textarea>
+      </div>
+      <div class="field"><label class="label">نص الزر</label><input class="input" type="text" value="ابدأ مجاناً"></div>
+    </div>
+
+    <div class="price-editor-card" style="border-color:var(--gold-border);background:rgba(212,168,67,0.04);">
+      <div class="price-editor-name" style="color:var(--gold);">★ الباقة المميزة</div>
+      <div class="field"><label class="label">اسم الباقة</label><input class="input" type="text" value="متقدم"></div>
+      <div class="field"><label class="label">السعر</label><input class="input" type="text" value="1,200"></div>
+      <div class="field"><label class="label">الفترة</label><input class="input" type="text" value="ريال / سنة"></div>
+      <div class="field">
+        <label class="label">المميزات</label>
+        <textarea class="input" style="min-height:120px;">حتى 500 طالب
+جميع مميزات الأساسي
+التعليم الإلكتروني
+النقل المدرسي + GPS
+إدارة مالية كاملة</textarea>
+      </div>
+      <div class="field"><label class="label">نص الزر</label><input class="input" type="text" value="اشترك الآن"></div>
+      <div class="field"><label class="label">بادج "الأكثر شعبية"</label><input class="input" type="text" value="الأكثر شعبية"></div>
+    </div>
+
+    <div class="price-editor-card">
+      <div class="price-editor-name">الباقة المؤسسية</div>
+      <div class="field"><label class="label">اسم الباقة</label><input class="input" type="text" value="مؤسسي"></div>
+      <div class="field"><label class="label">السعر</label><input class="input" type="text" value="حسب الطلب"></div>
+      <div class="field"><label class="label">الفترة</label><input class="input" type="text" value="للمؤسسات الكبيرة"></div>
+      <div class="field">
+        <label class="label">المميزات</label>
+        <textarea class="input" style="min-height:120px;">طلاب غير محدودين
+جميع المميزات
+دعم مخصص 24/7
+تكاملات مخصصة
+White Label متاح</textarea>
+      </div>
+      <div class="field"><label class="label">نص الزر</label><input class="input" type="text" value="تواصل معنا"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════ TESTIMONIALS ══════════════ -->
+<div class="panel" id="panel-testimonials">
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-title">شهادات العملاء</div>
+      <button class="btn-green-sm" onclick="addTestimonial()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        إضافة شهادة
+      </button>
+    </div>
+    <div class="card-body" id="testi-list">
+
+      <div class="list-item" style="flex-direction:column;gap:12px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+          <div style="font-size:13px;font-weight:600;color:var(--text);">شهادة #1</div>
+          <div style="display:flex;gap:6px;">
+            <div class="stars">
+              <svg class="star on" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg class="star on" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg class="star on" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg class="star on" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg class="star on" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <button class="btn-red" onclick="removeItem(this.closest('.list-item'))"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+          </div>
+        </div>
+        <textarea class="input" style="min-height:72px;">متين غيّر طريقة إدارتنا للمدرسة كلياً — الحضور والرسوم والتواصل مع الأهل كله صار في مكان واحد.</textarea>
+        <div class="input-row">
+          <input class="input" type="text" value="أحمد العمري" placeholder="اسم العميل">
+          <input class="input" type="text" value="مدير مدرسة الأمل الدولية — الرياض" placeholder="المسمى والمؤسسة">
+        </div>
+      </div>
+
+      <div class="list-item" style="flex-direction:column;gap:12px;margin-top:10px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+          <div style="font-size:13px;font-weight:600;color:var(--text);">شهادة #2 <span style="color:var(--gold);font-size:11px;">(مميزة)</span></div>
+          <div style="display:flex;gap:6px;">
+            <div class="stars">
+              <svg class="star on" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg class="star on" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg class="star on" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg class="star on" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg class="star on" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <button class="btn-red" onclick="removeItem(this.closest('.list-item'))"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+          </div>
+        </div>
+        <textarea class="input" style="min-height:72px;">أفضل استثمار عملناه لمعهدنا. نظام التعليم الإلكتروني وإصدار الشهادات أعطانا ميزة تنافسية كبيرة.</textarea>
+        <div class="input-row">
+          <input class="input" type="text" value="سارة الحربي" placeholder="اسم العميل">
+          <input class="input" type="text" value="مديرة معهد تقنية المعلومات — جدة" placeholder="المسمى والمؤسسة">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ INTEGRATIONS ══════════════ -->
+<div class="panel" id="panel-integrations">
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-title">التكاملات المعروضة</div>
+      <button class="btn-green-sm" onclick="addIntegration()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        إضافة
+      </button>
+    </div>
+    <div class="card-body" id="int-list" style="display:flex;flex-wrap:wrap;gap:8px;">
+      <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);border-radius:8px;padding:7px 12px;">
+        <span style="font-size:13px;font-weight:600;color:var(--text-dim);">واتساب Business</span>
+        <button onclick="removeItem(this.parentNode)" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;line-height:1;">×</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);border-radius:8px;padding:7px 12px;">
+        <span style="font-size:13px;font-weight:600;color:var(--text-dim);">SMS محلي</span>
+        <button onclick="removeItem(this.parentNode)" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;line-height:1;">×</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);border-radius:8px;padding:7px 12px;">
+        <span style="font-size:13px;font-weight:600;color:var(--text-dim);">نظام نور</span>
+        <button onclick="removeItem(this.parentNode)" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;line-height:1;">×</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);border-radius:8px;padding:7px 12px;">
+        <span style="font-size:13px;font-weight:600;color:var(--text-dim);">مدى / فيزا</span>
+        <button onclick="removeItem(this.parentNode)" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;line-height:1;">×</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);border-radius:8px;padding:7px 12px;">
+        <span style="font-size:13px;font-weight:600;color:var(--text-dim);">تقارير PDF</span>
+        <button onclick="removeItem(this.parentNode)" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;line-height:1;">×</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);border-radius:8px;padding:7px 12px;">
+        <span style="font-size:13px;font-weight:600;color:var(--text-dim);">تخزين سحابي</span>
+        <button onclick="removeItem(this.parentNode)" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;line-height:1;">×</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);border-radius:8px;padding:7px 12px;">
+        <span style="font-size:13px;font-weight:600;color:var(--text-dim);">ذكاء اصطناعي</span>
+        <button onclick="removeItem(this.parentNode)" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;line-height:1;">×</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);border-radius:8px;padding:7px 12px;">
+        <span style="font-size:13px;font-weight:600;color:var(--text-dim);">GPS تتبع</span>
+        <button onclick="removeItem(this.parentNode)" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;line-height:1;">×</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);border-radius:8px;padding:7px 12px;">
+        <span style="font-size:13px;font-weight:600;color:var(--text-dim);">إشعارات فورية</span>
+        <button onclick="removeItem(this.parentNode)" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;line-height:1;">×</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);border-radius:8px;padding:7px 12px;">
+        <span style="font-size:13px;font-weight:600;color:var(--text-dim);">SSL وأمان</span>
+        <button onclick="removeItem(this.parentNode)" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;line-height:1;">×</button>
+      </div>
+    </div>
+    <div style="padding:14px 18px;border-top:1px solid var(--border2);display:flex;gap:8px;">
+      <input class="input" id="new-int" type="text" placeholder="اسم التكامل الجديد..." style="flex:1;">
+      <button class="btn-gold" onclick="addIntegrationItem()">إضافة</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ FAQ ══════════════ -->
+<div class="panel" id="panel-faq">
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-title">الأسئلة الشائعة</div>
+      <button class="btn-green-sm" onclick="addFaq()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        إضافة سؤال
+      </button>
+    </div>
+    <div class="card-body" id="faq-list">
+
+      <div class="list-item" style="flex-direction:column;gap:10px;">
+        <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
+          <span style="font-size:12px;color:var(--text-muted);font-weight:600;">سؤال #1</span>
+          <button class="btn-red" onclick="removeItem(this.closest('.list-item'))"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <input class="input" type="text" value="هل يمكنني تجربة متين قبل الدفع?" placeholder="السؤال">
+        <textarea class="input" style="min-height:60px;">نعم، نوفر تجربة مجانية كاملة لمدة 30 يوم بدون بطاقة ائتمان. تحصل على وصول كامل لجميع المميزات خلال فترة التجربة.</textarea>
+      </div>
+
+      <div class="list-item" style="flex-direction:column;gap:10px;margin-top:10px;">
+        <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
+          <span style="font-size:12px;color:var(--text-muted);font-weight:600;">سؤال #2</span>
+          <button class="btn-red" onclick="removeItem(this.closest('.list-item'))"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <input class="input" type="text" value="كم يستغرق إعداد المنصة لمؤسستي?" placeholder="السؤال">
+        <textarea class="input" style="min-height:60px;">معظم المؤسسات تكون جاهزة خلال يوم واحد. فريقنا يساعدك في استيراد البيانات وإعداد الفصول والمستخدمين.</textarea>
+      </div>
+
+      <div class="list-item" style="flex-direction:column;gap:10px;margin-top:10px;">
+        <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
+          <span style="font-size:12px;color:var(--text-muted);font-weight:600;">سؤال #3</span>
+          <button class="btn-red" onclick="removeItem(this.closest('.list-item'))"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <input class="input" type="text" value="هل بياناتي آمنة على متين?" placeholder="السؤال">
+        <textarea class="input" style="min-height:60px;">نعم، نستخدم تشفير SSL كامل، ونسخ احتياطية يومية، وخوادم موثوقة. بياناتك ملكك حصراً.</textarea>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<div class="panel" id="panel-footer">
+  <div class="card">
+    <div class="card-hdr"><div class="card-title">معلومات الفوتر</div></div>
+    <div class="card-body">
+      <div class="field">
+        <label class="label">نص حقوق النشر</label>
+        <input class="input" type="text" value="© 2026 متين — جميع الحقوق محفوظة · صنع بـ ❤️ في المملكة العربية السعودية">
+      </div>
+      <div class="field">
+        <label class="label">وصف الشعار</label>
+        <input class="input" type="text" value="منصة إدارة التعليم المتكاملة">
+      </div>
+      <div class="input-row">
+        <div class="field">
+          <label class="label">رابط واتساب للتواصل</label>
+          <input class="input" type="text" placeholder="+966500000000">
+        </div>
+        <div class="field">
+          <label class="label">البريد الإلكتروني</label>
+          <input class="input" type="email" placeholder="hello@matin.ink">
+        </div>
+      </div>
+      <div class="input-row">
+        <div class="field">
+          <label class="label">تويتر / X</label>
+          <input class="input" type="text" placeholder="https://x.com/matinink">
+        </div>
+        <div class="field">
+          <label class="label">لينكدإن</label>
+          <input class="input" type="text" placeholder="https://linkedin.com/company/matin">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SECTIONS ══════════════ -->
+<div class="panel" id="panel-sections">
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D4A843" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        تفعيل وتعطيل الأقسام
+      </div>
+    </div>
+
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-name">الشريط الإعلاني</div>
+        <div class="toggle-desc">الشريط في أعلى الصفحة</div>
+      </div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-name">قسم المؤسسات</div>
+        <div class="toggle-desc">بطاقات أنواع المؤسسات</div>
+      </div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-name">قسم المميزات</div>
+        <div class="toggle-desc">قائمة المميزات مع الموكاب</div>
+      </div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-name">قسم الأدوار</div>
+        <div class="toggle-desc">شبكة الأدوار والصلاحيات</div>
+      </div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-name">قسم التكاملات</div>
+        <div class="toggle-desc">شرائح التكاملات</div>
+      </div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-name">قسم الأسعار</div>
+        <div class="toggle-desc">بطاقات الباقات والأسعار</div>
+      </div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-name">شهادات العملاء</div>
+        <div class="toggle-desc">آراء وتقييمات العملاء</div>
+      </div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-name">الأسئلة الشائعة FAQ</div>
+        <div class="toggle-desc">قسم الأسئلة والأجوبة</div>
+      </div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-name">زر واتساب العائم</div>
+        <div class="toggle-desc">الزر الأخضر في أسفل الصفحة</div>
+      </div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-name">قسم CTA (الدعوة للتسجيل)</div>
+        <div class="toggle-desc">قسم "جاهز لتحويل مؤسستك"</div>
+      </div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+    </div>
+
+  </div>
+</div>
+
+<!-- SAVE BAR -->
+<div class="save-bar">
+  <div class="save-bar-msg">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(238,238,245,0.3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    التغييرات لم تُحفظ بعد
+  </div>
+  <div style="display:flex;gap:8px;">
+    <button class="btn-outline">إلغاء التغييرات</button>
+    <button class="btn-gold" onclick="saveAll()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      حفظ وتطبيق
+    </button>
+  </div>
+</div>
+
+<script>
+// ── Background type switching ──
+function setBgType(type, btn) {
+  document.querySelectorAll('.bg-type-btn').forEach(b => {
+    b.style.background = 'rgba(255,255,255,0.04)';
+    b.style.border = '1px solid var(--border)';
+    b.style.color = 'var(--text-dim)';
+    b.style.fontWeight = '600';
+  });
+  btn.style.background = 'rgba(212,168,67,0.12)';
+  btn.style.border = '1px solid rgba(212,168,67,0.3)';
+  btn.style.color = 'var(--gold)';
+  btn.style.fontWeight = '700';
+
+  document.getElementById('bg-color-section').style.display = type === 'color' ? 'block' : 'none';
+  document.getElementById('bg-gradient-section').style.display = type === 'gradient' ? 'block' : 'none';
+  document.getElementById('bg-image-section').style.display = type === 'image' ? 'block' : 'none';
+}
+
+function pickColor(hex, el) {
+  document.querySelectorAll('.color-swatch').forEach(s => {
+    s.style.border = '1px solid rgba(255,255,255,0.04)';
+  });
+  el.style.border = '2px solid var(--gold)';
+  document.getElementById('bg-color-picker').value = hex;
+  document.getElementById('bg-color-hex').value = hex;
+  document.getElementById('bg-preview-box').style.background = hex;
+}
+
+function updateBgPreview() {
+  const hex = document.getElementById('bg-color-picker').value;
+  document.getElementById('bg-color-hex').value = hex;
+  document.getElementById('bg-preview-box').style.background = hex;
+}
+
+function syncColorFromHex() {
+  const hex = document.getElementById('bg-color-hex').value;
+  if(/^#[0-9A-Fa-f]{6}$/.test(hex)) {
+    document.getElementById('bg-color-picker').value = hex;
+    document.getElementById('bg-preview-box').style.background = hex;
+  }
+}
+
+function pickGradient(grad, el) {
+  document.querySelectorAll('.grad-swatch').forEach(s => s.style.border = '1px solid rgba(255,255,255,0.04)');
+  el.style.border = '2px solid var(--gold)';
+  document.getElementById('bg-preview-box').style.background = grad;
+  document.getElementById('bg-preview-overlay').style.display = 'none';
+}
+
+function updateGradPreview() {
+  const c1 = document.getElementById('grad-color1').value;
+  const c2 = document.getElementById('grad-color2').value;
+  const dir = document.getElementById('grad-dir').value;
+  const grad = `linear-gradient(${dir},${c1} 0%,${c2} 100%)`;
+  document.getElementById('bg-preview-box').style.background = grad;
+  document.getElementById('bg-preview-overlay').style.display = 'none';
+}
+
+function previewBgImage(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const url = e.target.result;
+    const preview = document.getElementById('bg-img-preview');
+    preview.src = url;
+    preview.style.display = 'block';
+    applyBgImage(url);
+  };
+  reader.readAsDataURL(file);
+}
+
+function previewBgImageUrl() {
+  const url = document.getElementById('bg-img-url').value.trim();
+  if (!url) return;
+  const preview = document.getElementById('bg-img-preview');
+  preview.src = url;
+  preview.style.display = 'block';
+  applyBgImage(url);
+}
+
+function applyBgImage(url) {
+  const box = document.getElementById('bg-preview-box');
+  const overlay = document.getElementById('bg-preview-overlay');
+  box.style.backgroundImage = `url('${url}')`;
+  box.style.backgroundSize = 'cover';
+  box.style.backgroundPosition = 'center';
+  box.style.backgroundColor = '';
+  overlay.style.display = 'block';
+  updateOverlayLabel();
+}
+
+function updateOverlayLabel() {
+  const val = document.getElementById('bg-overlay').value;
+  document.getElementById('overlay-label').textContent = val + '%';
+  document.getElementById('bg-preview-overlay').style.background = `rgba(0,0,0,${val/100})`;
+}
+
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── Remove item ──
+function removeItem(el) {
+  if(confirm('حذف هذا العنصر?')) el.remove();
+}
+
+// ── Save ──
+function saveAll() {
+  const btn = event.currentTarget;
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> تم الحفظ!';
+  btn.style.background = 'linear-gradient(135deg,#10B981,#34D399)';
+  setTimeout(() => {
+    btn.innerHTML = orig;
+    btn.style.background = '';
+  }, 2000);
+  document.querySelector('.save-bar-msg').innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> <span style="color:#10B981">تم حفظ التغييرات</span>';
+}
+
+// ── Add hero card ──
+function addHeroCard() {
+  const html = `<div class="list-item" style="margin-top:10px;">
+    <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+    <div class="list-item-body">
+      <div class="input-row" style="margin-bottom:8px;">
+        <input class="input" type="text" placeholder="عنوان النافذة">
+        <input class="input" type="text" placeholder="التاق">
+      </div>
+      <textarea class="input" style="min-height:56px;" placeholder="الوصف"></textarea>
+    </div>
+    <div class="list-item-actions">
+      <button class="btn-red" onclick="removeItem(this.closest('.list-item'))"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+  </div>`;
+  document.getElementById('hero-cards-list').insertAdjacentHTML('beforeend', html);
+}
+
+// ── Add institution ──
+function addInst() {
+  const html = `<div class="list-item" style="margin-top:10px;">
+    <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+    <div class="list-item-body">
+      <div class="input-row" style="margin-bottom:8px;">
+        <input class="input" type="text" placeholder="اسم المؤسسة">
+        <input class="input" type="text" placeholder="التاق">
+      </div>
+      <textarea class="input" style="min-height:52px;" placeholder="وصف المؤسسة"></textarea>
+    </div>
+    <div class="list-item-actions">
+      <button class="btn-red" onclick="removeItem(this.closest('.list-item'))"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+  </div>`;
+  document.getElementById('inst-list').insertAdjacentHTML('beforeend', html);
+}
+
+// ── Add feature ──
+function addFeature() {
+  const html = `<div class="list-item" style="margin-top:10px;">
+    <div class="drag-handle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+    <div class="list-item-body">
+      <div class="input-row" style="margin-bottom:8px;">
+        <input class="input" type="text" placeholder="اسم الميزة">
+        <input class="input" type="color" value="#D4A843" style="height:42px;padding:4px 8px;cursor:pointer;">
+      </div>
+      <textarea class="input" style="min-height:52px;" placeholder="وصف الميزة"></textarea>
+    </div>
+    <div class="list-item-actions">
+      <button class="btn-red" onclick="removeItem(this.closest('.list-item'))"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+  </div>`;
+  document.getElementById('features-list').insertAdjacentHTML('beforeend', html);
+}
+
+// ── Add FAQ ──
+function addFaq() {
+  const n = document.querySelectorAll('#faq-list .list-item').length + 1;
+  const html = `<div class="list-item" style="flex-direction:column;gap:10px;margin-top:10px;">
+    <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
+      <span style="font-size:12px;color:var(--text-muted);font-weight:600;">سؤال #${n}</span>
+      <button class="btn-red" onclick="removeItem(this.closest('.list-item'))"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <input class="input" type="text" placeholder="اكتب السؤال هنا...">
+    <textarea class="input" style="min-height:60px;" placeholder="اكتب الجواب هنا..."></textarea>
+  </div>`;
+  document.getElementById('faq-list').insertAdjacentHTML('beforeend', html);
+}
+
+// ── Add testimonial ──
+function addTestimonial() {
+  const n = document.querySelectorAll('#testi-list .list-item').length + 1;
+  const html = `<div class="list-item" style="flex-direction:column;gap:12px;margin-top:10px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+      <div style="font-size:13px;font-weight:600;color:var(--text);">شهادة #${n}</div>
+      <button class="btn-red" onclick="removeItem(this.closest('.list-item'))"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <textarea class="input" style="min-height:72px;" placeholder="نص الشهادة..."></textarea>
+    <div class="input-row">
+      <input class="input" type="text" placeholder="اسم العميل">
+      <input class="input" type="text" placeholder="المسمى والمؤسسة">
+    </div>
+  </div>`;
+  document.getElementById('testi-list').insertAdjacentHTML('beforeend', html);
+}
+
+// ── Add integration ──
+function addIntegrationItem() {
+  const val = document.getElementById('new-int').value.trim();
+  if(!val) return;
+  const html = `<div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);border-radius:8px;padding:7px 12px;">
+    <span style="font-size:13px;font-weight:600;color:var(--text-dim);">${val}</span>
+    <button onclick="removeItem(this.parentNode)" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;line-height:1;">×</button>
+  </div>`;
+  document.getElementById('int-list').insertAdjacentHTML('beforeend', html);
+  document.getElementById('new-int').value = '';
+}
+
+// ── Track changes ──
+document.addEventListener('input', () => {
+  document.querySelector('.save-bar-msg').innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(238,238,245,0.3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> التغييرات لم تُحفظ بعد';
+});
+</script>
+
+</body>
+</html>

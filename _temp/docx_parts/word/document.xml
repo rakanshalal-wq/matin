@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+<w:body>
+
+<!-- ==================== TITLE PAGE ==================== -->
+<w:p><w:r><w:t> </w:t></w:r></w:p>
+<w:p><w:r><w:t> </w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Title"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1578;&#1602;&#1585;&#1610;&#1585; &#1575;&#1604;&#1601;&#1581;&#1589; &#1575;&#1604;&#1601;&#1606;&#1610; &#1575;&#1604;&#1588;&#1575;&#1605;&#1604;</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Subtitle"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1605;&#1606;&#1589;&#1577; &#1605;&#1578;&#1610;&#1606; - Matin Platform</w:t></w:r></w:p>
+<w:p><w:r><w:t> </w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Subtitle"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1601;&#1581;&#1589; &#1583;&#1602;&#1610;&#1602; &#1604;&#1603;&#1604; &#1605;&#1604;&#1601; &#1601;&#1610; &#1575;&#1604;&#1605;&#1588;&#1585;&#1608;&#1593; &#1605;&#1593; &#1571;&#1583;&#1604;&#1577; &#1605;&#1576;&#1575;&#1588;&#1585;&#1577; &#1605;&#1606; &#1575;&#1604;&#1603;&#1608;&#1583;</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Subtitle"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1593;&#1583;&#1583; &#1575;&#1604;&#1605;&#1604;&#1601;&#1575;&#1578; &#1575;&#1604;&#1605;&#1601;&#1581;&#1608;&#1589;&#1577;: 61 &#1605;&#1604;&#1601; &#1605;&#1589;&#1583;&#1585;&#1610; + 23 &#1578;&#1589;&#1605;&#1610;&#1605; HTML</w:t></w:r></w:p>
+<w:p><w:r><w:br w:type="page"/></w:r></w:p>
+
+<!-- ==================== BUG #1 ==================== -->
+<w:p><w:pPr><w:pStyle w:val="Heading1"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1593;&#1591;&#1604; #1: &#1582;&#1591;&#1571; Import &#1610;&#1603;&#1587;&#1585; 3 APIs &#1603;&#1575;&#1605;&#1604;&#1577;</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:pStyle w:val="AlertRed"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1582;&#1591;&#1608;&#1585;&#1577;: &#1581;&#1585;&#1580; - &#1603;&#1587;&#1585; &#1603;&#1575;&#1605;&#1604;</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1605;&#1588;&#1603;&#1604;&#1577;:</w:t></w:r></w:p>
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t xml:space="preserve">&#1579;&#1604;&#1575;&#1579;&#1577; &#1605;&#1604;&#1601;&#1575;&#1578; API &#1578;&#1587;&#1578;&#1608;&#1585;&#1583; pool &#1605;&#1606; &#1575;&#1604;&#1605;&#1603;&#1575;&#1606; &#1575;&#1604;&#1582;&#1591;&#1571;. &#1575;&#1604;&#1605;&#1604;&#1601; auth.ts &#1604;&#1575; &#1610;&#1589;&#1583;&#1617;&#1585; pool &#1573;&#1591;&#1604;&#1575;&#1602;&#1575;&#1611;.</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1605;&#1604;&#1601;&#1575;&#1578; &#1575;&#1604;&#1605;&#1578;&#1571;&#1579;&#1585;&#1577;:</w:t></w:r></w:p>
+
+<w:tbl><w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:w="5000" w:type="pct"/><w:bidiVisual/></w:tblPr>
+<w:tr><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1605;&#1604;&#1601;</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/></w:rPr><w:t>&#1575;&#1604;&#1587;&#1591;&#1585;</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/></w:rPr><w:t>&#1575;&#1604;&#1603;&#1608;&#1583;</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:t>src/app/api/quran/route.ts</w:t></w:r></w:p></w:tc><w:tc><w:p><w:r><w:t>2</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Consolas" w:hAnsi="Consolas"/><w:sz w:val="18"/></w:rPr><w:t>import { pool } from '@/lib/auth';</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:t>src/app/api/schools/public/[code]/route.ts</w:t></w:r></w:p></w:tc><w:tc><w:p><w:r><w:t>2</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Consolas" w:hAnsi="Consolas"/><w:sz w:val="18"/></w:rPr><w:t>import { pool } from '@/lib/auth';</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:t>src/app/api/institutes/public/[code]/route.ts</w:t></w:r></w:p></w:tc><w:tc><w:p><w:r><w:t>2</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Consolas" w:hAnsi="Consolas"/><w:sz w:val="18"/></w:rPr><w:t>import { pool } from '@/lib/auth';</w:t></w:r></w:p></w:tc></w:tr>
+</w:tbl>
+
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1583;&#1604;&#1610;&#1604; - &#1605;&#1575; &#1610;&#1589;&#1583;&#1617;&#1585;&#1607; auth.ts &#1601;&#1593;&#1604;&#1575;&#1611;:</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t>TokenPayload (interface)</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t>signToken, verifyToken</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t>hashPassword, comparePassword</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t>setAuthCookie, clearAuthCookie, getTokenFromCookies</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t>getCurrentUser, getRoleRedirect</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="C0392B"/><w:rtl/></w:rPr><w:t xml:space="preserve">&#1604;&#1575; &#1610;&#1608;&#1580;&#1583; &#1603;&#1604;&#1605;&#1577; pool &#1601;&#1610; &#1575;&#1604;&#1605;&#1604;&#1601; &#1606;&#1607;&#1575;&#1574;&#1610;&#1575;&#1611;. pool &#1605;&#1608;&#1580;&#1608;&#1583; &#1601;&#1602;&#1591; &#1601;&#1610; src/lib/db.ts</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:rtl/></w:rPr><w:t>&#1591;&#1585;&#1610;&#1602;&#1577; &#1575;&#1604;&#1578;&#1581;&#1602;&#1602; &#1576;&#1606;&#1601;&#1587;&#1603;:</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t xml:space="preserve">1. Open src/lib/auth.ts and search for "pool" - you will NOT find it</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t xml:space="preserve">2. Open src/lib/db.ts - you WILL find pool here</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t xml:space="preserve">3. Open any of the 3 files above and look at line 2</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1581;&#1604;:</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t xml:space="preserve">Change: import { pool } from '@/lib/auth';</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t xml:space="preserve">To:     import pool from '@/lib/db';</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:pStyle w:val="AlertGreen"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1578;&#1571;&#1579;&#1610;&#1585; &#1575;&#1604;&#1580;&#1575;&#1606;&#1576;&#1610;: &#1604;&#1575; &#1610;&#1608;&#1580;&#1583; - &#1578;&#1589;&#1581;&#1610;&#1581; &#1605;&#1587;&#1575;&#1585; &#1575;&#1604;&#1575;&#1587;&#1578;&#1610;&#1585;&#1575;&#1583; &#1601;&#1602;&#1591;</w:t></w:r></w:p>
+
+<w:p><w:r><w:br w:type="page"/></w:r></w:p>
+
+<!-- ==================== BUG #2 ==================== -->
+<w:p><w:pPr><w:pStyle w:val="Heading1"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1593;&#1591;&#1604; #2: &#1575;&#1604;&#1602;&#1585;&#1570;&#1606; &#1576;&#1583;&#1608;&#1606; &#1581;&#1605;&#1575;&#1610;&#1577; (&#1605;&#1601;&#1578;&#1608;&#1581; &#1604;&#1604;&#1580;&#1605;&#1610;&#1593;)</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:pStyle w:val="AlertRed"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1582;&#1591;&#1608;&#1585;&#1577;: &#1581;&#1585;&#1580; - &#1579;&#1594;&#1585;&#1577; &#1571;&#1605;&#1606;&#1610;&#1577; + &#1593;&#1591;&#1604;</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1605;&#1604;&#1601;: src/app/api/quran/route.ts</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t xml:space="preserve">&#1583;&#1575;&#1604;&#1577; getUser() &#1601;&#1610; &#1607;&#1584;&#1575; &#1575;&#1604;&#1605;&#1604;&#1601; &#1578;&#1585;&#1580;&#1593; &#1576;&#1610;&#1575;&#1606;&#1575;&#1578; &#1608;&#1607;&#1605;&#1610;&#1577; &#1579;&#1575;&#1576;&#1578;&#1577; &#1608;&#1604;&#1575; &#1578;&#1578;&#1581;&#1602;&#1602; &#1605;&#1606; &#1575;&#1604;&#1578;&#1608;&#1603;&#1606;. &#1608;&#1604;&#1575; &#1578;&#1615;&#1587;&#1578;&#1583;&#1593;&#1609; &#1571;&#1589;&#1604;&#1575;&#1611; &#1601;&#1610; GET/POST.</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:rtl/></w:rPr><w:t>&#1591;&#1585;&#1610;&#1602;&#1577; &#1575;&#1604;&#1578;&#1581;&#1602;&#1602;:</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t>1. Open src/app/api/quran/route.ts</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t>2. Search for "function getUser" - returns hardcoded { id: 0, role: 'quran_admin' }</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t>3. Search for "getUser()" in GET and POST handlers - NOT called</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t>4. Search for "getCurrentUser" - NOT imported or used</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1606;&#1578;&#1610;&#1580;&#1577;:</w:t></w:r></w:p>
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t xml:space="preserve">&#1571;&#1610; &#1588;&#1582;&#1589; &#1610;&#1602;&#1583;&#1585; &#1610;&#1602;&#1585;&#1571; &#1576;&#1610;&#1575;&#1606;&#1575;&#1578; &#1575;&#1604;&#1581;&#1604;&#1602;&#1575;&#1578; &#1608;&#1575;&#1604;&#1591;&#1604;&#1575;&#1576; &#1608;&#1610;&#1587;&#1580;&#1604; &#1581;&#1590;&#1608;&#1585; &#1608;&#1578;&#1587;&#1605;&#1610;&#1593; &#1576;&#1583;&#1608;&#1606; &#1578;&#1587;&#1580;&#1610;&#1604; &#1583;&#1582;&#1608;&#1604;.</w:t></w:r></w:p>
+
+<w:p><w:r><w:br w:type="page"/></w:r></w:p>
+
+<!-- ==================== BUG #3 ==================== -->
+<w:p><w:pPr><w:pStyle w:val="Heading1"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1593;&#1591;&#1604; #3: &#1581;&#1602;&#1608;&#1604; &#1575;&#1604;&#1605;&#1587;&#1578;&#1582;&#1583;&#1605; &#1582;&#1591;&#1571; &#1601;&#1610; &#1575;&#1604;&#1580;&#1575;&#1605;&#1593;&#1577;</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:pStyle w:val="AlertRed"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1582;&#1591;&#1608;&#1585;&#1577;: &#1581;&#1585;&#1580; - &#1576;&#1610;&#1575;&#1606;&#1575;&#1578; &#1604;&#1575; &#1578;&#1592;&#1607;&#1585;</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1605;&#1604;&#1601;: src/app/api/university/route.ts</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t xml:space="preserve">&#1610;&#1587;&#1578;&#1582;&#1583;&#1605; (user as any).school_id &#1608; (user as any).id &#1604;&#1603;&#1606; JWT &#1610;&#1581;&#1578;&#1608;&#1610; &#1593;&#1604;&#1609; institutionId &#1608; userId</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:rtl/></w:rPr><w:t>&#1591;&#1585;&#1610;&#1602;&#1577; &#1575;&#1604;&#1578;&#1581;&#1602;&#1602;:</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t>1. Open src/lib/auth.ts lines 9-15 - see TokenPayload interface</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t xml:space="preserve">   Fields: userId, role, institutionId, institutionType, name</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t xml:space="preserve">   NO school_id, NO id field</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t>2. Open src/app/api/university/route.ts</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t xml:space="preserve">   Search for "school_id" - found as (user as any).school_id</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t xml:space="preserve">   Search for ".id" - found as (user as any).id</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1581;&#1604;:</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t>(user as any).school_id  -&gt;  user.institutionId</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t>(user as any).id         -&gt;  user.userId</w:t></w:r></w:p>
+
+<w:p><w:r><w:br w:type="page"/></w:r></w:p>
+
+<!-- ==================== SECURITY #1 ==================== -->
+<w:p><w:pPr><w:pStyle w:val="Heading1"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1571;&#1605;&#1606; #1: &#1576;&#1610;&#1575;&#1606;&#1575;&#1578; &#1576;&#1591;&#1575;&#1602;&#1575;&#1578; &#1575;&#1604;&#1583;&#1601;&#1593; &#1578;&#1615;&#1580;&#1605;&#1593; &#1605;&#1576;&#1575;&#1588;&#1585;&#1577;</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:pStyle w:val="AlertRed"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1582;&#1591;&#1608;&#1585;&#1577;: &#1582;&#1591;&#1610;&#1585; - &#1605;&#1582;&#1575;&#1604;&#1601;&#1577; PCI-DSS</w:t></w:r></w:p>
+
+<w:tbl><w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:w="5000" w:type="pct"/><w:bidiVisual/></w:tblPr>
+<w:tr><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1605;&#1604;&#1601;</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/></w:rPr><w:t>&#1575;&#1604;&#1587;&#1591;&#1585;</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/></w:rPr><w:t>&#1575;&#1604;&#1603;&#1608;&#1583;</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:t>src/app/school/parent/page.tsx</w:t></w:r></w:p></w:tc><w:tc><w:p><w:r><w:t>45</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Consolas" w:hAnsi="Consolas"/><w:sz w:val="16"/></w:rPr><w:t>useState({ method: 'mada', card_number: '', expiry: '', cvv: '' })</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:t>src/app/university/parent/page.tsx</w:t></w:r></w:p></w:tc><w:tc><w:p><w:r><w:t>49</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Consolas" w:hAnsi="Consolas"/><w:sz w:val="16"/></w:rPr><w:t>useState({ method: 'mada', card_number: '', expiry: '', cvv: '' })</w:t></w:r></w:p></w:tc></w:tr>
+</w:tbl>
+
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:rtl/></w:rPr><w:t>&#1591;&#1585;&#1610;&#1602;&#1577; &#1575;&#1604;&#1578;&#1581;&#1602;&#1602;:</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t>1. Open src/app/school/parent/page.tsx line 45</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t>2. Open src/app/university/parent/page.tsx line 49</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="Code"/></w:pPr><w:r><w:t>3. Search for "card_number" and "cvv" in both files</w:t></w:r></w:p>
+
+<w:p><w:r><w:br w:type="page"/></w:r></w:p>
+
+<!-- ==================== SECURITY #2-5 ==================== -->
+<w:p><w:pPr><w:pStyle w:val="Heading1"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1571;&#1605;&#1606; #2-5: &#1605;&#1588;&#1575;&#1603;&#1604; &#1571;&#1605;&#1606;&#1610;&#1577; &#1571;&#1582;&#1585;&#1609;</w:t></w:r></w:p>
+
+<w:tbl><w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:w="5000" w:type="pct"/><w:bidiVisual/></w:tblPr>
+<w:tr><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/></w:rPr><w:t>#</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1605;&#1588;&#1603;&#1604;&#1577;</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1605;&#1604;&#1601;</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/><w:rtl/></w:rPr><w:t>&#1591;&#1585;&#1610;&#1602;&#1577; &#1575;&#1604;&#1578;&#1581;&#1602;&#1602;</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:r><w:t>2</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1604;&#1575; &#1610;&#1608;&#1580;&#1583; Rate Limiting</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:t>api/auth/login/route.ts</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>Search for "rate" or "limit" - not found</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:r><w:t>3</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1604;&#1575; &#1578;&#1581;&#1602;&#1602; &#1605;&#1606; &#1575;&#1604;&#1571;&#1583;&#1608;&#1575;&#1585; &#1601;&#1610; 4 APIs</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>api/institute, api/training, api/university, api/quran</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>Search for "role" check after getCurrentUser()</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:r><w:t>4</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>POST errors &#1578;&#1585;&#1580;&#1593; success: true</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>api/institute, api/training, api/university</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>Search for catch blocks in POST handlers</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:r><w:t>5</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1573;&#1606;&#1588;&#1575;&#1569; &#1605;&#1587;&#1578;&#1582;&#1583;&#1605;&#1610;&#1606; &#1576;&#1583;&#1608;&#1606; &#1603;&#1604;&#1605;&#1577; &#1605;&#1585;&#1608;&#1585;</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>api/institute, api/training</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>Search INSERT INTO users - no password_hash</w:t></w:r></w:p></w:tc></w:tr>
+</w:tbl>
+
+<w:p><w:r><w:br w:type="page"/></w:r></w:p>
+
+<!-- ==================== SECTOR ANALYSIS ==================== -->
+<w:p><w:pPr><w:pStyle w:val="Heading1"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1578;&#1581;&#1604;&#1610;&#1604; &#1603;&#1604; &#1602;&#1591;&#1575;&#1593;: &#1575;&#1604;&#1578;&#1589;&#1605;&#1610;&#1605; &#1605;&#1602;&#1575;&#1576;&#1604; &#1575;&#1604;&#1578;&#1606;&#1601;&#1610;&#1584;</w:t></w:r></w:p>
+
+<!-- Schools -->
+<w:p><w:pPr><w:pStyle w:val="Heading2"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1602;&#1591;&#1575;&#1593; &#1575;&#1604;&#1605;&#1583;&#1575;&#1585;&#1587; (5 &#1578;&#1589;&#1575;&#1605;&#1610;&#1605;)</w:t></w:r></w:p>
+
+<w:tbl><w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:w="5000" w:type="pct"/><w:bidiVisual/></w:tblPr>
+<w:tr><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1578;&#1589;&#1605;&#1610;&#1605;</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1605;&#1604;&#1601;</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/></w:rPr><w:t>%</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1606;&#1575;&#1602;&#1589;</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1589;&#1601;&#1581;&#1577; &#1575;&#1604;&#1585;&#1574;&#1610;&#1587;&#1610;&#1577;</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>school/[code]/page.tsx</w:t></w:r></w:p></w:tc><w:tc><w:p><w:r><w:t>80%</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/><w:sz w:val="18"/></w:rPr><w:t>&#1589;&#1608;&#1585;&#1548; &#1582;&#1585;&#1610;&#1591;&#1577;&#1548; &#1588;&#1607;&#1575;&#1583;&#1575;&#1578; &#1575;&#1604;&#1571;&#1607;&#1575;&#1604;&#1610;</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1604;&#1608;&#1581;&#1577; &#1605;&#1575;&#1604;&#1603; &#1575;&#1604;&#1605;&#1583;&#1585;&#1587;&#1577;</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>dashboard/school-owner/page.tsx</w:t></w:r></w:p></w:tc><w:tc><w:p><w:r><w:rPr><w:color w:val="C0392B"/><w:b/></w:rPr><w:t>10%</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/><w:sz w:val="18"/></w:rPr><w:t>&#1603;&#1604; &#1575;&#1604;&#1576;&#1610;&#1575;&#1606;&#1575;&#1578; &#1579;&#1575;&#1576;&#1578;&#1577;. &#1604;&#1575; API. &#1575;&#1604;&#1571;&#1586;&#1585;&#1575;&#1585; &#1604;&#1575; &#1578;&#1593;&#1605;&#1604;</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1604;&#1608;&#1581;&#1577; &#1575;&#1604;&#1605;&#1593;&#1604;&#1605;</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>school/teacher/page.tsx</w:t></w:r></w:p></w:tc><w:tc><w:p><w:r><w:t>70%</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/><w:sz w:val="18"/></w:rPr><w:t>&#1581;&#1601;&#1592; &#1575;&#1604;&#1583;&#1585;&#1580;&#1575;&#1578; &#1576;&#1583;&#1608;&#1606; API. &#1604;&#1575; &#1585;&#1587;&#1575;&#1574;&#1604;</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1583;&#1575;&#1588; &#1576;&#1608;&#1585;&#1583; &#1608;&#1604;&#1610; &#1575;&#1604;&#1571;&#1605;&#1585;</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>school/parent/page.tsx</w:t></w:r></w:p></w:tc><w:tc><w:p><w:r><w:t>75%</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/><w:sz w:val="18"/></w:rPr><w:t>&#1571;&#1605;&#1575;&#1606; &#1575;&#1604;&#1583;&#1601;&#1593;. &#1578;&#1601;&#1575;&#1589;&#1610;&#1604; &#1575;&#1604;&#1581;&#1590;&#1608;&#1585;</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1605;&#1608;&#1575;&#1585;&#1583; &#1575;&#1604;&#1576;&#1588;&#1585;&#1610;&#1577;</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>dashboard/hr/page.tsx</w:t></w:r></w:p></w:tc><w:tc><w:p><w:r><w:rPr><w:color w:val="C0392B"/><w:b/></w:rPr><w:t>30%</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/><w:sz w:val="18"/></w:rPr><w:t>&#1610;&#1587;&#1578;&#1583;&#1593;&#1610; APIs &#1594;&#1610;&#1585; &#1605;&#1608;&#1580;&#1608;&#1583;&#1577;</w:t></w:r></w:p></w:tc></w:tr>
+</w:tbl>
+
+<!-- Universities -->
+<w:p><w:pPr><w:pStyle w:val="Heading2"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1602;&#1591;&#1575;&#1593; &#1575;&#1604;&#1580;&#1575;&#1605;&#1593;&#1575;&#1578; (7 &#1578;&#1589;&#1575;&#1605;&#1610;&#1605;)</w:t></w:r></w:p>
+
+<w:tbl><w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:w="5000" w:type="pct"/><w:bidiVisual/></w:tblPr>
+<w:tr><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1578;&#1589;&#1605;&#1610;&#1605;</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/></w:rPr><w:t>&#1575;&#1604;&#1605;&#1604;&#1601;</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/></w:rPr><w:t>%</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1606;&#1575;&#1602;&#1589;</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1585;&#1574;&#1610;&#1587; &#1575;&#1604;&#1580;&#1575;&#1605;&#1593;&#1577;</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>university/president</w:t></w:r></w:p></w:tc><w:tc><w:p><w:r><w:t>60%</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/><w:sz w:val="18"/></w:rPr><w:t>Fallback &#1579;&#1575;&#1576;&#1578;&#1577;. &#1602;&#1576;&#1608;&#1604;/&#1585;&#1601;&#1590; &#1576;&#1583;&#1608;&#1606; API</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1593;&#1605;&#1610;&#1583; &#1575;&#1604;&#1603;&#1604;&#1610;&#1577;</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>university/dean</w:t></w:r></w:p></w:tc><w:tc><w:p><w:r><w:rPr><w:color w:val="C0392B"/><w:b/></w:rPr><w:t>50%</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/><w:sz w:val="18"/></w:rPr><w:t>&#1575;&#1604;&#1605;&#1587;&#1578;&#1582;&#1583;&#1605; &#1579;&#1575;&#1576;&#1578; &#1576;&#1575;&#1604;&#1603;&#1608;&#1583;</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1583;&#1603;&#1578;&#1608;&#1585;</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>university/professor</w:t></w:r></w:p></w:tc><w:tc><w:p><w:r><w:rPr><w:color w:val="C0392B"/><w:b/></w:rPr><w:t>40%</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/><w:sz w:val="18"/></w:rPr><w:t>&#1581;&#1590;&#1608;&#1585;/&#1583;&#1585;&#1580;&#1575;&#1578; = alert() &#1601;&#1602;&#1591;!</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1591;&#1575;&#1604;&#1576;</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>university/student</w:t></w:r></w:p></w:tc><w:tc><w:p><w:r><w:rPr><w:color w:val="C0392B"/><w:b/></w:rPr><w:t>45%</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/><w:sz w:val="18"/></w:rPr><w:t>10/12 &#1586;&#1585; = alert()</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1605;&#1608;&#1575;&#1585;&#1583; &#1575;&#1604;&#1576;&#1588;&#1585;&#1610;&#1577;</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>university/hr</w:t></w:r></w:p></w:tc><w:tc><w:p><w:r><w:t>65%</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/><w:sz w:val="18"/></w:rPr><w:t>PDF = alert(). &#1575;&#1604;&#1585;&#1608;&#1575;&#1578;&#1576; &#1579;&#1575;&#1576;&#1578;&#1577;</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1608;&#1604;&#1610; &#1575;&#1604;&#1571;&#1605;&#1585;</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi w:val="0"/></w:pPr><w:r><w:rPr><w:sz w:val="18"/></w:rPr><w:t>university/parent</w:t></w:r></w:p></w:tc><w:tc><w:p><w:r><w:t>55%</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/><w:sz w:val="18"/></w:rPr><w:t>&#1575;&#1582;&#1578;&#1576;&#1575;&#1585;&#1575;&#1578; &#1608;&#1605;&#1593;&#1583;&#1604; &#1578;&#1585;&#1575;&#1603;&#1605;&#1610; &#1579;&#1575;&#1576;&#1578;&#1610;&#1606;</w:t></w:r></w:p></w:tc></w:tr>
+</w:tbl>
+
+<!-- Training + Quran + Institutes summary -->
+<w:p><w:pPr><w:pStyle w:val="Heading2"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1605;&#1593;&#1575;&#1607;&#1583; + &#1575;&#1604;&#1578;&#1583;&#1585;&#1610;&#1576; + &#1575;&#1604;&#1602;&#1585;&#1570;&#1606;</w:t></w:r></w:p>
+
+<w:tbl><w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:w="5000" w:type="pct"/><w:bidiVisual/></w:tblPr>
+<w:tr><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1602;&#1591;&#1575;&#1593;</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:shd w:val="clear" w:color="auto" w:fill="2C3E50"/></w:tcPr><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:b/><w:bCs/><w:color w:val="FFFFFF"/><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1605;&#1604;&#1575;&#1581;&#1592;&#1577; &#1575;&#1604;&#1585;&#1574;&#1610;&#1587;&#1610;&#1577;</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1605;&#1593;&#1575;&#1607;&#1583;</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/><w:sz w:val="20"/></w:rPr><w:t>&#1575;&#1604;&#1589;&#1601;&#1581;&#1577; &#1575;&#1604;&#1593;&#1575;&#1605;&#1577; 80%. &#1575;&#1604;&#1583;&#1575;&#1588; &#1576;&#1608;&#1585;&#1583; 65% - &#1575;&#1604;&#1605;&#1583;&#1585;&#1587;&#1608;&#1606; &#1604;&#1575; &#1610;&#1578;&#1581;&#1605;&#1604;&#1608;&#1606;</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1578;&#1583;&#1585;&#1610;&#1576;</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/><w:sz w:val="20"/></w:rPr><w:t>&#1604;&#1575; &#1578;&#1608;&#1580;&#1583; &#1589;&#1601;&#1581;&#1577; &#1593;&#1575;&#1605;&#1577; training/[code]. &#1575;&#1604;&#1605;&#1583;&#1610;&#1585; 60%. &#1575;&#1604;&#1605;&#1583;&#1585;&#1576; 70%. &#1575;&#1604;&#1605;&#1578;&#1583;&#1585;&#1576; 65%</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1602;&#1585;&#1570;&#1606;</w:t></w:r></w:p></w:tc><w:tc><w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/><w:sz w:val="20"/></w:rPr><w:t>&#1604;&#1575; &#1578;&#1608;&#1580;&#1583; &#1589;&#1601;&#1581;&#1577; &#1593;&#1575;&#1605;&#1577; quran/[code]. API &#1605;&#1603;&#1587;&#1608;&#1585;. &#1575;&#1604;&#1605;&#1581;&#1601;&#1592; 4 &#1578;&#1576;&#1608;&#1610;&#1576;&#1575;&#1578; &#1578;&#1593;&#1585;&#1590; &#1606;&#1601;&#1587; &#1575;&#1604;&#1580;&#1583;&#1608;&#1604;</w:t></w:r></w:p></w:tc></w:tr>
+</w:tbl>
+
+<w:p><w:r><w:br w:type="page"/></w:r></w:p>
+
+<!-- ==================== FIX PLAN ==================== -->
+<w:p><w:pPr><w:pStyle w:val="Heading1"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1582;&#1591;&#1577; &#1575;&#1604;&#1573;&#1589;&#1604;&#1575;&#1581; &#1575;&#1604;&#1605;&#1583;&#1585;&#1608;&#1587;&#1577; (6 &#1582;&#1591;&#1608;&#1575;&#1578;)</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t xml:space="preserve">&#1575;&#1604;&#1582;&#1591;&#1608;&#1575;&#1578; &#1605;&#1585;&#1578;&#1576;&#1577; &#1576;&#1581;&#1610;&#1579; &#1603;&#1604; &#1582;&#1591;&#1608;&#1577; &#1604;&#1575; &#1578;&#1572;&#1579;&#1585; &#1587;&#1604;&#1576;&#1575;&#1611; &#1593;&#1604;&#1609; &#1575;&#1604;&#1578;&#1610; &#1576;&#1593;&#1583;&#1607;&#1575;</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:pStyle w:val="Heading3"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1582;&#1591;&#1608;&#1577; 1: &#1573;&#1589;&#1604;&#1575;&#1581; &#1575;&#1604;&#1571;&#1593;&#1591;&#1575;&#1604; &#1575;&#1604;&#1581;&#1585;&#1580;&#1577;</w:t></w:r></w:p>
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t xml:space="preserve">1.1 &#1573;&#1589;&#1604;&#1575;&#1581; import pool &#1601;&#1610; 3 &#1605;&#1604;&#1601;&#1575;&#1578; | 1.2 &#1573;&#1589;&#1604;&#1575;&#1581; auth &#1575;&#1604;&#1602;&#1585;&#1570;&#1606; | 1.3 &#1573;&#1589;&#1604;&#1575;&#1581; &#1581;&#1602;&#1608;&#1604; &#1575;&#1604;&#1580;&#1575;&#1605;&#1593;&#1577;</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:pStyle w:val="Heading3"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1582;&#1591;&#1608;&#1577; 2: &#1587;&#1583; &#1575;&#1604;&#1579;&#1594;&#1585;&#1575;&#1578; &#1575;&#1604;&#1571;&#1605;&#1606;&#1610;&#1577;</w:t></w:r></w:p>
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t xml:space="preserve">2.1 &#1578;&#1581;&#1602;&#1602; &#1575;&#1604;&#1571;&#1583;&#1608;&#1575;&#1585; | 2.2 &#1573;&#1586;&#1575;&#1604;&#1577; &#1576;&#1610;&#1575;&#1606;&#1575;&#1578; &#1575;&#1604;&#1576;&#1591;&#1575;&#1602;&#1575;&#1578; | 2.3 &#1573;&#1589;&#1604;&#1575;&#1581; &#1573;&#1585;&#1580;&#1575;&#1593; &#1575;&#1604;&#1571;&#1582;&#1591;&#1575;&#1569; | 2.4 &#1573;&#1589;&#1604;&#1575;&#1581; &#1573;&#1606;&#1588;&#1575;&#1569; &#1575;&#1604;&#1605;&#1587;&#1578;&#1582;&#1583;&#1605;&#1610;&#1606;</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:pStyle w:val="Heading3"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1582;&#1591;&#1608;&#1577; 3: &#1578;&#1608;&#1581;&#1610;&#1583; &#1575;&#1604;&#1576;&#1606;&#1610;&#1577; &#1575;&#1604;&#1578;&#1581;&#1578;&#1610;&#1577;</w:t></w:r></w:p>
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t xml:space="preserve">3.1 &#1578;&#1608;&#1581;&#1610;&#1583; Auth | 3.2 &#1573;&#1589;&#1604;&#1575;&#1581; Shells | 3.3 &#1578;&#1608;&#1581;&#1610;&#1583; &#1575;&#1604;&#1571;&#1604;&#1608;&#1575;&#1606; | 3.4 &#1581;&#1584;&#1601; &#1575;&#1604;&#1582;&#1591; &#1575;&#1604;&#1605;&#1603;&#1585;&#1585;</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:pStyle w:val="Heading3"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1582;&#1591;&#1608;&#1577; 4: &#1573;&#1603;&#1605;&#1575;&#1604; APIs &#1575;&#1604;&#1606;&#1575;&#1602;&#1589;&#1577;</w:t></w:r></w:p>
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t xml:space="preserve">4.1 &#1581;&#1601;&#1592; &#1575;&#1604;&#1583;&#1585;&#1580;&#1575;&#1578;/&#1575;&#1604;&#1581;&#1590;&#1608;&#1585; &#1604;&#1604;&#1571;&#1587;&#1578;&#1575;&#1584; | 4.2 &#1602;&#1576;&#1608;&#1604;/&#1585;&#1601;&#1590; &#1575;&#1604;&#1591;&#1604;&#1576;&#1575;&#1578; | 4.3 APIs &#1575;&#1604;&#1605;&#1608;&#1575;&#1585;&#1583; &#1575;&#1604;&#1576;&#1588;&#1585;&#1610;&#1577; | 4.4 &#1589;&#1601;&#1581;&#1575;&#1578; &#1593;&#1575;&#1605;&#1577; &#1604;&#1604;&#1578;&#1583;&#1585;&#1610;&#1576; &#1608;&#1575;&#1604;&#1602;&#1585;&#1570;&#1606;</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:pStyle w:val="Heading3"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1582;&#1591;&#1608;&#1577; 5: &#1578;&#1581;&#1608;&#1610;&#1604; &#1575;&#1604;&#1589;&#1601;&#1581;&#1575;&#1578; &#1575;&#1604;&#1579;&#1575;&#1576;&#1578;&#1577; &#1604;&#1583;&#1610;&#1606;&#1575;&#1605;&#1610;&#1603;&#1610;&#1577;</w:t></w:r></w:p>
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t xml:space="preserve">5.1 owner/dashboard | 5.2 school-owner | 5.3 university/dean | 5.4 &#1575;&#1604;&#1605;&#1583;&#1585;&#1587;&#1608;&#1606;/&#1575;&#1604;&#1605;&#1583;&#1585;&#1576;&#1608;&#1606;</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:pStyle w:val="Heading3"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t>&#1575;&#1604;&#1582;&#1591;&#1608;&#1577; 6: &#1573;&#1603;&#1605;&#1575;&#1604; &#1575;&#1604;&#1605;&#1610;&#1586;&#1575;&#1578; &#1581;&#1587;&#1576; &#1575;&#1604;&#1578;&#1589;&#1575;&#1605;&#1610;&#1605;</w:t></w:r></w:p>
+<w:p><w:pPr><w:bidi/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t xml:space="preserve">6.1 &#1578;&#1576;&#1608;&#1610;&#1576;&#1575;&#1578; &#1575;&#1604;&#1605;&#1581;&#1601;&#1592; | 6.2 &#1575;&#1587;&#1578;&#1576;&#1583;&#1575;&#1604; alert() | 6.3 &#1575;&#1604;&#1588;&#1607;&#1575;&#1583;&#1575;&#1578; PDF | 6.4 &#1575;&#1604;&#1585;&#1587;&#1575;&#1574;&#1604; &#1608;&#1575;&#1604;&#1578;&#1606;&#1576;&#1610;&#1607;&#1575;&#1578;</w:t></w:r></w:p>
+
+<w:p><w:r><w:t> </w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="AlertGreen"/></w:pPr><w:r><w:rPr><w:rtl/></w:rPr><w:t xml:space="preserve">&#1606;&#1607;&#1575;&#1610;&#1577; &#1575;&#1604;&#1578;&#1602;&#1585;&#1610;&#1585; - &#1603;&#1604; &#1575;&#1583;&#1593;&#1575;&#1569; &#1605;&#1585;&#1601;&#1602; &#1576;&#1575;&#1604;&#1583;&#1604;&#1610;&#1604; (&#1575;&#1587;&#1605; &#1575;&#1604;&#1605;&#1604;&#1601; + &#1585;&#1602;&#1605; &#1575;&#1604;&#1587;&#1591;&#1585;) &#1608;&#1610;&#1605;&#1603;&#1606; &#1575;&#1604;&#1578;&#1581;&#1602;&#1602; &#1605;&#1606;&#1607; &#1605;&#1576;&#1575;&#1588;&#1585;&#1577;</w:t></w:r></w:p>
+
+    <w:sectPr>
+      <w:pgSz w:w="12240" w:h="15840"/>
+      <w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="720" w:footer="720"/>
+      <w:bidi/>
+    </w:sectPr>
+</w:body>
+</w:document>
