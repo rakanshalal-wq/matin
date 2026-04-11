@@ -92,7 +92,8 @@ export default function AppointmentsPage() {
  <button onClick={() => setShowAddModal(true)} style={{ marginTop: 16, background: 'linear-gradient(135deg, #C9A227 0%, #D4B03D 100%)', color: '#06060E', padding: '12px 24px', borderRadius: 10, border: 'none', fontWeight: 700, cursor: 'pointer' }}><IconRenderer name="ICON_Plus" size={18} /> إضافة أول موعد</button>
  </div>
  ) : (
- <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+ <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ background: 'rgba(201,162,39,0.1)' }}>
  <th style={{ padding: 16, textAlign: 'right', color: '#C9A227', fontWeight: 700 }}>الموعد</th>
@@ -132,6 +133,7 @@ export default function AppointmentsPage() {
  })}
  </tbody>
  </table>
+</div>
  )}
  </div>
 

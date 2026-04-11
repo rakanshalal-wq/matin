@@ -220,7 +220,8 @@ export default function TrainerDashboard() {
                 <div>
                   <div style={{ fontWeight: 700, fontSize: 17, marginBottom: 16 }}>المتدربون ({trainees.length})</div>
                   <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: 'hidden' }}>
-                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
                       <thead>
                         <tr style={{ background: 'rgba(255,255,255,0.04)' }}>
                           {['الاسم', 'البريد', 'البرنامج', 'الإجراءات'].map(h => (
@@ -244,6 +245,7 @@ export default function TrainerDashboard() {
                         )}
                       </tbody>
                     </table>
+</div>
                   </div>
                 </div>
               )}

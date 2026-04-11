@@ -222,7 +222,8 @@ export default function CollegesPage() {
  </button>
  </div>
  ) : (
- <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+ <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ background: 'rgba(201,162,39,0.1)' }}>
  <th style={{ padding: 16, textAlign: 'right', color: '#C9A227' }}>الكلية/القسم</th>
@@ -294,6 +295,7 @@ export default function CollegesPage() {
  ))}
  </tbody>
  </table>
+</div>
  )}
  </div>
 

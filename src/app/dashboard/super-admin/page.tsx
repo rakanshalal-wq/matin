@@ -89,7 +89,8 @@ export default function SuperAdminDashboard() {
  {schools.length === 0 ? (
  <div style={{ padding: 40, textAlign: 'center', color: 'rgba(255,255,255,0.3)', fontSize: 14 }}>لا توجد مؤسسات مسجلة</div>
  ) : (
- <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+ <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ background: 'rgba(201,162,39,0.05)' }}>
  {['المؤسسة', 'النوع', 'الحالة', 'الطلاب', 'الإجراءات'].map(h => (
@@ -118,6 +119,7 @@ export default function SuperAdminDashboard() {
  ))}
  </tbody>
  </table>
+</div>
  )}
  </div>
  {/* Modal */}

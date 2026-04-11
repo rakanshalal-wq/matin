@@ -109,7 +109,8 @@ export default function HealthPage() {
  <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "إضافة سجل صحي" لإنشاء أول سجل</p>
  </div>
  ) : (
- <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+ <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
  {['الطالب', 'النوع', 'الطبيب', 'فصيلة الدم', 'التاريخ', 'الحالة', 'إجراءات'].map((h, i) => (
@@ -152,6 +153,7 @@ export default function HealthPage() {
  ))}
  </tbody>
  </table>
+</div>
  )}
  </div>
 

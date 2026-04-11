@@ -150,7 +150,8 @@ export default function StaffPage() {
  </div>
  ) : (
  <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, overflow: 'hidden' }}>
- <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+ <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
  {['الاسم', 'الإيميل', 'الجوال', 'الدور', 'الحالة', 'إجراءات'].map((h, i) => (
@@ -184,6 +185,7 @@ export default function StaffPage() {
  ))}
  </tbody>
  </table>
+</div>
  </div>
  )}
 

@@ -281,7 +281,8 @@ export default function TeacherDashboard() {
  {students.length > 0 ? (
  <>
  <div style={{ marginBottom: 16 }}>
- <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+ <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
  {['الطالب', 'الحضور'].map((h, i) => (
@@ -307,6 +308,7 @@ export default function TeacherDashboard() {
  ))}
  </tbody>
  </table>
+</div>
  </div>
  <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
  <button onClick={saveAttendance} disabled={savingAttendance}

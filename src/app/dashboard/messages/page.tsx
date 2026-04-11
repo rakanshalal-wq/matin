@@ -118,7 +118,8 @@ export default function MessagesPage() {
  <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "رسالة جديدة" لإرسال أول رسالة</p>
  </div>
  ) : (
- <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+ <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
  {['المرسل', 'المستقبل', 'الموضوع', 'المحتوى', 'النوع', 'التاريخ', 'الحالة', 'إجراءات'].map((h, i) => (
@@ -159,6 +160,7 @@ export default function MessagesPage() {
  ))}
  </tbody>
  </table>
+</div>
  )}
  </div>
 

@@ -120,7 +120,8 @@ export default function VaccinationsPage() {
  <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "تسجيل تطعيم" لإضافة تطعيم جديد</p>
  </div>
  ) : (
- <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+ <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
  {['الطالب', 'التطعيم', 'رقم الجرعة', 'تاريخ التطعيم', 'الجرعة القادمة', 'المسؤول', 'الحالة', 'إجراءات'].map((h, i) => (
@@ -169,6 +170,7 @@ export default function VaccinationsPage() {
  ))}
  </tbody>
  </table>
+</div>
  )}
  </div>
 

@@ -86,7 +86,7 @@ const API_PATH_TO_FEATURE: Record<string, string> = {
   '/api/export': 'export',
 };
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || request.headers.get('x-real-ip') || '127.0.0.1';
   cleanup();

@@ -299,7 +299,8 @@ export default function UniversityDeanDashboard() {
               </Link>
             </div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: 'hidden' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead><tr style={{ borderBottom: `1px solid ${BORDER}` }}>
                   {['اسم الطالب', 'المرحلة', 'رقم الهاتف', 'الحالة'].map(h => (
                     <th key={h} style={{ padding: '12px 16px', textAlign: 'right', fontSize: 12, color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>{h}</th>
@@ -323,6 +324,7 @@ export default function UniversityDeanDashboard() {
                   )}
                 </tbody>
               </table>
+</div>
               {students.length > 20 && (
                 <div style={{ padding: '12px 20px', borderTop: `1px solid ${BORDER}`, textAlign: 'center' }}>
                   <Link href="/dashboard/students" style={{ color: G, fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>عرض جميع {totalStudents} طالب</Link>
@@ -348,7 +350,8 @@ export default function UniversityDeanDashboard() {
               </div>
             </div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: 'hidden' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead><tr style={{ borderBottom: `1px solid ${BORDER}` }}>
                   {['الاسم', 'التخصص', 'الدور', 'البريد', 'الإجراءات'].map(h => (
                     <th key={h} style={{ padding: '12px 16px', textAlign: 'right', fontSize: 12, color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>{h}</th>
@@ -375,6 +378,7 @@ export default function UniversityDeanDashboard() {
                   )}
                 </tbody>
               </table>
+</div>
             </div>
           </div>
         )}
@@ -409,7 +413,8 @@ export default function UniversityDeanDashboard() {
           <div>
             <h2 style={{ fontSize: 16, fontWeight: 700, color: 'rgba(255,255,255,0.8)', marginBottom: 16 }}>طلبات القبول</h2>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: 'hidden' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead><tr style={{ borderBottom: `1px solid ${BORDER}` }}>
                   {['الطالب', 'رقم الجوال', 'الحالة', 'التاريخ', 'الإجراءات'].map(h => (
                     <th key={h} style={{ padding: '12px 16px', textAlign: 'right', fontSize: 12, color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>{h}</th>
@@ -449,6 +454,7 @@ export default function UniversityDeanDashboard() {
                   )}
                 </tbody>
               </table>
+</div>
             </div>
           </div>
         )}

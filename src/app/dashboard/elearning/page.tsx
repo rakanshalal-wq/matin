@@ -108,7 +108,8 @@ export default function ElearningPage() {
  <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "إضافة محتوى" لإنشاء أول محتوى تعليمي</p>
  </div>
  ) : (
- <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+ <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
  {['المحتوى', 'النوع', 'المادة', 'المدرب', 'المستوى', 'المدة', 'الطلاب', 'الحالة', 'إجراءات'].map((h, i) => (
@@ -156,6 +157,7 @@ export default function ElearningPage() {
  ))}
  </tbody>
  </table>
+</div>
  )}
  </div>
 

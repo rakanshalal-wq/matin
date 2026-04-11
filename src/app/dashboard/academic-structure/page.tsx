@@ -290,7 +290,8 @@ export default function AcademicStructurePage() {
  <div className="text-xs text-gray-500 mb-3">{filteredCatalog.length} مادة</div>
 
  <div className="rounded-2xl overflow-hidden" style={{ border: `1px solid ${BORDER}` }}>
- <table className="w-full text-sm">
+ <div style={{ overflowX: 'auto' }}>
+<table className="w-full text-sm">
  <thead>
  <tr style={{ background: 'rgba(255,255,255,0.04)', borderBottom: `1px solid ${BORDER}` }}>
  <th className="text-right px-4 py-3 text-gray-400 font-bold">المادة</th>
@@ -346,6 +347,7 @@ export default function AcademicStructurePage() {
  )}
  </tbody>
  </table>
+</div>
  </div>
  </div>
  )}

@@ -504,7 +504,8 @@ export default function SmartExamsPage() {
  </div>
  {/* جدول النتائج */}
  <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, overflow: 'hidden' }}>
- <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+ <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ background: 'rgba(255,255,255,0.05)' }}>
  {['الطالب', 'الدرجة', 'النسبة', 'الوقت', 'الحالة', 'التاريخ'].map(h => (
@@ -536,6 +537,7 @@ export default function SmartExamsPage() {
  ))}
  </tbody>
  </table>
+</div>
  </div>
  </div>
  )}

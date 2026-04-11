@@ -137,7 +137,8 @@ export default function StoreDashboard() {
  {/* الطلبات */}
  {activeTab === 'orders' && (
  <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, overflow: 'hidden' }}>
- <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+ <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ background: 'rgba(255,255,255,0.05)' }}>
  {['رقم الطلب', 'العميل', 'الجوال', 'الإجمالي', 'الدفع', 'الحالة', 'التاريخ', 'إجراء'].map((h, i) => (
@@ -172,6 +173,7 @@ export default function StoreDashboard() {
  {orders.length === 0 && <tr><td colSpan={8} style={{ padding: 40, textAlign: 'center', color: 'rgba(255,255,255,0.4)' }}>لا توجد طلبات بعد</td></tr>}
  </tbody>
  </table>
+</div>
  </div>
  )}
  </>

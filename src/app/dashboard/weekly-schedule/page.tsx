@@ -340,7 +340,8 @@ export default function WeeklySchedulePage() {
  </div>
  ) : (
  <div className="overflow-x-auto">
- <table className="w-full min-w-[700px] text-sm border-collapse">
+ <div style={{ overflowX: 'auto' }}>
+<table className="w-full min-w-[700px] text-sm border-collapse">
  <thead>
  <tr>
  <th className="text-right px-3 py-3 text-gray-400 font-bold w-32"
@@ -419,6 +420,7 @@ export default function WeeklySchedulePage() {
  ))}
  </tbody>
  </table>
+</div>
  </div>
  )}
 

@@ -125,7 +125,8 @@ export default function ReportsPage() {
  if (!data || !Array.isArray(data)) return <div style={{ color: '#9CA3AF', textAlign: 'center', padding: 40 }}>لا توجد بيانات أداء</div>;
  return (
  <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, overflow: 'hidden' }}>
- <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+ <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ background: 'rgba(201,162,39,0.08)' }}>
  <th style={{ padding: '14px 16px', textAlign: 'right', color: '#C9A227', fontWeight: 700 }}>الطالب</th>
@@ -153,6 +154,7 @@ export default function ReportsPage() {
  })}
  </tbody>
  </table>
+</div>
  </div>
  );
  };
@@ -161,7 +163,8 @@ export default function ReportsPage() {
  if (!data || !Array.isArray(data)) return <div style={{ color: '#9CA3AF', textAlign: 'center', padding: 40 }}>لا توجد بيانات حضور</div>;
  return (
  <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, overflow: 'hidden' }}>
- <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+ <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ background: 'rgba(201,162,39,0.08)' }}>
  <th style={{ padding: '14px 16px', textAlign: 'right', color: '#C9A227', fontWeight: 700 }}>الطالب</th>
@@ -193,6 +196,7 @@ export default function ReportsPage() {
  })}
  </tbody>
  </table>
+</div>
  </div>
  );
  };
@@ -220,7 +224,8 @@ export default function ReportsPage() {
  <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
  <h3 style={{ color: '#C9A227', fontSize: 16, fontWeight: 700, margin: 0 }}><Clock size={18} color="#F59E0B" /> آخر المدفوعات</h3>
  </div>
- <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+ <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ background: 'rgba(201,162,39,0.05)' }}>
  <th style={{ padding: '12px 16px', textAlign: 'right', color: '#C9A227', fontWeight: 700, fontSize: 13 }}>المستخدم</th>
@@ -244,6 +249,7 @@ export default function ReportsPage() {
  ))}
  </tbody>
  </table>
+</div>
  </div>
  )}
  </div>

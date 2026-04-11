@@ -246,7 +246,8 @@ export default function QuranSupervisorDashboard() {
               </button>
             </div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: 'hidden' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
                   <tr style={{ borderBottom: `1px solid ${BORDER}` }}>
                     {['اسم الحلقة', 'المحفّظ', 'الجدول', 'المستوى', 'الطلاب', 'الإجراءات'].map(h => (
@@ -277,6 +278,7 @@ export default function QuranSupervisorDashboard() {
                   )}
                 </tbody>
               </table>
+</div>
             </div>
           </div>
         )}
@@ -291,7 +293,8 @@ export default function QuranSupervisorDashboard() {
               </button>
             </div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: 'hidden' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
                   <tr style={{ borderBottom: `1px solid ${BORDER}` }}>
                     {['اسم الطالب', 'الحلقة', 'الجزء الحالي', 'نقاط التحفيز'].map(h => (
@@ -320,6 +323,7 @@ export default function QuranSupervisorDashboard() {
                   )}
                 </tbody>
               </table>
+</div>
             </div>
           </div>
         )}

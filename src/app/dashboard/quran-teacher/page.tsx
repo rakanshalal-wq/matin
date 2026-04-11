@@ -276,7 +276,8 @@ export default function QuranTeacherDashboard() {
               </div>
             ) : (
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: 'hidden' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead><tr style={{ borderBottom: `1px solid ${BORDER}` }}>
                     {['الطالب', 'الجزء الحالي', 'التقدم', 'النقاط', 'تسجيل تسميع'].map(h => (
                       <th key={h} style={{ padding: '12px 16px', textAlign: 'right', fontSize: 12, color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>{h}</th>
@@ -303,6 +304,7 @@ export default function QuranTeacherDashboard() {
                     ))}
                   </tbody>
                 </table>
+</div>
               </div>
             )}
           </div>

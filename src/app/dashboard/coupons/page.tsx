@@ -116,7 +116,8 @@ export default function CouponsPage() {
  <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 8 }}>اضغط "إنشاء كوبون" لإضافة كوبون جديد</p>
  </div>
  ) : (
- <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+ <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
  <thead>
  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
  {['الكود', 'الوصف', 'نوع الخصم', 'القيمة', 'الاستخدام', 'البداية', 'النهاية', 'الحالة', 'إجراءات'].map((h, i) => (
@@ -171,6 +172,7 @@ export default function CouponsPage() {
  ))}
  </tbody>
  </table>
+</div>
  )}
  </div>
 
