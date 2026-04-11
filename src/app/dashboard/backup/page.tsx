@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import IconRenderer from "@/components/IconRenderer";
+import { toast } from '@/lib/toast';
 import { Save, Settings } from "lucide-react";
 import { useState, useEffect } from 'react';
 const getH = (): Record<string,string> => { try { const t = localStorage.getItem('matin_token'); if(t) return {'Content-Type':'application/json','Authorization':'Bearer '+t}; const u=JSON.parse(localStorage.getItem('matin_user')||'{}'); return {'Content-Type':'application/json','x-user-id':String(u.id||'')}; } catch { return {'Content-Type':'application/json'}; }};
@@ -19,8 +20,8 @@ export default function BackupPage() {
  const [editItem, setEditItem] = useState<any>(null);
  useEffect(()=>{fetchData();},[]);
  const fetchData = async () => { setLoading(true); try { const r=await fetch('/api/backup',{headers:getH()}); const d=await r.json(); setBackups(Array.isArray(d)?d:(d.backups||[])); if(d.schedule) setSchedule(d.schedule); } catch { setBackups([]); } finally { setLoading(false); }};
- const createBackup = async () => { setCreating(true); try { const r=await fetch('/api/backup',{method:'POST',headers:getH(),body:JSON.stringify({type:'manual'})}); if(r.ok){alert('تم إنشاء النسخة الاحتياطية بنجاح');fetchData();} else alert('فشل إنشاء النسخة الاحتياطية'); } catch {} finally { setCreating(false); }};
- const restoreBackup = async (id:number) => { if(!confirm('هل أنت متأكد من الاستعادة؟ سيتم استبدال البيانات الحالية.')) return; try { await fetch('/api/backup?id='+id+'&action=restore',{method:'POST',headers:getH()}); alert('بدأت عملية الاستعادة'); } catch {}};
+ const createBackup = async () => { setCreating(true); try { const r=await fetch('/api/backup',{method:'POST',headers:getH(),body:JSON.stringify({type:'manual'})}); if(r.ok){toast('تم إنشاء النسخة الاحتياطية بنجاح', "error");fetchData();} else toast('فشل إنشاء النسخة الاحتياطية', "error"); } catch {} finally { setCreating(false); }};
+ const restoreBackup = async (id:number) => { if(!confirm('هل أنت متأكد من الاستعادة؟ سيتم استبدال البيانات الحالية.')) return; try { await fetch('/api/backup?id='+id+'&action=restore',{method:'POST',headers:getH()}); toast('بدأت عملية الاستعادة', "error"); } catch {}};
  const deleteBackup = async (id:number) => { if(!confirm('تأكيد الحذف؟')) return; try { await fetch('/api/backup?id='+id,{method:'DELETE',headers:getH()}); fetchData(); } catch {}};
  const handleCreateBackup = async () => {
  setSaving(true);

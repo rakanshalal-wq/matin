@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { CheckCircle, Hand, Mailbox, Megaphone, MessageCircle, Pencil, Plus, Save, Search, Siren, Trash2, Upload, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -24,7 +25,7 @@ export default function MessagesPage() {
  };
 
  const handleSubmit = async () => {
- if (!form.content) return alert('محتوى الرسالة مطلوب');
+ if (!form.content) { toast('محتوى الرسالة مطلوب', "error"); return; };
  try {
  const method = editItem ? 'PUT' : 'POST';
  const body = editItem ? { ...form, id: editItem.id } : form;

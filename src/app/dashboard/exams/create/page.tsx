@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { CheckCircle } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
@@ -100,8 +101,8 @@ export default function CreateExamPage() {
  const totalPoints = selectedQuestions.reduce((sum, sq) => sum + sq.points, 0);
 
  const handleSave = async () => {
- if (!examData.title) { alert('يرجى إدخال عنوان الاختبار'); return; }
- if (selectedQuestions.length === 0) { alert('يرجى اختيار سؤال واحد على الأقل'); return; }
+ if (!examData.title) { toast('يرجى إدخال عنوان الاختبار', "error"); return; }
+ if (selectedQuestions.length === 0) { toast('يرجى اختيار سؤال واحد على الأقل', "error"); return; }
  
  setSaving(true);
  try {
@@ -122,14 +123,14 @@ export default function CreateExamPage() {
  });
  
  if (res.ok) {
- alert('تم إنشاء الاختبار بنجاح!');
+ toast('تم إنشاء الاختبار بنجاح!', "error");
  window.location.href = '/dashboard/exams';
  } else {
  const err = await res.json();
- alert('خطأ: ' + (err.error || 'فشل إنشاء الاختبار'));
+ toast('خطأ: ' + (err.error || 'فشل إنشاء الاختبار', "error"));
  }
  } catch (e) {
- alert('خطأ في الاتصال بالخادم');
+ toast('خطأ في الاتصال بالخادم', "error");
  }
  setSaving(false);
  };

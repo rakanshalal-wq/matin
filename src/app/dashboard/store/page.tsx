@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { CheckCircle, Coins, Eye, Package, Pencil, Plus, RefreshCw, Save, ShoppingCart, Trash2, X, XCircle } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -34,7 +35,7 @@ export default function StoreDashboard() {
  const openEdit = (p: any) => { setEditing(p); setForm({ name: p.name, description: p.description || '', price: p.price, sale_price: p.sale_price || '', image: p.image || '', category: p.category || '', stock: p.stock || '0' }); setShowModal(true); };
 
  const handleSave = async () => {
- if (!form.name || !form.price) return alert('الاسم والسعر مطلوبان');
+ if (!form.name || !form.price) { toast('الاسم والسعر مطلوبان', "error"); return; };
  setSaving(true);
  try {
  if (editing) {

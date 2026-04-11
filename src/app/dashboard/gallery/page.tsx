@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import IconRenderer from "@/components/IconRenderer";
+import { toast } from '@/lib/toast';
 import { Image, Lock, Search, Star, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import { getHeaders } from '@/lib/api';
@@ -32,14 +33,14 @@ export default function GalleryPage() {
  };
 
  const handleSave = async () => {
- if (!form.title) return alert('ادخل عنوان الصورة/الالبوم');
+ if (!form.title) { toast('ادخل عنوان الصورة/الالبوم', "error"); return; };
  setSaving(true);
  try {
  const method = editItem ? 'PUT' : 'POST';
  const url = editItem ? '/api/gallery?id=' + editItem.id : '/api/gallery';
  const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify(form) });
  if (res.ok) { setShowModal(false); setEditItem(null); setForm({ title: '', description: '', category: 'فعاليات', image_url: '', is_public: true, date: new Date().toISOString().split('T')[0] }); fetchAlbums(); }
- else { const e = await res.json(); alert(e.error || 'فشل الحفظ'); }
+ else { const e = await res.json(); toast(e.error || 'فشل الحفظ', "error"); }
  } catch { } finally { setSaving(false); }
  };
 

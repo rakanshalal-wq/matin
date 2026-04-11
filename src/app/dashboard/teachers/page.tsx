@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import IconRenderer from "@/components/IconRenderer";
+import { toast } from '@/lib/toast';
 import { Eye, Pencil, Plus, Save, School, Search, Trash2, User, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import { getHeaders } from '@/lib/api';
@@ -35,7 +36,7 @@ export default function TeachersPage() {
  };
 
  const handleAdd = async () => {
- if (!formData.name) return alert('أدخل اسم المعلم');
+ if (!formData.name) { toast('أدخل اسم المعلم', "error"); return; };
  setSaving(true);
  try {
  const res = await fetch('/api/teachers', { method: 'POST', headers: getHeaders(), credentials: 'include', body: JSON.stringify(formData) });
@@ -43,8 +44,8 @@ export default function TeachersPage() {
  setShowAddModal(false);
  setFormData({ name: '', email: '', phone: '', employee_id: '', department: '', specialization: '', salary: '', hire_date: '', school_id: '', password: '' });
  fetchTeachers();
- alert('تم إضافة المعلم بنجاح! تم إرسال بيانات الدخول لبريده الإلكتروني');
- } else { const err = await res.json(); alert(err.error || 'فشل في الإضافة'); }
+ toast('تم إضافة المعلم بنجاح! تم إرسال بيانات الدخول لبريده الإلكتروني', "error");
+ } else { const err = await res.json(); toast(err.error || 'فشل في الإضافة', "error"); }
  } catch (error) { console.error('Error:', error); }
  finally { setSaving(false); }
  };
@@ -70,7 +71,7 @@ export default function TeachersPage() {
  };
 
  const handleEditSave = async () => {
- if (!editData.name) return alert('أدخل اسم المعلم');
+ if (!editData.name) { toast('أدخل اسم المعلم', "error"); return; };
  setSaving(true);
  try {
  const res = await fetch('/api/teachers', {
@@ -82,8 +83,8 @@ export default function TeachersPage() {
  if (res.ok) {
  setShowEditModal(false);
  fetchTeachers();
- alert('تم تحديث بيانات المعلم بنجاح');
- } else { const err = await res.json(); alert(err.error || 'فشل التحديث'); }
+ toast('تم تحديث بيانات المعلم بنجاح', "error");
+ } else { const err = await res.json(); toast(err.error || 'فشل التحديث', "error"); }
  } catch (error) { console.error('Error:', error); }
  finally { setSaving(false); }
  };

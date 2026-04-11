@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { CheckCircle, Eye, Pencil, Plus, Save, Search, Trash2, Video, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -24,7 +25,7 @@ export default function RecordingsPage() {
  };
 
  const handleSubmit = async () => {
- if (!form.title) return alert('عنوان التسجيل مطلوب');
+ if (!form.title) { toast('عنوان التسجيل مطلوب', "error"); return; };
  try {
  const method = editItem ? 'PUT' : 'POST';
  const body = editItem ? { ...form, id: editItem.id } : form;

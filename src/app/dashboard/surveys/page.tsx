@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { BarChart3, CheckCircle, Circle, FileText, Lock, Users, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 const getH = (): Record<string, string> => { try { const t = localStorage.getItem('matin_token'); if (t) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + t }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
@@ -15,7 +16,7 @@ export default function SurveysPage() {
  const [form, setForm] = useState({ title: '', description: '', target_role: 'all', status: 'draft', deadline: '', anonymous: true });
  useEffect(() => { fetchData(); }, []);
  const fetchData = async () => { setLoading(true); try { const r = await fetch('/api/surveys', { headers: getH() }); const d = await r.json(); setSurveys(Array.isArray(d) ? d : (d.surveys || [])); } catch { setSurveys([]); } finally { setLoading(false); } };
- const handleSave = async () => { if (!form.title) return alert('أدخل عنوان الاستبيان'); setSaving(true); try { const m = editItem ? 'PUT' : 'POST'; const u = editItem ? '/api/surveys?id=' + editItem.id : '/api/surveys'; const r = await fetch(u, { method: m, headers: getH(), body: JSON.stringify(form) }); if (r.ok) { setShowModal(false); setEditItem(null); setForm({ title: '', description: '', target_role: 'all', status: 'draft', deadline: '', anonymous: true }); fetchData(); } } catch { } finally { setSaving(false); } };
+ const handleSave = async () => { if (!form.title) { toast('أدخل عنوان الاستبيان', "error"); return; }; setSaving(true); try { const m = editItem ? 'PUT' : 'POST'; const u = editItem ? '/api/surveys?id=' + editItem.id : '/api/surveys'; const r = await fetch(u, { method: m, headers: getH(), body: JSON.stringify(form) }); if (r.ok) { setShowModal(false); setEditItem(null); setForm({ title: '', description: '', target_role: 'all', status: 'draft', deadline: '', anonymous: true }); fetchData(); } } catch { } finally { setSaving(false); } };
  const handleDelete = async (id: number) => { if (!confirm('تأكيد الحذف؟')) return; try { await fetch('/api/surveys?id=' + id, { method: 'DELETE', headers: getH() }); fetchData(); } catch { } };
  const openEdit = (item: any) => { setEditItem(item); setForm({ title: item.title || '', description: item.description || '', target_role: item.target_role || 'all', status: item.status || 'draft', deadline: item.deadline || '', anonymous: item.anonymous !== false }); setShowModal(true); };
  const inp: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid ' + BR, borderRadius: 8, padding: '10px 14px', color: 'white', fontSize: 14, outline: 'none', boxSizing: 'border-box' };

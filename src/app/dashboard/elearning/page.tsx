@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { Book, BookOpen, CheckCircle, Clapperboard, FileText, GraduationCap, Laptop, Paperclip, Pencil, Plus, Save, Search, Settings, Trash2, User, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -24,7 +25,7 @@ export default function ElearningPage() {
  };
 
  const handleSubmit = async () => {
- if (!form.title) return alert('عنوان المحتوى مطلوب');
+ if (!form.title) { toast('عنوان المحتوى مطلوب', "error"); return; };
  try {
  const method = editItem ? 'PUT' : 'POST';
  const body = editItem ? { ...form, id: editItem.id } : form;

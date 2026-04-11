@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { BarChart3, CheckCircle, ClipboardList, Download, File, Users, X, XCircle } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -49,7 +50,7 @@ export default function AttendancePage() {
  };
 
  const handleSave = async () => {
- if (!form.student_name || !form.class_name) return alert('ادخل اسم الطالب والفصل');
+ if (!form.student_name || !form.class_name) { toast('ادخل اسم الطالب والفصل', "error"); return; };
  setSaving(true);
  try {
  const method = editItem ? 'PUT' : 'POST';
@@ -59,7 +60,7 @@ export default function AttendancePage() {
  setShowModal(false); setEditItem(null);
  setForm({ student_name: '', class_name: '', date: new Date().toISOString().split('T')[0], status: 'present', notes: '', arrival_time: '', notified_parent: false });
  fetchRecords();
- } else { const e = await res.json(); alert(e.error || 'فشل الحفظ'); }
+ } else { const e = await res.json(); toast(e.error || 'فشل الحفظ', "error"); }
  } catch { } finally { setSaving(false); }
  };
 

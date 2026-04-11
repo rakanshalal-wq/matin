@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { Building, Check, Crown, Gift, PartyPopper, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -102,12 +103,12 @@ export default function SubscribePage() {
  const updatedUser = { ...user, package: planId };
  localStorage.setItem('matin_user', JSON.stringify(updatedUser));
  setCurrentPlan(planId);
- alert('تم الاشتراك بنجاح! [PartyPopper]');
+ toast('تم الاشتراك بنجاح! [PartyPopper]', "error");
  if (requiredFeature && requiredFeature.startsWith('/')) {
  window.location.href = requiredFeature;
  }
  } else {
- alert(data.error || 'فشل في الاشتراك');
+ toast(data.error || 'فشل في الاشتراك', "error");
  }
  } catch (e: any) { setErrMsg ? setErrMsg(e.message || 'حدث خطأ') : null; } finally { setLoading(false); }
  };

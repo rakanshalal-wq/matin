@@ -132,7 +132,8 @@ export async function POST(req: NextRequest) {
 
     const buffer = await file.arrayBuffer();
     const workbook = new ExcelJS.Workbook();
-    await workbook.xlsx.load(Buffer.from(buffer));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await workbook.xlsx.load(Buffer.from(buffer) as any);
 
     let totalImported = 0, totalSkipped = 0;
     const sheetResults: Array<{ sheet: string; imported: number; skipped: number; structure: string }> = [];
@@ -161,7 +162,7 @@ export async function POST(req: NextRequest) {
             .slice(1)
             .map((cell) => {
               if (cell === null || cell === undefined) return null;
-              if (typeof cell === 'object' && 'text' in cell) return String((cell as ExcelJS.CellRichTextValue).text ?? '').trim() || null;
+              if (typeof cell === 'object' && 'text' in cell) return String(((cell as unknown) as { text?: string | null }).text ?? '').trim() || null;
               if (typeof cell === 'object' && 'result' in cell) return String((cell as ExcelJS.CellFormulaValue).result ?? '').trim() || null;
               return String(cell).trim() || null;
             });

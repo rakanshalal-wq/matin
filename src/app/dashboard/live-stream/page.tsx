@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { Calendar, Circle, Eye, Link, Monitor, Pencil, Plus, Satellite, Save, Search, Trash2, Users, Video, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -24,7 +25,7 @@ export default function LiveStreamPage() {
  };
 
  const handleSubmit = async () => {
- if (!form.title) return alert('عنوان البث مطلوب');
+ if (!form.title) { toast('عنوان البث مطلوب', "error"); return; };
  try {
  const method = editItem ? 'PUT' : 'POST';
  const body = editItem ? { ...form, id: editItem.id } : form;

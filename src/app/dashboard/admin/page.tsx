@@ -2,6 +2,7 @@
 export const dynamic = 'force-dynamic';
 
 import IconRenderer from "@/components/IconRenderer";
+import { toast } from '@/lib/toast';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -201,7 +202,7 @@ export default function AdminDashboard() {
  const res = await fetch('/api/students', { method:'DELETE', headers:getHeaders(), body:JSON.stringify({ id:deleteStudent.id }) });
  if (!res.ok) { const d = await res.json(); throw new Error(d.error||'فشل الحذف'); }
  setDeleteStudent(null); await loadAll();
- } catch(e:any) { alert(e.message); }
+ } catch(e:any) { toast(e.message || 'حدث خطأ', 'error'); }
  finally { setSLoading(false); }
  };
 
@@ -230,7 +231,7 @@ export default function AdminDashboard() {
  const res = await fetch('/api/teachers', { method:'DELETE', headers:getHeaders(), body:JSON.stringify({ id:deleteTeacher.id }) });
  if (!res.ok) { const d = await res.json(); throw new Error(d.error||'فشل الحذف'); }
  setDeleteTeacher(null); await loadAll();
- } catch(e:any) { alert(e.message); }
+ } catch(e:any) { toast(e.message || 'حدث خطأ', 'error'); }
  finally { setTLoading(false); }
  };
 
@@ -259,7 +260,7 @@ export default function AdminDashboard() {
  const res = await fetch('/api/classes', { method:'DELETE', headers:getHeaders(), body:JSON.stringify({ id:deleteClass.id }) });
  if (!res.ok) { const d = await res.json(); throw new Error(d.error||'فشل الحذف'); }
  setDeleteClass(null); await loadAll();
- } catch(e:any) { alert(e.message); }
+ } catch(e:any) { toast(e.message || 'حدث خطأ', 'error'); }
  finally { setCLoading(false); }
  };
 

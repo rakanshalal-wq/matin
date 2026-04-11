@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { AlertTriangle, BadgeDollarSign, Briefcase, CheckCircle, Handshake, Megaphone, Pencil, Plus, Save, Search, Shirt, Trash2, User, X, XCircle } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -24,7 +25,7 @@ export default function CommissionsPage() {
  };
 
  const handleSubmit = async () => {
- if (!form.person_name) return alert('اسم المستفيد مطلوب');
+ if (!form.person_name) { toast('اسم المستفيد مطلوب', "error"); return; };
  try {
  const method = editItem ? 'PUT' : 'POST';
  const body = editItem ? { ...form, id: editItem.id } : form;

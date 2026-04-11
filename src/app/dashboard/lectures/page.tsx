@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { BarChart3, BookOpen, Bot, Calendar, Check, CheckCircle, Circle, Clapperboard, ClipboardList, File, FileText, Gamepad2, Link as LinkIcon, Mic, Mic2, Monitor, Pencil, Plus, Save, Trash2, Video } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import IconRenderer from "@/components/IconRenderer";
@@ -78,27 +79,27 @@ export default function LecturesPage() {
  };
 
  const createLecture = async () => {
- if (!form.title) return alert('أدخل عنوان المحاضرة');
+ if (!form.title) { toast('أدخل عنوان المحاضرة', "error"); return; };
  setCreateLoading(true);
  try {
  const res = await fetch('/api/lectures', {
  method: 'POST', headers: getHeaders(), body: JSON.stringify(form),
  });
- if (res.ok) { fetchAll(); setTab('list'); alert('CheckCircle تم إنشاء المحاضرة'); }
- else { const e = await res.json(); alert(e.error || 'خطأ'); }
- } catch { alert('خطأ'); } finally { setCreateLoading(false); }
+ if (res.ok) { fetchAll(); setTab('list'); toast('CheckCircle تم إنشاء المحاضرة', "error"); }
+ else { const e = await res.json(); toast(e.error || 'خطأ', "error"); }
+ } catch { toast('خطأ', "error"); } finally { setCreateLoading(false); }
  };
 
  const createLiveSession = async () => {
- if (!liveForm.title || !liveForm.scheduled_at) return alert('أدخل العنوان والتاريخ');
+ if (!liveForm.title || !liveForm.scheduled_at) { toast('أدخل العنوان والتاريخ', "error"); return; };
  setLiveLoading(true);
  try {
  const res = await fetch('/api/live-sessions', {
  method: 'POST', headers: getHeaders(), body: JSON.stringify(liveForm),
  });
- if (res.ok) { fetchAll(); alert('<CheckCircle size={18} color="#10B981" /> تم إنشاء جلسة البث'); }
- else { const e = await res.json(); alert(e.error || 'خطأ'); }
- } catch { alert('خطأ'); } finally { setLiveLoading(false); }
+ if (res.ok) { fetchAll(); toast('<CheckCircle size={18} color="#10B981" /> تم إنشاء جلسة البث', "error"); }
+ else { const e = await res.json(); toast(e.error || 'خطأ', "error"); }
+ } catch { toast('خطأ', "error"); } finally { setLiveLoading(false); }
  };
 
  const deleteLecture = async (id: number) => {
@@ -111,9 +112,9 @@ export default function LecturesPage() {
  try {
  const res = await fetch(`/api/lectures/${id}/ai-summary`, { method: 'POST', headers: getHeaders() });
  const data = await res.json();
- if (data.summary) alert(`<FileText size={18} color="#6B7280" /> ملخص الذكاء الاصطناعي:\n\n${data.summary}`);
- else alert('لم يتمكن الذكاء الاصطناعي من توليد الملخص');
- } catch { alert('خطأ'); }
+ if (data.summary) toast(`<FileText size={18} color="#6B7280" /> ملخص الذكاء الاصطناعي:\n\n${data.summary}`, "info");
+ else toast('لم يتمكن الذكاء الاصطناعي من توليد الملخص', "error");
+ } catch { toast('خطأ', "error"); }
  };
 
  return (

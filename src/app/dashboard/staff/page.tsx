@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { ClipboardList, GraduationCap, Key, Pencil, Plus, Save, School, Search, Trash2, User, Users, Wrench, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 
@@ -42,17 +43,17 @@ export default function StaffPage() {
  };
 
  const handleSubmit = async () => {
- if (!form.name || !form.email || (!editItem && !form.password)) { alert('الاسم والإيميل والباسورد مطلوبين'); return; }
- if (!form.school_id) { alert('اختر المدرسة'); return; }
+ if (!form.name || !form.email || (!editItem && !form.password)) { toast('الاسم والإيميل والباسورد مطلوبين', "error"); return; }
+ if (!form.school_id) { toast('اختر المدرسة', "error"); return; }
  try {
  const method = editItem ? 'PUT' : 'POST';
  const body = editItem ? { id: editItem.id, name: form.name, phone: form.phone, role: form.role, status: 'active' } : form;
  const res = await fetch('/api/manage-staff', { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
  const data = await res.json();
- if (!res.ok) { alert(data.error || 'فشلت العملية'); return; }
+ if (!res.ok) { toast(data.error || 'فشلت العملية', "error"); return; }
  fetchUsers(); setShowModal(false); setEditItem(null);
  setForm({ name: '', email: '', password: '', phone: '', role: 'teacher', school_id: '', national_id: '' });
- } catch { alert('خطأ بالاتصال'); }
+ } catch { toast('خطأ بالاتصال', "error"); }
  };
 
  const handleDelete = async (id: number) => {

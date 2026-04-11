@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { BookOpen, CheckCircle, FileText, GraduationCap, Lightbulb, MessageSquare, Pencil, Plus, Save, School, Search, Settings, Target, Trash2, User, Users, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -24,7 +25,7 @@ export default function ForumsPage() {
  };
 
  const handleSubmit = async () => {
- if (!form.title) return alert('عنوان المجموعة مطلوب');
+ if (!form.title) { toast('عنوان المجموعة مطلوب', "error"); return; };
  try {
  const method = editItem ? 'PUT' : 'POST';
  const body = editItem ? { ...form, id: editItem.id } : form;

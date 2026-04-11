@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { CheckCircle, Crown, GraduationCap, Pencil, School, Search, Trash2, User, Users, Wrench, XCircle } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -72,8 +73,8 @@ export default function UsersPage() {
  });
  const data = await res.json();
  if (res.ok) { fetchUsers(); }
- else { alert(data.error || 'فشل الحذف'); }
- } catch { alert('خطأ بالاتصال'); } finally { setActionLoading(null); }
+ else { toast(data.error || 'فشل الحذف', "error"); }
+ } catch { toast('خطأ بالاتصال', "error"); } finally { setActionLoading(null); }
  };
 
  const filtered = users.filter((u: any) =>

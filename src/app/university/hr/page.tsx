@@ -122,7 +122,7 @@ export default function UniversityHrPage() {
     setSavingJob(true);
     await fetch('/api/university', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'add-job', ...jobForm }),
+      body: JSON.stringify({ action: 'add-job', ...jobForm }),
     }).catch(() => {});
     setShowJobModal(false);
     setJobForm({ title: '', department: '', type: 'دوام كامل', deadline: '' });

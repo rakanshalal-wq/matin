@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { Ban, CheckCircle, ClipboardList, Dice5, Lock, Pencil, Plus, Save, Search, Star, Tag, Trash2, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -24,13 +25,13 @@ export default function CouponsPage() {
  };
 
  const handleSubmit = async () => {
- if (!form.code) return alert('كود الخصم مطلوب');
+ if (!form.code) { toast('كود الخصم مطلوب', "error"); return; };
  try {
  const method = editItem ? 'PUT' : 'POST';
  const body = editItem ? { ...form, id: editItem.id } : form;
  const res = await fetch('/api/coupons', { method, headers: getHeaders(), body: JSON.stringify(body) });
  if (res.ok) { fetchData(); setShowModal(false); setEditItem(null); setForm({ code: '', description: '', discount_type: 'percentage', discount_value: '', max_uses: '100', used_count: '0', start_date: '', end_date: '', status: 'active' }); }
- else { const err = await res.json(); alert(err.error || 'حدث خطأ'); }
+ else { const err = await res.json(); toast(err.error || 'حدث خطأ', "error"); }
  } catch (error) { console.error('Error:', error); }
  };
 
@@ -161,7 +162,7 @@ export default function CouponsPage() {
  </td>
  <td style={{ padding: '14px 16px' }}>
  <div style={{ display: 'flex', gap: 8 }}>
- <button onClick={() => { navigator.clipboard.writeText(item.code); alert('تم نسخ الكود!'); }} style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_ClipboardList" size={18} /> نسخ</button>
+ <button onClick={() => { navigator.clipboard.writeText(item.code); toast('تم نسخ الكود!', "error"); }} style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}><IconRenderer name="ICON_ClipboardList" size={18} /> نسخ</button>
  <button onClick={() => handleEdit(item)} style={{ background: 'rgba(201,162,39,0.1)', color: '#C9A227', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
  <button onClick={() => handleDelete(item.id)} style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: 'none', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}> </button>
  </div>

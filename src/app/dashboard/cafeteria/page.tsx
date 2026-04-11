@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { CheckCircle, Coins, Search, Star, UtensilsCrossed, X, XCircle } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -36,14 +37,14 @@ export default function CafeteriaPage() {
  };
 
  const handleSave = async () => {
- if (!form.name || !form.price) return alert('ادخل اسم الصنف والسعر');
+ if (!form.name || !form.price) { toast('ادخل اسم الصنف والسعر', "error"); return; };
  setSaving(true);
  try {
  const method = editItem ? 'PUT' : 'POST';
  const url = editItem ? '/api/cafeteria?id=' + editItem.id : '/api/cafeteria';
  const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify(form) });
  if (res.ok) { setShowModal(false); setEditItem(null); setForm({ name: '', category: 'وجبات رئيسية', price: '', description: '', available: true, calories: '', allergens: '' }); fetchItems(); }
- else { const e = await res.json(); alert(e.error || 'فشل الحفظ'); }
+ else { const e = await res.json(); toast(e.error || 'فشل الحفظ', "error"); }
  } catch { } finally { setSaving(false); }
  };
 

@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { BookOpen, Building, Calendar, CheckCircle, Circle, Coins, File, FileText, GraduationCap, Megaphone, Palmtree, PartyPopper, PenTool, Pencil, Plus, Save, School, ScrollText, Search, Shield, Shirt, Siren, Trash2, User, Users, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -25,7 +26,7 @@ export default function CircularsPage() {
  };
 
  const handleSubmit = async () => {
- if (!form.title) return alert('عنوان التعميم مطلوب');
+ if (!form.title) { toast('عنوان التعميم مطلوب', "error"); return; };
  try {
  const method = editItem ? 'PUT' : 'POST';
  const body = editItem ? { ...form, id: editItem.id } : form;

@@ -19,7 +19,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
   try {
     const result = await processOffboardingQueue();
-    console.log('[Cron/Offboarding]', result);
+    console.info('[Cron/Offboarding]', result);
     return NextResponse.json({ success: true, ...result });
   } catch (err) {
     console.error('[Cron/Offboarding] خطأ:', err);

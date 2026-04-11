@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { BarChart3, BookOpen, Bot, Calendar, Check, CheckCircle, Circle, ClipboardList, Eye, FileText, GraduationCap, HelpCircle, Landmark, Link as LinkIcon, Megaphone, Pencil, Percent, Plus, Save, Settings, Sparkles, Trash2, Users, X, XCircle } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import IconRenderer from "@/components/IconRenderer";
@@ -85,20 +86,20 @@ export default function SmartExamsPage() {
  };
 
  const createExam = async () => {
- if (!form.title_ar) return alert('أدخل عنوان الاختبار');
+ if (!form.title_ar) { toast('أدخل عنوان الاختبار', "error"); return; };
  try {
  const res = await fetch('/api/exams', {
  method: 'POST',
  headers: getHeaders(),
  body: JSON.stringify({ ...form, questions }),
  });
- if (res.ok) { fetchExams(); setTab('list'); setQuestions([]); setForm({ ...form, title_ar: '', subject: '' }); alert('<CheckCircle size={18} color="#10B981" /> تم إنشاء الاختبار'); }
- else { const e = await res.json(); alert(e.error || 'خطأ'); }
- } catch { alert('خطأ في الاتصال'); }
+ if (res.ok) { fetchExams(); setTab('list'); setQuestions([]); setForm({ ...form, title_ar: '', subject: '' }); toast('<CheckCircle size={18} color="#10B981" /> تم إنشاء الاختبار', "error"); }
+ else { const e = await res.json(); toast(e.error || 'خطأ', "error"); }
+ } catch { toast('خطأ في الاتصال', "error"); }
  };
 
  const generateWithAI = async () => {
- if (!aiForm.subject || !aiForm.topic) return alert('أدخل المادة والموضوع');
+ if (!aiForm.subject || !aiForm.topic) { toast('أدخل المادة والموضوع', "error"); return; };
  setAiLoading(true);
  try {
  const res = await fetch('/api/exams/ai-generate', {
@@ -110,8 +111,8 @@ export default function SmartExamsPage() {
  if (data.questions) {
  setGeneratedQuestions(data.questions);
  setQuestions(prev => [...prev, ...data.questions]);
- } else { alert(data.error || 'فشل التوليد'); }
- } catch { alert('خطأ في الاتصال'); } finally { setAiLoading(false); }
+ } else { toast(data.error || 'فشل التوليد', "error"); }
+ } catch { toast('خطأ في الاتصال', "error"); } finally { setAiLoading(false); }
  };
 
  const updateExamStatus = async (id: number, status: string) => {
@@ -154,7 +155,7 @@ export default function SmartExamsPage() {
  };
 
  const addQuestion = () => {
- if (!currentQ.text) return alert('أدخل نص السؤال');
+ if (!currentQ.text) { toast('أدخل نص السؤال', "error"); return; };
  setQuestions(prev => [...prev, { ...currentQ, id: Date.now() }]);
  setCurrentQ({ type: 'MCQ', text: '', marks: 5, options: ['', '', '', ''], correct_answer: '0', explanation: '', difficulty: 'medium' });
  };

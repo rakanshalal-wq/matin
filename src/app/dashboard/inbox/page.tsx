@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { Mail, MailOpen, Pencil, Plus, Save, Search, Star, Trash2, Upload, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -25,7 +26,7 @@ export default function InboxPage() {
  };
 
  const handleSubmit = async () => {
- if (!form.sender || !form.receiver) return alert('المرسل والمستقبل مطلوبين');
+ if (!form.sender || !form.receiver) { toast('المرسل والمستقبل مطلوبين', "error"); return; };
  try {
  const method = editItem ? 'PUT' : 'POST';
  const body = editItem ? { ...form, id: editItem.id } : form;

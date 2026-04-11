@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import IconRenderer from "@/components/IconRenderer";
+import { toast } from '@/lib/toast';
 import { Building2, Search } from "lucide-react";
 import { useState, useEffect } from 'react';
 import { getHeaders } from '@/lib/api';
@@ -66,14 +67,14 @@ export default function TaxesPage() {
  );
 
  const handleAdd = async () => {
- if (!formData.name) return alert('أدخل اسم الضريبة');
- if (!formData.type) return alert('اختر نوع الضريبة');
+ if (!formData.name) { toast('أدخل اسم الضريبة', "error"); return; };
+ if (!formData.type) { toast('اختر نوع الضريبة', "error"); return; };
  setSaving(true);
  try {
  const r = await fetch('/api/taxes', { method: 'POST', headers: getHeaders(), body: JSON.stringify(formData) });
  if (r.ok) { setShowAddModal(false); setFormData({ name: '', type: 'vat', rate: '', amount: '', description: '', school_id: '', status: 'active', due_date: '' }); fetchItems(); }
- else { const e = await r.json(); alert(e.error || 'فشل'); }
- } catch { alert('خطأ في الاتصال'); } finally { setSaving(false); }
+ else { const e = await r.json(); toast(e.error || 'فشل', "error"); }
+ } catch { toast('خطأ في الاتصال', "error"); } finally { setSaving(false); }
  };
 
  const handleEditOpen = (item: any) => {
@@ -82,12 +83,12 @@ export default function TaxesPage() {
  };
 
  const handleEditSave = async () => {
- if (!editData.name) return alert('أدخل اسم الضريبة');
+ if (!editData.name) { toast('أدخل اسم الضريبة', "error"); return; };
  setSaving(true);
  try {
  const r = await fetch('/api/taxes', { method: 'PUT', headers: getHeaders(), body: JSON.stringify(editData) });
  if (r.ok) { setShowEditModal(false); fetchItems(); }
- else { const e = await r.json(); alert(e.error || 'فشل'); }
+ else { const e = await r.json(); toast(e.error || 'فشل', "error"); }
  } catch {} finally { setSaving(false); }
  };
 

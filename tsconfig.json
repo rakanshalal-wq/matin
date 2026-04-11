@@ -36,6 +36,15 @@
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "SchoolShell.tsx",
+    "layout.tsx",
+    "page.tsx",
+    "_manus_delivery",
+    "_temp",
+    "matin-nextjs",
+    "matin-rakan",
+    "_designs",
+    "design-files"
   ]
 }

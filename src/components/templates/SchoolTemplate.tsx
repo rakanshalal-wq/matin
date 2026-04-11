@@ -194,7 +194,7 @@ const SchoolTemplate: React.FC<SchoolTemplateProps> = ({ data }) => {
               { icon: '🛍️', title: 'المتجر', sub: 'زي وكتب وأدوات', c1: '#7a4a1a', c2: '#5c3510' },
               { icon: '📅', title: 'الجدول الدراسي', sub: 'جدول الفصل الكامل', c1: '#1a4a7a', c2: '#0f3566' },
             ].map((qa, i) => (
-              <a key={i} href="#" style={{ textDecoration: 'none', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: '14px 10px', textAlign: 'center', cursor: 'pointer', transition: 'border-color 0.2s' }}>
+              <a key={i} href="#contact" style={{ textDecoration: 'none', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: '14px 10px', textAlign: 'center', cursor: 'pointer', transition: 'border-color 0.2s' }}>
                 <div style={{ width: 42, height: 42, borderRadius: 11, background: `linear-gradient(135deg, ${qa.c1}, ${qa.c2})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, margin: '0 auto 8px' }}>
                   {qa.icon}
                 </div>
@@ -534,13 +534,13 @@ const SchoolTemplate: React.FC<SchoolTemplateProps> = ({ data }) => {
             <div>
               <div style={{ fontSize: 12, fontWeight: 800, color: '#EEEEF5', marginBottom: 12 }}>الخدمات</div>
               {['خدمات المدرسة', 'المتجر الإلكتروني', 'المكتبة الرقمية', 'الأنشطة والفعاليات', 'الذكاء الاصطناعي'].map((l, i) => (
-                <a key={i} href="#" style={{ display: 'block', fontSize: 12, color: 'rgba(238,238,245,0.4)', textDecoration: 'none', padding: '4px 0' }}>{l}</a>
+                <a key={i} href="#contact" style={{ display: 'block', fontSize: 12, color: 'rgba(238,238,245,0.4)', textDecoration: 'none', padding: '4px 0' }}>{l}</a>
               ))}
             </div>
             <div>
               <div style={{ fontSize: 12, fontWeight: 800, color: '#EEEEF5', marginBottom: 12 }}>الوحدات</div>
               {['المدرسة الابتدائية', 'المدرسة المتوسطة', 'روضة', 'حضانة', 'التسجيل'].map((l, i) => (
-                <a key={i} href="#" style={{ display: 'block', fontSize: 12, color: 'rgba(238,238,245,0.4)', textDecoration: 'none', padding: '4px 0' }}>{l}</a>
+                <a key={i} href="#contact" style={{ display: 'block', fontSize: 12, color: 'rgba(238,238,245,0.4)', textDecoration: 'none', padding: '4px 0' }}>{l}</a>
               ))}
             </div>
             <div>

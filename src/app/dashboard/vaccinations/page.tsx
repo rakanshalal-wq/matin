@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { AlertTriangle, Ban, CheckCircle, Pencil, Plus, Save, Search, Siren, Syringe, Trash2, Triangle, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -24,7 +25,7 @@ export default function VaccinationsPage() {
  };
 
  const handleSubmit = async () => {
- if (!form.student_name || !form.vaccine_name) return alert('اسم الطالب واسم التطعيم مطلوبين');
+ if (!form.student_name || !form.vaccine_name) { toast('اسم الطالب واسم التطعيم مطلوبين', "error"); return; };
  try {
  const method = editItem ? 'PUT' : 'POST';
  const body = editItem ? { ...form, id: editItem.id } : form;

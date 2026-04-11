@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { AlertTriangle, Banknote, CheckCircle, Coins, Download, Triangle, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -45,7 +46,7 @@ export default function StudentFeesPage() {
  };
 
  const handleSave = async () => {
- if (!form.student_name || !form.amount) return alert('ادخل البيانات المطلوبة');
+ if (!form.student_name || !form.amount) { toast('ادخل البيانات المطلوبة', "error"); return; };
  setSaving(true);
  try {
  const method = editItem ? 'PUT' : 'POST';
@@ -55,7 +56,7 @@ export default function StudentFeesPage() {
  setShowModal(false); setEditItem(null);
  setForm({ student_name: '', class_name: '', fee_type: 'رسوم دراسية', amount: '', paid_amount: '0', due_date: '', payment_method: 'تحويل بنكي', status: 'pending', notes: '' });
  fetchFees();
- } else { const e = await res.json(); alert(e.error || 'فشل الحفظ'); }
+ } else { const e = await res.json(); toast(e.error || 'فشل الحفظ', "error"); }
  } catch { } finally { setSaving(false); }
  };
 

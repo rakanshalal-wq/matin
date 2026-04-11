@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { AlertTriangle, Bell, Building, Calendar, CheckCircle, Circle, Clock, GraduationCap, Mailbox, Pencil, Plus, Save, School, Search, Settings, Shirt, Siren, Trash2, Triangle, User, Users, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -24,7 +25,7 @@ export default function NotificationsPage() {
  };
 
  const handleSubmit = async () => {
- if (!form.title) return alert('عنوان الإشعار مطلوب');
+ if (!form.title) { toast('عنوان الإشعار مطلوب', "error"); return; };
  try {
  const method = editItem ? 'PUT' : 'POST';
  const body = editItem ? { ...form, id: editItem.id } : form;

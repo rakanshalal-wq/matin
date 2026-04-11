@@ -280,7 +280,7 @@ export async function processOffboardingQueue(): Promise<{
       await client.query('COMMIT');
       invalidateTenantQuotaCache(row.school_id);
       deleted++;
-      console.log(`[Offboarding] حُذف Schema ${row.schema_name} نهائياً`);
+      console.info(`[Offboarding] حُذف Schema ${row.schema_name} نهائياً`);
     } catch (err) {
       await client.query('ROLLBACK').catch(() => {});
       console.error(

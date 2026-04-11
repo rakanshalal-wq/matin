@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { AlertTriangle, Ban, CheckCircle, Pencil, Plus, Save, Search, Shield, Siren, Star, Trash2, Triangle, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -24,7 +25,7 @@ export default function InsurancePage() {
  };
 
  const handleSubmit = async () => {
- if (!form.person_name) return alert('اسم المؤمن له مطلوب');
+ if (!form.person_name) { toast('اسم المؤمن له مطلوب', "error"); return; };
  try {
  const method = editItem ? 'PUT' : 'POST';
  const body = editItem ? { ...form, id: editItem.id } : form;

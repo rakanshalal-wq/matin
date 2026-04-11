@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { Calendar, Check, CheckCircle, User, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 const getH = (): Record<string, string> => { try { const t = localStorage.getItem('matin_token'); if (t) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + t }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
@@ -18,7 +19,7 @@ export default function TasksPage() {
  const [form, setForm] = useState({ title: '', description: '', priority: 'medium', status: 'todo', assigned_to: '', due_date: '', category: '' });
  useEffect(() => { fetchData(); }, []);
  const fetchData = async () => { setLoading(true); try { const r = await fetch('/api/tasks', { headers: getH() }); const d = await r.json(); setTasks(Array.isArray(d) ? d : (d.tasks || [])); } catch { setTasks([]); } finally { setLoading(false); } };
- const handleSave = async () => { if (!form.title) return alert('أدخل عنوان المهمة'); setSaving(true); try { const m = editItem ? 'PUT' : 'POST'; const u = editItem ? '/api/tasks?id=' + editItem.id : '/api/tasks'; const r = await fetch(u, { method: m, headers: getH(), body: JSON.stringify(form) }); if (r.ok) { setShowModal(false); setEditItem(null); setForm({ title: '', description: '', priority: 'medium', status: 'todo', assigned_to: '', due_date: '', category: '' }); fetchData(); } } catch { } finally { setSaving(false); } };
+ const handleSave = async () => { if (!form.title) { toast('أدخل عنوان المهمة', "error"); return; }; setSaving(true); try { const m = editItem ? 'PUT' : 'POST'; const u = editItem ? '/api/tasks?id=' + editItem.id : '/api/tasks'; const r = await fetch(u, { method: m, headers: getH(), body: JSON.stringify(form) }); if (r.ok) { setShowModal(false); setEditItem(null); setForm({ title: '', description: '', priority: 'medium', status: 'todo', assigned_to: '', due_date: '', category: '' }); fetchData(); } } catch { } finally { setSaving(false); } };
  const handleDelete = async (id: number) => { if (!confirm('تأكيد الحذف؟')) return; try { await fetch('/api/tasks?id=' + id, { method: 'DELETE', headers: getH() }); fetchData(); } catch { } };
  const toggleStatus = async (task: any) => { const next = task.status === 'todo' ? 'in_progress' : task.status === 'in_progress' ? 'done' : 'todo'; try { await fetch('/api/tasks?id=' + task.id, { method: 'PUT', headers: getH(), body: JSON.stringify({ ...task, status: next }) }); fetchData(); } catch { } };
  const openEdit = (item: any) => { setEditItem(item); setForm({ title: item.title || '', description: item.description || '', priority: item.priority || 'medium', status: item.status || 'todo', assigned_to: item.assigned_to || '', due_date: item.due_date || '', category: item.category || '' }); setShowModal(true); };

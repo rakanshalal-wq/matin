@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { AlertTriangle, Banknote, CheckCircle, Circle, Coins, Pencil, Plus, Save, Search, Trash2, User, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -24,7 +25,7 @@ export default function SalariesPage() {
  };
 
  const handleSubmit = async () => {
- if (!form.employee_name) return alert('اسم الموظف مطلوب');
+ if (!form.employee_name) { toast('اسم الموظف مطلوب', "error"); return; };
  try {
  const method = editItem ? 'PUT' : 'POST';
  const body = editItem ? { ...form, id: editItem.id } : form;

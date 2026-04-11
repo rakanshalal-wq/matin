@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { CheckCircle, ClipboardList, Hospital, Pencil, Pill, Plus, Save, Search, Trash2, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -24,7 +25,7 @@ export default function ClinicPage() {
  };
 
  const handleSubmit = async () => {
- if (!form.patient_name) return alert('اسم المريض مطلوب');
+ if (!form.patient_name) { toast('اسم المريض مطلوب', "error"); return; };
  try {
  const method = editItem ? 'PUT' : 'POST';
  const body = editItem ? { ...form, id: editItem.id } : form;

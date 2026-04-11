@@ -4,9 +4,9 @@ import pool from '@/lib/db';
 // API عام موحّد لجميع المؤسسات — بدون توثيق
 export async function GET(
   _request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = params;
+  const { slug } = await params;
 
   try {
     // البحث في جدول schools (يشمل جميع أنواع المؤسسات)
@@ -138,9 +138,9 @@ export async function GET(
 // إرسال طلب انضمام
 export async function POST(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = params;
+  const { slug } = await params;
 
   try {
     const body = await request.json();

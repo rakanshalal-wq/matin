@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { Angry, CheckCircle, Circle, ClipboardList, FileText, HelpCircle, Lightbulb, Pencil, Plus, Save, Search, Siren, ThumbsUp, Trash2, Unlock, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -24,7 +25,7 @@ export default function ComplaintsPage() {
  };
 
  const handleSubmit = async () => {
- if (!form.person_name || !form.subject) return alert('الاسم والموضوع مطلوبين');
+ if (!form.person_name || !form.subject) { toast('الاسم والموضوع مطلوبين', "error"); return; };
  try {
  const method = editItem ? 'PUT' : 'POST';
  const body = editItem ? { ...form, id: editItem.id } : form;

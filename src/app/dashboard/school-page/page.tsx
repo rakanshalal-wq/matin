@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import IconRenderer from "@/components/IconRenderer";
+import { toast } from '@/lib/toast';
 import { Bird, Camera, CheckCircle, Eye, FileText, Ghost, Pencil, Phone, Plus, Rocket, Save, School, Smartphone, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import { getHeaders } from '@/lib/api';
@@ -49,12 +50,12 @@ export default function SchoolPageEditor() {
  };
 
  const handleCreate = async () => {
- if (!newSlug || !newName) return alert('أدخل الاسم والرابط');
+ if (!newSlug || !newName) { toast('أدخل الاسم والرابط', "error"); return; };
  try {
  const user = JSON.parse(localStorage.getItem('matin_user') || '{}');
  const res = await fetch('/api/school-page', { method: 'POST', headers: getHeaders(), body: JSON.stringify({ slug: newSlug, school_name: newName, school_id: user.school_id }) });
  if (res.ok) { setShowAdd(false); setNewSlug(''); setNewName(''); await fetchPages(); }
- else { const err = await res.json(); alert(err.error || 'فشل'); }
+ else { const err = await res.json(); toast(err.error || 'فشل', "error"); }
  } catch (e) { console.error(e); }
  };
 

@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { Building, CheckCircle, CreditCard, Crown, Lock, Mail, MessageCircle, Package, Save, Settings, Smartphone } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -82,8 +83,8 @@ export default function PlatformSettingsPage() {
  const res = await fetch('/api/platform-settings', { method: 'PUT', headers: getHeaders(), credentials: 'include', body: JSON.stringify({ settings }) });
  const data = await res.json();
  if (data.success) { setSaved(true); setTimeout(() => setSaved(false), 3000); }
- else { alert(data.error || 'فشل الحفظ'); }
- } catch (e) { alert('خطأ في الاتصال'); }
+ else { toast(data.error || 'فشل الحفظ', "error"); }
+ } catch (e) { toast('خطأ في الاتصال', "error"); }
  setSaving(false);
  };
 

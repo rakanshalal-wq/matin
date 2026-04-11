@@ -52,7 +52,7 @@ async function sendPasswordEmail(email: string, name: string, password: string, 
 export async function GET(request: Request) {
   try {
     const user = await getUserFromRequest(request);
-    if (!user) return NextResponse.json([]);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     let query = '';
     let params: any[] = [];
     if (user.role === 'super_admin') {

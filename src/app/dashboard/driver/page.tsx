@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import IconRenderer from "@/components/IconRenderer";
+import { toast } from '@/lib/toast';
 import { } from "lucide-react";
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
@@ -126,7 +127,7 @@ export default function DriverDashboard() {
  const res = await fetch('/api/transport', { method: 'PUT', headers: getHeaders(), body: JSON.stringify({ id: activeTrip.id, status: 'completed', end_time: new Date().toISOString() }) });
  if (!res.ok) { const d = await res.json(); throw new Error(d.error || 'فشل إنهاء الرحلة'); }
  await loadData();
- } catch (e: any) { alert(e.message); }
+ } catch (e: any) { toast(e.message || 'حدث خطأ', 'error'); }
  };
 
  const getGPS = () => {

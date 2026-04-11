@@ -38,7 +38,7 @@ export default function UniversityShell({ children, userRole = '' }: { children:
       <aside style={{ ...styles.sidebar, width: collapsed ? '72px' : '240px' }}>
         <div style={styles.sidebarHeader}>
           {!collapsed && (
-            <Link href="#" style={styles.logoWrap}>
+            <Link href="/dashboard" style={styles.logoWrap}>
               <span style={{ ...styles.logoIcon, background: 'linear-gradient(135deg,#0EA5E9,#0284C7)' }}>م</span>
               <span style={{ ...styles.logoText, color: '#0EA5E9' }}>متين</span>
             </Link>

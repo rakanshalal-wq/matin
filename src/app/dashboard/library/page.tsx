@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { Book, BookOpen, CheckCircle, HelpCircle, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -11,7 +12,7 @@ export default function LibraryPage() {
  const [form,setForm]=useState({title:'',author:'',isbn:'',category:'علوم',quantity:'1',available_quantity:'1',status:'available',publisher:'',year:'',description:''});
  useEffect(()=>{fetchBooks();},[]);
  const fetchBooks=async()=>{setLoading(true);try{const r=await fetch('/api/library',{headers:getHeaders()});const d=await r.json();setBooks(Array.isArray(d)?d:[]);}catch{setBooks([]);}finally{setLoading(false);}};
- const handleSave=async()=>{if(!form.title)return alert('ادخل عنوان الكتاب');setSaving(true);try{const m=editItem?'PUT':'POST';const u=editItem?'/api/library?id='+editItem.id:'/api/library';const r=await fetch(u,{method:m,headers:getHeaders(),body:JSON.stringify(form)});if(r.ok){setShowModal(false);setEditItem(null);setForm({title:'',author:'',isbn:'',category:'علوم',quantity:'1',available_quantity:'1',status:'available',publisher:'',year:'',description:''});fetchBooks();}else{const e=await r.json();alert(e.error||'فشل الحفظ');}}catch{}finally{setSaving(false);}};
+ const handleSave=async()=>{if(!form.title){ toast('ادخل عنوان الكتاب', "error"); return; };setSaving(true);try{const m=editItem?'PUT':'POST';const u=editItem?'/api/library?id='+editItem.id:'/api/library';const r=await fetch(u,{method:m,headers:getHeaders(),body:JSON.stringify(form)});if(r.ok){setShowModal(false);setEditItem(null);setForm({title:'',author:'',isbn:'',category:'علوم',quantity:'1',available_quantity:'1',status:'available',publisher:'',year:'',description:''});fetchBooks();}else{const e=await r.json();toast(e.error||'فشل الحفظ', "error");}}catch{}finally{setSaving(false);}};
  const handleDelete=async(id:number)=>{if(!confirm('هل انت متاكد؟'))return;try{await fetch('/api/library?id='+id,{method:'DELETE',headers:getHeaders()});fetchBooks();}catch{}};
  const openEdit=(item:any)=>{setEditItem(item);setForm({title:item.title||'',author:item.author||'',isbn:item.isbn||'',category:item.category||'علوم',quantity:String(item.quantity||1),available_quantity:String(item.available_quantity||1),status:item.status||'available',publisher:item.publisher||'',year:String(item.year||''),description:item.description||''});setShowModal(true);};
  const filtered=books.filter((r:any)=>(!search||r.title?.includes(search)||r.author?.includes(search))&&(!filterStatus||r.status===filterStatus));

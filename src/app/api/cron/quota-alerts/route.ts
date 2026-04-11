@@ -17,7 +17,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
   try {
     const result = await processQuotaAlerts();
-    console.log('[Cron/QuotaAlerts]', result);
+    console.info('[Cron/QuotaAlerts]', result);
     return NextResponse.json({ success: true, ...result });
   } catch (err) {
     console.error('[Cron/QuotaAlerts] خطأ:', err);

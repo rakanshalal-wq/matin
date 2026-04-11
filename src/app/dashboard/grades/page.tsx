@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { AlertTriangle, BarChart3, CheckCircle, Circle, Download, FileText, Medal, TrendingUp, Triangle, Trophy, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -59,7 +60,7 @@ export default function GradesPage() {
  };
 
  const handleSave = async () => {
- if (!form.student_name || !form.subject || !form.score) return alert('ادخل البيانات المطلوبة');
+ if (!form.student_name || !form.subject || !form.score) { toast('ادخل البيانات المطلوبة', "error"); return; };
  setSaving(true);
  try {
  const method = editItem ? 'PUT' : 'POST';
@@ -69,7 +70,7 @@ export default function GradesPage() {
  setShowModal(false); setEditItem(null);
  setForm({ student_name: '', class_name: '', subject: '', semester: 'الفصل الاول', exam_type: 'نهائي', score: '', max_score: '100', notes: '' });
  fetchGrades();
- } else { const e = await res.json(); alert(e.error || 'فشل الحفظ'); }
+ } else { const e = await res.json(); toast(e.error || 'فشل الحفظ', "error"); }
  } catch { } finally { setSaving(false); }
  };
 

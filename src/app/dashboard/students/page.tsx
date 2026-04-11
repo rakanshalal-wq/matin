@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { Eye, GraduationCap, Pencil, Plus, Save, Search, Trash2, User, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -31,13 +32,13 @@ export default function StudentsPage() {
  };
 
  const handleAdd = async () => {
- if (!formData.name) return alert('أدخل اسم الطالب');
+ if (!formData.name) { toast('أدخل اسم الطالب', "error"); return; };
  setSaving(true);
  try {
  const res = await fetch('/api/students', { method: 'POST', headers: getHeaders(), credentials: 'include', body: JSON.stringify(formData) });
- if (res.ok) { setShowAddModal(false); setFormData({ name: '', email: '', phone: '', national_id: '', gender: 'MALE', date_of_birth: '', class_id: '' }); fetchStudents(); alert('تم تسجيل الطالب بنجاح! تم إرسال بيانات الدخول لبريده الإلكتروني'); }
- else { const err = await res.json(); alert(err.error || 'فشل'); }
- } catch (e) { alert('خطأ في الاتصال'); } finally { setSaving(false); }
+ if (res.ok) { setShowAddModal(false); setFormData({ name: '', email: '', phone: '', national_id: '', gender: 'MALE', date_of_birth: '', class_id: '' }); fetchStudents(); toast('تم تسجيل الطالب بنجاح! تم إرسال بيانات الدخول لبريده الإلكتروني', "error"); }
+ else { const err = await res.json(); toast(err.error || 'فشل', "error"); }
+ } catch (e) { toast('خطأ في الاتصال', "error"); } finally { setSaving(false); }
  };
 
  const handleView = (student: any) => { setSelectedStudent(student); setShowViewModal(true); };
@@ -54,12 +55,12 @@ export default function StudentsPage() {
  };
 
  const handleEditSave = async () => {
- if (!editData.name) return alert('أدخل اسم الطالب');
+ if (!editData.name) { toast('أدخل اسم الطالب', "error"); return; };
  setSaving(true);
  try {
  const res = await fetch('/api/students', { method: 'PUT', headers: getHeaders(), credentials: 'include', body: JSON.stringify(editData) });
- if (res.ok) { setShowEditModal(false); fetchStudents(); alert('تم تحديث بيانات الطالب بنجاح'); }
- else { const err = await res.json(); alert(err.error || 'فشل التحديث'); }
+ if (res.ok) { setShowEditModal(false); fetchStudents(); toast('تم تحديث بيانات الطالب بنجاح', "error"); }
+ else { const err = await res.json(); toast(err.error || 'فشل التحديث', "error"); }
  } catch (e) { console.error(e); } finally { setSaving(false); }
  };
 

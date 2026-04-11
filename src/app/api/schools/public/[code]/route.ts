@@ -4,9 +4,9 @@ import { pool } from '@/lib/auth';
 // API عام للمدرسة — بدون توثيق (صفحة landing عامة)
 export async function GET(
   _request: Request,
-  { params }: { params: { code: string } }
+  { params }: { params: Promise<{ code: string }> }
 ) {
-  const { code } = params;
+  const { code } = await params;
 
   try {
     // جلب بيانات المدرسة عبر code أو slug
@@ -75,9 +75,9 @@ export async function GET(
 // إرسال طلب الانضمام (تسجيل طالب)
 export async function POST(
   request: Request,
-  { params }: { params: { code: string } }
+  { params }: { params: Promise<{ code: string }> }
 ) {
-  const { code } = params;
+  const { code } = await params;
 
   try {
     const body = await request.json();

@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import IconRenderer from "@/components/IconRenderer";
+import { toast } from '@/lib/toast';
 import { ClipboardList, GraduationCap, Search, X } from "lucide-react";
 import { useState, useEffect } from 'react';
 import { getHeaders } from '@/lib/api';
@@ -38,7 +39,7 @@ export default function Page() {
  const url = editItem ? '/api/training?id=' + editItem.id : '/api/training';
  const res = await fetch(url, { method, headers: getHeaders(), body: JSON.stringify(form) });
  if (res.ok) { setShowModal(false); setEditItem(null); setForm({}); fetchItems(); }
- else { const e = await res.json(); alert(e.error || 'فشل الحفظ'); }
+ else { const e = await res.json(); toast(e.error || 'فشل الحفظ', "error"); }
  } catch { } finally { setSaving(false); }
  };
 

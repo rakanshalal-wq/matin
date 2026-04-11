@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { AlertTriangle, CheckCircle, Coins, Package, Search, Triangle, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 const getH = (): Record<string, string> => { try { const t = localStorage.getItem('matin_token'); if (t) return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + t }; const u = JSON.parse(localStorage.getItem('matin_user') || '{}'); return { 'Content-Type': 'application/json', 'x-user-id': String(u.id || '') }; } catch { return { 'Content-Type': 'application/json' }; } };
@@ -15,7 +16,7 @@ export default function InventoryPage() {
  const [form, setForm] = useState({ name: '', category: 'قرطاسية', quantity: '0', min_quantity: '5', unit: 'قطعة', price: '', location: '', notes: '' });
  useEffect(() => { fetchItems(); }, []);
  const fetchItems = async () => { setLoading(true); try { const r = await fetch('/api/inventory', { headers: getH() }); const d = await r.json(); setItems(Array.isArray(d) ? d : []); } catch { setItems([]); } finally { setLoading(false); } };
- const handleSave = async () => { if (!form.name) return alert('ادخل اسم الصنف'); setSaving(true); try { const m = editItem ? 'PUT' : 'POST'; const u = editItem ? '/api/inventory?id=' + editItem.id : '/api/inventory'; const r = await fetch(u, { method: m, headers: getH(), body: JSON.stringify(form) }); if (r.ok) { setShowModal(false); setEditItem(null); setForm({ name: '', category: 'قرطاسية', quantity: '0', min_quantity: '5', unit: 'قطعة', price: '', location: '', notes: '' }); fetchItems(); } else { const e = await r.json(); alert(e.error || 'فشل'); } } catch { } finally { setSaving(false); } };
+ const handleSave = async () => { if (!form.name) { toast('ادخل اسم الصنف', "error"); return; }; setSaving(true); try { const m = editItem ? 'PUT' : 'POST'; const u = editItem ? '/api/inventory?id=' + editItem.id : '/api/inventory'; const r = await fetch(u, { method: m, headers: getH(), body: JSON.stringify(form) }); if (r.ok) { setShowModal(false); setEditItem(null); setForm({ name: '', category: 'قرطاسية', quantity: '0', min_quantity: '5', unit: 'قطعة', price: '', location: '', notes: '' }); fetchItems(); } else { const e = await r.json(); toast(e.error || 'فشل', "error"); } } catch { } finally { setSaving(false); } };
  const handleDelete = async (id: number) => { if (!confirm('تأكيد الحذف؟')) return; try { await fetch('/api/inventory?id=' + id, { method: 'DELETE', headers: getH() }); fetchItems(); } catch { } };
  const openEdit = (item: any) => { setEditItem(item); setForm({ name: item.name || '', category: item.category || 'قرطاسية', quantity: String(item.quantity || 0), min_quantity: String(item.min_quantity || 5), unit: item.unit || 'قطعة', price: String(item.price || ''), location: item.location || '', notes: item.notes || '' }); setShowModal(true); };
  const filtered = items.filter((r: any) => !search || r.name?.includes(search) || r.category?.includes(search));

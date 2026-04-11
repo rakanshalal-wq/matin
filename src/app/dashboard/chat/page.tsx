@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 import { Building, CheckCircle, Lock, Megaphone, MessageCircle, Pencil, Plus, Save, School, Search, Trash2, Users, X } from "lucide-react";
+import { toast } from '@/lib/toast';
 import { useState, useEffect } from 'react';
 import IconRenderer from "@/components/IconRenderer";
 import { getHeaders } from '@/lib/api';
@@ -24,7 +25,7 @@ export default function ChatPage() {
  };
 
  const handleSubmit = async () => {
- if (!form.name) return alert('اسم المجموعة مطلوب');
+ if (!form.name) { toast('اسم المجموعة مطلوب', "error"); return; };
  try {
  const method = editItem ? 'PUT' : 'POST';
  const body = editItem ? { ...form, id: editItem.id } : form;
