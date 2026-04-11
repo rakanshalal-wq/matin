@@ -4,6 +4,7 @@ import { pool, getUserFromRequest, getFilterSQL, getInsertIds } from '@/lib/auth
 export async function GET(request: Request) {
   try {
     const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     const filter = getFilterSQL(user);
     const result = await pool.query(
       `SELECT * FROM salaries WHERE 1=1 ${filter.sql} ORDER BY created_at DESC`,
@@ -16,6 +17,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     const ids = getInsertIds(user);
     const body = await request.json();
     const { employee_name, role, base_salary, allowances, deductions, month, year, status } = body;
@@ -32,6 +34,8 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     const body = await request.json();
     const { id, employee_name, role, base_salary, allowances, deductions, month, year, status } = body;
     if (!id) return NextResponse.json({ error: 'المعرف مطلوب' }, { status: 400 });
@@ -46,6 +50,8 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const user = await getUserFromRequest(request);
+    if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     if (!id) return NextResponse.json({ error: 'المعرف مطلوب' }, { status: 400 });

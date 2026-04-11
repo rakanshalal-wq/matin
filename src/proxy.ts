@@ -177,13 +177,32 @@ export function proxy(request: NextRequest) {
     const { role } = getTokenPayload(request);
     // الصفحات المقيدة بأدوار محددة فقط
     const ROLE_RESTRICTED: Record<string, string[]> = {
+      // أدوار المنصة الخاصة
+      '/dashboard/super-admin': ['super_admin'],
+      '/dashboard/school-owner': ['owner_school', 'owner', 'super_admin'],
+      // أدوار المدرسة الأساسية
+      '/dashboard/admin': ['admin', 'owner', 'super_admin'],
+      '/dashboard/teacher': ['teacher', 'admin', 'owner', 'super_admin'],
+      '/dashboard/teacher-exact': ['teacher', 'admin', 'owner', 'super_admin'],
+      '/dashboard/teacher-assignments': ['teacher', 'admin', 'owner', 'super_admin'],
+      '/dashboard/student': ['student', 'admin', 'owner', 'super_admin'],
+      '/dashboard/student-exact': ['student', 'admin', 'owner', 'super_admin'],
+      '/dashboard/student-fees': ['student', 'parent', 'admin', 'owner', 'super_admin'],
+      '/dashboard/student-tracking': ['student', 'parent', 'admin', 'owner', 'super_admin'],
+      '/dashboard/parent': ['parent', 'admin', 'owner', 'super_admin'],
+      '/dashboard/parent-exact': ['parent', 'admin', 'owner', 'super_admin'],
+      // أدوار القرآن
       '/dashboard/university-dean': ['university_dean', 'super_admin', 'owner'],
       '/dashboard/quran-supervisor': ['quran_supervisor', 'super_admin', 'owner'],
       '/dashboard/quran-teacher': ['quran_teacher', 'quran_supervisor', 'super_admin', 'owner'],
       '/dashboard/quran-live': ['quran_teacher', 'quran_supervisor', 'super_admin', 'owner'],
       '/dashboard/quran-parent': ['student', 'parent', 'super_admin', 'owner'],
-      '/dashboard/school-owner': ['owner_school', 'owner', 'super_admin'],
-      '/dashboard/super-admin': ['super_admin'],
+      '/dashboard/quran-student-exact': ['student', 'parent', 'super_admin', 'owner'],
+      // أدوار المدرسة الخاصة
+      '/dashboard/school-parent-exact': ['parent', 'admin', 'owner', 'super_admin'],
+      // أدوار الجامعة
+      '/dashboard/university-parent-exact': ['parent', 'admin', 'owner', 'super_admin', 'university_dean'],
+      '/dashboard/university-student-exact': ['student', 'admin', 'owner', 'super_admin', 'university_dean'],
     };
     const matchedRestricted = Object.keys(ROLE_RESTRICTED).find(p => pathname.startsWith(p));
     if (matchedRestricted && role) {
