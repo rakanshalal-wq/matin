@@ -1,241 +1,35 @@
-﻿'use client';
+'use client';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-import { useState } from 'react';
-
-// ═══════════════════════════════════════════════════════════════
-// لوحة المعلم - بالضبط كما في الملف الأصلي
-// ═══════════════════════════════════════════════════════════════
-
-export default function TeacherDashboard() {
-  const [activeNav, setActiveNav] = useState('overview');
-
-  const styles = `
-    :root {
-      --accent:#4ADE80; --accent2:#22C55E;
-      --accent-dim:rgba(74,222,128,0.1); --accent-border:rgba(74,222,128,0.22);
-      --gold:#D4A843; --gold-dim:rgba(212,168,67,0.1); --gold-border:rgba(212,168,67,0.22);
-      --bg:#06060E; --bg-sb:#08081A; --bg-card:rgba(255,255,255,0.025);
-      --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.04);
-      --text:#EEEEF5; --text-dim:rgba(238,238,245,0.55); --text-muted:rgba(238,238,245,0.28);
-      --green:#10B981; --red:#EF4444; --blue:#60A5FA; --purple:#A78BFA; --orange:#FB923C;
-      --font:'IBM Plex Sans Arabic',sans-serif;
-      --sw:260px; --hh:62px;
-    }
-    *{margin:0;padding:0;box-sizing:border-box;}
-    
-    .sidebar{width:var(--sw);flex-shrink:0;height:100vh;background:var(--bg-sb);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;position:relative;}
-    .sidebar::after{content:'';position:absolute;top:0;right:0;width:1px;height:100%;background:linear-gradient(180deg,transparent,var(--accent) 30%,var(--accent) 70%,transparent 100%);opacity:0.2;}
-    .sb-top{padding:16px 14px 12px;border-bottom:1px solid var(--border);flex-shrink:0;}
-    .sb-logo{display:flex;align-items:center;gap:9px;margin-bottom:12px;text-decoration:none;}
-    .logo-icon{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--gold),#E8C060);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:900;color:#000;box-shadow:0 4px 12px rgba(212,168,67,0.3);flex-shrink:0;}
-    .logo-main{font-size:17px;font-weight:800;color:var(--text);letter-spacing:-0.5px;}
-    .logo-sub{font-size:9px;color:var(--text-muted);font-weight:500;}
-    .teacher-card{background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:9px;padding:9px 11px;display:flex;align-items:center;gap:9px;}
-    .teacher-av{width:32px;height:32px;border-radius:8px;background:rgba(74,222,128,0.12);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
-    .teacher-name{color:var(--text);font-size:12.5px;font-weight:700;}
-    .teacher-role{color:var(--accent);font-size:10.5px;font-weight:600;margin-top:1px;}
-    .teacher-subject{color:var(--text-muted);font-size:10px;margin-top:1px;}
-    
-    .nav{flex:1;padding:6px 0 4px;overflow-y:auto;overflow-x:hidden;}
-    .nav::-webkit-scrollbar{width:3px;}
-    .nav::-webkit-scrollbar-thumb{background:rgba(74,222,128,0.18);border-radius:2px;}
-    .nav-grp{font-size:9px;color:var(--text-muted);font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:9px 14px 3px;}
-    .nav-item{display:flex;align-items:center;gap:8px;padding:6px 12px 6px 14px;font-size:12px;color:var(--text-dim);cursor:pointer;border-right:3px solid transparent;margin:1px 5px 1px 0;border-radius:0 7px 7px 0;transition:all 0.15s;text-decoration:none;}
-    .nav-item:hover{background:rgba(255,255,255,0.04);color:var(--text);}
-    .nav-item.active{background:var(--accent-dim);border-right-color:var(--accent);color:var(--text);font-weight:600;}
-    .nb{font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;margin-right:auto;}
-    .nb-red{background:rgba(239,68,68,0.12);color:var(--red);border:1px solid rgba(239,68,68,0.22);}
-    .nb-accent{background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-border);}
-    .nav-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);margin-right:auto;flex-shrink:0;box-shadow:0 0 5px var(--accent);}
-    
-    .sb-footer{padding:10px 12px;border-top:1px solid var(--border);flex-shrink:0;}
-    .logout-btn{width:100%;background:rgba(248,113,113,0.07);border:1px solid rgba(248,113,113,0.15);border-radius:8px;padding:8px 12px;color:#F87171;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;font-family:var(--font);}
-    
-    .main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;}
-    .header{height:var(--hh);background:rgba(6,6,14,0.88);backdrop-filter:blur(24px) saturate(1.8);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 18px;flex-shrink:0;z-index:10;}
-    .hdr-left{display:flex;align-items:center;gap:10px;}
-    .hdr-title{font-size:16px;font-weight:800;color:var(--text);letter-spacing:-0.3px;}
-    .hdr-sub{font-size:10.5px;color:rgba(238,238,245,0.35);margin-top:1px;}
-    .hdr-right{display:flex;align-items:center;gap:7px;}
-    .hdr-btn{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:9px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-dim);position:relative;flex-shrink:0;}
-    .notif-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--red);border:1.5px solid var(--bg);}
-    .user-btn{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:5px 10px;display:flex;align-items:center;gap:7px;cursor:pointer;flex-shrink:0;}
-    .user-av{width:28px;height:28px;border-radius:7px;background:rgba(74,222,128,0.1);border:1.5px solid rgba(74,222,128,0.3);display:flex;align-items:center;justify-content:center;font-size:14px;}
-    .uname{font-size:12px;font-weight:700;line-height:1.2;}
-    .urole{font-size:9.5px;color:var(--accent);font-weight:700;}
-    
-    .content{flex:1;padding:18px 20px;overflow-y:auto;background:radial-gradient(circle at 70% 0%,rgba(74,222,128,0.025) 0%,transparent 55%);}
-    .content::-webkit-scrollbar{width:4px;}
-    .content::-webkit-scrollbar-thumb{background:rgba(74,222,128,0.15);border-radius:2px;}
-    
-    .page-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
-    .page-title{color:var(--accent);font-size:19px;font-weight:800;display:flex;align-items:center;gap:8px;}
-    .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:9px;padding:9px 16px;color:#04190E;font-weight:700;font-size:13px;cursor:pointer;font-family:var(--font);display:flex;align-items:center;gap:6px;white-space:nowrap;}
-    .btn-outline{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:9px;padding:8px 14px;color:var(--text-dim);font-weight:600;font-size:12px;cursor:pointer;font-family:var(--font);display:flex;align-items:center;gap:6px;white-space:nowrap;}
-    
-    .schedule-bar{background:var(--bg-card);border:1px solid var(--border2);border-radius:13px;padding:14px 16px;margin-bottom:14px;overflow-x:auto;}
-    .schedule-title{font-size:12px;color:var(--text-muted);font-weight:700;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
-    .periods{display:flex;gap:10px;min-width:max-content;}
-    .period{border-radius:10px;padding:10px 14px;min-width:110px;position:relative;flex-shrink:0;}
-    .period.current{border:2px solid var(--accent);background:rgba(74,222,128,0.06);}
-    .period.done{opacity:0.45;}
-    .period.free{background:rgba(255,255,255,0.02);border:1px solid var(--border2);}
-    .period.upcoming{background:rgba(255,255,255,0.025);border:1px solid var(--border2);}
-    .period-time{font-size:10px;color:var(--text-muted);font-weight:600;margin-bottom:4px;}
-    .period-subject{font-size:13px;font-weight:700;color:var(--text);}
-    .period-class{font-size:11px;color:var(--text-dim);margin-top:2px;}
-    
-    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
-    .stat-card{background:var(--bg-card);border:1px solid var(--border2);border-radius:11px;padding:14px;}
-    .stat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:18px;}
-    .stat-value{font-size:22px;font-weight:800;color:var(--text);margin-bottom:2px;}
-    .stat-label{font-size:11px;color:var(--text-muted);}
-    
-    @media(max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr);}}
-    @media(max-width:768px){.periods{overflow-x:auto;}.stats-grid{grid-template-columns:repeat(2,1fr);}}
-  `;
-
-  const navItems = [
-    { id: 'overview', label: 'النظرة العامة', icon: '📊', active: true },
-    { id: 'schedule', label: 'جدولي', icon: '📅' },
-    { id: 'classes', label: 'فصولي', icon: '🏫', badge: '3' },
-    { id: 'students', label: 'الطلاب', icon: '👨‍🎓' },
-    { id: 'attendance', label: 'الحضور', icon: '✅' },
-    { id: 'grades', label: 'التقييم', icon: '📝', badge: '12' },
-    { id: 'homework', label: 'الواجبات', icon: '📚', badge: '5' },
-    { id: 'messages', label: 'الرسائل', icon: '💬', badge: '3' },
-    { id: 'reports', label: 'التقارير', icon: '📈' },
-  ];
-
-  const schedule = [
-    { time: '07:30 - 08:15', subject: 'الرياضيات', class: 'ثالث ثانوي - أ', status: 'done' },
-    { time: '08:20 - 09:05', subject: 'الرياضيات', class: 'ثالث ثانوي - ب', status: 'current' },
-    { time: '09:10 - 09:55', subject: 'فصلة', class: 'استراحة', status: 'free' },
-    { time: '10:00 - 10:45', subject: 'الرياضيات', class: 'ثاني ثانوي - أ', status: 'upcoming' },
-    { time: '10:50 - 11:35', subject: 'الرياضيات', class: 'ثاني ثانوي - ب', status: 'upcoming' },
-  ];
-
-  const stats = [
-    { icon: '👨‍🎓', value: '87', label: 'طلابي', color: '#4ADE80', bg: 'rgba(74,222,128,0.15)' },
-    { icon: '✅', value: '94%', label: 'الحضور اليوم', color: '#10B981', bg: 'rgba(16,185,129,0.15)' },
-    { icon: '📝', value: '12', label: 'واجبات للتصحيح', color: '#F59E0B', bg: 'rgba(245,158,11,0.15)' },
-    { icon: '💬', value: '3', label: 'رسائل جديدة', color: '#60A5FA', bg: 'rgba(96,165,250,0.15)' },
-  ];
+/**
+ * صفحة إعادة توجيه تلقائية — هذه الصفحة أُعيدت هيكلتها.
+ * يُرجى الانتقال إلى /dashboard/teacher للإصدار الكامل المرتبط بالـ API.
+ */
+export default function RedirectPage() {
+  const router = useRouter();
+  useEffect(() => {
+    router.replace('/dashboard/teacher');
+  }, [router]);
 
   return (
-    <>
-      <style>{styles}</style>
-      <div dir="rtl" style={{ fontFamily: 'IBM Plex Sans Arabic, sans-serif', background: '#06060E', color: '#EEEEF5', height: '100vh', overflow: 'hidden', display: 'flex' }}>
-        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-        
-        {/* SIDEBAR */}
-        \u003caside className="sidebar">
-          \u003cdiv className="sb-top">
-            \u003ca href="/" className="sb-logo">
-              \u003cdiv className="logo-icon">م\u003c/div>
-              \u003cdiv>
-                \u003cdiv className="logo-main">متين\u003c/div>
-                \u003cdiv className="logo-sub">مدرسة الأمل\u003c/div>
-              \u003c/div>
-            \u003c/a>
-            \u003cdiv className="teacher-card">
-              \u003cdiv className="teacher-av">👨‍🏫\u003c/div>
-              \u003cdiv>
-                \u003cdiv className="teacher-name">أحمد محمد\u003c/div>
-                \u003cdiv className="teacher-role">معلم الرياضيات\u003c/div>
-              \u003c/div>
-            \u003c/div>
-          \u003c/div>
-          
-          \u003cnav className="nav">
-            {navItems.map((item) => (
-              \u003cdiv
-                key={item.id}
-                className={`nav-item ${activeNav === item.id ? 'active' : ''}`}
-                onClick={() => setActiveNav(item.id)}
-              >
-                \u003cspan\u003e{item.icon}\u003c/span>
-                \u003cspan\u003e{item.label}\u003c/span>
-                {item.badge && (
-                  \u003cspan className={`nb ${item.badgeType === 'red' ? 'nb-red' : 'nb-accent'}`}\u003e{item.badge}\u003c/span>
-                )}
-                {!item.badge && activeNav === item.id && \u003cspan className="nav-dot">\u003c/span\u003e}
-              \u003c/div>
-            ))}
-          \u003c/nav>
-          
-          \u003cdiv className="sb-footer">
-            \u003cbutton className="logout-btn">🚪 تسجيل الخروج\u003c/button>
-          \u003c/div>
-        \u003c/aside>
-
-        {/* MAIN */}
-        \u003cmain className="main">
-          {/* HEADER */}
-          \u003cheader className="header">
-            \u003cdiv className="hdr-left">
-              \u003cdiv\u003e
-                \u003cdiv className="hdr-title">لوحة المعلم\u003c/div>
-                \u003cdiv className="hdr-sub">الأحد، 10 أبريل 2026\u003c/div>
-              \u003c/div>
-            \u003c/div>
-            \u003cdiv className="hdr-right">
-              \u003cbutton className="hdr-btn">🔔\u003cspan className="notif-dot">\u003c/span\u003e\u003c/button>
-              \u003cdiv className="user-btn">
-                \u003cdiv className="user-av">👨‍🏫\u003c/div>
-                \u003cdiv>
-                  \u003cdiv className="uname">أحمد محمد\u003c/div>
-                  \u003cdiv className="urole">معلم\u003c/div>
-                \u003c/div>
-              \u003c/div>
-            \u003c/div>
-          \u003c/header>
-
-          {/* CONTENT */}
-          \u003cdiv className="content">
-            \u003cdiv className="page-hdr">
-              \u003cdiv className="page-title">📊 النظرة العامة\u003c/div>
-              \u003cdiv style={{ display: 'flex', gap: 8 }}>
-                \u003cbutton className="btn-outline">📊 التقارير\u003c/button>
-                \u003cbutton className="btn-primary">+ تسجيل حضور\u003c/button>
-              \u003c/div>
-            \u003c/div>
-
-            {/* TODAY'S SCHEDULE */}
-            \u003cdiv className="schedule-bar">
-              \u003cdiv className="schedule-title">📅 جدول اليوم\u003c/div>
-              \u003cdiv className="periods">
-                {schedule.map((period, i) => (
-                  \u003cdiv key={i} className={`period ${period.status}`}>
-                    \u003cdiv className="period-time">{period.time}\u003c/div>
-                    \u003cdiv className="period-subject">{period.subject}\u003c/div>
-                    \u003cdiv className="period-class">{period.class}\u003c/div>
-                  \u003c/div>
-                ))}
-              \u003c/div>
-            \u003c/div>
-
-            {/* STATS */}
-            \u003cdiv className="stats-grid">
-              {stats.map((stat, i) => (
-                \u003cdiv key={i} className="stat-card">
-                  \u003cdiv className="stat-icon" style={{ background: stat.bg, color: stat.color }}\u003e{stat.icon}\u003c/div>
-                  \u003cdiv className="stat-value" style={{ color: stat.color }}\u003e{stat.value}\u003c/div>
-                  \u003cdiv className="stat-label">{stat.label}\u003c/div>
-                \u003c/div>
-              ))}
-            \u003c/div>
-
-            {/* QUICK ACTIONS */}
-            \u003cdiv style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
-              \u003cbutton className="btn-primary">📝 رصد درجات\u003c/button>
-              \u003cbutton className="btn-outline">📚 إضافة واجب\u003c/button>
-              \u003cbutton className="btn-outline">📧 إرسال رسالة\u003c/button>
-            \u003c/div>
-          \u003c/div>
-        \u003c/main>
-      \u003c/div>
-    \u003c/>
+    <div dir="rtl" style={{
+      fontFamily: "'IBM Plex Sans Arabic', sans-serif",
+      background: '#06060E',
+      color: '#EEEEF5',
+      height: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column',
+      gap: 16,
+    }}>
+      <div style={{ fontSize: 32 }}>⏳</div>
+      <div style={{ fontSize: 16, fontWeight: 700 }}>جارٍ التوجيه...</div>
+      <div style={{ fontSize: 13, color: 'rgba(238,238,245,0.5)' }}>
+        إذا لم تنتقل خلال ثانية،{' '}
+        <a href="/dashboard/teacher" style={{ color: '#C9A84C' }}>انقر هنا</a>
+      </div>
+    </div>
   );
 }
-

@@ -153,7 +153,7 @@ export default function SubscriptionPage() {
                 )}
                 {(quota.usage_percent_students >= 80 || quota.usage_percent_storage >= 80) && (
                   <a
-                    href="#plans"
+                    href="/dashboard/subscriptions"
                     style={{
                       display: 'inline-flex', alignItems: 'center', gap: 6,
                       marginTop: 16, background: GOLD, color: '#0B0B16',

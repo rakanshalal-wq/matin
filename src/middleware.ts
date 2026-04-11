@@ -171,6 +171,30 @@ export function middleware(request: NextRequest) {
     }
   }
 
+  // ===== حماية صفحات الأدوار الخاصة =====
+  // كل دور يُوجَّه لصفحاته فقط، ولا يستطيع الوصول لصفحات الأدوار الأخرى
+  if (pathname.startsWith('/dashboard/')) {
+    const { role } = getTokenPayload(request);
+    // الصفحات المقيدة بأدوار محددة فقط
+    const ROLE_RESTRICTED: Record<string, string[]> = {
+      '/dashboard/university-dean': ['university_dean', 'super_admin', 'owner'],
+      '/dashboard/quran-supervisor': ['quran_supervisor', 'super_admin', 'owner'],
+      '/dashboard/quran-teacher': ['quran_teacher', 'quran_supervisor', 'super_admin', 'owner'],
+      '/dashboard/quran-live': ['quran_teacher', 'quran_supervisor', 'super_admin', 'owner'],
+      '/dashboard/quran-parent': ['student', 'parent', 'super_admin', 'owner'],
+      '/dashboard/school-owner': ['owner_school', 'owner', 'super_admin'],
+      '/dashboard/super-admin': ['super_admin'],
+    };
+    const matchedRestricted = Object.keys(ROLE_RESTRICTED).find(p => pathname.startsWith(p));
+    if (matchedRestricted && role) {
+      const allowed = ROLE_RESTRICTED[matchedRestricted];
+      if (!allowed.includes(role)) {
+        // توجيه المستخدم لصفحته الخاصة بدلاً من عرض خطأ
+        return NextResponse.redirect(new URL('/dashboard', request.url));
+      }
+    }
+  }
+
   // ===== Package Enforcement على صفحات Dashboard =====
   if (pathname.startsWith('/dashboard/')) {
     const matchedPath = Object.keys(PATH_TO_FEATURE).find(path => pathname.startsWith(path));
