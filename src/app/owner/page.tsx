@@ -1023,7 +1023,8 @@ export default function OwnerDashboard() {
                   <button onClick={() => setTab('schools')} className="text-xs font-medium" style={{ color: G }}>عرض الكل</button>
                 </div>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
+                  <div style={{ overflowX: 'auto' }}>
+<table className="w-full text-sm">
                     <thead>
                       <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                         {['المؤسسة', 'النوع', 'الباقة', 'الحالة', 'تاريخ التسجيل'].map(h => (
@@ -1043,6 +1044,7 @@ export default function OwnerDashboard() {
                       ))}
                     </tbody>
                   </table>
+</div>
                 </div>
               </div>
 
@@ -1115,7 +1117,8 @@ export default function OwnerDashboard() {
               {/* Table */}
               <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
+                  <div style={{ overflowX: 'auto' }}>
+<table className="w-full text-sm">
                     <thead>
                       <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                         {['المؤسسة', 'المالك', 'النوع', 'الباقة', 'الحالة', 'الإعلانات', 'المتجر', 'الإجراءات'].map(h => (
@@ -1170,6 +1173,7 @@ export default function OwnerDashboard() {
                       ))}
                     </tbody>
                   </table>
+</div>
                   {filteredSchools.length === 0 && (
                     <div className="text-center py-12 text-gray-500 text-sm">لا توجد مؤسسات</div>
                   )}
@@ -1218,7 +1222,8 @@ export default function OwnerDashboard() {
 
               <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
+                  <div style={{ overflowX: 'auto' }}>
+<table className="w-full text-sm">
                     <thead>
                       <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                         {['الاسم', 'البريد', 'الدور', 'المؤسسة', 'الحالة', 'تاريخ التسجيل', 'الإجراءات'].map(h => (
@@ -1261,6 +1266,7 @@ export default function OwnerDashboard() {
                       ))}
                     </tbody>
                   </table>
+</div>
                   {filteredUsers.length === 0 && (
                     <div className="text-center py-12 text-gray-500 text-sm">لا يوجد مستخدمون</div>
                   )}
@@ -1299,7 +1305,8 @@ export default function OwnerDashboard() {
 
               <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
+                  <div style={{ overflowX: 'auto' }}>
+<table className="w-full text-sm">
                     <thead>
                       <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                         {['المؤسسة', 'المالك', 'الباقة', 'الحالة', 'دورة الفوترة', 'تاريخ البداية', 'تاريخ الانتهاء', 'الإجراءات'].map(h => (
@@ -1336,6 +1343,7 @@ export default function OwnerDashboard() {
                       ))}
                     </tbody>
                   </table>
+</div>
                   {filteredSubs.length === 0 && (
                     <div className="text-center py-12 text-gray-500 text-sm">لا توجد اشتراكات</div>
                   )}
@@ -1537,7 +1545,8 @@ export default function OwnerDashboard() {
                   </div>
                   <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
                     <div className="overflow-x-auto">
-                      <table className="w-full text-sm">
+                      <div style={{ overflowX: 'auto' }}>
+<table className="w-full text-sm">
                         <thead>
                           <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                             {['العميل', 'الهاتف', 'المجموع', 'طريقة الدفع', 'الحالة', 'التاريخ', 'الإجراءات'].map(h => (
@@ -1571,6 +1580,7 @@ export default function OwnerDashboard() {
                           ))}
                         </tbody>
                       </table>
+</div>
                       {storeOrders.length === 0 && <div className="text-center py-12 text-gray-500 text-sm">لا توجد طلبات</div>}
                     </div>
                   </div>
@@ -1621,7 +1631,8 @@ export default function OwnerDashboard() {
                   </div>
                   <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
                     <div className="overflow-x-auto">
-                      <table className="w-full text-sm">
+                      <div style={{ overflowX: 'auto' }}>
+<table className="w-full text-sm">
                         <thead>
                           <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                             {['الكود', 'نوع الخصم', 'القيمة', 'الاستخدامات', 'الصلاحية', 'الحالة', 'الإجراءات'].map(h => (
@@ -1656,6 +1667,7 @@ export default function OwnerDashboard() {
                           ))}
                         </tbody>
                       </table>
+</div>
                       {coupons.length === 0 && <div className="text-center py-12 text-gray-500 text-sm">لا توجد كوبونات</div>}
                     </div>
                   </div>
@@ -1836,7 +1848,8 @@ export default function OwnerDashboard() {
                     العملاء المحتملون (Leads)
                   </div>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
+                    <div style={{ overflowX: 'auto' }}>
+<table className="w-full text-sm">
                       <thead>
                         <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                           {['الاسم', 'البريد', 'الهاتف', 'المؤسسة', 'المصدر', 'الحالة', 'التاريخ', 'الإجراءات'].map(h => (
@@ -1867,6 +1880,7 @@ export default function OwnerDashboard() {
                         ))}
                       </tbody>
                     </table>
+</div>
                   </div>
                 </div>
               )}
@@ -1892,7 +1906,8 @@ export default function OwnerDashboard() {
                   </div>
                 </div>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
+                  <div style={{ overflowX: 'auto' }}>
+<table className="w-full text-sm">
                     <thead>
                       <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                         {['المستخدم', 'الدور', 'المؤسسة', 'الحالة', 'الإجراءات'].map(h => (
@@ -1933,6 +1948,7 @@ export default function OwnerDashboard() {
                       ))}
                     </tbody>
                   </table>
+</div>
                   {filteredPerms.length === 0 && <div className="text-center py-12 text-gray-500 text-sm">لا يوجد مستخدمون</div>}
                 </div>
               </div>
@@ -2083,7 +2099,8 @@ export default function OwnerDashboard() {
               {communityTab === 'banned' && (
                 <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
+                    <div style={{ overflowX: 'auto' }}>
+<table className="w-full text-sm">
                       <thead>
                         <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                           {['المستخدم', 'سبب الحظر', 'حتى تاريخ', 'الإجراءات'].map(h => (
@@ -2108,6 +2125,7 @@ export default function OwnerDashboard() {
                         ))}
                       </tbody>
                     </table>
+</div>
                     {communityBanned.length === 0 && <div className="text-center py-12 text-gray-500 text-sm">لا يوجد مستخدمون محظورون</div>}
                   </div>
                 </div>
@@ -2214,7 +2232,8 @@ export default function OwnerDashboard() {
               </div>
               <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
+                  <div style={{ overflowX: 'auto' }}>
+<table className="w-full text-sm">
                     <thead>
                       <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                         {['الإجراء', 'الكيان', 'المعرف', 'المستخدم', 'عنوان IP', 'التاريخ'].map(h => (
@@ -2235,6 +2254,7 @@ export default function OwnerDashboard() {
                       ))}
                     </tbody>
                   </table>
+</div>
                   {actLog.length === 0 && <div className="text-center py-12 text-gray-500 text-sm">لا يوجد سجل نشاط</div>}
                 </div>
               </div>
@@ -2256,7 +2276,8 @@ export default function OwnerDashboard() {
               </div>
               <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
+                  <div style={{ overflowX: 'auto' }}>
+<table className="w-full text-sm">
                     <thead>
                       <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                         {['العنوان', 'المؤلف', 'الفئة', 'الصفحات', 'المدرسة', 'الإجراءات'].map(h => (
@@ -2287,6 +2308,7 @@ export default function OwnerDashboard() {
                       ))}
                     </tbody>
                   </table>
+</div>
                   {libraryBooks.length === 0 && <div className="text-center py-12 text-gray-500 text-sm">لا توجد كتب في المكتبة</div>}
                 </div>
               </div>
@@ -2325,7 +2347,8 @@ export default function OwnerDashboard() {
                   <button onClick={fetchRevenue} className="text-xs px-3 py-1.5 rounded-xl font-medium" style={{ color: G, border: `1px solid ${G}44` }}>تحديث</button>
                 </div>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
+                  <div style={{ overflowX: 'auto' }}>
+<table className="w-full text-sm">
                     <thead>
                       <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                         {['المؤسسة', 'المبلغ', 'الضريبة', 'الإجمالي', 'الحالة', 'تاريخ الاستحقاق', 'تاريخ الإنشاء'].map(h => (
@@ -2347,6 +2370,7 @@ export default function OwnerDashboard() {
                       ))}
                     </tbody>
                   </table>
+</div>
                   {revenue.length === 0 && <div className="text-center py-12 text-gray-500 text-sm">لا توجد فواتير</div>}
                 </div>
               </div>
@@ -2367,7 +2391,8 @@ export default function OwnerDashboard() {
               </div>
               <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
+                  <div style={{ overflowX: 'auto' }}>
+<table className="w-full text-sm">
                     <thead>
                       <tr style={{ background: '#0B0B16', borderBottom: `1px solid ${BORDER}` }}>
                         {['الاسم', 'النوع', 'النسبة', 'ينطبق على', 'الحالة', 'الإجراءات'].map(h => (
@@ -2393,6 +2418,7 @@ export default function OwnerDashboard() {
                       ))}
                     </tbody>
                   </table>
+</div>
                   {taxes.length === 0 && <div className="text-center py-12 text-gray-500 text-sm">لا توجد ضرائب مضافة</div>}
                 </div>
               </div>

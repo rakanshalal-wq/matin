@@ -387,7 +387,8 @@ export default function TeacherPage() {
           </div>
 
           <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: 'hidden' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr style={{ background: 'rgba(255,255,255,0.02)', borderBottom: `1px solid ${BORDER}` }}>
                   {['الطالب', 'الدرجة / 100', 'التقدير'].map(h => (
@@ -427,6 +428,7 @@ export default function TeacherPage() {
                 )}
               </tbody>
             </table>
+</div>
           </div>
         </div>
       )}

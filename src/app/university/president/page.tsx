@@ -356,7 +356,8 @@ export default function PresidentDashboard() {
               <div style={{ fontSize: 15, fontWeight: 700 }}>طلبات القبول</div>
               <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>{admissions.length} طلب</div>
             </div>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
                   {['المتقدم', 'الكلية', 'التاريخ', 'الحالة', 'إجراء'].map((h) => (
@@ -396,6 +397,7 @@ export default function PresidentDashboard() {
                 )}
               </tbody>
             </table>
+</div>
           </div>
         )}
 

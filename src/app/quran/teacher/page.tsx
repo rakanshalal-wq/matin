@@ -127,7 +127,8 @@ export default function QuranTeacherPage() {
               {students.length === 0 ? (
                 <div style={{ padding: 40, textAlign: 'center', color: 'rgba(255,255,255,0.3)' }}>لا يوجد طلاب بعد</div>
               ) : (
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ background: 'rgba(5,150,105,0.06)' }}>
                       {['الاسم', 'المرحلة', 'الأجزاء المحفوظة', 'النقاط', 'آخر تسميع'].map(h => (
@@ -154,6 +155,7 @@ export default function QuranTeacherPage() {
                     ))}
                   </tbody>
                 </table>
+</div>
               )}
             </div>
           </>
