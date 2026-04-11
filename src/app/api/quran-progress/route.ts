@@ -50,9 +50,9 @@ export async function GET(request: Request) {
     );
     return NextResponse.json(result.rows);
   } catch (error: any) {
-    if (error?.code === '42P01') return NextResponse.json([]);
+    if (error?.code === '42P01') return NextResponse.json({ error: 'حدث خطأ في الخادم' }, { status: 500 });
     console.error('quran-progress GET:', error);
-    return NextResponse.json([]);
+    return NextResponse.json({ error: 'حدث خطأ في الخادم' }, { status: 500 });
   }
 }
 

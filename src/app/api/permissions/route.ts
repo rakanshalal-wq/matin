@@ -36,7 +36,7 @@ export async function GET(request: Request) {
     // مالك المدرسة يرى مستخدمي مدرسته فقط
     if (user.role === "owner" || user.role === "admin") {
       const schoolId = user.school_id;
-      if (!schoolId) return NextResponse.json([]);
+      if (!schoolId) return NextResponse.json({ error: 'حدث خطأ في الخادم' }, { status: 500 });
       let query = `
         SELECT u.id::text, u.name, u.email, u.role, u.status, u.is_active,
                u.school_id, u.created_at, u.phone
@@ -53,7 +53,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "غير مصرح" }, { status: 403 });
   } catch (error) {
     console.error("Permissions GET error:", error);
-    return NextResponse.json([]);
+    return NextResponse.json({ error: 'حدث خطأ في الخادم' }, { status: 500 });
   }
 }
 

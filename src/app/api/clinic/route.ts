@@ -16,7 +16,7 @@ export async function GET(request: Request) {
     ]);
     const total = parseInt(countResult.rows[0]?.count || '0', 10);
     return NextResponse.json(buildPaginatedResponse(dataResult.rows, total, page, limit));
-  } catch (error) { console.error('Error:', error); return NextResponse.json([]); }
+  } catch (error) { console.error('Error:', error); return NextResponse.json({ error: 'حدث خطأ في الخادم' }, { status: 500 }); }
 }
 
 export async function POST(request: Request) {

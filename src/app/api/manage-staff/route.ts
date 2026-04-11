@@ -22,7 +22,7 @@ export async function GET(request: Request) {
       params.push(user.school_id);
       query += ` AND school_id = $${params.length}`;
     } else if (user.role !== 'super_admin') {
-      return NextResponse.json([]);
+      return NextResponse.json({ error: 'حدث خطأ في الخادم' }, { status: 500 });
     }
 
     if (role && role !== 'all') { params.push(role); query += ` AND role = $${params.length}`; }
@@ -32,7 +32,7 @@ export async function GET(request: Request) {
     return NextResponse.json(result.rows);
   } catch (error) {
     console.error('Error:', error);
-    return NextResponse.json([]);
+    return NextResponse.json({ error: 'حدث خطأ في الخادم' }, { status: 500 });
   }
 }
 

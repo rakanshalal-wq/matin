@@ -6,3 +6,11 @@ node_modules/
 *.log
 dist/
 .DS_Store
+
+# مجلدات الـ backup - لا يجب إدراجها في Git
+_temp/
+matin-nextjs/
+matin-rakan/
+_manus_delivery/
+design-files/
+_designs/

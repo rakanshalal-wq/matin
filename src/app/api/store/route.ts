@@ -30,7 +30,7 @@ export async function GET(request: Request) {
     // افتراضي: المنتجات للداشبورد
     const result = await pool.query(`SELECT * FROM store_products WHERE 1=1 ${filter.sql} ORDER BY created_at DESC LIMIT 200`, filter.params);
     return NextResponse.json(result.rows);
-  } catch (error) { console.error('Error:', error); return NextResponse.json([]); }
+  } catch (error) { console.error('Error:', error); return NextResponse.json({ error: 'حدث خطأ في الخادم' }, { status: 500 }); }
 }
 
 export async function POST(request: Request) {

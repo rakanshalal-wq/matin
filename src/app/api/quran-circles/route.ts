@@ -36,9 +36,9 @@ export async function GET(request: Request) {
     );
     return NextResponse.json(result.rows);
   } catch (error: any) {
-    if (error?.code === '42P01') return NextResponse.json([]); // table does not exist yet
+    if (error?.code === '42P01') return NextResponse.json({ error: 'حدث خطأ في الخادم' }, { status: 500 }); // table does not exist yet
     console.error('quran-circles GET:', error);
-    return NextResponse.json([]);
+    return NextResponse.json({ error: 'حدث خطأ في الخادم' }, { status: 500 });
   }
 }
 

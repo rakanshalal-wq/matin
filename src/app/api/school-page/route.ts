@@ -22,7 +22,7 @@ export async function GET(request: Request) {
     if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     const result = await pool.query('SELECT * FROM school_pages WHERE owner_id = $1 ORDER BY created_at DESC', [user.owner_id || user.id]);
     return NextResponse.json(result.rows);
-  } catch (error) { console.error('Error:', error); return NextResponse.json([]); }
+  } catch (error) { console.error('Error:', error); return NextResponse.json({ error: 'حدث خطأ في الخادم' }, { status: 500 }); }
 }
 
 export async function POST(request: Request) {

@@ -20,7 +20,7 @@ export async function GET(request: Request) {
     return NextResponse.json(buildPaginatedResponse(dataResult.rows, total, page, limit));
   } catch (error) {
     console.error('Error:', error);
-    return NextResponse.json([]);
+    return NextResponse.json({ error: 'حدث خطأ في الخادم' }, { status: 500 });
   }
 }
 

@@ -48,7 +48,7 @@ export async function GET(request: Request) {
       ORDER BY h.created_at DESC LIMIT 200
     `, filter.params);
     return NextResponse.json(result.rows);
-  } catch (error) { console.error('Error:', error); return NextResponse.json([]); }
+  } catch (error) { console.error('Error:', error); return NextResponse.json({ error: 'حدث خطأ في الخادم' }, { status: 500 }); }
 }
 
 export async function POST(request: Request) {

@@ -16,6 +16,7 @@
 
 import { Pool } from 'pg';
 import { invalidateTenantQuotaCache } from './tenant';
+import { logger } from './logger';
 
 const MATIN_DB_URL =
   process.env.MATIN_DATABASE_URL || process.env.DATABASE_URL || '';
@@ -42,7 +43,7 @@ async function sendEmail(opts: {
 }): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY || process.env.EMAIL_API_KEY;
   if (!apiKey) {
-    console.warn('[Offboarding] RESEND_API_KEY غير محدد — تخطي إرسال البريد');
+    logger.warn('Offboarding', 'RESEND_API_KEY غير محدد — تخطي إرسال البريد');
     return;
   }
   const fromEmail = process.env.EMAIL_FROM || 'noreply@matin.app';
@@ -61,7 +62,7 @@ async function sendEmail(opts: {
   });
   if (!res.ok) {
     const body = await res.text();
-    console.error('[Offboarding] فشل إرسال البريد:', body);
+    logger.error('Offboarding', `فشل إرسال البريد: ${body}`);
   }
 }
 
@@ -280,13 +281,10 @@ export async function processOffboardingQueue(): Promise<{
       await client.query('COMMIT');
       invalidateTenantQuotaCache(row.school_id);
       deleted++;
-      console.info(`[Offboarding] حُذف Schema ${row.schema_name} نهائياً`);
+      logger.info('Offboarding', `حُذف Schema ${row.schema_name} نهائياً`);
     } catch (err) {
       await client.query('ROLLBACK').catch(() => {});
-      console.error(
-        `[Offboarding] فشل حذف ${row.schema_name}:`,
-        err
-      );
+      logger.error('Offboarding', `فشل حذف ${row.schema_name}: ${err}`);
     } finally {
       client.release();
     }

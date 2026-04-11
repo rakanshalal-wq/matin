@@ -72,7 +72,7 @@ export async function GET(request: Request) {
     return NextResponse.json(result.rows);
   } catch (error: any) {
     console.error('Exams GET Error:', error);
-    return NextResponse.json([]);
+    return NextResponse.json({ error: 'حدث خطأ في الخادم' }, { status: 500 });
   }
 }
 
