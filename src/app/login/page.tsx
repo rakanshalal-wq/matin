@@ -96,7 +96,7 @@ export default function LoginPage() {
 
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newPassword || newPassword.length < 6) { setError('كلمة المرور يجب أن تكون 6 أحرف على الأقل'); return; }
+    if (!newPassword || newPassword.length < 8) { setError('كلمة المرور يجب أن تكون 8 أحرف على الأقل'); return; }
     if (newPassword !== confirmPassword) { setError('كلمات المرور غير متطابقة'); return; }
     setLoading(true);
     setError('');
@@ -164,6 +164,11 @@ export default function LoginPage() {
                     {showPassword ? '🙈' : '👁️'}
                   </button>
                 </div>
+                <div style={{ textAlign: 'left', marginTop: 8 }}>
+                  <button type="button" onClick={() => router.push('/forgot-password')} style={{ background: 'none', border: 'none', color: '#C9A227', fontSize: 13, cursor: 'pointer', padding: 0, fontFamily: 'IBM Plex Sans Arabic, sans-serif', textDecoration: 'underline' }}>
+                    نسيت كلمة المرور؟
+                  </button>
+                </div>
               </div>
               <button type="submit" disabled={loading} style={{ width: '100%', background: loading ? 'rgba(201,168,76,0.4)' : 'linear-gradient(135deg, #C9A84C 0%, #E2C46A 100%)', color: '#000', border: 'none', borderRadius: 12, padding: '16px', fontSize: 16, fontWeight: 800, cursor: loading ? 'not-allowed' : 'pointer', transition: 'all 0.3s', fontFamily: 'IBM Plex Sans Arabic, sans-serif', boxShadow: loading ? 'none' : '0 4px 20px rgba(201,168,76,0.3)' }}>
                 {loading ? 'جاري التحقق...' : 'تسجيل الدخول'}
@@ -196,7 +201,7 @@ export default function LoginPage() {
               </div>
               <div style={{ marginBottom: 20 }}>
                 <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14, fontWeight: 600, marginBottom: 8, display: 'block' }}>🔒 كلمة المرور الجديدة</label>
-                <input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="6 أحرف على الأقل" style={inputStyle} dir="ltr" />
+                <input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="8 أحرف على الأقل" style={inputStyle} dir="ltr" />
               </div>
               <div style={{ marginBottom: 28 }}>
                 <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14, fontWeight: 600, marginBottom: 8, display: 'block' }}>🔒 تأكيد كلمة المرور</label>

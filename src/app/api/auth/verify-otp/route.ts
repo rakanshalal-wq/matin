@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 
     // جلب بيانات المستخدم
     const userResult = await pool.query(
-      'SELECT id, name, email, role, school_id, owner_id, package, status FROM users WHERE id = $1',
+      'SELECT id, name, email, role, school_id, owner_id, package, status, must_change_password FROM users WHERE id = $1',
       [userId]
     );
 

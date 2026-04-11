@@ -44,9 +44,7 @@ export const RegisterSchema = z.object({
 });
 
 export const ChangePasswordSchema = z.object({
-  current_password: z
-    .string({ error: 'كلمة المرور الحالية مطلوبة' })
-    .min(1, 'كلمة المرور الحالية مطلوبة'),
+  current_password: z.string().optional(),
   new_password: z
     .string({ error: 'كلمة المرور الجديدة مطلوبة' })
     .min(8, 'كلمة المرور الجديدة يجب أن تكون 8 أحرف على الأقل')
