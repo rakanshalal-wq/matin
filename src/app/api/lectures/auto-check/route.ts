@@ -14,6 +14,12 @@ async function notify(owner_id: number, school_id: number, phone: string | null,
 }
 
 export async function GET(request: Request) {
+  // يُؤمَّن بـ CRON_SECRET لمنع الاستدعاء العشوائي
+  const secret = (request as Request & { headers: Headers }).headers.get('x-cron-secret');
+  if (secret !== process.env.CRON_SECRET) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     const now = new Date();
     const in3h = new Date(now.getTime() + 3 * 60 * 60 * 1000);

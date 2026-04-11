@@ -16,26 +16,47 @@ export async function POST(request: Request) {
 
     const formData = await request.formData();
     const file = formData.get('file') as File;
-    const category = formData.get('category') as string || 'general';
+    const rawCategory = formData.get('category') as string || 'general';
+
+    // التحقق من أن الـ category ضمن القائمة المسموحة (منع path traversal)
+    const ALLOWED_CATEGORIES = ['images', 'videos', 'documents', 'audio', 'general', 'posts'] as const;
+    type UploadCategory = typeof ALLOWED_CATEGORIES[number];
+    const category: UploadCategory = ALLOWED_CATEGORIES.includes(rawCategory as UploadCategory)
+      ? (rawCategory as UploadCategory)
+      : 'general';
 
     if (!file) {
       return NextResponse.json({ error: 'لم يتم اختيار ملف' }, { status: 400 });
     }
 
-    // أنواع الملفات المسموحة حسب الفئة
-    const allowedTypes: Record<string, string[]> = {
-      images: ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'],
+    // امتدادات خطرة يُمنع رفعها دائماً بصرف النظر عن الفئة
+    const DANGEROUS_EXTENSIONS = /\.(php|php[0-9]|phtml|phar|asp|aspx|jsp|jspx|cgi|pl|sh|bash|py|rb|exe|dll|so|dylib|bat|cmd|ps1|vbs|js|mjs|html|htm|xml|svg|xhtml)$/i;
+    const fileExt = file.name.split('.').pop() || '';
+    if (DANGEROUS_EXTENSIONS.test(`.${fileExt}`)) {
+      return NextResponse.json({ error: `امتداد الملف غير مسموح: .${fileExt}` }, { status: 400 });
+    }
+
+    // أنواع الملفات المسموحة حسب الفئة — SVG محذوف (ثغرة XSS محتملة)
+    const allowedTypes: Record<UploadCategory, string[]> = {
+      images: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
       videos: ['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime'],
       documents: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                   'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                   'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
                   'text/plain', 'text/csv'],
       audio: ['audio/mpeg', 'audio/wav', 'audio/ogg', 'audio/mp4'],
-      general: [] // يقبل كل شيء
+      posts: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
+      general: ['image/jpeg', 'image/png', 'image/gif', 'image/webp',
+                'video/mp4', 'video/webm',
+                'application/pdf',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'text/plain', 'text/csv',
+                'audio/mpeg', 'audio/wav'],
     };
 
     // حدود الحجم حسب النوع (بالبايت)
-    const sizeLimits: Record<string, number> = {
+    const sizeLimits: Record<UploadCategory, number> = {
       images: 10 * 1024 * 1024,      // 10MB
       videos: 500 * 1024 * 1024,     // 500MB
       documents: 50 * 1024 * 1024,   // 50MB
@@ -45,13 +66,13 @@ export async function POST(request: Request) {
     };
 
     // التحقق من نوع الملف
-    const allowed = allowedTypes[category] || [];
-    if (allowed.length > 0 && !allowed.includes(file.type)) {
+    const allowed = allowedTypes[category];
+    if (!allowed.includes(file.type)) {
       return NextResponse.json({ error: `نوع الملف غير مسموح: ${file.type}` }, { status: 400 });
     }
 
     // التحقق من الحجم
-    const maxSize = sizeLimits[category] || sizeLimits.general;
+    const maxSize = sizeLimits[category];
     if (file.size > maxSize) {
       const maxMB = Math.round(maxSize / (1024 * 1024));
       return NextResponse.json({ error: `حجم الملف يجب أن يكون أقل من ${maxMB}MB` }, { status: 400 });

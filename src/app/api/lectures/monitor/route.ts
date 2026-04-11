@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { pool } from '@/lib/auth';
 
 // مراقبة الدكتور — ينادى يومياً
@@ -6,7 +6,13 @@ import { pool } from '@/lib/auth';
 // 3 أيام = إشعار رئيس القسم
 // أسبوع = إنذار رسمي
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // يُؤمَّن بـ CRON_SECRET لمنع الاستدعاء العشوائي
+  const secret = request.headers.get('x-cron-secret');
+  if (secret !== process.env.CRON_SECRET) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     const alerts: any[] = [];
 

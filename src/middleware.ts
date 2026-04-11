@@ -27,6 +27,9 @@ function cleanup() {
   }
 }
 
+// تنبيه أمني: هذه الدالة تفك تشفير حمولة JWT للـ UI فقط (feature-gating على مستوى الصفحات).
+// الحماية الفعلية تتم في كل API route عبر getUserFromRequest() التي تتحقق من التوقيع.
+// مستخدم يعدّل الكوكي يدوياً سيحصل على واجهة مختلفة لكن ستُرفض طلباته من الـ API.
 function getTokenPayload(request: NextRequest): { role: string; package: string } {
   try {
     const tokenCookie = request.cookies.get('matin_token')?.value;
@@ -34,7 +37,10 @@ function getTokenPayload(request: NextRequest): { role: string; package: string 
     const parts = tokenCookie.split('.');
     if (parts.length !== 3) return { role: '', package: 'free' };
     const payload = JSON.parse(Buffer.from(parts[1], 'base64url').toString('utf8'));
-    return { role: payload.role || '', package: payload.package || 'free' };
+    // التحقق الأساسي: يجب أن تكون قيم role و package سلاسل نصية بسيطة
+    const role = typeof payload.role === 'string' ? payload.role : '';
+    const pkg = typeof payload.package === 'string' ? payload.package : 'free';
+    return { role, package: pkg };
   } catch {
     return { role: '', package: 'free' };
   }
