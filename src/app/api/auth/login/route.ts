@@ -15,7 +15,8 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-    const { email, password } = parsed.data;
+    const { email: rawEmail, password } = parsed.data;
+    const email = rawEmail.trim().toLowerCase();
 
     const result = await pool.query(
       'SELECT id, name, email, password, role, school_id, owner_id, package, status, must_change_password, totp_enabled, totp_secret FROM users WHERE email = $1',

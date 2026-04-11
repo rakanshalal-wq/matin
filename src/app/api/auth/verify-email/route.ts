@@ -40,8 +40,9 @@ export async function POST(request: Request) {
     const { action } = body;
 
     if (action === 'send') {
-      const { email } = body;
-      if (!email) return NextResponse.json({ error: 'الإيميل مطلوب' }, { status: 400 });
+      const { email: rawEmail } = body;
+      if (!rawEmail) return NextResponse.json({ error: 'الإيميل مطلوب' }, { status: 400 });
+      const email = rawEmail.trim().toLowerCase();
       const user = await pool.query(`SELECT id, email_verified FROM users WHERE email = $1`, [email]);
       if (user.rows.length === 0) return NextResponse.json({ error: 'الإيميل غير مسجل' }, { status: 404 });
       if (user.rows[0].email_verified) return NextResponse.json({ message: 'الإيميل مؤكد مسبقاً', verified: true });
