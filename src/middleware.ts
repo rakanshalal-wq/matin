@@ -98,7 +98,8 @@ export function middleware(request: NextRequest) {
     pathname === '/' ||
     pathname === '/forgot-password' ||
     pathname === '/reset-password' ||
-    pathname.startsWith('/school')
+    pathname.startsWith('/school') ||
+    pathname.startsWith('/quran/')   // بوابة مراكز التحفيظ العامة
   ) {
     return NextResponse.next();
   }

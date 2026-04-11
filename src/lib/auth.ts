@@ -26,16 +26,22 @@ const JWT_EXPIRES = '7d';
 const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || '';
 const ALGORITHM = 'aes-256-gcm';
 
-// ===== الأدوار الستة المعتمدة في منصة متين =====
-export type UserRole = 'super_admin' | 'owner' | 'admin' | 'teacher' | 'parent' | 'student';
+// ===== الأدوار المعتمدة في منصة متين =====
+export type UserRole =
+  | 'super_admin' | 'owner' | 'admin' | 'teacher' | 'parent' | 'student'
+  | 'quran_supervisor' | 'quran_teacher' | 'university_dean' | 'trainer';
 
 export const ROLES: Record<UserRole, { label: string; dashboardPath: string; level: number }> = {
-  super_admin: { label: 'مالك المنصة', dashboardPath: '/owner', level: 6 },
-  owner:       { label: 'مالك مدرسة',  dashboardPath: '/dashboard/owner', level: 5 },
-  admin:       { label: 'مدير مدرسة',  dashboardPath: '/dashboard/admin', level: 4 },
-  teacher:     { label: 'معلم',         dashboardPath: '/dashboard/teacher', level: 3 },
-  parent:      { label: 'ولي أمر',      dashboardPath: '/dashboard/parent', level: 2 },
-  student:     { label: 'طالب',         dashboardPath: '/dashboard/student', level: 1 },
+  super_admin:       { label: 'مالك المنصة',      dashboardPath: '/owner',                          level: 6 },
+  owner:             { label: 'مالك مدرسة',        dashboardPath: '/dashboard/owner',                level: 5 },
+  admin:             { label: 'مدير مدرسة',        dashboardPath: '/dashboard/admin',                level: 4 },
+  teacher:           { label: 'معلم',              dashboardPath: '/dashboard/teacher',              level: 3 },
+  quran_supervisor:  { label: 'مشرف حلقات',        dashboardPath: '/dashboard/quran-supervisor',     level: 4 },
+  quran_teacher:     { label: 'محفّظ',             dashboardPath: '/dashboard/quran-teacher',        level: 3 },
+  university_dean:   { label: 'عميد كلية',          dashboardPath: '/dashboard/university-dean',      level: 4 },
+  trainer:           { label: 'مدرّب',              dashboardPath: '/dashboard/trainer',              level: 3 },
+  parent:            { label: 'ولي أمر',           dashboardPath: '/dashboard/parent',               level: 2 },
+  student:           { label: 'طالب',              dashboardPath: '/dashboard/student',              level: 1 },
 };
 
 export function getDashboardPath(role: string): string {
