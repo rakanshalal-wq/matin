@@ -89,28 +89,49 @@ export default function SubscribePage() {
  if (planId === currentPlan) return;
  setLoading(true);
  try {
+ // الخطة المجانية: تفعيل مباشر بدون دفع
+ if (planId === 'free') {
  const res = await fetch('/api/plans', {
- method: editItem ? 'PUT' : 'POST',
+ method: 'POST',
  headers: getHeaders(),
- body: JSON.stringify({ plan_id: planId, billing_cycle: billing })
+ body: JSON.stringify({ plan_id: planId, billing_cycle: billing }),
  });
  const data = await res.json();
  if (res.ok) {
  document.cookie = `matin_package=${planId}; path=/; max-age=31536000`;
- const expiryDate = new Date();
- expiryDate.setFullYear(expiryDate.getFullYear() + 1);
- document.cookie = `matin_sub_expiry=${expiryDate.toISOString()}; path=/; max-age=31536000`;
  const updatedUser = { ...user, package: planId };
  localStorage.setItem('matin_user', JSON.stringify(updatedUser));
  setCurrentPlan(planId);
- toast('تم الاشتراك بنجاح! [PartyPopper]', "error");
- if (requiredFeature && requiredFeature.startsWith('/')) {
- window.location.href = requiredFeature;
- }
+ toast('تم التسجيل في الخطة المجانية ✅', 'success');
  } else {
- toast(data.error || 'فشل في الاشتراك', "error");
+ toast(data.error || 'فشل في الاشتراك', 'error');
  }
- } catch (e: any) { setErrMsg ? setErrMsg(e.message || 'حدث خطأ') : null; } finally { setLoading(false); }
+ return;
+ }
+
+ // الخطط المدفوعة: توجيه إلى بوابة Moyasar
+ const res = await fetch('/api/payment/checkout', {
+ method: 'POST',
+ headers: getHeaders(),
+ body: JSON.stringify({ plan_id: planId, billing_cycle: billing }),
+ });
+ const data = await res.json();
+
+ if (res.ok && data.redirect_url) {
+ toast('جاري التوجيه لبوابة الدفع...', 'success');
+ window.location.href = data.redirect_url;
+ } else if (res.ok && data.free) {
+ // fallback للخطة المجانية
+ setCurrentPlan(planId);
+ toast('تم الاشتراك بنجاح ✅', 'success');
+ } else {
+ toast(data.error || 'فشل في بدء الدفع', 'error');
+ }
+ } catch (e: any) {
+ toast(e.message || 'حدث خطأ', 'error');
+ } finally {
+ setLoading(false);
+ }
  };
 
  const featureLabels: Record<string, string> = {
