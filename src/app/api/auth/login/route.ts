@@ -45,11 +45,11 @@ export async function POST(request: Request) {
     if (user.password.startsWith('$2b$') || user.password.startsWith('$2a$')) {
       validPassword = await bcrypt.compare(password, user.password);
     } else {
-      validPassword = (user.password === password);
-      if (validPassword) {
-        const hashed = await bcrypt.hash(password, 10);
-        await pool.query('UPDATE users SET password = $1 WHERE id = $2', [hashed, user.id]);
-      }
+      // كلمة مرور قديمة غير مشفرة — نرفض الدخول ونطلب إعادة التعيين أمنياً
+      return NextResponse.json(
+        { success: false, message: 'كلمة مرورك قديمة وتحتاج إعادة تعيين. استخدم "نسيت كلمة المرور"', requirePasswordReset: true },
+        { status: 401 }
+      );
     }
 
     if (!validPassword) {

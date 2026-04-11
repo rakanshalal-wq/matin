@@ -1,7 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: { ignoreDuringBuilds: true },
-  typescript: { ignoreBuildErrors: true },
   output: 'standalone',
   experimental: {
     serverActions: { allowedOrigins: ['matin.ink', 'app.matin.ink', 'localhost:3000'] }
