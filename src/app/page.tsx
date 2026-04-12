@@ -367,7 +367,7 @@ export default async function LandingPage() {
                   <div className="m-stat"><div className="m-val" style={{color:'var(--gold)'}}>48</div><div className="m-lbl">معلم</div></div>
                 </div>
                 <div style={{fontSize:10,color:'var(--text-muted)',marginBottom:8,fontWeight:600}}>آخر النشاطات</div>
-                <div className="m-row"><span style={{color:'var(--text-dim)'}}>أحمد محمد</span><span style={{color:'var(--green)',fontSize:10}}>حضر ✓</span></div>
+                <div className="m-row"><span style={{color:'var(--text-dim)'}}>أحمد محمد</span><span style={{color:'var(--green)',fontSize:10,display:'inline-flex',alignItems:'center',gap:3}}>{'حضر '}<svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg></span></div>
                 <div className="m-row"><span style={{color:'var(--text-dim)'}}>فاطمة علي</span><span style={{color:'var(--gold)',fontSize:10}}>رسوم معلقة</span></div>
                 <div className="m-row"><span style={{color:'var(--text-dim)'}}>اختبار الرياضيات</span><span style={{color:'var(--purple)',fontSize:10}}>غداً 9:00</span></div>
                 <div className="m-row"><span style={{color:'var(--text-dim)'}}>محاضرة العلوم</span><span style={{color:'var(--blue)',fontSize:10}}>مباشر الآن</span></div>
@@ -516,7 +516,7 @@ export default async function LandingPage() {
             <div style={{fontSize:9,color:'var(--text-muted)',fontWeight:500}}>{g('footer_logo_desc','النظام السيادي للتعليم')}</div>
           </div>
         </div>
-        <p>{g('footer_copyright','© 2026 متين — جميع الحقوق محفوظة · صنع بـ ❤️ في المملكة العربية السعودية')}</p>
+        <p>{g('footer_copyright','© 2026 متين — جميع الحقوق محفوظة · صنع بـ ')}<svg width={14} height={14} viewBox="0 0 24 24" fill="currentColor" stroke="none" style={{display:'inline',verticalAlign:'middle',color:'#ef4444'}}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>{' في المملكة العربية السعودية'}</p>
         <div className="footer-links">
           <a href="#">سياسة الخصوصية</a>
           <a href="#">الشروط والأحكام</a>
