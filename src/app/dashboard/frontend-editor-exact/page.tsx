@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 
@@ -139,124 +139,124 @@ export default function FrontendEditor() {
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
         
         {/* PAGE HEADER */}
-        \u003cdiv className="page-hdr">
-          \u003cdiv>
-            \u003cdiv className="page-title">
-              \u003csvg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-                \u003cpath d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                \u003cpath d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-              \u003c/svg>
+        <div className="page-hdr">
+          <div>
+            <div className="page-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
               محرر الواجهة الأمامية
-            \u003c/div>
-            \u003cdiv className="page-sub">تحكم كامل في محتوى وتصميم صفحة matin.ink\u003c/div>
-          \u003c/div>
-          \u003cdiv style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            \u003cspan className="preview-badge">👁️ معاينة الموقع\u003c/span>
-            \u003cbutton className="btn-gold">💾 حفظ التغييرات\u003c/button>
-          \u003c/div>
-        \u003c/div>
+            </div>
+            <div className="page-sub">تحكم كامل في محتوى وتصميم صفحة matin.ink</div>
+          </div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <span className="preview-badge">👁️ معاينة الموقع</span>
+            <button className="btn-gold">💾 حفظ التغييرات</button>
+          </div>
+        </div>
 
         {/* TABS */}
-        \u003cdiv className="tabs">
+        <div className="tabs">
           {tabs.map((tab) => (
-            \u003cbutton
+            <button
               key={tab.id}
               className={`tab-btn ${activeTab === tab.id ? 'active' : ''}`}
               onClick={() => setActiveTab(tab.id)}
             >
               {tab.label}
-            \u003c/button>
+            </button>
           ))}
-        \u003c/div>
+        </div>
 
         {/* HERO PANEL */}
-        \u003cdiv className={`panel ${activeTab === 'hero' ? 'active' : ''}`}>
-          \u003cdiv className="card">
-            \u003cdiv className="card-hdr">
-              \u003cdiv className="card-title">🎨 خلفية الصفحة الرئيسية\u003c/div>
-            \u003c/div>
-            \u003cdiv className="card-body">
-              \u003cdiv className="field">
-                \u003clabel className="label">نوع الخلفية\u003c/label>
-                \u003cdiv style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                  \u003cbutton className="btn-gold">لون ثابت\u003c/button>
-                  \u003cbutton className="btn-outline">تدرج لوني\u003c/button>
-                  \u003cbutton className="btn-outline">صورة\u003c/button>
-                \u003c/div>
-              \u003c/div>
+        <div className={`panel ${activeTab === 'hero' ? 'active' : ''}`}>
+          <div className="card">
+            <div className="card-hdr">
+              <div className="card-title">🎨 خلفية الصفحة الرئيسية</div>
+            </div>
+            <div className="card-body">
+              <div className="field">
+                <label className="label">نوع الخلفية</label>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  <button className="btn-gold">لون ثابت</button>
+                  <button className="btn-outline">تدرج لوني</button>
+                  <button className="btn-outline">صورة</button>
+                </div>
+              </div>
 
-              \u003cdiv className="field">
-                \u003clabel className="label">لون الخلفية\u003c/label>
-                \u003cdiv style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
+              <div className="field">
+                <label className="label">لون الخلفية</label>
+                <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
                   {colors.map((color) => (
-                    \u003cdiv
+                    <div
                       key={color}
                       className={`color-swatch ${bgColor === color ? 'active' : ''}`}
                       style={{ background: color }}
                       onClick={() => setBgColor(color)}
                     />
                   ))}
-                \u003c/div>
-              \u003c/div>
+                </div>
+              </div>
 
-              \u003cdiv className="field">
-                \u003clabel className="label">صورة الخلفية\u003c/label>
-                \u003cdiv className="img-upload">
-                  \u003cdiv style={{ fontSize: 32, marginBottom: 8 }}\u003e📤\u003c/div>
-                  \u003cdiv style={{ fontSize: 12.5, color: 'rgba(238,238,245,0.5)' }}\u003eاسحب الصورة هنا\u003c/div>
-                  \u003cdiv style={{ fontSize: 11, color: 'rgba(238,238,245,0.3)', marginTop: 4 }}\u003eأو انقر للاختيار\u003c/div>
-                \u003c/div>
-              \u003c/div>
-            \u003c/div>
-          \u003c/div>
+              <div className="field">
+                <label className="label">صورة الخلفية</label>
+                <div className="img-upload">
+                  <div style={{ fontSize: 32, marginBottom: 8 }}>📤</div>
+                  <div style={{ fontSize: 12.5, color: 'rgba(238,238,245,0.5)' }}>اسحب الصورة هنا</div>
+                  <div style={{ fontSize: 11, color: 'rgba(238,238,245,0.3)', marginTop: 4 }}>أو انقر للاختيار</div>
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/* Hero Content Card */}
-          \u003cdiv className="card">
-            \u003cdiv className="card-hdr">
-              \u003cdiv className="card-title">📝 محتوى الهيرو\u003c/div>
-            \u003c/div>
-            \u003cdiv className="card-body">
-              \u003cdiv className="field">
-                \u003clabel className="label">العنوان الرئيسي\u003c/label>
-                \u003cinput className="input" type="text" defaultValue="نظام إدارة التعليم الأكثر تكاملاً" />
-              \u003c/div>
+          <div className="card">
+            <div className="card-hdr">
+              <div className="card-title">📝 محتوى الهيرو</div>
+            </div>
+            <div className="card-body">
+              <div className="field">
+                <label className="label">العنوان الرئيسي</label>
+                <input className="input" type="text" defaultValue="نظام إدارة التعليم الأكثر تكاملاً" />
+              </div>
               
-              \u003cdiv className="field">
-                \u003clabel className="label">الوصف الفرعي\u003c/label>
-                \u003ctextarea className="input" defaultValue="حل شامل وذكي لإدارة المؤسسات التعليمية بالذكاء الاصطناعي" />
-              \u003c/div>
+              <div className="field">
+                <label className="label">الوصف الفرعي</label>
+                <textarea className="input" defaultValue="حل شامل وذكي لإدارة المؤسسات التعليمية بالذكاء الاصطناعي" />
+              </div>
 
-              \u003cdiv className="input-row">
-                \u003cdiv className="field">
-                  \u003clabel className="label">نص الزر الرئيسي\u003c/label>
-                  \u003cinput className="input" type="text" defaultValue="ابدأ مجاناً" />
-                \u003c/div>
-                \u003cdiv className="field">
-                  \u003clabel className="label">نص الزر الثانوي\u003c/label>
-                  \u003cinput className="input" type="text" defaultValue="شاهد العرض" />
-                \u003c/div>
-              \u003c/div>
-            \u003c/div>
-          \u003c/div>
-        \u003c/div>
+              <div className="input-row">
+                <div className="field">
+                  <label className="label">نص الزر الرئيسي</label>
+                  <input className="input" type="text" defaultValue="ابدأ مجاناً" />
+                </div>
+                <div className="field">
+                  <label className="label">نص الزر الثانوي</label>
+                  <input className="input" type="text" defaultValue="شاهد العرض" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* Other Panels */}
         {tabs.filter(t => t.id !== 'hero').map((tab) => (
-          \u003cdiv key={tab.id} className={`panel ${activeTab === tab.id ? 'active' : ''}`}>
-            \u003cdiv className="card">
-              \u003cdiv className="card-hdr">
-                \u003cdiv className="card-title">{tab.label}\u003c/div>
-              \u003c/div>
-              \u003cdiv className="card-body">
-                \u003cp style={{ color: 'rgba(238,238,245,0.5)', textAlign: 'center', padding: '40px 0' }}>
+          <div key={tab.id} className={`panel ${activeTab === tab.id ? 'active' : ''}`}>
+            <div className="card">
+              <div className="card-hdr">
+                <div className="card-title">{tab.label}</div>
+              </div>
+              <div className="card-body">
+                <p style={{ color: 'rgba(238,238,245,0.5)', textAlign: 'center', padding: '40px 0' }}>
                   محتوى قسم {tab.label} قيد التطوير...
-                \u003c/p>
-              \u003c/div>
-            \u003c/div>
-          \u003c/div>
+                </p>
+              </div>
+            </div>
+          </div>
         ))}
-      \u003c/div>
-    \u003c/>
+      </div>
+    </>
   );
 }
 

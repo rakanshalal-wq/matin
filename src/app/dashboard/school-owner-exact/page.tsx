@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 
@@ -155,131 +155,131 @@ export default function SchoolOwnerDashboard() {
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
         
         {/* SIDEBAR */}
-        \u003caside className="sidebar">
-          \u003cdiv className="sb-top">
-            \u003cdiv className="logo-r">
-              \u003cdiv className="li">م\u003c/div\u003e
-              \u003cdiv\u003e
-                \u003cdiv className="lt">متين\u003c/div\u003e
-                \u003cdiv className="ls">مدرسة الأمل\u003c/div\u003e
-              \u003c/div\u003e
-            \u003c/div>
-            \u003cdiv className="own-card">
-              \u003cdiv className="own-av">👨‍💼\u003c/div\u003e
-              \u003cdiv\u003e
-                \u003cdiv className="own-n">عبدالرحمن العلي\u003c/div\u003e
-                \u003cdiv className="own-r">مالك المدرسة\u003c/div\u003e
-              \u003c/div\u003e
-            \u003c/div>
-          \u003c/div>
+        <aside className="sidebar">
+          <div className="sb-top">
+            <div className="logo-r">
+              <div className="li">م</div>
+              <div>
+                <div className="lt">متين</div>
+                <div className="ls">مدرسة الأمل</div>
+              </div>
+            </div>
+            <div className="own-card">
+              <div className="own-av">👨‍💼</div>
+              <div>
+                <div className="own-n">عبدالرحمن العلي</div>
+                <div className="own-r">مالك المدرسة</div>
+              </div>
+            </div>
+          </div>
           
-          \u003cnav className="nav">
-            \u003cdiv className="ng">القائمة الرئيسية\u003c/div\u003e
+          <nav className="nav">
+            <div className="ng">القائمة الرئيسية</div>
             {navItems.map((item) => (
-              \u003cdiv
+              <div
                 key={item.id}
                 className={`ni ${activeNav === item.id ? 'on' : ''}`}
                 onClick={() => setActiveNav(item.id)}
               >
-                \u003cspan\u003e{item.icon}\u003c/span>
-                \u003cspan\u003e{item.label}\u003c/span>
+                <span>{item.icon}</span>
+                <span>{item.label}</span>
                 {item.badge && (
-                  \u003cspan className={`nb ${item.badgeType === 'r' ? 'nb-r' : 'nb-c'}`}\u003e{item.badge}\u003c/span>
+                  <span className={`nb ${item.badgeType === 'r' ? 'nb-r' : 'nb-c'}`}>{item.badge}</span>
                 )}
-                {!item.badge && activeNav === item.id && \u003cspan className="dot">\u003c/span\u003e}
-              \u003c/div>
+                {!item.badge && activeNav === item.id && <span className="dot"></span>}
+              </div>
             ))}
-          \u003c/nav>
+          </nav>
           
-          \u003cdiv className="sb-ft">
-            \u003cbutton className="lo">🚪 تسجيل الخروج\u003c/button\u003e
-          \u003c/div>
-        \u003c/aside>
+          <div className="sb-ft">
+            <button className="lo">🚪 تسجيل الخروج</button>
+          </div>
+        </aside>
 
         {/* MAIN */}
-        \u003cmain className="main">
+        <main className="main">
           {/* HEADER */}
-          \u003cheader className="hdr">
-            \u003cdiv className="hl">
-              \u003cdiv\u003e
-                \u003cdiv className="ht">لوحة مالك المدرسة\u003c/div\u003e
-                \u003cdiv className="hs">الفصل الدراسي الثاني 2025-2026\u003c/div\u003e
-              \u003c/div\u003e
-            \u003c/div>
-            \u003cdiv className="hr2">
-              \u003cbutton className="hb">🔔\u003cspan className="nd">\u003c/span\u003e\u003c/button>
-              \u003cdiv className="ub">
-                \u003cdiv className="ua">👨‍💼\u003c/div\u003e
-                \u003cdiv className="ui">
-                  \u003cdiv className="un">عبدالرحمن\u003c/div\u003e
-                  \u003cdiv className="ur">مالك\u003c/div\u003e
-                \u003c/div\u003e
-              \u003c/div\u003e
-            \u003c/div>
-          \u003c/header>
+          <header className="hdr">
+            <div className="hl">
+              <div>
+                <div className="ht">لوحة مالك المدرسة</div>
+                <div className="hs">الفصل الدراسي الثاني 2025-2026</div>
+              </div>
+            </div>
+            <div className="hr2">
+              <button className="hb">🔔<span className="nd"></span></button>
+              <div className="ub">
+                <div className="ua">👨‍💼</div>
+                <div className="ui">
+                  <div className="un">عبدالرحمن</div>
+                  <div className="ur">مالك</div>
+                </div>
+              </div>
+            </div>
+          </header>
 
           {/* CONTENT */}
-          \u003cdiv className="con">
-            \u003cdiv className="ph">
-              \u003cdiv>
-                \u003cdiv className="pt">📊 النظرة العامة\u003c/div\u003e
-                \u003cdiv className="ps">إحصائيات وأداء المدرسة\u003c/div\u003e
-              \u003c/div>
-              \u003cdiv style={{ display: 'flex', gap: 8 }}>
-                \u003cbutton className="btn-o">📊 التقارير\u003c/button>
-                \u003cbutton className="btn-p">+ إضافة طالب\u003c/button>
-              \u003c/div>
-            \u003c/div>
+          <div className="con">
+            <div className="ph">
+              <div>
+                <div className="pt">📊 النظرة العامة</div>
+                <div className="ps">إحصائيات وأداء المدرسة</div>
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button className="btn-o">📊 التقارير</button>
+                <button className="btn-p">+ إضافة طالب</button>
+              </div>
+            </div>
 
             {/* STATS */}
-            \u003cdiv className="sg">
+            <div className="sg">
               {stats.map((stat, i) => (
-                \u003cdiv key={i} className="sc">
-                  \u003cdiv className="si" style={{ background: stat.bg, color: stat.color }}\u003e{stat.icon}\u003c/div\u003e
-                  \u003cdiv className="sv" style={{ color: stat.color }}\u003e{stat.value}\u003c/div\u003e
-                  \u003cdiv className="sl">{stat.label}\u003c/div\u003e
-                  \u003cdiv className="ss" style={{ color: stat.change.includes('+') ? '#10B981' : '#EF4444' }}\u003e{stat.change}\u003c/div\u003e
-                \u003c/div>
+                <div key={i} className="sc">
+                  <div className="si" style={{ background: stat.bg, color: stat.color }}>{stat.icon}</div>
+                  <div className="sv" style={{ color: stat.color }}>{stat.value}</div>
+                  <div className="sl">{stat.label}</div>
+                  <div className="ss" style={{ color: stat.change.includes('+') ? '#10B981' : '#EF4444' }}>{stat.change}</div>
+                </div>
               ))}
-            \u003c/div>
+            </div>
 
             {/* RECENT STUDENTS TABLE */}
-            \u003cdiv className="card">
-              \u003cdiv className="ch">
-                \u003cdiv className="ct">👨‍🎓 آخر الطلاب المسجلين\u003c/div>
-                \u003cbutton className="cl">عرض الكل →\u003c/button>
-              \u003c/div>
-              \u003cdiv className="tw">
-                \u003ctable>
-                  \u003cthead>
-                    \u003ctr>
-                      \u003cth>الطالب\u003c/th>
-                      \u003cth>الرقم\u003c/th>
-                      \u003cth>الصف\u003c/th>
-                      \u003cth>الحالة\u003c/th>
-                      \u003cth>الإجراءات\u003c/th>
-                    \u003c/tr>
-                  \u003c/thead>
-                  \u003ctbody>
+            <div className="card">
+              <div className="ch">
+                <div className="ct">👨‍🎓 آخر الطلاب المسجلين</div>
+                <button className="cl">عرض الكل →</button>
+              </div>
+              <div className="tw">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>الطالب</th>
+                      <th>الرقم</th>
+                      <th>الصف</th>
+                      <th>الحالة</th>
+                      <th>الإجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody>
                     {recentStudents.map((student, i) => (
-                      \u003ctr key={i}>
-                        \u003ctd>{student.name}\u003c/td>
-                        \u003ctd>{student.id}\u003c/td>
-                        \u003ctd>{student.grade}\u003c/td>
-                        \u003ctd>
-                          \u003cspan className={`badge ${student.status === 'نشط' ? 'bg' : 'br'}`}\u003e{student.status}\u003c/span>
-                        \u003c/td>
-                        \u003ctd>\u003cbutton className="btn-sm" style={{ background: 'rgba(96,165,250,0.1)', color: '#60A5FA', border: '1px solid rgba(96,165,250,0.2)' }}\u003eعرض\u003c/button>\u003c/td>
-                      \u003c/tr>
+                      <tr key={i}>
+                        <td>{student.name}</td>
+                        <td>{student.id}</td>
+                        <td>{student.grade}</td>
+                        <td>
+                          <span className={`badge ${student.status === 'نشط' ? 'bg' : 'br'}`}>{student.status}</span>
+                        </td>
+                        <td><button className="btn-sm" style={{ background: 'rgba(96,165,250,0.1)', color: '#60A5FA', border: '1px solid rgba(96,165,250,0.2)' }}>عرض</button></td>
+                      </tr>
                     ))}
-                  \u003c/tbody>
-                \u003c/table>
-              \u003c/div>
-            \u003c/div>
-          \u003c/div>
-        \u003c/main>
-      \u003c/div>
-    \u003c/>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </>
   );
 }
 

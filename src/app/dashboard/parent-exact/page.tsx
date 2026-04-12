@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 
@@ -103,90 +103,90 @@ export default function ParentDashboard() {
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
         
         {/* SIDEBAR */}
-        \u003caside className="sidebar">
-          \u003cdiv className="sb-top">
-            \u003ca href="/" className="logo">
-              \u003cdiv className="logo-icon">م\u003c/div>
-              \u003cdiv>
-                \u003cdiv className="logo-main">متين\u003c/div>
-                \u003cdiv className="logo-sub">مدرسة الأمل\u003c/div>
-              \u003c/div>
-            \u003c/a>
-            \u003cdiv className="parent-card">
-              \u003cdiv className="parent-av">👨‍👩‍👧\u003c/div>
-              \u003cdiv>
-                \u003cdiv className="parent-name">عبدالله العلي\u003c/div>
-                \u003cdiv className="parent-role">ولي أمر\u003c/div>
-              \u003c/div>
-            \u003c/div>
-          \u003c/div>
+        <aside className="sidebar">
+          <div className="sb-top">
+            <a href="/" className="logo">
+              <div className="logo-icon">م</div>
+              <div>
+                <div className="logo-main">متين</div>
+                <div className="logo-sub">مدرسة الأمل</div>
+              </div>
+            </a>
+            <div className="parent-card">
+              <div className="parent-av">👨‍👩‍👧</div>
+              <div>
+                <div className="parent-name">عبدالله العلي</div>
+                <div className="parent-role">ولي أمر</div>
+              </div>
+            </div>
+          </div>
           
-          \u003cnav className="nav">
+          <nav className="nav">
             {navItems.map((item) => (
-              \u003cdiv
+              <div
                 key={item.id}
                 className={`nav-item ${activeNav === item.id ? 'active' : ''}`}
                 onClick={() => setActiveNav(item.id)}
               >
-                \u003cspan\u003e{item.icon}\u003c/span>
-                \u003cspan\u003e{item.label}\u003c/span>
-                {activeNav === item.id && \u003cspan className="nav-dot">\u003c/span\u003e}
-              \u003c/div>
+                <span>{item.icon}</span>
+                <span>{item.label}</span>
+                {activeNav === item.id && <span className="nav-dot"></span>}
+              </div>
             ))}
-          \u003c/nav>
+          </nav>
           
-          \u003cdiv className="sb-footer">
-            \u003cbutton className="logout-btn">🚪 تسجيل الخروج\u003c/button>
-          \u003c/div>
-        \u003c/aside>
+          <div className="sb-footer">
+            <button className="logout-btn">🚪 تسجيل الخروج</button>
+          </div>
+        </aside>
 
         {/* MAIN */}
-        \u003cmain className="main">
+        <main className="main">
           {/* HEADER */}
-          \u003cheader className="header">
-            \u003cdiv>
-              \u003cdiv className="hdr-title">لوحة ولي الأمر\u003c/div>
-              \u003cdiv className="hdr-sub">تابع أبنائك وادفع الرسوم\u003c/div>
-            \u003c/div>
-            \u003cdiv className="user-btn">
-              \u003cdiv className="user-av">👨‍👩‍👧\u003c/div>
-              \u003cdiv style={{ fontSize: '12px', fontWeight: 700 }}>عبدالله\u003c/div>
-            \u003c/div>
-          \u003c/header>
+          <header className="header">
+            <div>
+              <div className="hdr-title">لوحة ولي الأمر</div>
+              <div className="hdr-sub">تابع أبنائك وادفع الرسوم</div>
+            </div>
+            <div className="user-btn">
+              <div className="user-av">👨‍👩‍👧</div>
+              <div style={{ fontSize: '12px', fontWeight: 700 }}>عبدالله</div>
+            </div>
+          </header>
 
           {/* CONTENT */}
-          \u003cdiv className="content">
-            \u003cdiv className="page-title">📊 النظرة العامة\u003c/div>
+          <div className="content">
+            <div className="page-title">📊 النظرة العامة</div>
             
             {/* STATS */}
-            \u003cdiv className="stats-grid">
+            <div className="stats-grid">
               {stats.map((stat, i) => (
-                \u003cdiv key={i} className="stat-card">
-                  \u003cdiv className="stat-icon" style={{ background: stat.bg, color: stat.color }}\u003e{stat.icon}\u003c/div>
-                  \u003cdiv className="stat-value" style={{ color: stat.color }}\u003e{stat.value}\u003c/div>
-                  \u003cdiv className="stat-label">{stat.label}\u003c/div>
-                \u003c/div>
+                <div key={i} className="stat-card">
+                  <div className="stat-icon" style={{ background: stat.bg, color: stat.color }}>{stat.icon}</div>
+                  <div className="stat-value" style={{ color: stat.color }}>{stat.value}</div>
+                  <div className="stat-label">{stat.label}</div>
+                </div>
               ))}
-            \u003c/div>
+            </div>
 
             {/* CHILDREN */}
-            \u003cdiv className="children-card">
-              \u003cdiv className="children-title">👨‍👩‍👧 أبنائي\u003c/div>
+            <div className="children-card">
+              <div className="children-title">👨‍👩‍👧 أبنائي</div>
               {children.map((child, i) => (
-                \u003cdiv key={i} className="child-item">
-                  \u003cdiv className="child-av">👨‍🎓\u003c/div>
-                  \u003cdiv className="child-info">
-                    \u003cdiv className="child-name">{child.name}\u003c/div>
-                    \u003cdiv className="child-grade">{child.grade}\u003c/div>
-                  \u003c/div>
-                  \u003cdiv className="child-status" style={{ background: child.status === 'present' ? '#10B981' : '#EF4444' }}\u003e\u003c/div>
-                \u003c/div>
+                <div key={i} className="child-item">
+                  <div className="child-av">👨‍🎓</div>
+                  <div className="child-info">
+                    <div className="child-name">{child.name}</div>
+                    <div className="child-grade">{child.grade}</div>
+                  </div>
+                  <div className="child-status" style={{ background: child.status === 'present' ? '#10B981' : '#EF4444' }}></div>
+                </div>
               ))}
-            \u003c/div>
-          \u003c/div>
-        \u003c/main>
-      \u003c/div>
-    \u003c/>
+            </div>
+          </div>
+        </main>
+      </div>
+    </>
   );
 }
 

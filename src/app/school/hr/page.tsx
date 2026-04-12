@@ -1,2 +1,2 @@
-// HR Dashboard — نقل من src/app/dashboard/hr/
-export { default } from '@/app/dashboard/hr/page';
+// HR Dashboard — نقل من src/app/dashboard/school-hr-exact/
+export { default } from '@/app/dashboard/school-hr-exact/page';

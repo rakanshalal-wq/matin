@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 
@@ -128,108 +128,108 @@ export default function SuperAdminDashboard() {
         
         {/* SIDEBAR */}
         <aside className="sidebar">
-          \u003cdiv className="sb-logo">
-            \u003cdiv className="sb-logo-row">
-              \u003cdiv className="sb-logo-icon">م\u003c/div\u003e
-              \u003cdiv\u003e
-                \u003cdiv className="sb-logo-main">متين\u003c/div\u003e
-                \u003cdiv className="sb-logo-sub">MATIN.INK\u003c/div\u003e
-              \u003c/div\u003e
-            \u003c/div\u003e
+          <div className="sb-logo">
+            <div className="sb-logo-row">
+              <div className="sb-logo-icon">م</div>
+              <div>
+                <div className="sb-logo-main">متين</div>
+                <div className="sb-logo-sub">MATIN.INK</div>
+              </div>
+            </div>
             
-            \u003cdiv className="user-card">
-              \u003cdiv className="user-av">👑\u003c/div\u003e
-              \u003cdiv\u003e
-                \u003cdiv className="user-name">ركان شلال\u003c/div\u003e
-                \u003cdiv className="user-role">مالك المنصة\u003c/div\u003e
-              \u003c/div\u003e
-            \u003c/div\u003e
-          \u003c/div\u003e
+            <div className="user-card">
+              <div className="user-av">👑</div>
+              <div>
+                <div className="user-name">ركان شلال</div>
+                <div className="user-role">مالك المنصة</div>
+              </div>
+            </div>
+          </div>
           
-          \u003cnav className="nav">
-            \u003cdiv className="nav-group">القائمة الرئيسية\u003c/div\u003e
+          <nav className="nav">
+            <div className="nav-group">القائمة الرئيسية</div>
             {navItems.map((item) => (
-              \u003cdiv
+              <div
                 key={item.id}
                 className={`nav-item ${activeNav === item.id ? 'active' : ''}`}
                 onClick={() => setActiveNav(item.id)}
               >
-                \u003cspan\u003e{item.icon}\u003c/span\u003e
-                \u003cspan\u003e{item.label}\u003c/span\u003e
-                {item.badge && \u003cspan className="nav-badge">{item.badge}\u003c/span\u003e}
-                {!item.badge && activeNav === item.id && \u003cspan className="nav-dot">\u003c/span\u003e}
-              \u003c/div\u003e
+                <span>{item.icon}</span>
+                <span>{item.label}</span>
+                {item.badge && <span className="nav-badge">{item.badge}</span>}
+                {!item.badge && activeNav === item.id && <span className="nav-dot"></span>}
+              </div>
             ))}
-          \u003c/nav\u003e
+          </nav>
           
-          \u003cdiv className="sb-footer">
-            \u003cbutton className="logout-btn">🚪 تسجيل الخروج\u003c/button\u003e
-            \u003cdiv className="sb-ver">v1.0.0 - متين\u003c/div\u003e
-          \u003c/div\u003e
-        \u003c/aside\u003e
+          <div className="sb-footer">
+            <button className="logout-btn">🚪 تسجيل الخروج</button>
+            <div className="sb-ver">v1.0.0 - متين</div>
+          </div>
+        </aside>
 
         {/* MAIN */}
-        \u003cmain className="main">
+        <main className="main">
           {/* HEADER */}
-          \u003cheader className="header">
-            \u003cdiv\u003e
-              \u003cdiv className="hdr-title">داشبورد مالك المنصة\u003c/div\u003e
-              \u003cdiv className="hdr-sub">نظرة عامة على أداء المنصة\u003c/div\u003e
-            \u003c/div\u003e
+          <header className="header">
+            <div>
+              <div className="hdr-title">داشبورد مالك المنصة</div>
+              <div className="hdr-sub">نظرة عامة على أداء المنصة</div>
+            </div>
             
-            \u003cdiv className="hdr-right">
-              \u003cdiv className="search-box">🔍 البحث...\u003c/div\u003e
-              \u003cbutton className="hdr-btn">🔔\u003cspan className="dot">\u003c/span\u003e\u003c/button\u003e
-              \u003cbutton className="hdr-btn">⚙️\u003c/button\u003e
-              \u003cdiv className="user-btn">
-                \u003cdiv className="user-btn-av">👑\u003c/div\u003e
-                \u003cdiv\u003e
-                  \u003cdiv className="user-btn-name">ركان\u003c/div\u003e
-                  \u003cdiv className="user-btn-role">مالك\u003c/div\u003e
-                \u003c/div\u003e
-              \u003c/div\u003e
-            \u003c/div\u003e
-          \u003c/header\u003e
+            <div className="hdr-right">
+              <div className="search-box">🔍 البحث...</div>
+              <button className="hdr-btn">🔔<span className="dot"></span></button>
+              <button className="hdr-btn">⚙️</button>
+              <div className="user-btn">
+                <div className="user-btn-av">👑</div>
+                <div>
+                  <div className="user-btn-name">ركان</div>
+                  <div className="user-btn-role">مالك</div>
+                </div>
+              </div>
+            </div>
+          </header>
 
           {/* CONTENT */}
-          \u003cdiv className="content">
+          <div className="content">
             {/* PAGE HEADER */}
-            \u003cdiv className="page-hdr">
-              \u003cdiv\u003e
-                \u003cdiv className="page-title">📊 النظرة العامة\u003c/div\u003e
-                \u003cdiv className="page-sub">إحصائيات وأداء المنصة\u003c/div\u003e
-              \u003c/div\u003e
-              \u003cbutton className="btn-gold">+ إضافة مؤسسة\u003c/button\u003e
-            \u003c/div\u003e
+            <div className="page-hdr">
+              <div>
+                <div className="page-title">📊 النظرة العامة</div>
+                <div className="page-sub">إحصائيات وأداء المنصة</div>
+              </div>
+              <button className="btn-gold">+ إضافة مؤسسة</button>
+            </div>
 
             {/* ALERT */}
-            \u003cdiv className="alert">
-              \u003cspan\u003e⚡\u003c/span\u003e
-              \u003cdiv\u003e\u003cstrong\u003eتحديث جديد:\u003c/strong\u003e تم إضافة 3 مؤسسات جديدة هذا الأسبوع\u003c/div\u003e
-            \u003c/div\u003e
+            <div className="alert">
+              <span>⚡</span>
+              <div><strong>تحديث جديد:</strong> تم إضافة 3 مؤسسات جديدة هذا الأسبوع</div>
+            </div>
 
             {/* STATS */}
-            \u003cdiv className="stats-grid">
+            <div className="stats-grid">
               {stats.map((stat, i) => (
-                \u003cdiv key={i} className="stat-card">
-                  \u003cdiv className="stat-icon" style={{ background: `${stat.color}20`, color: stat.color }}\u003e{stat.icon}\u003c/div\u003e
-                  \u003cdiv className="stat-value">{stat.value}\u003c/div\u003e
-                  \u003cdiv className="stat-label">{stat.label}\u003c/div\u003e
-                  \u003cdiv className={`stat-change ${stat.up ? 'up' : 'down'}`}\u003e{stat.up ? '↑' : '↓'} {stat.change}\u003c/div\u003e
-                \u003c/div\u003e
+                <div key={i} className="stat-card">
+                  <div className="stat-icon" style={{ background: `${stat.color}20`, color: stat.color }}>{stat.icon}</div>
+                  <div className="stat-value">{stat.value}</div>
+                  <div className="stat-label">{stat.label}</div>
+                  <div className={`stat-change ${stat.up ? 'up' : 'down'}`}>{stat.up ? '↑' : '↓'} {stat.change}</div>
+                </div>
               ))}
-            \u003c/div\u003e
+            </div>
 
             {/* PLACEHOLDER FOR MORE CONTENT */}
-            \u003cdiv style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 14, padding: 24, textAlign: 'center', color: 'rgba(238,238,245,0.4)' }}>
-              \u003cdiv style={{ fontSize: 48, marginBottom: 16 }}\u003e📈\u003c/div\u003e
-              \u003cdiv style={{ fontSize: 16, fontWeight: 700, marginBottom: 8 }}\u003eالمزيد من المحتوى قيد التطوير\u003c/div\u003e
-              \u003cdiv style={{ fontSize: 13 }}\u003eسيتم إضافة الجداول والرسوم البيانية والتفاصيل الكاملة\u003c/div\u003e
-            \u003c/div\u003e
-          \u003c/div\u003e
-        \u003c/main\u003e
-      \u003c/div\u003e
-    \u003c/>
+            <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 14, padding: 24, textAlign: 'center', color: 'rgba(238,238,245,0.4)' }}>
+              <div style={{ fontSize: 48, marginBottom: 16 }}>📈</div>
+              <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 8 }}>المزيد من المحتوى قيد التطوير</div>
+              <div style={{ fontSize: 13 }}>سيتم إضافة الجداول والرسوم البيانية والتفاصيل الكاملة</div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </>
   );
 }
 

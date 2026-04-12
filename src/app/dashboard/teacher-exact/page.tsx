@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 
@@ -129,113 +129,113 @@ export default function TeacherDashboard() {
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
         
         {/* SIDEBAR */}
-        \u003caside className="sidebar">
-          \u003cdiv className="sb-top">
-            \u003ca href="/" className="sb-logo">
-              \u003cdiv className="logo-icon">م\u003c/div>
-              \u003cdiv>
-                \u003cdiv className="logo-main">متين\u003c/div>
-                \u003cdiv className="logo-sub">مدرسة الأمل\u003c/div>
-              \u003c/div>
-            \u003c/a>
-            \u003cdiv className="teacher-card">
-              \u003cdiv className="teacher-av">👨‍🏫\u003c/div>
-              \u003cdiv>
-                \u003cdiv className="teacher-name">أحمد محمد\u003c/div>
-                \u003cdiv className="teacher-role">معلم الرياضيات\u003c/div>
-              \u003c/div>
-            \u003c/div>
-          \u003c/div>
+        <aside className="sidebar">
+          <div className="sb-top">
+            <a href="/" className="sb-logo">
+              <div className="logo-icon">م</div>
+              <div>
+                <div className="logo-main">متين</div>
+                <div className="logo-sub">مدرسة الأمل</div>
+              </div>
+            </a>
+            <div className="teacher-card">
+              <div className="teacher-av">👨‍🏫</div>
+              <div>
+                <div className="teacher-name">أحمد محمد</div>
+                <div className="teacher-role">معلم الرياضيات</div>
+              </div>
+            </div>
+          </div>
           
-          \u003cnav className="nav">
+          <nav className="nav">
             {navItems.map((item) => (
-              \u003cdiv
+              <div
                 key={item.id}
                 className={`nav-item ${activeNav === item.id ? 'active' : ''}`}
                 onClick={() => setActiveNav(item.id)}
               >
-                \u003cspan\u003e{item.icon}\u003c/span>
-                \u003cspan\u003e{item.label}\u003c/span>
+                <span>{item.icon}</span>
+                <span>{item.label}</span>
                 {item.badge && (
-                  \u003cspan className={`nb ${item.badgeType === 'red' ? 'nb-red' : 'nb-accent'}`}\u003e{item.badge}\u003c/span>
+                  <span className={`nb ${item.badgeType === 'red' ? 'nb-red' : 'nb-accent'}`}>{item.badge}</span>
                 )}
-                {!item.badge && activeNav === item.id && \u003cspan className="nav-dot">\u003c/span\u003e}
-              \u003c/div>
+                {!item.badge && activeNav === item.id && <span className="nav-dot"></span>}
+              </div>
             ))}
-          \u003c/nav>
+          </nav>
           
-          \u003cdiv className="sb-footer">
-            \u003cbutton className="logout-btn">🚪 تسجيل الخروج\u003c/button>
-          \u003c/div>
-        \u003c/aside>
+          <div className="sb-footer">
+            <button className="logout-btn">🚪 تسجيل الخروج</button>
+          </div>
+        </aside>
 
         {/* MAIN */}
-        \u003cmain className="main">
+        <main className="main">
           {/* HEADER */}
-          \u003cheader className="header">
-            \u003cdiv className="hdr-left">
-              \u003cdiv\u003e
-                \u003cdiv className="hdr-title">لوحة المعلم\u003c/div>
-                \u003cdiv className="hdr-sub">الأحد، 10 أبريل 2026\u003c/div>
-              \u003c/div>
-            \u003c/div>
-            \u003cdiv className="hdr-right">
-              \u003cbutton className="hdr-btn">🔔\u003cspan className="notif-dot">\u003c/span\u003e\u003c/button>
-              \u003cdiv className="user-btn">
-                \u003cdiv className="user-av">👨‍🏫\u003c/div>
-                \u003cdiv>
-                  \u003cdiv className="uname">أحمد محمد\u003c/div>
-                  \u003cdiv className="urole">معلم\u003c/div>
-                \u003c/div>
-              \u003c/div>
-            \u003c/div>
-          \u003c/header>
+          <header className="header">
+            <div className="hdr-left">
+              <div>
+                <div className="hdr-title">لوحة المعلم</div>
+                <div className="hdr-sub">الأحد، 10 أبريل 2026</div>
+              </div>
+            </div>
+            <div className="hdr-right">
+              <button className="hdr-btn">🔔<span className="notif-dot"></span></button>
+              <div className="user-btn">
+                <div className="user-av">👨‍🏫</div>
+                <div>
+                  <div className="uname">أحمد محمد</div>
+                  <div className="urole">معلم</div>
+                </div>
+              </div>
+            </div>
+          </header>
 
           {/* CONTENT */}
-          \u003cdiv className="content">
-            \u003cdiv className="page-hdr">
-              \u003cdiv className="page-title">📊 النظرة العامة\u003c/div>
-              \u003cdiv style={{ display: 'flex', gap: 8 }}>
-                \u003cbutton className="btn-outline">📊 التقارير\u003c/button>
-                \u003cbutton className="btn-primary">+ تسجيل حضور\u003c/button>
-              \u003c/div>
-            \u003c/div>
+          <div className="content">
+            <div className="page-hdr">
+              <div className="page-title">📊 النظرة العامة</div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button className="btn-outline">📊 التقارير</button>
+                <button className="btn-primary">+ تسجيل حضور</button>
+              </div>
+            </div>
 
             {/* TODAY'S SCHEDULE */}
-            \u003cdiv className="schedule-bar">
-              \u003cdiv className="schedule-title">📅 جدول اليوم\u003c/div>
-              \u003cdiv className="periods">
+            <div className="schedule-bar">
+              <div className="schedule-title">📅 جدول اليوم</div>
+              <div className="periods">
                 {schedule.map((period, i) => (
-                  \u003cdiv key={i} className={`period ${period.status}`}>
-                    \u003cdiv className="period-time">{period.time}\u003c/div>
-                    \u003cdiv className="period-subject">{period.subject}\u003c/div>
-                    \u003cdiv className="period-class">{period.class}\u003c/div>
-                  \u003c/div>
+                  <div key={i} className={`period ${period.status}`}>
+                    <div className="period-time">{period.time}</div>
+                    <div className="period-subject">{period.subject}</div>
+                    <div className="period-class">{period.class}</div>
+                  </div>
                 ))}
-              \u003c/div>
-            \u003c/div>
+              </div>
+            </div>
 
             {/* STATS */}
-            \u003cdiv className="stats-grid">
+            <div className="stats-grid">
               {stats.map((stat, i) => (
-                \u003cdiv key={i} className="stat-card">
-                  \u003cdiv className="stat-icon" style={{ background: stat.bg, color: stat.color }}\u003e{stat.icon}\u003c/div>
-                  \u003cdiv className="stat-value" style={{ color: stat.color }}\u003e{stat.value}\u003c/div>
-                  \u003cdiv className="stat-label">{stat.label}\u003c/div>
-                \u003c/div>
+                <div key={i} className="stat-card">
+                  <div className="stat-icon" style={{ background: stat.bg, color: stat.color }}>{stat.icon}</div>
+                  <div className="stat-value" style={{ color: stat.color }}>{stat.value}</div>
+                  <div className="stat-label">{stat.label}</div>
+                </div>
               ))}
-            \u003c/div>
+            </div>
 
             {/* QUICK ACTIONS */}
-            \u003cdiv style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
-              \u003cbutton className="btn-primary">📝 رصد درجات\u003c/button>
-              \u003cbutton className="btn-outline">📚 إضافة واجب\u003c/button>
-              \u003cbutton className="btn-outline">📧 إرسال رسالة\u003c/button>
-            \u003c/div>
-          \u003c/div>
-        \u003c/main>
-      \u003c/div>
-    \u003c/>
+            <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
+              <button className="btn-primary">📝 رصد درجات</button>
+              <button className="btn-outline">📚 إضافة واجب</button>
+              <button className="btn-outline">📧 إرسال رسالة</button>
+            </div>
+          </div>
+        </main>
+      </div>
+    </>
   );
 }
 

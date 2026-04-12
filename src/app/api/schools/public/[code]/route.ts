@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { pool } from '@/lib/auth';
+import pool from '@/lib/db';
 
 // API عام للمدرسة — بدون توثيق (صفحة landing عامة)
 export async function GET(

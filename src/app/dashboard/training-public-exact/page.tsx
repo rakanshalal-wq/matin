@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { useState } from 'react';
 export default function Dashboard() {
   const [activeNav, setActiveNav] = useState(0);
@@ -30,13 +30,13 @@ export default function Dashboard() {
         <div style={{ flex: 1, padding: '18px 20px', overflowY: 'auto' }}>
           <div style={{ color: '#FB923C', fontSize: 19, fontWeight: 800, marginBottom: 16 }}>📊 النظرة العامة</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 16 }}>
-            {{[{ icon: '📚', value: '24', label: 'الدورات', color: '#FB923C' }, { icon: '👨🎓', value: '340', label: 'المتدربون', color: '#F97316' }, { icon: '👨🏫', value: '18', label: 'المدربون', color: '#EA580C' }, { icon: '🏆', value: '45', label: 'شهادات هذا الشهر', color: '#D4A843' }].map((stat, i) => (
+            {[{ icon: '📚', value: '24', label: 'الدورات', color: '#FB923C' }, { icon: '👨🎓', value: '340', label: 'المتدربون', color: '#F97316' }, { icon: '👨🏫', value: '18', label: 'المدربون', color: '#EA580C' }, { icon: '🏆', value: '45', label: 'شهادات هذا الشهر', color: '#D4A843' }].map((stat, i) => (
               <div key={i} style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: 11, padding: 14 }}>
                 <div style={{ width: 40, height: 40, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10, fontSize: 18, background: stat.color + '20', color: stat.color }}>{stat.icon}</div>
                 <div style={{ fontSize: 22, fontWeight: 800, color: stat.color }}>{stat.value}</div>
                 <div style={{ fontSize: 11, color: 'rgba(238,238,245,0.55)' }}>{stat.label}</div>
               </div>
-            ))}}
+            ))}
           </div>
         </div>
       </main>
