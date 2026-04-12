@@ -199,7 +199,7 @@ export default function DriverAppPage() {
     return (
       <div dir="rtl" style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #1e3a5f 0%, #06060E 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
         <div style={{ background: 'white', borderRadius: '20px', padding: '40px', maxWidth: '400px', width: '100%', textAlign: 'center' }}>
-          <div style={{ fontSize: '48px', marginBottom: '10px' }}>🚌</div>
+          <div style={{ fontSize: '48px', marginBottom: '10px' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg></div>
           <h1 style={{ fontSize: '24px', color: '#1e3a5f', marginBottom: '5px' }}>تطبيق السائق</h1>
           <p style={{ color: '#666', marginBottom: '30px' }}>منصة متين - نظام النقل المدرسي</p>
           
@@ -254,7 +254,7 @@ export default function DriverAppPage() {
         {/* Header */}
         <div style={{ background: '#1e3a5f', color: 'white', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
-            <h2 style={{ margin: 0, fontSize: '18px' }}>🚌 {activeTrip.bus_number}</h2>
+            <h2 style={{ margin: 0, fontSize: '18px' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg> {activeTrip.bus_number}</h2>
             <p style={{ margin: '5px 0 0', fontSize: '14px', opacity: 0.8 }}>{activeTrip.route_name}</p>
           </div>
           <div style={{ textAlign: 'left' }}>
@@ -266,10 +266,10 @@ export default function DriverAppPage() {
         {/* Trip Type Toggle */}
         <div style={{ display: 'flex', margin: '15px', borderRadius: '12px', overflow: 'hidden', border: '2px solid #1e3a5f' }}>
           <button onClick={() => setTripType('morning')} style={{ flex: 1, padding: '10px', background: tripType === 'morning' ? '#1e3a5f' : 'white', color: tripType === 'morning' ? 'white' : '#1e3a5f', border: 'none', fontSize: '14px', cursor: 'pointer' }}>
-            🌅 رحلة الصباح
+            <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 3H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z M8 21h8 M12 17v4"/></svg> رحلة الصباح
           </button>
           <button onClick={() => setTripType('afternoon')} style={{ flex: 1, padding: '10px', background: tripType === 'afternoon' ? '#1e3a5f' : 'white', color: tripType === 'afternoon' ? 'white' : '#1e3a5f', border: 'none', fontSize: '14px', cursor: 'pointer' }}>
-            🌆 رحلة العودة
+            <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 3H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z M8 21h8 M12 17v4"/></svg> رحلة العودة
           </button>
         </div>
 
@@ -292,7 +292,7 @@ export default function DriverAppPage() {
         {/* Location */}
         {lastLocation && (
           <div style={{ margin: '0 15px 15px', background: '#e8f5e9', borderRadius: '12px', padding: '10px 15px', fontSize: '12px', color: '#2e7d32' }}>
-            📍 الموقع: {lastLocation.lat.toFixed(4)}, {lastLocation.lng.toFixed(4)}
+            <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 8h.01 M12 12v4"/></svg> الموقع: {lastLocation.lat.toFixed(4)}, {lastLocation.lng.toFixed(4)}
           </div>
         )}
 
@@ -318,11 +318,11 @@ export default function DriverAppPage() {
               }}
             >
               <div style={{ width: '50px', height: '50px', borderRadius: '50%', background: student.boarded ? '#4caf50' : '#e0e0e0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', color: 'white' }}>
-                {student.boarded ? '✓' : student.name.charAt(0)}
+                {student.boarded ? <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg> : student.name.charAt(0)}
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ fontWeight: 'bold', fontSize: '16px' }}>{student.name}</div>
-                <div style={{ fontSize: '12px', color: '#666' }}>{student.boarded ? 'تم التسجيل ✅' : 'اضغط للتسجيل'}</div>
+                <div style={{ fontSize: '12px', color: '#666' }}>{student.boarded ? 'تم التسجيل <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>' : 'اضغط للتسجيل'}</div>
               </div>
             </div>
           ))}
@@ -334,7 +334,7 @@ export default function DriverAppPage() {
             onClick={endTrip}
             style={{ width: '100%', padding: '16px', background: '#c62828', color: 'white', border: 'none', borderRadius: '12px', fontSize: '18px', fontWeight: 'bold', cursor: 'pointer' }}
           >
-            🏁 إنهاء الرحلة
+            <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg> إنهاء الرحلة
           </button>
         </div>
       </div>
@@ -345,7 +345,7 @@ export default function DriverAppPage() {
   return (
     <div dir="rtl" style={{ minHeight: '100vh', background: '#f5f5f5' }}>
       <div style={{ background: '#1e3a5f', color: 'white', padding: '20px' }}>
-        <h1 style={{ margin: 0, fontSize: '22px' }}>🚌 تطبيق السائق</h1>
+        <h1 style={{ margin: 0, fontSize: '22px' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg> تطبيق السائق</h1>
         <p style={{ margin: '5px 0 0', fontSize: '14px', opacity: 0.8 }}>منصة متين - نظام النقل المدرسي</p>
       </div>
 
@@ -354,24 +354,24 @@ export default function DriverAppPage() {
         
         {trips.length === 0 ? (
           <div style={{ background: 'white', borderRadius: '16px', padding: '40px', textAlign: 'center', color: '#999' }}>
-            <div style={{ fontSize: '48px', marginBottom: '10px' }}>🚌</div>
+            <div style={{ fontSize: '48px', marginBottom: '10px' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg></div>
             <p>لا توجد رحلات متاحة حالياً</p>
           </div>
         ) : (
           trips.map(trip => (
             <div key={trip.id} style={{ background: 'white', borderRadius: '16px', padding: '20px', marginBottom: '15px', boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                <h3 style={{ margin: 0, fontSize: '18px', color: '#1e3a5f' }}>🚌 {trip.bus_number}</h3>
+                <h3 style={{ margin: 0, fontSize: '18px', color: '#1e3a5f' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg> {trip.bus_number}</h3>
                 <span style={{ background: '#e3f2fd', color: '#1565c0', padding: '4px 12px', borderRadius: '20px', fontSize: '12px' }}>
                   {trip.students.length} طالب
                 </span>
               </div>
-              <p style={{ color: '#666', fontSize: '14px', margin: '0 0 15px' }}>📍 {trip.route_name}</p>
+              <p style={{ color: '#666', fontSize: '14px', margin: '0 0 15px' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 8h.01 M12 12v4"/></svg> {trip.route_name}</p>
               <button
                 onClick={() => startTrip(trip)}
                 style={{ width: '100%', padding: '14px', background: '#4caf50', color: 'white', border: 'none', borderRadius: '12px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer' }}
               >
-                ▶ بدء الرحلة
+                <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg> بدء الرحلة
               </button>
             </div>
           ))

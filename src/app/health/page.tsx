@@ -85,12 +85,12 @@ export default function HealthPage() {
 
         <div className="features-grid">
           {[
-            { icon: '📋', title: 'الملف الصحي الشامل', desc: 'بيانات صحية كاملة لكل طالب — فصيلة الدم، الأمراض المزمنة، الأدوية الدائمة، الحساسيات، والتاريخ الطبي.', color: 'rgba(52,211,153,0.12)' },
-            { icon: '💉', title: 'جدول التطعيمات', desc: 'تتبع جدول تطعيمات كل طالب مع تنبيهات تلقائية لولي الأمر قبل موعد الجرعة القادمة.', color: 'rgba(52,211,153,0.12)' },
-            { icon: '🏥', title: 'سجل زيارات العيادة', desc: 'توثيق كل زيارة للعيادة المدرسية — الشكوى، التشخيص، العلاج، وإشعار ولي الأمر فوراً.', color: 'rgba(52,211,153,0.12)' },
-            { icon: '🚨', title: 'إدارة الطوارئ', desc: 'بروتوكول طوارئ واضح لكل طالب — معلومات الاتصال السريع، الأمراض الخطيرة، وخطة التصرف الفوري.', color: 'rgba(239,68,68,0.12)' },
-            { icon: '💊', title: 'إدارة الأدوية المزمنة', desc: 'جدول أدوية الطلاب ذوي الأمراض المزمنة مع تذكير الممرضة بمواعيد الجرعات خلال اليوم الدراسي.', color: 'rgba(52,211,153,0.12)' },
-            { icon: '📊', title: 'تقارير صحية دورية', desc: 'إحصائيات صحية شاملة للمؤسسة — الأمراض الأكثر شيوعاً، معدلات الغياب الصحي، وتوصيات وقائية.', color: 'rgba(52,211,153,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, title: 'الملف الصحي الشامل', desc: 'بيانات صحية كاملة لكل طالب — فصيلة الدم، الأمراض المزمنة، الأدوية الدائمة، الحساسيات، والتاريخ الطبي.', color: 'rgba(52,211,153,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, title: 'جدول التطعيمات', desc: 'تتبع جدول تطعيمات كل طالب مع تنبيهات تلقائية لولي الأمر قبل موعد الجرعة القادمة.', color: 'rgba(52,211,153,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, title: 'سجل زيارات العيادة', desc: 'توثيق كل زيارة للعيادة المدرسية — الشكوى، التشخيص، العلاج، وإشعار ولي الأمر فوراً.', color: 'rgba(52,211,153,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>, title: 'إدارة الطوارئ', desc: 'بروتوكول طوارئ واضح لكل طالب — معلومات الاتصال السريع، الأمراض الخطيرة، وخطة التصرف الفوري.', color: 'rgba(239,68,68,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, title: 'إدارة الأدوية المزمنة', desc: 'جدول أدوية الطلاب ذوي الأمراض المزمنة مع تذكير الممرضة بمواعيد الجرعات خلال اليوم الدراسي.', color: 'rgba(52,211,153,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, title: 'تقارير صحية دورية', desc: 'إحصائيات صحية شاملة للمؤسسة — الأمراض الأكثر شيوعاً، معدلات الغياب الصحي، وتوصيات وقائية.', color: 'rgba(52,211,153,0.12)' },
           ].map((f, i) => (
             <div key={i} className="feature-card">
               <div className="feature-icon" style={{ background: f.color }}>{f.icon}</div>
@@ -110,7 +110,7 @@ export default function HealthPage() {
         <div className="section-desc">ميزة فريدة في متين تراقب المؤشرات النفسية للطلاب وتتدخل مبكراً قبل تفاقم المشكلة.</div>
 
         <div className="ai-box">
-          <h3>🧠 كيف يعمل AI Well-being؟</h3>
+          <h3><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4l3 3"/></svg> كيف يعمل AI Well-being؟</h3>
           <p>
             الذكاء الاصطناعي في متين يحلل مؤشرات متعددة بشكل مستمر: معدل الحضور والغياب، الأداء الأكاديمي، مستوى التفاعل في الفصل، وأنماط السلوك. عند رصد تغيرات مقلقة، يُنبّه المرشد الطلابي تلقائياً لإجراء جلسة متابعة. هذا النظام يساعد في الكشف المبكر عن الاكتئاب، القلق، والتنمر قبل أن تتفاقم.
           </p>
@@ -118,12 +118,12 @@ export default function HealthPage() {
 
         <div className="features-grid">
           {[
-            { icon: '🔍', title: 'رصد المؤشرات النفسية', desc: 'تحليل مستمر لمؤشرات الصحة النفسية من بيانات الحضور والأداء والسلوك.', color: 'rgba(139,92,246,0.12)' },
-            { icon: '⚡', title: 'تنبيه مبكر للمرشد', desc: 'إشعار تلقائي للمرشد الطلابي عند رصد مؤشرات مقلقة تستدعي التدخل.', color: 'rgba(139,92,246,0.12)' },
-            { icon: '📝', title: 'جلسات الإرشاد الرقمية', desc: 'توثيق جلسات الإرشاد الطلابي وتتبع التقدم بمرور الوقت.', color: 'rgba(139,92,246,0.12)' },
-            { icon: '👨‍👩‍👧', title: 'تواصل مع الأسرة', desc: 'تنسيق مع أولياء الأمور عند الحاجة للدعم الأسري في الحالات الحساسة.', color: 'rgba(139,92,246,0.12)' },
-            { icon: '🛡️', title: 'رصد التنمر', desc: 'خوارزميات تكتشف أنماط التنمر المدرسي من سلوكيات الطلاب وتنبه الإدارة.', color: 'rgba(139,92,246,0.12)' },
-            { icon: '📈', title: 'تقارير الصحة النفسية', desc: 'تقارير دورية عن المناخ النفسي العام في المؤسسة مع توصيات للتحسين.', color: 'rgba(139,92,246,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0"/></svg>, title: 'رصد المؤشرات النفسية', desc: 'تحليل مستمر لمؤشرات الصحة النفسية من بيانات الحضور والأداء والسلوك.', color: 'rgba(139,92,246,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, title: 'تنبيه مبكر للمرشد', desc: 'إشعار تلقائي للمرشد الطلابي عند رصد مؤشرات مقلقة تستدعي التدخل.', color: 'rgba(139,92,246,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, title: 'جلسات الإرشاد الرقمية', desc: 'توثيق جلسات الإرشاد الطلابي وتتبع التقدم بمرور الوقت.', color: 'rgba(139,92,246,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, title: 'تواصل مع الأسرة', desc: 'تنسيق مع أولياء الأمور عند الحاجة للدعم الأسري في الحالات الحساسة.', color: 'rgba(139,92,246,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, title: 'رصد التنمر', desc: 'خوارزميات تكتشف أنماط التنمر المدرسي من سلوكيات الطلاب وتنبه الإدارة.', color: 'rgba(139,92,246,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, title: 'تقارير الصحة النفسية', desc: 'تقارير دورية عن المناخ النفسي العام في المؤسسة مع توصيات للتحسين.', color: 'rgba(139,92,246,0.12)' },
           ].map((f, i) => (
             <div key={i} className="feature-card">
               <div className="feature-icon" style={{ background: f.color }}>{f.icon}</div>

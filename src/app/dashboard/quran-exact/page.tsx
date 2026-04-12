@@ -63,21 +63,21 @@ export default function QuranDashboard() {
   `;
 
   const navItems = [
-    { id: 'overview', label: 'النظرة العامة', icon: '📊' },
-    { id: 'circles', label: 'الحلقات', icon: '🏫' },
-    { id: 'muhaffiz', label: 'المحفظون', icon: '👨‍🏫' },
-    { id: 'students', label: 'الطلاب', icon: '👨‍🎓' },
-    { id: 'memorization', label: 'التسميع', icon: '📖' },
-    { id: 'review', label: 'المراجعة', icon: '🔄' },
-    { id: 'exams', label: 'الاختبارات', icon: '📝' },
-    { id: 'reports', label: 'التقارير', icon: '📈' },
+    { id: 'overview', label: 'النظرة العامة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> },
+    { id: 'circles', label: 'الحلقات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg> },
+    { id: 'muhaffiz', label: 'المحفظون', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> },
+    { id: 'students', label: 'الطلاب', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg> },
+    { id: 'memorization', label: 'التسميع', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> },
+    { id: 'review', label: 'المراجعة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M23 4v6h-6 M1 20v-6h6 M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> },
+    { id: 'exams', label: 'الاختبارات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg> },
+    { id: 'reports', label: 'التقارير', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> },
   ];
 
   const stats = [
-    { icon: '👨‍🎓', value: '156', label: 'الطلاب', color: '#10B981', bg: 'rgba(16,185,129,0.15)' },
-    { icon: '👨‍🏫', value: '12', label: 'المحفظون', color: '#059669', bg: 'rgba(5,150,105,0.15)' },
-    { icon: '🏫', value: '8', label: 'الحلقات', color: '#34D399', bg: 'rgba(52,211,153,0.15)' },
-    { icon: '📖', value: '23', label: 'ختمات هذا الشهر', color: '#D4A843', bg: 'rgba(212,168,67,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, value: '156', label: 'الطلاب', color: '#10B981', bg: 'rgba(16,185,129,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, value: '12', label: 'المحفظون', color: '#059669', bg: 'rgba(5,150,105,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>, value: '8', label: 'الحلقات', color: '#34D399', bg: 'rgba(52,211,153,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, value: '23', label: 'ختمات هذا الشهر', color: '#D4A843', bg: 'rgba(212,168,67,0.15)' },
   ];
 
   return (
@@ -97,7 +97,7 @@ export default function QuranDashboard() {
               </div>
             </a>
             <div className="admin-card">
-              <div className="admin-av">👨‍💼</div>
+              <div className="admin-av"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
               <div>
                 <div className="admin-name">الشيخ عبدالله</div>
                 <div className="admin-role">مشرف الحلقات</div>
@@ -120,7 +120,7 @@ export default function QuranDashboard() {
           </nav>
           
           <div className="sb-footer">
-            <button className="logout-btn">🚪 تسجيل الخروج</button>
+            <button className="logout-btn"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg> تسجيل الخروج</button>
           </div>
         </aside>
 
@@ -133,14 +133,14 @@ export default function QuranDashboard() {
               <div className="hdr-sub">حلقة الفرقان لتحفيظ القرآن الكريم</div>
             </div>
             <div className="user-btn">
-              <div className="user-av">👨‍💼</div>
+              <div className="user-av"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
               <div style={{ fontSize: '12px', fontWeight: 700 }}>الشيخ عبدالله</div>
             </div>
           </header>
 
           {/* CONTENT */}
           <div className="content">
-            <div className="page-title">📊 النظرة العامة</div>
+            <div className="page-title"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> النظرة العامة</div>
             
             {/* STATS */}
             <div className="stats-grid">

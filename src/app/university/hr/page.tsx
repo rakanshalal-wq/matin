@@ -104,7 +104,7 @@ export default function UniversityHrPage() {
     setShowAddEmp(false);
     setEmpForm({ name: '', email: '', role: 'دكتور', department: '', hire_date: '' });
     setSavingEmp(false);
-    showToast('✅ تمت إضافة الموظف بنجاح');
+    showToast('<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> تمت إضافة الموظف بنجاح');
     loadAll();
   };
 
@@ -113,7 +113,7 @@ export default function UniversityHrPage() {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ type: 'leave-action', id, action }),
     }).catch(() => {});
-    showToast(action === 'accept' ? '✅ تمت الموافقة على الإجازة' : '❌ تم رفض الإجازة');
+    showToast(action === 'accept' ? '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> تمت الموافقة على الإجازة' : '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01"/></svg> تم رفض الإجازة');
     loadAll();
   };
 
@@ -127,7 +127,7 @@ export default function UniversityHrPage() {
     setShowJobModal(false);
     setJobForm({ title: '', department: '', type: 'دوام كامل', deadline: '' });
     setSavingJob(false);
-    showToast('✅ تم فتح الوظيفة بنجاح');
+    showToast('<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> تم فتح الوظيفة بنجاح');
     setJobs((prev: any[]) => [...prev, { ...jobForm, id: Date.now(), applicants: 0 }]);
   };
 
@@ -231,7 +231,7 @@ export default function UniversityHrPage() {
           {/* Controls */}
           <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', flex: 1 }}>
-              <input type="text" placeholder="🔍 بحث بالاسم أو القسم…" value={search} onChange={e => setSearch(e.target.value)}
+              <input type="text" placeholder="بحث بالاسم أو القسم…" value={search} onChange={e => setSearch(e.target.value)}
                 style={{ ...inputSt(), maxWidth: 260, flex: 1 }} />
               <select value={roleFilter} onChange={e => setRoleFilter(e.target.value)} style={{ ...inputSt(), maxWidth: 160 }}>
                 {['الكل', 'دكتور', 'معيد', 'محاضر', 'إداري', 'موظف'].map(r => <option key={r}>{r}</option>)}
@@ -428,7 +428,7 @@ export default function UniversityHrPage() {
               <button onClick={() => setShowAddEmp(false)} style={cancelBtn}>إلغاء</button>
               <button onClick={handleAddEmployee} disabled={savingEmp || !empForm.name || !empForm.email}
                 style={{ background: PINK, border: 'none', borderRadius: 9, padding: '0.65rem 1.75rem', color: '#000', fontWeight: 800, cursor: 'pointer', opacity: (savingEmp || !empForm.name || !empForm.email) ? 0.6 : 1, fontFamily: "'IBM Plex Sans Arabic', sans-serif" }}>
-                {savingEmp ? 'جارٍ الإضافة…' : 'إضافة الموظف ✓'}
+                {savingEmp ? 'جارٍ الإضافة…' : 'إضافة الموظف <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'}
               </button>
             </div>
           </div>
@@ -460,7 +460,7 @@ export default function UniversityHrPage() {
               <button onClick={() => setShowJobModal(false)} style={cancelBtn}>إلغاء</button>
               <button onClick={handleAddJob} disabled={savingJob || !jobForm.title}
                 style={{ background: GREEN, border: 'none', borderRadius: 9, padding: '0.65rem 1.75rem', color: '#000', fontWeight: 800, cursor: 'pointer', opacity: (savingJob || !jobForm.title) ? 0.6 : 1, fontFamily: "'IBM Plex Sans Arabic', sans-serif" }}>
-                {savingJob ? 'جارٍ الحفظ…' : 'فتح الوظيفة ✓'}
+                {savingJob ? 'جارٍ الحفظ…' : 'فتح الوظيفة <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'}
               </button>
             </div>
           </div>

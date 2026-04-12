@@ -84,7 +84,7 @@ export default function UniversityParentPage() {
     setShowPayModal(false);
     setPayForm({ method: 'مدى', card_number: '', expiry: '', cvv: '' });
     setSavingPay(false);
-    showToast('✅ تمت عملية الدفع بنجاح');
+    showToast('<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> تمت عملية الدفع بنجاح');
     loadAll();
   };
 
@@ -98,7 +98,7 @@ export default function UniversityParentPage() {
     setShowMsgModal(false);
     setMsgForm({ to: 'المرشد الأكاديمي', content: '' });
     setSavingMsg(false);
-    showToast('✅ تم إرسال الرسالة بنجاح');
+    showToast('<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> تم إرسال الرسالة بنجاح');
     loadAll();
   };
 
@@ -196,7 +196,7 @@ export default function UniversityParentPage() {
 
           {/* Child Info Banner */}
           <div style={{ background: `${EM}12`, border: `1px solid ${EM}30`, borderRadius: 14, padding: '1.25rem 1.5rem', display: 'flex', gap: '1.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
-            <div style={{ width: 56, height: 56, borderRadius: '50%', background: `${EM}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', flexShrink: 0 }}>🎓</div>
+            <div style={{ width: 56, height: 56, borderRadius: '50%', background: `${EM}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', flexShrink: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
             <div style={{ flex: 1, minWidth: 180 }}>
               <div style={{ fontWeight: 800, fontSize: '1.1rem', color: EM }}>{user?.child_name || 'الطالب الجامعي'}</div>
               <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem', marginTop: 4 }}>
@@ -209,10 +209,10 @@ export default function UniversityParentPage() {
           {/* Quick Actions */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '0.75rem' }}>
             {[
-              { label: 'راسل الأكاديمي', icon: '💬', color: EM,     action: () => setShowMsgModal(true) },
-              { label: 'دفع الرسوم',      icon: '💳', color: GOLD,   action: () => setShowPayModal(true) },
-              { label: 'تقرير الأداء',   icon: '📊', color: PURPLE, action: () => setTab('academic') },
-              { label: 'الجدول',         icon: '📅', color: BLUE,   action: () => setTab('attendance') },
+              { label: 'راسل الأكاديمي', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, color: EM,     action: () => setShowMsgModal(true) },
+              { label: 'دفع الرسوم',      icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, color: GOLD,   action: () => setShowPayModal(true) },
+              { label: 'تقرير الأداء',   icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, color: PURPLE, action: () => setTab('academic') },
+              { label: 'الجدول',         icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg>, color: BLUE,   action: () => setTab('attendance') },
             ].map(({ label, icon, color, action }) => (
               <button key={label} onClick={action} style={{ background: `${color}12`, border: `1px solid ${color}25`, borderRadius: 12, padding: '0.9rem', textAlign: 'center', cursor: 'pointer', fontFamily: "'IBM Plex Sans Arabic', sans-serif" }}>
                 <div style={{ fontSize: '1.4rem', marginBottom: '0.35rem' }}>{icon}</div>
@@ -244,7 +244,7 @@ export default function UniversityParentPage() {
               <h3 style={{ margin: '0 0 1rem', color: BLUE, fontSize: '0.95rem', fontWeight: 700 }}>اختبارات قادمة</h3>
               {upcomingExams.map((ex: any, i: number) => (
                 <div key={i} style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', padding: '0.5rem 0', borderBottom: i < upcomingExams.length - 1 ? `1px solid ${BORDER}` : 'none' }}>
-                  <div style={{ width: 36, height: 36, borderRadius: 8, background: `${BLUE}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '1rem' }}>📝</div>
+                  <div style={{ width: 36, height: 36, borderRadius: 8, background: `${BLUE}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '1rem' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg></div>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: '0.88rem', fontWeight: 600 }}>{ex.course}</div>
                     <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem' }}>{ex.date} · {ex.time} · {ex.hall}</div>
@@ -261,7 +261,7 @@ export default function UniversityParentPage() {
         <div style={{ display: 'grid', gap: '1.25rem' }}>
           {(stats.gpa > 0 && stats.gpa < 2.0) && (
             <div style={{ background: `${RED}10`, border: `1px solid ${RED}40`, borderRadius: 12, padding: '1rem 1.25rem', display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-              <span style={{ fontSize: '1.4rem' }}>⚠️</span>
+              <span style={{ fontSize: '1.4rem' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01"/></svg></span>
               <div>
                 <div style={{ color: RED, fontWeight: 700, fontSize: '0.95rem' }}>تحذير: الإنذار الأكاديمي</div>
                 <div style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.82rem', marginTop: 2 }}>المعدل التراكمي أقل من 2.0 — يرجى التواصل مع المرشد الأكاديمي فوراً</div>
@@ -337,7 +337,7 @@ export default function UniversityParentPage() {
                   <div style={{ height: 8, background: 'rgba(255,255,255,0.08)', borderRadius: 4, overflow: 'hidden' }}>
                     <div style={{ width: `${att}%`, height: '100%', background: color, borderRadius: 4 }} />
                   </div>
-                  {att < 75 && <div style={{ color: RED, fontSize: '0.75rem', marginTop: 4 }}>⚠️ تحذير: الحضور أقل من 75%</div>}
+                  {att < 75 && <div style={{ color: RED, fontSize: '0.75rem', marginTop: 4 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01"/></svg> تحذير: الحضور أقل من 75%</div>}
                 </div>
               );
             })}
@@ -352,12 +352,12 @@ export default function UniversityParentPage() {
             <div>
               <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.82rem', marginBottom: 4 }}>الرسوم المعلقة</div>
               <div style={{ color: RED, fontSize: '2rem', fontWeight: 800 }}>
-                {(fees?.pending > 0 || stats.pending_fees > 0) ? `${(fees?.pending || stats.pending_fees || 0).toLocaleString()} ريال` : 'لا رسوم معلقة ✓'}
+                {(fees?.pending > 0 || stats.pending_fees > 0) ? `${(fees?.pending || stats.pending_fees || 0).toLocaleString()} ريال` : 'لا رسوم معلقة <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'}
               </div>
             </div>
             {(fees?.pending > 0 || stats.pending_fees > 0) && (
               <button onClick={() => setShowPayModal(true)} style={{ ...btnBase, background: GOLD, color: '#000', fontFamily: "'IBM Plex Sans Arabic', sans-serif" }}>
-                💳 ادفع الآن
+                <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> ادفع الآن
               </button>
             )}
           </div>
@@ -410,7 +410,7 @@ export default function UniversityParentPage() {
       {showPayModal && (
         <div style={backdrop}>
           <div style={modalBox(GOLD)}>
-            <h3 style={{ margin: '0 0 0.5rem', color: GOLD, fontWeight: 800 }}>💳 دفع الرسوم الجامعية</h3>
+            <h3 style={{ margin: '0 0 0.5rem', color: GOLD, fontWeight: 800 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> دفع الرسوم الجامعية</h3>
             <div style={{ background: `${GOLD}10`, border: `1px solid ${GOLD}30`, borderRadius: 10, padding: '0.75rem 1rem', marginBottom: '1.5rem', color: GOLD, fontWeight: 700, textAlign: 'center', fontSize: '1.15rem' }}>
               {(fees?.pending || stats.pending_fees || 0).toLocaleString()} ريال
             </div>
@@ -448,7 +448,7 @@ export default function UniversityParentPage() {
       {showMsgModal && (
         <div style={backdrop}>
           <div style={modalBox(PURPLE)}>
-            <h3 style={{ margin: '0 0 1.5rem', color: PURPLE, fontWeight: 800 }}>💬 رسالة جديدة</h3>
+            <h3 style={{ margin: '0 0 1.5rem', color: PURPLE, fontWeight: 800 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> رسالة جديدة</h3>
             <div style={{ marginBottom: '1rem' }}>
               <label style={label6}>المرسَل إليه</label>
               <select value={msgForm.to} onChange={e => setMsgForm(p => ({ ...p, to: e.target.value }))} style={inputSt()}>

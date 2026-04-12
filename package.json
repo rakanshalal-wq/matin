@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.71.2",
+    "@prisma/client": "^5.0.0",
     "@stripe/stripe-js": "^9.1.0",
     "@types/nodemailer": "^8.0.0",
     "bcryptjs": "^3.0.3",
@@ -24,8 +25,8 @@
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.7",
     "lucide-react": "^0.577.0",
-    "multer": "^2.0.2",
-    "next": "^15.5.13",
+    "multer": "^2.1.1",
+    "next": "^15.5.15",
     "next-auth": "^4.24.13",
     "nodemailer": "^7.0.13",
     "openai": "^6.25.0",
@@ -36,9 +37,7 @@
     "react-hot-toast": "^2.6.0",
     "resend": "^6.9.3",
     "stripe": "^22.0.0",
-    "xlsx": "^0.18.5",
-    "zod": "^4.3.6",
-    "@prisma/client": "^5.0.0"
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -54,9 +53,9 @@
     "jest": "^30.3.0",
     "jest-environment-node": "^30.3.0",
     "node-mocks-http": "^1.17.2",
+    "prisma": "^5.0.0",
     "tailwindcss": "^4",
     "ts-jest": "^29.4.6",
-    "typescript": "^5.9.3",
-    "prisma": "^5.0.0"
+    "typescript": "^5.9.3"
   }
 }

@@ -73,21 +73,21 @@ export default function ParentDashboard() {
   `;
 
   const navItems = [
-    { id: 'overview', label: 'النظرة العامة', icon: '📊' },
-    { id: 'children', label: 'أبنائي', icon: '👨‍👩‍👧' },
-    { id: 'schedule', label: 'الجداول', icon: '📅' },
-    { id: 'grades', label: 'الدرجات', icon: '📝' },
-    { id: 'attendance', label: 'الحضور', icon: '✅' },
-    { id: 'payments', label: 'الدفعات', icon: '💰' },
-    { id: 'messages', label: 'الرسائل', icon: '💬' },
-    { id: 'notifications', label: 'الإشعارات', icon: '🔔' },
+    { id: 'overview', label: 'النظرة العامة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> },
+    { id: 'children', label: 'أبنائي', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> },
+    { id: 'schedule', label: 'الجداول', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg> },
+    { id: 'grades', label: 'الدرجات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg> },
+    { id: 'attendance', label: 'الحضور', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> },
+    { id: 'payments', label: 'الدفعات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> },
+    { id: 'messages', label: 'الرسائل', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> },
+    { id: 'notifications', label: 'الإشعارات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg> },
   ];
 
   const stats = [
-    { icon: '👨‍👩‍👧', value: '3', label: 'أبنائي', color: '#A78BFA', bg: 'rgba(167,139,250,0.15)' },
-    { icon: '✅', value: '94%', label: 'الحضور', color: '#10B981', bg: 'rgba(16,185,129,0.15)' },
-    { icon: '💰', value: '2,500', label: 'المبالغ المستحقة', color: '#EF4444', bg: 'rgba(239,68,68,0.15)' },
-    { icon: '💬', value: '5', label: 'رسائل جديدة', color: '#60A5FA', bg: 'rgba(96,165,250,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, value: '3', label: 'أبنائي', color: '#A78BFA', bg: 'rgba(167,139,250,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, value: '94%', label: 'الحضور', color: '#10B981', bg: 'rgba(16,185,129,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, value: '2,500', label: 'المبالغ المستحقة', color: '#EF4444', bg: 'rgba(239,68,68,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, value: '5', label: 'رسائل جديدة', color: '#60A5FA', bg: 'rgba(96,165,250,0.15)' },
   ];
 
   const children = [
@@ -113,7 +113,7 @@ export default function ParentDashboard() {
               </div>
             </a>
             <div className="parent-card">
-              <div className="parent-av">👨‍👩‍👧</div>
+              <div className="parent-av"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
               <div>
                 <div className="parent-name">عبدالله العلي</div>
                 <div className="parent-role">ولي أمر</div>
@@ -136,7 +136,7 @@ export default function ParentDashboard() {
           </nav>
           
           <div className="sb-footer">
-            <button className="logout-btn">🚪 تسجيل الخروج</button>
+            <button className="logout-btn"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg> تسجيل الخروج</button>
           </div>
         </aside>
 
@@ -149,14 +149,14 @@ export default function ParentDashboard() {
               <div className="hdr-sub">تابع أبنائك وادفع الرسوم</div>
             </div>
             <div className="user-btn">
-              <div className="user-av">👨‍👩‍👧</div>
+              <div className="user-av"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
               <div style={{ fontSize: '12px', fontWeight: 700 }}>عبدالله</div>
             </div>
           </header>
 
           {/* CONTENT */}
           <div className="content">
-            <div className="page-title">📊 النظرة العامة</div>
+            <div className="page-title"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> النظرة العامة</div>
             
             {/* STATS */}
             <div className="stats-grid">
@@ -171,10 +171,10 @@ export default function ParentDashboard() {
 
             {/* CHILDREN */}
             <div className="children-card">
-              <div className="children-title">👨‍👩‍👧 أبنائي</div>
+              <div className="children-title"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> أبنائي</div>
               {children.map((child, i) => (
                 <div key={i} className="child-item">
-                  <div className="child-av">👨‍🎓</div>
+                  <div className="child-av"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
                   <div className="child-info">
                     <div className="child-name">{child.name}</div>
                     <div className="child-grade">{child.grade}</div>

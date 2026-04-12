@@ -42,7 +42,7 @@ export default function ForgotPasswordPage() {
         padding: '2.5rem', width: '100%', maxWidth: '420px'
       }}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🔑</div>
+          <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg></div>
           <h1 style={{ color: '#EEEEF5', fontSize: '1.5rem', fontWeight: 700, margin: 0 }}>
             نسيت كلمة المرور؟
           </h1>
@@ -56,7 +56,7 @@ export default function ForgotPasswordPage() {
             background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)',
             borderRadius: '0.75rem', padding: '1.5rem', textAlign: 'center'
           }}>
-            <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>✅</div>
+            <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
             <p style={{ color: '#86efac', fontWeight: 600, margin: 0 }}>تم الإرسال!</p>
             <p style={{ color: 'rgba(238,238,245,0.5)', fontSize: '0.85rem', marginTop: '0.5rem' }}>
               إذا كان البريد مسجلاً، ستصل رسالة إعادة التعيين خلال دقائق. تحقق من مجلد الـ Spam.

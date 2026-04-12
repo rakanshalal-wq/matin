@@ -64,12 +64,12 @@ export default function SchedulePage() {
         <div className="section-desc">إنشاء جداول دراسية متكاملة في دقائق — بدون تعارضات، بدون أخطاء.</div>
         <div className="features-grid">
           {[
-            { icon: '🤖', title: 'توليد تلقائي', desc: 'الذكاء الاصطناعي يولّد الجدول تلقائياً مراعياً أوقات المعلمين وأعداد الحصص لكل مادة.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '⚡', title: 'كشف التعارضات', desc: 'النظام يكشف ويمنع أي تعارض في أوقات المعلمين أو الفصول تلقائياً.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '📱', title: 'جدول في التطبيق', desc: 'كل معلم وطالب يرى جدوله الشخصي في التطبيق — بتحديث فوري عند أي تعديل.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '🔄', title: 'تعديل سهل', desc: 'تعديل الجدول بالسحب والإفلات — النظام يتحقق من التعارضات تلقائياً.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '📊', title: 'تحليل الحصص', desc: 'تقارير توزيع الحصص على المعلمين والمواد — لضمان العدالة والتوازن.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '🔔', title: 'إشعار التغييرات', desc: 'إشعار فوري للمعلمين والطلاب عند أي تعديل على الجدول.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4l3 3"/></svg>, title: 'توليد تلقائي', desc: 'الذكاء الاصطناعي يولّد الجدول تلقائياً مراعياً أوقات المعلمين وأعداد الحصص لكل مادة.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, title: 'كشف التعارضات', desc: 'النظام يكشف ويمنع أي تعارض في أوقات المعلمين أو الفصول تلقائياً.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 3H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z M8 21h8 M12 17v4"/></svg>, title: 'جدول في التطبيق', desc: 'كل معلم وطالب يرى جدوله الشخصي في التطبيق — بتحديث فوري عند أي تعديل.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M23 4v6h-6 M1 20v-6h6 M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>, title: 'تعديل سهل', desc: 'تعديل الجدول بالسحب والإفلات — النظام يتحقق من التعارضات تلقائياً.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, title: 'تحليل الحصص', desc: 'تقارير توزيع الحصص على المعلمين والمواد — لضمان العدالة والتوازن.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>, title: 'إشعار التغييرات', desc: 'إشعار فوري للمعلمين والطلاب عند أي تعديل على الجدول.', color: 'rgba(201,168,76,0.12)' },
           ].map((f, i) => (
             <div key={i} className="feature-card">
               <div className="feature-icon" style={{ background: f.color }}>{f.icon}</div>

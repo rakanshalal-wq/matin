@@ -14,18 +14,18 @@ const FF = "'IBM Plex Sans Arabic', sans-serif";
 const GOLD = '#D4A843';
 
 const navSections = [
-  { title: 'الرئيسية', items: [{ label: 'لوحة التحكم', icon: '🏠', id: 'overview' }, { label: 'التقارير', icon: '📊', id: 'reports' }] },
-  { title: 'الحلقات', items: [{ label: 'الحلقات', icon: '📖', id: 'halaqat', badge: 20 }, { label: 'الجدول', icon: '📅', id: 'schedule' }, { label: 'خطط الحفظ', icon: '📋', id: 'plans' }, { label: 'المسابقات', icon: '🥇', id: 'competitions' }] },
-  { title: 'الأفراد', items: [{ label: 'المحفّظون', icon: '🎓', id: 'teachers', badge: 35 }, { label: 'الطلاب', icon: '👤', id: 'students', badge: 1200 }, { label: 'أولياء الأمور', icon: '👨‍👩‍👧', id: 'parents' }, { label: 'الحضور', icon: '✅', id: 'attendance' }] },
-  { title: 'الإنجازات', items: [{ label: 'الختمات', icon: '📜', id: 'khatam', badge: 5 }, { label: 'نقاط الحفز', icon: '⭐', id: 'points' }, { label: 'الشهادات', icon: '🏆', id: 'certificates' }] },
-  { title: 'التواصل', items: [{ label: 'الإعلانات', icon: '📢', id: 'announcements', badge: 2 }, { label: 'الرسائل', icon: '💬', id: 'messages' }, { label: 'الإعدادات', icon: '⚙️', id: 'settings' }] },
+  { title: 'الرئيسية', items: [{ label: 'لوحة التحكم', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10"/></svg>, id: 'overview' }, { label: 'التقارير', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, id: 'reports' }] },
+  { title: 'الحلقات', items: [{ label: 'الحلقات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, id: 'halaqat', badge: 20 }, { label: 'الجدول', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg>, id: 'schedule' }, { label: 'خطط الحفظ', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, id: 'plans' }, { label: 'المسابقات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>, id: 'competitions' }] },
+  { title: 'الأفراد', items: [{ label: 'المحفّظون', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, id: 'teachers', badge: 35 }, { label: 'الطلاب', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, id: 'students', badge: 1200 }, { label: 'أولياء الأمور', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, id: 'parents' }, { label: 'الحضور', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, id: 'attendance' }] },
+  { title: 'الإنجازات', items: [{ label: 'الختمات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>, id: 'khatam', badge: 5 }, { label: 'نقاط الحفز', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>, id: 'points' }, { label: 'الشهادات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>, id: 'certificates' }] },
+  { title: 'التواصل', items: [{ label: 'الإعلانات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>, id: 'announcements', badge: 2 }, { label: 'الرسائل', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, id: 'messages' }, { label: 'الإعدادات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>, id: 'settings' }] },
 ];
 
 const statCards = [
-  { label: 'الحلقات', value: '20', icon: '📖', color: GR },
-  { label: 'الطلاب', value: '1200', icon: '👥', color: '#3B82F6' },
-  { label: 'أجزاء مكتملة', value: '48', icon: '📚', color: GOLD },
-  { label: 'الختمات', value: '5', icon: '📜', color: '#A78BFA' },
+  { label: 'الحلقات', value: '20', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, color: GR },
+  { label: 'الطلاب', value: '1200', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, color: '#3B82F6' },
+  { label: 'أجزاء مكتملة', value: '48', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, color: GOLD },
+  { label: 'الختمات', value: '5', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>, color: '#A78BFA' },
 ];
 
 const monthlyHifz = [
@@ -38,11 +38,11 @@ const monthlyHifz = [
 ];
 
 const recentActivities = [
-  { icon: '📜', text: 'ختمة جديدة – محمد الأسمري (حفظ كامل)', time: 'منذ ساعتين', color: GR },
-  { icon: '⭐', text: 'تميّز الطالب نايف الشهري في مسابقة الجزء 30', time: 'منذ 4 ساعات', color: GOLD },
-  { icon: '🎓', text: 'انضم المحفّظ خالد العتيبي إلى الفريق', time: 'أمس', color: '#3B82F6' },
-  { icon: '📊', text: 'تقرير الحضور الأسبوعي جاهز – 91%', time: 'أمس', color: GR },
-  { icon: '📢', text: 'تم إرسال إعلان موعد مسابقة أبريل', time: 'قبل يومين', color: '#A78BFA' },
+  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>, text: 'ختمة جديدة – محمد الأسمري (حفظ كامل)', time: 'منذ ساعتين', color: GR },
+  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>, text: 'تميّز الطالب نايف الشهري في مسابقة الجزء 30', time: 'منذ 4 ساعات', color: GOLD },
+  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, text: 'انضم المحفّظ خالد العتيبي إلى الفريق', time: 'أمس', color: '#3B82F6' },
+  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, text: 'تقرير الحضور الأسبوعي جاهز – 91%', time: 'أمس', color: GR },
+  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>, text: 'تم إرسال إعلان موعد مسابقة أبريل', time: 'قبل يومين', color: '#A78BFA' },
 ];
 
 const halaqatTable = [
@@ -63,17 +63,17 @@ const teacherPerf = [
 ];
 
 const topStudents = [
-  { rank: 1, name: 'محمد الأسمري', juz: 30, points: 2400, badge: '🥇', teacher: 'الشيخ عبدالرحمن' },
-  { rank: 2, name: 'نايف الشهري', juz: 28, points: 2240, badge: '🥈', teacher: 'محمد الغامدي' },
-  { rank: 3, name: 'فهد العمري', juz: 26, points: 2100, badge: '🥉', teacher: 'الشيخ عبدالرحمن' },
-  { rank: 4, name: 'سارة القرني', juz: 25, points: 1980, badge: '⭐', teacher: 'نورة المالكي' },
+  { rank: 1, name: 'محمد الأسمري', juz: 30, points: 2400, badge: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>, teacher: 'الشيخ عبدالرحمن' },
+  { rank: 2, name: 'نايف الشهري', juz: 28, points: 2240, badge: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>, teacher: 'محمد الغامدي' },
+  { rank: 3, name: 'فهد العمري', juz: 26, points: 2100, badge: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>, teacher: 'الشيخ عبدالرحمن' },
+  { rank: 4, name: 'سارة القرني', juz: 25, points: 1980, badge: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>, teacher: 'نورة المالكي' },
 ];
 
 const attCards = [
-  { label: 'معدل الحضور', value: '89%', icon: '📊', color: GR, sub: 'هذا الأسبوع' },
-  { label: 'حاضر اليوم', value: '1068', icon: '✅', color: '#10B981', sub: 'من 1200 طالب' },
-  { label: 'متأخرون', value: '96', icon: '⏰', color: GOLD, sub: 'طالب اليوم' },
-  { label: 'غائبون', value: '36', icon: '❌', color: '#EF4444', sub: 'طالب اليوم' },
+  { label: 'معدل الحضور', value: '89%', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, color: GR, sub: 'هذا الأسبوع' },
+  { label: 'حاضر اليوم', value: '1068', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, color: '#10B981', sub: 'من 1200 طالب' },
+  { label: 'متأخرون', value: '96', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4l3 3"/></svg>, color: GOLD, sub: 'طالب اليوم' },
+  { label: 'غائبون', value: '36', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01"/></svg>, color: '#EF4444', sub: 'طالب اليوم' },
 ];
 
 const maxJuz = Math.max(...monthlyHifz.map(m => m.juz));
@@ -104,7 +104,7 @@ export default function SupervisorDashboard() {
         <div style={{ padding: '20px 16px 12px' }}>
           {/* User */}
           <div style={{ background: `${GR}15`, border: `1px solid ${GR}30`, borderRadius: 14, padding: '16px 14px', marginBottom: 20 }}>
-            <div style={{ width: 52, height: 52, borderRadius: '50%', background: `linear-gradient(135deg,${GR},${GOLD})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, margin: '0 auto 10px' }}>🛡️</div>
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: `linear-gradient(135deg,${GR},${GOLD})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, margin: '0 auto 10px' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: 13, fontWeight: 800 }}>الشيخ عبدالله القرني</div>
               <div style={{ fontSize: 10, color: GR, marginTop: 3, fontWeight: 700 }}>مشرف حلقات التحفيظ</div>
@@ -131,13 +131,13 @@ export default function SupervisorDashboard() {
         {/* Top bar */}
         <div style={{ background: SB, borderBottom: '1px solid ' + BD, padding: '0 24px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 10 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <button onClick={() => setSideOpen(!sideOpen)} style={{ background: 'rgba(255,255,255,.05)', border: '1px solid ' + BD, borderRadius: 8, padding: '6px 10px', color: DIM, cursor: 'pointer', fontSize: 16, fontFamily: FF }}>☰</button>
+            <button onClick={() => setSideOpen(!sideOpen)} style={{ background: 'rgba(255,255,255,.05)', border: '1px solid ' + BD, borderRadius: 8, padding: '6px 10px', color: DIM, cursor: 'pointer', fontSize: 16, fontFamily: FF }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3"/></svg></button>
             <span style={{ fontSize: 14, fontWeight: 700 }}>لوحة الإشراف – مشرف الحلقات</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <button style={{ background: `${GR}20`, border: `1px solid ${GR}40`, borderRadius: 9, padding: '6px 16px', color: GR, fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: FF }}>+ إضافة حلقة</button>
             <div style={{ fontSize: 11, color: DIM }}>الأربعاء 8 أبريل 2026</div>
-            <div style={{ width: 34, height: 34, borderRadius: '50%', background: `linear-gradient(135deg,${GR},${GOLD})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>🛡️</div>
+            <div style={{ width: 34, height: 34, borderRadius: '50%', background: `linear-gradient(135deg,${GR},${GOLD})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
           </div>
         </div>
 
@@ -159,7 +159,7 @@ export default function SupervisorDashboard() {
             {/* Bar chart */}
             <div style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 16, padding: 20 }}>
               <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 18, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span>📈</span> تقدم الحفظ الشهري (أجزاء)
+                <span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg></span> تقدم الحفظ الشهري (أجزاء)
               </div>
               <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, height: 140 }}>
                 {monthlyHifz.map((m, i) => (
@@ -175,7 +175,7 @@ export default function SupervisorDashboard() {
             {/* Recent activities */}
             <div style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 16, padding: 20 }}>
               <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span>🔔</span> آخر الأنشطة
+                <span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg></span> آخر الأنشطة
               </div>
               {recentActivities.map((a, i) => (
                 <div key={i} style={{ display: 'flex', gap: 12, padding: '9px 0', borderBottom: i < recentActivities.length - 1 ? '1px solid rgba(255,255,255,.04)' : 'none', alignItems: 'flex-start' }}>
@@ -192,7 +192,7 @@ export default function SupervisorDashboard() {
           {/* ── HALAQAT TABLE ── */}
           <div style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 16, padding: 20, marginBottom: 20 }}>
             <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 14, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span>📖</span> الحلقات النشطة</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span> الحلقات النشطة</span>
               <span style={{ fontSize: 11, color: GR, fontWeight: 700 }}>20 حلقة</span>
             </div>
             <div style={{ overflowX: 'auto' }}>
@@ -229,7 +229,7 @@ export default function SupervisorDashboard() {
             {/* Teacher performance */}
             <div style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 16, padding: 20 }}>
               <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span>🎓</span> أداء المحفّظين
+                <span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg></span> أداء المحفّظين
               </div>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
                 <thead>
@@ -245,7 +245,7 @@ export default function SupervisorDashboard() {
                       <td style={{ padding: '10px 10px', fontWeight: 700 }}>{t.name}</td>
                       <td style={{ padding: '10px 10px', color: DIM, textAlign: 'center' }}>{t.halaqat}</td>
                       <td style={{ padding: '10px 10px', color: DIM, textAlign: 'center' }}>{t.students}</td>
-                      <td style={{ padding: '10px 10px', color: GOLD, fontWeight: 700, textAlign: 'center' }}>{t.rating} ⭐</td>
+                      <td style={{ padding: '10px 10px', color: GOLD, fontWeight: 700, textAlign: 'center' }}>{t.rating} <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></td>
                       <td style={{ padding: '10px 10px', color: GR, fontWeight: 700, textAlign: 'center' }}>{t.khatam}</td>
                       <td style={{ padding: '10px 10px', textAlign: 'center', color: t.trend === '↑' ? '#10B981' : DIM, fontWeight: 800, fontSize: 16 }}>{t.trend}</td>
                     </tr>
@@ -257,7 +257,7 @@ export default function SupervisorDashboard() {
             {/* Top students */}
             <div style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 16, padding: 20 }}>
               <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span>🏆</span> أفضل الطلاب
+                <span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></span> أفضل الطلاب
               </div>
               {topStudents.map((s, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0', borderBottom: i < topStudents.length - 1 ? '1px solid rgba(255,255,255,.04)' : 'none' }}>
@@ -278,7 +278,7 @@ export default function SupervisorDashboard() {
           {/* ── ATTENDANCE SUMMARY ── */}
           <div style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 16, padding: 20 }}>
             <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span>✅</span> ملخص الحضور
+              <span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span> ملخص الحضور
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14 }}>
               {attCards.map((c, i) => (

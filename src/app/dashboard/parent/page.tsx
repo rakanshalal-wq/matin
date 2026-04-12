@@ -42,59 +42,59 @@ function UniversityParentDashboard() {
   const [activeChild, setActiveChild] = useState(0);
 
   const uChildren = [
-    { name: 'أحمد محمد الزهراني', major: 'هندسة الحاسب', level: 'المستوى 6', status: '🟢', statusLabel: 'داخل الحرم' },
-    { name: 'سارة محمد الزهراني', major: 'إدارة الأعمال', level: 'المستوى 3', status: '🟠', statusLabel: 'خارج الحرم' },
+    { name: 'أحمد محمد الزهراني', major: 'هندسة الحاسب', level: 'المستوى 6', status: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>, statusLabel: 'داخل الحرم' },
+    { name: 'سارة محمد الزهراني', major: 'إدارة الأعمال', level: 'المستوى 3', status: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01"/></svg>, statusLabel: 'خارج الحرم' },
   ];
 
   const sidebarSections = [
     {
       group: 'الرئيسية',
       items: [
-        { id: 'home', icon: '🏠', label: 'بوابتي', active: true },
-        { id: 'gps-live', icon: '📍', label: 'تتبع الموقع GPS', badge: 'مباشر' },
+        { id: 'home', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10"/></svg>, label: 'بوابتي', active: true },
+        { id: 'gps-live', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 8h.01 M12 12v4"/></svg>, label: 'تتبع الموقع GPS', badge: 'مباشر' },
       ],
     },
     {
-      group: 'النقل الجامعي 🚌',
+      group: 'النقل الجامعي <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>',
       items: [
-        { id: 'bus-status', icon: '✅', label: 'حالة الباص', badge: 'ركب ✓' },
-        { id: 'bus-gps', icon: '📍', label: 'تتبع الباص GPS' },
-        { id: 'ride-log', icon: '📋', label: 'سجل ركوب' },
-        { id: 'bus-schedule', icon: '🗓️', label: 'جدول الباصات' },
+        { id: 'bus-status', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, label: 'حالة الباص', badge: 'ركب <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>' },
+        { id: 'bus-gps', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 8h.01 M12 12v4"/></svg>, label: 'تتبع الباص GPS' },
+        { id: 'ride-log', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, label: 'سجل ركوب' },
+        { id: 'bus-schedule', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg>, label: 'جدول الباصات' },
       ],
     },
     {
       group: 'تتبع الأداء',
       items: [
-        { id: 'lectures', icon: '📅', label: 'جدول المحاضرات' },
-        { id: 'attendance', icon: '✅', label: 'الحضور والغياب' },
-        { id: 'grades', icon: '📊', label: 'الدرجات والمعدل' },
-        { id: 'exams', icon: '📝', label: 'الاختبارات', badge: '2' },
-        { id: 'performance', icon: '📈', label: 'تحليل الأداء' },
-        { id: 'medical', icon: '🏥', label: 'الأعذار الطبية صحتي' },
+        { id: 'lectures', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg>, label: 'جدول المحاضرات' },
+        { id: 'attendance', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, label: 'الحضور والغياب' },
+        { id: 'grades', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, label: 'الدرجات والمعدل' },
+        { id: 'exams', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, label: 'الاختبارات', badge: '2' },
+        { id: 'performance', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, label: 'تحليل الأداء' },
+        { id: 'medical', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, label: 'الأعذار الطبية صحتي' },
       ],
     },
     {
       group: 'الأكاديمي',
       items: [
-        { id: 'courses', icon: '📚', label: 'المقررات' },
-        { id: 'credits', icon: '🎓', label: 'الساعات المعتمدة' },
-        { id: 'graduation', icon: '🏅', label: 'التقدم نحو التخرج' },
+        { id: 'courses', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, label: 'المقررات' },
+        { id: 'credits', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, label: 'الساعات المعتمدة' },
+        { id: 'graduation', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>, label: 'التقدم نحو التخرج' },
       ],
     },
     {
       group: 'المالية',
       items: [
-        { id: 'fees', icon: '💳', label: 'الرسوم', badge: 'معلقة' },
-        { id: 'scholarships', icon: '🎁', label: 'المنح والإعفاءات' },
+        { id: 'fees', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, label: 'الرسوم', badge: 'معلقة' },
+        { id: 'scholarships', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>, label: 'المنح والإعفاءات' },
       ],
     },
     {
       group: 'التواصل',
       items: [
-        { id: 'doctor-msg', icon: '💬', label: 'مراسلة الدكتور', badge: '2' },
-        { id: 'advisor', icon: '👨‍🏫', label: 'المرشد الأكاديمي' },
-        { id: 'alerts', icon: '🔔', label: 'التنبيهات', badge: '3' },
+        { id: 'doctor-msg', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, label: 'مراسلة الدكتور', badge: '2' },
+        { id: 'advisor', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, label: 'المرشد الأكاديمي' },
+        { id: 'alerts', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>, label: 'التنبيهات', badge: '3' },
       ],
     },
   ];
@@ -117,7 +117,7 @@ function UniversityParentDashboard() {
         {/* Parent card */}
         <div style={{ padding: '14px 18px', borderBottom: `1px solid ${UBD}` }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ width: 40, height: 40, borderRadius: 10, background: `${UA}22`, border: `1px solid ${UA}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>👨‍👧‍👦</div>
+            <div style={{ width: 40, height: 40, borderRadius: 10, background: `${UA}22`, border: `1px solid ${UA}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
             <div>
               <div style={{ fontSize: 13, fontWeight: 700 }}>محمد الزهراني</div>
               <div style={{ fontSize: 10, color: UA }}>ولي أمر · {uChildren.length} أبناء</div>
@@ -166,14 +166,14 @@ function UniversityParentDashboard() {
         {/* Header */}
         <header style={{ height: 56, padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: `1px solid ${UBD}`, background: 'rgba(6,6,14,0.85)', backdropFilter: 'blur(12px)', flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: UDIM, fontSize: 18 }}>☰</button>
+            <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: UDIM, fontSize: 18 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3"/></svg></button>
             <h1 style={{ fontSize: 16, fontWeight: 700 }}>متابعة {child.name}</h1>
             <span style={{ fontSize: 11, color: UA, background: `${UA}18`, border: `1px solid ${UA}33`, padding: '2px 8px', borderRadius: 6 }}>{child.major} · {child.level}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: 12, color: child.status === '🟢' ? '#4ADE80' : '#FB923C' }}>{child.status} {child.statusLabel}</span>
+            <span style={{ fontSize: 12, color: child.status === <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg> ? '#4ADE80' : '#FB923C' }}>{child.status} {child.statusLabel}</span>
             <button style={{ position: 'relative', background: 'rgba(255,255,255,0.05)', border: `1px solid ${UBD}`, borderRadius: 9, width: 36, height: 36, cursor: 'pointer', color: UDIM, fontSize: 16, fontFamily: FONT }}>
-              🔔<span style={{ position: 'absolute', top: -2, left: -2, width: 8, height: 8, borderRadius: '50%', background: '#ef4444' }} />
+              <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg><span style={{ position: 'absolute', top: -2, left: -2, width: 8, height: 8, borderRadius: '50%', background: '#ef4444' }} />
             </button>
           </div>
         </header>
@@ -185,7 +185,7 @@ function UniversityParentDashboard() {
             <>
               {/* Son Banner */}
               <div style={{ background: `${UA}08`, border: `1px solid ${UA}22`, borderRadius: 14, padding: 18, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-                <div style={{ width: 56, height: 56, borderRadius: 14, background: `${UA}22`, border: `1px solid ${UA}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28 }}>🎓</div>
+                <div style={{ width: 56, height: 56, borderRadius: 14, background: `${UA}22`, border: `1px solid ${UA}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
                 <div style={{ flex: 1, minWidth: 160 }}>
                   <div style={{ fontSize: 18, fontWeight: 800 }}>{child.name}</div>
                   <div style={{ fontSize: 12, color: UDIM }}>{child.major} · {child.level} · جامعة الملك عبدالعزيز</div>
@@ -213,10 +213,10 @@ function UniversityParentDashboard() {
               {/* Stats Grid */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 20 }}>
                 {[
-                  { label: 'المقررات', value: '5', icon: '📚', color: UA },
-                  { label: 'الحضور', value: '87%', icon: '✅', color: '#4ADE80' },
-                  { label: 'اختبارات قادمة', value: '2', icon: '📝', color: '#FB923C' },
-                  { label: 'الرسوم المعلقة', value: '18K', icon: '💳', color: '#ef4444' },
+                  { label: 'المقررات', value: '5', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, color: UA },
+                  { label: 'الحضور', value: '87%', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, color: '#4ADE80' },
+                  { label: 'اختبارات قادمة', value: '2', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, color: '#FB923C' },
+                  { label: 'الرسوم المعلقة', value: '18K', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, color: '#ef4444' },
                 ].map((s, i) => (
                   <div key={i} style={{ background: UCD, border: `1px solid ${UBD}`, borderRadius: 14, padding: '14px 16px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
@@ -230,9 +230,9 @@ function UniversityParentDashboard() {
 
               {/* Bus Tracking Section */}
               <div style={{ background: UCD, border: `1px solid ${UBD}`, borderRadius: 14, padding: 16, marginBottom: 20 }}>
-                <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14, color: UA }}>🚌 تتبع الباص الجامعي</h3>
+                <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14, color: UA }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg> تتبع الباص الجامعي</h3>
                 <div style={{ background: '#4ADE8008', border: '1px solid #4ADE8022', borderRadius: 10, padding: 12, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <span style={{ fontSize: 24 }}>✅</span>
+                  <span style={{ fontSize: 24 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
                   <div>
                     <div style={{ fontSize: 13, fontWeight: 700, color: '#4ADE80' }}>ركب الباص</div>
                     <div style={{ fontSize: 11, color: UDIM }}>7:05 صباحاً · الخط 3 · متجه للحرم الجامعي</div>
@@ -242,7 +242,7 @@ function UniversityParentDashboard() {
                 <div style={{ marginBottom: 14 }}>
                   <div style={{ fontSize: 11, fontWeight: 700, color: UMUT, marginBottom: 8 }}>مسار الرحلة</div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
-                    {['حي الروابي ✓', 'حي النزهة ✓', 'شارع الملك ✓', 'بوابة الجامعة ✓', 'الحرم الجامعي ⬤'].map((stop, i, arr) => (
+                    {['حي الروابي <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>', 'حي النزهة <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>', 'شارع الملك <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>', 'بوابة الجامعة <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>', 'الحرم الجامعي ⬤'].map((stop, i, arr) => (
                       <div key={i} style={{ display: 'flex', alignItems: 'center' }}>
                         <div style={{ background: i < 4 ? '#4ADE8022' : `${UA}22`, border: `1px solid ${i < 4 ? '#4ADE8044' : UA + '55'}`, borderRadius: 6, padding: '4px 8px', fontSize: 10, color: i < 4 ? '#4ADE80' : UA, fontWeight: 600, whiteSpace: 'nowrap' }}>{stop}</div>
                         {i < arr.length - 1 && <div style={{ width: 16, height: 1, background: UBD }} />}
@@ -268,7 +268,7 @@ function UniversityParentDashboard() {
 
               {/* Attendance Table */}
               <div style={{ background: UCD, border: `1px solid ${UBD}`, borderRadius: 14, padding: 16, marginBottom: 20 }}>
-                <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14, color: UA }}>✅ الحضور لكل مقرر</h3>
+                <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14, color: UA }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> الحضور لكل مقرر</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', gap: 8, padding: '8px 10px', background: 'rgba(255,255,255,0.03)', borderRadius: 8, marginBottom: 8, fontSize: 11, fontWeight: 700, color: UMUT }}>
                   <span>المقرر</span><span>الدكتور</span><span>حضر</span><span>غاب</span><span>النسبة</span>
                 </div>
@@ -291,18 +291,18 @@ function UniversityParentDashboard() {
               {/* Quick Actions */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 8 }}>
                 {[
-                  { icon: '📊', label: 'الدرجات', onClick: () => setActiveSection('grades') },
-                  { icon: '✅', label: 'الحضور', onClick: () => setActiveSection('attendance') },
-                  { icon: '💳', label: 'الرسوم', onClick: () => setActiveSection('fees') },
-                  { icon: '🚌', label: 'تتبع الباص', onClick: () => setActiveSection('bus-gps') },
-                  { icon: '💬', label: 'مراسلة الدكتور', onClick: () => setActiveSection('doctor-msg') },
-                  { icon: '🏥', label: 'عذر طبي', onClick: () => setActiveSection('medical') },
-                  { icon: '📅', label: 'المحاضرات', onClick: () => setActiveSection('lectures') },
-                  { icon: '🎓', label: 'الساعات', onClick: () => setActiveSection('credits') },
-                  { icon: '🏅', label: 'التخرج', onClick: () => setActiveSection('graduation') },
-                  { icon: '👨‍🏫', label: 'المرشد', onClick: () => setActiveSection('advisor') },
-                  { icon: '🔔', label: 'التنبيهات', onClick: () => setActiveSection('alerts') },
-                  { icon: '⚙️', label: 'الإعدادات', onClick: () => router.push('/dashboard/settings') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, label: 'الدرجات', onClick: () => setActiveSection('grades') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, label: 'الحضور', onClick: () => setActiveSection('attendance') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, label: 'الرسوم', onClick: () => setActiveSection('fees') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>, label: 'تتبع الباص', onClick: () => setActiveSection('bus-gps') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, label: 'مراسلة الدكتور', onClick: () => setActiveSection('doctor-msg') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, label: 'عذر طبي', onClick: () => setActiveSection('medical') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg>, label: 'المحاضرات', onClick: () => setActiveSection('lectures') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, label: 'الساعات', onClick: () => setActiveSection('credits') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>, label: 'التخرج', onClick: () => setActiveSection('graduation') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, label: 'المرشد', onClick: () => setActiveSection('advisor') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>, label: 'التنبيهات', onClick: () => setActiveSection('alerts') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>, label: 'الإعدادات', onClick: () => router.push('/dashboard/settings') },
                 ].map((qa, i) => (
                   <button key={i} onClick={qa.onClick} style={{ background: UCD, border: `1px solid ${UBD}`, borderRadius: 10, padding: '12px 8px', cursor: 'pointer', fontFamily: FONT, textAlign: 'center', color: UDIM, fontSize: 11, fontWeight: 600 }}>
                     <div style={{ fontSize: 20, marginBottom: 4 }}>{qa.icon}</div>{qa.label}
@@ -315,7 +315,7 @@ function UniversityParentDashboard() {
           {/* ── GRADES ── */}
           {activeSection === 'grades' && (
             <div style={{ background: UCD, border: `1px solid ${UBD}`, borderRadius: 14, padding: 16 }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14, color: UA }}>📊 الدرجات والمعدل — {child.name}</h3>
+              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14, color: UA }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> الدرجات والمعدل — {child.name}</h3>
               <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', gap: 8, padding: '8px 10px', background: 'rgba(255,255,255,0.03)', borderRadius: 8, marginBottom: 8, fontSize: 11, fontWeight: 700, color: UMUT }}>
                 <span>المقرر</span><span>أعمال</span><span>نصفي</span><span>نهائي</span><span>المجموع</span>
               </div>
@@ -345,7 +345,7 @@ function UniversityParentDashboard() {
           {/* ── ATTENDANCE ── */}
           {activeSection === 'attendance' && (
             <div style={{ background: UCD, border: `1px solid ${UBD}`, borderRadius: 14, padding: 16 }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14, color: UA }}>✅ الحضور والغياب — {child.name}</h3>
+              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14, color: UA }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> الحضور والغياب — {child.name}</h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 16 }}>
                 <div style={{ background: '#4ADE8012', border: '1px solid #4ADE8033', borderRadius: 10, padding: 12, textAlign: 'center' }}>
                   <div style={{ fontSize: 22, fontWeight: 800, color: '#4ADE80' }}>105</div>
@@ -367,7 +367,7 @@ function UniversityParentDashboard() {
           {/* ── FEES ── */}
           {activeSection === 'fees' || activeSection === 'scholarships' ? (
             <div style={{ background: UCD, border: `1px solid ${UBD}`, borderRadius: 14, padding: 16 }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14, color: UA }}>💳 {activeSection === 'scholarships' ? 'المنح والإعفاءات' : 'الرسوم الدراسية'}</h3>
+              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14, color: UA }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> {activeSection === 'scholarships' ? 'المنح والإعفاءات' : 'الرسوم الدراسية'}</h3>
               {activeSection === 'fees' && (
                 <>
                   {[
@@ -407,12 +407,12 @@ function UniversityParentDashboard() {
           {(activeSection === 'doctor-msg' || activeSection === 'advisor' || activeSection === 'alerts') && (
             <div style={{ background: UCD, border: `1px solid ${UBD}`, borderRadius: 14, padding: 16 }}>
               <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14, color: UA }}>
-                {activeSection === 'doctor-msg' ? '💬 مراسلة الدكتور' : activeSection === 'advisor' ? '👨‍🏫 المرشد الأكاديمي' : '🔔 التنبيهات'}
+                {activeSection === 'doctor-msg' ? '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> مراسلة الدكتور' : activeSection === 'advisor' ? '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> المرشد الأكاديمي' : '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg> التنبيهات'}
               </h3>
               {activeSection === 'doctor-msg' && ['د. سعد الحربي — هندسة البرمجيات', 'د. فاطمة العتيبي — قواعد البيانات', 'د. خالد المالكي — شبكات الحاسب', 'د. نورة السالم — الذكاء الاصطناعي'].map((t, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: `1px solid ${UBD}` }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <div style={{ width: 32, height: 32, borderRadius: 8, background: `${UA}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>👨‍🏫</div>
+                    <div style={{ width: 32, height: 32, borderRadius: 8, background: `${UA}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
                     <span style={{ fontSize: 13, fontWeight: 600 }}>{t}</span>
                   </div>
                   <button style={{ background: `${UA}18`, border: `1px solid ${UA}33`, borderRadius: 6, padding: '4px 12px', color: UA, fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: FONT }}>مراسلة</button>
@@ -421,7 +421,7 @@ function UniversityParentDashboard() {
               {activeSection === 'advisor' && (
                 <div style={{ color: UDIM, fontSize: 13 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0', borderBottom: `1px solid ${UBD}` }}>
-                    <div style={{ width: 40, height: 40, borderRadius: 10, background: `${UA}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>👨‍🏫</div>
+                    <div style={{ width: 40, height: 40, borderRadius: 10, background: `${UA}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
                     <div>
                       <div style={{ fontWeight: 700, color: TXT }}>د. عبدالله الزهراني</div>
                       <div style={{ fontSize: 11, marginTop: 2 }}>المرشد الأكاديمي — قسم هندسة الحاسب</div>
@@ -431,9 +431,9 @@ function UniversityParentDashboard() {
                 </div>
               )}
               {activeSection === 'alerts' && [
-                { icon: '📝', text: 'اختبار شبكات الحاسب — الأحد 12 أبريل', color: '#FB923C' },
-                { icon: '💳', text: 'رسوم الفصل الثاني مستحقة قبل 15 أبريل', color: '#ef4444' },
-                { icon: '✅', text: 'تم تسجيل حضور المحاضرة اليوم بنجاح', color: '#4ADE80' },
+                { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, text: 'اختبار شبكات الحاسب — الأحد 12 أبريل', color: '#FB923C' },
+                { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, text: 'رسوم الفصل الثاني مستحقة قبل 15 أبريل', color: '#ef4444' },
+                { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, text: 'تم تسجيل حضور المحاضرة اليوم بنجاح', color: '#4ADE80' },
               ].map((al, i) => (
                 <div key={i} style={{ display: 'flex', gap: 12, padding: '10px 0', borderBottom: `1px solid ${UBD}`, alignItems: 'center' }}>
                   <span style={{ fontSize: 18 }}>{al.icon}</span>
@@ -446,16 +446,16 @@ function UniversityParentDashboard() {
           {/* ── BUS GPS / SCHEDULE / RIDE LOG ── */}
           {(activeSection === 'bus-gps' || activeSection === 'bus-status' || activeSection === 'bus-schedule' || activeSection === 'ride-log') && (
             <div style={{ background: UCD, border: `1px solid ${UBD}`, borderRadius: 14, padding: 16 }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14, color: UA }}>🚌 النقل الجامعي</h3>
+              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14, color: UA }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg> النقل الجامعي</h3>
               <div style={{ background: '#4ADE8008', border: '1px solid #4ADE8022', borderRadius: 10, padding: 14, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 12 }}>
-                <span style={{ fontSize: 28 }}>🚌</span>
+                <span style={{ fontSize: 28 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg></span>
                 <div>
                   <div style={{ fontSize: 14, fontWeight: 700, color: '#4ADE80' }}>الباص متحرك — داخل الحرم الجامعي</div>
                   <div style={{ fontSize: 12, color: UDIM }}>الخط 3 · السائق: أبو عمر · رقم الباص: U-07</div>
                 </div>
               </div>
               <div style={{ height: 140, background: 'rgba(255,255,255,0.02)', borderRadius: 10, border: `1px solid ${UBD}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: UMUT, fontSize: 13, marginBottom: 14 }}>
-                📍 خريطة GPS مباشرة — قريباً
+                <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 8h.01 M12 12v4"/></svg> خريطة GPS مباشرة — قريباً
               </div>
               {[
                 { time: '7:05 ص', event: 'ركب من حي الروابي', ok: true },
@@ -466,7 +466,7 @@ function UniversityParentDashboard() {
                 <div key={i} style={{ display: 'flex', gap: 12, padding: '7px 0', borderBottom: `1px solid ${UBD}`, alignItems: 'center' }}>
                   <span style={{ fontSize: 11, fontWeight: 700, color: log.ok ? '#4ADE80' : UMUT, minWidth: 50 }}>{log.time}</span>
                   <span style={{ fontSize: 11, color: UDIM }}>{log.event}</span>
-                  {log.ok && <span style={{ color: '#4ADE80', fontSize: 12 }}>✓</span>}
+                  {log.ok && <span style={{ color: '#4ADE80', fontSize: 12 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>}
                 </div>
               ))}
             </div>
@@ -476,13 +476,13 @@ function UniversityParentDashboard() {
           {(activeSection === 'lectures' || activeSection === 'courses' || activeSection === 'credits' || activeSection === 'graduation' || activeSection === 'performance' || activeSection === 'medical' || activeSection === 'exams') && (
             <div style={{ background: UCD, border: `1px solid ${UBD}`, borderRadius: 14, padding: 16 }}>
               <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14, color: UA }}>
-                {activeSection === 'lectures' ? '📅 جدول المحاضرات' :
-                 activeSection === 'courses' ? '📚 المقررات المسجلة' :
-                 activeSection === 'credits' ? '🎓 الساعات المعتمدة' :
-                 activeSection === 'graduation' ? '🏅 التقدم نحو التخرج' :
-                 activeSection === 'performance' ? '📈 تحليل الأداء' :
-                 activeSection === 'exams' ? '📝 الاختبارات القادمة' :
-                 '🏥 الأعذار الطبية'}
+                {activeSection === 'lectures' ? '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg> جدول المحاضرات' :
+                 activeSection === 'courses' ? '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> المقررات المسجلة' :
+                 activeSection === 'credits' ? '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg> الساعات المعتمدة' :
+                 activeSection === 'graduation' ? '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg> التقدم نحو التخرج' :
+                 activeSection === 'performance' ? '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> تحليل الأداء' :
+                 activeSection === 'exams' ? '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg> الاختبارات القادمة' :
+                 '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> الأعذار الطبية'}
               </h3>
               {activeSection === 'credits' && (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 16 }}>
@@ -597,7 +597,7 @@ function SchoolParentDashboard() {
         {/* Parent Card */}
         <div style={{ padding: '14px 18px', borderBottom: `1px solid ${BD}` }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ width: 40, height: 40, borderRadius: 10, background: `${C}22`, border: `1px solid ${C}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>👨‍👧‍👦</div>
+            <div style={{ width: 40, height: 40, borderRadius: 10, background: `${C}22`, border: `1px solid ${C}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
             <div><div style={{ fontSize: 13, fontWeight: 700 }}>{parentName}</div><div style={{ fontSize: 10, color: C }}>ولي أمر · {childrenList.length} أبناء</div></div>
           </div>
         </div>
@@ -606,7 +606,7 @@ function SchoolParentDashboard() {
           <div style={{ fontSize: 10, fontWeight: 700, color: MUT, marginBottom: 8 }}>أبنائي</div>
           {childrenList.map((child: any, i: number) => (
             <button key={i} onClick={() => setActiveChild(i)} style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '8px 10px', borderRadius: 9, border: 'none', cursor: 'pointer', fontFamily: FONT, fontSize: 12, fontWeight: 600, background: activeChild === i ? `${C}18` : 'transparent', color: activeChild === i ? C : DIM, marginBottom: 2, textAlign: 'right' }}>
-              <span style={{ fontSize: 14 }}>👦</span>
+              <span style={{ fontSize: 14 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
               <div style={{ flex: 1, textAlign: 'right' }}>
                 <div>{child.name}</div>
                 <div style={{ fontSize: 9, color: MUT }}>{child.grade}</div>
@@ -617,14 +617,14 @@ function SchoolParentDashboard() {
         {/* Nav */}
         <div style={{ flex: 1, overflowY: 'auto', padding: '8px 14px' }}>
           {[
-            { id: 'home', icon: '📊', label: 'الرئيسية' },
-            { id: 'grades', icon: '📋', label: 'الدرجات والنتائج' },
-            { id: 'attendance', icon: '✅', label: 'الحضور والغياب' },
-            { id: 'payments', icon: '💳', label: 'المدفوعات' },
-            { id: 'transport', icon: '🚌', label: 'تتبع النقل' },
-            { id: 'messages', icon: '💬', label: 'مراسلة المعلم' },
-            { id: 'schedule', icon: '📅', label: 'الجدول الدراسي' },
-            { id: 'reports', icon: '📊', label: 'التقارير' },
+            { id: 'home', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, label: 'الرئيسية' },
+            { id: 'grades', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, label: 'الدرجات والنتائج' },
+            { id: 'attendance', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, label: 'الحضور والغياب' },
+            { id: 'payments', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, label: 'المدفوعات' },
+            { id: 'transport', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>, label: 'تتبع النقل' },
+            { id: 'messages', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, label: 'مراسلة المعلم' },
+            { id: 'schedule', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg>, label: 'الجدول الدراسي' },
+            { id: 'reports', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, label: 'التقارير' },
           ].map(nav => (
             <button key={nav.id} onClick={() => setActiveSection(nav.id)} style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '8px 10px', borderRadius: 9, border: 'none', cursor: 'pointer', fontFamily: FONT, fontSize: 12, fontWeight: 600, background: activeSection === nav.id ? `${C}18` : 'transparent', color: activeSection === nav.id ? C : DIM, marginBottom: 2, textAlign: 'right' }}>
               <span style={{ fontSize: 14 }}>{nav.icon}</span> {nav.label}
@@ -637,11 +637,11 @@ function SchoolParentDashboard() {
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <header style={{ height: 56, padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: `1px solid ${BD}`, background: 'rgba(6,6,14,0.8)', backdropFilter: 'blur(12px)', flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: DIM, fontSize: 18 }}>☰</button>
+            <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: DIM, fontSize: 18 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3"/></svg></button>
             <h1 style={{ fontSize: 16, fontWeight: 700 }}>متابعة {childrenList[activeChild]?.name || 'الابن'}</h1>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <button style={{ position: 'relative', background: 'rgba(255,255,255,0.05)', border: `1px solid ${BD}`, borderRadius: 9, width: 36, height: 36, cursor: 'pointer', color: DIM, fontSize: 16, fontFamily: FONT }}>🔔<span style={{ position: 'absolute', top: -2, left: -2, width: 8, height: 8, borderRadius: '50%', background: '#ef4444' }} /></button>
+            <button style={{ position: 'relative', background: 'rgba(255,255,255,0.05)', border: `1px solid ${BD}`, borderRadius: 9, width: 36, height: 36, cursor: 'pointer', color: DIM, fontSize: 16, fontFamily: FONT }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg><span style={{ position: 'absolute', top: -2, left: -2, width: 8, height: 8, borderRadius: '50%', background: '#ef4444' }} /></button>
           </div>
         </header>
 
@@ -651,7 +651,7 @@ function SchoolParentDashboard() {
             <>
               {/* Child Info Banner */}
               <div style={{ background: `${C}08`, border: `1px solid ${C}22`, borderRadius: 14, padding: 18, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 16 }}>
-                <div style={{ width: 56, height: 56, borderRadius: 14, background: `${C}22`, border: `1px solid ${C}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28 }}>👦</div>
+                <div style={{ width: 56, height: 56, borderRadius: 14, background: `${C}22`, border: `1px solid ${C}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: 18, fontWeight: 800 }}>{childrenList[activeChild]?.name}</div>
                   <div style={{ fontSize: 12, color: DIM }}>{childrenList[activeChild]?.grade} · {childrenList[activeChild]?.school || 'مدرسة الأمل'}</div>
@@ -671,10 +671,10 @@ function SchoolParentDashboard() {
               {/* Stats */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 20 }}>
                 {[
-                  { label: 'أيام الغياب', value: '3', icon: '📅', color: '#ef4444' },
-                  { label: 'رسوم معلقة', value: '1,200 SAR', icon: '💳', color: GD },
-                  { label: 'اختبارات قادمة', value: '2', icon: '📝', color: '#FB923C' },
-                  { label: 'رسائل جديدة', value: '4', icon: '💬', color: C },
+                  { label: 'أيام الغياب', value: '3', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg>, color: '#ef4444' },
+                  { label: 'رسوم معلقة', value: '1,200 SAR', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, color: GD },
+                  { label: 'اختبارات قادمة', value: '2', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, color: '#FB923C' },
+                  { label: 'رسائل جديدة', value: '4', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, color: C },
                 ].map((s, i) => (
                   <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '14px 16px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
@@ -689,18 +689,18 @@ function SchoolParentDashboard() {
               {/* Quick Actions */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 8, marginBottom: 20 }}>
                 {[
-                  { icon: '📋', label: 'الدرجات', onClick: () => setActiveSection('grades') },
-                  { icon: '✅', label: 'الحضور', onClick: () => setActiveSection('attendance') },
-                  { icon: '💳', label: 'الدفع', onClick: () => setShowPayModal(true) },
-                  { icon: '🚌', label: 'تتبع الباص', onClick: () => setActiveSection('transport') },
-                  { icon: '💬', label: 'مراسلة المعلم', onClick: () => setActiveSection('messages') },
-                  { icon: '📝', label: 'تقديم عذر', onClick: () => router.push('/dashboard/attendance') },
-                  { icon: '📅', label: 'الجدول', onClick: () => setActiveSection('schedule') },
-                  { icon: '📊', label: 'التقارير', onClick: () => router.push('/dashboard/reports') },
-                  { icon: '📚', label: 'المكتبة', onClick: () => router.push('/dashboard/library') },
-                  { icon: '🏪', label: 'المتجر', onClick: () => router.push('/dashboard/store') },
-                  { icon: '🤖', label: 'مساعد AI', onClick: () => router.push('/dashboard/ai-chat') },
-                  { icon: '⚙️', label: 'الإعدادات', onClick: () => router.push('/dashboard/settings') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, label: 'الدرجات', onClick: () => setActiveSection('grades') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, label: 'الحضور', onClick: () => setActiveSection('attendance') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, label: 'الدفع', onClick: () => setShowPayModal(true) },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>, label: 'تتبع الباص', onClick: () => setActiveSection('transport') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, label: 'مراسلة المعلم', onClick: () => setActiveSection('messages') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, label: 'تقديم عذر', onClick: () => router.push('/dashboard/attendance') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg>, label: 'الجدول', onClick: () => setActiveSection('schedule') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, label: 'التقارير', onClick: () => router.push('/dashboard/reports') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, label: 'المكتبة', onClick: () => router.push('/dashboard/library') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>, label: 'المتجر', onClick: () => router.push('/dashboard/store') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4l3 3"/></svg>, label: 'مساعد AI', onClick: () => router.push('/dashboard/ai-chat') },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>, label: 'الإعدادات', onClick: () => router.push('/dashboard/settings') },
                 ].map((qa, i) => (
                   <button key={i} onClick={qa.onClick} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 10, padding: '12px 8px', cursor: 'pointer', fontFamily: FONT, textAlign: 'center', color: DIM, fontSize: 11, fontWeight: 600 }}>
                     <div style={{ fontSize: 20, marginBottom: 4 }}>{qa.icon}</div>{qa.label}
@@ -711,7 +711,7 @@ function SchoolParentDashboard() {
               {/* Recent grades + Attendance chart */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                 <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-                  <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}>📋 آخر الدرجات</h3>
+                  <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg> آخر الدرجات</h3>
                   {[
                     { subject: 'رياضيات', grade: 92, max: 100, color: '#60A5FA' },
                     { subject: 'لغة عربية', grade: 85, max: 100, color: '#4ADE80' },
@@ -730,7 +730,7 @@ function SchoolParentDashboard() {
                   ))}
                 </div>
                 <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-                  <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}>✅ سجل الحضور — آخر أسبوع</h3>
+                  <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> سجل الحضور — آخر أسبوع</h3>
                   {['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'].map((day, i) => (
                     <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0', borderBottom: `1px solid ${BD}` }}>
                       <span style={{ fontSize: 12, color: DIM }}>{day}</span>
@@ -747,7 +747,7 @@ function SchoolParentDashboard() {
           {/* GRADES */}
           {activeSection === 'grades' && (
             <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}>📋 درجات {childrenList[activeChild]?.name} — كل المواد</h3>
+              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg> درجات {childrenList[activeChild]?.name} — كل المواد</h3>
               <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', gap: 8, padding: '10px 12px', background: 'rgba(255,255,255,0.03)', borderRadius: 8, marginBottom: 8, fontSize: 11, fontWeight: 700, color: MUT }}>
                 <span>المادة</span><span>أعمال السنة</span><span>اختبار نصفي</span><span>اختبار نهائي</span><span>المجموع</span>
               </div>
@@ -773,7 +773,7 @@ function SchoolParentDashboard() {
           {/* ATTENDANCE */}
           {activeSection === 'attendance' && (
             <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}>✅ سجل حضور {childrenList[activeChild]?.name}</h3>
+              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> سجل حضور {childrenList[activeChild]?.name}</h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 16 }}>
                 <div style={{ background: '#4ADE8012', border: '1px solid #4ADE8033', borderRadius: 10, padding: 12, textAlign: 'center' }}>
                   <div style={{ fontSize: 22, fontWeight: 800, color: '#4ADE80' }}>87</div>
@@ -796,7 +796,7 @@ function SchoolParentDashboard() {
           {activeSection === 'payments' && (
             <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 14 }}>
-                <h3 style={{ fontSize: 14, fontWeight: 700 }}>💳 المدفوعات والرسوم</h3>
+                <h3 style={{ fontSize: 14, fontWeight: 700 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> المدفوعات والرسوم</h3>
                 <button onClick={() => setShowPayModal(true)} style={{ background: GD, border: 'none', borderRadius: 8, padding: '7px 16px', color: '#06060E', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: FONT }}>دفع الآن</button>
               </div>
               {[
@@ -819,9 +819,9 @@ function SchoolParentDashboard() {
           {/* TRANSPORT */}
           {activeSection === 'transport' && (
             <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}>🚌 تتبع النقل المدرسي</h3>
+              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg> تتبع النقل المدرسي</h3>
               <div style={{ background: '#4ADE8008', border: '1px solid #4ADE8022', borderRadius: 10, padding: 14, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 12 }}>
-                <span style={{ fontSize: 28 }}>🚌</span>
+                <span style={{ fontSize: 28 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg></span>
                 <div>
                   <div style={{ fontSize: 14, fontWeight: 700, color: '#4ADE80' }}>الباص في الطريق</div>
                   <div style={{ fontSize: 12, color: DIM }}>الوصول المتوقع: 7:15 صباحاً · السائق: أبو فهد</div>
@@ -829,11 +829,11 @@ function SchoolParentDashboard() {
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${BD}`, borderRadius: 10, padding: 12 }}>
-                  <div style={{ fontSize: 12, fontWeight: 700, marginBottom: 6 }}>📍 موقع الباص</div>
+                  <div style={{ fontSize: 12, fontWeight: 700, marginBottom: 6 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 8h.01 M12 12v4"/></svg> موقع الباص</div>
                   <div style={{ height: 120, background: 'rgba(255,255,255,0.03)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MUT, fontSize: 12 }}>خريطة GPS — قريباً</div>
                 </div>
                 <div style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${BD}`, borderRadius: 10, padding: 12 }}>
-                  <div style={{ fontSize: 12, fontWeight: 700, marginBottom: 6 }}>📞 بيانات السائق</div>
+                  <div style={{ fontSize: 12, fontWeight: 700, marginBottom: 6 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 2.68h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> بيانات السائق</div>
                   <div style={{ fontSize: 12, color: DIM, lineHeight: 2 }}>
                     الاسم: أبو فهد<br />الجوال: 0555XXXXXX<br />رقم الباص: B-15<br />المسار: حي النزهة
                   </div>
@@ -845,11 +845,11 @@ function SchoolParentDashboard() {
           {/* MESSAGES */}
           {activeSection === 'messages' && (
             <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}>💬 مراسلة معلمي {childrenList[activeChild]?.name}</h3>
+              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> مراسلة معلمي {childrenList[activeChild]?.name}</h3>
               {['أ. سارة العتيبي — رياضيات', 'أ. فهد الحربي — علوم', 'أ. نورة السالم — عربي', 'أ. أحمد الزهراني — إنجليزي'].map((t, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: `1px solid ${BD}` }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <div style={{ width: 32, height: 32, borderRadius: 8, background: `${C}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>👩‍🏫</div>
+                    <div style={{ width: 32, height: 32, borderRadius: 8, background: `${C}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
                     <span style={{ fontSize: 13, fontWeight: 600 }}>{t}</span>
                   </div>
                   <button onClick={() => router.push('/dashboard/messages')} style={{ background: `${C}18`, border: `1px solid ${C}33`, borderRadius: 6, padding: '4px 12px', color: C, fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: FONT }}>مراسلة</button>
@@ -861,7 +861,7 @@ function SchoolParentDashboard() {
           {/* SCHEDULE */}
           {activeSection === 'schedule' && (
             <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}>📅 جدول {childrenList[activeChild]?.name}</h3>
+              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg> جدول {childrenList[activeChild]?.name}</h3>
               {['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'].map((day, di) => (
                 <div key={di} style={{ marginBottom: 12 }}>
                   <div style={{ fontSize: 12, fontWeight: 700, color: C, marginBottom: 6 }}>{day}</div>
@@ -878,7 +878,7 @@ function SchoolParentDashboard() {
           {/* REPORTS */}
           {activeSection === 'reports' && (
             <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}>📊 تقارير {childrenList[activeChild]?.name}</h3>
+              <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> تقارير {childrenList[activeChild]?.name}</h3>
               <button onClick={() => router.push('/dashboard/reports')} style={{ background: C, border: 'none', borderRadius: 8, padding: '10px 20px', color: '#06060E', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: FONT }}>عرض التقارير الكاملة</button>
             </div>
           )}
@@ -889,7 +889,7 @@ function SchoolParentDashboard() {
       {showPayModal && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 500, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => setShowPayModal(false)}>
           <div onClick={e => e.stopPropagation()} style={{ background: '#0C0C18', border: `1px solid ${BD}`, borderRadius: 18, padding: 28, width: 400 }}>
-            <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 16 }}>💳 سداد الرسوم</h3>
+            <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 16 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> سداد الرسوم</h3>
             <div style={{ marginBottom: 16 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: `1px solid ${BD}`, fontSize: 13 }}>
                 <span style={{ color: DIM }}>رسوم الفصل الثالث</span>
@@ -905,7 +905,7 @@ function SchoolParentDashboard() {
               </div>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 16 }}>
-              {['💳 مدى', '💳 فيزا', '📱 Apple Pay'].map((m, i) => (
+              {['<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> مدى', '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> فيزا', '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 3H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z M8 21h8 M12 17v4"/></svg> Apple Pay'].map((m, i) => (
                 <button key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 8, padding: '10px 8px', cursor: 'pointer', fontFamily: FONT, fontSize: 11, fontWeight: 600, color: DIM, textAlign: 'center' }}>{m}</button>
               ))}
             </div>

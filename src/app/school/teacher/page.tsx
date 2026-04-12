@@ -117,7 +117,7 @@ export default function TeacherPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ type: 'attendance', class_id: selectedClass, date: attendanceDate, records }),
     });
-    setSaveMsg(res.ok ? '✅ تم حفظ الحضور بنجاح' : '❌ خطأ في الحفظ');
+    setSaveMsg(res.ok ? '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> تم حفظ الحضور بنجاح' : '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01"/></svg> خطأ في الحفظ');
     setSaving(false);
     setTimeout(() => setSaveMsg(''), 3500);
   };
@@ -161,7 +161,7 @@ export default function TeacherPage() {
       {/* ── Header ── */}
       <div style={{ marginBottom: '1.75rem' }}>
         <h1 style={{ margin: 0, fontSize: '1.45rem', fontWeight: 800, color: G }}>
-          مرحباً، {user?.name || 'المعلم'} 👋
+          مرحباً، {user?.name || 'المعلم'} <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
         </h1>
         <p style={{ margin: '0.3rem 0 0', color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem' }}>
           لديك {classes.length} فصل دراسي — {new Date().toLocaleDateString('ar-SA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
@@ -355,10 +355,10 @@ export default function TeacherPage() {
                   onClick={saveAttendance} disabled={saving}
                   style={{ background: G, border: 'none', borderRadius: 10, padding: '0.7rem 2.5rem', color: '#000', fontWeight: 800, fontSize: '0.95rem', cursor: 'pointer', opacity: saving ? 0.7 : 1, transition: 'opacity 0.2s' }}
                 >
-                  {saving ? 'جارٍ الحفظ…' : 'حفظ الحضور ✓'}
+                  {saving ? 'جارٍ الحفظ…' : 'حفظ الحضور <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'}
                 </button>
                 {saveMsg && (
-                  <span style={{ color: saveMsg.includes('✅') ? G : '#EF4444', fontWeight: 700 }}>{saveMsg}</span>
+                  <span style={{ color: saveMsg.includes(<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>) ? G : '#EF4444', fontWeight: 700 }}>{saveMsg}</span>
                 )}
               </div>
             </>
@@ -515,7 +515,7 @@ export default function TeacherPage() {
                 onClick={addHomework} disabled={savingHW || !hwForm.title || !hwForm.class_name}
                 style={{ background: ORANGE, border: 'none', borderRadius: 9, padding: '0.65rem 2rem', color: '#000', fontWeight: 800, cursor: 'pointer', opacity: (savingHW || !hwForm.title || !hwForm.class_name) ? 0.6 : 1 }}
               >
-                {savingHW ? 'جارٍ الإضافة…' : 'إضافة الواجب ✓'}
+                {savingHW ? 'جارٍ الإضافة…' : 'إضافة الواجب <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'}
               </button>
             </div>
           </div>

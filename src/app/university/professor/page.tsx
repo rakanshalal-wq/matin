@@ -119,11 +119,11 @@ export default function ProfessorDashboard() {
     { key: 'lectures', label: 'المحاضرات' },
   ];
   const quickActions = [
-    { label: 'تسجيل حضور', icon: '✅', action: () => setActiveTab('attendance') },
-    { label: 'رفع تكليف', icon: '📤', action: () => setActiveTab('assignments') },
-    { label: 'إدخال درجات', icon: '📝', action: () => setActiveTab('grades') },
-    { label: 'محاضرة أونلاين', icon: '🎥', action: () => { setActiveTab('lectures'); setShowLectureModal(true); } },
-    { label: 'رفع إجازة', icon: '📋', action: () => setShowLeaveModal(true) },
+    { label: 'تسجيل حضور', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, action: () => setActiveTab('attendance') },
+    { label: 'رفع تكليف', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M17 8l-5-5-5 5 M12 3v12"/></svg>, action: () => setActiveTab('assignments') },
+    { label: 'إدخال درجات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, action: () => setActiveTab('grades') },
+    { label: 'محاضرة أونلاين', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M23 7l-7 5 7 5V7z M1 5h15a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H1a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg>, action: () => { setActiveTab('lectures'); setShowLectureModal(true); } },
+    { label: 'رفع إجازة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, action: () => setShowLeaveModal(true) },
   ];
 
   const root: any = {
@@ -202,7 +202,7 @@ export default function ProfessorDashboard() {
 
       {/* Header */}
       <div style={{ marginBottom: '28px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-        <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'linear-gradient(135deg, #22D3EE, #0EA5E9)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0 }}>👨‍🏫</div>
+        <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'linear-gradient(135deg, #22D3EE, #0EA5E9)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
         <div>
           <h1 style={{ margin: 0, fontSize: '22px', fontWeight: 700, color: '#F1F5F9' }}>لوحة الدكتور الأكاديمية</h1>
           <p style={{ margin: 0, fontSize: '13px', color: '#64748B' }}>مرحباً {user?.name || 'د. الأستاذ'} — الفصل الدراسي الثاني 1446</p>
@@ -425,7 +425,7 @@ export default function ProfessorDashboard() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <div style={card}>
             <h3 style={{ margin: '0 0 16px', fontSize: '16px', color: '#22D3EE', fontWeight: 700 }}>بدء محاضرة أونلاين</h3>
-            <button onClick={() => setShowLectureModal(true)} style={btnPrimary}>🎥 بدء محاضرة أونلاين</button>
+            <button onClick={() => setShowLectureModal(true)} style={btnPrimary}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M23 7l-7 5 7 5V7z M1 5h15a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H1a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg> بدء محاضرة أونلاين</button>
           </div>
           <div style={card}>
             <h3 style={{ margin: '0 0 16px', fontSize: '16px', color: '#22D3EE', fontWeight: 700 }}>المحاضرات المسجلة</h3>
@@ -438,7 +438,7 @@ export default function ProfessorDashboard() {
                       <div style={{ fontWeight: 600, color: '#F1F5F9', fontSize: '14px' }}>{l.title}</div>
                       <div style={{ fontSize: '12px', color: '#64748B', marginTop: '2px' }}>{l.date} — {l.duration}</div>
                     </div>
-                    <button onClick={() => alert('تشغيل التسجيل')} style={{ background: 'rgba(34,211,238,0.1)', border: '1px solid rgba(34,211,238,0.25)', borderRadius: '8px', padding: '5px 12px', color: '#22D3EE', cursor: 'pointer', fontFamily: "'IBM Plex Sans Arabic', sans-serif", fontSize: '12px', fontWeight: 600 }}>▶ تشغيل</button>
+                    <button onClick={() => alert('تشغيل التسجيل')} style={{ background: 'rgba(34,211,238,0.1)', border: '1px solid rgba(34,211,238,0.25)', borderRadius: '8px', padding: '5px 12px', color: '#22D3EE', cursor: 'pointer', fontFamily: "'IBM Plex Sans Arabic', sans-serif", fontSize: '12px', fontWeight: 600 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg> تشغيل</button>
                   </div>
                 ))}
               </div>

@@ -63,21 +63,21 @@ export default function UniversityDashboard() {
   `;
 
   const navItems = [
-    { id: 'overview', label: 'النظرة العامة', icon: '📊' },
-    { id: 'colleges', label: 'الكليات', icon: '🏛️' },
-    { id: 'students', label: 'الطلاب', icon: '👨‍🎓' },
-    { id: 'faculty', label: 'الهيئة', icon: '👨‍🏫' },
-    { id: 'curriculum', label: 'المناهج', icon: '📚' },
-    { id: 'research', label: 'البحث', icon: '🔬' },
-    { id: 'library', label: 'المكتبة', icon: '📖' },
-    { id: 'registration', label: 'التسجيل', icon: '📝' },
+    { id: 'overview', label: 'النظرة العامة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> },
+    { id: 'colleges', label: 'الكليات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg> },
+    { id: 'students', label: 'الطلاب', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg> },
+    { id: 'faculty', label: 'الهيئة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> },
+    { id: 'curriculum', label: 'المناهج', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> },
+    { id: 'research', label: 'البحث', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0"/></svg> },
+    { id: 'library', label: 'المكتبة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> },
+    { id: 'registration', label: 'التسجيل', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg> },
   ];
 
   const stats = [
-    { icon: '👨‍🎓', value: '45,000', label: 'الطلاب', color: '#3B82F6', bg: 'rgba(59,130,246,0.15)' },
-    { icon: '🏛️', value: '18', label: 'الكليات', color: '#60A5FA', bg: 'rgba(96,165,250,0.15)' },
-    { icon: '👨‍🏫', value: '2,400', label: 'الهيئة', color: '#A78BFA', bg: 'rgba(167,139,250,0.15)' },
-    { icon: '📚', value: '120', label: 'البرامج', color: '#D4A843', bg: 'rgba(212,168,67,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, value: '45,000', label: 'الطلاب', color: '#3B82F6', bg: 'rgba(59,130,246,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>, value: '18', label: 'الكليات', color: '#60A5FA', bg: 'rgba(96,165,250,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, value: '2,400', label: 'الهيئة', color: '#A78BFA', bg: 'rgba(167,139,250,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, value: '120', label: 'البرامج', color: '#D4A843', bg: 'rgba(212,168,67,0.15)' },
   ];
 
   return (
@@ -97,7 +97,7 @@ export default function UniversityDashboard() {
               </div>
             </a>
             <div className="admin-card">
-              <div className="admin-av">👨‍💼</div>
+              <div className="admin-av"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
               <div>
                 <div className="admin-name">د. أحمد الفهد</div>
                 <div className="admin-role">مدير الجامعة</div>
@@ -120,7 +120,7 @@ export default function UniversityDashboard() {
           </nav>
           
           <div className="sb-footer">
-            <button className="logout-btn">🚪 تسجيل الخروج</button>
+            <button className="logout-btn"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg> تسجيل الخروج</button>
           </div>
         </aside>
 
@@ -133,14 +133,14 @@ export default function UniversityDashboard() {
               <div className="hdr-sub">العام الدراسي 2025-2026</div>
             </div>
             <div className="user-btn">
-              <div className="user-av">👨‍💼</div>
+              <div className="user-av"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
               <div style={{ fontSize: '12px', fontWeight: 700 }}>د. أحمد</div>
             </div>
           </header>
 
           {/* CONTENT */}
           <div className="content">
-            <div className="page-title">📊 النظرة العامة</div>
+            <div className="page-title"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> النظرة العامة</div>
             
             {/* STATS */}
             <div className="stats-grid">

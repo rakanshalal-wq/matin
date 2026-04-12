@@ -64,7 +64,7 @@ export default function TraineePage() {
   return (
     <div style={{ fontFamily: "'IBM Plex Sans Arabic', sans-serif", direction: 'rtl', color: '#F8FAFC' }}>
       <div style={{ marginBottom: '1.75rem' }}>
-        <h1 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 800, color: OR }}>🎒 بوابتي التدريبية</h1>
+        <h1 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 800, color: OR }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg> بوابتي التدريبية</h1>
         <p style={{ margin: '0.3rem 0 0', color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem' }}>
           مرحباً {user?.name || 'المتدرب'} — {new Date().toLocaleDateString('ar-SA')}
         </p>
@@ -85,10 +85,10 @@ export default function TraineePage() {
       {/* Quick Actions */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.75rem', marginBottom: '1.75rem' }}>
         {[
-          { label: 'التسجيل في دورة', icon: '📝', action: () => setShowRequest(true) },
-          { label: 'شهاداتي', icon: '🏆', action: () => setTab('certificates') },
-          { label: 'تقدمي', icon: '📊', action: () => setTab('progress') },
-          { label: 'دوراتي', icon: '📚', action: () => setTab('courses') },
+          { label: 'التسجيل في دورة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, action: () => setShowRequest(true) },
+          { label: 'شهاداتي', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>, action: () => setTab('certificates') },
+          { label: 'تقدمي', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, action: () => setTab('progress') },
+          { label: 'دوراتي', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, action: () => setTab('courses') },
         ].map(({ label, icon, action }) => (
           <button key={label} onClick={action} style={{ background: `${OR}12`, border: `1px solid ${OR}25`, borderRadius: 12, padding: '0.85rem', textAlign: 'center', cursor: 'pointer' }}>
             <div style={{ fontSize: '1.4rem', marginBottom: '0.35rem' }}>{icon}</div>
@@ -130,11 +130,11 @@ export default function TraineePage() {
             </button>
           </div>
           <div style={{ background: CARD, border: `1px solid ${PURPLE}20`, borderRadius: 14, padding: '1.25rem' }}>
-            <h3 style={{ margin: '0 0 1rem', color: PURPLE, fontSize: '0.95rem', fontWeight: 700 }}>شهاداتي 🏆</h3>
+            <h3 style={{ margin: '0 0 1rem', color: PURPLE, fontSize: '0.95rem', fontWeight: 700 }}>شهاداتي <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></h3>
             {certificates.slice(0, 3).map((cert: any) => (
               <div key={cert.id} style={{ padding: '0.5rem 0', borderBottom: `1px solid ${BORDER}`, display: 'flex', justifyContent: 'space-between' }}>
                 <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>{cert.course_name}</div>
-                <span style={{ color: PURPLE }}>🏆</span>
+                <span style={{ color: PURPLE }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></span>
               </div>
             ))}
             {certificates.length === 0 && (
@@ -212,11 +212,11 @@ export default function TraineePage() {
       {/* CERTIFICATES */}
       {tab === 'certificates' && (
         <div>
-          <h2 style={{ color: PURPLE, fontSize: '1rem', fontWeight: 700, marginBottom: '1rem' }}>شهاداتي 🏆</h2>
+          <h2 style={{ color: PURPLE, fontSize: '1rem', fontWeight: 700, marginBottom: '1rem' }}>شهاداتي <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1rem' }}>
             {certificates.map((cert: any) => (
               <div key={cert.id} style={{ background: `${PURPLE}10`, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: '1.5rem', textAlign: 'center' }}>
-                <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>🏆</div>
+                <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></div>
                 <div style={{ fontWeight: 800, fontSize: '1rem', marginBottom: 4 }}>{cert.course_name}</div>
                 <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', marginBottom: '0.75rem' }}>
                   {cert.issued_at ? new Date(cert.issued_at).toLocaleDateString('ar-SA') : '—'}

@@ -27,62 +27,62 @@ const SIDEBAR_SECTIONS = [
     label: 'الرئيسية',
     items: [
       { id: 'dashboard', label: 'لوحتي', icon: '⊞' },
-      { id: 'calendar', label: 'التقويم الأكاديمي', icon: '📅' },
+      { id: 'calendar', label: 'التقويم الأكاديمي', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg> },
     ],
   },
   {
     label: 'الكلية',
     items: [
-      { id: 'departments', label: 'الأقسام الأكاديمية', icon: '🏛' },
-      { id: 'curricula', label: 'المقررات والخطط', icon: '📚' },
-      { id: 'schedules', label: 'الجداول الدراسية', icon: '🗓' },
-      { id: 'halls', label: 'القاعات والمختبرات', icon: '🔬' },
+      { id: 'departments', label: 'الأقسام الأكاديمية', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg> },
+      { id: 'curricula', label: 'المقررات والخطط', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> },
+      { id: 'schedules', label: 'الجداول الدراسية', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg> },
+      { id: 'halls', label: 'القاعات والمختبرات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0"/></svg> },
     ],
   },
   {
     label: 'الطلاب',
     items: [
-      { id: 'students', label: 'طلاب الكلية', icon: '🎓' },
-      { id: 'admissions', label: 'طلبات القبول', icon: '📥', badge: 8 },
-      { id: 'enrollment', label: 'التسجيل الفصلي', icon: '📝' },
-      { id: 'complaints', label: 'الشكاوى', icon: '📣', badge: 4 },
-      { id: 'certificates', label: 'الشهادات والتخرج', icon: '🏅' },
+      { id: 'students', label: 'طلاب الكلية', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg> },
+      { id: 'admissions', label: 'طلبات القبول', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3"/></svg>, badge: 8 },
+      { id: 'enrollment', label: 'التسجيل الفصلي', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg> },
+      { id: 'complaints', label: 'الشكاوى', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>, badge: 4 },
+      { id: 'certificates', label: 'الشهادات والتخرج', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg> },
     ],
   },
   {
     label: 'هيئة التدريس',
     items: [
-      { id: 'doctors', label: 'الدكاترة', icon: '👨‍🏫' },
-      { id: 'assistants', label: 'المعيدون', icon: '👩‍🎓' },
-      { id: 'admins', label: 'الموظفون الإداريون', icon: '🧑‍💼' },
-      { id: 'permissions', label: 'إدارة الصلاحيات', icon: '🔐', accent: true },
-      { id: 'leaves', label: 'الإجازات', icon: '🌴', badge: 3 },
-      { id: 'performance', label: 'تقييم الأداء', icon: '📊' },
+      { id: 'doctors', label: 'الدكاترة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> },
+      { id: 'assistants', label: 'المعيدون', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg> },
+      { id: 'admins', label: 'الموظفون الإداريون', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> },
+      { id: 'permissions', label: 'إدارة الصلاحيات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, accent: true },
+      { id: 'leaves', label: 'الإجازات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, badge: 3 },
+      { id: 'performance', label: 'تقييم الأداء', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> },
     ],
   },
   {
     label: 'العمليات',
     items: [
-      { id: 'attendance', label: 'الحضور', icon: '✅' },
-      { id: 'grades', label: 'الدرجات', icon: '📈' },
-      { id: 'reports', label: 'التقارير', icon: '📋' },
-      { id: 'research', label: 'الأبحاث', icon: '🔭' },
-      { id: 'postgrad', label: 'الدراسات العليا', icon: '🎖' },
+      { id: 'attendance', label: 'الحضور', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> },
+      { id: 'grades', label: 'الدرجات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> },
+      { id: 'reports', label: 'التقارير', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg> },
+      { id: 'research', label: 'الأبحاث', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0"/></svg> },
+      { id: 'postgrad', label: 'الدراسات العليا', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg> },
     ],
   },
   {
     label: 'المالية',
     items: [
-      { id: 'fees', label: 'رسوم الطلاب', icon: '💰', badge: 6 },
-      { id: 'grants', label: 'المنح', icon: '🎁' },
-      { id: 'budget', label: 'ميزانية الكلية', icon: '🏦' },
+      { id: 'fees', label: 'رسوم الطلاب', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, badge: 6 },
+      { id: 'grants', label: 'المنح', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> },
+      { id: 'budget', label: 'ميزانية الكلية', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> },
     ],
   },
   {
     label: 'التقنية',
     items: [
-      { id: 'collegepage', label: 'صفحة الكلية', icon: '🌐', greenDot: true },
-      { id: 'settings', label: 'الإعدادات', icon: '⚙️' },
+      { id: 'collegepage', label: 'صفحة الكلية', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M2 12h20 M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>, greenDot: true },
+      { id: 'settings', label: 'الإعدادات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> },
     ],
   },
 ];
@@ -93,7 +93,7 @@ const STATS = [
     label: 'طلاب الكلية',
     sub: '↑ 48 هذا الفصل',
     color: C.purple,
-    icon: '🎓',
+    icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>,
     bg: 'rgba(167,139,250,0.10)',
   },
   {
@@ -101,7 +101,7 @@ const STATS = [
     label: 'هيئة التدريس',
     sub: '42 دكتور · 12 معيد · 8 إداريين',
     color: C.blue,
-    icon: '👨‍🏫',
+    icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>,
     bg: 'rgba(96,165,250,0.10)',
   },
   {
@@ -109,7 +109,7 @@ const STATS = [
     label: 'نسبة الحضور',
     sub: 'معدل الفصل الحالي',
     color: C.green,
-    icon: '✅',
+    icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>,
     bg: 'rgba(16,185,129,0.10)',
   },
   {
@@ -117,7 +117,7 @@ const STATS = [
     label: 'متأهلون للتخرج',
     sub: 'معدل قبول 96%',
     color: C.gold,
-    icon: '🏅',
+    icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>,
     bg: 'rgba(212,168,67,0.10)',
   },
 ];
@@ -147,26 +147,26 @@ const LEAVES = [
 ];
 
 const ACTIVITY = [
-  { time: 'منذ 20 دقيقة', text: 'تم قبول طلب تسجيل — محمد السلمي (الميكانيكية)', icon: '✅', color: C.green },
-  { time: 'منذ ساعة', text: 'تقرير الحضور الأسبوعي متاح للمراجعة', icon: '📊', color: C.blue },
-  { time: 'منذ ساعتين', text: 'شكوى جديدة من طالب في قسم الحاسب', icon: '📣', color: C.orange },
-  { time: 'البارحة', text: 'اعتماد بحث علمي — د. خالد العمري', icon: '🔭', color: C.purple },
-  { time: 'البارحة', text: 'تحديث جدول قاعة 3-ب للفصل القادم', icon: '🗓', color: C.cyan },
+  { time: 'منذ 20 دقيقة', text: 'تم قبول طلب تسجيل — محمد السلمي (الميكانيكية)', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, color: C.green },
+  { time: 'منذ ساعة', text: 'تقرير الحضور الأسبوعي متاح للمراجعة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, color: C.blue },
+  { time: 'منذ ساعتين', text: 'شكوى جديدة من طالب في قسم الحاسب', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>, color: C.orange },
+  { time: 'البارحة', text: 'اعتماد بحث علمي — د. خالد العمري', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0"/></svg>, color: C.purple },
+  { time: 'البارحة', text: 'تحديث جدول قاعة 3-ب للفصل القادم', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg>, color: C.cyan },
 ];
 
 const QUICK_ACTIONS = [
-  { label: 'الصلاحيات', icon: '🔐', color: C.purple },
-  { label: 'إضافة دكتور', icon: '👨‍🏫', color: C.blue },
-  { label: 'إضافة معيد', icon: '👩‍🎓', color: C.cyan },
-  { label: 'إضافة موظف', icon: '🧑‍💼', color: C.green },
-  { label: 'قبول طالب', icon: '📥', color: C.gold },
-  { label: 'شهادات', icon: '🏅', color: C.orange },
-  { label: 'التقارير', icon: '📋', color: C.blue },
-  { label: 'الأبحاث', icon: '🔭', color: C.purple },
-  { label: 'إشعار جماعي', icon: '📢', color: C.red },
-  { label: 'الرسوم', icon: '💰', color: C.gold },
-  { label: 'الدراسات العليا', icon: '🎖', color: C.cyan },
-  { label: 'الإعدادات', icon: '⚙️', color: C.muted },
+  { label: 'الصلاحيات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, color: C.purple },
+  { label: 'إضافة دكتور', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, color: C.blue },
+  { label: 'إضافة معيد', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, color: C.cyan },
+  { label: 'إضافة موظف', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, color: C.green },
+  { label: 'قبول طالب', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3"/></svg>, color: C.gold },
+  { label: 'شهادات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>, color: C.orange },
+  { label: 'التقارير', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, color: C.blue },
+  { label: 'الأبحاث', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0"/></svg>, color: C.purple },
+  { label: 'إشعار جماعي', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>, color: C.red },
+  { label: 'الرسوم', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, color: C.gold },
+  { label: 'الدراسات العليا', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>, color: C.cyan },
+  { label: 'الإعدادات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>, color: C.muted },
 ];
 
 export default function CollegesDeanDashboard() {
@@ -236,7 +236,7 @@ export default function CollegesDeanDashboard() {
                 boxShadow: `0 0 0 2px ${C.sidebar}, 0 0 0 4px ${C.purple2}`,
               }}
             >
-              👨‍💼
+              <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
             </div>
             <div>
               <div style={{ fontWeight: 700, fontSize: 14, color: C.text }}>
@@ -537,7 +537,7 @@ export default function CollegesDeanDashboard() {
                 gap: 8,
               }}
             >
-              🏛 الأقسام الأكاديمية
+              <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg> الأقسام الأكاديمية
             </h2>
             <span
               style={{
@@ -598,7 +598,7 @@ export default function CollegesDeanDashboard() {
                       gap: 4,
                     }}
                   >
-                    <span style={{ color: dept.color }}>🎓</span>
+                    <span style={{ color: dept.color }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
                     {dept.students} طالب
                   </span>
                   <span
@@ -608,7 +608,7 @@ export default function CollegesDeanDashboard() {
                       gap: 4,
                     }}
                   >
-                    <span style={{ color: dept.color }}>👨‍🏫</span>
+                    <span style={{ color: dept.color }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></span>
                     {dept.faculty} عضو
                   </span>
                   <span
@@ -618,7 +618,7 @@ export default function CollegesDeanDashboard() {
                       gap: 4,
                     }}
                   >
-                    <span style={{ color: dept.color }}>🔬</span>
+                    <span style={{ color: dept.color }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0"/></svg></span>
                     {dept.labs > 0 ? `${dept.labs} مختبر` : '—'}
                   </span>
                 </div>
@@ -661,7 +661,7 @@ export default function CollegesDeanDashboard() {
                   color: C.text,
                 }}
               >
-                👨‍🏫 هيئة التدريس
+                <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> هيئة التدريس
               </h2>
               <input
                 type="text"
@@ -792,7 +792,7 @@ export default function CollegesDeanDashboard() {
                   gap: 8,
                 }}
               >
-                🌴 طلبات الإجازة
+                <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> طلبات الإجازة
                 <span
                   style={{
                     background: `rgba(251,146,60,0.15)`,
@@ -888,7 +888,7 @@ export default function CollegesDeanDashboard() {
                   color: C.text,
                 }}
               >
-                📋 سجل النشاط
+                <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg> سجل النشاط
               </h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {ACTIVITY.map((act, i) => (
@@ -945,7 +945,7 @@ export default function CollegesDeanDashboard() {
               color: C.text,
             }}
           >
-            ⚡ الإجراءات السريعة
+            <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> الإجراءات السريعة
           </h2>
           <div
             style={{

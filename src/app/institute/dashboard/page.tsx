@@ -40,7 +40,7 @@ function Spinner() {
 function EmptyState({ label }: { label: string }) {
   return (
     <div style={{ textAlign: 'center', padding: '3rem', color: 'rgba(255,255,255,0.3)' }}>
-      <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>📭</div>
+      <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6"/></svg></div>
       <div style={{ fontSize: '0.9rem' }}>{label}</div>
     </div>
   );
@@ -205,12 +205,12 @@ export default function InstituteDashboard() {
   const td: React.CSSProperties = { padding: '0.75rem 1rem', borderBottom: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.85)', fontSize: '0.88rem' };
 
   const quickActions = [
-    { label: 'إضافة كورس',  icon: '📚', action: () => setShowCourse(true) },
-    { label: 'إضافة طالب',  icon: '👨‍🎓', action: () => setShowStudent(true) },
-    { label: 'إضافة مدرس',  icon: '👨‍🏫', action: () => setShowTeacher(true) },
-    { label: 'التقارير',     icon: '📊', action: () => setTab('finance') },
-    { label: 'المدفوعات',    icon: '💳', action: () => setTab('finance') },
-    { label: 'الشهادات',     icon: '🎓', action: () => alert('قريباً — الشهادات') },
+    { label: 'إضافة كورس',  icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, action: () => setShowCourse(true) },
+    { label: 'إضافة طالب',  icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, action: () => setShowStudent(true) },
+    { label: 'إضافة مدرس',  icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, action: () => setShowTeacher(true) },
+    { label: 'التقارير',     icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, action: () => setTab('finance') },
+    { label: 'المدفوعات',    icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, action: () => setTab('finance') },
+    { label: 'الشهادات',     icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, action: () => alert('قريباً — الشهادات') },
   ];
 
   // ── Render ────────────────────────────────────────────────────────────────
@@ -220,7 +220,7 @@ export default function InstituteDashboard() {
       {/* Header */}
       <div style={{ marginBottom: '2rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ width: 44, height: 44, borderRadius: 12, background: `linear-gradient(135deg,${CYAN},#0284C7)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem' }}>🏢</div>
+          <div style={{ width: 44, height: 44, borderRadius: 12, background: `linear-gradient(135deg,${CYAN},#0284C7)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg></div>
           <div>
             <h1 style={{ margin: 0, fontSize: '1.45rem', fontWeight: 800 }}>داش بورد المعهد</h1>
             <p style={{ margin: 0, color: 'rgba(255,255,255,0.45)', fontSize: '0.82rem' }}>مرحباً، {user?.name || 'مدير المعهد'}</p>
@@ -230,10 +230,10 @@ export default function InstituteDashboard() {
 
       {/* Stat Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: '1rem', marginBottom: '2rem' }}>
-        <StatCard label="طلاب المعهد"      value={stats.students}                  color={CYAN}      icon="👨‍🎓" />
-        <StatCard label="المدرسون"          value={stats.teachers}                  color="#3B82F6"   icon="👨‍🏫" />
-        <StatCard label="الكورسات النشطة"  value={stats.courses}                   color="#10B981"   icon="📚" />
-        <StatCard label="الإيرادات (ريال)" value={stats.revenue.toLocaleString()} color="#F59E0B"   icon="💰" />
+        <StatCard label="طلاب المعهد"      value={stats.students}                  color={CYAN}      icon=<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg> />
+        <StatCard label="المدرسون"          value={stats.teachers}                  color="#3B82F6"   icon=<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> />
+        <StatCard label="الكورسات النشطة"  value={stats.courses}                   color="#10B981"   icon=<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> />
+        <StatCard label="الإيرادات (ريال)" value={stats.revenue.toLocaleString()} color="#F59E0B"   icon=<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> />
       </div>
 
       {/* Tabs */}

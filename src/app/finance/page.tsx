@@ -67,7 +67,7 @@ export default function FinancePage() {
         <div className="section-title">بوابات الدفع السعودية المعتمدة</div>
         <div className="section-desc">متين متكامل مع جميع بوابات الدفع الرسمية في المملكة العربية السعودية.</div>
         <div className="integrations-box">
-          <h3>💳 بوابات الدفع المدعومة</h3>
+          <h3><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> بوابات الدفع المدعومة</h3>
           <p style={{ color: 'var(--text-2)', fontSize: '15px', lineHeight: 1.7 }}>ولي الأمر يدفع الرسوم الدراسية من أي بوابة يفضلها — بدون أي تعقيد أو زيارة للمدرسة.</p>
           <div className="integrations-list">
             {['Moyasar موياسر', 'Tabby تابي', 'STC Pay', 'مدى', 'Apple Pay', 'نفاذ'].map((i) => (
@@ -77,12 +77,12 @@ export default function FinancePage() {
         </div>
         <div className="features-grid">
           {[
-            { icon: '💰', title: 'إدارة الرسوم الدراسية', desc: 'تحديد الرسوم لكل مرحلة، جدولة الأقساط، وتتبع حالة السداد لكل طالب.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '📊', title: 'التقارير المالية', desc: 'تقارير مالية شاملة — الإيرادات، المصروفات، المستحقات، والتوقعات المالية.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '🔔', title: 'تذكيرات السداد', desc: 'إشعارات واتساب تلقائية لأولياء الأمور قبل موعد الاستحقاق وعند التأخر.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '🧾', title: 'الفواتير الإلكترونية', desc: 'إصدار فواتير إلكترونية معتمدة فور السداد — متوافقة مع متطلبات هيئة الزكاة والضريبة.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '💳', title: 'الدفع التقسيطي', desc: 'تابي يتيح التقسيط للرسوم الدراسية — ولي الأمر يدفع على 3 أو 6 أشهر بدون فوائد.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '📈', title: 'لوحة المالية', desc: 'لوحة تحكم مالية شاملة للمدير — ملخص يومي للإيرادات والمصروفات والمستحقات.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, title: 'إدارة الرسوم الدراسية', desc: 'تحديد الرسوم لكل مرحلة، جدولة الأقساط، وتتبع حالة السداد لكل طالب.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, title: 'التقارير المالية', desc: 'تقارير مالية شاملة — الإيرادات، المصروفات، المستحقات، والتوقعات المالية.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>, title: 'تذكيرات السداد', desc: 'إشعارات واتساب تلقائية لأولياء الأمور قبل موعد الاستحقاق وعند التأخر.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, title: 'الفواتير الإلكترونية', desc: 'إصدار فواتير إلكترونية معتمدة فور السداد — متوافقة مع متطلبات هيئة الزكاة والضريبة.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, title: 'الدفع التقسيطي', desc: 'تابي يتيح التقسيط للرسوم الدراسية — ولي الأمر يدفع على 3 أو 6 أشهر بدون فوائد.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, title: 'لوحة المالية', desc: 'لوحة تحكم مالية شاملة للمدير — ملخص يومي للإيرادات والمصروفات والمستحقات.', color: 'rgba(201,168,76,0.12)' },
           ].map((f, i) => (
             <div key={i} className="feature-card">
               <div className="feature-icon" style={{ background: f.color }}>{f.icon}</div>

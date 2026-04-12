@@ -214,7 +214,7 @@ export default function DeanDashboard() {
                 onClick={savePermissions}
                 style={{ padding: '10px 24px', borderRadius: 10, background: 'linear-gradient(135deg, #A78BFA, #7C3AED)', border: 'none', color: '#fff', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}
               >
-                حفظ الصلاحيات ✓
+                حفظ الصلاحيات <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
               </button>
               <button
                 onClick={closePermissions}
@@ -231,7 +231,7 @@ export default function DeanDashboard() {
       <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '0 32px' }}>
         <div style={{ maxWidth: 1400, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(135deg, #A78BFA, #60A5FA)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>🎓</div>
+            <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(135deg, #A78BFA, #60A5FA)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
             <div>
               <div style={{ fontSize: 15, fontWeight: 700, color: '#fff' }}>منصة ماتن</div>
               <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>نظام إدارة الجامعة</div>
@@ -242,7 +242,7 @@ export default function DeanDashboard() {
               <div style={{ fontSize: 14, fontWeight: 600 }}>{user.name}</div>
               <div style={{ fontSize: 11, color: '#A78BFA' }}>{user.role}</div>
             </div>
-            <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(167,139,250,0.13)', border: '2px solid rgba(167,139,250,0.27)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>👤</div>
+            <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(167,139,250,0.13)', border: '2px solid rgba(167,139,250,0.27)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
           </div>
         </div>
       </div>
@@ -399,7 +399,7 @@ export default function DeanDashboard() {
         {/* ─── STUDENTS ─── */}
         {tab === 'students' && (
           <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: '40px', textAlign: 'center' }}>
-            <div style={{ fontSize: 40, marginBottom: 16 }}>🎓</div>
+            <div style={{ fontSize: 40, marginBottom: 16 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
             <div style={{ fontSize: 16, color: 'rgba(255,255,255,0.5)' }}>إجمالي طلاب الكلية: <strong style={{ color: '#A78BFA' }}>820 طالب</strong></div>
             <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', marginTop: 8 }}>تفاصيل الطلاب قيد الإعداد</div>
           </div>
@@ -447,7 +447,7 @@ export default function DeanDashboard() {
         {/* ─── FINANCE ─── */}
         {tab === 'finance' && (
           <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: '40px', textAlign: 'center' }}>
-            <div style={{ fontSize: 40, marginBottom: 16 }}>💰</div>
+            <div style={{ fontSize: 40, marginBottom: 16 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
             <div style={{ fontSize: 16, color: 'rgba(255,255,255,0.5)' }}>لوحة المالية</div>
             <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', marginTop: 8 }}>التقارير المالية قيد الإعداد</div>
           </div>

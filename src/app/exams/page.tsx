@@ -90,7 +90,7 @@ export default function ExamsPage() {
         <div className="section-desc">نظام أمان متعدد الطبقات يضمن نزاهة الاختبارات ويمنع أي محاولة للغش.</div>
 
         <div className="security-box">
-          <h3>🔒 نظام الأمان الشامل — AES-256</h3>
+          <h3><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2z M7 11V7a5 5 0 0 1 10 0v4"/></svg> نظام الأمان الشامل — AES-256</h3>
           <p>
             جميع بيانات الاختبارات مشفرة بـ AES-256. الأسئلة لا تُرسل للمتصفح إلا عند بدء الاختبار الفعلي. كل اختبار يُولّد نسخة عشوائية مختلفة لكل طالب من نفس بنك الأسئلة. النظام يرصد محاولات الخروج من الصفحة، التبديل بين التطبيقات، والنسخ واللصق.
           </p>
@@ -125,14 +125,14 @@ export default function ExamsPage() {
 
         <div className="features-grid">
           {[
-            { icon: '📚', title: 'بنك أسئلة ضخم', desc: 'مكتبة أسئلة مصنفة حسب المادة، المستوى، ونوع السؤال — اختيار متعدد، صح/خطأ، مقالي، ملء الفراغ.', color: 'rgba(245,158,11,0.12)' },
-            { icon: '🤖', title: 'توليد أسئلة بالذكاء الاصطناعي', desc: 'AI يولد أسئلة اختبار تلقائياً من المنهج الدراسي مع ضبط مستوى الصعوبة.', color: 'rgba(245,158,11,0.12)' },
-            { icon: '⚡', title: 'تصحيح تلقائي فوري', desc: 'النتيجة تظهر للطالب فور الانتهاء من الاختبار — لا انتظار، لا جهد يدوي للمعلم.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '📊', title: 'تحليلات الأداء', desc: 'تقارير تفصيلية عن أداء كل طالب — نقاط القوة والضعف، مقارنة بالصف، وتوصيات للتحسين.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '📅', title: 'جدولة الاختبارات', desc: 'جدولة الاختبارات مسبقاً مع إشعارات تلقائية للطلاب وأولياء الأمور.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '🔄', title: 'إعادة الاختبار', desc: 'إمكانية إعادة الاختبار للطلاب المتغيبين أو الراسبين مع نسخة مختلفة من الأسئلة.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '📱', title: 'متوافق مع الجوال', desc: 'الطالب يؤدي الاختبار من أي جهاز — حاسوب، تابلت، أو جوال — بنفس الجودة والأمان.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '🏆', title: 'كشوف النتائج', desc: 'إصدار كشوف نتائج رسمية إلكترونية مع إمكانية الطباعة وإرسالها لأولياء الأمور.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, title: 'بنك أسئلة ضخم', desc: 'مكتبة أسئلة مصنفة حسب المادة، المستوى، ونوع السؤال — اختيار متعدد، صح/خطأ، مقالي، ملء الفراغ.', color: 'rgba(245,158,11,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4l3 3"/></svg>, title: 'توليد أسئلة بالذكاء الاصطناعي', desc: 'AI يولد أسئلة اختبار تلقائياً من المنهج الدراسي مع ضبط مستوى الصعوبة.', color: 'rgba(245,158,11,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, title: 'تصحيح تلقائي فوري', desc: 'النتيجة تظهر للطالب فور الانتهاء من الاختبار — لا انتظار، لا جهد يدوي للمعلم.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, title: 'تحليلات الأداء', desc: 'تقارير تفصيلية عن أداء كل طالب — نقاط القوة والضعف، مقارنة بالصف، وتوصيات للتحسين.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg>, title: 'جدولة الاختبارات', desc: 'جدولة الاختبارات مسبقاً مع إشعارات تلقائية للطلاب وأولياء الأمور.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M23 4v6h-6 M1 20v-6h6 M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>, title: 'إعادة الاختبار', desc: 'إمكانية إعادة الاختبار للطلاب المتغيبين أو الراسبين مع نسخة مختلفة من الأسئلة.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 3H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z M8 21h8 M12 17v4"/></svg>, title: 'متوافق مع الجوال', desc: 'الطالب يؤدي الاختبار من أي جهاز — حاسوب، تابلت، أو جوال — بنفس الجودة والأمان.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>, title: 'كشوف النتائج', desc: 'إصدار كشوف نتائج رسمية إلكترونية مع إمكانية الطباعة وإرسالها لأولياء الأمور.', color: 'rgba(201,168,76,0.12)' },
           ].map((f, i) => (
             <div key={i} className="feature-card">
               <div className="feature-icon" style={{ background: f.color }}>{f.icon}</div>

@@ -64,12 +64,12 @@ export default function EventsPage() {
         <div className="section-desc">من الحفلات المدرسية إلى الرحلات الميدانية — كل شيء مُدار بدقة واحترافية.</div>
         <div className="features-grid">
           {[
-            { icon: '📅', title: 'تقويم الفعاليات', desc: 'تقويم مرئي لجميع فعاليات المدرسة — المعلمون وأولياء الأمور يرون الجدول كاملاً.', color: 'rgba(251,146,60,0.12)' },
-            { icon: '📝', title: 'تسجيل المشاركين', desc: 'تسجيل الطلاب في الفعاليات إلكترونياً مع تأكيد الحضور وإدارة الأعداد.', color: 'rgba(251,146,60,0.12)' },
-            { icon: '🔔', title: 'إشعارات الفعاليات', desc: 'إشعارات واتساب تلقائية لأولياء الأمور عند إضافة فعالية أو قبل موعدها.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '📸', title: 'ألبوم الفعاليات', desc: 'رفع صور وفيديوهات الفعاليات في ألبوم مشترك يراه أولياء الأمور والطلاب.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '💰', title: 'رسوم الفعاليات', desc: 'تحصيل رسوم الرحلات والفعاليات إلكترونياً عبر بوابات الدفع المتكاملة.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '📊', title: 'تقارير المشاركة', desc: 'إحصائيات مشاركة الطلاب في الفعاليات والأنشطة المدرسية.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg>, title: 'تقويم الفعاليات', desc: 'تقويم مرئي لجميع فعاليات المدرسة — المعلمون وأولياء الأمور يرون الجدول كاملاً.', color: 'rgba(251,146,60,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, title: 'تسجيل المشاركين', desc: 'تسجيل الطلاب في الفعاليات إلكترونياً مع تأكيد الحضور وإدارة الأعداد.', color: 'rgba(251,146,60,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>, title: 'إشعارات الفعاليات', desc: 'إشعارات واتساب تلقائية لأولياء الأمور عند إضافة فعالية أو قبل موعدها.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3l2-3h4l2 3h3a2 2 0 0 1 2 2z M12 17a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, title: 'ألبوم الفعاليات', desc: 'رفع صور وفيديوهات الفعاليات في ألبوم مشترك يراه أولياء الأمور والطلاب.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, title: 'رسوم الفعاليات', desc: 'تحصيل رسوم الرحلات والفعاليات إلكترونياً عبر بوابات الدفع المتكاملة.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, title: 'تقارير المشاركة', desc: 'إحصائيات مشاركة الطلاب في الفعاليات والأنشطة المدرسية.', color: 'rgba(201,168,76,0.12)' },
           ].map((f, i) => (
             <div key={i} className="feature-card">
               <div className="feature-icon" style={{ background: f.color }}>{f.icon}</div>

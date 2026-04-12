@@ -98,7 +98,7 @@ export default function CafeteriaPage() {
         <div className="section-desc">ميزة حيوية تفرق متين عن أي نظام آخر — تحمي حياة الطلاب من الحساسيات الغذائية الخطيرة.</div>
 
         <div className="alert-box">
-          <div className="alert-icon">⚠️</div>
+          <div className="alert-icon"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01"/></svg></div>
           <div>
             <div className="alert-title">حماية حيوية لا مثيل لها</div>
             <div className="alert-desc">
@@ -109,12 +109,12 @@ export default function CafeteriaPage() {
 
         <div className="features-grid">
           {[
-            { icon: '🥜', title: 'تسجيل الحساسيات', desc: 'ولي الأمر يسجل جميع الحساسيات الغذائية لابنه في ملفه الشخصي — فول سوداني، لاكتوز، جلوتين، مكسرات، وغيرها.', color: 'rgba(239,68,68,0.15)' },
-            { icon: '🚨', title: 'تحذير فوري للكاشير', desc: 'عند مسح QR الطالب، يظهر تنبيه أحمر فوري إذا كانت الوجبة تحتوي على مكون يسبب له حساسية.', color: 'rgba(239,68,68,0.15)' },
-            { icon: '📱', title: 'تأكيد ولي الأمر', desc: 'الكاشير لا يستطيع إتمام البيع إلا بعد تأكيد استثنائي من ولي الأمر عبر الجوال مباشرة.', color: 'rgba(239,68,68,0.15)' },
-            { icon: '📋', title: 'مكونات كل وجبة', desc: 'كل وجبة في القائمة مسجلة مكوناتها بالكامل — الإدارة تضيفها عند إنشاء القائمة.', color: 'rgba(201,168,76,0.15)' },
-            { icon: '📊', title: 'تقرير الحساسيات', desc: 'تقرير شامل بجميع الطلاب الذين لديهم حساسيات غذائية لمساعدة إدارة المقصف في التخطيط.', color: 'rgba(201,168,76,0.15)' },
-            { icon: '🛡️', title: 'حماية قانونية', desc: 'توثيق كامل لكل عملية بيع مع سجل الحساسيات يحمي المؤسسة قانونياً ويثبت الالتزام بالسلامة.', color: 'rgba(201,168,76,0.15)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1 M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z M6 1v3 M10 1v3 M14 1v3"/></svg>, title: 'تسجيل الحساسيات', desc: 'ولي الأمر يسجل جميع الحساسيات الغذائية لابنه في ملفه الشخصي — فول سوداني، لاكتوز، جلوتين، مكسرات، وغيرها.', color: 'rgba(239,68,68,0.15)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>, title: 'تحذير فوري للكاشير', desc: 'عند مسح QR الطالب، يظهر تنبيه أحمر فوري إذا كانت الوجبة تحتوي على مكون يسبب له حساسية.', color: 'rgba(239,68,68,0.15)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 3H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z M8 21h8 M12 17v4"/></svg>, title: 'تأكيد ولي الأمر', desc: 'الكاشير لا يستطيع إتمام البيع إلا بعد تأكيد استثنائي من ولي الأمر عبر الجوال مباشرة.', color: 'rgba(239,68,68,0.15)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, title: 'مكونات كل وجبة', desc: 'كل وجبة في القائمة مسجلة مكوناتها بالكامل — الإدارة تضيفها عند إنشاء القائمة.', color: 'rgba(201,168,76,0.15)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, title: 'تقرير الحساسيات', desc: 'تقرير شامل بجميع الطلاب الذين لديهم حساسيات غذائية لمساعدة إدارة المقصف في التخطيط.', color: 'rgba(201,168,76,0.15)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, title: 'حماية قانونية', desc: 'توثيق كامل لكل عملية بيع مع سجل الحساسيات يحمي المؤسسة قانونياً ويثبت الالتزام بالسلامة.', color: 'rgba(201,168,76,0.15)' },
           ].map((f, i) => (
             <div key={i} className="feature-card">
               <div className="feature-icon" style={{ background: f.color }}>{f.icon}</div>
@@ -161,15 +161,15 @@ export default function CafeteriaPage() {
 
         <div className="features-grid">
           {[
-            { icon: '📋', title: 'قائمة طعام ديناميكية', desc: 'وجبات، أسعار، صور، مكونات — تُدار من لوحة التحكم بسهولة تامة مع إمكانية تغييرها يومياً.', color: 'rgba(201,168,76,0.1)' },
-            { icon: '💳', title: 'محفظة رقمية للطالب', desc: 'كل طالب لديه محفظة رقمية داخل متين — ولي الأمر يشحنها، الطالب يصرف منها فقط في المقصف.', color: 'rgba(201,168,76,0.1)' },
-            { icon: '📱', title: 'طلب مسبق من الجوال', desc: 'الطالب يطلب وجبته قبل الفسحة من التطبيق — يصل المقصف ليجد طلبه جاهزاً.', color: 'rgba(201,168,76,0.1)' },
-            { icon: '🔲', title: 'دفع بـ QR Code', desc: 'مسح رمز QR عند الكاشير يكمل الدفع فورياً — لا نقود، لا تأخير، لا أخطاء.', color: 'rgba(201,168,76,0.1)' },
-            { icon: '📊', title: 'تقارير مالية يومية', desc: 'تقرير يومي بإجمالي المبيعات، الوجبات الأكثر طلباً، والإيرادات — مع تصدير Excel.', color: 'rgba(201,168,76,0.1)' },
-            { icon: '📦', title: 'إدارة المخزون', desc: 'تتبع المخزون تلقائياً مع تنبيه عند نفاد الكميات قبل الفسحة.', color: 'rgba(201,168,76,0.1)' },
-            { icon: '👁️', title: 'مراقبة ولي الأمر', desc: 'ولي الأمر يرى كل عملية شراء لابنه — ماذا أكل، كم صرف، متى — شفافية كاملة.', color: 'rgba(201,168,76,0.1)' },
-            { icon: '🍎', title: 'التغذية الصحية', desc: 'إمكانية تصنيف الوجبات حسب القيمة الغذائية وتوجيه الطلاب نحو الخيارات الصحية.', color: 'rgba(201,168,76,0.1)' },
-            { icon: '⚡', title: 'سرعة الخدمة', desc: 'الطلب المسبق + QR يقلل وقت الانتظار في الفسحة من دقائق إلى ثوانٍ.', color: 'rgba(201,168,76,0.1)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, title: 'قائمة طعام ديناميكية', desc: 'وجبات، أسعار، صور، مكونات — تُدار من لوحة التحكم بسهولة تامة مع إمكانية تغييرها يومياً.', color: 'rgba(201,168,76,0.1)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, title: 'محفظة رقمية للطالب', desc: 'كل طالب لديه محفظة رقمية داخل متين — ولي الأمر يشحنها، الطالب يصرف منها فقط في المقصف.', color: 'rgba(201,168,76,0.1)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 3H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z M8 21h8 M12 17v4"/></svg>, title: 'طلب مسبق من الجوال', desc: 'الطالب يطلب وجبته قبل الفسحة من التطبيق — يصل المقصف ليجد طلبه جاهزاً.', color: 'rgba(201,168,76,0.1)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 3H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z M8 21h8 M12 17v4"/></svg>, title: 'دفع بـ QR Code', desc: 'مسح رمز QR عند الكاشير يكمل الدفع فورياً — لا نقود، لا تأخير، لا أخطاء.', color: 'rgba(201,168,76,0.1)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, title: 'تقارير مالية يومية', desc: 'تقرير يومي بإجمالي المبيعات، الوجبات الأكثر طلباً، والإيرادات — مع تصدير Excel.', color: 'rgba(201,168,76,0.1)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>, title: 'إدارة المخزون', desc: 'تتبع المخزون تلقائياً مع تنبيه عند نفاد الكميات قبل الفسحة.', color: 'rgba(201,168,76,0.1)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 3H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z M8 21h8 M12 17v4"/></svg>, title: 'مراقبة ولي الأمر', desc: 'ولي الأمر يرى كل عملية شراء لابنه — ماذا أكل، كم صرف، متى — شفافية كاملة.', color: 'rgba(201,168,76,0.1)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, title: 'التغذية الصحية', desc: 'إمكانية تصنيف الوجبات حسب القيمة الغذائية وتوجيه الطلاب نحو الخيارات الصحية.', color: 'rgba(201,168,76,0.1)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, title: 'سرعة الخدمة', desc: 'الطلب المسبق + QR يقلل وقت الانتظار في الفسحة من دقائق إلى ثوانٍ.', color: 'rgba(201,168,76,0.1)' },
           ].map((f, i) => (
             <div key={i} className="feature-card">
               <div className="feature-icon" style={{ background: f.color }}>{f.icon}</div>

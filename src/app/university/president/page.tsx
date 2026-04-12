@@ -40,11 +40,11 @@ export default function PresidentDashboard() {
     { id: 5, name: 'عبدالرحمن يوسف', college: 'كلية العلوم', date: '2026-03-22', status: 'pending' },
   ];
   const fallbackActivity = [
-    { id: 1, text: 'تم قبول طلب القبول لمحمد الغامدي في كلية الهندسة', time: 'منذ 10 دقائق', icon: '✓', color: '#34D399' },
-    { id: 2, text: 'تم تحديث خطة الدراسة لكلية الطب للفصل الثاني', time: 'منذ ساعة', icon: '📋', color: '#60A5FA' },
-    { id: 3, text: 'إضافة عضو هيئة تدريس جديد في قسم البرمجيات', time: 'منذ 3 ساعات', icon: '👤', color: '#A78BFA' },
-    { id: 4, text: 'رفع تقرير الرسوم الدراسية للفصل الحالي', time: 'منذ 5 ساعات', icon: '💰', color: '#FBBF24' },
-    { id: 5, text: 'اعتماد جدول الاختبارات النهائية للفصل الثاني', time: 'أمس', icon: '📅', color: '#FB923C' },
+    { id: 1, text: 'تم قبول طلب القبول لمحمد الغامدي في كلية الهندسة', time: 'منذ 10 دقائق', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>, color: '#34D399' },
+    { id: 2, text: 'تم تحديث خطة الدراسة لكلية الطب للفصل الثاني', time: 'منذ ساعة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, color: '#60A5FA' },
+    { id: 3, text: 'إضافة عضو هيئة تدريس جديد في قسم البرمجيات', time: 'منذ 3 ساعات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, color: '#A78BFA' },
+    { id: 4, text: 'رفع تقرير الرسوم الدراسية للفصل الحالي', time: 'منذ 5 ساعات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, color: '#FBBF24' },
+    { id: 5, text: 'اعتماد جدول الاختبارات النهائية للفصل الثاني', time: 'أمس', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg>, color: '#FB923C' },
   ];
 
   useEffect(() => {
@@ -103,12 +103,12 @@ export default function PresidentDashboard() {
   const semesterProgress = Math.round((currentWeek / totalWeeks) * 100);
 
   const quickActions = [
-    { label: 'الكليات والأقسام', icon: '🏛️', path: '/university/president/colleges' },
-    { label: 'طلبات القبول', icon: '📋', path: '/university/president/admissions' },
-    { label: 'هيئة التدريس', icon: '👨‍🏫', path: '/university/president/faculty' },
-    { label: 'الرسوم', icon: '💰', path: '/university/president/fees' },
-    { label: 'التقارير', icon: '📊', path: '/university/president/reports' },
-    { label: 'الإعدادات', icon: '⚙️', path: '/university/president/settings' },
+    { label: 'الكليات والأقسام', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>, path: '/university/president/colleges' },
+    { label: 'طلبات القبول', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, path: '/university/president/admissions' },
+    { label: 'هيئة التدريس', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, path: '/university/president/faculty' },
+    { label: 'الرسوم', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, path: '/university/president/fees' },
+    { label: 'التقارير', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, path: '/university/president/reports' },
+    { label: 'الإعدادات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>, path: '/university/president/settings' },
   ];
 
   const statusLabel: any = { pending: 'قيد الانتظار', approved: 'مقبول', rejected: 'مرفوض' };
@@ -141,7 +141,7 @@ export default function PresidentDashboard() {
       <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '0 32px' }}>
         <div style={{ maxWidth: 1400, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(135deg, #60A5FA, #A78BFA)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>🎓</div>
+            <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(135deg, #60A5FA, #A78BFA)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
             <div>
               <div style={{ fontSize: 15, fontWeight: 700, color: '#fff' }}>منصة ماتن</div>
               <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>نظام إدارة الجامعة</div>
@@ -152,7 +152,7 @@ export default function PresidentDashboard() {
               <div style={{ fontSize: 14, fontWeight: 600 }}>{user.name}</div>
               <div style={{ fontSize: 11, color: '#60A5FA' }}>{user.role}</div>
             </div>
-            <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'linear-gradient(135deg, rgba(96,165,250,0.13), rgba(167,139,250,0.13))', border: '2px solid rgba(96,165,250,0.27)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>👤</div>
+            <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'linear-gradient(135deg, rgba(96,165,250,0.13), rgba(167,139,250,0.13))', border: '2px solid rgba(96,165,250,0.27)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
           </div>
         </div>
       </div>
@@ -169,13 +169,13 @@ export default function PresidentDashboard() {
               onClick={() => router.push('/university/president/reports')}
               style={{ padding: '8px 18px', borderRadius: 10, background: 'rgba(96,165,250,0.12)', border: '1px solid rgba(96,165,250,0.3)', color: '#60A5FA', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}
             >
-              📊 التقارير
+              <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> التقارير
             </button>
             <button
               onClick={() => router.push('/university/president/settings')}
               style={{ padding: '8px 18px', borderRadius: 10, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'IBM Plex Sans Arabic, sans-serif' }}
             >
-              ⚙️ الإعدادات
+              <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> الإعدادات
             </button>
           </div>
         </div>

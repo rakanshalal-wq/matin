@@ -51,9 +51,9 @@ export default function JoinSchoolPage() {
   };
 
   const roles = [
-    { value: 'teacher', label: 'معلم / معلمة', icon: '👨‍🏫', desc: 'التسجيل كمعلم في هذه المدرسة' },
-    { value: 'student', label: 'طالب / طالبة', icon: '🎓', desc: 'التسجيل كطالب في هذه المدرسة' },
-    { value: 'parent', label: 'ولي أمر', icon: '👨‍👩‍👧', desc: 'التسجيل كولي أمر لمتابعة أبنائك' },
+    { value: 'teacher', label: 'معلم / معلمة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, desc: 'التسجيل كمعلم في هذه المدرسة' },
+    { value: 'student', label: 'طالب / طالبة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, desc: 'التسجيل كطالب في هذه المدرسة' },
+    { value: 'parent', label: 'ولي أمر', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, desc: 'التسجيل كولي أمر لمتابعة أبنائك' },
   ];
 
   const inputStyle = {
@@ -143,7 +143,7 @@ export default function JoinSchoolPage() {
               </div>
               <button onClick={handleSubmit} disabled={loading}
                 style={{ background: '#C9A227', color: '#06060E', border: 'none', borderRadius: '10px', padding: '14px 32px', fontSize: '16px', fontWeight: 700, cursor: 'pointer', width: '100%', marginTop: '20px', opacity: loading ? 0.7 : 1 }}>
-                {loading ? 'جاري التسجيل...' : 'تسجيل ✓'}
+                {loading ? 'جاري التسجيل...' : 'تسجيل <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'}
               </button>
               <button onClick={() => setStep(1)}
                 style={{ background: 'transparent', color: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '10px', padding: '12px 24px', fontSize: '14px', cursor: 'pointer', marginTop: '12px', width: '100%' }}>
@@ -154,7 +154,7 @@ export default function JoinSchoolPage() {
 
           {step === 3 && (
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '64px', marginBottom: '16px' }}>✅</div>
+              <div style={{ fontSize: '64px', marginBottom: '16px' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
               <div style={{ color: '#10B981', fontSize: '24px', fontWeight: 800, marginBottom: '12px' }}>تم التسجيل بنجاح!</div>
               <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '15px', lineHeight: '1.8', marginBottom: '24px' }}>{success}</p>
               <div style={{ background: 'rgba(201,162,39,0.1)', border: '1px solid rgba(201,162,39,0.3)', borderRadius: '10px', padding: '16px', marginBottom: '24px' }}>

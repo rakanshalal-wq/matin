@@ -48,7 +48,7 @@ export default function QuranSessionPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'attendance', sessionId: sessionInfo.id, attendance: attendees.map(a => ({ id: a.id, present: a.present })) }),
       });
-      if (res.ok) showToast('تم حفظ الحضور بنجاح ✓');
+      if (res.ok) showToast('تم حفظ الحضور بنجاح <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>');
       else showToast('فشل حفظ الحضور، حاول مرة أخرى');
     } catch {
       showToast('خطأ في الاتصال بالخادم');
@@ -65,7 +65,7 @@ export default function QuranSessionPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'recitation', sessionId: sessionInfo.id, studentId: modal.studentId, grade: modal.grade, notes: modal.notes }),
       });
-      if (res.ok) showToast(`تم تسجيل تسميع ${modal.studentName} ✓`);
+      if (res.ok) showToast(`تم تسجيل تسميع ${modal.studentName} <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`);
       else showToast('فشل تسجيل التسميع');
     } catch {
       showToast('خطأ في الاتصال');
@@ -78,7 +78,7 @@ export default function QuranSessionPage() {
   if (ended) {
     return (
       <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg,#0a0f0a,#0d1a11)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#fff', fontFamily: 'Cairo, Tajawal, sans-serif' }}>
-        <div style={{ fontSize: 64, marginBottom: 20 }}>✅</div>
+        <div style={{ fontSize: 64, marginBottom: 20 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
         <div style={{ fontSize: 24, fontWeight: 800, marginBottom: 8 }}>تم إنهاء الحلقة</div>
         <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>تم تسجيل جميع البيانات بنجاح</div>
       </div>
@@ -128,7 +128,7 @@ export default function QuranSessionPage() {
       {/* Header */}
       <div style={{ background: 'rgba(5,150,105,0.08)', borderBottom: '1px solid rgba(5,150,105,0.2)', padding: '18px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ width: 40, height: 40, background: `linear-gradient(135deg,${PRIMARY},${SECONDARY})`, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🎙️</div>
+          <div style={{ width: 40, height: 40, background: `linear-gradient(135deg,${PRIMARY},${SECONDARY})`, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M23 7l-7 5 7 5V7z M1 5h15a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H1a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg></div>
           <div>
             <div style={{ fontSize: 18, fontWeight: 800 }}>{sessionInfo.name}</div>
             <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>المحفّظ: {sessionInfo.teacher} — {sessionInfo.time}</div>
@@ -168,7 +168,7 @@ export default function QuranSessionPage() {
                     onClick={() => toggleAttendance(a.id)}
                     style={{ width: 26, height: 26, borderRadius: 7, border: `2px solid ${a.present ? PRIMARY : 'rgba(255,255,255,0.15)'}`, background: a.present ? PRIMARY : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0, transition: 'all .15s' }}
                   >
-                    {a.present && <span style={{ color: '#fff', fontSize: 14, fontWeight: 900 }}>✓</span>}
+                    {a.present && <span style={{ color: '#fff', fontSize: 14, fontWeight: 900 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>}
                   </div>
 
                   {/* Avatar */}

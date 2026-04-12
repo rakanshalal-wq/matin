@@ -64,15 +64,15 @@ export default function QuranTeacherPage() {
       {/* Header */}
       <div style={{ background: 'rgba(5,150,105,0.08)', borderBottom: '1px solid rgba(5,150,105,0.2)', padding: '18px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ width: 40, height: 40, background: `linear-gradient(135deg,${PRIMARY},${SECONDARY})`, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>👨‍🏫</div>
+          <div style={{ width: 40, height: 40, background: `linear-gradient(135deg,${PRIMARY},${SECONDARY})`, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
           <div>
             <div style={{ fontSize: 18, fontWeight: 800 }}>لوحة المحفّظ</div>
             <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>{user?.name ?? 'جاري التحميل...'}</div>
           </div>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
-          <button onClick={() => showToast('تم تسجيل الحضور بنجاح ✓')} style={{ background: `${PRIMARY}20`, border: `1px solid ${PRIMARY}50`, color: PRIMARY, padding: '8px 18px', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 700 }}>تسجيل حضور</button>
-          <button onClick={() => showToast('تم فتح نموذج التسميع ✓')} style={{ background: `${GOLD}20`, border: `1px solid ${GOLD}50`, color: GOLD, padding: '8px 18px', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 700 }}>تسجيل تسميع</button>
+          <button onClick={() => showToast('تم تسجيل الحضور بنجاح <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>')} style={{ background: `${PRIMARY}20`, border: `1px solid ${PRIMARY}50`, color: PRIMARY, padding: '8px 18px', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 700 }}>تسجيل حضور</button>
+          <button onClick={() => showToast('تم فتح نموذج التسميع <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>')} style={{ background: `${GOLD}20`, border: `1px solid ${GOLD}50`, color: GOLD, padding: '8px 18px', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 700 }}>تسجيل تسميع</button>
         </div>
       </div>
 

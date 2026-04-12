@@ -4,12 +4,12 @@ export const dynamic = 'force-dynamic';
 import { useState, useEffect } from 'react';
 
 const DEFAULT_PROGRAMS = [
-  { icon: '📊', title: 'Excel المتقدم', duration: '3 أسابيع', price: '450 ريال', seats: 20, color: '#10B981' },
-  { icon: '🐍', title: 'Python للمبتدئين', duration: '6 أسابيع', price: '750 ريال', seats: 15, color: '#3B82F6' },
-  { icon: '📋', title: 'إدارة المشاريع PMP', duration: '8 أسابيع', price: '1200 ريال', seats: 12, color: '#A78BFA' },
-  { icon: '🎨', title: 'تصميم الجرافيك', duration: '4 أسابيع', price: '600 ريال', seats: 18, color: '#F59E0B' },
-  { icon: '🌐', title: 'اللغة الإنجليزية', duration: '12 أسبوع', price: '900 ريال', seats: 25, color: '#0EA5E9' },
-  { icon: '👥', title: 'الموارد البشرية', duration: '5 أسابيع', price: '850 ريال', seats: 10, color: '#EF4444' },
+  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, title: 'Excel المتقدم', duration: '3 أسابيع', price: '450 ريال', seats: 20, color: '#10B981' },
+  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>, title: 'Python للمبتدئين', duration: '6 أسابيع', price: '750 ريال', seats: 15, color: '#3B82F6' },
+  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, title: 'إدارة المشاريع PMP', duration: '8 أسابيع', price: '1200 ريال', seats: 12, color: '#A78BFA' },
+  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7 M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>, title: 'تصميم الجرافيك', duration: '4 أسابيع', price: '600 ريال', seats: 18, color: '#F59E0B' },
+  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M2 12h20 M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>, title: 'اللغة الإنجليزية', duration: '12 أسبوع', price: '900 ريال', seats: 25, color: '#0EA5E9' },
+  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, title: 'الموارد البشرية', duration: '5 أسابيع', price: '850 ريال', seats: 10, color: '#EF4444' },
 ];
 
 interface Program { icon?: string; title: string; duration?: string; price?: string; seats?: number; color?: string; }
@@ -132,7 +132,7 @@ export default function InstituteLandingPage({ params }: { params: { code: strin
           {institute?.logo ? (
             <img src={institute.logo} alt="logo" style={{ width: 38, height: 38, borderRadius: 10, objectFit: 'cover' }} />
           ) : (
-            <div style={{ width: 38, height: 38, borderRadius: 10, background: `linear-gradient(135deg,${primaryColor},${secondaryColor})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🎓</div>
+            <div style={{ width: 38, height: 38, borderRadius: 10, background: `linear-gradient(135deg,${primaryColor},${secondaryColor})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
           )}
           <span style={{ fontWeight: 800, fontSize: '1.05rem', color: '#fff' }}>{instituteName}</span>
         </div>
@@ -155,7 +155,7 @@ export default function InstituteLandingPage({ params }: { params: { code: strin
         {/* Mobile hamburger */}
         <button onClick={() => setMobileOpen(v => !v)}
           style={{ display: 'none', background: 'none', border: 'none', color: '#fff', fontSize: 24, cursor: 'pointer' }}
-          aria-label="قائمة">☰</button>
+          aria-label="قائمة"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3"/></svg></button>
       </nav>
 
       {/* Mobile Menu */}
@@ -180,7 +180,7 @@ export default function InstituteLandingPage({ params }: { params: { code: strin
         <div style={{ position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%,-50%)', width: 600, height: 600, background: `radial-gradient(circle, ${primaryColor}15 0%, transparent 70%)`, pointerEvents: 'none' }} />
 
         <div style={{ display: 'inline-block', background: `rgba(14,165,233,0.12)`, border: `1px solid rgba(14,165,233,0.3)`, borderRadius: 50, padding: '0.35rem 1.1rem', color: primaryColor, fontSize: '0.82rem', fontWeight: 700, marginBottom: '1.5rem' }}>
-          🎓 منصة متين للتدريب المهني
+          <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg> منصة متين للتدريب المهني
         </div>
 
         <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 900, lineHeight: 1.2, marginBottom: '1.2rem', background: `linear-gradient(135deg, #fff 40%, ${primaryColor})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
@@ -218,7 +218,7 @@ export default function InstituteLandingPage({ params }: { params: { code: strin
       {/* ===== PROGRAMS ===== */}
       <section id="programs" style={{ padding: '4rem 1.5rem', maxWidth: 1200, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <div style={{ color: accentColor, fontWeight: 700, fontSize: '0.85rem', marginBottom: 8 }}>💼 ما نقدّمه</div>
+          <div style={{ color: accentColor, fontWeight: 700, fontSize: '0.85rem', marginBottom: 8 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M16 13H8 M16 17H8"/></svg> ما نقدّمه</div>
           <h2 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 900, marginBottom: 10 }}>برامجنا التدريبية</h2>
           <p style={{ color: 'rgba(238,238,245,0.55)', fontSize: '1rem' }}>برامج متخصصة مصممة لمتطلبات سوق العمل</p>
         </div>
@@ -230,11 +230,11 @@ export default function InstituteLandingPage({ params }: { params: { code: strin
               <div key={i} className="prog-card" style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${color}25`, borderRadius: 16, padding: 22, position: 'relative', overflow: 'hidden', cursor: 'default', transition: 'transform 0.2s' }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg,${color},${color}60)`, borderRadius: '16px 16px 0 0' }} />
                 <div style={{ width: 56, height: 56, borderRadius: 16, background: `${color}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, marginBottom: 14 }}>
-                  {p.icon || '📚'}
+                  {p.icon || <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>}
                 </div>
                 <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 8 }}>{p.title}</div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'rgba(238,238,245,0.5)', marginBottom: 14 }}>
-                  <span>⏱ {p.duration || '—'}</span>
+                  <span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4l3 3"/></svg> {p.duration || '—'}</span>
                   <span style={{ color, fontWeight: 700 }}>{p.price || '—'}</span>
                 </div>
                 {p.seats && (
@@ -256,7 +256,7 @@ export default function InstituteLandingPage({ params }: { params: { code: strin
       <section id="announcements" style={{ padding: '4rem 1.5rem', background: 'rgba(255,255,255,0.015)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
         <div style={{ maxWidth: 860, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-            <div style={{ color: primaryColor, fontWeight: 700, fontSize: '0.85rem', marginBottom: 8 }}>📢 آخر الأخبار</div>
+            <div style={{ color: primaryColor, fontWeight: 700, fontSize: '0.85rem', marginBottom: 8 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg> آخر الأخبار</div>
             <h2 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 900, marginBottom: 10 }}>إعلانات المعهد</h2>
           </div>
 
@@ -264,7 +264,7 @@ export default function InstituteLandingPage({ params }: { params: { code: strin
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               {announcements.map((a) => (
                 <div key={a.id} style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${a.pinned ? accentColor + '40' : 'rgba(255,255,255,0.07)'}`, borderRadius: 14, padding: '1.2rem 1.4rem', display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-                  <span style={{ fontSize: 22, flexShrink: 0 }}>{a.pinned ? '📌' : '📣'}</span>
+                  <span style={{ fontSize: 22, flexShrink: 0 }}>{a.pinned ? <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 8h.01 M12 12v4"/></svg> : <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>}</span>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontWeight: 700, fontSize: '0.97rem', marginBottom: 4 }}>{a.title}</div>
                     {a.body && <div style={{ color: 'rgba(238,238,245,0.55)', fontSize: '0.88rem', lineHeight: 1.6 }}>{a.body}</div>}
@@ -279,7 +279,7 @@ export default function InstituteLandingPage({ params }: { params: { code: strin
             </div>
           ) : (
             <div style={{ textAlign: 'center', padding: '3rem', color: 'rgba(238,238,245,0.3)', background: 'rgba(255,255,255,0.02)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.06)' }}>
-              <div style={{ fontSize: 40, marginBottom: 12 }}>📭</div>
+              <div style={{ fontSize: 40, marginBottom: 12 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6"/></svg></div>
               <div>لا توجد إعلانات حالياً</div>
             </div>
           )}
@@ -290,7 +290,7 @@ export default function InstituteLandingPage({ params }: { params: { code: strin
       <section id="register" style={{ padding: '4rem 1.5rem' }}>
         <div style={{ maxWidth: 620, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-            <div style={{ color: accentColor, fontWeight: 700, fontSize: '0.85rem', marginBottom: 8 }}>✍️ ابدأ رحلتك</div>
+            <div style={{ color: accentColor, fontWeight: 700, fontSize: '0.85rem', marginBottom: 8 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7 M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> ابدأ رحلتك</div>
             <h2 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 900, marginBottom: 10 }}>سجّل اهتمامك الآن</h2>
             <p style={{ color: 'rgba(238,238,245,0.55)', fontSize: '0.95rem' }}>أرسل بياناتك وسيتواصل معك فريقنا في أقرب وقت</p>
           </div>
@@ -337,7 +337,7 @@ export default function InstituteLandingPage({ params }: { params: { code: strin
 
             {joinMsg && (
               <div style={{ background: joinMsg.type === 'success' ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.12)', border: `1px solid ${joinMsg.type === 'success' ? '#10B981' : '#EF4444'}40`, borderRadius: 10, padding: '0.75rem 1rem', marginBottom: 16, color: joinMsg.type === 'success' ? '#10B981' : '#EF4444', fontSize: '0.9rem', textAlign: 'center' }}>
-                {joinMsg.type === 'success' ? '✅' : '❌'} {joinMsg.text}
+                {joinMsg.type === 'success' ? <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> : <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01"/></svg>} {joinMsg.text}
               </div>
             )}
 
@@ -354,7 +354,7 @@ export default function InstituteLandingPage({ params }: { params: { code: strin
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: '2rem', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-              <div style={{ width: 34, height: 34, borderRadius: 9, background: `linear-gradient(135deg,${primaryColor},${secondaryColor})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>🎓</div>
+              <div style={{ width: 34, height: 34, borderRadius: 9, background: `linear-gradient(135deg,${primaryColor},${secondaryColor})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
               <span style={{ fontWeight: 800, fontSize: '1rem', color: '#fff' }}>{instituteName}</span>
             </div>
             {institute?.description && (
@@ -364,9 +364,9 @@ export default function InstituteLandingPage({ params }: { params: { code: strin
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <div style={{ fontWeight: 700, fontSize: '0.85rem', color: 'rgba(238,238,245,0.6)', marginBottom: 4 }}>التواصل</div>
-            {institute?.phone && <a href={`tel:${institute.phone}`} style={{ color: 'rgba(238,238,245,0.5)', fontSize: '0.85rem', textDecoration: 'none' }}>📞 {institute.phone}</a>}
-            {institute?.email && <a href={`mailto:${institute.email}`} style={{ color: 'rgba(238,238,245,0.5)', fontSize: '0.85rem', textDecoration: 'none' }}>✉️ {institute.email}</a>}
-            {institute?.address && <span style={{ color: 'rgba(238,238,245,0.5)', fontSize: '0.85rem' }}>📍 {institute.address}</span>}
+            {institute?.phone && <a href={`tel:${institute.phone}`} style={{ color: 'rgba(238,238,245,0.5)', fontSize: '0.85rem', textDecoration: 'none' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 2.68h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> {institute.phone}</a>}
+            {institute?.email && <a href={`mailto:${institute.email}`} style={{ color: 'rgba(238,238,245,0.5)', fontSize: '0.85rem', textDecoration: 'none' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6"/></svg> {institute.email}</a>}
+            {institute?.address && <span style={{ color: 'rgba(238,238,245,0.5)', fontSize: '0.85rem' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 8h.01 M12 12v4"/></svg> {institute.address}</span>}
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>

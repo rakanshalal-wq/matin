@@ -895,7 +895,7 @@ export default function OwnerDashboard() {
           </div>
           {/* User Card */}
           <div style={{ background: G_DIM, border: `1px solid ${G_BORDER}`, borderRadius: 10, padding: '10px 12px', display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ width: 34, height: 34, borderRadius: 9, background: 'rgba(255,255,255,0.06)', border: `1px solid ${G_BORDER}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 17, flexShrink: 0 }}>👑</div>
+            <div style={{ width: 34, height: 34, borderRadius: 9, background: 'rgba(255,255,255,0.06)', border: `1px solid ${G_BORDER}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 17, flexShrink: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M2 4l3 12h14l3-12-6 4-4-7-4 7-6-4z M5 20h14"/></svg></div>
             <div>
               <div style={{ color: TEXT, fontSize: 13, fontWeight: 700 }}>{me?.name || 'المالك'}</div>
               <div style={{ color: G, fontSize: 11, fontWeight: 600, marginTop: 1 }}>مالك المنصة</div>
@@ -1478,7 +1478,7 @@ export default function OwnerDashboard() {
                       <div className="space-y-1 mb-4">
                         {p.features.slice(0, 4).map((f: string, i: number) => (
                           <div key={i} className="text-xs text-gray-400 flex items-center gap-1.5">
-                            <span style={{ color: G }}>✓</span> {f}
+                            <span style={{ color: G }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span> {f}
                           </div>
                         ))}
                         {p.features.length > 4 && <div className="text-xs" style={{ color: "rgba(238,238,245,0.4)" }}>+{p.features.length - 4} ميزة أخرى</div>}
@@ -2347,7 +2347,7 @@ export default function OwnerDashboard() {
                 <StatCard label="إجمالي الصفحات" value={libraryBooks.reduce((s, b) => s + Number(b.pages || 0), 0)} color="#8B5CF6" />
               </div>
               <div className="flex justify-between items-center gap-3 flex-wrap">
-                <input value={librarySearch} onChange={e => setLibrarySearch(e.target.value)} placeholder="🔍 ابحث في الكتب..." className="rounded-xl px-4 py-2 text-sm text-white outline-none" style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}`, minWidth: 240 }} />
+                <input value={librarySearch} onChange={e => setLibrarySearch(e.target.value)} placeholder="ابحث في الكتب..." className="rounded-xl px-4 py-2 text-sm text-white outline-none" style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}`, minWidth: 240 }} />
                 <Btn onClick={() => { setLibraryF({}); setEditItem(null); setModal('library'); }}>+ إضافة كتاب</Btn>
               </div>
               <div className="rounded-2xl overflow-hidden" style={{ background: CARD, border: `1px solid ${BORDER}` }}>

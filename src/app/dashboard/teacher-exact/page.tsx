@@ -96,15 +96,15 @@ export default function TeacherDashboard() {
   `;
 
   const navItems = [
-    { id: 'overview', label: 'النظرة العامة', icon: '📊', active: true },
-    { id: 'schedule', label: 'جدولي', icon: '📅' },
-    { id: 'classes', label: 'فصولي', icon: '🏫', badge: '3' },
-    { id: 'students', label: 'الطلاب', icon: '👨‍🎓' },
-    { id: 'attendance', label: 'الحضور', icon: '✅' },
-    { id: 'grades', label: 'التقييم', icon: '📝', badge: '12' },
-    { id: 'homework', label: 'الواجبات', icon: '📚', badge: '5' },
-    { id: 'messages', label: 'الرسائل', icon: '💬', badge: '3' },
-    { id: 'reports', label: 'التقارير', icon: '📈' },
+    { id: 'overview', label: 'النظرة العامة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, active: true },
+    { id: 'schedule', label: 'جدولي', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg> },
+    { id: 'classes', label: 'فصولي', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>, badge: '3' },
+    { id: 'students', label: 'الطلاب', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg> },
+    { id: 'attendance', label: 'الحضور', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> },
+    { id: 'grades', label: 'التقييم', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, badge: '12' },
+    { id: 'homework', label: 'الواجبات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, badge: '5' },
+    { id: 'messages', label: 'الرسائل', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, badge: '3' },
+    { id: 'reports', label: 'التقارير', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> },
   ];
 
   const schedule = [
@@ -116,10 +116,10 @@ export default function TeacherDashboard() {
   ];
 
   const stats = [
-    { icon: '👨‍🎓', value: '87', label: 'طلابي', color: '#4ADE80', bg: 'rgba(74,222,128,0.15)' },
-    { icon: '✅', value: '94%', label: 'الحضور اليوم', color: '#10B981', bg: 'rgba(16,185,129,0.15)' },
-    { icon: '📝', value: '12', label: 'واجبات للتصحيح', color: '#F59E0B', bg: 'rgba(245,158,11,0.15)' },
-    { icon: '💬', value: '3', label: 'رسائل جديدة', color: '#60A5FA', bg: 'rgba(96,165,250,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, value: '87', label: 'طلابي', color: '#4ADE80', bg: 'rgba(74,222,128,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, value: '94%', label: 'الحضور اليوم', color: '#10B981', bg: 'rgba(16,185,129,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, value: '12', label: 'واجبات للتصحيح', color: '#F59E0B', bg: 'rgba(245,158,11,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, value: '3', label: 'رسائل جديدة', color: '#60A5FA', bg: 'rgba(96,165,250,0.15)' },
   ];
 
   return (
@@ -139,7 +139,7 @@ export default function TeacherDashboard() {
               </div>
             </a>
             <div className="teacher-card">
-              <div className="teacher-av">👨‍🏫</div>
+              <div className="teacher-av"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
               <div>
                 <div className="teacher-name">أحمد محمد</div>
                 <div className="teacher-role">معلم الرياضيات</div>
@@ -165,7 +165,7 @@ export default function TeacherDashboard() {
           </nav>
           
           <div className="sb-footer">
-            <button className="logout-btn">🚪 تسجيل الخروج</button>
+            <button className="logout-btn"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg> تسجيل الخروج</button>
           </div>
         </aside>
 
@@ -180,9 +180,9 @@ export default function TeacherDashboard() {
               </div>
             </div>
             <div className="hdr-right">
-              <button className="hdr-btn">🔔<span className="notif-dot"></span></button>
+              <button className="hdr-btn"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg><span className="notif-dot"></span></button>
               <div className="user-btn">
-                <div className="user-av">👨‍🏫</div>
+                <div className="user-av"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
                 <div>
                   <div className="uname">أحمد محمد</div>
                   <div className="urole">معلم</div>
@@ -194,16 +194,16 @@ export default function TeacherDashboard() {
           {/* CONTENT */}
           <div className="content">
             <div className="page-hdr">
-              <div className="page-title">📊 النظرة العامة</div>
+              <div className="page-title"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> النظرة العامة</div>
               <div style={{ display: 'flex', gap: 8 }}>
-                <button className="btn-outline">📊 التقارير</button>
+                <button className="btn-outline"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> التقارير</button>
                 <button className="btn-primary">+ تسجيل حضور</button>
               </div>
             </div>
 
             {/* TODAY'S SCHEDULE */}
             <div className="schedule-bar">
-              <div className="schedule-title">📅 جدول اليوم</div>
+              <div className="schedule-title"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg> جدول اليوم</div>
               <div className="periods">
                 {schedule.map((period, i) => (
                   <div key={i} className={`period ${period.status}`}>
@@ -228,9 +228,9 @@ export default function TeacherDashboard() {
 
             {/* QUICK ACTIONS */}
             <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
-              <button className="btn-primary">📝 رصد درجات</button>
-              <button className="btn-outline">📚 إضافة واجب</button>
-              <button className="btn-outline">📧 إرسال رسالة</button>
+              <button className="btn-primary"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg> رصد درجات</button>
+              <button className="btn-outline"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> إضافة واجب</button>
+              <button className="btn-outline"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6"/></svg> إرسال رسالة</button>
             </div>
           </div>
         </main>

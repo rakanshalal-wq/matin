@@ -63,21 +63,21 @@ export default function UniversityPresidentDashboard() {
   `;
 
   const navItems = [
-    { id: 'overview', label: 'النظرة العامة', icon: '📊' },
-    { id: 'colleges', label: 'الكليات', icon: '🏛️' },
-    { id: 'students', label: 'الطلاب', icon: '👨‍🎓' },
-    { id: 'faculty', label: 'أعضاء الهيئة', icon: '👨‍🏫' },
-    { id: 'staff', label: 'الموظفون', icon: '👥' },
-    { id: 'research', label: 'البحث العلمي', icon: '🔬' },
-    { id: 'finance', label: 'المالية', icon: '💰' },
-    { id: 'settings', label: 'الإعدادات', icon: '⚙️' },
+    { id: 'overview', label: 'النظرة العامة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> },
+    { id: 'colleges', label: 'الكليات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg> },
+    { id: 'students', label: 'الطلاب', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg> },
+    { id: 'faculty', label: 'أعضاء الهيئة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> },
+    { id: 'staff', label: 'الموظفون', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> },
+    { id: 'research', label: 'البحث العلمي', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0"/></svg> },
+    { id: 'finance', label: 'المالية', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> },
+    { id: 'settings', label: 'الإعدادات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> },
   ];
 
   const stats = [
-    { icon: '🏛️', value: '12', label: 'الكليات', color: '#1E40AF', bg: 'rgba(30,64,175,0.15)' },
-    { icon: '👨‍🎓', value: '25,000', label: 'الطلاب', color: '#3B82F6', bg: 'rgba(59,130,246,0.15)' },
-    { icon: '👨‍🏫', value: '850', label: 'أعضاء الهيئة', color: '#60A5FA', bg: 'rgba(96,165,250,0.15)' },
-    { icon: '👥', value: '1,200', label: 'الموظفون', color: '#D4A843', bg: 'rgba(212,168,67,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>, value: '12', label: 'الكليات', color: '#1E40AF', bg: 'rgba(30,64,175,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, value: '25,000', label: 'الطلاب', color: '#3B82F6', bg: 'rgba(59,130,246,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, value: '850', label: 'أعضاء الهيئة', color: '#60A5FA', bg: 'rgba(96,165,250,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, value: '1,200', label: 'الموظفون', color: '#D4A843', bg: 'rgba(212,168,67,0.15)' },
   ];
 
   return (
@@ -97,7 +97,7 @@ export default function UniversityPresidentDashboard() {
               </div>
             </a>
             <div className="admin-card">
-              <div className="admin-av">👨‍💼</div>
+              <div className="admin-av"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
               <div>
                 <div className="admin-name">أ.د. عبدالله الفهد</div>
                 <div className="admin-role">رئيس الجامعة</div>
@@ -120,7 +120,7 @@ export default function UniversityPresidentDashboard() {
           </nav>
           
           <div className="sb-footer">
-            <button className="logout-btn">🚪 تسجيل الخروج</button>
+            <button className="logout-btn"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg> تسجيل الخروج</button>
           </div>
         </aside>
 
@@ -133,14 +133,14 @@ export default function UniversityPresidentDashboard() {
               <div className="hdr-sub">نظرة عامة على الجامعة</div>
             </div>
             <div className="user-btn">
-              <div className="user-av">👨‍💼</div>
+              <div className="user-av"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
               <div style={{ fontSize: '12px', fontWeight: 700 }}>أ.د. عبدالله</div>
             </div>
           </header>
 
           {/* CONTENT */}
           <div className="content">
-            <div className="page-title">📊 النظرة العامة</div>
+            <div className="page-title"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> النظرة العامة</div>
             
             {/* STATS */}
             <div className="stats-grid">

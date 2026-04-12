@@ -47,7 +47,7 @@ export default function TeacherDashboard() {
   if (loading) return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: BG, color: C, fontFamily: FONT, direction: 'rtl' }}>
       <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 32, marginBottom: 16 }}>📊</div>
+        <div style={{ fontSize: 32, marginBottom: 16 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg></div>
         <div style={{ fontSize: 16, fontWeight: 700 }}>جاري التحميل...</div>
       </div>
     </div>
@@ -89,16 +89,16 @@ export default function TeacherDashboard() {
   };
 
   const navItems = [
-    { id: 'home',       icon: '📊', label: 'الرئيسية' },
-    { id: 'schedule',   icon: '📅', label: 'الجدول اليومي' },
-    { id: 'students',   icon: '🎓', label: 'طلابي' },
-    { id: 'attendance', icon: '✅', label: 'الحضور والغياب' },
-    { id: 'exams',      icon: '📝', label: 'الاختبارات' },
-    { id: 'grades',     icon: '📈', label: 'الدرجات' },
-    { id: 'homework',   icon: '📋', label: 'الواجبات' },
-    { id: 'elearning',  icon: '💻', label: 'التعليم الإلكتروني' },
-    { id: 'messages',   icon: '💬', label: 'المراسلات' },
-    { id: 'settings',   icon: '⚙️', label: 'الإعدادات' },
+    { id: 'home',       icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, label: 'الرئيسية' },
+    { id: 'schedule',   icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg>, label: 'الجدول اليومي' },
+    { id: 'students',   icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, label: 'طلابي' },
+    { id: 'attendance', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, label: 'الحضور والغياب' },
+    { id: 'exams',      icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, label: 'الاختبارات' },
+    { id: 'grades',     icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, label: 'الدرجات' },
+    { id: 'homework',   icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, label: 'الواجبات' },
+    { id: 'elearning',  icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 3H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z M8 21h8 M12 17v4"/></svg>, label: 'التعليم الإلكتروني' },
+    { id: 'messages',   icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, label: 'المراسلات' },
+    { id: 'settings',   icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>, label: 'الإعدادات' },
   ];
 
   return (
@@ -138,7 +138,7 @@ export default function TeacherDashboard() {
               background: `${C}1A`, border: `1px solid ${C}44`,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: 20, flexShrink: 0,
-            }}>👨‍🏫</div>
+            }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
             <div style={{ minWidth: 0 }}>
               <div style={{ fontSize: 13, fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{teacherName}</div>
               <div style={{ fontSize: 10, color: C, whiteSpace: 'nowrap' }}>معلم — رياضيات</div>
@@ -179,7 +179,7 @@ export default function TeacherDashboard() {
             onClick={() => router.push('/login')}
             style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', cursor: 'pointer', fontFamily: FONT, fontSize: 12, color: MUT, padding: 0 }}
           >
-            <span>🚪</span> تسجيل الخروج
+            <span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg></span> تسجيل الخروج
           </button>
         </div>
       </aside>
@@ -199,9 +199,9 @@ export default function TeacherDashboard() {
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${BD}`, borderRadius: 8, cursor: 'pointer', color: DIM, fontSize: 16, width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            >☰</button>
+            ><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3"/></svg></button>
             <div>
-              <h1 style={{ fontSize: 15, fontWeight: 700, margin: 0 }}>مرحباً يا أستاذ {teacherName} 👋</h1>
+              <h1 style={{ fontSize: 15, fontWeight: 700, margin: 0 }}>مرحباً يا أستاذ {teacherName} <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></h1>
               <div style={{ fontSize: 10, color: MUT }}>{new Date().toLocaleDateString('ar-SA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
             </div>
           </div>
@@ -225,7 +225,7 @@ export default function TeacherDashboard() {
               width: 36, height: 36, cursor: 'pointer', color: DIM,
               fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
-              🔔
+              <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>
               <span style={{ position: 'absolute', top: -2, right: -2, width: 8, height: 8, borderRadius: '50%', background: '#ef4444', border: '2px solid #06060E' }} />
             </button>
 
@@ -234,7 +234,7 @@ export default function TeacherDashboard() {
               width: 34, height: 34, borderRadius: 9,
               background: `${C}22`, border: `1px solid ${C}44`,
               display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16,
-            }}>👨‍🏫</div>
+            }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
           </div>
         </header>
 
@@ -247,10 +247,10 @@ export default function TeacherDashboard() {
               {/* Stat Cards */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginBottom: 24 }}>
                 {[
-                  { label: 'إجمالي طلابي', value: displayStudents.length || stats.students || 156, icon: '🎓', color: '#60A5FA', sub: 'عبر جميع الفصول' },
-                  { label: 'نسبة الحضور اليوم', value: `${stats.attendance_rate || 94}%`, icon: '✅', color: C, sub: 'فوق المستوى المطلوب' },
-                  { label: 'اختبارات قادمة', value: stats.upcoming_exams || 3, icon: '📝', color: '#FB923C', sub: 'خلال 7 أيام' },
-                  { label: 'متوسط الدرجات', value: `${stats.average_grade || 82}%`, icon: '📈', color: '#A78BFA', sub: 'هذا الفصل الدراسي' },
+                  { label: 'إجمالي طلابي', value: displayStudents.length || stats.students || 156, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, color: '#60A5FA', sub: 'عبر جميع الفصول' },
+                  { label: 'نسبة الحضور اليوم', value: `${stats.attendance_rate || 94}%`, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, color: C, sub: 'فوق المستوى المطلوب' },
+                  { label: 'اختبارات قادمة', value: stats.upcoming_exams || 3, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, color: '#FB923C', sub: 'خلال 7 أيام' },
+                  { label: 'متوسط الدرجات', value: `${stats.average_grade || 82}%`, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, color: '#A78BFA', sub: 'هذا الفصل الدراسي' },
                 ].map((s, i) => (
                   <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '18px 20px', position: 'relative', overflow: 'hidden' }}>
                     <div style={{ position: 'absolute', top: -10, left: -10, width: 60, height: 60, borderRadius: '50%', background: `${s.color}0A` }} />
@@ -267,7 +267,7 @@ export default function TeacherDashboard() {
               {/* Today's Schedule */}
               <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '18px 20px', marginBottom: 18 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-                  <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0 }}>📅 جدول اليوم</h3>
+                  <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg> جدول اليوم</h3>
                   <button
                     onClick={() => setActiveSection('schedule')}
                     style={{ background: 'none', border: 'none', color: C, fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: FONT }}
@@ -301,18 +301,18 @@ export default function TeacherDashboard() {
 
                 {/* Quick Actions */}
                 <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '18px 20px' }}>
-                  <h3 style={{ fontSize: 13, fontWeight: 700, margin: '0 0 14px 0' }}>⚡ إجراءات سريعة</h3>
+                  <h3 style={{ fontSize: 13, fontWeight: 700, margin: '0 0 14px 0' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> إجراءات سريعة</h3>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
                     {[
-                      { icon: '✅', label: 'تسجيل حضور', onClick: () => setActiveSection('attendance') },
-                      { icon: '📝', label: 'اختبار جديد', onClick: () => setActiveSection('exams') },
-                      { icon: '📈', label: 'رصد درجات', onClick: () => setActiveSection('grades') },
-                      { icon: '📋', label: 'واجب جديد', onClick: () => setActiveSection('homework') },
-                      { icon: '💻', label: 'بث مباشر', onClick: () => router.push('/dashboard/live-stream') },
-                      { icon: '💬', label: 'مراسلة ولي', onClick: () => setActiveSection('messages') },
-                      { icon: '🤖', label: 'مساعد AI', onClick: () => router.push('/dashboard/ai-chat') },
-                      { icon: '🎓', label: 'قائمة الطلاب', onClick: () => setActiveSection('students') },
-                      { icon: '📚', label: 'المكتبة', onClick: () => router.push('/dashboard/library') },
+                      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, label: 'تسجيل حضور', onClick: () => setActiveSection('attendance') },
+                      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, label: 'اختبار جديد', onClick: () => setActiveSection('exams') },
+                      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, label: 'رصد درجات', onClick: () => setActiveSection('grades') },
+                      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, label: 'واجب جديد', onClick: () => setActiveSection('homework') },
+                      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 3H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z M8 21h8 M12 17v4"/></svg>, label: 'بث مباشر', onClick: () => router.push('/dashboard/live-stream') },
+                      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, label: 'مراسلة ولي', onClick: () => setActiveSection('messages') },
+                      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4l3 3"/></svg>, label: 'مساعد AI', onClick: () => router.push('/dashboard/ai-chat') },
+                      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, label: 'قائمة الطلاب', onClick: () => setActiveSection('students') },
+                      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, label: 'المكتبة', onClick: () => router.push('/dashboard/library') },
                     ].map((qa, i) => (
                       <button key={i} onClick={qa.onClick} style={{
                         background: 'rgba(255,255,255,0.04)', border: `1px solid ${BD}`,
@@ -330,7 +330,7 @@ export default function TeacherDashboard() {
                 {/* Top Students */}
                 <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '18px 20px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-                    <h3 style={{ fontSize: 13, fontWeight: 700, margin: 0 }}>🏆 أفضل الطلاب</h3>
+                    <h3 style={{ fontSize: 13, fontWeight: 700, margin: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg> أفضل الطلاب</h3>
                     <button onClick={() => setActiveSection('students')} style={{ background: 'none', border: 'none', color: C, fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: FONT }}>عرض الكل ←</button>
                   </div>
                   {displayStudents.slice(0, 5).map((s: any, i: number) => (
@@ -357,13 +357,13 @@ export default function TeacherDashboard() {
 
               {/* Recent Activity */}
               <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '18px 20px' }}>
-                <h3 style={{ fontSize: 13, fontWeight: 700, margin: '0 0 14px 0' }}>🕐 آخر النشاطات</h3>
+                <h3 style={{ fontSize: 13, fontWeight: 700, margin: '0 0 14px 0' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg> آخر النشاطات</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {[
-                    { icon: '✅', text: 'تم تسجيل حضور الصف الرابع أ', time: 'منذ 30 دقيقة', color: C },
-                    { icon: '📝', text: 'تم إنشاء اختبار جبر للصف الخامس', time: 'منذ ساعتين', color: '#FB923C' },
-                    { icon: '💬', text: 'رسالة جديدة من ولي أمر أحمد العمري', time: 'منذ 3 ساعات', color: '#60A5FA' },
-                    { icon: '📋', text: 'تم إضافة واجب هندسة للصف السادس', time: 'أمس', color: '#A78BFA' },
+                    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, text: 'تم تسجيل حضور الصف الرابع أ', time: 'منذ 30 دقيقة', color: C },
+                    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, text: 'تم إنشاء اختبار جبر للصف الخامس', time: 'منذ ساعتين', color: '#FB923C' },
+                    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, text: 'رسالة جديدة من ولي أمر أحمد العمري', time: 'منذ 3 ساعات', color: '#60A5FA' },
+                    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, text: 'تم إضافة واجب هندسة للصف السادس', time: 'أمس', color: '#A78BFA' },
                   ].map((act, i) => (
                     <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 10px', borderRadius: 9, background: 'rgba(255,255,255,0.02)' }}>
                       <div style={{ width: 30, height: 30, borderRadius: 8, background: `${act.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, flexShrink: 0 }}>{act.icon}</div>
@@ -382,13 +382,13 @@ export default function TeacherDashboard() {
           {activeSection === 'schedule' && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>📅 الجدول الأسبوعي</h2>
+                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg> الجدول الأسبوعي</h2>
                 <div style={{ fontSize: 12, color: DIM }}>الفصل الدراسي الثاني — 1446</div>
               </div>
 
               {/* Today card */}
               <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '18px 20px', marginBottom: 16 }}>
-                <h3 style={{ fontSize: 13, fontWeight: 700, margin: '0 0 14px 0', color: C }}>📌 حصص اليوم</h3>
+                <h3 style={{ fontSize: 13, fontWeight: 700, margin: '0 0 14px 0', color: C }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 8h.01 M12 12v4"/></svg> حصص اليوم</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
                   {displaySchedule.map((p: any, i: number) => (
                     <div key={i} style={{ background: 'rgba(255,255,255,0.04)', border: `1px solid ${BD}`, borderRadius: 12, padding: '14px 12px', textAlign: 'center' }}>
@@ -404,7 +404,7 @@ export default function TeacherDashboard() {
 
               {/* Weekly Grid */}
               <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '18px 20px' }}>
-                <h3 style={{ fontSize: 13, fontWeight: 700, margin: '0 0 16px 0' }}>📆 الجدول الأسبوعي الكامل</h3>
+                <h3 style={{ fontSize: 13, fontWeight: 700, margin: '0 0 16px 0' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg> الجدول الأسبوعي الكامل</h3>
                 {['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'].map((day, di) => (
                   <div key={di} style={{ marginBottom: 16 }}>
                     <div style={{ fontSize: 12, fontWeight: 700, color: C, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -436,7 +436,7 @@ export default function TeacherDashboard() {
           {activeSection === 'students' && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>🎓 قائمة طلابي</h2>
+                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg> قائمة طلابي</h2>
                 <select style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${BD}`, borderRadius: 8, padding: '6px 12px', color: DIM, fontSize: 11, fontFamily: FONT, outline: 'none' }}>
                   <option>جميع الفصول</option>
                   <option>الصف الرابع أ</option>
@@ -465,7 +465,7 @@ export default function TeacherDashboard() {
                   }}>
                     <span style={{ color: MUT, fontWeight: 600 }}>{i + 1}</span>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <div style={{ width: 28, height: 28, borderRadius: 7, background: `${C}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, flexShrink: 0 }}>🎓</div>
+                      <div style={{ width: 28, height: 28, borderRadius: 7, background: `${C}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, flexShrink: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
                       <span style={{ fontWeight: 600 }}>{s.name}</span>
                     </div>
                     <span style={{ color: DIM }}>{s.class || 'غير محدد'}</span>
@@ -496,7 +496,7 @@ export default function TeacherDashboard() {
           {activeSection === 'attendance' && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>✅ تسجيل الحضور والغياب</h2>
+                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> تسجيل الحضور والغياب</h2>
                 <div style={{ fontSize: 12, color: DIM }}>{new Date().toLocaleDateString('ar-SA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
               </div>
 
@@ -522,7 +522,7 @@ export default function TeacherDashboard() {
                   <button
                     onClick={handleSaveAttendance}
                     style={{ background: C, border: 'none', borderRadius: 9, padding: '8px 20px', color: '#06060E', fontSize: 13, fontWeight: 800, cursor: 'pointer', fontFamily: FONT }}
-                  >💾 حفظ الحضور</button>
+                  ><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg> حفظ الحضور</button>
                 </div>
 
                 {/* Column Labels */}
@@ -537,7 +537,7 @@ export default function TeacherDashboard() {
                     <div key={i} style={{ display: 'grid', gridTemplateColumns: '44px 2fr 1fr 200px', gap: 8, padding: '10px 12px', borderBottom: `1px solid ${BD}`, alignItems: 'center' }}>
                       <span style={{ color: MUT, fontSize: 12 }}>{i + 1}</span>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <div style={{ width: 30, height: 30, borderRadius: 8, background: '#60A5FA18', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, flexShrink: 0 }}>🎓</div>
+                        <div style={{ width: 30, height: 30, borderRadius: 8, background: '#60A5FA18', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, flexShrink: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
                         <span style={{ fontSize: 13, fontWeight: 600 }}>{s.name}</span>
                       </div>
                       <span style={{ fontSize: 12, color: (s.attendance || 0) >= 90 ? C : '#FB923C' }}>{s.attendance || 0}%</span>
@@ -569,9 +569,9 @@ export default function TeacherDashboard() {
               {/* Attendance Summary */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
                 {[
-                  { label: 'حاضر', value: Object.values(attendanceMap).filter(v => v === 'حاضر').length || displayStudents.length, color: C, icon: '✅' },
-                  { label: 'غائب', value: Object.values(attendanceMap).filter(v => v === 'غائب').length, color: '#ef4444', icon: '❌' },
-                  { label: 'متأخر', value: Object.values(attendanceMap).filter(v => v === 'متأخر').length, color: GD, icon: '⏰' },
+                  { label: 'حاضر', value: Object.values(attendanceMap).filter(v => v === 'حاضر').length || displayStudents.length, color: C, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> },
+                  { label: 'غائب', value: Object.values(attendanceMap).filter(v => v === 'غائب').length, color: '#ef4444', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01"/></svg> },
+                  { label: 'متأخر', value: Object.values(attendanceMap).filter(v => v === 'متأخر').length, color: GD, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4l3 3"/></svg> },
                 ].map((item, i) => (
                   <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 12, padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12 }}>
                     <span style={{ fontSize: 24 }}>{item.icon}</span>
@@ -589,7 +589,7 @@ export default function TeacherDashboard() {
           {activeSection === 'exams' && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>📝 الاختبارات</h2>
+                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg> الاختبارات</h2>
                 <button
                   onClick={() => router.push('/dashboard/exams/create')}
                   style={{ background: C, border: 'none', borderRadius: 9, padding: '8px 18px', color: '#06060E', fontSize: 13, fontWeight: 800, cursor: 'pointer', fontFamily: FONT }}
@@ -597,7 +597,7 @@ export default function TeacherDashboard() {
               </div>
 
               {/* Upcoming Exams */}
-              <h3 style={{ fontSize: 13, fontWeight: 700, marginBottom: 12, color: '#FB923C' }}>⏰ الاختبارات القادمة</h3>
+              <h3 style={{ fontSize: 13, fontWeight: 700, marginBottom: 12, color: '#FB923C' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4l3 3"/></svg> الاختبارات القادمة</h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 24 }}>
                 {[
                   { title: 'اختبار الفصل الأول — رياضيات', class: 'الصف الرابع أ', date: '15 أبريل 2026', duration: '45 دقيقة', questions: 30 },
@@ -607,13 +607,13 @@ export default function TeacherDashboard() {
                   <div key={i} style={{ background: CD, border: '1px solid #FB923C33', borderRadius: 14, padding: 18 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
                       <span style={{ background: '#FB923C18', color: '#FB923C', border: '1px solid #FB923C33', fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 6 }}>قادم</span>
-                      <span style={{ fontSize: 11, color: MUT }}>📅 {exam.date}</span>
+                      <span style={{ fontSize: 11, color: MUT }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg> {exam.date}</span>
                     </div>
                     <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 6 }}>{exam.title}</div>
                     <div style={{ fontSize: 12, color: DIM, marginBottom: 8 }}>{exam.class}</div>
                     <div style={{ display: 'flex', gap: 12, fontSize: 10, color: MUT }}>
-                      <span>⏱ {exam.duration}</span>
-                      <span>❓ {exam.questions} سؤال</span>
+                      <span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4l3 3"/></svg> {exam.duration}</span>
+                      <span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 8h.01 M12 12v4"/></svg> {exam.questions} سؤال</span>
                     </div>
                     <div style={{ display: 'flex', gap: 6, marginTop: 12 }}>
                       <button style={{ flex: 1, background: `${C}15`, border: `1px solid ${C}33`, borderRadius: 7, padding: '5px 0', color: C, fontSize: 10, fontWeight: 700, cursor: 'pointer', fontFamily: FONT }}>تعديل</button>
@@ -624,7 +624,7 @@ export default function TeacherDashboard() {
               </div>
 
               {/* Past Exams */}
-              <h3 style={{ fontSize: 13, fontWeight: 700, marginBottom: 12, color: C }}>✅ الاختبارات المنتهية</h3>
+              <h3 style={{ fontSize: 13, fontWeight: 700, marginBottom: 12, color: C }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> الاختبارات المنتهية</h3>
               <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, overflow: 'hidden' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 100px', gap: 8, padding: '10px 16px', background: 'rgba(255,255,255,0.04)', fontSize: 11, fontWeight: 700, color: MUT }}>
                   <span>الاختبار</span><span>الفصل</span><span>التاريخ</span><span>المتوسط</span><span>النتائج</span>
@@ -650,8 +650,8 @@ export default function TeacherDashboard() {
           {activeSection === 'grades' && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>📈 رصد الدرجات</h2>
-                <button style={{ background: C, border: 'none', borderRadius: 9, padding: '8px 18px', color: '#06060E', fontSize: 13, fontWeight: 800, cursor: 'pointer', fontFamily: FONT }}>💾 حفظ الدرجات</button>
+                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> رصد الدرجات</h2>
+                <button style={{ background: C, border: 'none', borderRadius: 9, padding: '8px 18px', color: '#06060E', fontSize: 13, fontWeight: 800, cursor: 'pointer', fontFamily: FONT }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg> حفظ الدرجات</button>
               </div>
 
               {/* Selectors */}
@@ -693,7 +693,7 @@ export default function TeacherDashboard() {
 
               {/* Grade Distribution */}
               <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '18px 20px' }}>
-                <h3 style={{ fontSize: 13, fontWeight: 700, margin: '0 0 14px 0' }}>📊 توزيع الدرجات</h3>
+                <h3 style={{ fontSize: 13, fontWeight: 700, margin: '0 0 14px 0' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> توزيع الدرجات</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
                   {[
                     { label: 'ممتاز (90-100)', value: displayStudents.filter((s: any) => (s.grade || 0) >= 90).length, color: C },
@@ -715,7 +715,7 @@ export default function TeacherDashboard() {
           {activeSection === 'homework' && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>📋 الواجبات المنزلية</h2>
+                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg> الواجبات المنزلية</h2>
                 <button style={{ background: C, border: 'none', borderRadius: 9, padding: '8px 18px', color: '#06060E', fontSize: 13, fontWeight: 800, cursor: 'pointer', fontFamily: FONT }}>+ إضافة واجب جديد</button>
               </div>
 
@@ -730,7 +730,7 @@ export default function TeacherDashboard() {
                   <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 18 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
                       <span style={{ fontSize: 12, fontWeight: 700 }}>{hw.class}</span>
-                      <span style={{ fontSize: 10, color: MUT }}>📅 {hw.due}</span>
+                      <span style={{ fontSize: 10, color: MUT }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg> {hw.due}</span>
                     </div>
                     <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 10 }}>{hw.title}</div>
                     <div style={{ fontSize: 11, color: DIM, marginBottom: 10 }}>
@@ -750,18 +750,18 @@ export default function TeacherDashboard() {
           {activeSection === 'elearning' && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>💻 التعليم الإلكتروني</h2>
+                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 3H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z M8 21h8 M12 17v4"/></svg> التعليم الإلكتروني</h2>
               </div>
 
               {/* Feature Cards */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14, marginBottom: 24 }}>
                 {[
-                  { icon: '📹', title: 'بث مباشر', desc: 'ابدأ حصة مباشرة مع طلابك الآن', path: '/dashboard/live-stream', color: '#60A5FA', badge: 'متاح' },
-                  { icon: '📚', title: 'المحتوى التعليمي', desc: 'ملفات ومقاطع مرفوعة للطلاب', path: '/dashboard/elearning', color: C, badge: '12 ملف' },
-                  { icon: '📝', title: 'اختبار إلكتروني', desc: 'أنشئ اختباراً تفاعلياً أونلاين', path: '/dashboard/exams', color: '#A78BFA', badge: null },
-                  { icon: '🤖', title: 'مساعد AI', desc: 'أنشئ أسئلة بالذكاء الاصطناعي', path: '/dashboard/ai-chat', color: GD, badge: 'جديد' },
-                  { icon: '📊', title: 'بنك الأسئلة', desc: 'أسئلة جاهزة حسب المنهج', path: '/dashboard/question-bank', color: '#FB923C', badge: '200+ سؤال' },
-                  { icon: '🎥', title: 'تسجيلات الحصص', desc: 'مشاهدة وإدارة التسجيلات السابقة', path: '/dashboard/recordings', color: '#F472B6', badge: '8 تسجيل' },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M23 7l-7 5 7 5V7z M1 5h15a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H1a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg>, title: 'بث مباشر', desc: 'ابدأ حصة مباشرة مع طلابك الآن', path: '/dashboard/live-stream', color: '#60A5FA', badge: 'متاح' },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, title: 'المحتوى التعليمي', desc: 'ملفات ومقاطع مرفوعة للطلاب', path: '/dashboard/elearning', color: C, badge: '12 ملف' },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, title: 'اختبار إلكتروني', desc: 'أنشئ اختباراً تفاعلياً أونلاين', path: '/dashboard/exams', color: '#A78BFA', badge: null },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4l3 3"/></svg>, title: 'مساعد AI', desc: 'أنشئ أسئلة بالذكاء الاصطناعي', path: '/dashboard/ai-chat', color: GD, badge: 'جديد' },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, title: 'بنك الأسئلة', desc: 'أسئلة جاهزة حسب المنهج', path: '/dashboard/question-bank', color: '#FB923C', badge: '200+ سؤال' },
+                  { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M23 7l-7 5 7 5V7z M1 5h15a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H1a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg>, title: 'تسجيلات الحصص', desc: 'مشاهدة وإدارة التسجيلات السابقة', path: '/dashboard/recordings', color: '#F472B6', badge: '8 تسجيل' },
                 ].map((item, i) => (
                   <button key={i} onClick={() => router.push(item.path)} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 20, cursor: 'pointer', fontFamily: FONT, textAlign: 'right', position: 'relative', overflow: 'hidden' }}>
                     {item.badge && (
@@ -777,13 +777,13 @@ export default function TeacherDashboard() {
               {/* Uploaded Materials */}
               <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '18px 20px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-                  <h3 style={{ fontSize: 13, fontWeight: 700, margin: 0 }}>📁 المواد المرفوعة مؤخراً</h3>
+                  <h3 style={{ fontSize: 13, fontWeight: 700, margin: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg> المواد المرفوعة مؤخراً</h3>
                   <button style={{ background: `${C}18`, border: `1px solid ${C}33`, borderRadius: 7, padding: '5px 12px', color: C, fontSize: 10, fontWeight: 700, cursor: 'pointer', fontFamily: FONT }}>+ رفع ملف</button>
                 </div>
                 {[
-                  { name: 'شرح الكسور.pdf', class: 'الصف الرابع أ', size: '2.3 MB', date: 'منذ يومين', icon: '📄', color: '#ef4444' },
-                  { name: 'حل تمارين الجبر.mp4', class: 'الصف الخامس ب', size: '45 MB', date: 'منذ 3 أيام', icon: '🎬', color: '#60A5FA' },
-                  { name: 'ملزمة الهندسة.pptx', class: 'الصف السادس أ', size: '8.1 MB', date: 'منذ أسبوع', icon: '📊', color: '#FB923C' },
+                  { name: 'شرح الكسور.pdf', class: 'الصف الرابع أ', size: '2.3 MB', date: 'منذ يومين', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>, color: '#ef4444' },
+                  { name: 'حل تمارين الجبر.mp4', class: 'الصف الخامس ب', size: '45 MB', date: 'منذ 3 أيام', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M23 7l-7 5 7 5V7z M1 5h15a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H1a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg>, color: '#60A5FA' },
+                  { name: 'ملزمة الهندسة.pptx', class: 'الصف السادس أ', size: '8.1 MB', date: 'منذ أسبوع', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, color: '#FB923C' },
                 ].map((file, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0', borderBottom: i < 2 ? `1px solid ${BD}` : 'none' }}>
                     <div style={{ width: 36, height: 36, borderRadius: 9, background: `${file.color}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{file.icon}</div>
@@ -802,7 +802,7 @@ export default function TeacherDashboard() {
           {activeSection === 'messages' && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>💬 المراسلات</h2>
+                <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> المراسلات</h2>
                 <button style={{ background: C, border: 'none', borderRadius: 9, padding: '8px 18px', color: '#06060E', fontSize: 13, fontWeight: 800, cursor: 'pointer', fontFamily: FONT }}>+ رسالة جديدة</button>
               </div>
 
@@ -810,7 +810,7 @@ export default function TeacherDashboard() {
                 {/* Inbox */}
                 <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, overflow: 'hidden' }}>
                   <div style={{ padding: '14px 16px', borderBottom: `1px solid ${BD}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span style={{ fontSize: 13, fontWeight: 700 }}>📥 البريد الوارد</span>
+                    <span style={{ fontSize: 13, fontWeight: 700 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3"/></svg> البريد الوارد</span>
                     <span style={{ background: '#ef444422', color: '#ef4444', border: '1px solid #ef444433', fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 6 }}>3 جديد</span>
                   </div>
                   {[
@@ -821,7 +821,7 @@ export default function TeacherDashboard() {
                     { from: 'ولي أمر نورة', msg: 'تم استلام نتيجة اختبار الفصل', time: 'منذ يومين', read: true },
                   ].map((msg, i) => (
                     <div key={i} style={{ padding: '12px 16px', borderBottom: `1px solid ${BD}`, cursor: 'pointer', background: !msg.read ? `${C}06` : 'transparent', display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                      <div style={{ width: 32, height: 32, borderRadius: 9, background: !msg.read ? `${C}18` : 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, flexShrink: 0 }}>👤</div>
+                      <div style={{ width: 32, height: 32, borderRadius: 9, background: !msg.read ? `${C}18` : 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, flexShrink: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
                           <span style={{ fontSize: 12, fontWeight: !msg.read ? 700 : 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{msg.from}</span>
@@ -836,7 +836,7 @@ export default function TeacherDashboard() {
 
                 {/* Compose */}
                 <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '18px 20px' }}>
-                  <h3 style={{ fontSize: 13, fontWeight: 700, margin: '0 0 16px 0' }}>✉️ إرسال رسالة لولي الأمر</h3>
+                  <h3 style={{ fontSize: 13, fontWeight: 700, margin: '0 0 16px 0' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6"/></svg> إرسال رسالة لولي الأمر</h3>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                     <div>
                       <label style={{ fontSize: 11, color: DIM, fontWeight: 600, display: 'block', marginBottom: 6 }}>المستلم</label>
@@ -857,7 +857,7 @@ export default function TeacherDashboard() {
                     </div>
                     <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
                       <button style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${BD}`, borderRadius: 8, padding: '8px 16px', color: DIM, fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: FONT }}>مسودة</button>
-                      <button style={{ background: C, border: 'none', borderRadius: 8, padding: '8px 20px', color: '#06060E', fontSize: 12, fontWeight: 800, cursor: 'pointer', fontFamily: FONT }}>إرسال 📤</button>
+                      <button style={{ background: C, border: 'none', borderRadius: 8, padding: '8px 20px', color: '#06060E', fontSize: 12, fontWeight: 800, cursor: 'pointer', fontFamily: FONT }}>إرسال <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M17 8l-5-5-5 5 M12 3v12"/></svg></button>
                     </div>
                   </div>
                 </div>
@@ -868,12 +868,12 @@ export default function TeacherDashboard() {
           {/* ══════════════════════════════════════════════ SETTINGS */}
           {activeSection === 'settings' && (
             <div>
-              <h2 style={{ fontSize: 16, fontWeight: 800, margin: '0 0 20px 0' }}>⚙️ الإعدادات</h2>
+              <h2 style={{ fontSize: 16, fontWeight: 800, margin: '0 0 20px 0' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> الإعدادات</h2>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
 
                 {/* Profile Settings */}
                 <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '18px 20px' }}>
-                  <h3 style={{ fontSize: 13, fontWeight: 700, margin: '0 0 16px 0' }}>👤 الملف الشخصي</h3>
+                  <h3 style={{ fontSize: 13, fontWeight: 700, margin: '0 0 16px 0' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> الملف الشخصي</h3>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                     {[
                       { label: 'الاسم الكامل', value: teacherName },
@@ -891,7 +891,7 @@ export default function TeacherDashboard() {
 
                 {/* Notification Settings */}
                 <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '18px 20px' }}>
-                  <h3 style={{ fontSize: 13, fontWeight: 700, margin: '0 0 16px 0' }}>🔔 إعدادات الإشعارات</h3>
+                  <h3 style={{ fontSize: 13, fontWeight: 700, margin: '0 0 16px 0' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg> إعدادات الإشعارات</h3>
                   {[
                     { label: 'إشعارات رسائل أولياء الأمور', enabled: true },
                     { label: 'تذكيرات الاختبارات', enabled: true },

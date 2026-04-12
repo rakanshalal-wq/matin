@@ -238,7 +238,7 @@ export default function ProfilePage() {
                     {profileData.user.name}
                   </h1>
                   {profileData.user.verified && (
-                    <span style={{ fontSize: 24 }}>✓</span>
+                    <span style={{ fontSize: 24 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
                   )}
                   {profileData.user.role && profileData.user.role !== 'user' && (
                     <span style={{
@@ -381,15 +381,15 @@ export default function ProfilePage() {
                 {/* Stats */}
                 <div style={{ display: 'flex', gap: 20, paddingTop: 12, borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'rgba(255, 255, 255, 0.7)', fontSize: 14 }}>
-                    <span>🤍</span>
+                    <span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
                     <span>{post.likes_count}</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'rgba(255, 255, 255, 0.7)', fontSize: 14 }}>
-                    <span>💬</span>
+                    <span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
                     <span>{post.comments_count}</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'rgba(255, 255, 255, 0.7)', fontSize: 14 }}>
-                    <span>🔗</span>
+                    <span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71 M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>
                     <span>{post.shares_count}</span>
                   </div>
                 </div>

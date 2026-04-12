@@ -30,7 +30,7 @@ export default function SchoolPublicPage() {
 
   if (!school) return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#06060E', flexDirection: 'column', gap: '16px' }}>
-      <div style={{ fontSize: '64px' }}>🏫</div>
+      <div style={{ fontSize: '64px' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg></div>
       <div style={{ color: 'white', fontSize: '20px', fontFamily: "'IBM Plex Sans Arabic', sans-serif" }}>المؤسسة غير موجودة</div>
       <button onClick={() => router.push('/')} style={{ background: '#D4A843', color: '#06060E', border: 'none', borderRadius: '8px', padding: '10px 24px', cursor: 'pointer', fontWeight: 700, fontFamily: "'IBM Plex Sans Arabic', sans-serif" }}>
         العودة للرئيسية

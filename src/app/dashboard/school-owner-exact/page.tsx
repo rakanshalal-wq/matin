@@ -121,25 +121,25 @@ export default function SchoolOwnerDashboard() {
   `;
 
   const navItems = [
-    { id: 'overview', label: 'النظرة العامة', icon: '📊', active: true },
-    { id: 'students', label: 'الطلاب', icon: '👨‍🎓', badge: '12', badgeType: 'c' },
-    { id: 'teachers', label: 'المعلمين', icon: '👨‍🏫' },
-    { id: 'classes', label: 'الفصول', icon: '🏫' },
-    { id: 'schedule', label: 'الجداول', icon: '📅' },
-    { id: 'attendance', label: 'الحضور', icon: '✅' },
-    { id: 'grades', label: 'الدرجات', icon: '📝', badge: '3', badgeType: 'r' },
-    { id: 'fees', label: 'الرسوم', icon: '💰' },
-    { id: 'transport', label: 'النقل', icon: '🚌' },
-    { id: 'health', label: 'الصحة', icon: '🏥' },
-    { id: 'announcements', label: 'الإعلانات', icon: '📢' },
-    { id: 'settings', label: 'الإعدادات', icon: '⚙️' },
+    { id: 'overview', label: 'النظرة العامة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, active: true },
+    { id: 'students', label: 'الطلاب', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, badge: '12', badgeType: 'c' },
+    { id: 'teachers', label: 'المعلمين', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> },
+    { id: 'classes', label: 'الفصول', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg> },
+    { id: 'schedule', label: 'الجداول', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg> },
+    { id: 'attendance', label: 'الحضور', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> },
+    { id: 'grades', label: 'الدرجات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, badge: '3', badgeType: 'r' },
+    { id: 'fees', label: 'الرسوم', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> },
+    { id: 'transport', label: 'النقل', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg> },
+    { id: 'health', label: 'الصحة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> },
+    { id: 'announcements', label: 'الإعلانات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg> },
+    { id: 'settings', label: 'الإعدادات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> },
   ];
 
   const stats = [
-    { icon: '👨‍🎓', value: '1,247', label: 'الطلاب', change: '+12%', color: '#34D399', bg: 'rgba(52,211,153,0.15)' },
-    { icon: '👨‍🏫', value: '89', label: 'المعلمين', change: '+3', color: '#60A5FA', bg: 'rgba(96,165,250,0.15)' },
-    { icon: '📚', value: '42', label: 'الفصول', change: 'ثابت', color: '#A78BFA', bg: 'rgba(167,139,250,0.15)' },
-    { icon: '💰', value: '84%', label: 'التحصيل', change: '+5%', color: '#D4A843', bg: 'rgba(212,168,67,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, value: '1,247', label: 'الطلاب', change: '+12%', color: '#34D399', bg: 'rgba(52,211,153,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, value: '89', label: 'المعلمين', change: '+3', color: '#60A5FA', bg: 'rgba(96,165,250,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, value: '42', label: 'الفصول', change: 'ثابت', color: '#A78BFA', bg: 'rgba(167,139,250,0.15)' },
+    { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, value: '84%', label: 'التحصيل', change: '+5%', color: '#D4A843', bg: 'rgba(212,168,67,0.15)' },
   ];
 
   const recentStudents = [
@@ -165,7 +165,7 @@ export default function SchoolOwnerDashboard() {
               </div>
             </div>
             <div className="own-card">
-              <div className="own-av">👨‍💼</div>
+              <div className="own-av"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
               <div>
                 <div className="own-n">عبدالرحمن العلي</div>
                 <div className="own-r">مالك المدرسة</div>
@@ -192,7 +192,7 @@ export default function SchoolOwnerDashboard() {
           </nav>
           
           <div className="sb-ft">
-            <button className="lo">🚪 تسجيل الخروج</button>
+            <button className="lo"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg> تسجيل الخروج</button>
           </div>
         </aside>
 
@@ -207,9 +207,9 @@ export default function SchoolOwnerDashboard() {
               </div>
             </div>
             <div className="hr2">
-              <button className="hb">🔔<span className="nd"></span></button>
+              <button className="hb"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg><span className="nd"></span></button>
               <div className="ub">
-                <div className="ua">👨‍💼</div>
+                <div className="ua"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
                 <div className="ui">
                   <div className="un">عبدالرحمن</div>
                   <div className="ur">مالك</div>
@@ -222,11 +222,11 @@ export default function SchoolOwnerDashboard() {
           <div className="con">
             <div className="ph">
               <div>
-                <div className="pt">📊 النظرة العامة</div>
+                <div className="pt"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> النظرة العامة</div>
                 <div className="ps">إحصائيات وأداء المدرسة</div>
               </div>
               <div style={{ display: 'flex', gap: 8 }}>
-                <button className="btn-o">📊 التقارير</button>
+                <button className="btn-o"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> التقارير</button>
                 <button className="btn-p">+ إضافة طالب</button>
               </div>
             </div>
@@ -246,7 +246,7 @@ export default function SchoolOwnerDashboard() {
             {/* RECENT STUDENTS TABLE */}
             <div className="card">
               <div className="ch">
-                <div className="ct">👨‍🎓 آخر الطلاب المسجلين</div>
+                <div className="ct"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg> آخر الطلاب المسجلين</div>
                 <button className="cl">عرض الكل →</button>
               </div>
               <div className="tw">

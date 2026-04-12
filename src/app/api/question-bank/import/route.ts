@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getUserFromRequest } from '@/lib/auth';
 import pool from '@/lib/db';
-import * as XLSX from 'xlsx';
+import ExcelJS from 'exceljs';
 
 // =====================================================
 // API استيراد بنك الأسئلة من Excel — منصة متين
@@ -132,7 +132,8 @@ export async function POST(req: NextRequest) {
     if (!grade) return NextResponse.json({ error: 'يجب تحديد الصف الدراسي' }, { status: 400 });
 
     const buffer = await file.arrayBuffer();
-    const workbook = XLSX.read(new Uint8Array(buffer), { type: 'array' });
+    const workbook = new ExcelJS.Workbook();
+    await workbook.xlsx.load(Buffer.from(buffer));
 
     let totalImported = 0, totalSkipped = 0;
     const sheetResults: Array<{ sheet: string; imported: number; skipped: number; structure: string }> = [];
@@ -150,11 +151,15 @@ export async function POST(req: NextRequest) {
         }
       }
 
-      for (const sheetName of workbook.SheetNames) {
+      for (const worksheet of workbook.worksheets) {
+        const sheetName = worksheet.name;
         if (/ملخص|summary|cover|غلاف|تعليمات|instructions|مرجع|reference/i.test(sheetName)) continue;
 
-        const worksheet = workbook.Sheets[sheetName];
-        const rows: any[][] = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: null, raw: false });
+        // Convert exceljs worksheet to 2D array (same format as before)
+        const rows: any[][] = [];
+        worksheet.eachRow({ includeEmpty: true }, (row) => {
+          rows.push(row.values.slice(1) as any[]);
+        });
         if (rows.length < 3) continue;
 
         let semester = '1';

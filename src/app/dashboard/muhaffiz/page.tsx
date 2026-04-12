@@ -14,18 +14,18 @@ const TX = '#EEEEF5';
 const FF = "'IBM Plex Sans Arabic', sans-serif";
 
 const navSections = [
-  { title: 'الرئيسية', items: [{ label: 'لوحة التحكم', icon: '🏠', id: 'overview' }, { label: 'جدول الحلقات', icon: '📅', id: 'schedule' }] },
-  { title: 'حلقاتي', items: [{ label: 'حلقاتي', icon: '📖', id: 'halaqat', badge: 2 }, { label: 'خطة الحفظ', icon: '📋', id: 'plan' }, { label: 'سجل التسميع', icon: '🎙️', id: 'tasmi' }] },
-  { title: 'الطلاب', items: [{ label: 'طلابي', icon: '👤', id: 'students', badge: 33 }, { label: 'الحضور', icon: '✅', id: 'attendance' }, { label: 'التقييم', icon: '⭐', id: 'eval', badge: 5 }, { label: 'نقاط الحفز', icon: '🏆', id: 'points' }] },
-  { title: 'التواصل', items: [{ label: 'أولياء الأمور', icon: '👨‍👩‍👧', id: 'parents' }, { label: 'الرسائل', icon: '💬', id: 'messages', badge: 3 }, { label: 'الإعلانات', icon: '📢', id: 'announcements' }] },
-  { title: 'الملف', items: [{ label: 'ملفي الشخصي', icon: '🧑', id: 'profile' }, { label: 'إجازاتي', icon: '📜', id: 'ijazat' }, { label: 'الإعدادات', icon: '⚙️', id: 'settings' }] },
+  { title: 'الرئيسية', items: [{ label: 'لوحة التحكم', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10"/></svg>, id: 'overview' }, { label: 'جدول الحلقات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg>, id: 'schedule' }] },
+  { title: 'حلقاتي', items: [{ label: 'حلقاتي', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, id: 'halaqat', badge: 2 }, { label: 'خطة الحفظ', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, id: 'plan' }, { label: 'سجل التسميع', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M23 7l-7 5 7 5V7z M1 5h15a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H1a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg>, id: 'tasmi' }] },
+  { title: 'الطلاب', items: [{ label: 'طلابي', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, id: 'students', badge: 33 }, { label: 'الحضور', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, id: 'attendance' }, { label: 'التقييم', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>, id: 'eval', badge: 5 }, { label: 'نقاط الحفز', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>, id: 'points' }] },
+  { title: 'التواصل', items: [{ label: 'أولياء الأمور', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, id: 'parents' }, { label: 'الرسائل', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, id: 'messages', badge: 3 }, { label: 'الإعلانات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>, id: 'announcements' }] },
+  { title: 'الملف', items: [{ label: 'ملفي الشخصي', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, id: 'profile' }, { label: 'إجازاتي', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>, id: 'ijazat' }, { label: 'الإعدادات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>, id: 'settings' }] },
 ];
 
 const statCards = [
-  { label: 'حلقاتي', value: '2', icon: '📖', color: QC },
-  { label: 'طلابي', value: '33', icon: '👥', color: '#3B82F6' },
-  { label: 'جزء حُفظ', value: '12', icon: '📚', color: G },
-  { label: 'التقييم', value: '4.9 ⭐', icon: '⭐', color: '#A78BFA' },
+  { label: 'حلقاتي', value: '2', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, color: QC },
+  { label: 'طلابي', value: '33', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, color: '#3B82F6' },
+  { label: 'جزء حُفظ', value: '12', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, color: G },
+  { label: 'التقييم', value: '4.9 <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>, color: '#A78BFA' },
 ];
 
 const halaqatToday = [
@@ -65,18 +65,18 @@ const parentMessages = [
 ];
 
 const leaderboard = [
-  { rank: 1, name: 'نايف الشهري', points: 1240, badge: '🥇' },
-  { rank: 2, name: 'فهد العمري', points: 1180, badge: '🥈' },
-  { rank: 3, name: 'خالد الغامدي', points: 1050, badge: '🥉' },
-  { rank: 4, name: 'عبدالله الزهراني', points: 980, badge: '⭐' },
-  { rank: 5, name: 'سلطان القحطاني', points: 870, badge: '⭐' },
+  { rank: 1, name: 'نايف الشهري', points: 1240, badge: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg> },
+  { rank: 2, name: 'فهد العمري', points: 1180, badge: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg> },
+  { rank: 3, name: 'خالد الغامدي', points: 1050, badge: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg> },
+  { rank: 4, name: 'عبدالله الزهراني', points: 980, badge: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> },
+  { rank: 5, name: 'سلطان القحطاني', points: 870, badge: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> },
 ];
 
 function Stars({ n }: { n: number }) {
   return (
     <span>
       {[1, 2, 3, 4, 5].map(i => (
-        <span key={i} style={{ color: i <= n ? G : 'rgba(255,255,255,.15)', fontSize: 13 }}>★</span>
+        <span key={i} style={{ color: i <= n ? G : 'rgba(255,255,255,.15)', fontSize: 13 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span>
       ))}
     </span>
   );
@@ -108,7 +108,7 @@ export default function MuhaffizDashboard() {
         <div style={{ padding: '20px 16px 12px' }}>
           {/* User profile */}
           <div style={{ background: `${QC}15`, border: `1px solid ${QC}30`, borderRadius: 14, padding: '16px 14px', marginBottom: 20 }}>
-            <div style={{ width: 52, height: 52, borderRadius: '50%', background: `linear-gradient(135deg,${QC},${G})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, margin: '0 auto 10px' }}>🎓</div>
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: `linear-gradient(135deg,${QC},${G})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, margin: '0 auto 10px' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: 13, fontWeight: 800 }}>الشيخ عبدالرحمن السديري</div>
               <div style={{ fontSize: 10, color: G, marginTop: 3, fontWeight: 700 }}>محفّظ معتمد · حفص عن عاصم</div>
@@ -135,12 +135,12 @@ export default function MuhaffizDashboard() {
         {/* Top bar */}
         <div style={{ background: SB, borderBottom: '1px solid ' + BD, padding: '0 24px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 10 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <button onClick={() => setSideOpen(!sideOpen)} style={{ background: 'rgba(255,255,255,.05)', border: '1px solid ' + BD, borderRadius: 8, padding: '6px 10px', color: DIM, cursor: 'pointer', fontSize: 16, fontFamily: FF }}>☰</button>
+            <button onClick={() => setSideOpen(!sideOpen)} style={{ background: 'rgba(255,255,255,.05)', border: '1px solid ' + BD, borderRadius: 8, padding: '6px 10px', color: DIM, cursor: 'pointer', fontSize: 16, fontFamily: FF }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3"/></svg></button>
             <span style={{ fontSize: 14, fontWeight: 700 }}>لوحة التحكم – المحفّظ</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{ fontSize: 11, color: DIM }}>الأربعاء 8 أبريل 2026</div>
-            <div style={{ width: 34, height: 34, borderRadius: '50%', background: `linear-gradient(135deg,${QC},${G})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>🎓</div>
+            <div style={{ width: 34, height: 34, borderRadius: '50%', background: `linear-gradient(135deg,${QC},${G})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
           </div>
         </div>
 
@@ -160,20 +160,20 @@ export default function MuhaffizDashboard() {
           {/* ── TODAY'S HALAQAT ── */}
           <div style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 16, padding: 20, marginBottom: 20 }}>
             <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span>📅</span> حلقات اليوم
+              <span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg></span> حلقات اليوم
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
               {halaqatToday.map((h, i) => (
                 <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${h.live ? QC + '40' : BD}`, borderRadius: 12, padding: 16 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                     <span style={{ fontSize: 14, fontWeight: 800 }}>{h.name}</span>
-                    <span style={{ fontSize: 10, padding: '3px 10px', borderRadius: 20, background: h.live ? '#10B98120' : 'rgba(255,255,255,.05)', color: h.live ? '#10B981' : MUT, fontWeight: 700 }}>{h.live ? '🔴 مباشرة' : '⏳ قادمة'}</span>
+                    <span style={{ fontSize: 10, padding: '3px 10px', borderRadius: 20, background: h.live ? '#10B98120' : 'rgba(255,255,255,.05)', color: h.live ? '#10B981' : MUT, fontWeight: 700 }}>{h.live ? '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01"/></svg> مباشرة' : '⏳ قادمة'}</span>
                   </div>
-                  <div style={{ fontSize: 11, color: DIM, marginBottom: 4 }}>⏰ {h.time} &nbsp;|&nbsp; 🚪 {h.room}</div>
-                  <div style={{ fontSize: 11, color: G, fontWeight: 700, marginBottom: 4 }}>📖 {h.sura}</div>
+                  <div style={{ fontSize: 11, color: DIM, marginBottom: 4 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4l3 3"/></svg> {h.time} &nbsp;|&nbsp; <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg> {h.room}</div>
+                  <div style={{ fontSize: 11, color: G, fontWeight: 700, marginBottom: 4 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> {h.sura}</div>
                   <div style={{ fontSize: 11, color: DIM, marginBottom: 10 }}>التقدم: {h.progress}</div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: MUT }}>
-                    <span>👥 {h.students} طالب</span>
+                    <span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> {h.students} طالب</span>
                     <button style={{ background: `${QC}20`, border: 'none', color: QC, borderRadius: 8, padding: '4px 12px', fontSize: 11, fontWeight: 700, cursor: 'pointer', fontFamily: FF }}>بدء الحلقة</button>
                   </div>
                 </div>
@@ -184,7 +184,7 @@ export default function MuhaffizDashboard() {
           {/* ── TASMI TABLE ── */}
           <div style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 16, padding: 20, marginBottom: 20 }}>
             <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span>🎙️</span> سجل التسميع – اليوم
+              <span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M23 7l-7 5 7 5V7z M1 5h15a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H1a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg></span> سجل التسميع – اليوم
             </div>
             <div style={{ overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
@@ -217,7 +217,7 @@ export default function MuhaffizDashboard() {
             {/* Progress */}
             <div style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 16, padding: 20 }}>
               <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span>📈</span> تقدم الحفظ
+                <span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg></span> تقدم الحفظ
               </div>
               {hifzProgress.map((s, i) => (
                 <div key={i} style={{ marginBottom: i < hifzProgress.length - 1 ? 14 : 0 }}>
@@ -235,7 +235,7 @@ export default function MuhaffizDashboard() {
             {/* Attendance */}
             <div style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 16, padding: 20 }}>
               <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span>✅</span> حضور اليوم
+                <span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span> حضور اليوم
               </div>
               {attendanceToday.map((s, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0', borderBottom: i < attendanceToday.length - 1 ? '1px solid rgba(255,255,255,.04)' : 'none' }}>
@@ -253,7 +253,7 @@ export default function MuhaffizDashboard() {
             {/* Messages */}
             <div style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 16, padding: 20 }}>
               <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 14, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span>💬</span> رسائل أولياء الأمور</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> رسائل أولياء الأمور</span>
                 <span style={{ background: G, color: '#000', borderRadius: 20, padding: '1px 8px', fontSize: 10, fontWeight: 800 }}>3</span>
               </div>
               {parentMessages.map((m, i) => (
@@ -271,7 +271,7 @@ export default function MuhaffizDashboard() {
             {/* Leaderboard */}
             <div style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 16, padding: 20 }}>
               <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span>🏆</span> لوحة النقاط
+                <span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></span> لوحة النقاط
               </div>
               {leaderboard.map((s, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0', borderBottom: i < leaderboard.length - 1 ? '1px solid rgba(255,255,255,.04)' : 'none' }}>

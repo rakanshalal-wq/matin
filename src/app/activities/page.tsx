@@ -64,12 +64,12 @@ export default function ActivitiesPage() {
         <div className="section-desc">من التسجيل حتى التقييم — كل شيء مُدار في منصة واحدة.</div>
         <div className="features-grid">
           {[
-            { icon: '⚽', title: 'إدارة الأندية', desc: 'إنشاء وإدارة أندية المدرسة — رياضة، فنون، علوم، برمجة — مع قوائم الأعضاء والجداول.', color: 'rgba(167,139,250,0.12)' },
-            { icon: '📝', title: 'تسجيل الطلاب', desc: 'الطلاب يسجلون في الأنشطة إلكترونياً — ولي الأمر يوافق من تطبيقه.', color: 'rgba(167,139,250,0.12)' },
-            { icon: '⭐', title: 'تقييم المشاركة', desc: 'المشرفون يقيّمون مشاركة الطلاب وتطورهم في كل نشاط.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '🏆', title: 'الإنجازات والشهادات', desc: 'إصدار شهادات مشاركة وإنجاز إلكترونية للطلاب المتميزين في الأنشطة.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '📊', title: 'تقارير الأنشطة', desc: 'تقارير شاملة عن مشاركة الطلاب في الأنشطة لدعم ملفهم الأكاديمي.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '🔔', title: 'إشعارات المواعيد', desc: 'تذكيرات تلقائية للطلاب وأولياء الأمور بمواعيد الأنشطة والفعاليات.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, title: 'إدارة الأندية', desc: 'إنشاء وإدارة أندية المدرسة — رياضة، فنون، علوم، برمجة — مع قوائم الأعضاء والجداول.', color: 'rgba(167,139,250,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, title: 'تسجيل الطلاب', desc: 'الطلاب يسجلون في الأنشطة إلكترونياً — ولي الأمر يوافق من تطبيقه.', color: 'rgba(167,139,250,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>, title: 'تقييم المشاركة', desc: 'المشرفون يقيّمون مشاركة الطلاب وتطورهم في كل نشاط.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>, title: 'الإنجازات والشهادات', desc: 'إصدار شهادات مشاركة وإنجاز إلكترونية للطلاب المتميزين في الأنشطة.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, title: 'تقارير الأنشطة', desc: 'تقارير شاملة عن مشاركة الطلاب في الأنشطة لدعم ملفهم الأكاديمي.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>, title: 'إشعارات المواعيد', desc: 'تذكيرات تلقائية للطلاب وأولياء الأمور بمواعيد الأنشطة والفعاليات.', color: 'rgba(201,168,76,0.12)' },
           ].map((f, i) => (
             <div key={i} className="feature-card">
               <div className="feature-icon" style={{ background: f.color }}>{f.icon}</div>

@@ -17,51 +17,51 @@ const sidebarGroups = [
   {
     label: 'الرئيسية',
     items: [
-      { id: 'home', label: 'لوحتي', icon: '🏠', badge: null },
-      { id: 'ads', label: 'إعلانات المنصة', icon: '📢', badge: 2 },
+      { id: 'home', label: 'لوحتي', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10"/></svg>, badge: null },
+      { id: 'ads', label: 'إعلانات المنصة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>, badge: 2 },
     ],
   },
   {
     label: 'البرامج والدورات',
     items: [
-      { id: 'add-program', label: 'إضافة برنامج جديد', icon: '➕', badge: null, gold: true },
-      { id: 'all-programs', label: 'جميع البرامج', icon: '📚', badge: null },
-      { id: 'schedule', label: 'الجدول والمواعيد', icon: '📅', badge: null },
-      { id: 'halls', label: 'قاعات التدريب', icon: '🏛️', badge: null },
+      { id: 'add-program', label: 'إضافة برنامج جديد', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14 M5 12h14"/></svg>, badge: null, gold: true },
+      { id: 'all-programs', label: 'جميع البرامج', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, badge: null },
+      { id: 'schedule', label: 'الجدول والمواعيد', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg>, badge: null },
+      { id: 'halls', label: 'قاعات التدريب', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>, badge: null },
     ],
   },
   {
     label: 'المتدربون',
     items: [
-      { id: 'trainees', label: 'المتدربون المسجلون', icon: '👥', badge: 284 },
-      { id: 'attendance', label: 'الحضور والغياب', icon: '📋', badge: null },
-      { id: 'assessments', label: 'الاختبارات والتقييم', icon: '📝', badge: 5 },
-      { id: 'issue-cert', label: 'إصدار شهادة', icon: '🏅', badge: null, gold: true },
-      { id: 'issued-certs', label: 'الشهادات الصادرة', icon: '📜', badge: null },
+      { id: 'trainees', label: 'المتدربون المسجلون', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, badge: 284 },
+      { id: 'attendance', label: 'الحضور والغياب', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, badge: null },
+      { id: 'assessments', label: 'الاختبارات والتقييم', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, badge: 5 },
+      { id: 'issue-cert', label: 'إصدار شهادة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>, badge: null, gold: true },
+      { id: 'issued-certs', label: 'الشهادات الصادرة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>, badge: null },
     ],
   },
   {
     label: 'المدربون',
     items: [
-      { id: 'trainers', label: 'فريق المدربين', icon: '👨‍🏫', badge: null },
-      { id: 'contact-requests', label: 'طلبات التواصل', icon: '💬', badge: 3 },
+      { id: 'trainers', label: 'فريق المدربين', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, badge: null },
+      { id: 'contact-requests', label: 'طلبات التواصل', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, badge: 3 },
     ],
   },
   {
     label: 'المالية',
     items: [
-      { id: 'revenue', label: 'الإيرادات والمدفوعات', icon: '💰', badge: null },
-      { id: 'invoices', label: 'الفواتير الضريبية', icon: '🧾', badge: null },
-      { id: 'coupons', label: 'كوبونات الخصم', icon: '🎟️', badge: null },
+      { id: 'revenue', label: 'الإيرادات والمدفوعات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, badge: null },
+      { id: 'invoices', label: 'الفواتير الضريبية', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, badge: null },
+      { id: 'coupons', label: 'كوبونات الخصم', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg>, badge: null },
     ],
   },
   {
     label: 'الإعدادات',
     items: [
-      { id: 'page-settings', label: 'إعدادات صفحة المعهد', icon: '⚙️', badge: null },
-      { id: 'subscription', label: 'الباقة والاشتراك', icon: '💎', badge: null },
-      { id: 'security', label: 'الأمن والصلاحيات', icon: '🔐', badge: null },
-      { id: 'support', label: 'الدعم الفني', icon: '🎧', badge: null },
+      { id: 'page-settings', label: 'إعدادات صفحة المعهد', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>, badge: null },
+      { id: 'subscription', label: 'الباقة والاشتراك', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>, badge: null },
+      { id: 'security', label: 'الأمن والصلاحيات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, badge: null },
+      { id: 'support', label: 'الدعم الفني', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M23 7l-7 5 7 5V7z M1 5h15a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H1a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg>, badge: null },
     ],
   },
 ];
@@ -116,7 +116,7 @@ export default function InstituteOwnerDashboard() {
   );
 
   const Stars = ({ rating }: { rating: number }) => (
-    <span style={{ color: GOLD, fontSize: 12 }}>{'★'.repeat(Math.floor(rating))}{'☆'.repeat(5 - Math.floor(rating))} {rating}</span>
+    <span style={{ color: GOLD, fontSize: 12 }}>{Array.from({length: Math.floor(rating)}).map((_, i) => <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" key={i}><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>)}{Array.from({length: 5 - Math.floor(rating)}).map((_, i) => <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" key={i}><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>)} {rating}</span>
   );
 
   const sidebarW = sidebarCollapsed ? 64 : 240;
@@ -137,7 +137,7 @@ export default function InstituteOwnerDashboard() {
               </div>
             </div>
           )}
-          <button onClick={() => setSidebarCollapsed(v => !v)} style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}`, borderRadius: 7, width: 28, height: 28, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(238,238,245,0.5)', fontSize: 14, flexShrink: 0 }}>{sidebarCollapsed ? '◀' : '▶'}</button>
+          <button onClick={() => setSidebarCollapsed(v => !v)} style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${BORDER}`, borderRadius: 7, width: 28, height: 28, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(238,238,245,0.5)', fontSize: 14, flexShrink: 0 }}>{sidebarCollapsed ? '◀' : <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg>}</button>
         </div>
         {/* User card */}
         {!sidebarCollapsed && (
@@ -196,7 +196,7 @@ export default function InstituteOwnerDashboard() {
         {/* ── Period Bar ── */}
         <div style={{ display: 'flex', gap: 14, alignItems: 'center', background: `${GOLD}08`, border: `1px solid ${GOLD}20`, borderRadius: 14, padding: '14px 22px', marginBottom: 24, flexWrap: 'wrap', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', align: 'center', gap: 8 }}>
-            <span style={{ fontSize: 16 }}>📆</span>
+            <span style={{ fontSize: 16 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg></span>
             <span style={{ color: GOLD, fontWeight: 700, fontSize: 14 }}>ذو القعدة 1446</span>
           </div>
           {[{ v: '5', l: 'دفعات نشطة', c: PRIMARY }, { v: '47', l: 'شهادة أُصدرت', c: GREEN }, { v: '88.7%', l: 'امتلاء البرامج', c: GOLD }].map(s => (
@@ -211,10 +211,10 @@ export default function InstituteOwnerDashboard() {
         {/* ── Stats Grid ── */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16, marginBottom: 26 }}>
           {[
-            { title: 'إجمالي المتدربين', value: '284', sub: '+12 هذا الشهر', color: PRIMARY, icon: '👥' },
-            { title: 'البرامج النشطة', value: '18', sub: '5 دفعات جارية', color: GOLD, icon: '📚' },
-            { title: 'الشهادات الصادرة', value: '47', sub: 'هذا الشهر', color: GREEN, icon: '🏅' },
-            { title: 'الإيرادات', value: '128,400', sub: 'ريال سعودي', color: PURPLE, icon: '💰' },
+            { title: 'إجمالي المتدربين', value: '284', sub: '+12 هذا الشهر', color: PRIMARY, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> },
+            { title: 'البرامج النشطة', value: '18', sub: '5 دفعات جارية', color: GOLD, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> },
+            { title: 'الشهادات الصادرة', value: '47', sub: 'هذا الشهر', color: GREEN, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg> },
+            { title: 'الإيرادات', value: '128,400', sub: 'ريال سعودي', color: PURPLE, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> },
           ].map(s => (
             <div key={s.title} style={{ background: CARD, border: `1px solid ${s.color}20`, borderRadius: 16, padding: '20px 22px', position: 'relative', overflow: 'hidden', cursor: 'pointer', transition: 'all 0.2s' }}
               onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = `0 8px 28px ${s.color}18`; el.style.borderColor = `${s.color}45`; }}
@@ -332,11 +332,11 @@ export default function InstituteOwnerDashboard() {
           <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: '20px 22px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
               <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 10, fontWeight: 800, letterSpacing: 2, textTransform: 'uppercase' }}>شهادات الشهر الحالي</div>
-              <button onClick={() => setShowIssueCert(true)} style={{ background: `${GOLD}15`, border: `1px solid ${GOLD}30`, color: GOLD, fontSize: 11, fontWeight: 700, padding: '5px 12px', borderRadius: 8, cursor: 'pointer' }}>🏅 إصدار شهادة</button>
+              <button onClick={() => setShowIssueCert(true)} style={{ background: `${GOLD}15`, border: `1px solid ${GOLD}30`, color: GOLD, fontSize: 11, fontWeight: 700, padding: '5px 12px', borderRadius: 8, cursor: 'pointer' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg> إصدار شهادة</button>
             </div>
             {certsByProgram.map((c, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '12px 0', borderBottom: i < certsByProgram.length - 1 ? `1px solid rgba(255,255,255,0.04)` : 'none' }}>
-                <div style={{ width: 40, height: 40, borderRadius: 10, background: `${c.color}15`, border: `1px solid ${c.color}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>🏅</div>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: `${c.color}15`, border: `1px solid ${c.color}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg></div>
                 <div style={{ flex: 1 }}>
                   <div style={{ color: TEXT, fontSize: 13, fontWeight: 700 }}>{c.program}</div>
                   <div style={{ marginTop: 6 }}><FillBar pct={(c.count / 47) * 100} color={c.color} /></div>
@@ -376,7 +376,7 @@ export default function InstituteOwnerDashboard() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, backdropFilter: 'blur(4px)' }}>
           <div style={{ background: '#080814', border: `1px solid ${GOLD}30`, borderRadius: 22, padding: 36, width: '100%', maxWidth: 480, direction: 'rtl', position: 'relative' }}>
             <button onClick={() => setShowAddProgram(false)} style={{ position: 'absolute', top: 16, left: 16, background: 'rgba(255,255,255,0.06)', border: 'none', color: 'rgba(238,238,245,0.5)', width: 32, height: 32, borderRadius: 8, fontSize: 18, cursor: 'pointer' }}>×</button>
-            <div style={{ color: GOLD, fontSize: 20, fontWeight: 800, marginBottom: 6 }}>➕ إضافة برنامج جديد</div>
+            <div style={{ color: GOLD, fontSize: 20, fontWeight: 800, marginBottom: 6 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14 M5 12h14"/></svg> إضافة برنامج جديد</div>
             <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 12, marginBottom: 26 }}>أدخل تفاصيل البرنامج التدريبي الجديد</div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
               {[
@@ -417,7 +417,7 @@ export default function InstituteOwnerDashboard() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, backdropFilter: 'blur(4px)' }}>
           <div style={{ background: '#080814', border: `1px solid ${GREEN}30`, borderRadius: 22, padding: 36, width: '100%', maxWidth: 440, direction: 'rtl', position: 'relative' }}>
             <button onClick={() => setShowIssueCert(false)} style={{ position: 'absolute', top: 16, left: 16, background: 'rgba(255,255,255,0.06)', border: 'none', color: 'rgba(238,238,245,0.5)', width: 32, height: 32, borderRadius: 8, fontSize: 18, cursor: 'pointer' }}>×</button>
-            <div style={{ color: GREEN, fontSize: 20, fontWeight: 800, marginBottom: 6 }}>🏅 إصدار شهادة</div>
+            <div style={{ color: GREEN, fontSize: 20, fontWeight: 800, marginBottom: 6 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg> إصدار شهادة</div>
             <div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 12, marginBottom: 26 }}>أدخل بيانات الشهادة للمتدرب</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               {[

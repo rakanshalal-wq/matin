@@ -151,8 +151,8 @@ export default function FrontendEditor() {
             <div className="page-sub">تحكم كامل في محتوى وتصميم صفحة matin.ink</div>
           </div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            <span className="preview-badge">👁️ معاينة الموقع</span>
-            <button className="btn-gold">💾 حفظ التغييرات</button>
+            <span className="preview-badge"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 3H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z M8 21h8 M12 17v4"/></svg> معاينة الموقع</span>
+            <button className="btn-gold"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg> حفظ التغييرات</button>
           </div>
         </div>
 
@@ -173,7 +173,7 @@ export default function FrontendEditor() {
         <div className={`panel ${activeTab === 'hero' ? 'active' : ''}`}>
           <div className="card">
             <div className="card-hdr">
-              <div className="card-title">🎨 خلفية الصفحة الرئيسية</div>
+              <div className="card-title"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7 M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> خلفية الصفحة الرئيسية</div>
             </div>
             <div className="card-body">
               <div className="field">
@@ -202,7 +202,7 @@ export default function FrontendEditor() {
               <div className="field">
                 <label className="label">صورة الخلفية</label>
                 <div className="img-upload">
-                  <div style={{ fontSize: 32, marginBottom: 8 }}>📤</div>
+                  <div style={{ fontSize: 32, marginBottom: 8 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M17 8l-5-5-5 5 M12 3v12"/></svg></div>
                   <div style={{ fontSize: 12.5, color: 'rgba(238,238,245,0.5)' }}>اسحب الصورة هنا</div>
                   <div style={{ fontSize: 11, color: 'rgba(238,238,245,0.3)', marginTop: 4 }}>أو انقر للاختيار</div>
                 </div>
@@ -213,7 +213,7 @@ export default function FrontendEditor() {
           {/* Hero Content Card */}
           <div className="card">
             <div className="card-hdr">
-              <div className="card-title">📝 محتوى الهيرو</div>
+              <div className="card-title"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg> محتوى الهيرو</div>
             </div>
             <div className="card-body">
               <div className="field">

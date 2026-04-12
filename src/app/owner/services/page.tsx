@@ -5,16 +5,16 @@ import { useRouter } from 'next/navigation';
 import { PageHeader, StatCard, SearchBar, LoadingState, FilterTabs } from '../../dashboard/_components';
 
 const CATEGORIES: Record<string, { label: string; color: string; icon: string }> = {
-  academic:      { label: 'أكاديمي',       color: '#3B82F6', icon: '📚' },
-  financial:     { label: 'مالي',          color: '#10B981', icon: '💰' },
-  communication: { label: 'تواصل',         color: '#8B5CF6', icon: '📢' },
-  transport:     { label: 'نقل',           color: '#F59E0B', icon: '🚌' },
-  ai:            { label: 'ذكاء اصطناعي',  color: '#EC4899', icon: '🤖' },
-  analytics:     { label: 'تحليلات',       color: '#06B6D4', icon: '📈' },
-  branding:      { label: 'هوية',          color: '#C9A227', icon: '🎨' },
-  services:      { label: 'خدمات',         color: '#6366F1', icon: '⚙️' },
-  engagement:    { label: 'تفاعل',         color: '#EF4444', icon: '🏆' },
-  technical:     { label: 'تقني',          color: '#64748B', icon: '🔧' },
+  academic:      { label: 'أكاديمي',       color: '#3B82F6', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> },
+  financial:     { label: 'مالي',          color: '#10B981', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> },
+  communication: { label: 'تواصل',         color: '#8B5CF6', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg> },
+  transport:     { label: 'نقل',           color: '#F59E0B', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg> },
+  ai:            { label: 'ذكاء اصطناعي',  color: '#EC4899', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4l3 3"/></svg> },
+  analytics:     { label: 'تحليلات',       color: '#06B6D4', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> },
+  branding:      { label: 'هوية',          color: '#C9A227', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7 M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> },
+  services:      { label: 'خدمات',         color: '#6366F1', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> },
+  engagement:    { label: 'تفاعل',         color: '#EF4444', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg> },
+  technical:     { label: 'تقني',          color: '#64748B', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> },
 };
 
 const PLAN_COLORS: Record<string, string> = {
@@ -88,9 +88,9 @@ export default function OwnerServicesPage() {
   );
 
   const mainTabs = [
-    { key: 'school', label: '🏫 خدمات مؤسسة' },
-    { key: 'platform', label: '🌐 كل الخدمات' },
-    { key: 'stats', label: '📊 المدفوعات' },
+    { key: 'school', label: '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg> خدمات مؤسسة' },
+    { key: 'platform', label: '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M2 12h20 M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> كل الخدمات' },
+    { key: 'stats', label: '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> المدفوعات' },
   ];
 
   if (loading) return <LoadingState message="جاري تحميل الخدمات..." />;
@@ -100,7 +100,7 @@ export default function OwnerServicesPage() {
       <PageHeader
         title="إدارة الخدمات والصلاحيات"
         subtitle="تحكم كامل في الخدمات المفعّلة لكل مؤسسة"
-        icon={<span style={{ fontSize: 20 }}>⚙️</span>}
+        icon={<span style={{ fontSize: 20 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>}
       />
 
       {msg && (
@@ -133,10 +133,10 @@ export default function OwnerServicesPage() {
               {selectedSchoolData && (
                 <div style={{ display: 'flex', gap: 8 }}>
                   <span className="badge" style={{ background: `${PLAN_COLORS[selectedSchoolData.plan] || '#6B7280'}20`, color: PLAN_COLORS[selectedSchoolData.plan] || '#6B7280' }}>
-                    📦 {selectedSchoolData.plan || 'غير محدد'}
+                    <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg> {selectedSchoolData.plan || 'غير محدد'}
                   </span>
                   <span className={`badge ${selectedSchoolData.subscription_status === 'active' ? 'badge-green' : 'badge-red'}`}>
-                    {selectedSchoolData.subscription_status === 'active' ? '✅ نشط' : '⚠️ منتهي'}
+                    {selectedSchoolData.subscription_status === 'active' ? '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> نشط' : '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01"/></svg> منتهي'}
                   </span>
                 </div>
               )}
@@ -144,9 +144,9 @@ export default function OwnerServicesPage() {
           </div>
 
           <div className="stat-grid" style={{ marginBottom: 16 }}>
-            <StatCard label="إجمالي الخدمات" value={schoolServices.length} icon={<span>⚙️</span>} color="#3B82F6" />
-            <StatCard label="مفعّلة" value={schoolServices.filter(s => s.is_enabled).length} icon={<span>✅</span>} color="#10B981" />
-            <StatCard label="معطّلة" value={schoolServices.filter(s => !s.is_enabled).length} icon={<span>⛔</span>} color="#EF4444" />
+            <StatCard label="إجمالي الخدمات" value={schoolServices.length} icon={<span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>} color="#3B82F6" />
+            <StatCard label="مفعّلة" value={schoolServices.filter(s => s.is_enabled).length} icon={<span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>} color="#10B981" />
+            <StatCard label="معطّلة" value={schoolServices.filter(s => !s.is_enabled).length} icon={<span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01"/></svg></span>} color="#EF4444" />
           </div>
 
           {Object.entries(CATEGORIES).map(([catKey, cat]) => {
@@ -224,12 +224,12 @@ export default function OwnerServicesPage() {
       {activeTab === 'stats' && platformStats && (
         <>
           <div className="stat-grid">
-            <StatCard label="إجمالي المحصّل" value={`${Number(platformStats.totals?.total_collected || 0).toLocaleString()} ريال`} icon={<span>💰</span>} color="#10B981" />
-            <StatCard label="عمولة المنصة" value={`${Number(platformStats.totals?.total_platform_revenue || 0).toLocaleString()} ريال`} icon={<span>💎</span>} color="#C9A227" />
+            <StatCard label="إجمالي المحصّل" value={`${Number(platformStats.totals?.total_collected || 0).toLocaleString()} ريال`} icon={<span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>} color="#10B981" />
+            <StatCard label="عمولة المنصة" value={`${Number(platformStats.totals?.total_platform_revenue || 0).toLocaleString()} ريال`} icon={<span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span>} color="#C9A227" />
             <StatCard label="فواتير معلّقة" value={platformStats.totals?.total_pending || 0} icon={<span>⏳</span>} color="#F59E0B" />
           </div>
           <div className="dcard" style={{ marginTop: 16 }}>
-            <h3 className="card-section-title">🏫 أداء المؤسسات</h3>
+            <h3 className="card-section-title"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg> أداء المؤسسات</h3>
             <div style={{ overflowX: 'auto' }}>
               <table className="dtable">
                 <thead>

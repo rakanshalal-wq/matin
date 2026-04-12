@@ -62,7 +62,7 @@ export default function TrainerPage() {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ type: 'attendance', course_id: selectedCourse, date, records }),
     });
-    setSaveMsg(res.ok ? '✅ تم حفظ الحضور' : '❌ خطأ في الحفظ');
+    setSaveMsg(res.ok ? '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> تم حفظ الحضور' : '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01"/></svg> خطأ في الحفظ');
     setSaving(false);
     setTimeout(() => setSaveMsg(''), 3000);
   };
@@ -77,13 +77,13 @@ export default function TrainerPage() {
     { title: 'دوراتي', value: stats.courses || courses.length, sub: 'دورة تدريبية', color: OR },
     { title: 'متدربيّ', value: stats.trainees || trainees.length, sub: 'متدرب', color: BLUE },
     { title: 'جلسات هذا الشهر', value: stats.sessions, sub: 'جلسة تدريبية', color: GREEN },
-    { title: 'تقييم المتدربين', value: `${stats.rating || 4.8} ⭐`, sub: 'متوسط التقييم', color: '#F59E0B' },
+    { title: 'تقييم المتدربين', value: `${stats.rating || 4.8} <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`, sub: 'متوسط التقييم', color: '#F59E0B' },
   ];
 
   return (
     <div style={{ fontFamily: "'IBM Plex Sans Arabic', sans-serif", direction: 'rtl', color: '#F8FAFC' }}>
       <div style={{ marginBottom: '1.75rem' }}>
-        <h1 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 800, color: OR }}>👨‍🏫 لوحة المدرب</h1>
+        <h1 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 800, color: OR }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> لوحة المدرب</h1>
         <p style={{ margin: '0.3rem 0 0', color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem' }}>
           مرحباً {user?.name || 'المدرب'} — {new Date().toLocaleDateString('ar-SA')}
         </p>
@@ -165,9 +165,9 @@ export default function TrainerPage() {
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 <button onClick={saveAttendance} disabled={saving} style={{ background: OR, border: 'none', borderRadius: 10, padding: '0.65rem 2.5rem', color: '#000', fontWeight: 800, cursor: 'pointer', opacity: saving ? 0.7 : 1 }}>
-                  {saving ? 'جارٍ الحفظ…' : 'حفظ الحضور ✓'}
+                  {saving ? 'جارٍ الحفظ…' : 'حفظ الحضور <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'}
                 </button>
-                {saveMsg && <span style={{ color: saveMsg.includes('✅') ? GREEN : '#EF4444', fontWeight: 700 }}>{saveMsg}</span>}
+                {saveMsg && <span style={{ color: saveMsg.includes(<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>) ? GREEN : '#EF4444', fontWeight: 700 }}>{saveMsg}</span>}
               </div>
             </>
           )}

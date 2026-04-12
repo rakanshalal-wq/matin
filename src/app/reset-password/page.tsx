@@ -63,7 +63,7 @@ function ResetPasswordForm() {
         padding: '2.5rem', width: '100%', maxWidth: '420px'
       }}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🔐</div>
+          <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
           <h1 style={{ color: '#EEEEF5', fontSize: '1.5rem', fontWeight: 700, margin: 0 }}>
             تعيين كلمة مرور جديدة
           </h1>
@@ -74,7 +74,7 @@ function ResetPasswordForm() {
             background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)',
             borderRadius: '0.75rem', padding: '1.5rem', textAlign: 'center'
           }}>
-            <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>✅</div>
+            <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
             <p style={{ color: '#86efac', fontWeight: 600, margin: 0 }}>تم تعيين كلمة المرور بنجاح!</p>
             <p style={{ color: 'rgba(238,238,245,0.5)', fontSize: '0.85rem', marginTop: '0.5rem' }}>
               سيتم تحويلك لصفحة تسجيل الدخول...

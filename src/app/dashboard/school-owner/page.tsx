@@ -76,39 +76,39 @@ export default function SchoolOwnerDashboard() {
   const ownerName = user?.name || 'مالك المدرسة';
 
   const units = [
-    { id: 'all', icon: '🏫', name: 'جميع الوحدات', type: 'all' },
-    { id: 'school', icon: '🏫', name: schoolName, type: 'school', students: stats.students || 320, staff: 45, capacity: 85 },
-    { id: 'kg', icon: '🌱', name: 'روضة الأمل', type: 'kg', students: 96, staff: 22, capacity: 80 },
-    { id: 'nursery', icon: '🍼', name: 'حضانة الأمل', type: 'nursery', students: 70, staff: 19, capacity: 90 },
+    { id: 'all', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>, name: 'جميع الوحدات', type: 'all' },
+    { id: 'school', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>, name: schoolName, type: 'school', students: stats.students || 320, staff: 45, capacity: 85 },
+    { id: 'kg', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, name: 'روضة الأمل', type: 'kg', students: 96, staff: 22, capacity: 80 },
+    { id: 'nursery', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, name: 'حضانة الأمل', type: 'nursery', students: 70, staff: 19, capacity: 90 },
   ];
 
   const navGroups = [
     { label: 'الرئيسية', items: [
-      { icon: '📊', name: 'لوحة التحكم', path: '/dashboard/school-owner' },
-      { icon: '📈', name: 'التقارير', path: '/dashboard/reports', badge: '' },
+      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, name: 'لوحة التحكم', path: '/dashboard/school-owner' },
+      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, name: 'التقارير', path: '/dashboard/reports', badge: '' },
     ]},
     { label: 'إدارة الوحدات', items: [
-      { icon: '🏫', name: 'المدارس والفروع', path: '/dashboard/schools' },
-      { icon: '📝', name: 'طلبات القبول', path: '/dashboard/admission', badge: `${admissions.length}` },
-      { icon: '📋', name: 'الإعدادات المدرسية', path: '/dashboard/settings' },
+      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>, name: 'المدارس والفروع', path: '/dashboard/schools' },
+      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, name: 'طلبات القبول', path: '/dashboard/admission', badge: `${admissions.length}` },
+      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, name: 'الإعدادات المدرسية', path: '/dashboard/settings' },
     ]},
     { label: 'الموظفون', items: [
-      { icon: '👥', name: 'إدارة الموظفين', path: '/dashboard/employees' },
-      { icon: '📄', name: 'العقود', path: '/dashboard/contracts', badge: '6' },
-      { icon: '💰', name: 'الرواتب', path: '/dashboard/salaries' },
+      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, name: 'إدارة الموظفين', path: '/dashboard/employees' },
+      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>, name: 'العقود', path: '/dashboard/contracts', badge: '6' },
+      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, name: 'الرواتب', path: '/dashboard/salaries' },
     ]},
     { label: 'الطلاب', items: [
-      { icon: '🎓', name: 'قائمة الطلاب', path: '/dashboard/students' },
-      { icon: '✅', name: 'الحضور والغياب', path: '/dashboard/attendance' },
-      { icon: '📝', name: 'الاختبارات', path: '/dashboard/exams' },
+      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, name: 'قائمة الطلاب', path: '/dashboard/students' },
+      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, name: 'الحضور والغياب', path: '/dashboard/attendance' },
+      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, name: 'الاختبارات', path: '/dashboard/exams' },
     ]},
     { label: 'المالية', items: [
-      { icon: '💳', name: 'الرسوم', path: '/dashboard/student-fees', badge: '38K' },
-      { icon: '📊', name: 'التقارير المالية', path: '/dashboard/finance' },
+      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, name: 'الرسوم', path: '/dashboard/student-fees', badge: '38K' },
+      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, name: 'التقارير المالية', path: '/dashboard/finance' },
     ]},
     { label: 'النقل', items: [
-      { icon: '🚌', name: 'إدارة الباصات', path: '/dashboard/transport' },
-      { icon: '👤', name: 'السائقين', path: '/dashboard/drivers' },
+      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>, name: 'إدارة الباصات', path: '/dashboard/transport' },
+      { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, name: 'السائقين', path: '/dashboard/drivers' },
     ]},
   ];
 
@@ -129,7 +129,7 @@ export default function SchoolOwnerDashboard() {
         {/* Owner Card */}
         <div style={{ padding: '14px 18px', borderBottom: `1px solid ${BD}` }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ width: 38, height: 38, borderRadius: 10, background: `${C}22`, border: `1px solid ${C}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>👤</div>
+            <div style={{ width: 38, height: 38, borderRadius: 10, background: `${C}22`, border: `1px solid ${C}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
             <div>
               <div style={{ fontSize: 12, fontWeight: 700, color: TXT }}>{ownerName}</div>
               <div style={{ fontSize: 10, color: C }}>مالك {schoolName}</div>
@@ -173,7 +173,7 @@ export default function SchoolOwnerDashboard() {
         {/* Header */}
         <header style={{ height: 56, padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: `1px solid ${BD}`, background: 'rgba(6,6,14,0.8)', backdropFilter: 'blur(12px)', flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: DIM, fontSize: 18, fontFamily: FONT }}>☰</button>
+            <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: DIM, fontSize: 18, fontFamily: FONT }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3"/></svg></button>
             <h1 style={{ fontSize: 16, fontWeight: 700 }}>
               {activeView === 'all' ? 'نظرة عامة — جميع الوحدات' : 
                activeView === 'school' ? `إدارة ${schoolName}` : 
@@ -182,13 +182,13 @@ export default function SchoolOwnerDashboard() {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <button style={{ position: 'relative', background: 'rgba(255,255,255,0.05)', border: `1px solid ${BD}`, borderRadius: 9, width: 36, height: 36, cursor: 'pointer', color: DIM, fontSize: 16 }}>
-              🔔
+              <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>
               <span style={{ position: 'absolute', top: -2, left: -2, width: 8, height: 8, borderRadius: '50%', background: '#ef4444' }} />
             </button>
             <button onClick={() => setShowAddModal(true)} style={{ background: C, border: 'none', borderRadius: 9, padding: '7px 16px', color: '#06060E', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: FONT, display: 'flex', alignItems: 'center', gap: 5 }}>
               + إضافة وحدة
             </button>
-            <div style={{ width: 32, height: 32, borderRadius: 8, background: `${C}22`, border: `1px solid ${C}33`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>👤</div>
+            <div style={{ width: 32, height: 32, borderRadius: 8, background: `${C}22`, border: `1px solid ${C}33`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
           </div>
         </header>
 
@@ -213,10 +213,10 @@ export default function SchoolOwnerDashboard() {
               {/* Stat Cards */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
                 {[
-                  { label: 'إجمالي الطلاب', value: stats.students || 486, icon: '🎓', color: '#60A5FA' },
-                  { label: 'إجمالي الموظفين', value: stats.teachers ? stats.teachers + 20 : 86, icon: '👥', color: C },
-                  { label: 'الإيرادات الشهرية', value: `${((stats.revenue || 1200000) / 1000).toFixed(0)}K`, icon: '💰', color: GD },
-                  { label: 'طلبات القبول المعلقة', value: admissions.length || 14, icon: '📝', color: '#FB923C' },
+                  { label: 'إجمالي الطلاب', value: stats.students || 486, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, color: '#60A5FA' },
+                  { label: 'إجمالي الموظفين', value: stats.teachers ? stats.teachers + 20 : 86, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, color: C },
+                  { label: 'الإيرادات الشهرية', value: `${((stats.revenue || 1200000) / 1000).toFixed(0)}K`, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, color: GD },
+                  { label: 'طلبات القبول المعلقة', value: admissions.length || 14, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, color: '#FB923C' },
                 ].map((s, i) => (
                   <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '16px 18px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
@@ -270,7 +270,7 @@ export default function SchoolOwnerDashboard() {
                 {/* Pending Admissions */}
                 <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-                    <h3 style={{ fontSize: 14, fontWeight: 700 }}>📝 طلبات القبول المعلقة</h3>
+                    <h3 style={{ fontSize: 14, fontWeight: 700 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg> طلبات القبول المعلقة</h3>
                     <button onClick={() => router.push('/dashboard/admission')} style={{ background: `${C}18`, border: `1px solid ${C}33`, borderRadius: 7, padding: '4px 12px', color: C, fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: FONT }}>عرض الكل</button>
                   </div>
                   {(admissions.length > 0 ? admissions.slice(0, 5) : [
@@ -292,7 +292,7 @@ export default function SchoolOwnerDashboard() {
                 </div>
                 {/* Revenue Breakdown */}
                 <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-                  <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}>💰 الإيرادات حسب الوحدة</h3>
+                  <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> الإيرادات حسب الوحدة</h3>
                   {[
                     { name: schoolName, amount: '720K', pct: 60, color: '#60A5FA' },
                     { name: 'روضة الأمل', amount: '310K', pct: 26, color: C },
@@ -322,10 +322,10 @@ export default function SchoolOwnerDashboard() {
             <>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
                 {[
-                  { label: 'الطلاب', value: stats.students || 320, icon: '🎓', color: '#60A5FA' },
-                  { label: 'المعلمين', value: stats.teachers || 45, icon: '👨‍🏫', color: C },
-                  { label: 'الفصول', value: stats.classes || 18, icon: '🏫', color: '#A78BFA' },
-                  { label: 'نسبة الحضور', value: `${stats.attendance_rate || 94}%`, icon: '✅', color: '#FB923C' },
+                  { label: 'الطلاب', value: stats.students || 320, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, color: '#60A5FA' },
+                  { label: 'المعلمين', value: stats.teachers || 45, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, color: C },
+                  { label: 'الفصول', value: stats.classes || 18, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>, color: '#A78BFA' },
+                  { label: 'نسبة الحضور', value: `${stats.attendance_rate || 94}%`, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, color: '#FB923C' },
                 ].map((s, i) => (
                   <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '16px 18px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
@@ -337,7 +337,7 @@ export default function SchoolOwnerDashboard() {
                 ))}
               </div>
               <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-                <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}>📋 الفصول الدراسية</h3>
+                <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg> الفصول الدراسية</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
                   {['الأول ابتدائي', 'الثاني ابتدائي', 'الثالث ابتدائي', 'الرابع ابتدائي', 'الخامس ابتدائي', 'السادس ابتدائي', 'الأول متوسط', 'الثاني متوسط', 'الثالث متوسط'].map((c, i) => (
                     <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${BD}`, borderRadius: 10, padding: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -358,10 +358,10 @@ export default function SchoolOwnerDashboard() {
             <>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
                 {[
-                  { label: 'الأطفال', value: 96, icon: '👶', color: '#F472B6' },
-                  { label: 'المعلمات', value: 18, icon: '👩‍🏫', color: C },
-                  { label: 'الفصول', value: 6, icon: '🌱', color: '#A78BFA' },
-                  { label: 'المساعدات', value: 4, icon: '🤝', color: '#FB923C' },
+                  { label: 'الأطفال', value: 96, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, color: '#F472B6' },
+                  { label: 'المعلمات', value: 18, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, color: C },
+                  { label: 'الفصول', value: 6, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, color: '#A78BFA' },
+                  { label: 'المساعدات', value: 4, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, color: '#FB923C' },
                 ].map((s, i) => (
                   <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '16px 18px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
@@ -373,7 +373,7 @@ export default function SchoolOwnerDashboard() {
                 ))}
               </div>
               <div style={{ background: `${C}08`, border: `1px solid ${C}22`, borderRadius: 14, padding: 16, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
-                <span style={{ fontSize: 24 }}>📊</span>
+                <span style={{ fontSize: 24 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg></span>
                 <div>
                   <div style={{ fontSize: 14, fontWeight: 700 }}>نظام تقرير النمو</div>
                   <div style={{ fontSize: 12, color: DIM }}>تقارير شهرية لكل طفل — نمو جسدي، اجتماعي، معرفي، لغوي</div>
@@ -382,7 +382,7 @@ export default function SchoolOwnerDashboard() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
                 {['KG1 — تمهيدي', 'KG2 — أول روضة', 'KG3 — ثاني روضة'].map((level, i) => (
                   <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16, textAlign: 'center' }}>
-                    <div style={{ fontSize: 32, marginBottom: 8 }}>🌱</div>
+                    <div style={{ fontSize: 32, marginBottom: 8 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
                     <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 4 }}>{level}</div>
                     <div style={{ fontSize: 12, color: DIM }}>{28 + i * 4} طفل · شعبتان</div>
                   </div>
@@ -396,9 +396,9 @@ export default function SchoolOwnerDashboard() {
             <>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
                 {[
-                  { label: 'الأطفال', value: 70, icon: '🍼', color: '#F472B6' },
-                  { label: 'المربيات', value: 15, icon: '👩‍🍼', color: C },
-                  { label: 'الغرف', value: 5, icon: '🛏️', color: '#A78BFA' },
+                  { label: 'الأطفال', value: 70, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, color: '#F472B6' },
+                  { label: 'المربيات', value: 15, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, color: C },
+                  { label: 'الغرف', value: 5, icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, color: '#A78BFA' },
                   { label: 'قائمة الانتظار', value: 8, icon: '⏳', color: '#FB923C' },
                 ].map((s, i) => (
                   <div key={i} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: '16px 18px' }}>
@@ -411,14 +411,14 @@ export default function SchoolOwnerDashboard() {
                 ))}
               </div>
               <div style={{ background: '#FB923C08', border: '1px solid #FB923C22', borderRadius: 14, padding: 16, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
-                <span style={{ fontSize: 24 }}>📝</span>
+                <span style={{ fontSize: 24 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg></span>
                 <div>
                   <div style={{ fontSize: 14, fontWeight: 700 }}>التقرير اليومي</div>
                   <div style={{ fontSize: 12, color: DIM }}>تقرير يومي لكل طفل — أكل، نوم، نشاط، ملاحظات</div>
                 </div>
               </div>
               <div style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 14, padding: 16 }}>
-                <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}>👶 الأطفال المسجّلين</h3>
+                <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 14 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> الأطفال المسجّلين</h3>
                 {[
                   { name: 'ليان أحمد', age: '2.5 سنة', room: 'غرفة النجوم' },
                   { name: 'فارس محمد', age: '1.8 سنة', room: 'غرفة القمر' },
@@ -426,7 +426,7 @@ export default function SchoolOwnerDashboard() {
                 ].map((c, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: `1px solid ${BD}` }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <div style={{ width: 32, height: 32, borderRadius: 8, background: '#F472B622', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>👶</div>
+                      <div style={{ width: 32, height: 32, borderRadius: 8, background: '#F472B622', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
                       <div>
                         <div style={{ fontSize: 13, fontWeight: 600 }}>{c.name}</div>
                         <div style={{ fontSize: 10, color: MUT }}>{c.age} · {c.room}</div>
@@ -440,21 +440,21 @@ export default function SchoolOwnerDashboard() {
 
           {/* Quick Actions (all views) */}
           <div style={{ marginTop: 24 }}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 12 }}>🔗 اختصارات سريعة</h3>
+            <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 12 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71 M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> اختصارات سريعة</h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 8 }}>
               {[
-                { icon: '📝', label: 'طلبات القبول', path: '/dashboard/admission' },
-                { icon: '📊', label: 'التقارير', path: '/dashboard/reports' },
-                { icon: '💰', label: 'المالية', path: '/dashboard/finance' },
-                { icon: '👥', label: 'الموظفين', path: '/dashboard/employees' },
-                { icon: '🎓', label: 'الطلاب', path: '/dashboard/students' },
-                { icon: '✅', label: 'الحضور', path: '/dashboard/attendance' },
-                { icon: '📋', label: 'الاختبارات', path: '/dashboard/exams' },
-                { icon: '🚌', label: 'النقل', path: '/dashboard/transport' },
-                { icon: '📚', label: 'المكتبة', path: '/dashboard/library' },
-                { icon: '💬', label: 'الرسائل', path: '/dashboard/messages' },
-                { icon: '⚙️', label: 'الإعدادات', path: '/dashboard/settings' },
-                { icon: '🌐', label: 'صفحة المدرسة', path: `/school/${school?.code || ''}` },
+                { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, label: 'طلبات القبول', path: '/dashboard/admission' },
+                { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, label: 'التقارير', path: '/dashboard/reports' },
+                { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, label: 'المالية', path: '/dashboard/finance' },
+                { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, label: 'الموظفين', path: '/dashboard/employees' },
+                { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, label: 'الطلاب', path: '/dashboard/students' },
+                { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, label: 'الحضور', path: '/dashboard/attendance' },
+                { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, label: 'الاختبارات', path: '/dashboard/exams' },
+                { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>, label: 'النقل', path: '/dashboard/transport' },
+                { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, label: 'المكتبة', path: '/dashboard/library' },
+                { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, label: 'الرسائل', path: '/dashboard/messages' },
+                { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>, label: 'الإعدادات', path: '/dashboard/settings' },
+                { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M2 12h20 M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>, label: 'صفحة المدرسة', path: `/school/${school?.code || ''}` },
               ].map((qa, i) => (
                 <button key={i} onClick={() => router.push(qa.path)} style={{ background: CD, border: `1px solid ${BD}`, borderRadius: 10, padding: '12px 8px', cursor: 'pointer', fontFamily: FONT, textAlign: 'center', color: DIM, fontSize: 11, fontWeight: 600 }}>
                   <div style={{ fontSize: 20, marginBottom: 4 }}>{qa.icon}</div>
@@ -472,14 +472,14 @@ export default function SchoolOwnerDashboard() {
           <div onClick={e => e.stopPropagation()} style={{ background: '#0C0C18', border: `1px solid ${BD}`, borderRadius: 18, padding: 28, width: 440, maxHeight: '80vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
               <h3 style={{ fontSize: 18, fontWeight: 800 }}>إضافة وحدة تعليمية</h3>
-              <button onClick={() => setShowAddModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: MUT, fontSize: 18 }}>✕</button>
+              <button onClick={() => setShowAddModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: MUT, fontSize: 18 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18 M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
             </div>
             <div style={{ fontSize: 12, color: DIM, marginBottom: 16 }}>اختر نوع الوحدة:</div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 20 }}>
               {[
-                { type: 'school', icon: '🏫', label: 'مدرسة' },
-                { type: 'kg', icon: '🌱', label: 'روضة' },
-                { type: 'nursery', icon: '🍼', label: 'حضانة' },
+                { type: 'school', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>, label: 'مدرسة' },
+                { type: 'kg', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, label: 'روضة' },
+                { type: 'nursery', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, label: 'حضانة' },
               ].map(t => (
                 <button key={t.type} onClick={() => setSelectedUnitType(t.type)} style={{ background: selectedUnitType === t.type ? `${C}18` : CD, border: `1px solid ${selectedUnitType === t.type ? C+'44' : BD}`, borderRadius: 12, padding: 16, cursor: 'pointer', fontFamily: FONT, textAlign: 'center' }}>
                   <div style={{ fontSize: 28, marginBottom: 6 }}>{t.icon}</div>

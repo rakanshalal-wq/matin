@@ -14,7 +14,7 @@ export default function Dashboard() {
         <nav style={{ flex: 1, padding: '6px 0', overflowY: 'auto' }}>
           {['النظرة العامة', 'القائمة', 'الإعدادات'].map((item, i) => (
             <div key={i} onClick={() => setActiveNav(i)} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 12px 6px 14px', fontSize: 12, color: activeNav === i ? '#EEEEF5' : 'rgba(238,238,245,0.55)', cursor: 'pointer', borderRight: activeNav === i ? '3px solid #EA580C' : '3px solid transparent', margin: '1px 5px 1px 0', borderRadius: '0 7px 7px 0', background: activeNav === i ? '#EA580C' + '15' : 'transparent', fontWeight: activeNav === i ? 600 : 400 }}>
-              <span>📊</span><span>{item}</span>{activeNav === i && <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#EA580C', marginRight: 'auto' }} />}
+              <span><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg></span><span>{item}</span>{activeNav === i && <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#EA580C', marginRight: 'auto' }} />}
             </div>
           ))}
         </nav>
@@ -23,14 +23,14 @@ export default function Dashboard() {
         <header style={{ height: 62, background: 'rgba(6,6,14,0.88)', backdropFilter: 'blur(24px)', borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 18px' }}>
           <div><div style={{ fontSize: 16, fontWeight: 800 }}>لوحة المدرب</div><div style={{ fontSize: 10.5, color: 'rgba(238,238,245,0.35)' }}>النظرة العامة</div></div>
           <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 10, padding: '5px 10px', display: 'flex', alignItems: 'center', gap: 7 }}>
-            <div style={{ width: 28, height: 28, borderRadius: 7, background: '#EA580C' + '15', border: '1.5px solid ' + '#EA580C' + '40', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>👤</div>
+            <div style={{ width: 28, height: 28, borderRadius: 7, background: '#EA580C' + '15', border: '1.5px solid ' + '#EA580C' + '40', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
             <div style={{ fontSize: 12, fontWeight: 700 }}>المستخدم</div>
           </div>
         </header>
         <div style={{ flex: 1, padding: '18px 20px', overflowY: 'auto' }}>
-          <div style={{ color: '#EA580C', fontSize: 19, fontWeight: 800, marginBottom: 16 }}>📊 النظرة العامة</div>
+          <div style={{ color: '#EA580C', fontSize: 19, fontWeight: 800, marginBottom: 16 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg> النظرة العامة</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 16 }}>
-            {[{ icon: '📚', value: '5', label: 'دوراتي', color: '#FB923C' }, { icon: '👨🎓', value: '120', label: 'المتدربون', color: '#F97316' }, { icon: '⭐', value: '4.8', label: 'التقييم', color: '#10B981' }, { icon: '💰', value: '8,500', label: 'الدخل', color: '#D4A843' }].map((stat, i) => (
+            {[{ icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, value: '5', label: 'دوراتي', color: '#FB923C' }, { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, value: '120', label: 'المتدربون', color: '#F97316' }, { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>, value: '4.8', label: 'التقييم', color: '#10B981' }, { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, value: '8,500', label: 'الدخل', color: '#D4A843' }].map((stat, i) => (
               <div key={i} style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: 11, padding: 14 }}>
                 <div style={{ width: 40, height: 40, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10, fontSize: 18, background: stat.color + '20', color: stat.color }}>{stat.icon}</div>
                 <div style={{ fontSize: 22, fontWeight: 800, color: stat.color }}>{stat.value}</div>

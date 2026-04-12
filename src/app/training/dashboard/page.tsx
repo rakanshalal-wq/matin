@@ -41,7 +41,7 @@ function Spinner() {
 function EmptyState({ label }: { label: string }) {
   return (
     <div style={{ textAlign: 'center', padding: '3rem', color: 'rgba(255,255,255,0.3)' }}>
-      <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>📭</div>
+      <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6"/></svg></div>
       <div style={{ fontSize: '0.9rem' }}>{label}</div>
     </div>
   );
@@ -228,12 +228,12 @@ export default function TrainingDashboard() {
   const td: React.CSSProperties = { padding: '0.75rem 1rem', borderBottom: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.85)', fontSize: '0.88rem' };
 
   const quickActions = [
-    { label: 'إضافة دورة',      icon: '📋', action: () => setShowCourse(true) },
-    { label: 'تسجيل متدرب',     icon: '👤', action: () => setShowTrainee(true) },
-    { label: 'إضافة مدرب',      icon: '👨‍🏫', action: () => setShowTrainer(true) },
-    { label: 'الشهادات',         icon: '🎓', action: () => setTab('certificates') },
-    { label: 'التقارير',          icon: '📊', action: () => alert('التقارير — قريباً') },
-    { label: 'الإعدادات',         icon: '⚙️', action: () => alert('الإعدادات — قريباً') },
+    { label: 'إضافة دورة',      icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, action: () => setShowCourse(true) },
+    { label: 'تسجيل متدرب',     icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, action: () => setShowTrainee(true) },
+    { label: 'إضافة مدرب',      icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, action: () => setShowTrainer(true) },
+    { label: 'الشهادات',         icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg>, action: () => setTab('certificates') },
+    { label: 'التقارير',          icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, action: () => alert('التقارير — قريباً') },
+    { label: 'الإعدادات',         icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>, action: () => alert('الإعدادات — قريباً') },
   ];
 
   // ── Render ────────────────────────────────────────────────────────────────
@@ -243,7 +243,7 @@ export default function TrainingDashboard() {
       {/* Header */}
       <div style={{ marginBottom: '2rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ width: 44, height: 44, borderRadius: 12, background: `linear-gradient(135deg,${ORANGE},#EA580C)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem' }}>🏋️</div>
+          <div style={{ width: 44, height: 44, borderRadius: 12, background: `linear-gradient(135deg,${ORANGE},#EA580C)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
           <div>
             <h1 style={{ margin: 0, fontSize: '1.45rem', fontWeight: 800 }}>داش بورد مركز التدريب</h1>
             <p style={{ margin: 0, color: 'rgba(255,255,255,0.45)', fontSize: '0.82rem' }}>مرحباً، {user?.name || 'مدير التدريب'}</p>
@@ -253,10 +253,10 @@ export default function TrainingDashboard() {
 
       {/* Stat Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: '1rem', marginBottom: '2rem' }}>
-        <StatCard label="المتدربون"        value={stats.trainees}     color={ORANGE}    icon="👥" />
-        <StatCard label="المدربون"          value={stats.trainers}     color="#3B82F6"   icon="👨‍🏫" />
-        <StatCard label="كورسات نشطة"      value={stats.courses}      color="#10B981"   icon="📋" />
-        <StatCard label="شهادات أُصدرت"   value={stats.certificates} color="#A855F7"   icon="🎓" />
+        <StatCard label="المتدربون"        value={stats.trainees}     color={ORANGE}    icon=<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> />
+        <StatCard label="المدربون"          value={stats.trainers}     color="#3B82F6"   icon=<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> />
+        <StatCard label="كورسات نشطة"      value={stats.courses}      color="#10B981"   icon=<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg> />
+        <StatCard label="شهادات أُصدرت"   value={stats.certificates} color="#A855F7"   icon=<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg> />
       </div>
 
       {/* Tabs */}

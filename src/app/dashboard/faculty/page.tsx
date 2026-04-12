@@ -186,18 +186,18 @@ const studentMessages = [
 ];
 
 const quickActions = [
-  { label: 'محاضرة أونلاين', icon: '🎥', color: C.primary },
-  { label: 'محاضرة حضورية', icon: '🏛️', color: C.blue },
-  { label: 'تسجيل محاضرة', icon: '⏺️', color: C.purple },
-  { label: 'اختبار أونلاين', icon: '📝', color: C.green },
-  { label: 'امتحان حضوري', icon: '📋', color: C.orange },
-  { label: 'بنك الأسئلة', icon: '🗂️', color: C.accent2 },
-  { label: 'تكليف جديد', icon: '📌', color: C.blue },
-  { label: 'رصد الدرجات', icon: '🎯', color: C.green },
-  { label: 'رفع محتوى', icon: '📤', color: C.purple },
-  { label: 'رصد الحضور', icon: '✅', color: C.primary },
-  { label: 'تقرير الأداء', icon: '📊', color: C.orange },
-  { label: 'رفع إجازة', icon: '📅', color: C.gold },
+  { label: 'محاضرة أونلاين', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M23 7l-7 5 7 5V7z M1 5h15a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H1a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg>, color: C.primary },
+  { label: 'محاضرة حضورية', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>, color: C.blue },
+  { label: 'تسجيل محاضرة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M10 10h4v4h-4z"/></svg>, color: C.purple },
+  { label: 'اختبار أونلاين', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 14l2 2 4-4"/></svg>, color: C.green },
+  { label: 'امتحان حضوري', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, color: C.orange },
+  { label: 'بنك الأسئلة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>, color: C.accent2 },
+  { label: 'تكليف جديد', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 8h.01 M12 12v4"/></svg>, color: C.blue },
+  { label: 'رصد الدرجات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, color: C.green },
+  { label: 'رفع محتوى', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M17 8l-5-5-5 5 M12 3v12"/></svg>, color: C.purple },
+  { label: 'رصد الحضور', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>, color: C.primary },
+  { label: 'تقرير الأداء', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, color: C.orange },
+  { label: 'رفع إجازة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg>, color: C.gold },
 ];
 
 export default function FacultyDashboard() {
@@ -303,12 +303,12 @@ export default function FacultyDashboard() {
               marginBottom: 24,
             }}>
               <div>
-                <div style={{ fontSize: 22, fontWeight: 700 }}>مرحباً د. محمد 👋</div>
+                <div style={{ fontSize: 22, fontWeight: 700 }}>مرحباً د. محمد <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div>
                 <div style={{ fontSize: 13, color: C.dim, marginTop: 4 }}>الثلاثاء، 8 أبريل 2026 — الفصل الثاني</div>
               </div>
               <div style={{ display: 'flex', gap: 10 }}>
-                <button style={btnStyle(C.primary)}>🎥 محاضرة الآن</button>
-                <button style={btnStyle(C.gold)}>📅 رفع إجازة</button>
+                <button style={btnStyle(C.primary)}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M23 7l-7 5 7 5V7z M1 5h15a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H1a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg> محاضرة الآن</button>
+                <button style={btnStyle(C.gold)}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg> رفع إجازة</button>
               </div>
             </div>
 
@@ -641,7 +641,7 @@ function PlaceholderSection({ section }: { section: Section }) {
         width: 70, height: 70, borderRadius: '50%',
         background: 'rgba(34,211,238,0.08)', border: `2px solid ${C.border}`,
         display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28,
-      }}>📂</div>
+      }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg></div>
       <div style={{ fontSize: 20, fontWeight: 700, color: C.text }}>{labels[section]}</div>
       <div style={{ fontSize: 13, color: C.muted }}>هذا القسم قيد التطوير</div>
     </div>

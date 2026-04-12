@@ -80,7 +80,7 @@ export default function ParentPage() {
       body: JSON.stringify({ type: 'excuse', ...excuse }),
     }).catch(() => {});
     setModal({ type: null });
-    showSuccess('✅ تم إرسال عذر الغياب بنجاح');
+    showSuccess('<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> تم إرسال عذر الغياب بنجاح');
     setSavingExcuse(false);
   };
 
@@ -93,7 +93,7 @@ export default function ParentPage() {
     }).catch(() => {});
     setModal({ type: null });
     setMsgForm({ teacher: '', content: '' });
-    showSuccess('✅ تم إرسال الرسالة بنجاح');
+    showSuccess('<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> تم إرسال الرسالة بنجاح');
     setSavingMsg(false);
   };
 
@@ -105,7 +105,7 @@ export default function ParentPage() {
       body: JSON.stringify({ type: 'payment', ...payForm, amount: fees?.pending }),
     }).catch(() => {});
     setModal({ type: null });
-    showSuccess('✅ تمت عملية الدفع بنجاح');
+    showSuccess('<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> تمت عملية الدفع بنجاح');
     setSavingPay(false);
     loadAll();
   };
@@ -153,7 +153,7 @@ export default function ParentPage() {
       {/* ── Header ── */}
       <div style={{ marginBottom: '1.75rem' }}>
         <h1 style={{ margin: 0, fontSize: '1.45rem', fontWeight: 800, color: EM }}>
-          متابعة {child?.name || 'ابنك/ابنتك'} 👨‍👩‍👧
+          متابعة {child?.name || 'ابنك/ابنتك'} <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
         </h1>
         <p style={{ margin: '0.3rem 0 0', color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem' }}>
           {child?.school_name || 'المدرسة'} — {child?.class_name || 'الفصل الدراسي'}
@@ -168,12 +168,12 @@ export default function ParentPage() {
       {/* ── Quick Actions ── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '0.75rem', marginBottom: '1.75rem' }}>
         {[
-          { label: 'تقديم عذر غياب', icon: '📋', color: BLUE, action: () => setModal({ type: 'excuse' }) },
-          { label: 'راسل المعلم', icon: '💬', color: EM, action: () => setModal({ type: 'message' }) },
-          { label: 'دفع الرسوم', icon: '💳', color: GOLD, action: () => setModal({ type: 'payment' }) },
-          { label: 'الدرجات', icon: '📊', color: PURPLE, action: () => setTab('grades') },
-          { label: 'الواجبات', icon: '📚', color: ORANGE, action: () => setTab('grades') },
-          { label: 'السلوك', icon: '⭐', color: GOLD, action: () => setTab('behavior') },
+          { label: 'تقديم عذر غياب', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, color: BLUE, action: () => setModal({ type: 'excuse' }) },
+          { label: 'راسل المعلم', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, color: EM, action: () => setModal({ type: 'message' }) },
+          { label: 'دفع الرسوم', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, color: GOLD, action: () => setModal({ type: 'payment' }) },
+          { label: 'الدرجات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, color: PURPLE, action: () => setTab('grades') },
+          { label: 'الواجبات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, color: ORANGE, action: () => setTab('grades') },
+          { label: 'السلوك', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>, color: GOLD, action: () => setTab('behavior') },
         ].map(({ label, icon, color, action }) => (
           <button key={label} onClick={action} style={{ background: `${color}12`, border: `1px solid ${color}25`, borderRadius: 12, padding: '0.85rem', textAlign: 'center', cursor: 'pointer', transition: 'all 0.15s' }}
             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = `${color}20`; }}
@@ -258,7 +258,7 @@ export default function ParentPage() {
               </div>
             ))}
             {homework.filter(h => h.status === 'active').length === 0 && (
-              <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.85rem', textAlign: 'center' }}>لا واجبات معلقة ✓</div>
+              <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.85rem', textAlign: 'center' }}>لا واجبات معلقة <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
             )}
           </div>
 
@@ -269,7 +269,7 @@ export default function ParentPage() {
               <div style={{ fontSize: '2rem', fontWeight: 800, color: GOLD }}>{stats.behavior_points || 0}</div>
               <div>
                 <div style={{ fontWeight: 700, fontSize: '0.9rem', color: stats.behavior_points >= 40 ? EM : ORANGE }}>
-                  {(stats.behavior_points || 0) >= 40 ? 'ممتاز ⭐' : 'يحتاج تحسين'}
+                  {(stats.behavior_points || 0) >= 40 ? 'ممتاز <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>' : 'يحتاج تحسين'}
                 </div>
                 <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.78rem', marginTop: 2 }}>
                   من أصل 50 نقطة
@@ -290,7 +290,7 @@ export default function ParentPage() {
             </button>
           </div>
           <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '1.5rem', textAlign: 'center' }}>
-            <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>📅</div>
+            <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg></div>
             <div style={{ fontSize: '2rem', fontWeight: 800, color: stats.attendance >= 90 ? EM : ORANGE, marginBottom: '0.5rem' }}>
               {stats.attendance || 0}%
             </div>
@@ -360,7 +360,7 @@ export default function ParentPage() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
             <h2 style={{ margin: 0, color: GOLD, fontSize: '1rem', fontWeight: 700 }}>السلوك والانضباط</h2>
             <div style={{ background: `${GOLD}20`, border: `1px solid ${GOLD}40`, borderRadius: 12, padding: '0.5rem 1.25rem', color: GOLD, fontWeight: 800 }}>
-              {stats.behavior_points || 0} نقطة ⭐
+              {stats.behavior_points || 0} نقطة <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
           </div>
           <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: 'hidden' }}>
@@ -390,7 +390,7 @@ export default function ParentPage() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
             <h2 style={{ margin: 0, color: ORANGE, fontSize: '1rem', fontWeight: 700 }}>التواصل مع المعلمين</h2>
             <button onClick={() => setModal({ type: 'message' })} style={{ background: ORANGE, border: 'none', borderRadius: 9, padding: '0.55rem 1.25rem', color: '#000', fontWeight: 800, cursor: 'pointer', fontSize: '0.88rem' }}>
-              💬 رسالة جديدة
+              <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> رسالة جديدة
             </button>
           </div>
           <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: 'hidden' }}>
@@ -421,12 +421,12 @@ export default function ParentPage() {
               <div>
                 <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.82rem', marginBottom: 4 }}>المبلغ المستحق</div>
                 <div style={{ color: '#EF4444', fontSize: '2rem', fontWeight: 800 }}>
-                  {fees?.pending ? `${Number(fees.pending).toLocaleString()} ريال` : 'لا رسوم معلقة ✓'}
+                  {fees?.pending ? `${Number(fees.pending).toLocaleString()} ريال` : 'لا رسوم معلقة <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'}
                 </div>
               </div>
               {fees?.pending > 0 && (
                 <button onClick={() => setModal({ type: 'payment' })} style={{ background: GOLD, border: 'none', borderRadius: 12, padding: '0.75rem 1.75rem', color: '#000', fontWeight: 800, cursor: 'pointer', fontSize: '0.95rem' }}>
-                  💳 ادفع الآن
+                  <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> ادفع الآن
                 </button>
               )}
             </div>
@@ -491,7 +491,7 @@ export default function ParentPage() {
       {modal.type === 'message' && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '1rem' }}>
           <div style={{ background: '#0D1B2A', border: `1px solid ${EM}40`, borderRadius: 18, padding: '2rem', width: '100%', maxWidth: 460, direction: 'rtl' }}>
-            <h3 style={{ margin: '0 0 1.5rem', color: EM, fontWeight: 800 }}>💬 رسالة للمعلم</h3>
+            <h3 style={{ margin: '0 0 1.5rem', color: EM, fontWeight: 800 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> رسالة للمعلم</h3>
             <div style={{ marginBottom: '1rem' }}>
               <label style={{ display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: '0.82rem', marginBottom: '0.35rem', fontWeight: 600 }}>المعلم</label>
               <input type="text" value={msgForm.teacher} placeholder="اسم المعلم أو المادة" onChange={e => setMsgForm(p => ({ ...p, teacher: e.target.value }))}
@@ -516,7 +516,7 @@ export default function ParentPage() {
       {modal.type === 'payment' && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '1rem' }}>
           <div style={{ background: '#0D1B2A', border: `1px solid ${GOLD}40`, borderRadius: 18, padding: '2rem', width: '100%', maxWidth: 460, direction: 'rtl' }}>
-            <h3 style={{ margin: '0 0 0.5rem', color: GOLD, fontWeight: 800 }}>💳 دفع الرسوم الدراسية</h3>
+            <h3 style={{ margin: '0 0 0.5rem', color: GOLD, fontWeight: 800 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> دفع الرسوم الدراسية</h3>
             <div style={{ background: `${GOLD}10`, border: `1px solid ${GOLD}30`, borderRadius: 10, padding: '0.75rem 1rem', marginBottom: '1.5rem', color: GOLD, fontWeight: 700, textAlign: 'center', fontSize: '1.1rem' }}>
               {fees?.pending ? `${Number(fees.pending).toLocaleString()} ريال سعودي` : '—'}
             </div>

@@ -84,7 +84,7 @@ export default function TransportPage() {
         <div className="section-desc">ولي الأمر يعرف أين ابنه في كل لحظة — من مغادرة المنزل حتى الوصول للمدرسة والعودة.</div>
 
         <div className="highlight-box">
-          <h3>🚌 تطبيق السائق — تجربة فريدة</h3>
+          <h3><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg> تطبيق السائق — تجربة فريدة</h3>
           <p>
             السائق يستخدم تطبيق متين المخصص — يفتح الرحلة، يسجل صعود كل طالب بمسح QR أو النقر على اسمه، ويُرسل إشعاراً فورياً لولي الأمر عند الصعود والنزول. في حالة الطوارئ، زر SOS يُنبّه الإدارة والأهل فوراً مع الموقع الدقيق.
           </p>
@@ -92,15 +92,15 @@ export default function TransportPage() {
 
         <div className="features-grid">
           {[
-            { icon: '📍', title: 'تتبع GPS مباشر', desc: 'موقع الحافلة على الخريطة في الوقت الفعلي — ولي الأمر يتابع من تطبيقه بدون أي تأخير.', color: 'rgba(244,63,94,0.12)' },
-            { icon: '🔔', title: 'إشعارات الوصول الفورية', desc: 'إشعار واتساب فوري لولي الأمر عند صعود ابنه للحافلة وعند وصوله للمدرسة أو المنزل.', color: 'rgba(244,63,94,0.12)' },
-            { icon: '📱', title: 'تطبيق السائق', desc: 'تطبيق مخصص للسائق لإدارة الرحلة، تسجيل الطلاب، وإرسال التحديثات تلقائياً.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '🗺️', title: 'إدارة الخطوط والمحطات', desc: 'رسم خطوط السير والمحطات على الخريطة مع تحسين المسارات لتقليل وقت الرحلة.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '👨‍✈️', title: 'ملفات السائقين والمشرفات', desc: 'بيانات كاملة للسائقين والمشرفات — رخصة القيادة، بيانات الاتصال، وسجل الرحلات.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '🚨', title: 'زر الطوارئ SOS', desc: 'السائق يضغط SOS في الطوارئ — إشعار فوري للإدارة وأولياء الأمور مع الموقع الدقيق.', color: 'rgba(239,68,68,0.12)' },
-            { icon: '⏱️', title: 'تقارير الالتزام بالمواعيد', desc: 'تقارير يومية عن دقة مواعيد الوصول والمغادرة لكل حافلة وكل سائق.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '🔧', title: 'صيانة الحافلات', desc: 'جدول صيانة دورية للحافلات مع تنبيهات عند اقتراب موعد الصيانة أو انتهاء الفحص الدوري.', color: 'rgba(201,168,76,0.12)' },
-            { icon: '📊', title: 'تقارير النقل الشاملة', desc: 'إحصائيات كاملة عن عمليات النقل — عدد الطلاب، المسافات، التكاليف، والكفاءة التشغيلية.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 8h.01 M12 12v4"/></svg>, title: 'تتبع GPS مباشر', desc: 'موقع الحافلة على الخريطة في الوقت الفعلي — ولي الأمر يتابع من تطبيقه بدون أي تأخير.', color: 'rgba(244,63,94,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>, title: 'إشعارات الوصول الفورية', desc: 'إشعار واتساب فوري لولي الأمر عند صعود ابنه للحافلة وعند وصوله للمدرسة أو المنزل.', color: 'rgba(244,63,94,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 3H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z M8 21h8 M12 17v4"/></svg>, title: 'تطبيق السائق', desc: 'تطبيق مخصص للسائق لإدارة الرحلة، تسجيل الطلاب، وإرسال التحديثات تلقائياً.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M2 12h20 M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>, title: 'إدارة الخطوط والمحطات', desc: 'رسم خطوط السير والمحطات على الخريطة مع تحسين المسارات لتقليل وقت الرحلة.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>, title: 'ملفات السائقين والمشرفات', desc: 'بيانات كاملة للسائقين والمشرفات — رخصة القيادة، بيانات الاتصال، وسجل الرحلات.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg>, title: 'زر الطوارئ SOS', desc: 'السائق يضغط SOS في الطوارئ — إشعار فوري للإدارة وأولياء الأمور مع الموقع الدقيق.', color: 'rgba(239,68,68,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4l3 3"/></svg>, title: 'تقارير الالتزام بالمواعيد', desc: 'تقارير يومية عن دقة مواعيد الوصول والمغادرة لكل حافلة وكل سائق.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>, title: 'صيانة الحافلات', desc: 'جدول صيانة دورية للحافلات مع تنبيهات عند اقتراب موعد الصيانة أو انتهاء الفحص الدوري.', color: 'rgba(201,168,76,0.12)' },
+            { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, title: 'تقارير النقل الشاملة', desc: 'إحصائيات كاملة عن عمليات النقل — عدد الطلاب، المسافات، التكاليف، والكفاءة التشغيلية.', color: 'rgba(201,168,76,0.12)' },
           ].map((f, i) => (
             <div key={i} className="feature-card">
               <div className="feature-icon" style={{ background: f.color }}>{f.icon}</div>

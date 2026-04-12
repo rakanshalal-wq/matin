@@ -51,18 +51,18 @@ export default function StudentPortal() {
   ];
 
   const quickActions12 = [
-    { label: 'تسجيل مقررات', icon: '📋', action: () => setShowRegisterModal(true) },
-    { label: 'انضم للمحاضرة', icon: '🎥', action: () => alert('الانضمام للمحاضرة المباشرة') },
-    { label: 'تقديم طلب', icon: '📨', action: () => setShowRequestModal(true) },
-    { label: 'شهادة قيد', icon: '📄', action: () => alert('طلب شهادة قيد') },
-    { label: 'دفع الرسوم', icon: '💳', action: () => alert('الانتقال لبوابة الدفع') },
-    { label: 'عذر طبي', icon: '🏥', action: () => alert('تقديم عذر طبي') },
-    { label: 'المكتبة', icon: '📚', action: () => alert('المكتبة الرقمية') },
-    { label: 'رسالة للدكتور', icon: '✉️', action: () => alert('إرسال رسالة') },
-    { label: 'الكافتيريا', icon: '🍽️', action: () => alert('قائمة الكافتيريا') },
-    { label: 'محاضرات مسجّلة', icon: '▶️', action: () => alert('المحاضرات المسجلة') },
-    { label: 'المنح', icon: '🏆', action: () => alert('برامج المنح') },
-    { label: 'الأنشطة', icon: '⭐', action: () => alert('الأنشطة الطلابية') },
+    { label: 'تسجيل مقررات', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>, action: () => setShowRegisterModal(true) },
+    { label: 'انضم للمحاضرة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M23 7l-7 5 7 5V7z M1 5h15a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H1a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg>, action: () => alert('الانضمام للمحاضرة المباشرة') },
+    { label: 'تقديم طلب', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6"/></svg>, action: () => setShowRequestModal(true) },
+    { label: 'شهادة قيد', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>, action: () => alert('طلب شهادة قيد') },
+    { label: 'دفع الرسوم', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>, action: () => alert('الانتقال لبوابة الدفع') },
+    { label: 'عذر طبي', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, action: () => alert('تقديم عذر طبي') },
+    { label: 'المكتبة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, action: () => alert('المكتبة الرقمية') },
+    { label: 'رسالة للدكتور', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6"/></svg>, action: () => alert('إرسال رسالة') },
+    { label: 'الكافتيريا', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1 M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z M6 1v3 M10 1v3 M14 1v3"/></svg>, action: () => alert('قائمة الكافتيريا') },
+    { label: 'محاضرات مسجّلة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg>, action: () => alert('المحاضرات المسجلة') },
+    { label: 'المنح', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>, action: () => alert('برامج المنح') },
+    { label: 'الأنشطة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>, action: () => alert('الأنشطة الطلابية') },
   ];
 
   useEffect(() => {
@@ -151,7 +151,7 @@ export default function StudentPortal() {
 
       {/* Header */}
       <div style={{ marginBottom: '28px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-        <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'linear-gradient(135deg, #818CF8, #6366F1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0 }}>🎓</div>
+        <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'linear-gradient(135deg, #818CF8, #6366F1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
         <div>
           <h1 style={{ margin: 0, fontSize: '22px', fontWeight: 700, color: '#F1F5F9' }}>بوابة الطالب الجامعي</h1>
           <p style={{ margin: 0, fontSize: '13px', color: '#64748B' }}>مرحباً {user?.name || 'الطالب'} — الفصل الدراسي الثاني 1446</p>
@@ -411,7 +411,7 @@ export default function StudentPortal() {
               {availableCourses.map(c => (
                 <div key={c.id} onClick={() => c.prereqOk && toggleCourse(c.id)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 14px', background: selectedAvailableCourses.includes(c.id) ? 'rgba(129,140,248,0.1)' : 'rgba(255,255,255,0.03)', borderRadius: '10px', border: `1px solid ${selectedAvailableCourses.includes(c.id) ? 'rgba(129,140,248,0.4)' : 'rgba(255,255,255,0.06)'}`, cursor: c.prereqOk ? 'pointer' : 'not-allowed', opacity: c.prereqOk ? 1 : 0.5 }}>
                   <div style={{ width: '18px', height: '18px', borderRadius: '4px', border: `2px solid ${selectedAvailableCourses.includes(c.id) ? '#818CF8' : 'rgba(255,255,255,0.2)'}`, background: selectedAvailableCourses.includes(c.id) ? '#818CF8' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    {selectedAvailableCourses.includes(c.id) && <span style={{ color: '#fff', fontSize: '11px' }}>✓</span>}
+                    {selectedAvailableCourses.includes(c.id) && <span style={{ color: '#fff', fontSize: '11px' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>}
                   </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontWeight: 600, color: '#F1F5F9', fontSize: '14px' }}>{c.name}</div>

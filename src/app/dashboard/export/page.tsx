@@ -72,13 +72,18 @@ export default function ExportPage() {
     if (!data.length) return;
     setExporting('excel');
     try {
-      const XLSX = await import('xlsx');
-      const wsData = [columns.map((c: any) => c.label), ...data.map(row => columns.map((c: any) => row[c.key] || ''))];
-      const ws = XLSX.utils.aoa_to_sheet(wsData);
-      ws['!cols'] = columns.map(() => ({ wch: 20 }));
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, TYPES.find(t => t.id === selectedType)?.label || 'بيانات');
-      XLSX.writeFile(wb, `matin_${selectedType}_${new Date().toISOString().split('T')[0]}.xlsx`);
+      const ExcelJS = (await import('exceljs')).default;
+      const wb = new ExcelJS.Workbook();
+      const ws = wb.addWorksheet(TYPES.find(t => t.id === selectedType)?.label || 'بيانات');
+      ws.addRow(columns.map((c: any) => c.label));
+      data.forEach(row => ws.addRow(columns.map((c: any) => row[c.key] || '')));
+      ws.columns = columns.map(() => ({ width: 20 }));
+      const buf = await wb.xlsx.writeBuffer();
+      const blob = new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `matin_${selectedType}_${new Date().toISOString().split('T')[0]}.xlsx`;
+      a.click(); URL.revokeObjectURL(url);
       setMsg('تم تصدير Excel بنجاح');
     } catch { setMsg('خطأ في تصدير Excel'); }
     setExporting('');
