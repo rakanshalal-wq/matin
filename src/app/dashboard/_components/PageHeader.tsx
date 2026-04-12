@@ -3,12 +3,13 @@ import React from 'react';
 
 interface PageHeaderProps {
   title: string;
-  subtitle?: string;
+  subtitle?: React.ReactNode;
   icon?: React.ReactNode;
   actions?: React.ReactNode;
+  action?: React.ReactNode;
 }
 
-export default function PageHeader({ title, subtitle, icon, actions }: PageHeaderProps) {
+export default function PageHeader({ title, subtitle, icon, actions, action }: PageHeaderProps) {
   return (
     <div className="page-hdr">
       <div>
@@ -18,7 +19,7 @@ export default function PageHeader({ title, subtitle, icon, actions }: PageHeade
         </div>
         {subtitle && <div className="page-sub">{subtitle}</div>}
       </div>
-      {actions && <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>{actions}</div>}
+      {(actions || action) && <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>{actions}{action}</div>}
     </div>
   );
 }

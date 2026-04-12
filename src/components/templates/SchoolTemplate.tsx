@@ -18,7 +18,10 @@ interface SchoolTemplateProps {
     teacher_count?: number;
     success_rate?: number;
     years?: number;
+    [key: string]: any;
   };
+  globalAds?: any[];
+  globalProducts?: any[];
 }
 
 const SchoolTemplate: React.FC<SchoolTemplateProps> = ({ data }) => {

@@ -1,10 +1,10 @@
 'use client';
 export const dynamic = 'force-dynamic';
-import { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { PageHeader, StatCard, SearchBar, LoadingState, FilterTabs } from '../../dashboard/_components';
 
-const CATEGORIES: Record<string, { label: string; color: string; icon: string }> = {
+const CATEGORIES: Record<string, { label: string; color: string; icon: React.ReactNode }> = {
   academic:      { label: 'أكاديمي',       color: '#3B82F6', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> },
   financial:     { label: 'مالي',          color: '#10B981', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> },
   communication: { label: 'تواصل',         color: '#8B5CF6', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"/></svg> },

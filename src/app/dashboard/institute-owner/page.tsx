@@ -195,7 +195,7 @@ export default function InstituteOwnerDashboard() {
 
         {/* ── Period Bar ── */}
         <div style={{ display: 'flex', gap: 14, alignItems: 'center', background: `${GOLD}08`, border: `1px solid ${GOLD}20`, borderRadius: 14, padding: '14px 22px', marginBottom: 24, flexWrap: 'wrap', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', align: 'center', gap: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ fontSize: 16 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg></span>
             <span style={{ color: GOLD, fontWeight: 700, fontSize: 14 }}>ذو القعدة 1446</span>
           </div>

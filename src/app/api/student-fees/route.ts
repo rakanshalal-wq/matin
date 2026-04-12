@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     // التحقق من صحة المدخلات باستخدام Zod
     const validation = studentFeeSchema.safeParse(body);
     if (!validation.success) {
-      return NextResponse.json({ error: validation.error.errors[0].message }, { status: 400 });
+      return NextResponse.json({ error: validation.error.issues[0].message }, { status: 400 });
     }
 
     const { student_id, student_name, amount, fee_type, description, due_date, status, payment_method } = validation.data as any;

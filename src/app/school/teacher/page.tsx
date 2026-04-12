@@ -117,7 +117,7 @@ export default function TeacherPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ type: 'attendance', class_id: selectedClass, date: attendanceDate, records }),
     });
-    setSaveMsg(res.ok ? '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> تم حفظ الحضور بنجاح' : '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01"/></svg> خطأ في الحفظ');
+    setSaveMsg(res.ok ? 'تم حفظ الحضور بنجاح' : 'خطأ في الحفظ');
     setSaving(false);
     setTimeout(() => setSaveMsg(''), 3500);
   };
@@ -355,10 +355,10 @@ export default function TeacherPage() {
                   onClick={saveAttendance} disabled={saving}
                   style={{ background: G, border: 'none', borderRadius: 10, padding: '0.7rem 2.5rem', color: '#000', fontWeight: 800, fontSize: '0.95rem', cursor: 'pointer', opacity: saving ? 0.7 : 1, transition: 'opacity 0.2s' }}
                 >
-                  {saving ? 'جارٍ الحفظ…' : 'حفظ الحضور <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'}
+                  {saving ? 'جارٍ الحفظ…' : 'حفظ الحضور'}
                 </button>
                 {saveMsg && (
-                  <span style={{ color: saveMsg.includes(<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>) ? G : '#EF4444', fontWeight: 700 }}>{saveMsg}</span>
+                  <span style={{ color: saveMsg.includes('تم') ? G : '#EF4444', fontWeight: 700 }}>{saveMsg}</span>
                 )}
               </div>
             </>

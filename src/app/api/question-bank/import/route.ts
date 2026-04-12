@@ -133,7 +133,8 @@ export async function POST(req: NextRequest) {
 
     const buffer = await file.arrayBuffer();
     const workbook = new ExcelJS.Workbook();
-    await workbook.xlsx.load(Buffer.from(buffer));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (workbook.xlsx as any).load(Buffer.from(new Uint8Array(buffer)));
 
     let totalImported = 0, totalSkipped = 0;
     const sheetResults: Array<{ sheet: string; imported: number; skipped: number; structure: string }> = [];
@@ -157,9 +158,10 @@ export async function POST(req: NextRequest) {
 
         // Convert exceljs worksheet to 2D array (same format as before)
         const rows: any[][] = [];
-        worksheet.eachRow({ includeEmpty: true }, (row) => {
-          rows.push(row.values.slice(1) as any[]);
-        });
+        for (let r = 1; r <= worksheet.rowCount; r++) {
+          const row = worksheet.getRow(r);
+          rows.push((row.values as any[]).slice(1));
+        }
         if (rows.length < 3) continue;
 
         let semester = '1';

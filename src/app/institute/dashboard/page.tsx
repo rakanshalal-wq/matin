@@ -1,7 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 interface Stats { students: number; teachers: number; courses: number; revenue: number }
@@ -15,7 +15,7 @@ const CARD   = 'rgba(255,255,255,0.03)';
 const BORDER = 'rgba(6,182,212,0.18)';
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
-function StatCard({ label, value, color, icon }: { label: string; value: any; color: string; icon: string }) {
+function StatCard({ label, value, color, icon }: { label: string; value: any; color: string; icon: React.ReactNode }) {
   return (
     <div style={{ background: CARD, border: `1px solid ${color}33`, borderRadius: 14, padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', gap: 8 }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>

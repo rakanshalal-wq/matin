@@ -1,7 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const DEFAULT_PROGRAMS = [
   { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, title: 'Excel المتقدم', duration: '3 أسابيع', price: '450 ريال', seats: 20, color: '#10B981' },
@@ -12,7 +12,7 @@ const DEFAULT_PROGRAMS = [
   { icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>, title: 'الموارد البشرية', duration: '5 أسابيع', price: '850 ريال', seats: 10, color: '#EF4444' },
 ];
 
-interface Program { icon?: string; title: string; duration?: string; price?: string; seats?: number; color?: string; }
+interface Program { icon?: React.ReactNode; title: string; duration?: string; price?: string; seats?: number; color?: string; }
 interface Announcement { id: number; title: string; body?: string; created_at?: string; pinned?: boolean; }
 interface Institute { name: string; description?: string; logo?: string; phone?: string; email?: string; address?: string; }
 interface Stats { students?: number; programs?: number; years?: number; employment?: number; }

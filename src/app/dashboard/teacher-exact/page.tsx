@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 // ═══════════════════════════════════════════════════════════════
 // لوحة المعلم - بالضبط كما في الملف الأصلي
@@ -95,7 +95,7 @@ export default function TeacherDashboard() {
     @media(max-width:768px){.periods{overflow-x:auto;}.stats-grid{grid-template-columns:repeat(2,1fr);}}
   `;
 
-  const navItems = [
+  const navItems: Array<{ id: string; label: React.ReactNode; icon: React.ReactNode; active?: boolean; badge?: string; badgeType?: string }> = [
     { id: 'overview', label: 'النظرة العامة', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6"/></svg>, active: true },
     { id: 'schedule', label: 'جدولي', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#D4A843" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/></svg> },
     { id: 'classes', label: 'فصولي', icon: <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>, badge: '3' },

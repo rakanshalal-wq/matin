@@ -122,12 +122,12 @@ export default function UniversityHrPage() {
     setSavingJob(true);
     await fetch('/api/university', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'add-job', ...jobForm }),
+      body: JSON.stringify({ ...jobForm, type: 'add-job' }),
     }).catch(() => {});
     setShowJobModal(false);
     setJobForm({ title: '', department: '', type: 'دوام كامل', deadline: '' });
     setSavingJob(false);
-    showToast('<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> تم فتح الوظيفة بنجاح');
+    showToast('تم فتح الوظيفة بنجاح');
     setJobs((prev: any[]) => [...prev, { ...jobForm, id: Date.now(), applicants: 0 }]);
   };
 

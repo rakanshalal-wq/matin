@@ -1,5 +1,6 @@
 'use client';
 export const dynamic = 'force-dynamic';
+import React from 'react';
 
 import { useEffect, useState } from 'react';
 
@@ -8,7 +9,7 @@ const SECONDARY = '#10B981';
 const GOLD = '#D4A843';
 
 interface Session { id: string; date: string; surah: string; from: number; to: number; grade: number; notes: string; }
-interface Badge { id: string; label: string; icon: string; earned: boolean; }
+interface Badge { id: string; label: string; icon: React.ReactNode; earned: boolean; }
 interface Progress { partsDone: number; attendance: number; points: number; overall: number; sessions: Session[]; badges: Badge[]; }
 
 function StatCard({ title, value, sub, color }: { title: string; value: string | number; sub: string; color: string }) {

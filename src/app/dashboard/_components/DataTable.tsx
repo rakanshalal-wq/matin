@@ -4,7 +4,7 @@ import React from 'react';
 interface Column {
   key: string;
   label: string;
-  render?: (row: any) => React.ReactNode;
+  render?: (...args: any[]) => React.ReactNode;
   align?: 'right' | 'center' | 'left';
 }
 
@@ -45,7 +45,7 @@ export default function DataTable({ columns, data, emptyMessage = 'لا توجد
               <tr key={row.id || i}>
                 {columns.map((col) => (
                   <td key={col.key} style={{ textAlign: col.align || 'right' }}>
-                    {col.render ? col.render(row) : row[col.key] ?? '—'}
+                    {col.render ? col.render(row[col.key], row, i) : row[col.key] ?? '—'}
                   </td>
                 ))}
               </tr>

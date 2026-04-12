@@ -1,7 +1,7 @@
 ﻿'use client';
 import { useState } from 'react';
 export default function Dashboard() {
-  const [activeNav, setActiveNav] = useState('overview');
+  const [activeNav, setActiveNav] = useState<number | string>(0);
   return (
     <div dir="rtl" style={{ fontFamily: "IBM Plex Sans Arabic, sans-serif", background: '#06060E', color: '#EEEEF5', height: '100vh', overflow: 'hidden', display: 'flex' }}>
       <aside style={{ width: 260, flexShrink: 0, height: '100vh', background: '#08081A', borderLeft: '1px solid rgba(255,255,255,0.07)', display: 'flex', flexDirection: 'column' }}>
