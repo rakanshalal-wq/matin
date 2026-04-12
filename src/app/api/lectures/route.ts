@@ -47,10 +47,13 @@ export async function GET(request: Request) {
       paramIdx++;
     }
     
-    // للمعلم: يرى فقط محاضراته
+    // للمعلم: يرى فقط محاضراته (paramIdx يكمل بعد extraParams)
     let teacherFilter = '';
+    const teacherParams: any[] = [];
     if (user.role === 'teacher') {
-      teacherFilter = ` AND l.teacher_id = ${user.id}`;
+      teacherFilter = ` AND l.teacher_id = $${paramIdx}`;
+      teacherParams.push(user.id);
+      paramIdx++;
     }
     
     const result = await pool.query(
@@ -72,9 +75,9 @@ export async function GET(request: Request) {
        FROM lectures l
        LEFT JOIN users u ON u.id = l.teacher_id
        LEFT JOIN classes c ON c.id = l.class_id
-       WHERE 1=1 ${filter.sql} ${teacherFilter} ${whereExtra}
+       WHERE 1=1 ${filter.sql} ${whereExtra} ${teacherFilter}
        ORDER BY l.scheduled_at DESC NULLS LAST, l.created_at DESC LIMIT 200`,
-      [...filter.params, ...extraParams]
+      [...filter.params, ...extraParams, ...teacherParams]
     );
     return NextResponse.json(result.rows);
   } catch (error: any) {
