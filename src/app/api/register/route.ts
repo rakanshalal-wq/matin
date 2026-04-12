@@ -69,15 +69,16 @@ export async function POST(request: Request) {
       await client.query('BEGIN');
 
       // Insert school using only the columns guaranteed to exist in the current DB schema.
-      // type, slug, code, name, email, phone, city, is_active, created_at, updated_at
+      // Note: city column is accepted from the request but omitted here because it does not
+      // exist in the current DB schema. Once the column is added via migration, restore it.
       const schoolResult = await client.query(
         `INSERT INTO schools (
-          name, type, code, email, phone, city,
+          name, type, code, email, phone,
           slug, is_active, created_at, updated_at
-        ) VALUES ($1,$2,$3,$4,$5,$6,$7,true,NOW(),NOW())
+        ) VALUES ($1,$2,$3,$4,$5,$6,true,NOW(),NOW())
         RETURNING id`,
         [institution_name, institution_type, schoolCode,
-         contact_email, contact_phone, city || null, slug]
+         contact_email, contact_phone, slug]
       );
       const newSchoolId = schoolResult.rows[0].id;
 

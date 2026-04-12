@@ -128,7 +128,23 @@ BEGIN
   END IF;
 END $$;
 
--- ── 3. Verify current constraints ────────────────────────────
+-- ── 3. Add city column to schools if missing ─────────────────
+-- The register API accepts city but omits it from INSERT when this column
+-- is absent. Running this migration restores full city support.
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'schools' AND column_name = 'city'
+  ) THEN
+    ALTER TABLE schools ADD COLUMN city VARCHAR(100);
+    RAISE NOTICE 'Added schools.city column';
+  ELSE
+    RAISE NOTICE 'schools.city column already exists — no change needed';
+  END IF;
+END $$;
+
+-- ── 4. Verify current constraints ────────────────────────────
 SELECT
   tc.table_name,
   tc.constraint_name,
