@@ -53,13 +53,18 @@ model User {
 model School {
   id               Int       @id @default(autoincrement())
   name             String    @db.VarChar(200)
+  name_ar          String?   @db.VarChar(200)
+  /// school | university | institute | training | quran | kindergarten | mosque | training_center
+  institution_type String?   @db.VarChar(50)
   /// school | university | institute | training | quran | kindergarten | mosque
-  type             String    @db.VarChar(50)
+  type             String?   @db.VarChar(50)
   code             String?   @unique @db.VarChar(50)
   slug             String?   @unique @db.VarChar(100)
   subdomain        String?   @unique @db.VarChar(100)
   description      String?   @db.Text
   logo             String?   @db.Text
+  logo_url         String?   @db.Text
+  cover_url        String?   @db.Text
   primary_color    String?   @db.VarChar(20)
   secondary_color  String?   @db.VarChar(20)
   accent_color     String?   @db.VarChar(20)
@@ -68,10 +73,17 @@ model School {
   address          String?   @db.Text
   city             String?   @db.VarChar(100)
   website          String?   @db.VarChar(255)
+  website_url      String?   @db.VarChar(255)
   established_year Int?
+  /// active | inactive | TRIAL | suspended
+  status           String?   @default("TRIAL") @db.VarChar(30)
+  settings         Json?
+  students_count   Int?      @default(0)
   /// للجامعات فقط — الجامعة الأم
   parent_id        Int?
-  is_active        Boolean   @default(true)
+  owner_id         Int?
+  trial_ends_at    DateTime?
+  subscription_ends_at DateTime?
   created_at       DateTime  @default(now())
   updated_at       DateTime  @updatedAt
 
@@ -85,6 +97,7 @@ model School {
   activities       Activity[]
   join_requests    JoinRequest[]
 
+  @@index([institution_type])
   @@index([type])
   @@index([subdomain])
   @@index([code])

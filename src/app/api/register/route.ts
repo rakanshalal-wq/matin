@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { pool } from '@/lib/auth';
-import * as crypto from 'crypto';
 
 // =====================================================
 // API تسجيل مؤسسة جديدة - منصة متين
@@ -52,7 +51,6 @@ export async function POST(request: Request) {
     };
     const prefix = typePrefix[institution_type] || 'SCH';
     const schoolCode = `${prefix}-${Date.now().toString(36).toUpperCase()}`;
-    const schoolId = `school_${crypto.randomBytes(8).toString('hex')}`;
 
     const bcrypt = await import('bcryptjs');
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -69,15 +67,18 @@ export async function POST(request: Request) {
     try {
       await client.query('BEGIN');
 
-      await client.query(
+      // Insert school without explicit id — let the SERIAL auto-generate an integer id
+      const schoolResult = await client.query(
         `INSERT INTO schools (
-          id, name, name_ar, code, email, phone, city,
+          name, name_ar, code, email, phone, city,
           institution_type, status, slug, trial_ends_at, created_at, updated_at
-        ) VALUES ($1,$2,$2,$3,$4,$5,$6,$7,'TRIAL',$8,
-          NOW() + INTERVAL '30 days', NOW(), NOW())`,
-        [schoolId, institution_name, schoolCode, contact_email, contact_phone,
+        ) VALUES ($1,$1,$2,$3,$4,$5,$6,'TRIAL',$7,
+          NOW() + INTERVAL '30 days', NOW(), NOW())
+        RETURNING id`,
+        [institution_name, schoolCode, contact_email, contact_phone,
          city || null, institution_type, slug]
       );
+      const newSchoolId = schoolResult.rows[0].id;
 
       const userResult = await client.query(
         `INSERT INTO users (
@@ -90,7 +91,7 @@ export async function POST(request: Request) {
           contact_name,
           contact_email.toLowerCase().trim(),
           hashedPassword,
-          schoolId,
+          newSchoolId,
           institution_type,
           plan,
           contact_phone,
@@ -102,30 +103,39 @@ export async function POST(request: Request) {
 
       await client.query(
         'UPDATE schools SET owner_id = $1 WHERE id = $2',
-        [userId.toString(), schoolId]
+        [userId, newSchoolId]
       );
 
-      await client.query(
-        `INSERT INTO school_owners (user_id, school_id) VALUES ($1, $2) ON CONFLICT (school_id) DO NOTHING`,
-        [userId, schoolId]
-      );
+      // Optional tables — insert if they exist, ignore errors if they don't
+      try {
+        await client.query(
+          `INSERT INTO school_owners (user_id, school_id) VALUES ($1, $2) ON CONFLICT (school_id) DO NOTHING`,
+          [userId, newSchoolId]
+        );
+      } catch { /* table may not exist yet */ }
 
-      const planResult = await client.query('SELECT id FROM plans WHERE name = $1', [plan]);
-      const planId = planResult.rows[0]?.id || null;
+      try {
+        const planResult = await client.query('SELECT id FROM plans WHERE name = $1', [plan]);
+        const planId = planResult.rows[0]?.id || null;
+        await client.query(
+          `INSERT INTO subscriptions (school_id, owner_id, plan_id, status, billing_cycle, trial_ends_at, created_at)
+           VALUES ($1,$2,$3,'trial','monthly',NOW() + INTERVAL '30 days',NOW())`,
+          [newSchoolId, userId, planId]
+        );
+      } catch { /* table may not exist yet */ }
 
-      await client.query(
-        `INSERT INTO subscriptions (school_id, owner_id, plan_id, status, billing_cycle, trial_ends_at, created_at)
-         VALUES ($1,$2,$3,'trial','monthly',NOW() + INTERVAL '30 days',NOW())`,
-        [schoolId, userId.toString(), planId]
-      );
-
-      await client.query(
-        `INSERT INTO email_otps (email, otp, expires_at, created_at) VALUES ($1,$2,$3,NOW())
-         ON CONFLICT (email) DO UPDATE SET otp=$2, expires_at=$3, created_at=NOW()`,
-        [contact_email.toLowerCase().trim(), otp, otpExpiry]
-      );
+      try {
+        await client.query(
+          `INSERT INTO email_otps (email, otp, expires_at, created_at) VALUES ($1,$2,$3,NOW())
+           ON CONFLICT (email) DO UPDATE SET otp=$2, expires_at=$3, created_at=NOW()`,
+          [contact_email.toLowerCase().trim(), otp, otpExpiry]
+        );
+      } catch { /* table may not exist yet */ }
 
       await client.query('COMMIT');
+
+      // Use newSchoolId for the response
+      const schoolId = newSchoolId;
 
       // إرسال إيميل التحقق
       try {

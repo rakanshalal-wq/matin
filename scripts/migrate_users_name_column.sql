@@ -128,3 +128,64 @@ SELECT column_name, data_type, character_maximum_length, is_nullable
 FROM information_schema.columns
 WHERE table_name = 'users'
 ORDER BY ordinal_position;
+
+-- =============================================================
+-- Addendum: Fix schools table columns to match application code
+-- =============================================================
+
+BEGIN;
+
+DO $$
+BEGIN
+    -- name_ar
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='schools' AND column_name='name_ar') THEN
+        ALTER TABLE schools ADD COLUMN name_ar VARCHAR(200);
+        UPDATE schools SET name_ar = name WHERE name_ar IS NULL;
+    END IF;
+    -- institution_type
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='schools' AND column_name='institution_type') THEN
+        ALTER TABLE schools ADD COLUMN institution_type VARCHAR(50);
+        -- copy from type if it exists
+        IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='schools' AND column_name='type') THEN
+            UPDATE schools SET institution_type = type WHERE institution_type IS NULL;
+        END IF;
+    END IF;
+    -- status
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='schools' AND column_name='status') THEN
+        ALTER TABLE schools ADD COLUMN status VARCHAR(30) DEFAULT 'TRIAL';
+    END IF;
+    -- trial_ends_at
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='schools' AND column_name='trial_ends_at') THEN
+        ALTER TABLE schools ADD COLUMN trial_ends_at TIMESTAMP WITH TIME ZONE;
+    END IF;
+    -- subscription_ends_at
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='schools' AND column_name='subscription_ends_at') THEN
+        ALTER TABLE schools ADD COLUMN subscription_ends_at TIMESTAMP WITH TIME ZONE;
+    END IF;
+    -- owner_id
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='schools' AND column_name='owner_id') THEN
+        ALTER TABLE schools ADD COLUMN owner_id INTEGER;
+    END IF;
+    -- logo_url
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='schools' AND column_name='logo_url') THEN
+        ALTER TABLE schools ADD COLUMN logo_url TEXT;
+    END IF;
+    -- cover_url
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='schools' AND column_name='cover_url') THEN
+        ALTER TABLE schools ADD COLUMN cover_url TEXT;
+    END IF;
+    -- website_url
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='schools' AND column_name='website_url') THEN
+        ALTER TABLE schools ADD COLUMN website_url VARCHAR(255);
+    END IF;
+    -- settings
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='schools' AND column_name='settings') THEN
+        ALTER TABLE schools ADD COLUMN settings JSONB;
+    END IF;
+    -- students_count
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='schools' AND column_name='students_count') THEN
+        ALTER TABLE schools ADD COLUMN students_count INTEGER DEFAULT 0;
+    END IF;
+END $$;
+
+COMMIT;
