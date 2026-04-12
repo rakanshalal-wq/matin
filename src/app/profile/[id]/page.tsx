@@ -89,7 +89,7 @@ export default function ProfilePage() {
 
   const handleFollow = async () => {
     if (!currentUser) {
-      alert('يجب تسجيل الدخول أولاً!');
+      window.location.href = '/login';
       return;
     }
 

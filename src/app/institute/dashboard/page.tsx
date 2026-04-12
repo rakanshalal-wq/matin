@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 interface Stats { students: number; teachers: number; courses: number; revenue: number }
-interface Course { id: any; name: string; teacher: string; students_count: number; schedule?: string; price?: number; status?: string }
+interface Course { id: any; name: string; teacher: string; students_count: number; schedule?: string; price?: number; status?: string; duration?: string; capacity?: number }
 interface Student { id: any; name: string; email: string; course?: string; enrolled_at?: string; attendance?: number; paid?: number; status?: string }
 
 // ─── Constants ───────────────────────────────────────────────────────────────
@@ -86,6 +86,7 @@ export default function InstituteDashboard() {
   const [showCourse,  setShowCourse]  = useState(false);
   const [showStudent, setShowStudent] = useState(false);
   const [showTeacher, setShowTeacher] = useState(false);
+  const [editCourseId, setEditCourseId] = useState<any>(null);
 
   // Course form
   const [cName,     setCName]     = useState('');
@@ -142,13 +143,13 @@ export default function InstituteDashboard() {
     try {
       await fetch('/api/institute', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'course', name: cName, teacher: cTeacher, schedule: cSchedule, price: cPrice, duration: cDuration, capacity: cCapacity }),
+        body: JSON.stringify({ type: 'course', id: editCourseId, name: cName, teacher: cTeacher, schedule: cSchedule, price: cPrice, duration: cDuration, capacity: cCapacity }),
       });
       const r = await fetch('/api/institute?type=courses');
       if (r.ok) { const d = await r.json(); if (d.courses) setCourses(d.courses); }
       await refreshStats();
     } catch (_) {}
-    setSavingC(false); setShowCourse(false);
+    setSavingC(false); setShowCourse(false); setEditCourseId(null);
     setCName(''); setCTeacher(''); setCSchedule(''); setCPrice(''); setCDuration(''); setCCapacity('');
   }
 
@@ -210,7 +211,7 @@ export default function InstituteDashboard() {
     { label: 'إضافة مدرس',  icon: '👨‍🏫', action: () => setShowTeacher(true) },
     { label: 'التقارير',     icon: '📊', action: () => setTab('finance') },
     { label: 'المدفوعات',    icon: '💳', action: () => setTab('finance') },
-    { label: 'الشهادات',     icon: '🎓', action: () => alert('قريباً — الشهادات') },
+    { label: 'الشهادات',     icon: '🎓', action: () => { window.location.href = '/dashboard/certificates'; } },
   ];
 
   // ── Render ────────────────────────────────────────────────────────────────
@@ -317,7 +318,7 @@ export default function InstituteDashboard() {
                           <td style={td}>{c.schedule || '—'}</td>
                           <td style={td}>{c.price ? `${c.price} ر.س` : '—'}</td>
                           <td style={td}><span style={{ background: '#10B98122', color: '#10B981', borderRadius: 6, padding: '2px 10px', fontSize: '0.78rem' }}>{c.status || 'نشط'}</span></td>
-                          <td style={td}><button style={btnOutline} onClick={() => alert(`تعديل: ${c.name}`)}>تعديل</button></td>
+                          <td style={td}><button style={btnOutline} onClick={() => { setEditCourseId(c.id); setCName(c.name || ''); setCTeacher(c.teacher || ''); setCSchedule(c.schedule || ''); setCPrice(c.price ? String(c.price) : ''); setCDuration(c.duration || ''); setCCapacity(c.capacity ? String(c.capacity) : ''); setShowCourse(true); }}>تعديل</button></td>
                         </tr>
                       ))}
                     </tbody>

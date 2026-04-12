@@ -26,9 +26,9 @@ export async function POST(request: Request) {
         source,
       }).catch(() => null);
 
-      if (moyasarResult?.id) {
-        transaction_id = moyasarResult.id;
-        payment_url = moyasarResult.source?.transaction_url;
+      if (moyasarResult && 'id' in moyasarResult && moyasarResult.id) {
+        transaction_id = (moyasarResult as any).id;
+        payment_url = (moyasarResult as any).source?.transaction_url;
       }
     }
 

@@ -232,8 +232,8 @@ export default function TrainingDashboard() {
     { label: 'تسجيل متدرب',     icon: '👤', action: () => setShowTrainee(true) },
     { label: 'إضافة مدرب',      icon: '👨‍🏫', action: () => setShowTrainer(true) },
     { label: 'الشهادات',         icon: '🎓', action: () => setTab('certificates') },
-    { label: 'التقارير',          icon: '📊', action: () => alert('التقارير — قريباً') },
-    { label: 'الإعدادات',         icon: '⚙️', action: () => alert('الإعدادات — قريباً') },
+    { label: 'التقارير',          icon: '📊', action: () => { window.location.href = '/dashboard/reports'; } },
+    { label: 'الإعدادات',         icon: '⚙️', action: () => { window.location.href = '/dashboard/settings'; } },
   ];
 
   // ── Render ────────────────────────────────────────────────────────────────

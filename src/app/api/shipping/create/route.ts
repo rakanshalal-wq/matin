@@ -22,10 +22,10 @@ export async function POST(request: Request) {
     // محاولة إنشاء الشحنة عبر المزود الفعلي
     if (provider_name === 'smsa' && shipment_data) {
       const smsaResult = await createSmsaShipment(shipment_data).catch(() => null);
-      if (smsaResult?.awb_number) tracking_number = smsaResult.awb_number;
+      if (smsaResult && 'awb_number' in smsaResult && smsaResult.awb_number) tracking_number = (smsaResult as any).awb_number;
     } else if (provider_name === 'aramex' && shipment_data) {
       const aramexResult = await createAramexShipment(shipment_data).catch(() => null);
-      if (aramexResult?.tracking_number) tracking_number = aramexResult.tracking_number;
+      if (aramexResult && 'tracking_number' in aramexResult && aramexResult.tracking_number) tracking_number = (aramexResult as any).tracking_number;
     }
 
     const result = await pool.query(

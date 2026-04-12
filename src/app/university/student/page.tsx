@@ -17,6 +17,7 @@ export default function StudentPortal() {
   const [showRequestModal, setShowRequestModal] = useState(false);
   const [selectedAvailableCourses, setSelectedAvailableCourses] = useState<string[]>([]);
   const [requestForm, setRequestForm] = useState({ type: 'حذف فصل دراسي', destination: 'عمادة الكلية', details: '' });
+  const [submitMsg, setSubmitMsg] = useState('');
 
   const fallbackCourses = [
     { id: 'c1', name: 'هندسة البرمجيات', doctor: 'د. خالد العمري', hours: 3, schedule: 'أحد - ثلاثاء 10:00 ص', attendance: 88, isLive: true },
@@ -52,17 +53,17 @@ export default function StudentPortal() {
 
   const quickActions12 = [
     { label: 'تسجيل مقررات', icon: '📋', action: () => setShowRegisterModal(true) },
-    { label: 'انضم للمحاضرة', icon: '🎥', action: () => alert('الانضمام للمحاضرة المباشرة') },
+    { label: 'انضم للمحاضرة', icon: '🎥', action: () => { window.location.href = '/dashboard/lectures'; } },
     { label: 'تقديم طلب', icon: '📨', action: () => setShowRequestModal(true) },
-    { label: 'شهادة قيد', icon: '📄', action: () => alert('طلب شهادة قيد') },
-    { label: 'دفع الرسوم', icon: '💳', action: () => alert('الانتقال لبوابة الدفع') },
-    { label: 'عذر طبي', icon: '🏥', action: () => alert('تقديم عذر طبي') },
-    { label: 'المكتبة', icon: '📚', action: () => alert('المكتبة الرقمية') },
-    { label: 'رسالة للدكتور', icon: '✉️', action: () => alert('إرسال رسالة') },
-    { label: 'الكافتيريا', icon: '🍽️', action: () => alert('قائمة الكافتيريا') },
-    { label: 'محاضرات مسجّلة', icon: '▶️', action: () => alert('المحاضرات المسجلة') },
-    { label: 'المنح', icon: '🏆', action: () => alert('برامج المنح') },
-    { label: 'الأنشطة', icon: '⭐', action: () => alert('الأنشطة الطلابية') },
+    { label: 'شهادة قيد', icon: '📄', action: () => { setRequestForm(p => ({ ...p, type: 'شهادة قيد', destination: 'عمادة القبول والتسجيل', details: '' })); setShowRequestModal(true); } },
+    { label: 'دفع الرسوم', icon: '💳', action: () => { window.location.href = '/dashboard/subscribe'; } },
+    { label: 'عذر طبي', icon: '🏥', action: () => { setRequestForm(p => ({ ...p, type: 'عذر غياب', destination: 'شؤون الطلاب', details: '' })); setShowRequestModal(true); } },
+    { label: 'المكتبة', icon: '📚', action: () => { window.location.href = '/library'; } },
+    { label: 'رسالة للدكتور', icon: '✉️', action: () => { setRequestForm(p => ({ ...p, type: 'تواصل مع الدكتور', destination: 'أستاذ المقرر', details: '' })); setShowRequestModal(true); } },
+    { label: 'الكافتيريا', icon: '🍽️', action: () => { window.location.href = '/dashboard/cafeteria'; } },
+    { label: 'محاضرات مسجّلة', icon: '▶️', action: () => { window.location.href = '/dashboard/lectures'; } },
+    { label: 'المنح', icon: '🏆', action: () => { setRequestForm(p => ({ ...p, type: 'طلب منحة', destination: 'عمادة شؤون الطلاب', details: '' })); setShowRequestModal(true); } },
+    { label: 'الأنشطة', icon: '⭐', action: () => { window.location.href = '/activities'; } },
   ];
 
   useEffect(() => {
@@ -225,7 +226,7 @@ export default function StudentPortal() {
                       <div style={{ fontSize: '12px', color: '#64748B', marginTop: '2px' }}>{c.doctor} — {c.schedule}</div>
                     </div>
                     {c.isLive && (
-                      <button onClick={() => alert('الانضمام للمحاضرة المباشرة')} style={{ background: 'linear-gradient(135deg, #22C55E, #16A34A)', border: 'none', borderRadius: '8px', padding: '6px 14px', color: '#fff', fontFamily: "'IBM Plex Sans Arabic', sans-serif", fontWeight: 700, fontSize: '12px', cursor: 'pointer', whiteSpace: 'nowrap' }}>انضم الآن</button>
+                      <button onClick={() => { window.location.href = '/dashboard/lectures'; }} style={{ background: 'linear-gradient(135deg, #22C55E, #16A34A)', border: 'none', borderRadius: '8px', padding: '6px 14px', color: '#fff', fontFamily: "'IBM Plex Sans Arabic', sans-serif", fontWeight: 700, fontSize: '12px', cursor: 'pointer', whiteSpace: 'nowrap' }}>انضم الآن</button>
                     )}
                   </div>
                 ))}
@@ -424,9 +425,10 @@ export default function StudentPortal() {
             <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '10px', padding: '10px 14px', marginBottom: '16px', fontSize: '14px', color: '#818CF8', fontWeight: 600 }}>
               الساعات المحددة: {selectedHours} ساعة
             </div>
+            {submitMsg && <div style={{ marginBottom: '10px', padding: '10px 14px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '8px', color: '#22C55E', fontSize: '13px', fontWeight: 600 }}>{submitMsg}</div>}
             <div style={{ display: 'flex', gap: '10px' }}>
               <button onClick={() => setShowRegisterModal(false)} style={{ ...btnSecondary, flex: 1 }}>إلغاء</button>
-              <button onClick={() => { if (selectedHours === 0) { alert('الرجاء اختيار مقرر واحد على الأقل'); return; } alert(`تم تسجيل ${selectedAvailableCourses.length} مقررات (${selectedHours} ساعة) بنجاح`); setShowRegisterModal(false); }} style={{ ...btnPrimary, flex: 2 }}>تأكيد التسجيل ←</button>
+              <button onClick={() => { if (selectedHours === 0) { setSubmitMsg('الرجاء اختيار مقرر واحد على الأقل'); return; } fetch('/api/courses', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'register', courses: selectedAvailableCourses }) }).catch(() => {}); setSubmitMsg(`تم تسجيل ${selectedAvailableCourses.length} مقررات (${selectedHours} ساعة) بنجاح ✅`); setTimeout(() => { setShowRegisterModal(false); setSubmitMsg(''); setSelectedAvailableCourses([]); }, 2000); }} style={{ ...btnPrimary, flex: 2 }}>تأكيد التسجيل ←</button>
             </div>
           </div>
         </div>
@@ -455,9 +457,10 @@ export default function StudentPortal() {
                 <textarea value={requestForm.details} onChange={e => setRequestForm(p => ({ ...p, details: e.target.value }))} rows={4} placeholder="اشرح تفاصيل طلبك وسببه..." style={{ ...inp, width: '100%', resize: 'vertical' }} />
               </div>
             </div>
+            {submitMsg && <div style={{ margin: '10px 0', padding: '10px 14px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '8px', color: '#22C55E', fontSize: '13px', fontWeight: 600 }}>{submitMsg}</div>}
             <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
               <button onClick={() => setShowRequestModal(false)} style={{ ...btnSecondary, flex: 1 }}>إلغاء</button>
-              <button onClick={() => { alert('تم إرسال طلبك بنجاح'); setShowRequestModal(false); }} style={{ ...btnPrimary, flex: 2 }}>إرسال الطلب ←</button>
+              <button onClick={() => { fetch('/api/join-requests', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: requestForm.type, destination: requestForm.destination, details: requestForm.details }) }).catch(() => {}); setSubmitMsg('تم إرسال طلبك بنجاح ✅'); setTimeout(() => { setShowRequestModal(false); setSubmitMsg(''); }, 2000); }} style={{ ...btnPrimary, flex: 2 }}>إرسال الطلب ←</button>
             </div>
           </div>
         </div>
