@@ -156,7 +156,8 @@ export default function TrainingManagerPage() {
             <button onClick={() => setShowAddCourse(true)} style={{ background: OR, border: 'none', borderRadius: 9, padding: '0.55rem 1.25rem', color: '#000', fontWeight: 800, cursor: 'pointer', fontSize: '0.88rem' }}>+ إضافة دورة</button>
           </div>
           <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: 'hidden' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr style={{ background: 'rgba(255,255,255,0.02)', borderBottom: `1px solid ${BORDER}` }}>
                   {['الدورة', 'المدرب', 'المتدربون', 'الحالة'].map(h => (
@@ -178,6 +179,7 @@ export default function TrainingManagerPage() {
                 {courses.length === 0 && <tr><td colSpan={4} style={{ textAlign: 'center', padding: '2rem', color: 'rgba(255,255,255,0.3)' }}>لا دورات بعد</td></tr>}
               </tbody>
             </table>
+</div>
           </div>
         </div>
       )}
@@ -187,7 +189,8 @@ export default function TrainingManagerPage() {
         <div>
           <h2 style={{ color: OR, fontSize: '1rem', fontWeight: 700, marginBottom: '1rem' }}>المتدربون</h2>
           <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: 'hidden' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr style={{ background: 'rgba(255,255,255,0.02)', borderBottom: `1px solid ${BORDER}` }}>
                   {['الاسم', 'الدورة', 'الحضور%', 'الحالة'].map(h => (
@@ -209,6 +212,7 @@ export default function TrainingManagerPage() {
                 {trainees.length === 0 && <tr><td colSpan={4} style={{ textAlign: 'center', padding: '2rem', color: 'rgba(255,255,255,0.3)' }}>لا متدربون مسجلون بعد</td></tr>}
               </tbody>
             </table>
+</div>
           </div>
         </div>
       )}

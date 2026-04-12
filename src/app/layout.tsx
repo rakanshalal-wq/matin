@@ -1,25 +1,42 @@
-import type { Metadata } from 'next';
-import './globals.css';
+import type { Metadata } from "next";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: {
-    default: 'متين — منصة إدارة المؤسسات التعليمية',
-    template: '%s | متين',
+  title: "متين - نظام إدارة المؤسسات التعليمية",
+  description: "منصة متين التعليمية — أول نظام ذكاء اصطناعي تعليمي بالسعودية",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "متين",
   },
-  description: 'منصة SaaS متكاملة لإدارة المدارس والجامعات والمعاهد ومراكز التدريب وتحفيظ القرآن',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'https://app.matin.ink'),
 };
+export const viewport = { themeColor: '#0a0a0a' };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="ar" dir="rtl">
       <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <link rel="apple-touch-icon" href="/icon-192.png" />
       </head>
-      <body className="antialiased">{children}</body>
+      <body style={{ fontFamily: "'Cairo', 'IBM Plex Sans Arabic', sans-serif" }}>
+        {children}
+        <script dangerouslySetInnerHTML={{ __html: `
+          if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+              navigator.serviceWorker.register('/sw.js').catch(() => {});
+            });
+          }
+        `}} />
+      </body>
     </html>
   );
 }

@@ -1,0 +1,62 @@
+# ===================================================
+# docker-compose.yml — منصة متين
+# الاستخدام: docker compose up -d
+# ===================================================
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: matin-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://matin:${POSTGRES_PASSWORD:-matin_pass}@db:5432/matin_db
+      MATIN_DATABASE_URL: postgresql://matin:${POSTGRES_PASSWORD:-matin_pass}@db:5432/matin_db
+      JWT_SECRET: ${JWT_SECRET}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+      NEXT_PUBLIC_URL: ${NEXT_PUBLIC_URL:-http://localhost:3000}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      RESEND_FROM_EMAIL: ${RESEND_FROM_EMAIL:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      MOYASAR_API_KEY: ${MOYASAR_API_KEY:-}
+      CRON_SECRET: ${CRON_SECRET:-}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - matin-network
+
+  db:
+    image: postgres:16-alpine
+    container_name: matin-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: matin_db
+      POSTGRES_USER: matin
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-matin_pass}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U matin -d matin_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - matin-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  matin-network:
+    driver: bridge

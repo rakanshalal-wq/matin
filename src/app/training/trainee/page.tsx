@@ -152,7 +152,8 @@ export default function TraineePage() {
             <button onClick={() => setShowRequest(true)} style={{ background: OR, border: 'none', borderRadius: 9, padding: '0.55rem 1.25rem', color: '#000', fontWeight: 800, cursor: 'pointer', fontSize: '0.88rem' }}>+ التسجيل في دورة</button>
           </div>
           <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: 'hidden' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr style={{ background: 'rgba(255,255,255,0.02)', borderBottom: `1px solid ${BORDER}` }}>
                   {['الدورة', 'المدرب', 'الحضور%', 'التقدم', 'الحالة'].map(h => (
@@ -184,6 +185,7 @@ export default function TraineePage() {
                 {courses.length === 0 && <tr><td colSpan={5} style={{ textAlign: 'center', padding: '2rem', color: 'rgba(255,255,255,0.3)' }}>لا دورات مسجلة</td></tr>}
               </tbody>
             </table>
+</div>
           </div>
         </div>
       )}

@@ -359,7 +359,8 @@ export default function DeanDashboard() {
                 <option value="admin">إداريون</option>
               </select>
             </div>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
                   {['الاسم', 'الدور', 'القسم', 'الحالة', 'صلاحيات'].map((h) => (
@@ -393,6 +394,7 @@ export default function DeanDashboard() {
                 )}
               </tbody>
             </table>
+</div>
           </div>
         )}
 

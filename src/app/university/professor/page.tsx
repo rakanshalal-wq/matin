@@ -13,6 +13,8 @@ export default function ProfessorDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedCourse, setSelectedCourse] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
+  const [saveMsg, setSaveMsg] = useState('');
+  const [excuseStatus, setExcuseStatus] = useState<Record<string, 'accepted' | 'rejected'>>({});
   const [attendanceData, setAttendanceData] = useState<any>({});
   const [gradesCourse, setGradesCourse] = useState('');
   const [gradesData, setGradesData] = useState<any>({});
@@ -83,7 +85,7 @@ export default function ProfessorDashboard() {
     { id: 'e1', student: 'أحمد محمد العمري', date: '2026-04-01', reason: 'مرض' },
     { id: 'e2', student: 'نورة فهد القحطاني', date: '2026-03-28', reason: 'ظرف طارئ' },
   ];
-  const mockLectures = [
+  const mockLectures: Array<{ id: string; title: string; date: string; duration: string; url?: string }> = [
     { id: 'l1', title: 'المحاضرة 1 - مقدمة في هندسة البرمجيات', date: '2026-03-30', duration: '50 دقيقة' },
     { id: 'l2', title: 'المحاضرة 2 - نماذج دورة الحياة', date: '2026-04-01', duration: '55 دقيقة' },
   ];
@@ -200,6 +202,13 @@ export default function ProfessorDashboard() {
     <div style={root}>
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
 
+      {/* Save feedback toast */}
+      {saveMsg && (
+        <div style={{ position: 'fixed', top: 20, right: 20, zIndex: 9999, background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.4)', borderRadius: '12px', padding: '12px 20px', color: '#22C55E', fontSize: '14px', fontWeight: 600, direction: 'rtl' }}>
+          {saveMsg}
+        </div>
+      )}
+
       {/* Header */}
       <div style={{ marginBottom: '28px', display: 'flex', alignItems: 'center', gap: '12px' }}>
         <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'linear-gradient(135deg, #22D3EE, #0EA5E9)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0 }}>👨‍🏫</div>
@@ -314,7 +323,12 @@ export default function ProfessorDashboard() {
                     );
                   })}
                 </div>
-                <button onClick={() => alert('تم حفظ الحضور بنجاح')} style={btnPrimary}>حفظ الحضور</button>
+                <button onClick={() => {
+                  const records = Object.entries(attendanceData).map(([sid, status]) => ({ student_id: sid, course_id: selectedCourse, date: selectedDate || new Date().toISOString().split('T')[0], status }));
+                  fetch('/api/attendance', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ records }) }).catch(() => {});
+                  setSaveMsg('تم حفظ الحضور بنجاح ✅');
+                  setTimeout(() => setSaveMsg(''), 3000);
+                }} style={btnPrimary}>حفظ الحضور</button>
               </>
             ) : <p style={{ color: '#64748B', textAlign: 'center', padding: '20px 0' }}>الرجاء اختيار المقرر أولاً</p>}
           </div>
@@ -330,8 +344,16 @@ export default function ProfessorDashboard() {
                       <div style={{ fontSize: '12px', color: '#64748B' }}>{r.date} — {r.reason}</div>
                     </div>
                     <div style={{ display: 'flex', gap: '8px' }}>
-                      <button onClick={() => alert('تم قبول العذر')} style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '8px', padding: '5px 12px', color: '#22C55E', cursor: 'pointer', fontFamily: "'IBM Plex Sans Arabic', sans-serif", fontSize: '12px', fontWeight: 600 }}>قبول</button>
-                      <button onClick={() => alert('تم رفض العذر')} style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '5px 12px', color: '#EF4444', cursor: 'pointer', fontFamily: "'IBM Plex Sans Arabic', sans-serif", fontSize: '12px', fontWeight: 600 }}>رفض</button>
+                      {excuseStatus[r.id] ? (
+                        <span style={{ fontSize: '12px', fontWeight: 600, color: excuseStatus[r.id] === 'accepted' ? '#22C55E' : '#EF4444', padding: '5px 12px' }}>
+                          {excuseStatus[r.id] === 'accepted' ? '✅ مقبول' : '❌ مرفوض'}
+                        </span>
+                      ) : (
+                        <>
+                          <button onClick={() => { fetch('/api/attendance/excuses/' + r.id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: 'approved' }) }).catch(() => {}); setExcuseStatus((p: any) => ({ ...p, [r.id]: 'accepted' })); }} style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '8px', padding: '5px 12px', color: '#22C55E', cursor: 'pointer', fontFamily: "'IBM Plex Sans Arabic', sans-serif", fontSize: '12px', fontWeight: 600 }}>قبول</button>
+                          <button onClick={() => { fetch('/api/attendance/excuses/' + r.id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: 'rejected' }) }).catch(() => {}); setExcuseStatus((p: any) => ({ ...p, [r.id]: 'rejected' })); }} style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '5px 12px', color: '#EF4444', cursor: 'pointer', fontFamily: "'IBM Plex Sans Arabic', sans-serif", fontSize: '12px', fontWeight: 600 }}>رفض</button>
+                        </>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -377,7 +399,7 @@ export default function ProfessorDashboard() {
                   </tbody>
                 </table>
               </div>
-              <button onClick={() => alert('تم حفظ الدرجات بنجاح')} style={{ ...btnPrimary, marginTop: '16px' }}>حفظ الدرجات</button>
+              <button onClick={() => { fetch('/api/grades', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ course_id: gradesCourse, grades: gradesData }) }).catch(() => {}); setSaveMsg('تم حفظ الدرجات بنجاح ✅'); setTimeout(() => setSaveMsg(''), 3000); }} style={{ ...btnPrimary, marginTop: '16px' }}>حفظ الدرجات</button>
             </>
           ) : <p style={{ color: '#64748B', textAlign: 'center', padding: '20px 0' }}>الرجاء اختيار المقرر أولاً</p>}
         </div>
@@ -388,7 +410,7 @@ export default function ProfessorDashboard() {
         <div style={card}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
             <h3 style={{ margin: 0, fontSize: '16px', color: '#22D3EE', fontWeight: 700 }}>التكاليف</h3>
-            <button onClick={() => alert('فتح نموذج إضافة تكليف')} style={{ ...btnPrimary, padding: '8px 18px', fontSize: '13px' }}>+ إضافة تكليف</button>
+            <button onClick={() => () => { window.location.href = '/dashboard/homework'; }} style={{ ...btnPrimary, padding: '8px 18px', fontSize: '13px' }}>+ إضافة تكليف</button>
           </div>
           {assignments.length === 0
             ? <p style={{ color: '#64748B', textAlign: 'center', padding: '20px 0' }}>لا توجد تكاليف حالياً</p>
@@ -438,7 +460,7 @@ export default function ProfessorDashboard() {
                       <div style={{ fontWeight: 600, color: '#F1F5F9', fontSize: '14px' }}>{l.title}</div>
                       <div style={{ fontSize: '12px', color: '#64748B', marginTop: '2px' }}>{l.date} — {l.duration}</div>
                     </div>
-                    <button onClick={() => alert('تشغيل التسجيل')} style={{ background: 'rgba(34,211,238,0.1)', border: '1px solid rgba(34,211,238,0.25)', borderRadius: '8px', padding: '5px 12px', color: '#22D3EE', cursor: 'pointer', fontFamily: "'IBM Plex Sans Arabic', sans-serif", fontSize: '12px', fontWeight: 600 }}>▶ تشغيل</button>
+                    <button onClick={() => () => { if (l.url) { window.open(l.url, '_blank'); } else { window.location.href = '/dashboard/lectures'; } }} style={{ background: 'rgba(34,211,238,0.1)', border: '1px solid rgba(34,211,238,0.25)', borderRadius: '8px', padding: '5px 12px', color: '#22D3EE', cursor: 'pointer', fontFamily: "'IBM Plex Sans Arabic', sans-serif", fontSize: '12px', fontWeight: 600 }}>▶ تشغيل</button>
                   </div>
                 ))}
               </div>
@@ -466,7 +488,7 @@ export default function ProfessorDashboard() {
             <Toggle keyName="examPreventSwitch" label="منع تبديل التطبيقات" />
             <div style={{ display: 'flex', gap: '10px', marginTop: '24px' }}>
               <button onClick={() => setShowLectureModal(false)} style={{ ...btnSecondary, flex: 1 }}>إلغاء</button>
-              <button onClick={() => { alert('تم بدء المحاضرة بنجاح'); setShowLectureModal(false); }} style={{ ...btnPrimary, flex: 2 }}>بدء المحاضرة الآن ←</button>
+              <button onClick={() => { fetch('/api/lectures', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: 'محاضرة جديدة', course_id: selectedCourse, ...lectureSettings }) }).catch(() => {}); setSaveMsg('تم بدء المحاضرة بنجاح ✅'); setTimeout(() => setSaveMsg(''), 3000); setShowLectureModal(false); }} style={{ ...btnPrimary, flex: 2 }}>بدء المحاضرة الآن ←</button>
             </div>
           </div>
         </div>
@@ -505,7 +527,7 @@ export default function ProfessorDashboard() {
             </div>
             <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
               <button onClick={() => setShowLeaveModal(false)} style={{ ...btnSecondary, flex: 1 }}>إلغاء</button>
-              <button onClick={() => { alert('تم إرسال طلب الإجازة'); setShowLeaveModal(false); }} style={{ ...btnPrimary, flex: 2 }}>إرسال الطلب</button>
+              <button onClick={() => { fetch('/api/leaves', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...leaveForm }) }).catch(() => {}); setSaveMsg('تم إرسال طلب الإجازة بنجاح ✅'); setTimeout(() => setSaveMsg(''), 3000); setShowLeaveModal(false); }} style={{ ...btnPrimary, flex: 2 }}>إرسال الطلب</button>
             </div>
           </div>
         </div>

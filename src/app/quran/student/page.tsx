@@ -101,7 +101,8 @@ export default function QuranStudentPage() {
                 {progress.sessions.length === 0 ? (
                   <div style={{ padding: 40, textAlign: 'center', color: 'rgba(255,255,255,0.3)' }}>لا توجد جلسات مسجّلة</div>
                 ) : (
-                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead>
                       <tr style={{ background: 'rgba(5,150,105,0.06)' }}>
                         {['التاريخ', 'السورة', 'من', 'إلى', 'الدرجة', 'ملاحظات'].map(h => (
@@ -124,6 +125,7 @@ export default function QuranStudentPage() {
                       ))}
                     </tbody>
                   </table>
+</div>
                 )}
               </div>
 

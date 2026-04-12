@@ -1,13 +1,12 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser } from '@/lib/auth';
-import pool from '@/lib/db';
+import { getUserFromRequest, pool } from '@/lib/auth';
 
 // ─────────────────────────────────────────────
 // GET /api/school/parent?type=...
 // types: stats | grades | homework | behavior | messages | fees
 // ─────────────────────────────────────────────
 export async function GET(request: Request) {
-  const user = getCurrentUser();
+  const user = await getUserFromRequest(request);
   if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
   if (!['parent_school', 'parent'].includes(user.role)) {
     return NextResponse.json({ error: 'هذه الصفحة لأولياء الأمور فقط' }, { status: 403 });
@@ -168,7 +167,7 @@ export async function GET(request: Request) {
 // types: excuse | message | payment
 // ─────────────────────────────────────────────
 export async function POST(request: Request) {
-  const user = getCurrentUser();
+  const user = await getUserFromRequest(request);
   if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
   if (!['parent_school', 'parent'].includes(user.role)) {
     return NextResponse.json({ error: 'هذه الصفحة لأولياء الأمور فقط' }, { status: 403 });

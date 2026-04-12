@@ -1,138 +1,188 @@
-# 🎓 منصة متين - Matin Platform
+# منصة متين التعليمية — Matin Platform
 
-منصة سعودية متكاملة لإدارة المؤسسات التعليمية. نظام SaaS يمنح كل مؤسسة نطاق فرعي خاص ولوحة تحكم كاملة.
+نظام إدارة مدارس متكامل مبني على Next.js 15 + PostgreSQL
 
-## 📋 نظرة عامة
+---
 
-**متين** = **سلة + زد** (لكن للتعليم)
+## المتطلبات
 
-- 🏫 **الفكرة:** منصة SaaS تعليمية متكاملة
-- 🌍 **النموذج:** كل مؤسسة تحصل على نطاق فرعي (school1.matin.ink)
-- 👥 **المستخدمون:** 11 دور (مالك، مدير، معلم، طالب، ولي أمر، مدرب، محفظ، إلخ)
-- 💰 **الربح:** اشتراكات شهرية (مجاني / 299 ر.س / 599 ر.س)
+- Node.js 18+
+- PostgreSQL 14+
+- npm أو yarn
 
-## 🚀 التقنيات المستخدمة
+---
 
-- **Frontend:** Next.js 15 + React 19 + TypeScript
-- **Styling:** Tailwind CSS 4
-- **Backend:** Next.js API Routes
-- **Database:** PostgreSQL
-- **Auth:** JWT
-- **Payment:** Stripe
-- **Email:** Resend
-- **AI:** OpenAI + Claude
+## التثبيت والتشغيل
 
-## 📁 هيكل المشروع
+### 1. استنساخ المشروع
+
+```bash
+git clone https://github.com/rakanshalal-wq/matin.git
+cd matin
+```
+
+### 2. تثبيت الحزم
+
+```bash
+npm install
+```
+
+### 3. إعداد قاعدة البيانات
+
+```bash
+# إنشاء قاعدة البيانات
+psql -U postgres -c "CREATE DATABASE matin_db;"
+psql -U postgres -c "CREATE USER matin WITH PASSWORD 'your_password';"
+psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE matin_db TO matin;"
+
+# تشغيل الـ schema الأساسي
+psql -U matin -d matin_db -f scripts/schema.sql
+
+# تشغيل الجداول الإضافية (مطلوب - 97 جدول جديد)
+psql -U matin -d matin_db -f scripts/migration_v2.sql
+
+# إضافة البيانات الأولية (super_admin)
+psql -U matin -d matin_db -f scripts/seed.sql
+```
+
+### 4. إعداد ملف البيئة
+
+```bash
+cp .env.example .env.local
+```
+
+عدّل `.env.local`:
+
+```env
+DATABASE_URL=postgresql://matin:your_password@localhost:5432/matin_db
+NEXTAUTH_SECRET=your_secret_key_here
+NEXTAUTH_URL=https://your-domain.com
+JWT_SECRET=your_jwt_secret_here
+```
+
+### 5. تشغيل المشروع
+
+```bash
+# وضع التطوير
+npm run dev
+
+# بناء للإنتاج
+npm run build
+npm start
+```
+
+---
+
+## بيانات الدخول الافتراضية
+
+| الدور | الإيميل | كلمة المرور |
+|-------|---------|-------------|
+| مالك المنصة (Super Admin) | admin@matin.ink | Admin@2026 |
+
+> **تنبيه:** غيّر كلمة المرور فور الدخول الأول
+
+---
+
+## الأدوار والصلاحيات
+
+| الدور | الوصول |
+|-------|--------|
+| `super_admin` | السلطة المطلقة على المنصة كاملة |
+| `owner` | مالك المؤسسة — إدارة كاملة للمؤسسة |
+| `admin` | مدير المؤسسة — إدارة يومية |
+| `teacher` | المعلم — الفصول والدرجات والحضور |
+| `student` | الطالب — عرض الدرجات والاختبارات |
+| `parent` | ولي الأمر — متابعة أبنائه |
+| `employee` | موظف — حسب الصلاحيات المعطاة |
+
+---
+
+## هيكل المشروع
 
 ```
 src/
-├── app/                          # Next.js App Router
-│   ├── (auth)/                   # صفحات المصادقة
-│   ├── api/                      # API Routes (192 endpoint)
-│   ├── dashboard/                # لوحات التحكم (150+ صفحة)
-│   ├── institution/[slug]/       # صفحات المؤسسات العامة
-│   └── page.tsx                  # الصفحة الرئيسية
+├── app/
+│   ├── api/           # API Routes (100+ endpoint)
+│   ├── dashboard/     # لوحات التحكم لكل الأدوار
+│   ├── owner/         # لوحة مالك المنصة
+│   └── login/         # صفحة تسجيل الدخول
 ├── components/
-│   ├── institution-templates/    # قوالب المؤسسات (6 قوالب)
-│   └── ui/                       # مكونات الواجهة
-├── lib/                          # المكتبات والأدوات
-│   ├── auth.ts                   # المصادقة والأدوار
-│   ├── db.ts                     # قاعدة البيانات
-│   ├── email.ts                  # البريد الإلكتروني
-│   └── stripe.ts                 # الدفع
-└── middleware.ts                 # التوجيه والأمان
+│   ├── Sidebar.tsx    # الشريط الجانبي الموحد
+│   └── ui-icons.tsx   # نظام الأيقونات
+└── lib/
+    ├── auth.ts        # المصادقة وإدارة الجلسات
+    └── integrations.ts # التكاملات الخارجية
+scripts/
+├── schema.sql         # هيكل قاعدة البيانات الأساسي (86 جدول)
+├── migration_v2.sql   # جداول إضافية (97 جدول) - مطلوب للتشغيل الكامل
+└── seed.sql           # البيانات الأولية
+docs/
+└── API.md             # توثيق كامل لجميع API endpoints (164+)
 ```
 
-## 🎯 المميزات الرئيسية
+---
 
-### ✅ المنجز (75%)
-- [x] نظام النطاقات الفرعية (Subdomains)
-- [x] 11 دور مستخدم
-- [x] 150+ صفحة داشبورد
-- [x] 192 API endpoint
-- [x] نظام الدفع (Stripe)
-- [x] البريد الإلكتروني (Resend)
-- [x] 213 جدول في قاعدة البيانات
+## النشر على السيرفر (Production)
 
-### 🔄 قيد التطوير (25%)
-- [ ] قوالب المؤسسات الـ 6
-- [ ] تخصيص الألوان للمؤسسات
-- [ ] ربط البريد بالعمليات
-- [ ] اختبار شامل
-
-## 🛠️ التشغيل المحلي
+### باستخدام PM2
 
 ```bash
-# 1. استنساخ المشروع
-git clone https://github.com/rakanshalal-wq/matin.git
-cd matin
-
-# 2. تثبيت الاعتماديات
-npm install
-
-# 3. إعداد المتغيرات البيئية
-cp .env.example .env.local
-# عدل .env.local ببياناتك
-
-# 4. تشغيل قاعدة البيانات
-# تأكد من وجود PostgreSQL
-
-# 5. تشغيل التطبيق
-npm run dev
+npm install -g pm2
+npm run build
+pm2 start npm --name "matin" -- start
+pm2 save
+pm2 startup
 ```
 
-## 📊 متغيرات البيئة (.env.local)
+### باستخدام Docker
 
-```env
-# Database
-DATABASE_URL=postgresql://user:pass@localhost:5432/matin_db
-
-# JWT
-JWT_SECRET=your-secret-key
-ENCRYPTION_KEY=your-encryption-key
-
-# Stripe
-STRIPE_SECRET_KEY=sk_test_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-
-# Email (Resend)
-RESEND_API_KEY=re_...
-
-# AI
-OPENAI_API_KEY=sk-...
-ANTHROPIC_API_KEY=sk-ant-...
+```bash
+docker build -t matin-platform .
+docker run -d -p 3000:3000 --env-file .env.local matin-platform
 ```
 
-## 👥 الأدوار والصلاحيات
+### Nginx (Reverse Proxy)
 
-| الدور | المستوى | الوصف |
-|-------|---------|-------|
-| super_admin | 6 | مالك المنصة |
-| owner | 5 | مالك المؤسسة |
-| admin | 4 | مدير المدرسة |
-| teacher | 3 | معلم |
-| parent | 2 | ولي أمر |
-| student | 1 | طالب |
-| trainer | 3 | مدرب |
-| trainee | 1 | متدرب |
-| muhaffiz | 3 | محفظ قرآن |
-| supervisor | 4 | مشرف تحفيظ |
-| caregiver | 3 | مربية |
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
+    
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
 
-## 💳 خطط الاشتراك
+---
 
-| الباقة | السعر | المميزات |
-|--------|-------|----------|
-| **مجاني** | 0 ر.س | 100 طالب، 5 معلمين، مميزات أساسية |
-| **متقدم** | 299 ر.س/شهر | 500 طالب، دعم 24/7، تقارير متقدمة |
-| **مؤسسي** | 599 ر.س/شهر | غير محدود، VIP، تخصيص كامل |
+## الميزات الرئيسية
 
-## 📞 التواصل
+- **إدارة المؤسسات** — مدارس، معاهد، روضات، جامعات
+- **إدارة الطلاب والمعلمين** — تسجيل، ملفات، صلاحيات
+- **الحضور والغياب** — يومي مع إشعارات لأولياء الأمور
+- **الدرجات والتقارير** — كشوف درجات، تحليلات
+- **الاختبارات الإلكترونية** — بنك أسئلة، حراسة إلكترونية
+- **الجدول الدراسي** — توليد تلقائي
+- **المالية** — رسوم، فواتير، تقارير مالية
+- **الإشعارات** — SMS، WhatsApp، Email، Push
+- **التكاملات** — Moyasar، HyperPay، نفاذ، Google Maps
+- **الذكاء الاصطناعي** — AI Auditor لرصد الشذوذات
+- **الباقات** — مجانية، أساسية، احترافية، ذهبية، حكومية
 
-- **المطور:** ركان شلال
-- **البريد:** rakanshalal@gmail.com
-- **الموقع:** https://matin.ink
+---
 
-## 📄 الترخيص
+## توثيق API
 
-جميع الحقوق محفوظة © 2026 منصة متين
+راجع [`docs/API.md`](docs/API.md) للاطلاع على جميع الـ endpoints (164+ endpoint) مع أمثلة الطلبات والاستجابات.
+
+---
+
+## الدعم الفني
+
+للتواصل: admin@matin.ink

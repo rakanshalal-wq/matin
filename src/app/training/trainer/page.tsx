@@ -182,7 +182,8 @@ export default function TrainerPage() {
         <div>
           <h2 style={{ color: GREEN, fontSize: '1rem', fontWeight: 700, marginBottom: '1rem' }}>تقدم المتدربين</h2>
           <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: 'hidden' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div style={{ overflowX: 'auto' }}>
+<table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr style={{ background: 'rgba(255,255,255,0.02)', borderBottom: `1px solid ${BORDER}` }}>
                   {['المتدرب', 'الدورة', 'الحضور%', 'التقدم'].map(h => (
@@ -206,6 +207,7 @@ export default function TrainerPage() {
                 {trainees.length === 0 && <tr><td colSpan={4} style={{ textAlign: 'center', padding: '2rem', color: 'rgba(255,255,255,0.3)' }}>لا بيانات بعد</td></tr>}
               </tbody>
             </table>
+</div>
           </div>
         </div>
       )}

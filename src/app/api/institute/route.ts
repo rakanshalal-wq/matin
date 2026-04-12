@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getCurrentUser } from '@/lib/auth';
-import pool from '@/lib/db';
+import { getUserFromRequest, pool } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,7 +8,7 @@ export const dynamic = 'force-dynamic';
 // ─────────────────────────────────────────────
 export async function GET(req: NextRequest) {
   try {
-    const user = await getCurrentUser();
+    const user = await getUserFromRequest(req);
     if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
 
     const { searchParams } = new URL(req.url);
@@ -106,7 +105,7 @@ export async function GET(req: NextRequest) {
 // ─────────────────────────────────────────────
 export async function POST(req: NextRequest) {
   try {
-    const user = await getCurrentUser();
+    const user = await getUserFromRequest(req);
     if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
 
     const body = await req.json().catch(() => ({}));

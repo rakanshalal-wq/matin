@@ -1,13 +1,12 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser } from '@/lib/auth';
-import pool from '@/lib/db';
+import { getUserFromRequest, pool } from '@/lib/auth';
 
 // ─────────────────────────────────────────────
 // GET /api/school/teacher?type=...
 // types: stats | classes | students | attendance | grades | homework
 // ─────────────────────────────────────────────
 export async function GET(request: Request) {
-  const user = getCurrentUser();
+  const user = await getUserFromRequest(request);
   if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
   if (user.role !== 'teacher') return NextResponse.json({ error: 'هذه الصفحة للمعلمين فقط' }, { status: 403 });
 
@@ -149,7 +148,7 @@ export async function GET(request: Request) {
 // types: attendance | homework | grade
 // ─────────────────────────────────────────────
 export async function POST(request: Request) {
-  const user = getCurrentUser();
+  const user = await getUserFromRequest(request);
   if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
   if (user.role !== 'teacher') return NextResponse.json({ error: 'هذه الصفحة للمعلمين فقط' }, { status: 403 });
 

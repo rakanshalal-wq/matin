@@ -1,455 +1,545 @@
 'use client';
-import { useEffect, useState } from 'react';
+
+/* MATIN DESIGN SYSTEM — Home Page
+   Dark Premium SaaS | RTL | Cairo Font
+   Sections: Hero, Stats, Features, Institutions, User Roles, Integrations, Pricing, CTA
+   Per Constitution v4: 5 institution types, 7 user levels, 5 pricing tiers */
+
+import { useEffect, useRef } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import Link from 'next/link';
+import {
+  GraduationCap, Shield, Zap, Users, BarChart3, Bell,
+  Bus, Utensils, Brain, Star, CheckCircle, ArrowLeft,
+  Building2, BookOpen, Baby, Dumbbell, ChevronLeft,
+  Crown, Lock, UserCheck, Settings, Briefcase,
+  CreditCard, MessageCircle, Smartphone, Wallet
+} from "lucide-react";
 
-const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap');
-:root {
-  --gold:#D4A843; --gold2:#E8C060;
-  --gold-dim:rgba(212,168,67,0.12); --gold-border:rgba(212,168,67,0.22);
-  --bg:#06060E; --card:rgba(255,255,255,0.03);
-  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.04);
-  --text:#EEEEF5; --text-dim:rgba(238,238,245,0.6); --text-muted:rgba(238,238,245,0.3);
-  --green:#10B981; --blue:#60A5FA; --purple:#A78BFA; --orange:#FB923C; --cyan:#22D3EE;
-  --font:'IBM Plex Sans Arabic',sans-serif;
-  --nav-h:64px;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{font-family:var(--font);background:var(--bg);color:var(--text);overflow-x:hidden;}
+const integrationIconMap: Record<string, React.ReactNode> = {
+  Building2: <Building2 size={22} />,
+  Shield: <Shield size={22} />,
+  CreditCard: <CreditCard size={22} />,
+  MessageCircle: <MessageCircle size={22} />,
+  Smartphone: <Smartphone size={22} />,
+  Wallet: <Wallet size={22} />,
+};
 
-nav{
-  position:fixed;top:0;left:0;right:0;height:var(--nav-h);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 5%;
-  background:rgba(6,6,14,0.85);
-  backdrop-filter:blur(20px) saturate(1.8);
-  border-bottom:1px solid var(--border);
-  z-index:200;
-}
-.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.nav-logo-icon{
-  width:36px;height:36px;border-radius:10px;
-  background:linear-gradient(135deg,var(--gold),var(--gold2));
-  display:flex;align-items:center;justify-content:center;
-  font-size:18px;font-weight:900;color:#000;
-  box-shadow:0 4px 14px rgba(212,168,67,0.3);
-  flex-shrink:0;
-}
-.nav-logo-main{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-0.5px;line-height:1.1;}
-.nav-logo-sub{font-size:9px;color:var(--text-muted);font-weight:500;letter-spacing:0.5px;}
-.nav-links{display:flex;align-items:center;gap:28px;}
-.nav-links a{color:var(--text-dim);text-decoration:none;font-size:14px;font-weight:500;transition:color 0.2s;white-space:nowrap;}
-.nav-links a:hover{color:var(--gold);}
-.nav-cta{
-  background:linear-gradient(135deg,var(--gold),var(--gold2));
-  border:none;border-radius:9px;padding:8px 20px;
-  color:#06060E;font-weight:700;font-size:13px;
-  cursor:pointer;font-family:var(--font);white-space:nowrap;
-  box-shadow:0 4px 14px rgba(212,168,67,0.25);
-  transition:all 0.2s;
-}
-.nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,168,67,0.4);}
-
-.hero{
-  min-height:100vh;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:calc(var(--nav-h) + 60px) 5% 80px;
-  position:relative;overflow:hidden;
-}
-.hero-glow{position:absolute;width:min(700px,90vw);height:min(700px,90vw);border-radius:50%;background:radial-gradient(circle,rgba(212,168,67,0.07) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-60%);pointer-events:none;}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;color:var(--gold);margin-bottom:28px;}
-.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite;}
-.hero-title{font-size:clamp(36px,6vw,72px);font-weight:800;line-height:1.1;letter-spacing:-2px;margin-bottom:10px;}
-.hero-title-gold{color:var(--gold);}
-.hero-sub{font-size:clamp(15px,2vw,19px);color:var(--text-dim);max-width:560px;margin:0 auto 40px;line-height:1.75;font-weight:400;}
-.hero-actions{display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap;}
-.btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:12px;padding:14px 28px;color:#06060E;font-weight:800;font-size:15px;cursor:pointer;font-family:var(--font);box-shadow:0 6px 22px rgba(212,168,67,0.3);transition:all 0.2s;display:flex;align-items:center;gap:8px;white-space:nowrap;}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(212,168,67,0.45);}
-.btn-secondary{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;padding:14px 24px;color:var(--text);font-weight:600;font-size:15px;cursor:pointer;font-family:var(--font);transition:all 0.2s;display:flex;align-items:center;gap:8px;white-space:nowrap;}
-.btn-secondary:hover{background:rgba(255,255,255,0.09);border-color:rgba(255,255,255,0.15);}
-.hero-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:56px;width:100%;max-width:1000px;}
-.hero-card{background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:16px;padding:22px 20px;transition:all 0.2s;}
-.hero-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,0.1);}
-.hero-card-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:24px;}
-.hero-card-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:7px;}
-.hero-card-desc{font-size:12.5px;color:var(--text-muted);line-height:1.65;}
-
-section{padding:clamp(60px,8vw,100px) 5%;position:relative;z-index:1;}
-.sec-center{text-align:center;margin-bottom:clamp(40px,5vw,64px);}
-.sec-tag{display:inline-flex;align-items:center;gap:8px;background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:20px;padding:5px 14px;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:18px;}
-.sec-title{font-size:clamp(26px,4vw,44px);font-weight:800;letter-spacing:-1px;margin-bottom:14px;line-height:1.15;}
-.sec-sub{font-size:clamp(14px,1.5vw,16px);color:var(--text-dim);line-height:1.75;max-width:520px;margin:0 auto;}
-
-.inst-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;}
-.inst-card{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:clamp(20px,3vw,28px);transition:all 0.25s;position:relative;overflow:hidden;cursor:pointer;text-decoration:none;display:block;}
-.inst-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,0.1);}
-.inst-icon-wrap{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;flex-shrink:0;font-size:24px;}
-.inst-name{font-size:16px;font-weight:700;margin-bottom:8px;color:var(--text);}
-.inst-desc{font-size:13px;color:var(--text-muted);line-height:1.65;}
-.inst-tag{display:inline-block;margin-top:14px;font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px;margin-left:6px;}
-
-.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(40px,6vw,80px);align-items:center;}
-.features-list{display:flex;flex-direction:column;gap:16px;}
-.feature-item{display:flex;gap:16px;align-items:flex-start;padding:18px;border-radius:14px;border:1px solid transparent;transition:all 0.2s;cursor:default;}
-.feature-item:hover{background:rgba(255,255,255,0.03);border-color:var(--border);}
-.feature-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;}
-.feature-title{font-size:15px;font-weight:700;margin-bottom:5px;color:var(--text);}
-.feature-desc{font-size:13px;color:var(--text-muted);line-height:1.65;}
-
-.mockup-wrap{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);}
-.mockup-bar{padding:12px 16px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px;}
-.mockup-dot{width:9px;height:9px;border-radius:50%;}
-.mockup-url{flex:1;text-align:center;font-size:10px;color:rgba(238,238,245,0.25);}
-.mockup-body{padding:18px;}
-.mockup-title{font-size:12px;font-weight:700;color:var(--gold);margin-bottom:12px;}
-.m-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
-.m-stat{background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:9px;padding:12px;}
-.m-val{font-size:20px;font-weight:800;line-height:1;color:var(--text);}
-.m-lbl{font-size:9px;color:var(--text-muted);margin-top:3px;}
-.m-progress{height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;margin-top:12px;}
-.m-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--blue));border-radius:2px;}
-
-.roles-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
-.role-card{background:var(--card);border:1px solid var(--border2);border-radius:13px;padding:18px 14px;text-align:center;transition:all 0.2s;}
-.role-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,0.1);}
-.role-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:20px;}
-.role-name{font-size:13px;font-weight:700;margin-bottom:4px;color:var(--text);}
-.role-desc{font-size:11px;color:var(--text-muted);line-height:1.5;}
-
-.int-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:40px;}
-.int-chip{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:9px 16px;font-size:13px;font-weight:600;color:var(--text-dim);transition:all 0.2s;}
-.int-chip:hover{border-color:var(--gold-border);color:var(--text);}
-
-.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;}
-.price-card{background:var(--card);border:1px solid var(--border2);border-radius:20px;padding:clamp(24px,3vw,32px);position:relative;overflow:hidden;transition:all 0.25s;}
-.price-card:hover{transform:translateY(-4px);}
-.price-card.featured{background:linear-gradient(135deg,rgba(212,168,67,0.07),rgba(212,168,67,0.02));border-color:var(--gold-border);box-shadow:0 0 50px rgba(212,168,67,0.07);}
-.price-badge{position:absolute;top:18px;left:18px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;font-size:10px;font-weight:800;padding:3px 11px;border-radius:20px;letter-spacing:0.5px;}
-.price-name{font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
-.price-amount{font-size:clamp(28px,3vw,38px);font-weight:800;line-height:1;color:var(--text);}
-.price-amount span{font-size:13px;color:var(--text-muted);font-weight:400;}
-.price-period{font-size:12px;color:var(--text-muted);margin-top:4px;}
-.price-divider{height:1px;background:var(--border);margin:22px 0;}
-.price-features{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:26px;}
-.price-features li{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--text-dim);}
-.price-features li.off{color:var(--text-muted);}
-.check-icon{flex-shrink:0;color:var(--green);}
-.off-icon{flex-shrink:0;color:var(--text-muted);}
-.btn-price{width:100%;padding:12px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all 0.2s;border:none;}
-.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text-dim);}
-.btn-outline:hover{border-color:var(--gold-border);color:var(--gold);}
-.btn-gold-p{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;box-shadow:0 4px 14px rgba(212,168,67,0.3);}
-.btn-gold-p:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,168,67,0.45);}
-
-.cta-wrap{text-align:center;padding:clamp(60px,8vw,100px) 5%;position:relative;overflow:hidden;}
-.cta-bg{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(212,168,67,0.05) 0%,transparent 70%);pointer-events:none;}
-.cta-title{font-size:clamp(28px,5vw,52px);font-weight:800;letter-spacing:-1.5px;margin-bottom:18px;}
-.cta-sub{font-size:clamp(14px,1.8vw,17px);color:var(--text-dim);max-width:480px;margin:0 auto 36px;line-height:1.75;}
-.cta-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-
-footer{padding:clamp(30px,4vw,50px) 5% clamp(20px,3vw,30px);border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
-.footer-logo{display:flex;align-items:center;gap:10px;}
-.footer-logo-icon{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:#000;}
-footer p{color:var(--text-muted);font-size:12px;}
-.footer-links{display:flex;gap:20px;flex-wrap:wrap;}
-.footer-links a{color:var(--text-muted);font-size:12px;text-decoration:none;transition:color 0.2s;}
-.footer-links a:hover{color:var(--gold);}
-
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.4)}}
-
-@media(max-width:768px){
-  .nav-links{display:none;}
-  .hero-cards{grid-template-columns:1fr;max-width:400px;}
-  footer{flex-direction:column;text-align:center;}
-  .footer-links{justify-content:center;}
-}
-`;
-
-// 🏛️ أنواع المؤسسات
-const institutions = [
-  { name: 'المدارس', desc: 'إدارة شاملة للمدارس الأهلية والعالمية', icon: '🏫', color: '#60A5FA', bg: 'rgba(96,165,250,0.1)', features: ['جداول دراسية', 'نظام الحضور', 'التقييم'] },
-  { name: 'حلقات القرآن', desc: 'متابعة الحفظ والمراجعة للطلاب', icon: '📖', color: '#10B981', bg: 'rgba(16,185,129,0.1)', features: ['تتبع الحفظ', 'تسجيل المراجعة', 'تقارير'] },
-  { name: 'المعاهد', desc: 'إدارة الدورات والمتدربين', icon: '📚', color: '#A78BFA', bg: 'rgba(167,139,250,0.1)', features: ['إدارة الدورات', 'شهادات', 'التقييم'] },
-  { name: 'مراكز التدريب', desc: 'تدريب مهني وتطوير الموارد البشرية', icon: '💼', color: '#FB923C', bg: 'rgba(251,146,60,0.1)', features: ['خطط تدريب', 'مهارات', 'تقييم'] },
-  { name: 'الجامعات', desc: 'نظام متكامل للجامعات والكليات', icon: '🎓', color: '#3B82F6', bg: 'rgba(59,130,246,0.1)', features: ['ساعات معتمدة', 'مناهج', 'بحث'] },
-  { name: 'الحضانات', desc: 'رعاية وتعليم الأطفال', icon: '🧸', color: '#EC4899', bg: 'rgba(236,72,153,0.1)', features: ['متابعة النمو', 'أنشطة', 'تواصل'] },
-];
-
-// 👥 الأدوار
-const roles = [
-  { name: 'مالك المنصة', desc: 'إدارة كاملة', icon: '👑', color: '#D4A843', bg: 'rgba(212,168,67,0.1)' },
-  { name: 'مدير المؤسسة', desc: 'إدارة يومية', icon: '⚡', color: '#60A5FA', bg: 'rgba(96,165,250,0.1)' },
-  { name: 'المعلم', desc: 'إدارة الطلاب', icon: '📖', color: '#10B981', bg: 'rgba(16,185,129,0.1)' },
-  { name: 'ولي الأمر', desc: 'متابعة الأبناء', icon: '👨‍👩‍👧', color: '#A78BFA', bg: 'rgba(167,139,250,0.1)' },
-];
-
-// 💰 خطط الأسعار
-const pricingPlans = [
-  { name: 'مجاني', price: '0', period: 'للأبد', desc: 'للمؤسسات الصغيرة', featured: false, buttonText: 'ابدأ مجاناً', features: [
-    { text: '100 طالب', included: true }, { text: '5 معلمين', included: true }, { text: 'مميزات أساسية', included: true },
-    { text: 'دعم بالبريد', included: true }, { text: 'تقارير متقدمة', included: false }, { text: 'تكامل حكومي', included: false }
-  ]},
-  { name: 'متقدم', price: '299', period: 'ريال/شهر', desc: 'للمؤسسات المتوسطة', featured: true, buttonText: 'اشترك الآن', features: [
-    { text: '500 طالب', included: true }, { text: '20 معلم', included: true }, { text: 'جميع المميزات', included: true },
-    { text: 'دعم فني 24/7', included: true }, { text: 'تقارير متقدمة', included: true }, { text: 'تكامل حكومي', included: false }
-  ]},
-  { name: 'مؤسسي', price: '599', period: 'ريال/شهر', desc: 'للمنظمات الكبيرة', featured: false, buttonText: 'تواصل معنا', features: [
-    { text: 'غير محدود', included: true }, { text: 'دعم VIP', included: true }, { text: 'تخصيص كامل', included: true },
-    { text: 'مدير حساب', included: true }, { text: 'تدريب شامل', included: true }, { text: 'تكامل حكومي', included: true }
-  ]},
-];
-
-// 🔗 التكاملات
-const integrations = ['نظام نور 🏛️', 'أبشر 🆔', 'قوى 💼', 'النفاذ الوطني 🔐', 'فارس 🎖️', 'مدرستي 📱', 'توكلنا ✅', 'سدايا 🤖'];
-
-// ✨ المميزات
-const features = [
-  { icon: '🎨', title: 'تخصيص كامل', desc: 'صمم منصتك بألوان وهوية خاصة', color: '#D4A843', bg: 'rgba(212,168,67,0.1)' },
-  { icon: '📊', title: 'تقارير ذكية', desc: 'تحليلات متقدمة لأداء المؤسسة', color: '#60A5FA', bg: 'rgba(96,165,250,0.1)' },
-  { icon: '🔒', title: 'أمان عالي', desc: 'حماية البيانات بتشفير متقدم', color: '#10B981', bg: 'rgba(16,185,129,0.1)' },
-  { icon: '📱', title: 'تطبيق جوال', desc: 'وصول من أي مكان وفي أي وقت', color: '#A78BFA', bg: 'rgba(167,139,250,0.1)' },
-];
-
-export default function LandingPage() {
-  const [scrolled, setScrolled] = useState(false);
-
+// ---- Scroll Animation Hook ----
+function useScrollAnimation() {
   useEffect(() => {
-    const style = document.createElement('style');
-    style.textContent = CSS;
-    document.head.appendChild(style);
-    
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    
-    return () => {
-      document.head.removeChild(style);
-      window.removeEventListener('scroll', handleScroll);
-    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll(".fade-in-up").forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
   }, []);
+}
+
+// ---- Data ----
+
+
+const coreFeatures = [
+  {
+    icon: <GraduationCap size={26} />,
+    color: "#D4A843",
+    bg: "rgba(212,168,67,0.1)",
+    title: "الإدارة الأكاديمية",
+    desc: "جداول دراسية ذكية، درجات تفصيلية، تقارير فورية، وإدارة شاملة للمناهج والمحتوى التعليمي.",
+  },
+  {
+    icon: <Shield size={26} />,
+    color: "#22C55E",
+    bg: "rgba(34,197,94,0.1)",
+    title: "الأمان السيبراني",
+    desc: "تشفير AES-256، TLS 1.3، عزل كامل للبيانات بين المؤسسات، وسجلات أمان لا يمكن حذفها.",
+  },
+  {
+    icon: <BarChart3 size={26} />,
+    color: "#60A5FA",
+    bg: "rgba(96,165,250,0.1)",
+    title: "التحليلات والتقارير",
+    desc: "لوحات تحكم تفاعلية، تقارير مفصلة، وتحليلات بيانات متقدمة لاتخاذ قرارات مدروسة.",
+  },
+  {
+    icon: <Bell size={26} />,
+    color: "#F97316",
+    bg: "rgba(249,115,22,0.1)",
+    title: "الإشعارات الشاملة",
+    desc: "إشعارات واتساب وSMS وPush Notifications لأولياء الأمور والطلاب والمعلمين فوراً.",
+  },
+  {
+    icon: <Bus size={26} />,
+    color: "#A78BFA",
+    bg: "rgba(167,139,250,0.1)",
+    title: "النقل المدرسي",
+    desc: "تتبع حي آمن للحافلات بـ GPS، إشعارات الركوب والنزول، وخرائط تفاعلية للأهالي.",
+  },
+  {
+    icon: <Brain size={26} />,
+    color: "#EC4899",
+    bg: "rgba(236,72,153,0.1)",
+    title: "الذكاء الاصطناعي",
+    desc: "توجيه مهني ذكي، مراقبة الصحة النفسية، وجواز سفر المهارات الرقمي لكل طالب.",
+  },
+];
+
+const institutionTypes = [
+  { icon: <Building2 size={28} />, title: "المدارس", desc: "قبول، جداول، درجات، اختبارات، نقل مدرسي", color: "#D4A843" },
+  { icon: <GraduationCap size={28} />, title: "الجامعات", desc: "ساعات معتمدة، كليات، GPA، أبحاث، إرشاد أكاديمي", color: "#22C55E" },
+  { icon: <Baby size={28} />, title: "رياض الأطفال", desc: "منهج وزاري، أنشطة، تقييم مهاري", color: "#60A5FA" },
+  { icon: <BookOpen size={28} />, title: "الحضانات", desc: "رعاية يومية، تغذية، تقارير يومية للأهالي", color: "#F97316" },
+  { icon: <Dumbbell size={28} />, title: "معاهد التدريب", desc: "برامج قصيرة، شهادات معتمدة، مسارات مهنية", color: "#A78BFA" },
+];
+
+// 7 user levels per constitution
+const userRoles = [
+  {
+    level: "1",
+    icon: <Crown size={20} />,
+    color: "#D4A843",
+    title: "مالك المنصة",
+    subtitle: "Super Admin",
+    desc: "السلطة المطلقة — التحكم الكامل في جميع المؤسسات والإيرادات والسياسات",
+  },
+  {
+    level: "2",
+    icon: <Settings size={20} />,
+    color: "#A78BFA",
+    title: "موظفو المنصة",
+    subtitle: "Platform Staff",
+    desc: "صلاحيات جزئية يحددها مالك المنصة للدعم الفني والإشراف",
+  },
+  {
+    level: "3",
+    icon: <Building2 size={20} />,
+    color: "#22C55E",
+    title: "مالك المؤسسة",
+    subtitle: "Institution Owner",
+    desc: "تحكم كامل في مؤسسته فقط — المالية والموظفين والإعدادات",
+  },
+  {
+    level: "4",
+    icon: <Briefcase size={20} />,
+    color: "#60A5FA",
+    title: "مدير المؤسسة",
+    subtitle: "Institution Manager",
+    desc: "إدارة العمليات اليومية — الجداول والحضور والتقارير",
+  },
+  {
+    level: "5",
+    icon: <UserCheck size={20} />,
+    color: "#F97316",
+    title: "الكادر الوظيفي",
+    subtitle: "Staff",
+    desc: "صلاحيات حسب المنصب — محاسب، سكرتير، مشرف",
+  },
+  {
+    level: "6",
+    icon: <GraduationCap size={20} />,
+    color: "#EC4899",
+    title: "المعلمون",
+    subtitle: "Teachers",
+    desc: "إدارة فصولهم ومواد درجاتهم وواجباتهم فقط",
+  },
+  {
+    level: "7",
+    icon: <Users size={20} />,
+    color: "#6B7280",
+    title: "الطلاب وأولياء الأمور",
+    subtitle: "Students & Parents",
+    desc: "متابعة الأداء والتواصل والمشاركة في المنظومة التعليمية",
+  },
+];
+
+const integrations = [
+  { name: "نور", desc: "وزارة التعليم", icon: "Building2", color: "#22C55E" },
+  { name: "نفاذ", desc: "المصادقة الحكومية", icon: "Shield", color: "#60A5FA" },
+  { name: "STC Pay", desc: "الدفع الآمن", icon: "CreditCard", color: "#D4A843" },
+  { name: "واتساب", desc: "إشعارات فورية", icon: "MessageCircle", color: "#22C55E" },
+  { name: "Apple Pay", desc: "الدفع السريع", icon: "Smartphone", color: "#F97316" },
+  { name: "مدى", desc: "بطاقات ائتمانية", icon: "Wallet", color: "#A78BFA" },
+];
+
+// 5 pricing tiers per constitution
+const pricingPlans = [
+  {
+    name: "المجانية",
+    price: "0",
+    period: "دائماً",
+    students: "مؤسسة صغيرة",
+    featured: false,
+    color: "#6B7280",
+    features: [
+      "الجداول والدرجات الأساسية",
+      "الحضور والغياب",
+      "الرسائل الداخلية",
+      "التقارير الأساسية",
+    ],
+  },
+  {
+    name: "الأساسية",
+    price: "299",
+    period: "شهرياً",
+    students: "حتى 200 طالب",
+    featured: false,
+    color: "#D4A843",
+    features: [
+      "كل مميزات المجانية",
+      "الاختبارات الإلكترونية",
+      "المكتبة الرقمية",
+      "تواصل أولياء الأمور",
+      "دعم فني بالبريد",
+    ],
+  },
+  {
+    name: "الاحترافية",
+    price: "699",
+    period: "شهرياً",
+    students: "حتى 1000 طالب",
+    featured: true,
+    badge: "الأكثر طلباً",
+    color: "#D4A843",
+    features: [
+      "كل مميزات الأساسية",
+      "الإدارة المالية",
+      "النقل المدرسي GPS",
+      "واتساب Business",
+      "تكامل نور ونفاذ",
+      "تقارير متقدمة",
+    ],
+  },
+  {
+    name: "المؤسسية",
+    price: "تواصل",
+    period: "",
+    students: "طلاب غير محدودين",
+    featured: false,
+    color: "#22C55E",
+    features: [
+      "كل الميزات",
+      "الذكاء الاصطناعي",
+      "Matin Coin",
+      "SLA 99.9%",
+      "مدير حساب مخصص",
+    ],
+  },
+];
+
+// ---- Component ----
+export default function Home() {
+  useScrollAnimation();
 
   return (
-    <div dir="rtl">
-      {/* 🧭 Navigation */}
-      <nav style={{ background: scrolled ? 'rgba(6,6,14,0.95)' : undefined }}>
-        <Link href="/" className="nav-logo">
-          <div className="nav-logo-icon">م</div>
-          <div>
-            <div className="nav-logo-main">متين</div>
-            <div className="nav-logo-sub">MATIN.INK</div>
-          </div>
-        </Link>
-        
-        <div className="nav-links">
-          <Link href="#features">المميزات</Link>
-          <Link href="#institutions">المؤسسات</Link>
-          <Link href="#pricing">الأسعار</Link>
-          <Link href="#roles">الأدوار</Link>
-          <Link href="/login">تسجيل الدخول</Link>
-        </div>
-        
-        <Link href="/register">
-          <button className="nav-cta">ابدأ مجاناً</button>
-        </Link>
-      </nav>
+    <div className="min-h-screen bg-[#0a0a0a] text-white" style={{ fontFamily: 'Cairo, sans-serif' }}>
+      <Navbar />
 
-      {/* 🦸 Hero */}
-      <section className="hero">
-        <div className="hero-glow"></div>
-        
-        <div className="hero-badge">
-          <span className="hero-badge-dot"></span>
-          منصة سعودية 100%
-        </div>
-        
-        <h1 className="hero-title">
-          نظام إدارة التعليم<br />
-          <span className="hero-title-gold">الأكثر تكاملاً</span>
-        </h1>
-        
-        <p className="hero-sub">
-          حل شامل وذكي لإدارة المؤسسات التعليمية بالذكاء الاصطناعي<br />
-          متكامل مع الأنظمة الحكومية السعودية
-        </p>
-        
-        <div className="hero-actions">
-          <Link href="/register">
-            <button className="btn-primary">🚀 ابدأ مجاناً</button>
-          </Link>
-          <Link href="/demo">
-            <button className="btn-secondary">▶️ شاهد العرض</button>
-          </Link>
-        </div>
-        
-        <div className="hero-cards">
-          {[
-            { icon: '🎓', title: '6 أنواع مؤسسات', desc: 'مدارس، جامعات، معاهد، حضانات، تحفيظ، تدريب', color: '#60A5FA' },
-            { icon: '👥', title: '11 دور مستخدم', desc: 'من مالك المنصة حتى الطالب والولي', color: '#10B981' },
-            { icon: '🤖', title: 'ذكاء اصطناعي', desc: 'تحليلات ذكية وتقارير تنبؤية', color: '#A78BFA' },
-            { icon: '🔐', title: 'تكامل حكومي', desc: 'نور، أبشر، قوى، النفاذ الوطني', color: '#FB923C' },
-          ].map((card, i) => (
-            <div key={i} className="hero-card">
-              <div className="hero-card-icon" style={{ background: `${card.color}15` }}>{card.icon}</div>
-              <div className="hero-card-title">{card.title}</div>
-              <div className="hero-card-desc">{card.desc}</div>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* ======== HERO ======== */}
+      <section className="relative min-h-screen flex items-center overflow-hidden pt-16">
+        {/* Background */}
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-20"
+          style={{ backgroundImage: "url(https://d2xsxph8kpxj0f.cloudfront.net/310519663430723344/NkUVobJTWfHHFdjs4pEyWK/hero-bg-SLXYPocnkQ2MPu3vomp7My.webp)" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(10,10,10,0.5)] to-[#0a0a0a]" />
 
-      {/* 🏛️ Institutions */}
-      <section id="institutions">
-        <div className="sec-center">
-          <div className="sec-tag">🏛️ المؤسسات</div>
-          <h2 className="sec-title">حلول لكل نوع من المؤسسات</h2>
-          <p className="sec-sub">منصة متين تدعم 6 أنواع مختلفة من المؤسسات التعليمية</p>
-        </div>
-        
-        <div className="inst-grid">
-          {institutions.map((inst, i) => (
-            <Link key={i} href={`/institutions/${inst.name}`} className="inst-card">
-              <div className="inst-icon-wrap" style={{ background: inst.bg }}>{inst.icon}</div>
-              <div className="inst-name">{inst.name}</div>
-              <div className="inst-desc">{inst.desc}</div>
-              <div style={{ marginTop: 14 }}>
-                {inst.features.map((feat, j) => (
-                  <span key={j} className="inst-tag" style={{ color: inst.color, background: `${inst.color}15` }}>{feat}</span>
-                ))}
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
+        {/* Glow */}
+        <div className="absolute top-1/3 right-1/4 w-96 h-96 rounded-full bg-[rgba(212,168,67,0.06)] blur-[100px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/4 w-64 h-64 rounded-full bg-[rgba(34,197,94,0.04)] blur-[80px] pointer-events-none" />
 
-      {/* ✨ Features */}
-      <section id="features">
-        <div className="features-grid">
-          <div>
-            <div className="sec-tag">✨ المميزات</div>
-            <h2 className="sec-title">كل ما تحتاجه في منصة واحدة</h2>
-            <p className="sec-sub">متين تجمع بين القوة والبساطة لتقديم تجربة فريدة</p>
-            
-            <div className="features-list">
-              {features.map((feat, i) => (
-                <div key={i} className="feature-item">
-                  <div className="feature-icon" style={{ background: feat.bg }}>{feat.icon}</div>
-                  <div>
-                    <div className="feature-title">{feat.title}</div>
-                    <div className="feature-desc">{feat.desc}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          
-          <div className="mockup-wrap">
-            <div className="mockup-bar">
-              {['#EF4444', '#F59E0B', '#10B981'].map((c, i) => (
-                <div key={i} className="mockup-dot" style={{ background: c }}></div>
-              ))}
-              <div className="mockup-url">dashboard.matin.ink</div>
-            </div>
-            <div className="mockup-body">
-              <div className="mockup-title">📊 إحصائيات اليوم</div>
-              <div className="m-grid">
-                {[{ val: '1,247', lbl: 'طالب نشط' }, { val: '89%', lbl: 'نسبة الحضور' }, { val: '156', lbl: 'حلقة اليوم' }].map((s, i) => (
-                  <div key={i} className="m-stat">
-                    <div className="m-val">{s.val}</div>
-                    <div className="m-lbl">{s.lbl}</div>
-                  </div>
-                ))}
-              </div>
-              <div className="m-progress"><div className="m-fill" style={{ width: '75%' }}></div></div>
-            </div>
-          </div>
-        </div>
-      </section>
+        <div className="container relative z-10 py-20">
+          <div className="max-w-4xl mx-auto text-center">
 
-      {/* 👥 Roles */}
-      <section id="roles">
-        <div className="sec-center">
-          <div className="sec-tag">👥 الأدوار</div>
-          <h2 className="sec-title">نظام أدوار مرن ومتكامل</h2>
-        </div>
-        
-        <div className="roles-grid">
-          {roles.map((role, i) => (
-            <div key={i} className="role-card">
-              <div className="role-icon" style={{ background: role.bg }}>{role.icon}</div>
-              <div className="role-name">{role.name}</div>
-              <div className="role-desc">{role.desc}</div>
-            </div>
-          ))}
-        </div>
-      </section>
 
-      {/* 🔗 Integrations */}
-      <section>
-        <div className="sec-center">
-          <h2 className="sec-title">متصل بـ <span style={{ color: '#D4A843' }}>الأنظمة الحكومية</span></h2>
-        </div>
-        <div className="int-grid">
-          {integrations.map((int, i) => (
-            <div key={i} className="int-chip">{int}</div>
-          ))}
-        </div>
-      </section>
+            {/* Headline */}
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-tight mb-6" style={{ lineHeight: '1.15' }}>
+              <span className="text-white">نظام إدارة المؤسسات التعليمية</span>
+              <br />
+              <span className="text-gold-gradient">الأكثر تكاملاً</span>
+              <br />
+              <span className="text-white">في المملكة</span>
+            </h1>
 
-      {/* 💰 Pricing */}
-      <section id="pricing">
-        <div className="sec-center">
-          <div className="sec-tag">💰 الأسعار</div>
-          <h2 className="sec-title">اختر خطتك</h2>
-          <p className="sec-sub">أسعار مرنة تناسب كل مؤسسة</p>
-        </div>
-        
-        <div className="pricing-grid">
-          {pricingPlans.map((plan, i) => (
-            <div key={i} className={`price-card ${plan.featured ? 'featured' : ''}`}>
-              {plan.featured && <div className="price-badge">الأكثر شعبية</div>}
-              <div className="price-name">{plan.name}</div>
-              <div className="price-amount">{plan.price} <span>{plan.period}</span></div>
-              <div className="price-period">{plan.desc}</div>
-              <div className="price-divider"></div>
-              <ul className="price-features">
-                {plan.features.map((feat, j) => (
-                  <li key={j} className={feat.included ? '' : 'off'}>
-                    <span className={feat.included ? 'check-icon' : 'off-icon'}>{feat.included ? '✓' : '✗'}</span>
-                    {feat.text}
-                  </li>
-                ))}
-              </ul>
-              <Link href="/register">
-                <button className={`btn-price ${plan.featured ? 'btn-gold-p' : 'btn-outline'}`}>{plan.buttonText}</button>
+            {/* Subheadline */}
+            <p className="text-gray-400 text-lg md:text-xl leading-relaxed mb-10 max-w-2xl mx-auto">
+              منصة سحابية تجمع كل ما تحتاجه مؤسستك التعليمية في مكان واحد — من القبول حتى التخرج.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a
+                href="https://app.matin.ink/register"
+                className="btn-gold px-8 py-4 rounded-2xl text-base font-bold flex items-center gap-2 w-full sm:w-auto justify-center"
+              >
+                ابدأ تجربتك المجانية
+                <ArrowLeft size={18} />
+              </a>
+              <Link
+                href="/features"
+                className="btn-outline-gold px-8 py-4 rounded-2xl text-base font-bold flex items-center gap-2 w-full sm:w-auto justify-center"
+              >
+                استكشف المميزات
               </Link>
             </div>
-          ))}
+
+            {/* Trust indicators */}
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-500">
+              <span className="flex items-center gap-2">
+                <CheckCircle size={16} className="text-[#22C55E]" />
+                لا يلزم بطاقة ائتمانية
+              </span>
+              <span className="flex items-center gap-2">
+                <CheckCircle size={16} className="text-[#22C55E]" />
+                إعداد خلال 24 ساعة
+              </span>
+              <span className="flex items-center gap-2">
+                <CheckCircle size={16} className="text-[#22C55E]" />
+                دعم فني على مدار الساعة
+              </span>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* 🎯 CTA */}
-      <section className="cta-wrap">
-        <div className="cta-bg"></div>
-        <h2 className="cta-title">جاهز لتحويل <span style={{ color: '#D4A843' }}>مؤسستك؟</span></h2>
-        <p className="cta-sub">انضم للمئات من المؤسسات التعليمية التي تثق بمتين</p>
-        <div className="cta-actions">
-          <Link href="/register"><button className="btn-primary">🚀 ابدأ مجاناً الآن</button></Link>
-          <Link href="/contact"><button className="btn-secondary">📞 تحدث مع فريقنا</button></Link>
+
+
+      {/* ======== DASHBOARD PREVIEW ======== */}
+      <section className="py-20">
+        <div className="container">
+          <div className="text-center mb-10 fade-in-up">
+            <span className="section-label mb-4 inline-flex">لوحة التحكم</span>
+            <h2 className="text-3xl md:text-4xl font-black text-white mt-4">
+              كل شيء في مكان <span className="text-gold-gradient">واحد</span>
+            </h2>
+          </div>
+          <div className="fade-in-up">
+            <div className="relative rounded-2xl overflow-hidden border border-white/8 shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent z-10 pointer-events-none" style={{ top: '60%' }} />
+              <img
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663430723344/NkUVobJTWfHHFdjs4pEyWK/dashboard-preview-XQDk8pKYyi6XozNrHChnGN.webp"
+                alt="لوحة تحكم منصة متين"
+                className="w-full object-cover"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* 🦶 Footer */}
-      <footer>
-        <div className="footer-logo">
-          <div className="footer-logo-icon">م</div>
-          <p>© 2026 متين - جميع الحقوق محفوظة</p>
+      {/* ======== CORE FEATURES ======== */}
+      <section className="py-20 bg-[#0d0d0d]">
+        <div className="container">
+          <div className="text-center mb-14 fade-in-up">
+            <span className="section-label mb-4 inline-flex">المميزات الأساسية</span>
+            <h2 className="text-3xl md:text-4xl font-black text-white mt-4">
+              كل ما تحتاجه <span className="text-gold-gradient">مؤسستك</span>
+            </h2>
+            <p className="text-gray-500 mt-4 max-w-xl mx-auto">
+              أكثر من 30 ميزة متكاملة تغطي كل جانب من جوانب إدارة المؤسسة التعليمية
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {coreFeatures.map((feature, i) => (
+              <div key={i} className="matin-card p-6 fade-in-up" style={{ transitionDelay: `${i * 80}ms` }}>
+                <div
+                  className="feature-icon mb-4"
+                  style={{ background: feature.bg, color: feature.color }}
+                >
+                  {feature.icon}
+                </div>
+                <h3 className="text-white font-bold text-lg mb-2">{feature.title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{feature.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-10">
+            <Link href="/features" className="btn-outline-gold px-6 py-3 rounded-xl text-sm font-bold inline-flex items-center gap-2">
+              عرض جميع المميزات
+              <ChevronLeft size={16} />
+            </Link>
+          </div>
         </div>
-        <div className="footer-links">
-          <Link href="/privacy">سياسة الخصوصية</Link>
-          <Link href="/terms">الشروط والأحكام</Link>
-          <Link href="/contact">تواصل معنا</Link>
+      </section>
+
+      {/* ======== INSTITUTION TYPES ======== */}
+      <section className="py-20">
+        <div className="container">
+          <div className="text-center mb-14 fade-in-up">
+            <span className="section-label mb-4 inline-flex">أنواع المؤسسات</span>
+            <h2 className="text-3xl md:text-4xl font-black text-white mt-4">
+              لكل مؤسسة <span className="text-gold-gradient">حلها المخصص</span>
+            </h2>
+            <p className="text-gray-500 mt-4 max-w-xl mx-auto">
+              متين تدعم 5 أنواع من المؤسسات التعليمية بخصائص مخصصة لكل نوع
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+            {institutionTypes.map((inst, i) => (
+              <div key={i} className="matin-card p-6 text-center fade-in-up" style={{ transitionDelay: `${i * 80}ms` }}>
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4"
+                  style={{ background: `${inst.color}15`, color: inst.color }}
+                >
+                  {inst.icon}
+                </div>
+                <h3 className="text-white font-bold text-sm mb-2">{inst.title}</h3>
+                <p className="text-gray-500 text-xs leading-relaxed">{inst.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </footer>
+      </section>
+
+
+      {/* ======== INTEGRATIONS ======== */}
+      <section className="py-20">
+        <div className="container">
+          <div className="text-center mb-14 fade-in-up">
+            <span className="section-label mb-4 inline-flex">التكاملات</span>
+            <h2 className="text-3xl md:text-4xl font-black text-white mt-4">
+              متصل بكل ما <span className="text-gold-gradient">تحتاجه</span>
+            </h2>
+            <p className="text-gray-500 mt-4 max-w-xl mx-auto">
+              تكاملات مع الأنظمة الحكومية والمالية والتواصل لتجربة سلسة ومتكاملة.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {integrations.map((integ, i) => (
+              <div key={i} className="integration-card fade-in-up" style={{ transitionDelay: `${i * 60}ms` }}>
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center"
+                  style={{ background: `${integ.color}15`, color: integ.color }}
+                >
+                  {integrationIconMap[integ.icon]}
+                </div>
+                <div>
+                  <div className="text-white font-bold text-sm">{integ.name}</div>
+                  <div className="text-gray-500 text-xs">{integ.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-10">
+            <Link href="/integrations" className="btn-outline-gold px-6 py-3 rounded-xl text-sm font-bold inline-flex items-center gap-2">
+              عرض جميع التكاملات
+              <ChevronLeft size={16} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ======== PRICING ======== */}
+      <section className="py-20 bg-[#0d0d0d]">
+        <div className="container">
+          <div className="text-center mb-14 fade-in-up">
+            <span className="section-label mb-4 inline-flex">الأسعار</span>
+            <h2 className="text-3xl md:text-4xl font-black text-white mt-4">
+              باقات <span className="text-gold-gradient">تناسب الجميع</span>
+            </h2>
+            <p className="text-gray-500 mt-4">ابدأ مجاناً، وطوّر حسب احتياجاتك</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            {pricingPlans.map((plan, i) => (
+              <div key={i} className={`pricing-card fade-in-up ${plan.featured ? "featured" : ""}`} style={{ transitionDelay: `${i * 100}ms` }}>
+                {plan.badge && (
+                  <div className="absolute -top-3 right-1/2 translate-x-1/2">
+                    <span className="badge-green text-xs px-3 py-1">{plan.badge}</span>
+                  </div>
+                )}
+                <div className="mb-6">
+                  <h3 className="text-white font-bold text-xl mb-1">{plan.name}</h3>
+                  <div className="flex items-baseline gap-1 mb-1">
+                    {plan.period ? (
+                      <>
+                        <span className="text-4xl font-black" style={{ color: plan.color }}>{plan.price}</span>
+                        {plan.price !== "0" && <span className="text-gray-500 text-sm">ر.س/{plan.period}</span>}
+                        {plan.price === "0" && <span className="text-gray-500 text-sm">{plan.period}</span>}
+                      </>
+                    ) : (
+                      <span className="text-2xl font-black" style={{ color: plan.color }}>{plan.price} معنا</span>
+                    )}
+                  </div>
+                  <p className="text-gray-500 text-sm">{plan.students}</p>
+                </div>
+                <ul className="space-y-3 mb-8">
+                  {plan.features.map((feature, j) => (
+                    <li key={j} className="flex items-center gap-2 text-sm text-gray-300">
+                      <CheckCircle size={15} className="text-[#22C55E] flex-shrink-0" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href="https://app.matin.ink/register"
+                  className={`block w-full py-3 rounded-xl text-sm font-bold text-center transition-all ${
+                    plan.featured ? "btn-gold" : "btn-outline-gold"
+                  }`}
+                >
+                  {plan.price === "تواصل" ? "تواصل مع المبيعات" : plan.price === "0" ? "ابدأ مجاناً" : "ابدأ الآن"}
+                </a>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Link href="/pricing" className="text-[#D4A843] text-sm hover:underline">
+              مقارنة تفصيلية بين جميع الباقات الخمس ←
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ======== CTA SECTION ======== */}
+      <section className="py-20">
+        <div className="container">
+          <div
+            className="relative rounded-3xl overflow-hidden p-12 md:p-16 text-center fade-in-up"
+            style={{
+              background: "linear-gradient(135deg, rgba(212,168,67,0.08) 0%, rgba(34,197,94,0.04) 100%)",
+              border: "1px solid rgba(212,168,67,0.15)"
+            }}
+          >
+            <div className="absolute inset-0 opacity-10">
+              <img
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663430723344/NkUVobJTWfHHFdjs4pEyWK/hero-bg-SLXYPocnkQ2MPu3vomp7My.webp"
+                alt=""
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="relative z-10">
+              <h2 className="text-3xl md:text-5xl font-black text-white mb-4">
+                ابدأ رحلتك مع <span className="text-gold-gradient">متين</span> اليوم
+              </h2>
+              <p className="text-gray-400 text-lg mb-8 max-w-xl mx-auto">
+                انضم لأكثر من 500 مؤسسة تعليمية تثق بمتين لإدارة عملياتها اليومية.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a
+                  href="https://app.matin.ink/register"
+                  className="btn-gold px-8 py-4 rounded-2xl text-base font-bold flex items-center gap-2"
+                >
+                  ابدأ تجربتك المجانية
+                  <ArrowLeft size={18} />
+                </a>
+                <Link
+                  href="/contact"
+                  className="btn-outline-gold px-8 py-4 rounded-2xl text-base font-bold"
+                >
+                  تحدث مع فريق المبيعات
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 }

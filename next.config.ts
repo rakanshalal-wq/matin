@@ -1,19 +1,17 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  output: 'standalone',
   experimental: {
     serverActions: {
       allowedOrigins: ['matin.ink', 'app.matin.ink', 'localhost:3000'],
     },
   },
   images: {
-    domains: ['matin.ink', 'app.matin.ink'],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'matin.ink' },
+      { protocol: 'https', hostname: 'app.matin.ink' },
+    ],
   },
 };
 

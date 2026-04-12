@@ -122,7 +122,7 @@ export default function UniversityHrPage() {
     setSavingJob(true);
     await fetch('/api/university', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'add-job', ...jobForm }),
+      body: JSON.stringify({ action: 'add-job', ...jobForm }),
     }).catch(() => {});
     setShowJobModal(false);
     setJobForm({ title: '', department: '', type: 'دوام كامل', deadline: '' });
@@ -337,7 +337,7 @@ export default function UniversityHrPage() {
                 {[2024, 2025, 2026].map(y => <option key={y}>{y}</option>)}
               </select>
             </div>
-            <button onClick={() => alert('جارٍ تصدير كشف الرواتب PDF…')} style={{ background: BLUE, border: 'none', borderRadius: 9, padding: '0.6rem 1.25rem', color: '#000', fontWeight: 800, cursor: 'pointer', fontSize: '0.88rem', fontFamily: "'IBM Plex Sans Arabic', sans-serif" }}>
+            <button onClick={() => () => { window.location.href = '/api/export?type=payroll'; }} style={{ background: BLUE, border: 'none', borderRadius: 9, padding: '0.6rem 1.25rem', color: '#000', fontWeight: 800, cursor: 'pointer', fontSize: '0.88rem', fontFamily: "'IBM Plex Sans Arabic', sans-serif" }}>
               تصدير PDF
             </button>
           </div>

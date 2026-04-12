@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import { pool } from '@/lib/auth';
 
-export async function GET(_request: Request, { params }: { params: { code: string } }) {
-  const { code } = params;
+export async function GET(_request: Request, { params }: { params: Promise<{ code: string }> }) {
+  const { code } = await params;
   try {
     const instRes = await pool.query(
       `SELECT id, name, description, logo, phone, email, address FROM institutes WHERE code=$1 OR slug=$1 OR id::text=$1 LIMIT 1`,
@@ -54,8 +54,8 @@ export async function GET(_request: Request, { params }: { params: { code: strin
   }
 }
 
-export async function POST(request: Request, { params }: { params: { code: string } }) {
-  const { code } = params;
+export async function POST(request: Request, { params }: { params: Promise<{ code: string }> }) {
+  const { code } = await params;
   try {
     const body = await request.json();
     const { applicant_name, program, phone, email, notes } = body;
