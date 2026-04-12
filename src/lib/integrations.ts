@@ -20,7 +20,7 @@ export async function getIntegrationConfig(name: string): Promise<Record<string,
 }
 
 // ══════════════════════════════════════════════════════════════════
-// 💳 MOYASAR - الدفع
+// MOYASAR - الدفع
 // ══════════════════════════════════════════════════════════════════
 export async function createMoyasarPayment(params: {
   amount: number; // بالهللات (1 ريال = 100 هللة)
@@ -66,7 +66,7 @@ export async function getMoyasarPayment(paymentId: string) {
 }
 
 // ══════════════════════════════════════════════════════════════════
-// 🛍️ TABBY - الدفع بالتقسيط
+// TABBY - الدفع بالتقسيط
 // ══════════════════════════════════════════════════════════════════
 export async function createTabbySession(params: {
   amount: number;
@@ -120,7 +120,7 @@ export async function createTabbySession(params: {
 }
 
 // ══════════════════════════════════════════════════════════════════
-// 💰 TAMARA - الدفع بالتقسيط
+// TAMARA - الدفع بالتقسيط
 // ══════════════════════════════════════════════════════════════════
 export async function createTamaraOrder(params: {
   amount: number;
@@ -164,7 +164,7 @@ export async function createTamaraOrder(params: {
 }
 
 // ══════════════════════════════════════════════════════════════════
-// 📦 SMSA - الشحن
+// SMSA - الشحن
 // ══════════════════════════════════════════════════════════════════
 export async function createSmsaShipment(params: {
   consignee_name: string;
@@ -219,7 +219,7 @@ export async function trackSmsaShipment(awb: string) {
 }
 
 // ══════════════════════════════════════════════════════════════════
-// 🚚 ARAMEX - الشحن
+// ARAMEX - الشحن
 // ══════════════════════════════════════════════════════════════════
 export async function createAramexShipment(params: {
   consignee: { name: string; address: string; city: string; country: string; phone: string; email?: string; };
@@ -297,7 +297,7 @@ export async function createAramexShipment(params: {
 }
 
 // ══════════════════════════════════════════════════════════════════
-// 💬 WHATSAPP - الرسائل
+// WHATSAPP - الرسائل
 // ══════════════════════════════════════════════════════════════════
 export async function sendWhatsApp(phone: string, message: string) {
   const config = await getIntegrationConfig('whatsapp');
@@ -349,7 +349,7 @@ export async function sendWhatsAppTemplate(phone: string, template_name: string,
 }
 
 // ══════════════════════════════════════════════════════════════════
-// 📨 SMS - تقنيات
+// SMS - تقنيات
 // ══════════════════════════════════════════════════════════════════
 export async function sendSMS(phone: string, message: string) {
   const config = await getIntegrationConfig('taqnyat');
@@ -403,7 +403,7 @@ async function sendSMSUnifonic(phone: string, message: string) {
 }
 
 // ══════════════════════════════════════════════════════════════════
-// 📧 EMAIL - Resend
+// EMAIL - Resend
 // ══════════════════════════════════════════════════════════════════
 export async function sendEmail(to: string | string[], subject: string, html: string, text?: string) {
   const config = await getIntegrationConfig('resend');
@@ -433,7 +433,7 @@ export async function sendEmail(to: string | string[], subject: string, html: st
 }
 
 // ══════════════════════════════════════════════════════════════════
-// 🏛️ NAFATH - التحقق الوطني
+// NAFATH - التحقق الوطني
 // ══════════════════════════════════════════════════════════════════
 export async function initiateNafathVerification(national_id: string, service_id?: string) {
   const config = await getIntegrationConfig('nafath');
@@ -492,7 +492,7 @@ export async function checkNafathVerification(session_id: string, national_id: s
 }
 
 // ══════════════════════════════════════════════════════════════════
-// 🔔 FIREBASE FCM - الإشعارات
+// FIREBASE FCM - الإشعارات
 // ══════════════════════════════════════════════════════════════════
 export async function sendFirebaseNotification(params: {
   token?: string;
@@ -534,14 +534,14 @@ export async function sendFirebaseNotification(params: {
 }
 
 // ══════════════════════════════════════════════════════════════════
-// 🚀 OTP - إرسال عبر أفضل قناة متاحة
+// OTP - إرسال عبر أفضل قناة متاحة
 // ══════════════════════════════════════════════════════════════════
 export async function sendOTP(phone: string, email: string, name: string, code: string) {
   const message = `مرحباً ${name}، رمز التحقق الخاص بك في متين: ${code} (صالح 10 دقائق)`;
   const html = `
     <div dir="rtl" style="font-family:Arial,sans-serif;max-width:500px;margin:0 auto;padding:30px;background:#0D1B2A;color:white;border-radius:12px">
       <div style="text-align:center;margin-bottom:24px">
-        <div style="width:60px;height:60px;background:linear-gradient(135deg,#C9A227,#E8C547);border-radius:16px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:28px">👑</div>
+        <div style="width:60px;height:60px;background:linear-gradient(135deg,#C9A227,#E8C547);border-radius:16px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:28px">&#9733;</div>
         <h2 style="color:#C9A227;margin:0">مرحباً ${name}</h2>
       </div>
       <p style="color:rgba(255,255,255,0.8)">رمز تسجيل الدخول الخاص بك:</p>
@@ -572,7 +572,7 @@ export async function sendOTP(phone: string, email: string, name: string, code: 
 }
 
 // ══════════════════════════════════════════════════════════════════
-// 🗺️ GOOGLE MAPS
+// GOOGLE MAPS
 // ══════════════════════════════════════════════════════════════════
 export async function getGoogleMapsKey(): Promise<string> {
   const config = await getIntegrationConfig('google_maps');
@@ -580,7 +580,7 @@ export async function getGoogleMapsKey(): Promise<string> {
 }
 
 // ══════════════════════════════════════════════════════════════════
-// 💳 جلب بيانات الدفع (للتوافق مع الكود القديم)
+// جلب بيانات الدفع (للتوافق مع الكود القديم)
 // ══════════════════════════════════════════════════════════════════
 export async function getPaymentCredentials(provider: string) {
   const config = await getIntegrationConfig(provider);

@@ -149,7 +149,7 @@ export async function POST(request: Request) {
 
       if (studentInfo.rows[0]?.parent_id) {
         const sName = studentInfo.rows[0].student_name || 'ابنك';
-        const eventMsg = event_type === 'board' ? `${sName} ركب الباص 🚌` : `${sName} وصل ونزل من الباص ✅`;
+        const eventMsg = event_type === 'board' ? `${sName} ركب الباص` : `${sName} وصل ونزل من الباص`;
         const nId = crypto.randomUUID();
         await pool.query(
           `INSERT INTO notifications (id,title,message,type,user_id,channel,priority,school_id,owner_id,created_at)

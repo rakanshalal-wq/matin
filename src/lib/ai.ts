@@ -225,9 +225,9 @@ export async function testAIProvider(provider: string, apiKey: string, model: st
       { provider, apiKey, model, maxTokens: 10 }
     );
     const latency = Date.now() - start;
-    return { success: true, message: `✅ يعمل بشكل صحيح (${latency}ms) — الرد: "${result.text.trim()}"`, latency };
+    return { success: true, message: `يعمل بشكل صحيح (${latency}ms) — الرد: "${result.text.trim()}"`, latency };
   } catch (err: any) {
-    return { success: false, message: `❌ ${err.message}` };
+    return { success: false, message: `${err.message}` };
   }
 }
 

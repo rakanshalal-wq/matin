@@ -80,7 +80,7 @@ export async function POST(request: Request) {
          is_active = EXCLUDED.is_active,
          updated_at = NOW()
        RETURNING *`,
-      [id, name, type, display_name || name, description || '', category || 'other', icon || '🔗', color || '#6B7280', 
+      [id, name, type, display_name || name, description || '', category || 'other', icon || 'link', color || '#6B7280', 
        JSON.stringify(config || {}), is_active !== false, docs_url || '']
     );
     return NextResponse.json({ data: result.rows[0], success: true });
@@ -194,7 +194,7 @@ export async function PUT(request: Request) {
             headers: { 'Authorization': 'Basic ' + Buffer.from(config.secret_key + ':').toString('base64') }
           });
           testResult = res.ok || res.status === 200 
-            ? { success: true, message: 'الاتصال بـ Moyasar يعمل بنجاح ✅' }
+            ? { success: true, message: 'الاتصال بـ Moyasar يعمل بنجاح' }
             : { success: false, message: `خطأ في الاتصال: ${res.status}` };
         } catch (e: any) { testResult = { success: false, message: e.message }; }
       }
@@ -206,7 +206,7 @@ export async function PUT(request: Request) {
           });
           const data = await res.json();
           testResult = res.ok 
-            ? { success: true, message: `الاتصال بـ WhatsApp يعمل ✅ (${data.display_phone_number || 'متصل'})` }
+            ? { success: true, message: `الاتصال بـ WhatsApp يعمل (${data.display_phone_number || 'متصل'})` }
             : { success: false, message: data.error?.message || 'خطأ في الاتصال' };
         } catch (e: any) { testResult = { success: false, message: e.message }; }
       }
@@ -217,7 +217,7 @@ export async function PUT(request: Request) {
             headers: { 'Authorization': 'Bearer ' + config.api_key }
           });
           testResult = res.ok 
-            ? { success: true, message: 'الاتصال بـ Resend يعمل بنجاح ✅' }
+            ? { success: true, message: 'الاتصال بـ Resend يعمل بنجاح' }
             : { success: false, message: `خطأ: ${res.status}` };
         } catch (e: any) { testResult = { success: false, message: e.message }; }
       }

@@ -32,7 +32,7 @@ async function sendPasswordEmail(email: string, name: string, password: string, 
           <p style="color:rgba(255,255,255,0.5);margin:4px 0 0;font-size:13px">مدعوم بمنصة متين</p>
         </div>
         <div style="background:white;padding:30px;border-radius:0 0 12px 12px;border:1px solid #eee">
-          <h2>مرحباً ${name} 👋</h2>
+          <h2>مرحباً ${name}</h2>
           <p>تم إنشاء حسابك في <strong style="color:#C9A227">${schoolName}</strong></p>
           <div style="background:#f8f9fa;border-radius:12px;padding:20px;margin:20px 0;text-align:center">
             <p style="color:#666;margin:0 0 8px">البريد الإلكتروني</p>
@@ -41,7 +41,7 @@ async function sendPasswordEmail(email: string, name: string, password: string, 
             <div style="background:#0D1B2A;color:#C9A227;font-size:24px;font-weight:bold;padding:16px;border-radius:8px;letter-spacing:3px">${password}</div>
           </div>
           <div style="background:#FFF3CD;border:1px solid #FFEAA7;border-radius:8px;padding:12px;margin:16px 0">
-            <p style="color:#856404;margin:0;font-size:14px">⚠️ سيُطلب منك تغيير كلمة المرور عند أول تسجيل دخول</p>
+            <p style="color:#856404;margin:0;font-size:14px">سيُطلب منك تغيير كلمة المرور عند أول تسجيل دخول</p>
           </div>
           <a href="${loginUrl}" style="display:block;background:#C9A227;color:#0D1B2A;text-align:center;padding:15px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:20px">الذهاب لصفحة المدرسة</a>
         </div>
@@ -103,7 +103,7 @@ export async function POST(request: Request) {
     if (!user) return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     const body = await request.json();
 
-    // ✅ التحقق من صحة البيانات بـ Zod
+    // التحقق من صحة البيانات بـ Zod
     const StudentPostSchema = z.object({
       name: z.string({ error: 'اسم الطالب مطلوب' }).min(2, 'الاسم يجب أن يكون حرفين على الأقل').max(100).trim(),
       email: z.string().email('صيغة البريد غير صحيحة').max(255).optional().nullable().or(z.literal('')),

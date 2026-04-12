@@ -39,22 +39,22 @@ export async function POST(request: Request) {
          VALUES ($1,$2,$3,$4,$5,$6,$7,NOW()) RETURNING *`,
         [name, phone || null, email || null, nationality || null, purpose || null, token, expires]
       );
-      const welcomeMsg = `مرحباً ${name}! 🎉 تم تسجيلك كزائر في منصة متين. يمكنك الآن تصفح الأنشطة والمتجر والتواصل مع المؤسسات.`;
+      const welcomeMsg = `مرحباً ${name}! تم تسجيلك كزائر في منصة متين. يمكنك الآن تصفح الأنشطة والمتجر والتواصل مع المؤسسات.`;
       const welcomeHtml = `
         <div dir="rtl" style="font-family:Arial;padding:30px;background:#0D1B2A;color:white;border-radius:12px;max-width:500px;margin:0 auto">
-          <h2 style="color:#C9A227">مرحباً ${name}! 👋</h2>
+          <h2 style="color:#C9A227">مرحباً ${name}!</h2>
           <p>تم تسجيلك كزائر في منصة متين بنجاح.</p>
           <div style="background:#1B263B;border:1px solid rgba(201,162,39,0.3);border-radius:12px;padding:20px;margin:20px 0">
             <p style="color:#C9A227;font-weight:700;margin:0 0 12px">يمكنك الآن:</p>
-            <p>✅ تصفح الأنشطة والفعاليات</p>
-            <p>🛒 التسوق من المتجر</p>
-            <p>💬 التواصل مع المؤسسات</p>
-            <p>📅 التسجيل في الفعاليات العامة</p>
+            <p>تصفح الأنشطة والفعاليات</p>
+            <p>التسوق من المتجر</p>
+            <p>التواصل مع المؤسسات</p>
+            <p>التسجيل في الفعاليات العامة</p>
           </div>
           <p style="color:rgba(255,255,255,0.5);font-size:12px">صلاحية الدخول 24 ساعة - متين نظام إدارة التعليم</p>
         </div>`;
       if (phone) await sendSMS(phone, welcomeMsg);
-      if (email) await sendEmail(email, 'مرحباً في متين! 🎉', welcomeHtml);
+      if (email) await sendEmail(email, 'مرحباً في متين!', welcomeHtml);
       const response = NextResponse.json({
         success: true, token,
         user: { id: result.rows[0].id, name, phone, email, role: 'guest', dashboardPath: '/guest' }

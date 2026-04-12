@@ -135,7 +135,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      message: is_enabled ? `✅ تم تفعيل "${svcCheck.rows[0].name_ar}"` : `⛔ تم تعطيل "${svcCheck.rows[0].name_ar}"`,
+      message: is_enabled ? `تم تفعيل "${svcCheck.rows[0].name_ar}"` : `تم تعطيل "${svcCheck.rows[0].name_ar}"`,
       service: result.rows[0]
     });
   } catch (error: any) {
@@ -171,7 +171,7 @@ export async function PUT(request: Request) {
        VALUES ($1, 'bulk_update', $2, $3, $4)`,
       [school_id, user.id, user.role, JSON.stringify(services)]
     );
-    return NextResponse.json({ success: true, message: `✅ تم تحديث ${services.length} خدمة` });
+    return NextResponse.json({ success: true, message: `تم تحديث ${services.length} خدمة` });
   } catch (error: any) {
     console.error('Services PUT error:', error);
     return NextResponse.json({ error: 'خطأ في الخادم' }, { status: 500 });

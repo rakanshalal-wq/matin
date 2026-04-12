@@ -73,7 +73,7 @@ export async function POST(request: Request) {
 
     const body = await request.json();
 
-    // ✅ التحقق من صحة البيانات بـ Zod
+    // التحقق من صحة البيانات بـ Zod
     const InvoicePostSchema = z.object({
       school_id: z.union([z.string(), z.number()], { error: 'معرف المدرسة مطلوب' }),
       title: z.string({ error: 'عنوان الفاتورة مطلوب' }).min(2, 'العنوان يجب أن يكون حرفين على الأقل').max(200).trim(),

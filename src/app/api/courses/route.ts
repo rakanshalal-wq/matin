@@ -32,7 +32,7 @@ export async function POST(request: Request) {
 
     const body = await request.json();
 
-    // ✅ التحقق من صحة البيانات بـ Zod
+    // التحقق من صحة البيانات بـ Zod
     const CoursePostSchema = z.object({
       name: z.string({ error: 'اسم الدورة مطلوب' }).min(2, 'الاسم يجب أن يكون حرفين على الأقل').max(200).trim(),
       description: z.string().max(2000).optional().nullable(),

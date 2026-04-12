@@ -23,9 +23,9 @@ export async function GET(request: Request) {
         shipping_enabled: false,
         payment_methods: ['cash', 'bank_transfer'],
         models_available: [
-          { id: 'products', name: 'منتجات فعلية', description: 'بيع الزي المدرسي والقرطاسية والكتب', icon: '📦' },
-          { id: 'digital', name: 'منتجات رقمية', description: 'بيع الكتب الإلكترونية والدورات والملفات', icon: '💻' },
-          { id: 'services', name: 'خدمات', description: 'حجز خدمات مثل النقل والكافتيريا والأنشطة', icon: '🎯' }
+          { id: 'products', name: 'منتجات فعلية', description: 'بيع الزي المدرسي والقرطاسية والكتب', icon: 'products' },
+          { id: 'digital', name: 'منتجات رقمية', description: 'بيع الكتب الإلكترونية والدورات والملفات', icon: 'digital' },
+          { id: 'services', name: 'خدمات', description: 'حجز خدمات مثل النقل والكافتيريا والأنشطة', icon: 'services' }
         ]
       });
     }

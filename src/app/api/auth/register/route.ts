@@ -8,7 +8,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    // ✅ التحقق من صحة البيانات بـ Zod
+    // التحقق من صحة البيانات بـ Zod
     const parsed = RegisterSchema.safeParse({ ...body, package: body.package });
     if (!parsed.success) {
       return NextResponse.json(
@@ -39,7 +39,7 @@ export async function POST(request: Request) {
         hashedPassword,
         phone?.trim() || null,
         bio || 'مالك مدارس',
-        avatar || '👤',
+        avatar || '',
         pkg || 'basic'
       ]
     );

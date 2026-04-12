@@ -317,7 +317,7 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json({
         success: true,
-        message: `✅ تم فحص ${scanned} منشور — أُخفي ${hidden} وحُذف ${deleted}`,
+        message: `تم فحص ${scanned} منشور — أُخفي ${hidden} وحُذف ${deleted}`,
       });
     }
 

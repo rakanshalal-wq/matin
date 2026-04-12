@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     
     const body = await request.json();
 
-    // ✅ التحقق من صحة البيانات بـ Zod
+    // التحقق من صحة البيانات بـ Zod
     const AnnouncementPostSchema = z.object({
       title: z.string({ error: 'عنوان الإعلان مطلوب' }).min(3, 'العنوان يجب أن يكون 3 أحرف على الأقل').max(200).trim(),
       content: z.string({ error: 'محتوى الإعلان مطلوب' }).min(5, 'المحتوى يجب أن يكون 5 أحرف على الأقل').max(5000),

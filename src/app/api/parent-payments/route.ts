@@ -135,7 +135,7 @@ export async function POST(request: Request) {
           );
         }
         await client.query('COMMIT');
-        return NextResponse.json({ success: true, message: '✅ تم إنشاء الفاتورة بنجاح', invoice: inv.rows[0] }, { status: 201 });
+        return NextResponse.json({ success: true, message: 'تم إنشاء الفاتورة بنجاح', invoice: inv.rows[0] }, { status: 201 });
       } catch (e) { await client.query('ROLLBACK'); throw e; }
       finally { client.release(); }
     }
@@ -154,7 +154,7 @@ export async function POST(request: Request) {
         `INSERT INTO unified_payments (id, invoice_id, school_id, owner_id, amount, payment_method, provider, provider_status, status, paid_by) VALUES ($1,$2,$3,$4,$5,'cash','cash','paid','completed',$6)`,
         [`PAY-${Date.now()}`, invoice_id, user.school_id, user.owner_id || user.id, paidAmount, user.id]
       );
-      return NextResponse.json({ success: true, message: '✅ تم تأكيد الدفع النقدي' });
+      return NextResponse.json({ success: true, message: 'تم تأكيد الدفع النقدي' });
     }
 
     if (action === 'initiate_payment') {

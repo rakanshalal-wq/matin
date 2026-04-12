@@ -35,7 +35,7 @@ export async function GET(request: Request) {
 
     for (const l of lectures3h.rows) {
       await notify(l.owner_id, l.school_id, l.phone, l.email, l.teacher_name_real || l.teacher_name,
-        '⏰ تأكيد المحاضرة',
+        'تأكيد المحاضرة',
         `محاضرتك "${l.title}" بعد 3 ساعات. يرجى تأكيد نوع المحاضرة من الداشبورد: حضوري / أونلاين / ملغية.`
       );
       await pool.query('UPDATE lectures SET notification_2h_sent = true WHERE id = $1', [l.id]);
@@ -56,7 +56,7 @@ export async function GET(request: Request) {
 
     for (const l of lectures2h.rows) {
       await notify(l.owner_id, l.school_id, l.phone, l.email, l.teacher_name_real || l.teacher_name,
-        '⏰ تذكير: لم تؤكد محاضرتك',
+        'تذكير: لم تؤكد محاضرتك',
         `محاضرتك "${l.title}" بعد ساعتين ولم تؤكد بعد. يرجى التأكيد الآن.`
       );
       await pool.query('UPDATE lectures SET notification_1h_sent = true WHERE id = $1', [l.id]);
@@ -86,7 +86,7 @@ export async function GET(request: Request) {
       );
 
       await notify(l.owner_id, l.school_id, l.phone, l.email, l.teacher_name_real || l.teacher_name,
-        '🔄 تحويل المحاضرة لأونلاين',
+        'تحويل المحاضرة لأونلاين',
         `لم يتم تأكيد محاضرتك "${l.title}"، تم تحويلها تلقائياً لأونلاين. لا يمكن الرجوع لحضوري.`
       );
 
@@ -99,7 +99,7 @@ export async function GET(request: Request) {
       );
       for (const s of students.rows) {
         await notify(l.owner_id, l.school_id, s.phone, s.email, s.name,
-          '📱 تغيير في المحاضرة',
+          'تغيير في المحاضرة',
           `محاضرة "${l.title}" أصبحت أونلاين بدلاً من الحضور.`
         );
       }
@@ -129,14 +129,14 @@ export async function GET(request: Request) {
       );
 
       await notify(l.owner_id, l.school_id, l.phone, l.email, l.teacher_name_real || l.teacher_name,
-        '🎥 تحويل لمحاضرة مسجلة',
+        'تحويل لمحاضرة مسجلة',
         `تم تحويل محاضرتك "${l.title}" لمسجلة. يرجى رفع التسجيل في أقرب وقت.`
       );
 
       // إشعار مدير القسم
       if (l.admin_phone || l.admin_email) {
         await notify(l.owner_id, l.school_id, l.admin_phone, l.admin_email, l.admin_name || 'مدير',
-          '🚨 تنبيه: أستاذ لم يؤكد محاضرته',
+          'تنبيه: أستاذ لم يؤكد محاضرته',
           `الأستاذ ${l.teacher_name_real || l.teacher_name} لم يؤكد محاضرة "${l.title}" وتم تحويلها لمسجلة.`
         );
       }
@@ -150,7 +150,7 @@ export async function GET(request: Request) {
       );
       for (const s of students.rows) {
         await notify(l.owner_id, l.school_id, s.phone, s.email, s.name,
-          '🎥 محاضرة مسجلة',
+          'محاضرة مسجلة',
           `محاضرة "${l.title}" أصبحت مسجلة. ستجد الرابط في الداشبورد بعد رفعها.`
         );
       }
@@ -179,7 +179,7 @@ export async function GET(request: Request) {
 
       for (const t of teachers2days.rows) {
         await notify(t.owner_id, t.school_id, t.phone, t.email, t.name,
-          '⚠️ تنبيه: لا يوجد تسجيل',
+          'تنبيه: لا يوجد تسجيل',
           `لم يتم رفع تسجيل لمحاضراتك منذ يومين. يرجى رفع التسجيلات.`
         );
       }
@@ -209,7 +209,7 @@ export async function GET(request: Request) {
       for (const t of teachers3days.rows) {
         if (t.admin_phone || t.admin_email) {
           await notify(t.owner_id, t.school_id, t.admin_phone, t.admin_email, t.admin_name || 'المدير',
-            '🚨 تنبيه عاجل',
+            'تنبيه عاجل',
             `الأستاذ ${t.name} لم يرفع تسجيلات منذ 3 أيام. يرجى المتابعة.`
           );
         }

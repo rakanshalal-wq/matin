@@ -10,7 +10,7 @@ export async function POST(request: Request) {
 
     const body = await request.json();
 
-    // ✅ التحقق من صحة البيانات بـ Zod
+    // التحقق من صحة البيانات بـ Zod
     const parsed = ChangePasswordSchema.safeParse({
       current_password: body.currentPassword,
       new_password: body.newPassword,
