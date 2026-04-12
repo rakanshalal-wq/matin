@@ -31,6 +31,7 @@ describe('Package Enforcement — /api/store', () => {
       school_id: 1,
       package: 'basic', // الباقة الأساسية لا تشمل المتجر
     });
+    mockPool.query.mockResolvedValue({ rows: [] });
     const { GET } = await import('../src/app/api/store/route');
     const req = createMockRequest({
       url: 'http://localhost:3000/api/store',

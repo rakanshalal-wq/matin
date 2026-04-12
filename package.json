@@ -55,7 +55,7 @@
     "node-mocks-http": "^1.17.2",
     "playwright": "^1.59.1",
     "tailwindcss": "^4",
-    "ts-jest": "^29.4.6",
+    "ts-jest": "^29.4.9",
     "typescript": "^5.9.3"
   }
 }
