@@ -142,6 +142,14 @@ section{padding:clamp(60px,8vw,100px) 5%;position:relative;z-index:1;}
 .btn-gold-p{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;box-shadow:0 4px 14px rgba(212,168,67,0.3);}
 .btn-gold-p:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,168,67,0.45);}
 
+.extras-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;}
+.extra-card{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:clamp(20px,3vw,28px);transition:all 0.25s;text-align:center;}
+.extra-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,0.1);}
+.extra-icon{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px;}
+.extra-name{font-size:16px;font-weight:700;margin-bottom:8px;color:var(--text);}
+.extra-desc{font-size:13px;color:var(--text-muted);line-height:1.65;margin-bottom:14px;}
+.extra-badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:0.5px;}
+
 .cta-wrap{text-align:center;padding:clamp(60px,8vw,100px) 5%;position:relative;overflow:hidden;}
 .cta-bg{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(212,168,67,0.05) 0%,transparent 70%);pointer-events:none;}
 .cta-title{font-size:clamp(28px,5vw,52px);font-weight:800;letter-spacing:-1.5px;margin-bottom:18px;}
@@ -203,6 +211,50 @@ const pricingPlans = [
 // 🔗 التكاملات
 const integrations = ['نظام نور 🏛️', 'أبشر 🆔', 'قوى 💼', 'النفاذ الوطني 🔐', 'فارس 🎖️', 'مدرستي 📱', 'توكلنا ✅', 'سدايا 🤖'];
 
+// 🛒 الأقسام الإضافية
+const extraSections = [
+  {
+    icon: '🛒',
+    name: 'المتجر التعليمي',
+    desc: 'بيع وشراء المواد والكتب والأدوات التعليمية داخل المؤسسة',
+    color: '#FB923C',
+    bg: 'rgba(251,146,60,0.12)',
+    badge: 'قريباً',
+    badgeBg: 'rgba(251,146,60,0.15)',
+    badgeColor: '#FB923C',
+  },
+  {
+    icon: '🌐',
+    name: 'الملتقى المجتمعي',
+    desc: 'منتدى نقاش وتواصل بين المعلمين والطلاب وأولياء الأمور',
+    color: '#60A5FA',
+    bg: 'rgba(96,165,250,0.12)',
+    badge: 'قريباً',
+    badgeBg: 'rgba(96,165,250,0.15)',
+    badgeColor: '#60A5FA',
+  },
+  {
+    icon: '📚',
+    name: 'المكتبة الإلكترونية',
+    desc: 'مستودع موحّد للكتب والمناهج والمحاضرات يمكن الوصول إليه في أي وقت',
+    color: '#A78BFA',
+    bg: 'rgba(167,139,250,0.12)',
+    badge: 'قريباً',
+    badgeBg: 'rgba(167,139,250,0.15)',
+    badgeColor: '#A78BFA',
+  },
+  {
+    icon: '📢',
+    name: 'لوحة الإعلانات',
+    desc: 'إرسال الإشعارات والإعلانات لجميع أفراد المؤسسة بضغطة واحدة',
+    color: '#10B981',
+    bg: 'rgba(16,185,129,0.12)',
+    badge: 'متاح',
+    badgeBg: 'rgba(16,185,129,0.15)',
+    badgeColor: '#10B981',
+  },
+];
+
 // ✨ المميزات
 const features = [
   { icon: '🎨', title: 'تخصيص كامل', desc: 'صمم منصتك بألوان وهوية خاصة', color: '#D4A843', bg: 'rgba(212,168,67,0.1)' },
@@ -243,6 +295,7 @@ export default function LandingPage() {
         <div className="nav-links">
           <Link href="#features">المميزات</Link>
           <Link href="#institutions">المؤسسات</Link>
+          <Link href="#extras">الأقسام</Link>
           <Link href="#pricing">الأسعار</Link>
           <Link href="#roles">الأدوار</Link>
           <Link href="/login">تسجيل الدخول</Link>
@@ -378,6 +431,25 @@ export default function LandingPage() {
               <div className="role-icon" style={{ background: role.bg }}>{role.icon}</div>
               <div className="role-name">{role.name}</div>
               <div className="role-desc">{role.desc}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 🛍️ الأقسام الإضافية */}
+      <section id="extras">
+        <div className="sec-center">
+          <div className="sec-tag">🚀 مميزات قادمة</div>
+          <h2 className="sec-title">أكثر من مجرد <span style={{ color: '#D4A843' }}>إدارة</span></h2>
+          <p className="sec-sub">نبني باستمرار مميزات جديدة تجعل منصتك مكاناً متكاملاً للتعلم والتواصل</p>
+        </div>
+        <div className="extras-grid">
+          {extraSections.map((ex, i) => (
+            <div key={i} className="extra-card">
+              <div className="extra-icon" style={{ background: ex.bg }}>{ex.icon}</div>
+              <div className="extra-name">{ex.name}</div>
+              <div className="extra-desc">{ex.desc}</div>
+              <span className="extra-badge" style={{ background: ex.badgeBg, color: ex.badgeColor }}>{ex.badge}</span>
             </div>
           ))}
         </div>
