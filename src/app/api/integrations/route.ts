@@ -40,7 +40,7 @@ export async function GET(request: Request) {
           CASE WHEN si.school_id IS NOT NULL THEN true ELSE false END as is_connected,
           si.connected_at
         FROM integrations i
-        LEFT JOIN school_integrations si ON si.provider = i.name AND si.school_id = $1
+        LEFT JOIN school_integrations si ON si.integration_type = i.name AND si.school_id = $1
         WHERE i.is_active = true
         ORDER BY i.category, i.display_name
       `, [user.school_id]);
