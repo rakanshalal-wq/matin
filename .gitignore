@@ -32,3 +32,21 @@ Thumbs.db
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# ملفات مؤقتة وأرشيف — لا تحتاج للرفع
+_temp/
+_manus_delivery/
+_temp_body.html
+_temp_jsx_body.txt
+_temp_jsx_styled.txt
+_temp_script.js
+hr-dashboard.zip
+تقرير_الدمج_الشامل.html
+EXACT_CONVERSION_PLAN.md
+FINAL_DEPLOY.md
+FINAL_PUSH.md
+DEPLOY_GUIDE.md
+GITHUB_PUSH_GUIDE.md
+NEW_PAGES_DEPLOY.md
+PROGRESS_REPORT.md
+

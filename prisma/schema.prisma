@@ -7,20 +7,314 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ═══════════════════════════════════════════════════════
+// المستخدمون
+// ═══════════════════════════════════════════════════════
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String
-  role      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              Int       @id @default(autoincrement())
+  email           String    @unique @db.VarChar(255)
+  password_hash   String    @db.Text
+  full_name       String    @db.VarChar(200)
+  role            String    @db.VarChar(50)
+  /// school | university | institute | training | quran
+  institution_type String?  @db.VarChar(50)
+  institution_id  Int?
+  /// رقم الطالب أو الموظف
+  student_id      String?   @db.VarChar(50)
+  phone           String?   @db.VarChar(30)
+  avatar_url      String?   @db.Text
+  is_active       Boolean   @default(true)
+  school_id       Int?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+
+  // Relations
+  school          School?   @relation(fields: [school_id], references: [id])
+  students        Student[]
+  classes_taught  Class[]   @relation("TeacherClasses")
+  homework        Homework[]
+  attendance      Attendance[] @relation("TeacherAttendance")
+
+  @@index([email])
+  @@index([role])
+  @@index([school_id])
 }
 
-model Institution {
-  id          String   @id @default(cuid())
-  name        String
-  type        String
-  subdomain   String   @unique
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
+// ═══════════════════════════════════════════════════════
+// المؤسسات
+// ═══════════════════════════════════════════════════════
+model School {
+  id               Int       @id @default(autoincrement())
+  name             String    @db.VarChar(200)
+  /// school | university | institute | training | quran | kindergarten | mosque
+  type             String    @db.VarChar(50)
+  code             String?   @unique @db.VarChar(50)
+  slug             String?   @unique @db.VarChar(100)
+  subdomain        String?   @unique @db.VarChar(100)
+  description      String?   @db.Text
+  logo             String?   @db.Text
+  primary_color    String?   @db.VarChar(20)
+  secondary_color  String?   @db.VarChar(20)
+  accent_color     String?   @db.VarChar(20)
+  phone            String?   @db.VarChar(30)
+  email            String?   @db.VarChar(255)
+  address          String?   @db.Text
+  city             String?   @db.VarChar(100)
+  website          String?   @db.VarChar(255)
+  established_year Int?
+  /// للجامعات فقط — الجامعة الأم
+  parent_id        Int?
+  is_active        Boolean   @default(true)
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+
+  // Relations
+  parent           School?   @relation("SchoolHierarchy", fields: [parent_id], references: [id])
+  children         School[]  @relation("SchoolHierarchy")
+  users            User[]
+  students         Student[]
+  classes          Class[]
+  announcements    Announcement[]
+  activities       Activity[]
+  join_requests    JoinRequest[]
+
+  @@index([type])
+  @@index([subdomain])
+  @@index([code])
 }
+
+// ═══════════════════════════════════════════════════════
+// الطلاب
+// ═══════════════════════════════════════════════════════
+model Student {
+  id                Int       @id @default(autoincrement())
+  user_id           Int
+  school_id         Int
+  class_id          Int?
+  /// مراحل مدرسية أو أكاديمية
+  grade             String?   @db.VarChar(50)
+  parts_memorized   Int?      @default(0)
+  attendance_rate   Float?    @default(0)
+  points            Int?      @default(0)
+  /// للقرآن: id الحلقة
+  halaqa_id         Int?
+  /// للجامعة: GPA
+  gpa               Float?
+  is_active         Boolean   @default(true)
+  created_at        DateTime  @default(now())
+
+  // Relations
+  user              User      @relation(fields: [user_id], references: [id])
+  school            School    @relation(fields: [school_id], references: [id])
+  class             Class?    @relation(fields: [class_id], references: [id])
+  grades            Grade[]
+  attendance        Attendance[]
+
+  @@index([user_id])
+  @@index([school_id])
+  @@index([class_id])
+}
+
+// ═══════════════════════════════════════════════════════
+// الفصول الدراسية / الحلقات / الدورات
+// ═══════════════════════════════════════════════════════
+model Class {
+  id           Int       @id @default(autoincrement())
+  name         String    @db.VarChar(200)
+  subject      String?   @db.VarChar(100)
+  grade        String?   @db.VarChar(50)
+  school_id    Int
+  teacher_id   Int?
+  /// active | inactive | completed
+  status       String    @default("active") @db.VarChar(20)
+  schedule     String?   @db.Text
+  created_at   DateTime  @default(now())
+
+  // Relations
+  school       School    @relation(fields: [school_id], references: [id])
+  teacher      User?     @relation("TeacherClasses", fields: [teacher_id], references: [id])
+  students     Student[]
+  homework     Homework[]
+  grades       Grade[]
+  attendance   Attendance[]
+
+  @@index([school_id])
+  @@index([teacher_id])
+}
+
+// ═══════════════════════════════════════════════════════
+// الحضور والغياب
+// ═══════════════════════════════════════════════════════
+model Attendance {
+  id          Int       @id @default(autoincrement())
+  student_id  Int
+  class_id    Int
+  teacher_id  Int?
+  date        DateTime  @db.Date
+  /// present | absent | late | excused
+  status      String    @db.VarChar(20)
+  notes       String?   @db.Text
+  created_at  DateTime  @default(now())
+
+  // Relations
+  student     Student   @relation(fields: [student_id], references: [id])
+  class       Class     @relation(fields: [class_id], references: [id])
+  teacher     User?     @relation("TeacherAttendance", fields: [teacher_id], references: [id])
+
+  @@unique([student_id, class_id, date])
+  @@index([class_id, date])
+  @@index([student_id])
+}
+
+// ═══════════════════════════════════════════════════════
+// الدرجات والتقييمات
+// ═══════════════════════════════════════════════════════
+model Grade {
+  id          Int       @id @default(autoincrement())
+  student_id  Int
+  class_id    Int
+  grade       Float
+  /// ممتاز+ | ممتاز | جيد جداً | جيد | مقبول | ضعيف
+  letter      String?   @db.VarChar(20)
+  /// الفصل الدراسي: 1 | 2
+  semester    Int?
+  academic_year String? @db.VarChar(20)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+
+  // Relations
+  student     Student   @relation(fields: [student_id], references: [id])
+  class       Class     @relation(fields: [class_id], references: [id])
+
+  @@index([student_id])
+  @@index([class_id])
+}
+
+// ═══════════════════════════════════════════════════════
+// الواجبات المنزلية
+// ═══════════════════════════════════════════════════════
+model Homework {
+  id           Int       @id @default(autoincrement())
+  title        String    @db.VarChar(255)
+  description  String?   @db.Text
+  subject      String?   @db.VarChar(100)
+  class_name   String?   @db.VarChar(100)
+  class_id     Int?
+  teacher_id   Int
+  due_date     DateTime?
+  /// active | completed | cancelled
+  status       String    @default("active") @db.VarChar(20)
+  created_at   DateTime  @default(now())
+
+  // Relations
+  class        Class?    @relation(fields: [class_id], references: [id])
+  teacher      User      @relation(fields: [teacher_id], references: [id])
+
+  @@index([teacher_id])
+  @@index([class_id])
+}
+
+// ═══════════════════════════════════════════════════════
+// الإعلانات
+// ═══════════════════════════════════════════════════════
+model Announcement {
+  id           Int       @id @default(autoincrement())
+  title        String    @db.VarChar(255)
+  body         String    @db.Text
+  school_id    Int
+  is_public    Boolean   @default(false)
+  pinned       Boolean   @default(false)
+  created_at   DateTime  @default(now())
+
+  // Relations
+  school       School    @relation(fields: [school_id], references: [id])
+
+  @@index([school_id])
+}
+
+// ═══════════════════════════════════════════════════════
+// الفعاليات والأنشطة
+// ═══════════════════════════════════════════════════════
+model Activity {
+  id           Int       @id @default(autoincrement())
+  title        String    @db.VarChar(255)
+  description  String?   @db.Text
+  icon         String?   @db.VarChar(10)
+  school_id    Int
+  event_date   DateTime?
+  created_at   DateTime  @default(now())
+
+  // Relations
+  school       School    @relation(fields: [school_id], references: [id])
+
+  @@index([school_id])
+}
+
+// ═══════════════════════════════════════════════════════
+// طلبات الانضمام / التسجيل
+// ═══════════════════════════════════════════════════════
+model JoinRequest {
+  id            Int       @id @default(autoincrement())
+  school_id     Int?
+  parent_name   String    @db.VarChar(200)
+  student_name  String    @db.VarChar(200)
+  grade         String?   @db.VarChar(100)
+  phone         String    @db.VarChar(50)
+  email         String?   @db.VarChar(255)
+  notes         String?   @db.Text
+  /// pending | approved | rejected
+  status        String    @default("pending") @db.VarChar(20)
+  created_at    DateTime  @default(now())
+
+  // Relations
+  school        School?   @relation(fields: [school_id], references: [id])
+
+  @@index([school_id, status])
+}
+
+// ═══════════════════════════════════════════════════════
+// الشهادات والإجازات
+// ═══════════════════════════════════════════════════════
+model Certificate {
+  id            Int       @id @default(autoincrement())
+  student_name  String    @db.VarChar(200)
+  school_id     Int
+  type          String    @db.VarChar(100)
+  issued_at     DateTime  @default(now())
+  certificate_no String?  @db.VarChar(100)
+
+  @@index([school_id])
+}
+
+// ═══════════════════════════════════════════════════════
+// حلقات القرآن
+// ═══════════════════════════════════════════════════════
+model QuranHalaqa {
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(200)
+  teacher_id  Int?
+  school_id   Int?
+  /// active | inactive
+  status      String    @default("active") @db.VarChar(20)
+  time        String?   @db.VarChar(100)
+  created_at  DateTime  @default(now())
+
+  @@index([school_id])
+  @@index([teacher_id])
+}
+
+// ═══════════════════════════════════════════════════════
+// تسميع القرآن
+// ═══════════════════════════════════════════════════════
+model QuranRecitation {
+  id          Int       @id @default(autoincrement())
+  student_id  Int
+  teacher_id  Int?
+  grade       Float?
+  notes       String?   @db.Text
+  created_at  DateTime  @default(now())
+
+  @@index([student_id])
+  @@index([teacher_id])
+}
+

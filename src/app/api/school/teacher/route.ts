@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/auth';
 import pool from '@/lib/db';
+import { validateAttendancePayload, validateHomeworkPayload } from '@/lib/validation';
 
 // ─────────────────────────────────────────────
 // GET /api/school/teacher?type=...
@@ -159,6 +160,11 @@ export async function POST(request: Request) {
   try {
     // ── Save Attendance ──
     if (type === 'attendance') {
+      const validation = validateAttendancePayload(body);
+      if (!validation.valid) {
+        return NextResponse.json({ error: validation.error }, { status: 400 });
+      }
+
       const { class_id, date, records } = body as {
         class_id: number;
         date: string;
@@ -191,8 +197,12 @@ export async function POST(request: Request) {
 
     // ── Add Homework ──
     if (type === 'homework') {
+      const validation = validateHomeworkPayload(body);
+      if (!validation.valid) {
+        return NextResponse.json({ error: validation.error }, { status: 400 });
+      }
+
       const { title, description, subject, class_name, due_date } = body;
-      if (!title) return NextResponse.json({ error: 'العنوان مطلوب' }, { status: 400 });
 
       await pool.query(
         `INSERT INTO homework (title, description, subject, class_name, due_date, teacher_id, status, created_at)

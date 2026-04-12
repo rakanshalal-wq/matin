@@ -2,7 +2,25 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { cookies } from 'next/headers';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-change-in-production';
+// ────────────────────────────────────────────────
+// JWT Secret — يجب تعيينه في .env (مطلوب في production)
+// ────────────────────────────────────────────────
+function getJwtSecret(): string {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('JWT_SECRET غير معيّن — يجب تعيين متغير البيئة JWT_SECRET في production');
+    }
+    // في development فقط — تحذير واضح
+    console.warn('⚠️  JWT_SECRET غير معيّن — يُستخدم مفتاح مؤقت لـ development فقط');
+    return 'dev-only-secret-not-for-production-use';
+  }
+  if (secret.length < 32) {
+    console.warn('⚠️  JWT_SECRET قصير جداً — يُنصح باستخدام مفتاح لا يقل عن 32 حرفاً');
+  }
+  return secret;
+}
+
 const COOKIE_NAME = 'matin_token';
 const MAX_AGE = 60 * 60 * 24 * 7; // 7 أيام
 
@@ -18,12 +36,12 @@ export interface TokenPayload {
 // JWT
 // ────────────────────────────────────────────────
 export function signToken(payload: TokenPayload): string {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: MAX_AGE });
+  return jwt.sign(payload, getJwtSecret(), { expiresIn: MAX_AGE });
 }
 
 export function verifyToken(token: string): TokenPayload | null {
   try {
-    return jwt.verify(token, JWT_SECRET) as TokenPayload;
+    return jwt.verify(token, getJwtSecret()) as TokenPayload;
   } catch {
     return null;
   }

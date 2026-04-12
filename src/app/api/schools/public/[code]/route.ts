@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db';
+import { validateJoinRequestPayload, sanitizeString } from '@/lib/validation';
 
 // API عام للمدرسة — بدون توثيق (صفحة landing عامة)
 export async function GET(
@@ -87,9 +88,13 @@ export async function POST(
       return NextResponse.json({ error: 'نوع الطلب غير صحيح' }, { status: 400 });
     }
 
-    if (!parent_name || !student_name || !phone) {
-      return NextResponse.json({ error: 'البيانات الأساسية مطلوبة' }, { status: 400 });
+    const validation = validateJoinRequestPayload({ parent_name, student_name, phone, email });
+    if (!validation.valid) {
+      return NextResponse.json({ error: validation.error }, { status: 400 });
     }
+
+    const safeName = sanitizeString(String(parent_name), 200);
+    const safeStudent = sanitizeString(String(student_name), 200);
 
     // جلب معرّف المدرسة
     const schoolRes = await pool.query(
@@ -103,7 +108,7 @@ export async function POST(
     await pool.query(
       `INSERT INTO join_requests (school_id, parent_name, student_name, grade, phone, email, notes, status, created_at)
        VALUES ($1, $2, $3, $4, $5, $6, $7, 'pending', NOW())`,
-      [schoolId, parent_name, student_name, grade || null, phone, email || null, reason || null]
+      [schoolId, safeName, safeStudent, grade || null, phone, email || null, reason || null]
     ).catch(async () => {
       // إنشاء الجدول إذا لم يكن موجوداً
       await pool.query(`

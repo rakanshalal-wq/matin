@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { queryOne } from '@/lib/db';
 import { comparePassword, signToken, getRoleRedirect } from '@/lib/auth';
+import { checkRateLimit, resetRateLimit, getClientIp } from '@/lib/rate-limit';
 
 interface UserRow {
   id: number;
@@ -12,25 +13,78 @@ interface UserRow {
   institution_type: string | null;
 }
 
-export async function POST(request: NextRequest) {
-  try {
-    const body = await request.json();
-    const { email, password } = body as { email?: string; password?: string };
+// ─── Input Validation ──────────────────────────
+function validateLoginInput(email: unknown, password: unknown): string | null {
+  if (typeof email !== 'string' || typeof password !== 'string') {
+    return 'البريد الإلكتروني وكلمة المرور يجب أن تكونا نصاً';
+  }
+  if (!email.trim()) return 'البريد الإلكتروني مطلوب';
+  if (!password)     return 'كلمة المرور مطلوبة';
 
-    if (!email || !password) {
+  // التحقق من صيغة البريد الإلكتروني
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email.trim())) {
+    return 'صيغة البريد الإلكتروني غير صحيحة';
+  }
+  if (email.length > 255) return 'البريد الإلكتروني طويل جداً';
+  if (password.length < 4) return 'كلمة المرور قصيرة جداً';
+  if (password.length > 128) return 'كلمة المرور طويلة جداً';
+
+  return null;
+}
+
+export async function POST(request: NextRequest) {
+  // ─── Rate Limiting ──────────────────────────
+  const ip = getClientIp(request);
+  const ipLimit = checkRateLimit(`ip:${ip}`);
+
+  if (!ipLimit.allowed) {
+    return NextResponse.json(
+      {
+        message: `تم تجاوز الحد المسموح به من المحاولات. يرجى الانتظار ${ipLimit.retryAfterSeconds} ثانية.`,
+        retryAfter: ipLimit.retryAfterSeconds,
+      },
+      {
+        status: 429,
+        headers: {
+          'Retry-After': String(ipLimit.retryAfterSeconds ?? 900),
+          'X-RateLimit-Remaining': '0',
+        },
+      }
+    );
+  }
+
+  try {
+    const body = await request.json().catch(() => ({}));
+    const { email, password } = body as { email?: unknown; password?: unknown };
+
+    // ─── Input Validation ─────────────────────
+    const validationError = validateLoginInput(email, password);
+    if (validationError) {
+      return NextResponse.json({ message: validationError }, { status: 400 });
+    }
+
+    const normalizedEmail = (email as string).toLowerCase().trim();
+
+    // ─── Rate limit per email ─────────────────
+    const emailLimit = checkRateLimit(`email:${normalizedEmail}`);
+    if (!emailLimit.allowed) {
       return NextResponse.json(
-        { message: 'البريد الإلكتروني وكلمة المرور مطلوبان' },
-        { status: 400 }
+        {
+          message: `تم قفل هذا الحساب مؤقتاً بسبب محاولات كثيرة. حاول بعد ${emailLimit.retryAfterSeconds} ثانية.`,
+          retryAfter: emailLimit.retryAfterSeconds,
+        },
+        { status: 429 }
       );
     }
 
-    // البحث عن المستخدم
+    // ─── البحث عن المستخدم ────────────────────
     const user = await queryOne<UserRow>(
       `SELECT id, email, password_hash, role, full_name, institution_id, institution_type
        FROM users
        WHERE email = $1 AND is_active = true
        LIMIT 1`,
-      [email.toLowerCase().trim()]
+      [normalizedEmail]
     );
 
     if (!user) {
@@ -40,7 +94,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const validPassword = await comparePassword(password, user.password_hash);
+    const validPassword = await comparePassword(password as string, user.password_hash);
     if (!validPassword) {
       return NextResponse.json(
         { message: 'البريد الإلكتروني أو كلمة المرور غير صحيحة' },
@@ -48,7 +102,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // إنشاء التوكن
+    // نجح تسجيل الدخول — امسح سجل المحاولات
+    resetRateLimit(`ip:${ip}`);
+    resetRateLimit(`email:${normalizedEmail}`);
+
+    // ─── إنشاء التوكن ─────────────────────────
     const token = signToken({
       userId: user.id,
       role: user.role,
@@ -59,7 +117,6 @@ export async function POST(request: NextRequest) {
 
     const redirect = getRoleRedirect(user.role);
 
-    // وضع التوكن في httpOnly cookie
     const response = NextResponse.json({ success: true, redirect });
     response.cookies.set('matin_token', token, {
       httpOnly: true,
