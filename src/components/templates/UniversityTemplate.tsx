@@ -42,19 +42,19 @@ const UniversityTemplate: React.FC<UniversityTemplateProps> = ({ data, globalAds
   ];
 
   const portals = [
-    { title: 'بوابة الطالب', desc: 'الجدول، المحاضرات، النتائج، التسجيل', icon: '🎓', color: pc },
-    { title: 'بوابة هيئة التدريس', desc: 'المقررات، الحضور، الدرجات، الأبحاث', icon: '👨‍🏫', color: '#22D3EE' },
-    { title: 'بوابة ولي الأمر', desc: 'المعدل، الحضور، الرسوم، التواصل', icon: '👨‍👩‍👦', color: ac },
-    { title: 'بوابة الإدارة', desc: 'التقارير، الموظفون، المالية، الأنظمة', icon: '⚙️', color: '#A78BFA' },
+    { title: 'بوابة الطالب', desc: 'الجدول، المحاضرات، النتائج، التسجيل', icon: 'M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5', color: pc },
+    { title: 'بوابة هيئة التدريس', desc: 'المقررات، الحضور، الدرجات، الأبحاث', icon: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z', color: '#22D3EE' },
+    { title: 'بوابة ولي الأمر', desc: 'المعدل، الحضور، الرسوم، التواصل', icon: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75', color: ac },
+    { title: 'بوابة الإدارة', desc: 'التقارير، الموظفون، المالية، الأنظمة', icon: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z', color: '#A78BFA' },
   ];
 
   const features = [
-    { title: 'الجداول الذكية', desc: 'إنشاء جداول دراسية ذكية تتوافق مع القاعات والأوقات تلقائياً', icon: '📅', color: pc },
-    { title: 'المحاضرات الذكية', desc: 'بث مباشر مع مراقبة AI للحضور وتسجيل تلقائي', icon: '🎥', color: '#22D3EE' },
-    { title: 'نظام الاختبارات', desc: 'اختبارات أونلاين مع مراقبة ذكية ومنع الغش', icon: '📝', color: '#A78BFA' },
-    { title: 'AI Career Pathing', desc: 'توجيه مهني ذكي بناءً على أداء الطالب الأكاديمي', icon: '🤖', color: '#10B981' },
-    { title: 'جواز سفر المهارات', desc: 'توثيق المهارات والشهادات والخبرات في ملف رقمي موحد', icon: '🏆', color: ac },
-    { title: 'الدفع والأقساط', desc: 'نظام دفع إلكتروني متكامل مع خطط تقسيط مرنة', icon: '💳', color: '#EF4444' },
+    { title: 'الجداول الذكية', desc: 'إنشاء جداول دراسية ذكية تتوافق مع القاعات والأوقات تلقائياً', icon: 'M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z', color: pc },
+    { title: 'المحاضرات الذكية', desc: 'بث مباشر مع مراقبة AI للحضور وتسجيل تلقائي', icon: 'M23 7l-7 5 7 5V7z M1 5h15a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H1a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z', color: '#22D3EE' },
+    { title: 'نظام الاختبارات', desc: 'اختبارات أونلاين مع مراقبة ذكية ومنع الغش', icon: 'M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2', color: '#A78BFA' },
+    { title: 'AI Career Pathing', desc: 'توجيه مهني ذكي بناءً على أداء الطالب الأكاديمي', icon: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4l3 3', color: '#10B981' },
+    { title: 'جواز سفر المهارات', desc: 'توثيق المهارات والشهادات والخبرات في ملف رقمي موحد', icon: 'M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z', color: ac },
+    { title: 'الدفع والأقساط', desc: 'نظام دفع إلكتروني متكامل مع خطط تقسيط مرنة', icon: 'M1 4h22v16H1z M1 10h22', color: '#EF4444' },
   ];
 
   const programs = [
@@ -94,7 +94,7 @@ const UniversityTemplate: React.FC<UniversityTemplateProps> = ({ data, globalAds
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ width: 40, height: 40, borderRadius: 10, background: `linear-gradient(135deg,${pc},${sc})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>
-              {data.logo ? <img src={data.logo} alt="" style={{ width: '100%', height: '100%', borderRadius: 10, objectFit: 'cover' }} /> : '🎓'}
+              {data.logo ? <img src={data.logo} alt="" style={{ width: '100%', height: '100%', borderRadius: 10, objectFit: 'cover' }} /> : '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5" /></svg>'}
             </div>
             <div>
               <div style={{ fontSize: 15, fontWeight: 800, letterSpacing: '-0.3px' }}>{data.name}</div>
@@ -152,7 +152,7 @@ const UniversityTemplate: React.FC<UniversityTemplateProps> = ({ data, globalAds
           </div>
           <div style={{ position: 'relative' }}>
             <div style={{ position: 'absolute', top: -20, right: -10, background: 'rgba(10,15,30,.92)', border: '1px solid var(--b1)', borderRadius: 14, padding: '12px 18px', zIndex: 2, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ fontSize: 20 }}>🏆</span>
+              <span style={{ fontSize: 20 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z" /></svg></span>
               <div>
                 <div style={{ fontSize: 12, fontWeight: 700 }}>الأفضل محلياً 2024</div>
                 <div style={{ fontSize: 10, color: 'var(--tm)' }}>تصنيف QS العربي</div>
@@ -189,7 +189,7 @@ const UniversityTemplate: React.FC<UniversityTemplateProps> = ({ data, globalAds
               </div>
             </div>
             <div style={{ position: 'absolute', bottom: -15, left: -10, background: 'rgba(10,15,30,.92)', border: '1px solid var(--b1)', borderRadius: 14, padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ fontSize: 16 }}>💼</span>
+              <span style={{ fontSize: 16 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg></span>
               <div>
                 <div style={{ fontSize: 11, fontWeight: 600 }}>فرص توظيف متاحة</div>
                 <div style={{ fontSize: 13, fontWeight: 800, color: '#10B981' }}>47 فرصة</div>
@@ -231,7 +231,7 @@ const UniversityTemplate: React.FC<UniversityTemplateProps> = ({ data, globalAds
             {colleges.map((c, i) => (
               <div key={i} className="uni-card" style={{ position: 'relative', background: 'var(--card)', border: '1px solid var(--b2)', borderRadius: 16, padding: 20, cursor: 'pointer', transition: 'all .3s' }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: c.grad, borderRadius: '16px 16px 0 0' }} />
-                <div style={{ width: 40, height: 40, borderRadius: 10, background: `${c.grad.includes(pc) ? pc : c.grad.split(',')[1]?.split(')')[0] || pc}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, marginBottom: 12 }}>🏛️</div>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: `${c.grad.includes(pc) ? pc : c.grad.split(',')[1]?.split(')')[0] || pc}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, marginBottom: 12 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M5 21V7l7-4 7 4v14 M9 21v-4a3 3 0 0 1 6 0v4" /></svg></div>
                 <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 6 }}>{c.name}</div>
                 <div style={{ fontSize: 11, color: 'var(--tm)', lineHeight: 1.6, marginBottom: 12 }}>{c.desc}</div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -255,7 +255,7 @@ const UniversityTemplate: React.FC<UniversityTemplateProps> = ({ data, globalAds
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }}>
             {portals.map((p, i) => (
               <div key={i} className="portal-item" onClick={() => setLoginOpen(true)} style={{ background: 'var(--card)', border: '1px solid var(--b2)', borderRadius: 16, padding: 24, textAlign: 'center', cursor: 'pointer', transition: 'all .3s' }}>
-                <div style={{ width: 56, height: 56, borderRadius: 14, background: `${p.color}15`, margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>{p.icon}</div>
+                <div style={{ width: 56, height: 56, borderRadius: 14, background: `${p.color}15`, margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d={p.icon} /></svg></div>
                 <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 6 }}>{p.title}</div>
                 <div style={{ fontSize: 11, color: 'var(--tm)', lineHeight: 1.6 }}>{p.desc}</div>
               </div>
@@ -275,7 +275,7 @@ const UniversityTemplate: React.FC<UniversityTemplateProps> = ({ data, globalAds
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16 }}>
             {features.map((f, i) => (
               <div key={i} className="feat-card" style={{ background: 'var(--card)', border: '1px solid var(--b2)', borderRadius: 16, padding: 24, transition: 'all .3s', cursor: 'pointer' }}>
-                <div style={{ width: 44, height: 44, borderRadius: 12, background: `${f.color}12`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, marginBottom: 16 }}>{f.icon}</div>
+                <div style={{ width: 44, height: 44, borderRadius: 12, background: `${f.color}12`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, marginBottom: 16 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d={f.icon} /></svg></div>
                 <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 8 }}>{f.title}</div>
                 <div style={{ fontSize: 12, color: 'var(--tm)', lineHeight: 1.7 }}>{f.desc}</div>
               </div>
@@ -294,7 +294,7 @@ const UniversityTemplate: React.FC<UniversityTemplateProps> = ({ data, globalAds
               <p style={{ fontSize: 13, color: 'var(--td)', lineHeight: 1.8, marginBottom: 24 }}>يجيب على استفساراتك حول القبول، البرامج، المتطلبات والمزيد</p>
               {['إجابات فورية 24/7', 'معلومات محدثة ودقيقة', 'دعم متعدد اللغات'].map((f, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-                  <div style={{ width: 24, height: 24, borderRadius: 6, background: 'rgba(167,139,250,.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>✓</div>
+                  <div style={{ width: 24, height: 24, borderRadius: 6, background: 'rgba(167,139,250,.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg></div>
                   <span style={{ fontSize: 13, fontWeight: 600 }}>{f}</span>
                 </div>
               ))}
@@ -328,7 +328,7 @@ const UniversityTemplate: React.FC<UniversityTemplateProps> = ({ data, globalAds
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }}>
             {programs.map((p, i) => (
               <div key={i} className="prog-card" style={{ background: 'var(--card)', border: '1px solid var(--b2)', borderRadius: 14, padding: 18, transition: 'all .3s', cursor: 'pointer' }}>
-                <div style={{ width: 36, height: 36, borderRadius: 9, background: `${p.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, marginBottom: 10 }}>📘</div>
+                <div style={{ width: 36, height: 36, borderRadius: 9, background: `${p.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, marginBottom: 10 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg></div>
                 <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 4 }}>{p.name}</div>
                 <div style={{ fontSize: 11, color: 'var(--tm)', marginBottom: 10 }}>{p.dept}</div>
                 <div style={{ display: 'flex', gap: 6 }}>
@@ -353,7 +353,7 @@ const UniversityTemplate: React.FC<UniversityTemplateProps> = ({ data, globalAds
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             <div style={{ background: 'var(--card)', border: '1px solid var(--b2)', borderRadius: 16, overflow: 'hidden' }}>
-              <div style={{ height: 200, background: `linear-gradient(135deg,${pc}20,${sc}10)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48 }}>📰</div>
+              <div style={{ height: 200, background: `linear-gradient(135deg,${pc}20,${sc}10)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2" /></svg></div>
               <div style={{ padding: 20 }}>
                 <div style={{ fontSize: 10, color: ac, fontWeight: 600, marginBottom: 8 }}>أكاديمي · 15 مارس 2025</div>
                 <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 8 }}>افتتاح مختبر الذكاء الاصطناعي المتقدم</div>
@@ -367,7 +367,7 @@ const UniversityTemplate: React.FC<UniversityTemplateProps> = ({ data, globalAds
                 { title: 'نتائج مسابقة البرمجة السنوية', date: '5 مارس 2025', cat: 'مسابقات' },
               ].map((n, i) => (
                 <div key={i} style={{ background: 'var(--card)', border: '1px solid var(--b2)', borderRadius: 14, padding: 16, display: 'flex', gap: 14, alignItems: 'center', cursor: 'pointer' }}>
-                  <div style={{ width: 60, height: 60, borderRadius: 10, background: `rgba(${i === 0 ? '26,86,219' : i === 1 ? '167,139,250' : '245,158,11'},.08)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, flexShrink: 0 }}>{i === 0 ? '🎓' : i === 1 ? '🎤' : '🏆'}</div>
+                  <div style={{ width: 60, height: 60, borderRadius: 10, background: `rgba(${i === 0 ? '26,86,219' : i === 1 ? '167,139,250' : '245,158,11'},.08)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, flexShrink: 0 }}>{i === 0 ? '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5" /></svg>' : i === 1 ? '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M18 8a6 6 0 0 1 0 8 M11.86 17.86c.47.12.95.14 1.14.14a3 3 0 0 0 0-6 M19 12H21 M3 8h2v8H3z M5 8l6 4-6 4V8z" /></svg>' : '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z" /></svg>'}</div>
                   <div>
                     <div style={{ fontSize: 10, color: 'var(--tm)', marginBottom: 4 }}>{n.cat} · {n.date}</div>
                     <div style={{ fontSize: 13, fontWeight: 700 }}>{n.title}</div>
@@ -387,7 +387,7 @@ const UniversityTemplate: React.FC<UniversityTemplateProps> = ({ data, globalAds
           <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 20 }}>
             {accreditations.map((a, i) => (
               <div key={i} style={{ width: 140, background: 'var(--card)', border: '1px solid var(--b2)', borderRadius: 14, padding: '20px 16px', textAlign: 'center' }}>
-                <div style={{ width: 48, height: 48, borderRadius: 12, background: 'rgba(212,168,67,.08)', margin: '0 auto 10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🏅</div>
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: 'rgba(212,168,67,.08)', margin: '0 auto 10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12" /></svg></div>
                 <div style={{ fontSize: 13, fontWeight: 800 }}>{a}</div>
               </div>
             ))}
@@ -413,7 +413,7 @@ const UniversityTemplate: React.FC<UniversityTemplateProps> = ({ data, globalAds
               { name: 'أدوات مكتبية فاخرة', price: '75', color: ac },
             ].map((p, i) => (
               <div key={i} className="store-card" style={{ background: 'var(--card)', border: '1px solid var(--b2)', borderRadius: 16, overflow: 'hidden', cursor: 'pointer', transition: 'all .3s' }}>
-                <div style={{ height: 140, background: `linear-gradient(135deg,${p.color}20,${p.color}05)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}>🎒</div>
+                <div style={{ height: 140, background: `linear-gradient(135deg,${p.color}20,${p.color}05)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5" /></svg></div>
                 <div style={{ padding: 14 }}>
                   <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{p.name}</div>
                   <div style={{ fontSize: 15, fontWeight: 800, color: p.color }}>{p.price} ر.س</div>
@@ -430,12 +430,12 @@ const UniversityTemplate: React.FC<UniversityTemplateProps> = ({ data, globalAds
           <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr', gap: 32, marginBottom: 40 }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-                <div style={{ width: 36, height: 36, borderRadius: 9, background: `linear-gradient(135deg,${pc},${sc})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>🎓</div>
+                <div style={{ width: 36, height: 36, borderRadius: 9, background: `linear-gradient(135deg,${pc},${sc})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5" /></svg></div>
                 <div style={{ fontSize: 15, fontWeight: 800 }}>{data.name}</div>
               </div>
               <p style={{ fontSize: 12, color: 'var(--tm)', lineHeight: 1.8, marginBottom: 16 }}>مؤسسة تعليمية رائدة تسعى لتقديم تعليم عالي الجودة يواكب متطلبات سوق العمل</p>
               <div style={{ display: 'flex', gap: 10 }}>
-                {['𝕏', 'in', '📷', '▶'].map((s, i) => (
+                {['𝕏', 'in', '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M23 7l-7 5 7 5V7z M1 5h15a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H1a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" /></svg>', '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M23 7l-7 5 7 5V7z M1 5h15a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H1a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" /></svg>'].map((s, i) => (
                   <div key={i} style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(255,255,255,.04)', border: '1px solid var(--b2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, cursor: 'pointer' }}>{s}</div>
                 ))}
               </div>
@@ -454,15 +454,15 @@ const UniversityTemplate: React.FC<UniversityTemplateProps> = ({ data, globalAds
             </div>
             <div>
               <div style={{ fontSize: 13, fontWeight: 800, marginBottom: 16 }}>تواصل معنا</div>
-              {data.phone && <div style={{ fontSize: 12, color: 'var(--tm)', marginBottom: 10 }}>📞 {data.phone}</div>}
-              {data.email && <div style={{ fontSize: 12, color: 'var(--tm)', marginBottom: 10 }}>✉️ {data.email}</div>}
-              {data.address && <div style={{ fontSize: 12, color: 'var(--tm)', marginBottom: 10 }}>📍 {data.address}</div>}
-              {!data.phone && !data.email && <div style={{ fontSize: 12, color: 'var(--tm)' }}>📍 المملكة العربية السعودية</div>}
+              {data.phone && <div style={{ fontSize: 12, color: 'var(--tm)', marginBottom: 10 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 2.68h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg> {data.phone}</div>}
+              {data.email && <div style={{ fontSize: 12, color: 'var(--tm)', marginBottom: 10 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6" /></svg> {data.email}</div>}
+              {data.address && <div style={{ fontSize: 12, color: 'var(--tm)', marginBottom: 10 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" /></svg> {data.address}</div>}
+              {!data.phone && !data.email && <div style={{ fontSize: 12, color: 'var(--tm)' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" /></svg> المملكة العربية السعودية</div>}
             </div>
           </div>
           <div style={{ borderTop: '1px solid var(--b2)', padding: '20px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ fontSize: 11, color: 'var(--tm)' }}>© 2025 {data.name}. جميع الحقوق محفوظة.</div>
-            <div style={{ fontSize: 11, color: 'var(--tm)' }}>مدعومة بـ <strong style={{ color: '#D4A843' }}>منصة متين</strong> ⚡</div>
+            <div style={{ fontSize: 11, color: 'var(--tm)' }}>مدعومة بـ <strong style={{ color: '#D4A843' }}>منصة متين</strong> <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg></div>
           </div>
         </div>
       </footer>
@@ -473,7 +473,7 @@ const UniversityTemplate: React.FC<UniversityTemplateProps> = ({ data, globalAds
           <div style={{ background: '#0D1424', border: '1px solid var(--b1)', borderRadius: 20, padding: 32, width: '100%', maxWidth: 500 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
               <h3 style={{ fontSize: 18, fontWeight: 800 }}>تسجيل الدخول</h3>
-              <div onClick={() => setLoginOpen(false)} style={{ cursor: 'pointer', fontSize: 18, color: 'var(--tm)' }}>✕</div>
+              <div onClick={() => setLoginOpen(false)} style={{ cursor: 'pointer', fontSize: 18, color: 'var(--tm)' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18 M6 6l12 12" /></svg></div>
             </div>
             <div style={{ display: 'flex', gap: 4, marginBottom: 24, background: 'rgba(255,255,255,.03)', borderRadius: 10, padding: 4 }}>
               {tabs.map((t, i) => (
@@ -504,7 +504,7 @@ const UniversityTemplate: React.FC<UniversityTemplateProps> = ({ data, globalAds
           <div style={{ background: '#0D1424', border: '1px solid var(--b1)', borderRadius: 20, padding: 32, width: '100%', maxWidth: 500, maxHeight: '80vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
               <h3 style={{ fontSize: 18, fontWeight: 800 }}>التقديم للقبول</h3>
-              <div onClick={() => setAdmOpen(false)} style={{ cursor: 'pointer', fontSize: 18, color: 'var(--tm)' }}>✕</div>
+              <div onClick={() => setAdmOpen(false)} style={{ cursor: 'pointer', fontSize: 18, color: 'var(--tm)' }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18 M6 6l12 12" /></svg></div>
             </div>
             {[
               { label: 'الاسم الكامل', ph: 'أدخل اسمك الكامل' },

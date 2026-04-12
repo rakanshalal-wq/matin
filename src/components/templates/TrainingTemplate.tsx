@@ -38,19 +38,19 @@ const TrainingTemplate: React.FC<TrainingTemplateProps> = ({ data, globalAds, gl
   const navLinks = ['البرامج', 'المدربون', 'الشهادات', 'تواصل'];
 
   const programs = [
-    { name: 'تطوير ويب متكامل', level: 'مبتدئ → متقدم', duration: '3 أشهر', price: 2500, seats: 8, icon: '💻', color: '#3B82F6' },
-    { name: 'إدارة المشاريع PMP', level: 'متوسط', duration: '6 أسابيع', price: 3200, seats: 5, icon: '📊', color: '#8B5CF6' },
-    { name: 'الذكاء الاصطناعي وتعلم الآلة', level: 'متوسط → متقدم', duration: '4 أشهر', price: 4000, seats: 6, icon: '🤖', color: '#EC4899' },
-    { name: 'الأمن السيبراني', level: 'متوسط', duration: '10 أسابيع', price: 3500, seats: 3, icon: '🔐', color: '#10B981' },
-    { name: 'تطوير تطبيقات الجوال', level: 'مبتدئ → متوسط', duration: '12 أسبوع', price: 2800, seats: 10, icon: '📱', color: '#F59E0B' },
-    { name: 'القيادة وإدارة الفرق', level: 'جميع المستويات', duration: '4 أسابيع', price: 1200, seats: 15, icon: '🎯', color: '#EF4444' },
+    { name: 'تطوير ويب متكامل', level: 'مبتدئ → متقدم', duration: '3 أشهر', price: 2500, seats: 8, icon: 'M8 2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z M2 20h20', color: '#3B82F6' },
+    { name: 'إدارة المشاريع PMP', level: 'متوسط', duration: '6 أسابيع', price: 3200, seats: 5, icon: 'M18 20V10 M12 20V4 M6 20v-6', color: '#8B5CF6' },
+    { name: 'الذكاء الاصطناعي وتعلم الآلة', level: 'متوسط → متقدم', duration: '4 أشهر', price: 4000, seats: 6, icon: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4l3 3', color: '#EC4899' },
+    { name: 'الأمن السيبراني', level: 'متوسط', duration: '10 أسابيع', price: 3500, seats: 3, icon: 'M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4', color: '#10B981' },
+    { name: 'تطوير تطبيقات الجوال', level: 'مبتدئ → متوسط', duration: '12 أسبوع', price: 2800, seats: 10, icon: 'M17 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z M12 18h.01', color: '#F59E0B' },
+    { name: 'القيادة وإدارة الفرق', level: 'جميع المستويات', duration: '4 أسابيع', price: 1200, seats: 15, icon: 'M22 12A10 10 0 1 0 2 12a10 10 0 0 0 20 0z M17 12a5 5 0 1 0-10 0 5 5 0 0 0 10 0z M12 12h.01', color: '#EF4444' },
   ];
 
   const trainers = [
-    { name: 'خالد الحربي', specialty: 'تطوير ويب وتطبيقات الجوال', exp: '12 عاماً', rating: 4.9, courses: 8, icon: '👨‍💻' },
-    { name: 'عبدالرحمن السالم', specialty: 'إدارة المشاريع PMP & PRINCE2', exp: '15 عاماً', rating: 4.8, courses: 6, icon: '📋' },
-    { name: 'نورة الشمري', specialty: 'الذكاء الاصطناعي والبيانات', exp: '9 أعوام', rating: 4.9, courses: 5, icon: '🤖' },
-    { name: 'فيصل العتيبي', specialty: 'الأمن السيبراني والشبكات', exp: '11 عاماً', rating: 4.7, courses: 7, icon: '🔒' },
+    { name: 'خالد الحربي', specialty: 'تطوير ويب وتطبيقات الجوال', exp: '12 عاماً', rating: 4.9, courses: 8, icon: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z' },
+    { name: 'عبدالرحمن السالم', specialty: 'إدارة المشاريع PMP & PRINCE2', exp: '15 عاماً', rating: 4.8, courses: 6, icon: 'M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2' },
+    { name: 'نورة الشمري', specialty: 'الذكاء الاصطناعي والبيانات', exp: '9 أعوام', rating: 4.9, courses: 5, icon: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4l3 3' },
+    { name: 'فيصل العتيبي', specialty: 'الأمن السيبراني والشبكات', exp: '11 عاماً', rating: 4.7, courses: 7, icon: '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" /></svg>' },
   ];
 
   const heroPrograms = [
@@ -183,7 +183,7 @@ const TrainingTemplate: React.FC<TrainingTemplateProps> = ({ data, globalAds, gl
                 onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(-4px)'; el.style.borderColor = P + '40'; el.style.boxShadow = `0 12px 40px ${P}15`; }}
                 onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(0)'; el.style.borderColor = BD; el.style.boxShadow = 'none'; }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
-                  <div style={{ width: 50, height: 50, borderRadius: 14, background: prog.color + '20', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>{prog.icon}</div>
+                  <div style={{ width: 50, height: 50, borderRadius: 14, background: prog.color + '20', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d={prog.icon} /></svg></div>
                   <div style={{ fontSize: 11, color: prog.seats <= 5 ? '#EF4444' : '#10B981', background: prog.seats <= 5 ? 'rgba(239,68,68,0.12)' : 'rgba(16,185,129,0.12)', padding: '4px 10px', borderRadius: 6, fontWeight: 700 }}>{prog.seats} مقاعد متبقية</div>
                 </div>
                 <div style={{ fontSize: 17, fontWeight: 800, marginBottom: 6 }}>{prog.name}</div>
@@ -220,7 +220,7 @@ const TrainingTemplate: React.FC<TrainingTemplateProps> = ({ data, globalAds, gl
                 <div style={{ fontSize: 11, color: DIM, marginBottom: 8, lineHeight: 1.5 }}>{t.specialty}</div>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: 12, marginBottom: 14 }}>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: 16, fontWeight: 800, color: GOLD }}>⭐ {t.rating}</div>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: GOLD }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg> {t.rating}</div>
                     <div style={{ fontSize: 10, color: MUT }}>التقييم</div>
                   </div>
                   <div style={{ width: 1, background: BD }} />
@@ -251,13 +251,13 @@ const TrainingTemplate: React.FC<TrainingTemplateProps> = ({ data, globalAds, gl
               <p style={{ fontSize: 15, color: DIM, lineHeight: 1.75, marginBottom: 28 }}>شهاداتنا معتمدة من المؤسسة العامة للتدريب التقني والمهني TVTC ومعترف بها دولياً.</p>
               <div style={{ display: 'grid', gap: 14 }}>
                 {[
-                  { icon: '🏛️', title: 'اعتماد TVTC', desc: 'معتمد من المؤسسة العامة للتدريب المهني السعودية' },
-                  { icon: '🌐', title: 'اعتراف دولي', desc: 'شهادات معترف بها في أكثر من 40 دولة حول العالم' },
-                  { icon: '📱', title: 'التحقق بـ QR', desc: 'رمز QR فريد لكل شهادة للتحقق الفوري من صحتها' },
-                  { icon: '💼', title: 'ملف الإنجاز', desc: 'محفظة رقمية احترافية تعرض مهاراتك وإنجازاتك' },
+                  { icon: '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M5 21V7l7-4 7 4v14 M9 21v-4a3 3 0 0 1 6 0v4" /></svg>', title: 'اعتماد TVTC', desc: 'معتمد من المؤسسة العامة للتدريب المهني السعودية' },
+                  { icon: '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M2 12h20 M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></svg>', title: 'اعتراف دولي', desc: 'شهادات معترف بها في أكثر من 40 دولة حول العالم' },
+                  { icon: '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M17 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z M12 18h.01" /></svg>', title: 'التحقق بـ QR', desc: 'رمز QR فريد لكل شهادة للتحقق الفوري من صحتها' },
+                  { icon: '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg>', title: 'ملف الإنجاز', desc: 'محفظة رقمية احترافية تعرض مهاراتك وإنجازاتك' },
                 ].map((item, i) => (
                   <div key={i} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-                    <div style={{ width: 44, height: 44, borderRadius: 12, background: `${P}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}>{item.icon}</div>
+                    <div style={{ width: 44, height: 44, borderRadius: 12, background: `${P}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d={item.icon} /></svg></div>
                     <div>
                       <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 3 }}>{item.title}</div>
                       <div style={{ fontSize: 12, color: DIM, lineHeight: 1.5 }}>{item.desc}</div>
@@ -268,7 +268,7 @@ const TrainingTemplate: React.FC<TrainingTemplateProps> = ({ data, globalAds, gl
             </div>
             <div style={{ background: CARD, border: `1px solid ${BD}`, borderRadius: 20, padding: 28 }}>
               <div style={{ background: `linear-gradient(135deg,${P}20,${GOLD}10)`, border: `2px solid ${GOLD}40`, borderRadius: 16, padding: 28, textAlign: 'center', marginBottom: 16 }}>
-                <div style={{ fontSize: 40, marginBottom: 12 }}>🎓</div>
+                <div style={{ fontSize: 40, marginBottom: 12 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5" /></svg></div>
                 <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>شهادة إتمام الدورة</div>
                 <div style={{ fontSize: 13, color: DIM, marginBottom: 12 }}>مُنحت لـ: أحمد محمد العمري</div>
                 <div style={{ fontSize: 12, color: GOLD, fontWeight: 700 }}>دورة تطوير الويب المتكاملة</div>

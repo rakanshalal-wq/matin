@@ -49,12 +49,12 @@ const QuranTemplate: React.FC<QuranTemplateProps> = ({ data, globalAds, globalPr
   ];
 
   const programs = [
-    { icon: '🌱', title: 'البراعم', age: '4 – 8 سنوات', desc: 'حفظ قصار السور وتأسيس حب القرآن بأسلوب ممتع.' },
-    { icon: '📚', title: 'الحفظ المتدرج', age: '9 – 15 سنة', desc: 'منهج تدريجي من آخر المصحف إلى أوله مع مراجعة مستمرة.' },
-    { icon: '🏆', title: 'الإتقان', age: '12 سنة فأكثر', desc: 'ختم المصحف كاملاً مع التجويد وتقييم دوري.' },
-    { icon: '🎙️', title: 'التجويد', age: 'جميع الأعمار', desc: 'تعليم أحكام التجويد من مخارج وصفات مع تطبيق عملي.' },
-    { icon: '📜', title: 'الإجازة', age: 'حافظ كامل', desc: 'منهج متخصص لنيل الإجازة بسند متصل بالنبي ﷺ.' },
-    { icon: '👩‍🏫', title: 'حلقات النساء', age: 'مستقل', desc: 'حلقات مخصصة للنساء مع محفظات متخصصات.' },
+    { icon: 'M6 3v12 M18.4 4.6a9 9 0 0 1-1.4 12.8 9 9 0 0 1-12.8-1.4', title: 'البراعم', age: '4 – 8 سنوات', desc: 'حفظ قصار السور وتأسيس حب القرآن بأسلوب ممتع.' },
+    { icon: 'M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z', title: 'الحفظ المتدرج', age: '9 – 15 سنة', desc: 'منهج تدريجي من آخر المصحف إلى أوله مع مراجعة مستمرة.' },
+    { icon: 'M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z', title: 'الإتقان', age: '12 سنة فأكثر', desc: 'ختم المصحف كاملاً مع التجويد وتقييم دوري.' },
+    { icon: 'M18 8a6 6 0 0 1 0 8 M11.86 17.86c.47.12.95.14 1.14.14a3 3 0 0 0 0-6 M19 12H21 M3 8h2v8H3z M5 8l6 4-6 4V8z', title: 'التجويد', age: 'جميع الأعمار', desc: 'تعليم أحكام التجويد من مخارج وصفات مع تطبيق عملي.' },
+    { icon: 'M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2', title: 'الإجازة', age: 'حافظ كامل', desc: 'منهج متخصص لنيل الإجازة بسند متصل بالنبي ﷺ.' },
+    { icon: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z', title: 'حلقات النساء', age: 'مستقل', desc: 'حلقات مخصصة للنساء مع محفظات متخصصات.' },
   ];
 
   const teachers = [
@@ -65,12 +65,12 @@ const QuranTemplate: React.FC<QuranTemplateProps> = ({ data, globalAds, globalPr
   ];
 
   const features = [
-    { icon: '📱', title: 'متابعة إلكترونية', desc: 'ولي الأمر يتابع تقدم ابنه لحظة بلحظة عبر التطبيق.' },
-    { icon: '🥇', title: 'مسابقات قرآنية', desc: 'مسابقات شهرية وسنوية بجوائز قيّمة.' },
-    { icon: '📜', title: 'إجازات بالسند', desc: 'للمتميزين إجازة بسند متصل وشهادة معتمدة.' },
-    { icon: '⭐', title: 'نقاط الحفز', desc: 'نظام نقاط يحفّز الطلاب على الحفظ والمراجعة.' },
-    { icon: '💬', title: 'تواصل مباشر', desc: 'تواصل فوري مع المحفظ وإدارة المركز.' },
-    { icon: '🕌', title: 'بيئة تربوية', desc: 'برامج توعوية ورحلات تربوية دورية.' },
+    { icon: 'M17 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z M12 18h.01', title: 'متابعة إلكترونية', desc: 'ولي الأمر يتابع تقدم ابنه لحظة بلحظة عبر التطبيق.' },
+    { icon: 'M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12', title: 'مسابقات قرآنية', desc: 'مسابقات شهرية وسنوية بجوائز قيّمة.' },
+    { icon: 'M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2', title: 'إجازات بالسند', desc: 'للمتميزين إجازة بسند متصل وشهادة معتمدة.' },
+    { icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z', title: 'نقاط الحفز', desc: 'نظام نقاط يحفّز الطلاب على الحفظ والمراجعة.' },
+    { icon: 'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z', title: 'تواصل مباشر', desc: 'تواصل فوري مع المحفظ وإدارة المركز.' },
+    { icon: 'M12 2L2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5', title: 'بيئة تربوية', desc: 'برامج توعوية ورحلات تربوية دورية.' },
   ];
 
   const halaqatStatus = [
@@ -87,7 +87,7 @@ const QuranTemplate: React.FC<QuranTemplateProps> = ({ data, globalAds, globalPr
           {/* Logo */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 11 }}>
             <div style={{ width: 42, height: 42, borderRadius: 11, background: `linear-gradient(135deg,${P},${S})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, boxShadow: `0 4px 16px ${P}55` }}>
-              {data.logo ? <img src={data.logo} alt="logo" style={{ width: '100%', height: '100%', borderRadius: 11 }} /> : '📖'}
+              {data.logo ? <img src={data.logo} alt="logo" style={{ width: '100%', height: '100%', borderRadius: 11 }} /> : <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>}
             </div>
             <div>
               <div style={{ fontSize: 15, fontWeight: 800 }}>مركز النور لتحفيظ القرآن</div>
@@ -142,16 +142,16 @@ const QuranTemplate: React.FC<QuranTemplateProps> = ({ data, globalAds, globalPr
           </div>
           {/* Hero Card */}
           <div style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 20, padding: 22, backdropFilter: 'blur(12px)' }}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: A, marginBottom: 14 }}>📡 حالة الحلقات اليوم</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: A, marginBottom: 14 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M2 12h20 M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></svg> حالة الحلقات اليوم</div>
             {halaqatStatus.map((h, i) => (
               <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid ' + BD, borderRadius: 12, padding: '12px 14px', marginBottom: i === 0 ? 10 : 0 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                   <span style={{ fontSize: 14, fontWeight: 700 }}>{h.name}</span>
                   <span style={{ fontSize: 11, padding: '3px 10px', borderRadius: 20, background: h.live ? '#10B98120' : 'rgba(255,255,255,.05)', color: h.live ? '#10B981' : MUT, fontWeight: 700 }}>
-                    {h.live ? '🔴 مباشرة' : '⏳ قادمة'}
+                    {h.live ? '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z" /></svg> مباشرة' : '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z" /></svg> قادمة'}
                   </span>
                 </div>
-                <div style={{ fontSize: 11, color: DIM }}>⏰ {h.time} &nbsp;|&nbsp; 👤 {h.teacher}</div>
+                <div style={{ fontSize: 11, color: DIM }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4 M16 2v4 M3 10h18 M21 8H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z" /></svg> {h.time} &nbsp;|&nbsp; <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" /></svg> {h.teacher}</div>
                 <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
                   <div style={{ flex: 1, height: 5, background: 'rgba(255,255,255,.07)', borderRadius: 4 }}>
                     <div style={{ width: `${(h.students / 25) * 100}%`, height: '100%', background: `linear-gradient(90deg,${P},${A})`, borderRadius: 4 }}></div>
@@ -203,7 +203,7 @@ const QuranTemplate: React.FC<QuranTemplateProps> = ({ data, globalAds, globalPr
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18 }}>
             {programs.map((p, i) => (
               <div key={i} style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 16, padding: '22px 20px', transition: 'border-color 0.2s', cursor: 'pointer' }}>
-                <div style={{ fontSize: 32, marginBottom: 12 }}>{p.icon}</div>
+                <div style={{ fontSize: 32, marginBottom: 12 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d={p.icon} /></svg></div>
                 <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 4 }}>{p.title}</div>
                 <div style={{ fontSize: 11, color: A, fontWeight: 700, marginBottom: 10, background: `${A}15`, display: 'inline-block', padding: '2px 10px', borderRadius: 20 }}>{p.age}</div>
                 <p style={{ fontSize: 13, color: DIM, lineHeight: 1.7, margin: 0 }}>{p.desc}</p>
@@ -223,7 +223,7 @@ const QuranTemplate: React.FC<QuranTemplateProps> = ({ data, globalAds, globalPr
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 18 }}>
             {teachers.map((t, i) => (
               <div key={i} style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 16, padding: '24px 18px', textAlign: 'center' }}>
-                <div style={{ width: 68, height: 68, borderRadius: '50%', background: `linear-gradient(135deg,${P}30,${A}20)`, border: `2px solid ${P}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px', fontSize: 28 }}>🎓</div>
+                <div style={{ width: 68, height: 68, borderRadius: '50%', background: `linear-gradient(135deg,${P}30,${A}20)`, border: `2px solid ${P}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px', fontSize: 28 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5" /></svg></div>
                 <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 4 }}>{t.name}</div>
                 <div style={{ fontSize: 11, color: DIM, marginBottom: 12 }}>{t.role}</div>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: 18, fontSize: 11 }}>
@@ -233,7 +233,7 @@ const QuranTemplate: React.FC<QuranTemplateProps> = ({ data, globalAds, globalPr
                   </div>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontWeight: 800, color: A, fontSize: 16 }}>{t.rating}</div>
-                    <div style={{ color: MUT }}>تقييم ⭐</div>
+                    <div style={{ color: MUT }}>تقييم <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg></div>
                   </div>
                 </div>
               </div>
@@ -252,7 +252,7 @@ const QuranTemplate: React.FC<QuranTemplateProps> = ({ data, globalAds, globalPr
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18 }}>
             {features.map((f, i) => (
               <div key={i} style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 14, padding: '20px 18px', display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-                <div style={{ width: 44, height: 44, borderRadius: 12, background: `${P}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, flexShrink: 0 }}>{f.icon}</div>
+                <div style={{ width: 44, height: 44, borderRadius: 12, background: `${P}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, flexShrink: 0 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d={f.icon} /></svg></div>
                 <div>
                   <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 5 }}>{f.title}</div>
                   <div style={{ fontSize: 12, color: DIM, lineHeight: 1.6 }}>{f.desc}</div>
@@ -266,7 +266,7 @@ const QuranTemplate: React.FC<QuranTemplateProps> = ({ data, globalAds, globalPr
       {/* ── CTA ── */}
       <section style={{ padding: '0 24px 80px' }}>
         <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center', background: `linear-gradient(135deg,${P}20,${A}10)`, border: `1px solid ${P}40`, borderRadius: 24, padding: '52px 40px' }}>
-          <div style={{ fontSize: 38, marginBottom: 16 }}>📖</div>
+          <div style={{ fontSize: 38, marginBottom: 16 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg></div>
           <h2 style={{ fontSize: 32, fontWeight: 900, marginBottom: 14 }}>سجّل أبناءك اليوم</h2>
           <p style={{ fontSize: 15, color: DIM, maxWidth: 480, margin: '0 auto 28px', lineHeight: 1.8 }}>
             انضم لأكثر من 1200 طالب يحفظون كتاب الله في أجواء تربوية متكاملة مع نخبة من المحفّظين المجازين.
@@ -284,7 +284,7 @@ const QuranTemplate: React.FC<QuranTemplateProps> = ({ data, globalAds, globalPr
           <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 40, marginBottom: 36 }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-                <span style={{ fontSize: 22 }}>📖</span>
+                <span style={{ fontSize: 22 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg></span>
                 <span style={{ fontSize: 15, fontWeight: 800 }}>مركز النور</span>
               </div>
               <p style={{ fontSize: 12, color: DIM, lineHeight: 1.8, maxWidth: 260 }}>مركز متخصص في تحفيظ القرآن الكريم وتجويده وفق أعلى معايير الجودة.</p>
@@ -311,7 +311,7 @@ const QuranTemplate: React.FC<QuranTemplateProps> = ({ data, globalAds, globalPr
         <div style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }} onClick={() => setShowModal(false)}>
           <div style={{ background: '#0D0D1E', border: '1px solid ' + BD, borderRadius: 20, padding: 36, width: '100%', maxWidth: 420 }} onClick={e => e.stopPropagation()}>
             <div style={{ textAlign: 'center', marginBottom: 28 }}>
-              <div style={{ fontSize: 32, marginBottom: 10 }}>📖</div>
+              <div style={{ fontSize: 32, marginBottom: 10 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg></div>
               <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 4 }}>دخول المركز</div>
               <div style={{ fontSize: 12, color: MUT }}>أدخل بياناتك للوصول إلى لوحة التحكم</div>
             </div>

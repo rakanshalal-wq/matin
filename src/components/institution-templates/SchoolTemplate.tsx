@@ -107,9 +107,9 @@ export default function SchoolTemplate({ data }: SchoolTemplateProps) {
         <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
           <h2 style={{ fontSize: 36, fontWeight: 800, color: 'white', marginBottom: 32 }}>تواصل معنا</h2>
           <div style={{ display: 'flex', gap: 40, justifyContent: 'center', flexWrap: 'wrap' }}>
-            {phone && <div style={{ color: 'white' }}><div style={{ fontSize: 32, marginBottom: 8 }}>📞</div><div style={{ fontSize: 20, fontWeight: 700 }}>{phone}</div></div>}
-            {email && <div style={{ color: 'white' }}><div style={{ fontSize: 32, marginBottom: 8 }}>📧</div><div style={{ fontSize: 20, fontWeight: 700 }}>{email}</div></div>}
-            {address && <div style={{ color: 'white' }}><div style={{ fontSize: 32, marginBottom: 8 }}>📍</div><div style={{ fontSize: 20, fontWeight: 700 }}>{address}</div></div>}
+            {phone && <div style={{ color: 'white' }}><div style={{ marginBottom: 8 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 2.68h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg></div><div style={{ fontSize: 20, fontWeight: 700 }}>{phone}</div></div>}
+            {email && <div style={{ color: 'white' }}><div style={{ marginBottom: 8 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6" /></svg></div><div style={{ fontSize: 20, fontWeight: 700 }}>{email}</div></div>}
+            {address && <div style={{ color: 'white' }}><div style={{ marginBottom: 8 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" /></svg></div><div style={{ fontSize: 20, fontWeight: 700 }}>{address}</div></div>}
           </div>
         </div>
       </section>

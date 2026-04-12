@@ -17,21 +17,21 @@ interface InstituteTemplateProps {
 }
 
 const programs = [
-  { title: 'تطوير الويب', price: '3,200 ر.س', level: 'متوسط', seats: 8, color: PRIMARY, icon: '💻' },
-  { title: 'الذكاء الاصطناعي', price: '4,500 ر.س', level: 'متقدم', seats: 5, color: GOLD, icon: '🤖' },
-  { title: 'إدارة المشاريع PMP', price: '2,800 ر.س', level: 'مبتدئ', seats: 12, color: '#10B981', icon: '📋' },
-  { title: 'التحليل المالي', price: '1,900 ر.س', level: 'مبتدئ', seats: 15, color: ACCENT, icon: '📊' },
-  { title: 'القيادة والإدارة', price: '1,600 ر.س', level: 'متوسط', seats: 10, color: '#8B5CF6', icon: '🎯' },
-  { title: 'الأمن السيبراني', price: '5,200 ر.س', level: 'متقدم', seats: 4, color: '#EF4444', icon: '🔐' },
+  { title: 'تطوير الويب', price: '3,200 ر.س', level: 'متوسط', seats: 8, color: PRIMARY, icon: 'M8 2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z M2 20h20' },
+  { title: 'الذكاء الاصطناعي', price: '4,500 ر.س', level: 'متقدم', seats: 5, color: GOLD, icon: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4l3 3' },
+  { title: 'إدارة المشاريع PMP', price: '2,800 ر.س', level: 'مبتدئ', seats: 12, color: '#10B981', icon: 'M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2' },
+  { title: 'التحليل المالي', price: '1,900 ر.س', level: 'مبتدئ', seats: 15, color: ACCENT, icon: 'M18 20V10 M12 20V4 M6 20v-6' },
+  { title: 'القيادة والإدارة', price: '1,600 ر.س', level: 'متوسط', seats: 10, color: '#8B5CF6', icon: 'M22 12A10 10 0 1 0 2 12a10 10 0 0 0 20 0z M17 12a5 5 0 1 0-10 0 5 5 0 0 0 10 0z M12 12h.01' },
+  { title: 'الأمن السيبراني', price: '5,200 ر.س', level: 'متقدم', seats: 4, color: '#EF4444', icon: 'M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4' },
 ];
 
 const features = [
-  { title: 'شهادات معتمدة', desc: 'شهادات معتمدة من هيئة تقييم التعليم ETEC', icon: '🏅', color: GOLD },
-  { title: '3 طرق تدريب', desc: 'حضوري أو أونلاين أو مدمج حسب راحتك', icon: '🎓', color: PRIMARY },
-  { title: 'مدربون من الصناعة', desc: 'خبراء معتمدون بخبرة ميدانية 10+ سنوات', icon: '👨‍🏫', color: '#10B981' },
-  { title: 'مساعد ذكاء اصطناعي', desc: 'مساعد AI لدعمك أثناء الدراسة على مدار الساعة', icon: '🤖', color: '#8B5CF6' },
-  { title: 'دفع بالأقساط', desc: 'خطط دفع مرنة بدون فوائد على جميع البرامج', icon: '💳', color: ACCENT },
-  { title: 'اختبارات ذكية', desc: 'تقييم تكيفي يضمن تقدمك الحقيقي', icon: '📝', color: '#EF4444' },
+  { title: 'شهادات معتمدة', desc: 'شهادات معتمدة من هيئة تقييم التعليم ETEC', icon: 'M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12', color: GOLD },
+  { title: '3 طرق تدريب', desc: 'حضوري أو أونلاين أو مدمج حسب راحتك', icon: 'M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5', color: PRIMARY },
+  { title: 'مدربون من الصناعة', desc: 'خبراء معتمدون بخبرة ميدانية 10+ سنوات', icon: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z', color: '#10B981' },
+  { title: 'مساعد ذكاء اصطناعي', desc: 'مساعد AI لدعمك أثناء الدراسة على مدار الساعة', icon: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 8v4l3 3', color: '#8B5CF6' },
+  { title: 'دفع بالأقساط', desc: 'خطط دفع مرنة بدون فوائد على جميع البرامج', icon: 'M1 4h22v16H1z M1 10h22', color: ACCENT },
+  { title: 'اختبارات ذكية', desc: 'تقييم تكيفي يضمن تقدمك الحقيقي', icon: 'M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2 M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2', color: '#EF4444' },
 ];
 
 const schedule = [
@@ -50,9 +50,9 @@ const trainers = [
 ];
 
 const certificates = [
-  { title: 'معتمد من ETEC', desc: 'جميع شهاداتنا معتمدة من هيئة تقييم التعليم والتدريب', icon: '🏆', color: GOLD },
-  { title: 'شراكات دولية', desc: 'معترف بها دولياً عبر شراكاتنا مع Google و Microsoft و PMI', icon: '🌐', color: PRIMARY },
-  { title: 'تحقق بـ QR', desc: 'كل شهادة تحتوي على QR Code للتحقق الفوري من صحتها', icon: '📱', color: '#10B981' },
+  { title: 'معتمد من ETEC', desc: 'جميع شهاداتنا معتمدة من هيئة تقييم التعليم والتدريب', icon: '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6 M18 9h1.5a2.5 2.5 0 0 0 0-5H18 M4 22h16 M18 2H6v7a6 6 0 0 0 12 0V2z" /></svg>', color: GOLD },
+  { title: 'شراكات دولية', desc: 'معترف بها دولياً عبر شراكاتنا مع Google و Microsoft و PMI', icon: '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M2 12h20 M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></svg>', color: PRIMARY },
+  { title: 'تحقق بـ QR', desc: 'كل شهادة تحتوي على QR Code للتحقق الفوري من صحتها', icon: '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M17 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z M12 18h.01" /></svg>', color: '#10B981' },
 ];
 
 export const InstituteTemplate: React.FC<InstituteTemplateProps> = ({ data, globalAds, globalProducts }) => {
@@ -100,14 +100,14 @@ export const InstituteTemplate: React.FC<InstituteTemplateProps> = ({ data, glob
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px', gap: 56, alignItems: 'center', maxWidth: 1200, margin: '0 auto' }}>
           <div>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: `${GOLD}15`, border: `1px solid ${GOLD}30`, borderRadius: 20, padding: '6px 14px', marginBottom: 24 }}>
-              <span style={{ fontSize: 14 }}>🏅</span>
+              <span style={{ fontSize: 14 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.21 13.89L7 23l5-3 5 3-1.21-9.12" /></svg></span>
               <span style={{ color: GOLD, fontSize: 12, fontWeight: 700 }}>معتمد من هيئة تقييم التعليم والتدريب</span>
             </div>
             <h1 style={{ fontSize: 48, fontWeight: 900, lineHeight: 1.2, margin: '0 0 20px', background: `linear-gradient(135deg,${TEXT},${PRIMARY})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>طوّر مهاراتك<br />احترافياً وبسرعة</h1>
             <p style={{ color: 'rgba(238,238,245,0.6)', fontSize: 16, lineHeight: 1.8, marginBottom: 32, maxWidth: 520 }}>برامج تدريبية معتمدة بأسلوب حديث وتجربة تعلم استثنائية تضمن لك الوصول لسوق العمل في أقل وقت.</p>
             <div style={{ display: 'flex', gap: 14, marginBottom: 48, flexWrap: 'wrap' }}>
               <button style={{ background: `linear-gradient(135deg,${PRIMARY},${SECONDARY})`, border: 'none', color: '#fff', padding: '14px 32px', borderRadius: 12, fontSize: 15, fontWeight: 700, cursor: 'pointer', boxShadow: `0 6px 24px ${PRIMARY}40` }}>سجّل في برنامج</button>
-              <button style={{ background: CARD_BG, border: `1px solid ${BORDER}`, color: TEXT, padding: '14px 28px', borderRadius: 12, fontSize: 15, fontWeight: 600, cursor: 'pointer' }}>جولة تعريفية ◀</button>
+              <button style={{ background: CARD_BG, border: `1px solid ${BORDER}`, color: TEXT, padding: '14px 28px', borderRadius: 12, fontSize: 15, fontWeight: 600, cursor: 'pointer' }}>جولة تعريفية <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71 M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg></button>
             </div>
             <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
               {[{ v: '14,200+', l: 'خريج' }, { v: '68', l: 'برنامج' }, { v: '96%', l: 'رضا' }, { v: '48+', l: 'مدرب' }].map(s => (
@@ -124,7 +124,7 @@ export const InstituteTemplate: React.FC<InstituteTemplateProps> = ({ data, glob
             {programs.slice(0, 3).map(p => (
               <div key={p.title} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: `${p.color}08`, border: `1px solid ${p.color}20`, borderRadius: 12, padding: '14px 16px', marginBottom: 10 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <span style={{ fontSize: 20 }}>{p.icon}</span>
+                  <span style={{ fontSize: 20 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d={p.icon} /></svg></span>
                   <div>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{p.title}</div>
                     <div style={{ color: p.color, fontSize: 12, fontWeight: 600, marginTop: 2 }}>{p.price}</div>
@@ -166,7 +166,7 @@ export const InstituteTemplate: React.FC<InstituteTemplateProps> = ({ data, glob
                 onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(-4px)'; el.style.boxShadow = `0 12px 40px ${p.color}20`; el.style.borderColor = `${p.color}45`; }}
                 onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(0)'; el.style.boxShadow = 'none'; el.style.borderColor = `${p.color}20`; }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
-                  <span style={{ fontSize: 32 }}>{p.icon}</span>
+                  <span style={{ fontSize: 32 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d={p.icon} /></svg></span>
                   <span style={{ background: `${p.color}18`, color: p.color, fontSize: 11, fontWeight: 700, padding: '4px 10px', borderRadius: 6, border: `1px solid ${p.color}30` }}>{p.level}</span>
                 </div>
                 <h3 style={{ color: TEXT, fontSize: 18, fontWeight: 800, margin: '0 0 8px' }}>{p.title}</h3>
@@ -248,7 +248,7 @@ export const InstituteTemplate: React.FC<InstituteTemplateProps> = ({ data, glob
                 <h3 style={{ color: TEXT, fontSize: 16, fontWeight: 800, margin: '0 0 6px' }}>{t.name}</h3>
                 <p style={{ color: 'rgba(238,238,245,0.45)', fontSize: 12, margin: '0 0 16px' }}>{t.specialty}</p>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: 20, paddingTop: 16, borderTop: `1px solid ${t.color}15` }}>
-                  <div><div style={{ color: GOLD, fontSize: 16, fontWeight: 800 }}>⭐ {t.rating}</div><div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 10 }}>تقييم</div></div>
+                  <div><div style={{ color: GOLD, fontSize: 16, fontWeight: 800 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg> {t.rating}</div><div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 10 }}>تقييم</div></div>
                   <div><div style={{ color: t.color, fontSize: 16, fontWeight: 800 }}>{t.trainees.toLocaleString()}</div><div style={{ color: 'rgba(238,238,245,0.35)', fontSize: 10 }}>متدرب</div></div>
                 </div>
               </div>
@@ -267,7 +267,7 @@ export const InstituteTemplate: React.FC<InstituteTemplateProps> = ({ data, glob
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }}>
             {certificates.map(c => (
               <div key={c.title} style={{ background: `linear-gradient(135deg,${c.color}08,transparent)`, border: `1px solid ${c.color}25`, borderRadius: 20, padding: '36px 28px', textAlign: 'center' }}>
-                <div style={{ fontSize: 44, marginBottom: 20 }}>{c.icon}</div>
+                <div style={{ fontSize: 44, marginBottom: 20 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d={c.icon} /></svg></div>
                 <h3 style={{ color: TEXT, fontSize: 20, fontWeight: 800, margin: '0 0 12px' }}>{c.title}</h3>
                 <p style={{ color: 'rgba(238,238,245,0.5)', fontSize: 14, lineHeight: 1.8, margin: 0 }}>{c.desc}</p>
               </div>
@@ -288,7 +288,7 @@ export const InstituteTemplate: React.FC<InstituteTemplateProps> = ({ data, glob
             {['البيانات الشخصية', 'اختيار البرنامج', 'التأكيد'].map((step, i) => (
               <div key={step} style={{ display: 'flex', alignItems: 'center' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-                  <div style={{ width: 36, height: 36, borderRadius: '50%', background: registerStep > i + 1 ? '#10B981' : registerStep === i + 1 ? PRIMARY : 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 800, color: registerStep >= i + 1 ? '#fff' : 'rgba(255,255,255,0.3)', border: registerStep === i + 1 ? `2px solid ${PRIMARY}` : 'none', transition: 'all 0.3s' }}>{registerStep > i + 1 ? '✓' : i + 1}</div>
+                  <div style={{ width: 36, height: 36, borderRadius: '50%', background: registerStep > i + 1 ? '#10B981' : registerStep === i + 1 ? PRIMARY : 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 800, color: registerStep >= i + 1 ? '#fff' : 'rgba(255,255,255,0.3)', border: registerStep === i + 1 ? `2px solid ${PRIMARY}` : 'none', transition: 'all 0.3s' }}>{registerStep > i + 1 ? '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>' : i + 1}</div>
                   <div style={{ fontSize: 11, color: registerStep >= i + 1 ? TEXT : 'rgba(238,238,245,0.35)', fontWeight: 600, whiteSpace: 'nowrap' }}>{step}</div>
                 </div>
                 {i < 2 && <div style={{ width: 80, height: 2, background: registerStep > i + 1 ? '#10B981' : BORDER, margin: '0 8px', marginBottom: 28, transition: 'all 0.3s' }} />}
@@ -327,7 +327,7 @@ export const InstituteTemplate: React.FC<InstituteTemplateProps> = ({ data, glob
             )}
             {registerStep === 3 && (
               <div style={{ textAlign: 'center', padding: '20px 0' }}>
-                <div style={{ fontSize: 56, marginBottom: 20 }}>✅</div>
+                <div style={{ fontSize: 56, marginBottom: 20 }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg></div>
                 <h3 style={{ color: TEXT, fontSize: 22, fontWeight: 800, margin: '0 0 12px' }}>تأكيد التسجيل</h3>
                 <p style={{ color: 'rgba(238,238,245,0.5)', fontSize: 14, lineHeight: 1.8 }}>سيتواصل معك فريقنا خلال 24 ساعة لتأكيد تسجيلك في برنامج <strong style={{ color: PRIMARY }}>{selectedProgram || 'المختار'}</strong></p>
               </div>
@@ -366,7 +366,7 @@ export const InstituteTemplate: React.FC<InstituteTemplateProps> = ({ data, glob
           <div style={{ borderTop: `1px solid ${BORDER}`, paddingTop: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ color: 'rgba(238,238,245,0.3)', fontSize: 12 }}>© 2025 {instituteName}. جميع الحقوق محفوظة.</div>
             <div style={{ display: 'flex', gap: 12 }}>
-              {['🐦', '📘', '📸', '💼'].map((icon, i) => <div key={i} style={{ width: 34, height: 34, borderRadius: 8, background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: 14 }}>{icon}</div>)}
+              {['<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M23 6l-9.5 9.5-5-5L1 18" /></svg>', '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>', '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M23 7l-7 5 7 5V7z M1 5h15a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H1a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" /></svg>', '<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg>'].map((icon, i) => <div key={i} style={{ width: 34, height: 34, borderRadius: 8, background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: 14 }}>{icon}</div>)}
             </div>
           </div>
         </div>

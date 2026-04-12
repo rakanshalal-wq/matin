@@ -21,7 +21,7 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
           </Link>
           
           <div className="bg-[rgba(74,222,128,0.1)] border border-[rgba(74,222,128,0.22)] rounded-[9px] p-[9px_11px] flex items-center gap-[9px]">
-            <div className="w-[32px] h-[32px] rounded-[8px] bg-[rgba(74,222,128,0.12)] border border-[rgba(74,222,128,0.22)] flex items-center justify-center text-[16px]">👨‍🏫</div>
+            <div className="w-[32px] h-[32px] rounded-[8px] bg-[rgba(74,222,128,0.12)] border border-[rgba(74,222,128,0.22)] flex items-center justify-center"><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" /></svg></div>
             <div>
               <div className="text-[#EEEEF5] text-[12.5px] font-[700]">أ. محمد علي</div>
               <div className="text-[#4ADE80] text-[10.5px] font-[600]">معلم رياضيات</div>
@@ -32,10 +32,10 @@ const TeacherLayout: React.FC<TeacherLayoutProps> = ({ children, activePage }) =
         <nav className="flex-1 p-[6px_0_4px] overflow-y-auto">
           <div className="text-[9px] text-[rgba(238,238,245,0.28)] font-[700] tracking-[1.2px] uppercase p-[9px_14px_3px]">الرئيسية</div>
           <Link href="/teacher" className={`flex items-center gap-[8px] p-[6px_12px_6px_14px] text-[12px] ${activePage === 'dashboard' ? 'bg-[rgba(74,222,128,0.1)] border-r-[3px] border-[#4ADE80] text-[#EEEEF5] font-[600]' : 'text-[rgba(238,238,245,0.55)]'} hover:bg-[rgba(255,255,255,0.04)]`}>
-            <span>📊</span> لوحة التحكم
+            <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10 M12 20V4 M6 20v-6" /></svg> لوحة التحكم
           </Link>
           <Link href="/teacher/classes" className={`flex items-center gap-[8px] p-[6px_12px_6px_14px] text-[12px] ${activePage === 'classes' ? 'bg-[rgba(74,222,128,0.1)] border-r-[3px] border-[#4ADE80] text-[#EEEEF5] font-[600]' : 'text-[rgba(238,238,245,0.55)]'} hover:bg-[rgba(255,255,255,0.04)]`}>
-            <span>🏫</span> فصولي الدراسية
+            <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16" /></svg> فصولي الدراسية
           </Link>
         </nav>
 

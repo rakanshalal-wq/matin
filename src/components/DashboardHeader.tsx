@@ -58,23 +58,28 @@ const roleAccent: Record<string, string> = {
   platform_staff:      '#94A3B8',
 };
 
-const roleEmoji: Record<string, string> = {
-  'super_admin':        '👑',
-  'platform_owner':     '👑',
-  'admin':              '🏫',
-  'owner':              '🏛️',
-  'school_owner':       '🏫',
-  'university_owner':   '🎓',
-  'institute_owner':    '🏢',
-  'kindergarten_owner': '🌱',
-  'training_owner':     '📚',
-  'teacher':            '👨‍🏫',
-  'student':            '🎒',
-  'parent':             '👨‍👩‍👧',
-  'driver':             '🚌',
-  'guard':              '🛡️',
-  'platform_staff':     '💼',
+const roleIconPath: Record<string, string> = {
+  'super_admin':        'M2 4l3 12h14l3-12-6 4-4-7-4 7-6-4z M5 20h14',
+  'platform_owner':     'M2 4l3 12h14l3-12-6 4-4-7-4 7-6-4z M5 20h14',
+  'admin':              'M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16',
+  'owner':              'M3 21h18 M5 21V7l7-4 7 4v14 M9 21v-4a3 3 0 0 1 6 0v4',
+  'school_owner':       'M3 21h18 M9 8h1 M9 12h1 M9 16h1 M14 8h1 M14 12h1 M14 16h1 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16',
+  'university_owner':   'M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5',
+  'institute_owner':    'M3 21h18 M5 21V7l7-4 7 4v14 M9 21v-4a3 3 0 0 1 6 0v4',
+  'kindergarten_owner': 'M6 3v12 M18.4 4.6a9 9 0 0 1-1.4 12.8 9 9 0 0 1-12.8-1.4',
+  'training_owner':     'M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z',
+  'teacher':            'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
+  'student':            'M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5',
+  'parent':             'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75',
+  'driver':             'M1 3h15v13H1z M16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z',
+  'guard':              'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+  'platform_staff':     'M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16',
 };
+const getRoleIcon = (role: string, size = 16) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+    <path d={roleIconPath[role] || 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z'} />
+  </svg>
+);
 
 // ─── Breadcrumb Map ───────────────────────────────────────
 const breadcrumbMap: Record<string, string> = {
@@ -354,9 +359,9 @@ export default function DashboardHeader({ onMenuClick, showMenuButton }: HeaderP
               background: `rgba(${accent === GOLD ? '212,168,67' : '255,255,255'},0.12)`,
               border: `1.5px solid ${accent}40`,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: 15,
+              color: accent,
             }}>
-              {roleEmoji[userRole] || '👤'}
+              {getRoleIcon(userRole, 15)}
             </div>
             {!isMobile && (
               <div style={{ textAlign: 'right' }}>
@@ -397,9 +402,9 @@ export default function DashboardHeader({ onMenuClick, showMenuButton }: HeaderP
                   background: `rgba(${accent === GOLD ? '212,168,67' : '255,255,255'},0.10)`,
                   border: `1.5px solid ${accent}40`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 24, margin: '0 auto 10px',
+                  color: accent, margin: '0 auto 10px',
                 }}>
-                  {roleEmoji[userRole] || '👤'}
+                  {getRoleIcon(userRole, 24)}
                 </div>
                 <div style={{ color: TEXT, fontWeight: 800, fontSize: 14 }}>{user?.name || 'المستخدم'}</div>
                 <div style={{ color: accent, fontSize: 11, fontWeight: 700, marginTop: 3 }}>

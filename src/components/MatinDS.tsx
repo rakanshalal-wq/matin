@@ -399,7 +399,7 @@ export const Modal = ({
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}
         >
-          ✕
+          <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18 M6 6l12 12" /></svg>
         </button>
       </div>
       <div style={{ padding: 24 }}>{children}</div>
@@ -525,7 +525,7 @@ export const SearchBar = ({
     <span style={{
       position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)',
       color: TEXT3, pointerEvents: 'none',
-    }}>🔍</span>
+    }}><svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0" /></svg></span>
   </div>
 );
 
