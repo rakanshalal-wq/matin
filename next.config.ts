@@ -1,20 +1,17 @@
-import type { NextConfig } from 'next';
-
+import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  experimental: {
-    serverActions: {
-      allowedOrigins: ['matin.ink', 'app.matin.ink', 'localhost:3000'],
-    },
-  },
-  images: {
-    domains: ['matin.ink', 'app.matin.ink'],
-  },
+  compress: true,
+  eslint: { ignoreDuringBuilds: true },
+  typescript: { ignoreBuildErrors: true },
+  images: { remotePatterns: [{ protocol: 'https', hostname: '**' }] },
+  headers: async () => [
+    { source: "/(.*)", headers: [
+      { key: "X-Frame-Options", value: "DENY" },
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      { key: "X-XSS-Protection", value: "1; mode=block" },
+      { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+      { key: "Permissions-Policy", value: "camera=(self), microphone=(), geolocation=(self), payment=()" },
+    ]},
+  ],
 };
-
 export default nextConfig;

@@ -1,44 +1,31 @@
 import { Pool } from 'pg';
 
-declare global {
-  var _pgPool: Pool | undefined;
+// DATABASE_URL يجب أن يكون محدداً في .env
+const MATIN_DB_URL = process.env.MATIN_DATABASE_URL || process.env.DATABASE_URL || '';
+
+if (!MATIN_DB_URL || (!MATIN_DB_URL.startsWith('postgresql://') && !MATIN_DB_URL.startsWith('postgres://'))) {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('[DB] MATIN_DATABASE_URL أو DATABASE_URL غير معيّن. يجب تعيين متغير بيئة PostgreSQL صحيح.');
+  }
+  console.warn('[DB] DATABASE_URL not set — database queries will fail');
 }
 
-function createPool(): Pool {
-  return new Pool({
-    connectionString: process.env.DATABASE_URL,
-    max: 10,
+const isLocal = MATIN_DB_URL.includes('localhost') || MATIN_DB_URL.includes('127.0.0.1');
+
+// globalThis reuse: يمنع إنشاء pool جديد عند كل hot reload في التطوير
+const globalForDb = globalThis as unknown as { _pgPool: Pool | undefined };
+
+if (!globalForDb._pgPool && MATIN_DB_URL) {
+  globalForDb._pgPool = new Pool({
+    connectionString: MATIN_DB_URL,
+    max: 20,
     idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000,
+    connectionTimeoutMillis: 10000,
+    ssl: isLocal ? false : { rejectUnauthorized: false },
   });
 }
 
-// استخدام global في dev لتفادي إنشاء pool جديد مع كل hot-reload
-const pool = globalThis._pgPool ?? createPool();
-
-if (process.env.NODE_ENV !== 'production') {
-  globalThis._pgPool = pool;
-}
+const pool = globalForDb._pgPool!;
 
 export default pool;
-
-export async function query<T = Record<string, unknown>>(
-  text: string,
-  params?: unknown[]
-): Promise<T[]> {
-  const client = await pool.connect();
-  try {
-    const result = await client.query(text, params);
-    return result.rows as T[];
-  } finally {
-    client.release();
-  }
-}
-
-export async function queryOne<T = Record<string, unknown>>(
-  text: string,
-  params?: unknown[]
-): Promise<T | null> {
-  const rows = await query<T>(text, params);
-  return rows[0] ?? null;
-}
+export { pool };

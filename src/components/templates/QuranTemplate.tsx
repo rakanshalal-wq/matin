@@ -1,224 +1,335 @@
-﻿'use client';
+'use client';
 import React, { useState } from 'react';
-import '../../styles/quran-landing.css';
 
-export default function QuranTemplate() {
-  const [activeSection, setActiveSection] = useState('home');
+interface QuranTemplateProps {
+  data: {
+    name: string;
+    logo?: string;
+    cover_image?: string;
+    description?: string;
+    primary_color?: string;
+    secondary_color?: string;
+    accent_color?: string;
+    font_family?: string;
+    show_global_ads?: boolean;
+  };
+  globalAds?: any[];
+  globalProducts?: any[];
+}
+
+const QuranTemplate: React.FC<QuranTemplateProps> = ({ data, globalAds, globalProducts }) => {
+  const P = data.primary_color || '#047857';
+  const S = data.secondary_color || '#065F46';
+  const A = data.accent_color || '#D4A843';
+  const FF = data.font_family || 'IBM Plex Sans Arabic, sans-serif';
+  const [showModal, setShowModal] = useState(false);
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPass, setLoginPass] = useState('');
+
+  const BG = '#06060E';
+  const TX = '#EEEEF5';
+  const CARD = 'rgba(255,255,255,0.03)';
+  const BD = 'rgba(255,255,255,0.07)';
+  const DIM = 'rgba(238,238,245,0.6)';
+  const MUT = 'rgba(238,238,245,0.3)';
+
+  const stats4 = [
+    { val: '1200', lbl: 'طالب' },
+    { val: '85', lbl: 'حافظ' },
+    { val: '35', lbl: 'محفظ' },
+    { val: '12', lbl: 'إجازة' },
+  ];
+
+  const statsBar = [
+    { val: '1200+', lbl: 'طالب مسجّل' },
+    { val: '35', lbl: 'محفظ مجاز' },
+    { val: '85', lbl: 'حافظ مكتمل' },
+    { val: '12', lbl: 'إجازة بسند' },
+    { val: '20', lbl: 'حلقة نشطة' },
+  ];
+
+  const programs = [
+    { icon: '🌱', title: 'البراعم', age: '4 – 8 سنوات', desc: 'حفظ قصار السور وتأسيس حب القرآن بأسلوب ممتع.' },
+    { icon: '📚', title: 'الحفظ المتدرج', age: '9 – 15 سنة', desc: 'منهج تدريجي من آخر المصحف إلى أوله مع مراجعة مستمرة.' },
+    { icon: '🏆', title: 'الإتقان', age: '12 سنة فأكثر', desc: 'ختم المصحف كاملاً مع التجويد وتقييم دوري.' },
+    { icon: '🎙️', title: 'التجويد', age: 'جميع الأعمار', desc: 'تعليم أحكام التجويد من مخارج وصفات مع تطبيق عملي.' },
+    { icon: '📜', title: 'الإجازة', age: 'حافظ كامل', desc: 'منهج متخصص لنيل الإجازة بسند متصل بالنبي ﷺ.' },
+    { icon: '👩‍🏫', title: 'حلقات النساء', age: 'مستقل', desc: 'حلقات مخصصة للنساء مع محفظات متخصصات.' },
+  ];
+
+  const teachers = [
+    { name: 'الشيخ عبدالرحمن', role: 'مشرف عام · إجازة حفص', students: 45, rating: 4.9 },
+    { name: 'محمد الغامدي', role: 'محفظ · رواية ورش', students: 32, rating: 4.8 },
+    { name: 'أحمد الدوسري', role: 'محفظ · حفص عن عاصم', students: 28, rating: 4.7 },
+    { name: 'نورة المالكي', role: 'محفظة نساء · إجازة', students: 22, rating: 5.0 },
+  ];
+
+  const features = [
+    { icon: '📱', title: 'متابعة إلكترونية', desc: 'ولي الأمر يتابع تقدم ابنه لحظة بلحظة عبر التطبيق.' },
+    { icon: '🥇', title: 'مسابقات قرآنية', desc: 'مسابقات شهرية وسنوية بجوائز قيّمة.' },
+    { icon: '📜', title: 'إجازات بالسند', desc: 'للمتميزين إجازة بسند متصل وشهادة معتمدة.' },
+    { icon: '⭐', title: 'نقاط الحفز', desc: 'نظام نقاط يحفّز الطلاب على الحفظ والمراجعة.' },
+    { icon: '💬', title: 'تواصل مباشر', desc: 'تواصل فوري مع المحفظ وإدارة المركز.' },
+    { icon: '🕌', title: 'بيئة تربوية', desc: 'برامج توعوية ورحلات تربوية دورية.' },
+  ];
+
+  const halaqatStatus = [
+    { name: 'حلقة الفجر', time: '05:30 – 06:30', teacher: 'الشيخ عبدالرحمن', students: 18, live: true },
+    { name: 'حلقة العصر', time: '16:00 – 17:30', teacher: 'أحمد الدوسري', students: 22, live: false },
+  ];
+
   return (
-    <div className="page">
-<nav className="nav">
-  <div className="nav-inner">
-    <div className="nav-logo">
-      <div className="qr-logo">📖</div>
-      <div><div className="qr-name">مركز النور لتحفيظ القرآن</div><div className="qr-tag">تحفيظ · تجويد · إجازات قرآنية</div></div>
-    </div>
-    <div className="nav-links">
-      <div className="nav-link">الحلقات</div>
-      <div className="nav-link">المحفّظون</div>
-      <div className="nav-link">البرامج</div>
-      <div className="nav-link">تواصل معنا</div>
-    </div>
-    <div style={{display:'flex',gap:'8px',alignItems:'center'}}>
-      <button className="nav-cta" onClick={() => {toast('📝 جارٍ التوجيه للتسجيل','var(--qr-primary)')}}>سجّل ابنك الآن</button>
-      <button className="nav-login" onClick={() => {toast('🔑 بوابة الدخول','var(--qr-primary)')}}>دخول</button>
-      <button className="hamburger" onClick={() => {document.querySelector('.nav-links').style.display=this.dataset.open?'none':'flex';this.dataset.open=this.dataset.open?'':'1';}}>☰</button>
-    </div>
-  </div>
-</nav>
+    <div style={{ fontFamily: FF, backgroundColor: BG, color: TX, minHeight: '100vh', direction: 'rtl' }}>
 
-<div className="hero">
-  <div className="hero-bg"></div>
-  <div className="hero-pattern"></div>
-  <div className="hero-inner">
-    <div>
-      <div className="hero-badge"><span></span> باب التسجيل مفتوح — الفصل الصيفي</div>
-      <h1 className="hero-title">اغرس في أبنائك <em>حبّ القرآن</em> وتلاوته <span className="gold">بإتقان</span></h1>
-      <p className="hero-sub">مركز قرآني متكامل يقدم حلقات تحفيظ وتجويد بإشراف محفّظين مجازين بالسند المتصل، مع بيئة تعليمية محفّزة ومتابعة دورية لأولياء الأمور</p>
-      <div className="hero-btns">
-        <button className="btn-p" onClick={() => {toast('📝 يتم توجيهك لصفحة التسجيل','var(--qr-primary)')}}>📝 سجّل الآن</button>
-        <button className="btn-o">🎧 استمع لطلابنا</button>
-      </div>
-      <div className="hero-stats">
-        <div className="hstat"><div className="hstat-v">+1,200</div><div className="hstat-l">طالب وطالبة</div></div>
-        <div className="hstat"><div className="hstat-v">85</div><div className="hstat-l">حافظ/ة تخرّج</div></div>
-        <div className="hstat"><div className="hstat-v">35</div><div className="hstat-l">محفّظ مجاز</div></div>
-        <div className="hstat"><div className="hstat-v">12</div><div className="hstat-l">إجازة صدرت</div></div>
-      </div>
-    </div>
-
-    <div className="hero-card">
-      <div className="hc-hdr">
-        <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
-          <div className="hc-ic">🕌</div>
-          <div><div className="hc-title">الحلقات القرآنية</div><div className="hc-sub">المركز الرئيسي</div></div>
-        </div>
-        <div className="live-badge"><div className="ldot"></div> مباشر</div>
-      </div>
-      <div className="halqa-item">
-        <div className="halqa-ic" style={{background:'rgba(4,120,87,.12)',border:'1px solid rgba(4,120,87,.25)'}}>🟢</div>
-        <div className="halqa-name">حلقة الإتقان — حفظ كامل</div>
-        <div className="halqa-count">28 طالب</div>
-        <div className="halqa-status" style={{background:'rgba(16,185,129,.12)',color:'var(--gr)'}}>منعقدة</div>
-      </div>
-      <div className="halqa-item">
-        <div className="halqa-ic" style={{background:'rgba(212,168,67,.12)',border:'1px solid rgba(212,168,67,.25)'}}>🌟</div>
-        <div className="halqa-name">حلقة التجويد — أحكام التلاوة</div>
-        <div className="halqa-count">22 طالب</div>
-        <div className="halqa-status" style={{background:'rgba(16,185,129,.12)',color:'var(--gr)'}}>منعقدة</div>
-      </div>
-      <div className="halqa-item">
-        <div className="halqa-ic" style={{background:'rgba(96,165,250,.12)',border:'1px solid rgba(96,165,250,.25)'}}>📘</div>
-        <div className="halqa-name">حلقة البراعم — جزء عمّ</div>
-        <div className="halqa-count">35 طالب</div>
-        <div className="halqa-status" style={{background:'rgba(96,165,250,.12)',color:'var(--bl)'}}>تسجيل</div>
-      </div>
-      <div className="halqa-item">
-        <div className="halqa-ic" style={{background:'rgba(167,139,250,.12)',border:'1px solid rgba(167,139,250,.25)'}}>👩</div>
-        <div className="halqa-name">حلقة النساء — حفظ ومراجعة</div>
-        <div className="halqa-count">18 طالبة</div>
-        <div className="halqa-status" style={{background:'rgba(16,185,129,.12)',color:'var(--gr)'}}>منعقدة</div>
-      </div>
-      <div style={{background:'rgba(4,120,87,.08)',border:'1px solid rgba(4,120,87,.18)',borderRadius:'11px',padding:'12px 14px',marginTop:'10px'}}>
-        <div style={{display:'flex',justifyContent:'space-between',marginBottom:'6px'}}>
-          <span style={{fontSize:'11px',color:'var(--td)'}}>نسبة الالتحاق</span>
-          <span style={{fontSize:'14px',fontWeight:800,color:'var(--gr)'}}>86%</span>
-        </div>
-        <div style={{height:'5px',background:'rgba(255,255,255,.06)',borderRadius:'3px',overflow:'hidden'}}>
-          <div style={{height:'100%',width:'86%',background:'linear-gradient(90deg,var(--qr-primary),var(--gr))',borderRadius:'3px'}}></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-{/* Verse */}
-<div className="verse-section">
-  <div className="verse-box">
-    <div className="verse-text">﴿ وَلَقَدْ يَسَّرْنَا الْقُرْآنَ لِلذِّكْرِ فَهَلْ مِن مُّدَّكِرٍ ﴾</div>
-    <div className="verse-ref">سورة القمر — الآية 17</div>
-  </div>
-</div>
-
-<section>
-  <div className="sec-inner">
-    <div className="stats-bar">
-      <div className="stat-item"><div className="stat-n">1,200<em>+</em></div><div className="stat-l">طالب وطالبة</div></div>
-      <div className="stat-item"><div className="stat-n">35</div><div className="stat-l">محفّظ ومحفّظة</div></div>
-      <div className="stat-item"><div className="stat-n">85</div><div className="stat-l">حافظ/ة متخرّج</div></div>
-      <div className="stat-item"><div className="stat-n">12</div><div className="stat-l">إجازة بالسند</div></div>
-      <div className="stat-item"><div className="stat-n">20</div><div className="stat-l">حلقة قرآنية</div></div>
-    </div>
-
-    <div className="sec-hdr center">
-      <div className="sec-badge">📖 البرامج القرآنية</div>
-      <h2 className="sec-title">برامج <span>قرآنية</span> لجميع <span className="gold">المستويات</span></h2>
-      <p className="sec-sub">من البراعم إلى الإجازة بالسند المتصل — برامج متدرجة تناسب كل الأعمار والمستويات</p>
-    </div>
-
-    <div className="prog-grid">
-      ${[
-        ['🌱','برنامج البراعم','تحفيظ جزء عمّ وتبارك مع أحكام التجويد الأساسية للأطفال من 5-8 سنوات','4-8 سنوات','5 أيام/أسبوع','مبتدئ','rgba(16,185,129,','var(--gr)'],
-        ['📗','برنامج الحفظ المتدرج','حفظ القرآن الكريم كاملاً على مدار 3-5 سنوات مع مراجعة مستمرة','9-15 سنة','6 أيام/أسبوع','متوسط','rgba(96,165,250,','var(--bl)'],
-        ['📖','برنامج الإتقان','حفظ متقن مع ضبط المتشابهات والتفسير المبسّط','12+ سنة','6 أيام/أسبوع','متقدم','rgba(167,139,250,','var(--pu)'],
-        ['🎙️','برنامج التجويد التطبيقي','إتقان أحكام التجويد نظرياً وتطبيقياً برواية حفص','جميع الأعمار','3 أيام/أسبوع','متوسط','rgba(212,168,67,','var(--qr-accent)'],
-        ['📜','برنامج الإجازة بالسند','إجازة في القراءة بالسند المتصل إلى رسول الله ﷺ','حافظ كامل','يومياً','متقدم','rgba(4,120,87,','var(--qr-primary)'],
-        ['👩','حلقات النساء','حلقات مخصصة للنساء حفظاً ومراجعة وتجويداً','نساء','4 أيام/أسبوع','جميع المستويات','rgba(251,146,60,','var(--or)'],
-      ].map(([ic,name,desc,age,days,level,rgba,color]) => `
-        <div className="prog-card">
-          <div className="pc-ic" style={{background:'${rgba}0.1)',border:'1px solid ${rgba}0.2)'}}>${ic}</div>
-          <div className="pc-name">${name}</div>
-          <div className="pc-desc">${desc}</div>
-          <div className="pc-meta">
-            <div className="pc-meta-item">👤 ${age}</div>
-            <div className="pc-meta-item">📅 ${days}</div>
+      {/* ── NAVBAR ── */}
+      <nav style={{ position: 'fixed', top: 0, right: 0, left: 0, zIndex: 100, backdropFilter: 'blur(20px) saturate(1.8)', background: 'rgba(6,6,14,.88)', borderBottom: '1px solid ' + BD }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          {/* Logo */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 11 }}>
+            <div style={{ width: 42, height: 42, borderRadius: 11, background: `linear-gradient(135deg,${P},${S})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, boxShadow: `0 4px 16px ${P}55` }}>
+              {data.logo ? <img src={data.logo} alt="logo" style={{ width: '100%', height: '100%', borderRadius: 11 }} /> : '📖'}
+            </div>
+            <div>
+              <div style={{ fontSize: 15, fontWeight: 800 }}>مركز النور لتحفيظ القرآن</div>
+              <div style={{ fontSize: 10, color: MUT }}>رحلة الحفظ تبدأ هنا</div>
+            </div>
           </div>
-          <div className="pc-footer">
-            <span className="pc-tag" style={{background:'${rgba}0.12)',color:'${color}',border:'1px solid ${rgba}0.25)'}}>${level}</span>
-            <button className="pc-enroll" onClick={() => {toast('✅ تم إضافة البرنامج','${color}')}}>سجّل الآن</button>
+          {/* Links */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 24, fontSize: 13, color: DIM }}>
+            {['البرامج', 'المحفّظون', 'المميزات', 'تواصل'].map(l => (
+              <span key={l} style={{ cursor: 'pointer', fontWeight: 600 }}>{l}</span>
+            ))}
+          </div>
+          {/* CTA Buttons */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <button onClick={() => setShowModal(true)} style={{ background: 'rgba(255,255,255,.06)', border: '1px solid ' + BD, borderRadius: 9, padding: '8px 16px', color: DIM, fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: FF }}>دخول</button>
+            <button style={{ background: `linear-gradient(135deg,${P},${S})`, border: 'none', borderRadius: 9, padding: '9px 20px', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: FF, boxShadow: `0 4px 16px ${P}55` }}>سجّل ابنك الآن</button>
           </div>
         </div>
-      `).join('')}
-    </div>
-  </div>
-</section>
+      </nav>
 
-<section style={{background:'var(--bg2)'}}>
-  <div className="sec-inner">
-    <div className="sec-hdr center">
-      <div className="sec-badge">👨‍🏫 المحفّظون</div>
-      <h2 className="sec-title">محفّظون <span>مجازون</span> بالسند <span className="gold">المتصل</span></h2>
-      <p className="sec-sub">نخبة من المحفّظين الحاصلين على إجازات في القراءات وذوي خبرة في التعليم</p>
-    </div>
-    <div className="teachers-grid">
-      ${[
-        ['👳‍♂️','الشيخ عبدالرحمن السديري','حفص عن عاصم','مجاز بالسند المتصل','rgba(4,120,87,','+200','طالب','15','سنة خبرة'],
-        ['👳‍♂️','الشيخ محمد الغامدي','القراءات السبع','مجاز بالقراءات','rgba(212,168,67,','+180','طالب','12','سنة خبرة'],
-        ['👳‍♂️','الشيخ أحمد الدوسري','حفص عن عاصم','مجاز بالسند المتصل','rgba(96,165,250,','+150','طالب','10','سنة خبرة'],
-        ['👩‍🏫','الأستاذة نورة المالكي','حفص عن عاصم','مجازة بالسند المتصل','rgba(167,139,250,','+120','طالبة','8','سنة خبرة'],
-      ].map(([av,name,qiraa,ijaza,rgba,v1,l1,v2,l2]) => `
-        <div className="teacher-card">
-          <div className="tc-av" style={{background:'${rgba}0.1)',border:'1px solid ${rgba}0.2)'}}>${av}</div>
-          <div className="tc-name">${name}</div>
-          <div className="tc-spec">${qiraa}</div>
-          <div className="tc-ijaza">✅ ${ijaza}</div>
-          <div className="tc-stats">
-            <div className="tc-st"><div className="tc-st-v">${v1}</div><div className="tc-st-l">${l1}</div></div>
-            <div className="tc-st"><div className="tc-st-v">${v2}</div><div className="tc-st-l">${l2}</div></div>
+      {/* ── HERO ── */}
+      <section style={{ paddingTop: 120, paddingBottom: 70, padding: '120px 24px 70px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 460px', gap: 60, alignItems: 'center' }}>
+          {/* Left */}
+          <div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: `${P}18`, border: `1px solid ${P}40`, borderRadius: 20, padding: '6px 16px', fontSize: 12, color: '#10B981', fontWeight: 700, marginBottom: 22 }}>
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#10B981', display: 'inline-block', boxShadow: '0 0 6px #10B981' }}></span>
+              باب التسجيل مفتوح
+            </div>
+            <h1 style={{ fontSize: 46, fontWeight: 900, lineHeight: 1.18, marginBottom: 18, letterSpacing: '-0.5px' }}>
+              احفظ كتاب الله مع<br />
+              <span style={{ background: `linear-gradient(135deg,${P},${A})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                {data.name || 'مركز النور'}
+              </span>
+            </h1>
+            <p style={{ fontSize: 16, color: DIM, lineHeight: 1.8, marginBottom: 30, maxWidth: 480 }}>
+              {data.description || 'بيئة قرآنية متكاملة تجمع الحفظ والتجويد والإجازة تحت إشراف نخبة من المحفّظين المجازين بأعلى معايير الإتقان.'}
+            </p>
+            {/* Mini stats */}
+            <div style={{ display: 'flex', gap: 28, marginBottom: 32 }}>
+              {stats4.map((s, i) => (
+                <div key={i} style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: 28, fontWeight: 900, color: i % 2 === 0 ? P : A }}>{s.val}</div>
+                  <div style={{ fontSize: 11, color: MUT, fontWeight: 600 }}>{s.lbl}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ display: 'flex', gap: 12 }}>
+              <button style={{ background: `linear-gradient(135deg,${P},${S})`, border: 'none', borderRadius: 12, padding: '13px 30px', color: '#fff', fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: FF, boxShadow: `0 8px 28px ${P}4D` }}>سجّل ابنك الآن</button>
+              <button style={{ background: 'rgba(255,255,255,.05)', border: '1px solid ' + BD, borderRadius: 12, padding: '13px 22px', color: DIM, fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: FF }}>تواصل معنا</button>
+            </div>
+          </div>
+          {/* Hero Card */}
+          <div style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 20, padding: 22, backdropFilter: 'blur(12px)' }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: A, marginBottom: 14 }}>📡 حالة الحلقات اليوم</div>
+            {halaqatStatus.map((h, i) => (
+              <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid ' + BD, borderRadius: 12, padding: '12px 14px', marginBottom: i === 0 ? 10 : 0 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                  <span style={{ fontSize: 14, fontWeight: 700 }}>{h.name}</span>
+                  <span style={{ fontSize: 11, padding: '3px 10px', borderRadius: 20, background: h.live ? '#10B98120' : 'rgba(255,255,255,.05)', color: h.live ? '#10B981' : MUT, fontWeight: 700 }}>
+                    {h.live ? '🔴 مباشرة' : '⏳ قادمة'}
+                  </span>
+                </div>
+                <div style={{ fontSize: 11, color: DIM }}>⏰ {h.time} &nbsp;|&nbsp; 👤 {h.teacher}</div>
+                <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <div style={{ flex: 1, height: 5, background: 'rgba(255,255,255,.07)', borderRadius: 4 }}>
+                    <div style={{ width: `${(h.students / 25) * 100}%`, height: '100%', background: `linear-gradient(90deg,${P},${A})`, borderRadius: 4 }}></div>
+                  </div>
+                  <span style={{ fontSize: 11, color: MUT }}>{h.students}/25 طالب</span>
+                </div>
+              </div>
+            ))}
+            <div style={{ marginTop: 14, textAlign: 'center', background: `${P}15`, border: `1px solid ${P}30`, borderRadius: 10, padding: '10px', fontSize: 13, color: P, fontWeight: 700, cursor: 'pointer' }}>
+              سجّل ابنك في حلقة اليوم →
+            </div>
           </div>
         </div>
-      `).join('')}
-    </div>
-  </div>
-</section>
+      </section>
 
-<section>
-  <div className="sec-inner">
-    <div className="sec-hdr center">
-      <div className="sec-badge">✨ المميزات</div>
-      <h2 className="sec-title">لماذا <span>مركز النور</span>؟</h2>
-    </div>
-    <div className="features-grid">
-      ${[
-        ['📖','متابعة إلكترونية','تقارير فورية لأولياء الأمور عن تقدم الحفظ والمراجعة','rgba(4,120,87,'],
-        ['🏅','مسابقات قرآنية','مسابقات دورية داخلية وخارجية بجوائز قيّمة','rgba(212,168,67,'],
-        ['🎓','إجازات بالسند','إمكانية الحصول على إجازة بالسند المتصل','rgba(167,139,250,'],
-        ['📊','نظام نقاط تحفيزي','نقاط مكافآت على الحفظ والمراجعة والسلوك','rgba(96,165,250,'],
-        ['👨‍👩‍👦','تواصل مع أولياء الأمور','بوابة خاصة لمتابعة الأبناء والتواصل مع المحفّظ','rgba(16,185,129,'],
-        ['🕌','بيئة تربوية','بيئة إسلامية محفّزة بإشراف تربوي متكامل','rgba(251,146,60,'],
-      ].map(([ic,name,desc,rgba]) => `
-        <div className="feat-card">
-          <div className="feat-ic" style={{background:'${rgba}0.1)',border:'1px solid ${rgba}0.2)'}}>${ic}</div>
-          <div className="feat-name">${name}</div>
-          <div className="feat-desc">${desc}</div>
+      {/* ── QURAN VERSE ── */}
+      <section style={{ padding: '0 24px 70px' }}>
+        <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center', border: `1px solid ${A}40`, borderRadius: 20, padding: '36px 40px', background: `${A}08`, position: 'relative' }}>
+          <div style={{ position: 'absolute', top: -1, left: '50%', transform: 'translateX(-50%)', background: BG, padding: '0 16px' }}>
+            <span style={{ fontSize: 11, color: A, fontWeight: 700, letterSpacing: 1 }}>آية كريمة</span>
+          </div>
+          <div style={{ fontSize: 26, fontWeight: 700, lineHeight: 1.9, color: TX, marginBottom: 12, fontFamily: 'serif' }}>
+            ﴿ وَلَقَدْ يَسَّرْنَا الْقُرْآنَ لِلذِّكْرِ فَهَلْ مِن مُّدَّكِرٍ ﴾
+          </div>
+          <div style={{ fontSize: 12, color: A, fontWeight: 600 }}>سورة القمر – الآية 17</div>
         </div>
-      `).join('')}
-    </div>
-  </div>
-</section>
+      </section>
 
-<div className="cta-section">
-  <div className="cta-box">
-    <h2 className="cta-title">سجّل أبناءك في <span style={{color:'var(--gr)'}}>رحلة القرآن</span></h2>
-    <p className="cta-sub">التسجيل مفتوح الآن — المقاعد محدودة في الحلقات الصباحية والمسائية</p>
-    <div style={{display:'flex',gap:'12px',justifyContent:'center'}}>
-      <button className="btn-p" onClick={() => {toast('📝 جارٍ التوجيه للتسجيل','var(--qr-primary)')}}>📝 سجّل الآن</button>
-      <button className="btn-o" onClick={() => {toast('📞 سيتم التواصل معك','var(--cy)')}}>📞 تواصل معنا</button>
-    </div>
-  </div>
-</div>
+      {/* ── STATS BAR ── */}
+      <div style={{ maxWidth: 1100, margin: '0 auto 70px', padding: '0 24px' }}>
+        <div style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 18, padding: '28px 36px', display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
+          {statsBar.map((s, i) => (
+            <div key={i} style={{ textAlign: 'center', borderLeft: i < 4 ? '1px solid ' + BD : 'none' }}>
+              <div style={{ fontSize: 30, fontWeight: 900, color: i % 2 === 0 ? P : A }}>{s.val}</div>
+              <div style={{ fontSize: 11.5, color: MUT, fontWeight: 600, marginTop: 4 }}>{s.lbl}</div>
+            </div>
+          ))}
+        </div>
+      </div>
 
-<footer>
-  <div className="footer-inner">
-    <div className="footer-brand">
-      <div className="qr-logo" style={{width:'32px',height:'32px',fontSize:'16px',borderRadius:'8px'}}>📖</div>
-      <span className="footer-copy">© 2026 مركز النور لتحفيظ القرآن الكريم — جميع الحقوق محفوظة</span>
-    </div>
-    <div className="footer-links"><a>الشروط</a><a>الخصوصية</a><a>الدعم</a></div>
-  </div>
-  <div className="footer-powered">⚡ مدعوم بمنصة <strong style={{color:'var(--qr-accent)'}}>متين</strong> لإدارة التعليم</div>
-</footer>
+      {/* ── PROGRAMS ── */}
+      <section style={{ padding: '0 24px 80px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+            <div style={{ fontSize: 12, color: P, fontWeight: 700, letterSpacing: 1, marginBottom: 10 }}>برامجنا</div>
+            <h2 style={{ fontSize: 34, fontWeight: 900, marginBottom: 12 }}>مسارات الحفظ المتكاملة</h2>
+            <p style={{ fontSize: 14, color: DIM, maxWidth: 500, margin: '0 auto' }}>نقدّم برامج مصممة لكل مرحلة عمرية ومستوى تعليمي</p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18 }}>
+            {programs.map((p, i) => (
+              <div key={i} style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 16, padding: '22px 20px', transition: 'border-color 0.2s', cursor: 'pointer' }}>
+                <div style={{ fontSize: 32, marginBottom: 12 }}>{p.icon}</div>
+                <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 4 }}>{p.title}</div>
+                <div style={{ fontSize: 11, color: A, fontWeight: 700, marginBottom: 10, background: `${A}15`, display: 'inline-block', padding: '2px 10px', borderRadius: 20 }}>{p.age}</div>
+                <p style={{ fontSize: 13, color: DIM, lineHeight: 1.7, margin: 0 }}>{p.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-<div className="toast" id="toast-el"></div>
+      {/* ── TEACHERS ── */}
+      <section style={{ padding: '0 24px 80px', background: 'rgba(255,255,255,0.015)' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', paddingTop: 60, paddingBottom: 20 }}>
+          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+            <div style={{ fontSize: 12, color: A, fontWeight: 700, letterSpacing: 1, marginBottom: 10 }}>فريقنا</div>
+            <h2 style={{ fontSize: 34, fontWeight: 900, marginBottom: 12 }}>نخبة المحفّظين المجازين</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 18 }}>
+            {teachers.map((t, i) => (
+              <div key={i} style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 16, padding: '24px 18px', textAlign: 'center' }}>
+                <div style={{ width: 68, height: 68, borderRadius: '50%', background: `linear-gradient(135deg,${P}30,${A}20)`, border: `2px solid ${P}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px', fontSize: 28 }}>🎓</div>
+                <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 4 }}>{t.name}</div>
+                <div style={{ fontSize: 11, color: DIM, marginBottom: 12 }}>{t.role}</div>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: 18, fontSize: 11 }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontWeight: 800, color: P, fontSize: 16 }}>{t.students}</div>
+                    <div style={{ color: MUT }}>طالب</div>
+                  </div>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontWeight: 800, color: A, fontSize: 16 }}>{t.rating}</div>
+                    <div style={{ color: MUT }}>تقييم ⭐</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FEATURES ── */}
+      <section style={{ padding: '60px 24px 80px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+            <div style={{ fontSize: 12, color: P, fontWeight: 700, letterSpacing: 1, marginBottom: 10 }}>لماذا نحن؟</div>
+            <h2 style={{ fontSize: 34, fontWeight: 900, marginBottom: 12 }}>ما يميّز مركزنا</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18 }}>
+            {features.map((f, i) => (
+              <div key={i} style={{ background: CARD, border: '1px solid ' + BD, borderRadius: 14, padding: '20px 18px', display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                <div style={{ width: 44, height: 44, borderRadius: 12, background: `${P}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, flexShrink: 0 }}>{f.icon}</div>
+                <div>
+                  <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 5 }}>{f.title}</div>
+                  <div style={{ fontSize: 12, color: DIM, lineHeight: 1.6 }}>{f.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section style={{ padding: '0 24px 80px' }}>
+        <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center', background: `linear-gradient(135deg,${P}20,${A}10)`, border: `1px solid ${P}40`, borderRadius: 24, padding: '52px 40px' }}>
+          <div style={{ fontSize: 38, marginBottom: 16 }}>📖</div>
+          <h2 style={{ fontSize: 32, fontWeight: 900, marginBottom: 14 }}>سجّل أبناءك اليوم</h2>
+          <p style={{ fontSize: 15, color: DIM, maxWidth: 480, margin: '0 auto 28px', lineHeight: 1.8 }}>
+            انضم لأكثر من 1200 طالب يحفظون كتاب الله في أجواء تربوية متكاملة مع نخبة من المحفّظين المجازين.
+          </p>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+            <button style={{ background: `linear-gradient(135deg,${P},${S})`, border: 'none', borderRadius: 12, padding: '14px 36px', color: '#fff', fontSize: 16, fontWeight: 800, cursor: 'pointer', fontFamily: FF, boxShadow: `0 8px 28px ${P}55` }}>سجّل الآن مجاناً</button>
+            <button style={{ background: 'rgba(255,255,255,.06)', border: '1px solid ' + BD, borderRadius: 12, padding: '14px 24px', color: DIM, fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: FF }}>استفسار عبر واتساب</button>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer style={{ padding: '40px 24px 28px', borderTop: '1px solid ' + BD }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 40, marginBottom: 36 }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+                <span style={{ fontSize: 22 }}>📖</span>
+                <span style={{ fontSize: 15, fontWeight: 800 }}>مركز النور</span>
+              </div>
+              <p style={{ fontSize: 12, color: DIM, lineHeight: 1.8, maxWidth: 260 }}>مركز متخصص في تحفيظ القرآن الكريم وتجويده وفق أعلى معايير الجودة.</p>
+            </div>
+            {[
+              { title: 'البرامج', links: ['البراعم', 'الحفظ المتدرج', 'الإتقان', 'التجويد'] },
+              { title: 'المركز', links: ['من نحن', 'المحفّظون', 'أخبارنا', 'تواصل'] },
+              { title: 'الدعم', links: ['الأسئلة الشائعة', 'سياسة الخصوصية', 'الشروط'] },
+            ].map((col, i) => (
+              <div key={i}>
+                <div style={{ fontSize: 13, fontWeight: 800, marginBottom: 14, color: TX }}>{col.title}</div>
+                {col.links.map(l => <div key={l} style={{ fontSize: 12, color: DIM, marginBottom: 8, cursor: 'pointer' }}>{l}</div>)}
+              </div>
+            ))}
+          </div>
+          <div style={{ borderTop: '1px solid ' + BD, paddingTop: 20, textAlign: 'center', fontSize: 11, color: MUT }}>
+            © {new Date().getFullYear()} مركز النور لتحفيظ القرآن الكريم – مدعوم بواسطة منصة متين
+          </div>
+        </div>
+      </footer>
+
+      {/* ── LOGIN MODAL ── */}
+      {showModal && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }} onClick={() => setShowModal(false)}>
+          <div style={{ background: '#0D0D1E', border: '1px solid ' + BD, borderRadius: 20, padding: 36, width: '100%', maxWidth: 420 }} onClick={e => e.stopPropagation()}>
+            <div style={{ textAlign: 'center', marginBottom: 28 }}>
+              <div style={{ fontSize: 32, marginBottom: 10 }}>📖</div>
+              <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 4 }}>دخول المركز</div>
+              <div style={{ fontSize: 12, color: MUT }}>أدخل بياناتك للوصول إلى لوحة التحكم</div>
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <label style={{ fontSize: 12, color: DIM, display: 'block', marginBottom: 6 }}>البريد الإلكتروني</label>
+              <input value={loginEmail} onChange={e => setLoginEmail(e.target.value)} type="email" placeholder="example@quran.com" style={{ width: '100%', background: 'rgba(255,255,255,.04)', border: '1px solid ' + BD, borderRadius: 10, padding: '11px 14px', color: TX, fontSize: 13, fontFamily: FF, boxSizing: 'border-box' }} />
+            </div>
+            <div style={{ marginBottom: 22 }}>
+              <label style={{ fontSize: 12, color: DIM, display: 'block', marginBottom: 6 }}>كلمة المرور</label>
+              <input value={loginPass} onChange={e => setLoginPass(e.target.value)} type="password" placeholder="••••••••" style={{ width: '100%', background: 'rgba(255,255,255,.04)', border: '1px solid ' + BD, borderRadius: 10, padding: '11px 14px', color: TX, fontSize: 13, fontFamily: FF, boxSizing: 'border-box' }} />
+            </div>
+            <button style={{ width: '100%', background: `linear-gradient(135deg,${P},${S})`, border: 'none', borderRadius: 12, padding: 13, color: '#fff', fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: FF, marginBottom: 12 }}>دخول</button>
+            <button onClick={() => setShowModal(false)} style={{ width: '100%', background: 'transparent', border: '1px solid ' + BD, borderRadius: 12, padding: 11, color: DIM, fontSize: 13, cursor: 'pointer', fontFamily: FF }}>إلغاء</button>
+          </div>
+        </div>
+      )}
     </div>
   );
-}
+};
+
+export default QuranTemplate;
