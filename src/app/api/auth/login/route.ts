@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { queryOne } from '@/lib/db';
 import { comparePassword, signToken, getRoleRedirect } from '@/lib/auth';
-import { checkRateLimit, resetRateLimit, getClientIp } from '@/lib/rate-limit';
+import { checkRateLimit, resetRateLimit, getClientIp, formatRetryAfter } from '@/lib/rate-limit';
 
 interface UserRow {
   id: number;
@@ -39,9 +39,10 @@ export async function POST(request: NextRequest) {
   const ipLimit = checkRateLimit(`ip:${ip}`);
 
   if (!ipLimit.allowed) {
+    const timeLabel = formatRetryAfter(ipLimit.retryAfterSeconds ?? 900);
     return NextResponse.json(
       {
-        message: `تم تجاوز الحد المسموح به من المحاولات. يرجى الانتظار ${ipLimit.retryAfterSeconds} ثانية.`,
+        message: `تم تجاوز الحد المسموح به من المحاولات. يرجى الانتظار ${timeLabel}.`,
         retryAfter: ipLimit.retryAfterSeconds,
       },
       {
@@ -69,9 +70,10 @@ export async function POST(request: NextRequest) {
     // ─── Rate limit per email ─────────────────
     const emailLimit = checkRateLimit(`email:${normalizedEmail}`);
     if (!emailLimit.allowed) {
+      const timeLabel = formatRetryAfter(emailLimit.retryAfterSeconds ?? 900);
       return NextResponse.json(
         {
-          message: `تم قفل هذا الحساب مؤقتاً بسبب محاولات كثيرة. حاول بعد ${emailLimit.retryAfterSeconds} ثانية.`,
+          message: `تم قفل هذا الحساب مؤقتاً بسبب محاولات كثيرة. حاول بعد ${timeLabel}.`,
           retryAfter: emailLimit.retryAfterSeconds,
         },
         { status: 429 }

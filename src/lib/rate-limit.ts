@@ -13,24 +13,30 @@ interface RateLimitEntry {
 // خريطة: key (IP أو email) → بيانات المحاولات
 const store = new Map<string, RateLimitEntry>();
 
-// تنظيف الإدخالات المنتهية كل 5 دقائق لتجنب تسرب الذاكرة
-setInterval(() => {
+// ────────────────────────────────────────────────
+// الإعدادات
+// ────────────────────────────────────────────────
+const MAX_ATTEMPTS = 10;           // عدد المحاولات المسموحة
+const WINDOW_MS = 15 * 60 * 1000; // نافذة زمنية: 15 دقيقة
+const BLOCK_MS  = 15 * 60 * 1000; // مدة الحظر: 15 دقيقة
+
+// ─── تنظيف lazy ─────────────────────────────────
+// يُنظَّف مع كل طلب بدل setInterval لأن serverless environments لا تضمن تشغيله
+let lastCleanup = Date.now();
+const CLEANUP_INTERVAL = 5 * 60 * 1000; // كل 5 دقائق
+
+function maybePurgeExpired(): void {
   const now = Date.now();
+  if (now - lastCleanup < CLEANUP_INTERVAL) return;
+  lastCleanup = now;
   for (const [key, entry] of store.entries()) {
     const windowExpired = now - entry.firstAttempt > WINDOW_MS;
-    const blockExpired = !entry.blockedUntil || now > entry.blockedUntil;
+    const blockExpired  = !entry.blockedUntil || now > entry.blockedUntil;
     if (windowExpired && blockExpired) {
       store.delete(key);
     }
   }
-}, 5 * 60 * 1000);
-
-// ────────────────────────────────────────────────
-// الإعدادات
-// ────────────────────────────────────────────────
-const MAX_ATTEMPTS = 10;       // عدد المحاولات المسموحة
-const WINDOW_MS = 15 * 60 * 1000; // نافذة زمنية: 15 دقيقة
-const BLOCK_MS = 15 * 60 * 1000;  // مدة الحظر: 15 دقيقة
+}
 
 export interface RateLimitResult {
   allowed: boolean;
@@ -43,6 +49,7 @@ export interface RateLimitResult {
  * @param key - عادةً IP أو email
  */
 export function checkRateLimit(key: string): RateLimitResult {
+  maybePurgeExpired();
   const now = Date.now();
   const entry = store.get(key);
 
@@ -72,19 +79,31 @@ export function checkRateLimit(key: string): RateLimitResult {
 
 /**
  * يحذف سجل المحاولات عند تسجيل الدخول الناجح
- * (يمنع تراكم محاولات المستخدم الصحيح)
  */
 export function resetRateLimit(key: string): void {
   store.delete(key);
 }
 
 /**
- * يستخرج IP من الـ request headers
+ * يُنسّق الوقت بالعربية (ثواني أو دقائق)
+ */
+export function formatRetryAfter(seconds: number): string {
+  if (seconds >= 60) {
+    const minutes = Math.ceil(seconds / 60);
+    return minutes === 1 ? 'دقيقة واحدة' : `${minutes} دقائق`;
+  }
+  if (seconds === 1) return 'ثانية واحدة';
+  if (seconds <= 10) return `${seconds} ثواني`;
+  return `${seconds} ثانية`;
+}
+
+/**
+ * يستخرج IP من الـ request headers (Next.js Request)
  */
 export function getClientIp(request: Request): string {
-  const forwarded = (request as any).headers?.get?.('x-forwarded-for');
+  const forwarded = request.headers.get('x-forwarded-for');
   if (forwarded) {
     return forwarded.split(',')[0].trim();
   }
-  return (request as any).headers?.get?.('x-real-ip') ?? 'unknown';
+  return request.headers.get('x-real-ip') ?? 'unknown';
 }
