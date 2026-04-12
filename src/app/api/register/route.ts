@@ -48,6 +48,7 @@ export async function POST(request: Request) {
     const typePrefix: Record<string, string> = {
       school: 'SCH', university: 'UNI', institute: 'INS',
       kindergarten: 'KND', training_center: 'TRN',
+      mosque: 'MSQ', quran_center: 'QRN',
     };
     const prefix = typePrefix[institution_type] || 'SCH';
     const schoolCode = `${prefix}-${Date.now().toString(36).toUpperCase()}`;
@@ -191,9 +192,14 @@ export async function POST(request: Request) {
     }
 
   } catch (error: any) {
-    console.error('[Register] Error:', error);
+    console.error('[Register] Error:', error?.message, 'code:', error?.code, 'detail:', error?.detail);
     if (error.code === '23505') {
       return NextResponse.json({ error: 'هذا البريد الإلكتروني أو الكود مسجل مسبقاً' }, { status: 409 });
+    }
+    if (error.code === '23514') {
+      // CHECK constraint violation — likely institution_type not in allowed values
+      console.error('[Register] CHECK constraint violated — ensure migration script has been run');
+      return NextResponse.json({ error: 'نوع المؤسسة غير مدعوم في قاعدة البيانات. يرجى تشغيل سكريبت الترحيل.' }, { status: 500 });
     }
     return NextResponse.json({ error: 'فشل التسجيل. حاول مرة أخرى.' }, { status: 500 });
   }
