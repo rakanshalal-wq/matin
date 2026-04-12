@@ -67,25 +67,26 @@ export async function POST(request: Request) {
     try {
       await client.query('BEGIN');
 
-      // Insert school without explicit id — let the SERIAL auto-generate an integer id
+      // Insert school using only the columns guaranteed to exist in the current DB schema.
+      // type, slug, code, name, email, phone, city, is_active, created_at, updated_at
       const schoolResult = await client.query(
         `INSERT INTO schools (
-          name, name_ar, code, email, phone, city,
-          institution_type, status, slug, trial_ends_at, created_at, updated_at
-        ) VALUES ($1,$1,$2,$3,$4,$5,$6,'TRIAL',$7,
-          NOW() + INTERVAL '30 days', NOW(), NOW())
+          name, type, code, email, phone, city,
+          slug, is_active, created_at, updated_at
+        ) VALUES ($1,$2,$3,$4,$5,$6,$7,true,NOW(),NOW())
         RETURNING id`,
-        [institution_name, schoolCode, contact_email, contact_phone,
-         city || null, institution_type, slug]
+        [institution_name, institution_type, schoolCode,
+         contact_email, contact_phone, city || null, slug]
       );
       const newSchoolId = schoolResult.rows[0].id;
 
+      // Insert user using only the columns guaranteed to exist in the current DB schema.
+      // Omit email_verified / verification_code / code_expires_at — not in schema.
       const userResult = await client.query(
         `INSERT INTO users (
           name, email, password, role, school_id, owner_id,
-          institution_type, status, package, phone,
-          email_verified, verification_code, code_expires_at, created_at
-        ) VALUES ($1,$2,$3,'owner',$4,$4,$5,'active',$6,$7,false,$8,$9,NOW())
+          institution_type, status, package, phone, created_at
+        ) VALUES ($1,$2,$3,'owner',$4,$4,$5,'active',$6,$7,NOW())
         RETURNING id`,
         [
           contact_name,
@@ -95,16 +96,17 @@ export async function POST(request: Request) {
           institution_type,
           plan,
           contact_phone,
-          otp,
-          otpExpiry,
         ]
       );
       const userId = userResult.rows[0].id;
 
-      await client.query(
-        'UPDATE schools SET owner_id = $1 WHERE id = $2',
-        [userId, newSchoolId]
-      );
+      // Update owner_id on school if that column exists (added by migration).
+      try {
+        await client.query(
+          'UPDATE schools SET owner_id = $1 WHERE id = $2',
+          [userId, newSchoolId]
+        );
+      } catch { /* owner_id column may not exist yet */ }
 
       // Optional tables — insert if they exist, ignore errors if they don't
       try {
@@ -206,16 +208,12 @@ export async function GET(request: Request) {
     }
     const result = await pool.query(`
       SELECT s.id, s.name, s.code, s.email, s.phone, s.city,
-             s.institution_type, s.status, s.slug, s.created_at,
-             s.trial_ends_at, s.subscription_ends_at,
+             s.type as institution_type, s.is_active, s.slug, s.created_at,
              u.name as owner_name, u.email as owner_email,
-             p.name_ar as plan_name, sub.status as subscription_status,
              (SELECT COUNT(*) FROM students WHERE school_id = s.id) as students_count,
              (SELECT COUNT(*) FROM teachers WHERE school_id = s.id) as teachers_count
       FROM schools s
       LEFT JOIN users u ON u.school_id = s.id AND u.role = 'owner'
-      LEFT JOIN subscriptions sub ON sub.school_id = s.id
-      LEFT JOIN plans p ON p.id = sub.plan_id
       ORDER BY s.created_at DESC
     `);
     return NextResponse.json({ success: true, data: result.rows });
