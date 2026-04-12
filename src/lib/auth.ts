@@ -6,10 +6,15 @@ export const pool = dbPool;
 
 const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {
-  throw new Error('[Startup] JWT_SECRET غير معيّن. يجب تعيين JWT_SECRET في .env.local');
+  // During `next build` (NEXT_PHASE = 'phase-production-build') JWT_SECRET is not needed.
+  const isBuildPhase = process.env.NEXT_PHASE === 'phase-production-build';
+  if (!isBuildPhase) {
+    throw new Error('[Startup] JWT_SECRET غير معيّن. يجب تعيين JWT_SECRET في .env.local');
+  }
+  console.warn('[Auth] JWT_SECRET not set — auth operations will fail at runtime');
 }
 // TypeScript: بعد التحقق أعلاه، JWT_SECRET مضمون أنه string
-const JWT_SECRET_SAFE = JWT_SECRET as string;
+const JWT_SECRET_SAFE = (JWT_SECRET ?? '') as string;
 const JWT_EXPIRES = '7d';
 const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || '';
 const ALGORITHM = 'aes-256-gcm';

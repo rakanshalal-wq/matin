@@ -4,7 +4,9 @@ import { Pool } from 'pg';
 const MATIN_DB_URL = process.env.MATIN_DATABASE_URL || process.env.DATABASE_URL || '';
 
 if (!MATIN_DB_URL || (!MATIN_DB_URL.startsWith('postgresql://') && !MATIN_DB_URL.startsWith('postgres://'))) {
-  if (process.env.NODE_ENV === 'production') {
+  // During `next build` NEXT_PHASE is 'phase-production-build' — DB is not needed then.
+  const isBuildPhase = process.env.NEXT_PHASE === 'phase-production-build';
+  if (process.env.NODE_ENV === 'production' && !isBuildPhase) {
     throw new Error('[DB] MATIN_DATABASE_URL أو DATABASE_URL غير معيّن. يجب تعيين متغير بيئة PostgreSQL صحيح.');
   }
   console.warn('[DB] DATABASE_URL not set — database queries will fail');

@@ -1,6 +1,8 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Resend requires a valid API key — use null during build phase to avoid startup errors.
+const _resendKey = process.env.RESEND_API_KEY;
+const resend = _resendKey ? new Resend(_resendKey) : (null as unknown as Resend);
 const FROM = process.env.RESEND_FROM_EMAIL || 'no-reply@matin.ink';
 
 export async function sendWelcomeEmail(to: string, name: string) {

@@ -1,8 +1,12 @@
 import Stripe from 'stripe';
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2024-06-20' as any,
-});
+// During `next build` STRIPE_SECRET_KEY is not available — skip initialization.
+const _stripeKey = process.env.STRIPE_SECRET_KEY;
+export const stripe = _stripeKey
+  ? new Stripe(_stripeKey, {
+      apiVersion: '2024-06-20' as any,
+    })
+  : (null as unknown as Stripe);
 
 export const PLANS = {
   basic: {
