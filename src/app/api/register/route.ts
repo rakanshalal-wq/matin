@@ -12,7 +12,6 @@ export async function POST(request: Request) {
     const {
       institution_name,
       institution_type = 'school',
-      city,
       contact_name,
       contact_phone,
       contact_email,
@@ -70,9 +69,6 @@ export async function POST(request: Request) {
     try {
       await client.query('BEGIN');
 
-      // Insert school using only the columns guaranteed to exist in the current DB schema.
-      // Note: city column is accepted from the request but omitted here because it does not
-      // exist in the current DB schema. Once the column is added via migration, restore it.
       const schoolResult = await client.query(
         `INSERT INTO schools (
           name, type, code, email, phone,
