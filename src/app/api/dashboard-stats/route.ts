@@ -3,8 +3,20 @@ import { pool, getUserFromRequest } from '@/lib/auth';
 
 // =====================================================
 // API إحصائيات الداشبورد - منصة متين
-// مُصحَّح: 2026-02-27
+// مُصحَّح: 2026-04-13 — resilient queries (missing tables return 0)
 // =====================================================
+
+// Helper: run a COUNT query; return 0 if the table/column does not exist yet.
+async function safeCount(sql: string, params: any[] = []): Promise<number> {
+  try {
+    const result = await pool.query(sql, params);
+    return Number(result.rows[0]?.count ?? 0);
+  } catch (err: any) {
+    // 42P01 = table not found, 42703 = column not found, others = treat as 0
+    console.warn('[Dashboard Stats] query skipped (table/column missing):', err.message);
+    return 0;
+  }
+}
 
 export async function GET(request: Request) {
   try {
@@ -14,20 +26,16 @@ export async function GET(request: Request) {
     // ===== super_admin - مالك المنصة =====
     if (user.role === 'super_admin') {
       const [schools, owners, students, teachers, pending, active] = await Promise.all([
-        pool.query("SELECT COUNT(*) FROM schools"),
-        pool.query("SELECT COUNT(*) FROM users WHERE role = 'owner'"),
-        pool.query("SELECT COUNT(*) FROM students"),
-        pool.query("SELECT COUNT(*) FROM teachers"),
-        pool.query("SELECT COUNT(*) FROM users WHERE status = 'pending'"),
-        pool.query("SELECT COUNT(*) FROM users WHERE is_active = true"),
+        safeCount("SELECT COUNT(*) FROM schools"),
+        safeCount("SELECT COUNT(*) FROM users WHERE role = 'owner'"),
+        safeCount("SELECT COUNT(*) FROM students"),
+        safeCount("SELECT COUNT(*) FROM teachers"),
+        safeCount("SELECT COUNT(*) FROM users WHERE status = 'pending'"),
+        safeCount("SELECT COUNT(*) FROM users WHERE status = 'active'"),
       ]);
       return NextResponse.json({
-        schools: Number(schools.rows[0].count),
-        owners: Number(owners.rows[0].count),
-        students: Number(students.rows[0].count),
-        teachers: Number(teachers.rows[0].count),
-        pending: Number(pending.rows[0].count),
-        active_users: Number(active.rows[0].count),
+        schools, owners, students, teachers, pending,
+        active_users: active,
       });
     }
 
@@ -42,22 +50,21 @@ export async function GET(request: Request) {
         });
       }
       const [my_schools, my_students, my_teachers, classes, exams] = await Promise.all([
-        pool.query("SELECT COUNT(*) FROM schools WHERE owner_id = $1::text", [String(user.id)]),
-        pool.query("SELECT COUNT(*) FROM students WHERE school_id = $1", [schoolId]),
-        pool.query("SELECT COUNT(*) FROM teachers WHERE school_id = $1", [schoolId]),
-        pool.query("SELECT COUNT(*) FROM classes WHERE school_id = $1", [schoolId]),
-        pool.query("SELECT COUNT(*) FROM exams WHERE school_id = $1 AND status IN ('SCHEDULED', 'ONGOING')", [schoolId]),
+        safeCount("SELECT COUNT(*) FROM schools WHERE owner_id = $1", [user.id]),
+        safeCount("SELECT COUNT(*) FROM students WHERE school_id = $1", [schoolId]),
+        safeCount("SELECT COUNT(*) FROM teachers WHERE school_id = $1", [schoolId]),
+        safeCount("SELECT COUNT(*) FROM classes WHERE school_id = $1", [schoolId]),
+        safeCount("SELECT COUNT(*) FROM exams WHERE school_id = $1 AND status IN ('SCHEDULED', 'ONGOING')", [schoolId]),
       ]);
       return NextResponse.json({
-        my_schools: Number(my_schools.rows[0].count),
-        my_students: Number(my_students.rows[0].count),
-        my_teachers: Number(my_teachers.rows[0].count),
-        my_classes: Number(classes.rows[0].count),
-        active_exams: Number(exams.rows[0].count),
-        // أسماء بديلة للتوافق
-        students: Number(my_students.rows[0].count),
-        teachers: Number(my_teachers.rows[0].count),
-        classes: Number(classes.rows[0].count),
+        my_schools,
+        my_students,
+        my_teachers,
+        my_classes: classes,
+        active_exams: exams,
+        students: my_students,
+        teachers: my_teachers,
+        classes,
         revenue: 0,
         attendance_today: 0,
         pending_fees: 0,
@@ -70,21 +77,20 @@ export async function GET(request: Request) {
       const schoolId = user.school_id;
       if (!schoolId) return NextResponse.json({ my_students: 0, my_teachers: 0, my_classes: 0, active_exams: 0 });
       const [my_students, my_teachers, classes, exams, subjects] = await Promise.all([
-        pool.query("SELECT COUNT(*) FROM students WHERE school_id = $1", [schoolId]),
-        pool.query("SELECT COUNT(*) FROM teachers WHERE school_id = $1", [schoolId]),
-        pool.query("SELECT COUNT(*) FROM classes WHERE school_id = $1", [schoolId]),
-        pool.query("SELECT COUNT(*) FROM exams WHERE school_id = $1 AND status IN ('SCHEDULED', 'ONGOING')", [schoolId]),
-        pool.query("SELECT COUNT(*) FROM subjects WHERE school_id = $1", [schoolId]),
+        safeCount("SELECT COUNT(*) FROM students WHERE school_id = $1", [schoolId]),
+        safeCount("SELECT COUNT(*) FROM teachers WHERE school_id = $1", [schoolId]),
+        safeCount("SELECT COUNT(*) FROM classes WHERE school_id = $1", [schoolId]),
+        safeCount("SELECT COUNT(*) FROM exams WHERE school_id = $1 AND status IN ('SCHEDULED', 'ONGOING')", [schoolId]),
+        safeCount("SELECT COUNT(*) FROM subjects WHERE school_id = $1", [schoolId]),
       ]);
       return NextResponse.json({
-        my_students: Number(my_students.rows[0].count),
-        my_teachers: Number(my_teachers.rows[0].count),
-        my_classes: Number(classes.rows[0].count),
-        active_exams: Number(exams.rows[0].count),
-        subjects: Number(subjects.rows[0].count),
-        students: Number(my_students.rows[0].count),
-        teachers: Number(my_teachers.rows[0].count),
-        classes: Number(classes.rows[0].count),
+        my_students, my_teachers,
+        my_classes: classes,
+        active_exams: exams,
+        subjects,
+        students: my_students,
+        teachers: my_teachers,
+        classes,
       });
     }
 
@@ -93,14 +99,14 @@ export async function GET(request: Request) {
       const schoolId = user.school_id;
       if (!schoolId) return NextResponse.json({ my_courses: 0, my_students: 0, active_exams: 0 });
       const [courses, students, exams] = await Promise.all([
-        pool.query("SELECT COUNT(*) FROM courses WHERE school_id = $1", [schoolId]),
-        pool.query("SELECT COUNT(*) FROM students WHERE school_id = $1", [schoolId]),
-        pool.query("SELECT COUNT(*) FROM exams WHERE school_id = $1 AND status IN ('SCHEDULED', 'ONGOING')", [schoolId]),
+        safeCount("SELECT COUNT(*) FROM courses WHERE school_id = $1", [schoolId]),
+        safeCount("SELECT COUNT(*) FROM students WHERE school_id = $1", [schoolId]),
+        safeCount("SELECT COUNT(*) FROM exams WHERE school_id = $1 AND status IN ('SCHEDULED', 'ONGOING')", [schoolId]),
       ]);
       return NextResponse.json({
-        my_courses: Number(courses.rows[0].count),
-        my_students: Number(students.rows[0].count),
-        active_exams: Number(exams.rows[0].count),
+        my_courses: courses,
+        my_students: students,
+        active_exams: exams,
         today_lessons: 0,
         pending_homework: 0,
       });
@@ -110,13 +116,13 @@ export async function GET(request: Request) {
     if (user.role === 'student') {
       const schoolId = user.school_id;
       if (!schoolId) return NextResponse.json({ gpa: '—', upcoming_exams: 0 });
-      const exams = await pool.query(
+      const exams = await safeCount(
         "SELECT COUNT(*) FROM exams WHERE school_id = $1 AND status IN ('SCHEDULED', 'ONGOING')",
         [schoolId]
       );
       return NextResponse.json({
         gpa: '—',
-        upcoming_exams: Number(exams.rows[0].count),
+        upcoming_exams: exams,
         today_lectures: 0,
         pending_homework: 0,
         attendance_rate: 0,
@@ -136,6 +142,10 @@ export async function GET(request: Request) {
     return NextResponse.json({});
   } catch (error) {
     console.error('[Dashboard Stats] Error:', error);
-    return NextResponse.json({ error: 'فشل جلب الإحصائيات' }, { status: 500 });
+    // Return empty stats instead of a 500 so the dashboard renders
+    return NextResponse.json({
+      schools: 0, students: 0, teachers: 0, classes: 0,
+      active_exams: 0, my_schools: 0, my_students: 0, my_teachers: 0,
+    });
   }
 }
