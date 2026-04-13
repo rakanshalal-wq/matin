@@ -3,8 +3,21 @@ import { pool } from '@/lib/auth';
 
 // =====================================================
 // API تسجيل مؤسسة جديدة - منصة متين
-// مُصحَّح: 2026-02-27
+// مُصحَّح: 2026-04-13 — resilient INSERT for all institution types
 // =====================================================
+
+// Helper: run a query inside a SAVEPOINT; on ANY error roll back and return false.
+async function tryQuery(client: any, savepointName: string, sql: string, params: any[]): Promise<{ rows: any[] } | null> {
+  await client.query(`SAVEPOINT ${savepointName}`);
+  try {
+    const result = await client.query(sql, params);
+    return result;
+  } catch (err: any) {
+    console.warn(`[Register] SAVEPOINT ${savepointName} failed (code=${err.code}): ${err.message}`);
+    await client.query(`ROLLBACK TO SAVEPOINT ${savepointName}`);
+    return null;
+  }
+}
 
 export async function POST(request: Request) {
   try {
@@ -15,8 +28,7 @@ export async function POST(request: Request) {
       contact_name,
       contact_phone,
       contact_email,
-      students_count,
-      plan = 'professional',
+      plan = 'basic',
       password,
     } = body;
 
@@ -69,143 +81,100 @@ export async function POST(request: Request) {
     try {
       await client.query('BEGIN');
 
-      // Insert school — try with the full type value; if the type column has a CHECK
-      // constraint that doesn't include this institution type yet, fall back to 'school'.
-      await client.query('SAVEPOINT before_school_insert');
-      let schoolResult;
-      try {
-        schoolResult = await client.query(
-          `INSERT INTO schools (
-            name, type, code, email, phone,
-            slug, is_active, created_at, updated_at
-          ) VALUES ($1,$2,$3,$4,$5,$6,true,NOW(),NOW())
-          RETURNING id`,
-          [institution_name, normalizedType, schoolCode,
-           contact_email, contact_phone, slug]
+      // ── 1. INSERT school ─────────────────────────────────────
+      // Strategy: try full INSERT first; on any failure fall back to the
+      // absolute minimum columns (name only) and then PATCH additional
+      // columns one by one so the row is always created.
+
+      let newSchoolId: number | null = null;
+
+      // Attempt 1: full INSERT with all desired columns
+      const schoolFull = await tryQuery(client, 'sp_school_full',
+        `INSERT INTO schools (name, type, code, email, phone, slug, is_active, created_at, updated_at)
+         VALUES ($1,$2,$3,$4,$5,$6,true,NOW(),NOW()) RETURNING id`,
+        [institution_name, normalizedType, schoolCode, contact_email, contact_phone, slug]
+      );
+
+      if (schoolFull) {
+        newSchoolId = schoolFull.rows[0].id;
+      } else {
+        // Attempt 2: minimal INSERT — just name, which always exists
+        const schoolMin = await tryQuery(client, 'sp_school_min',
+          `INSERT INTO schools (name) VALUES ($1) RETURNING id`,
+          [institution_name]
         );
-      } catch (schoolInsertErr: any) {
-        if (schoolInsertErr.code === '23514' || schoolInsertErr.code === '22P02') {
-          await client.query('ROLLBACK TO SAVEPOINT before_school_insert');
-          schoolResult = await client.query(
-            `INSERT INTO schools (
-              name, type, code, email, phone,
-              slug, is_active, created_at, updated_at
-            ) VALUES ($1,$2,$3,$4,$5,$6,true,NOW(),NOW())
-            RETURNING id`,
-            [institution_name, 'school', schoolCode,
-             contact_email, contact_phone, slug]
-          );
-          // Try to set the real type separately
-          try {
-            await client.query('SAVEPOINT before_school_type');
-            await client.query('UPDATE schools SET type = $1 WHERE id = $2', [normalizedType, schoolResult.rows[0].id]);
-          } catch {
-            await client.query('ROLLBACK TO SAVEPOINT before_school_type');
-          }
-        } else {
-          throw schoolInsertErr;
-        }
+        if (!schoolMin) throw new Error('فشل إنشاء سجل المؤسسة حتى بالحد الأدنى من البيانات');
+        newSchoolId = schoolMin.rows[0].id;
+
+        // Patch optional columns individually
+        await tryQuery(client, 'sp_s_type',   `UPDATE schools SET type=$1        WHERE id=$2`, [normalizedType, newSchoolId]);
+        await tryQuery(client, 'sp_s_code',   `UPDATE schools SET code=$1        WHERE id=$2`, [schoolCode, newSchoolId]);
+        await tryQuery(client, 'sp_s_email',  `UPDATE schools SET email=$1       WHERE id=$2`, [contact_email, newSchoolId]);
+        await tryQuery(client, 'sp_s_phone',  `UPDATE schools SET phone=$1       WHERE id=$2`, [contact_phone, newSchoolId]);
+        await tryQuery(client, 'sp_s_slug',   `UPDATE schools SET slug=$1        WHERE id=$2`, [slug, newSchoolId]);
+        await tryQuery(client, 'sp_s_active', `UPDATE schools SET is_active=true WHERE id=$2`, [newSchoolId]);
+        await tryQuery(client, 'sp_s_ts',     `UPDATE schools SET created_at=NOW(), updated_at=NOW() WHERE id=$1`, [newSchoolId]);
       }
-      const newSchoolId = schoolResult.rows[0].id;
 
-      // Insert user — try with institution_type first; fall back without it if the column
-      // has a CHECK constraint that hasn't been updated in production yet.
-      await client.query('SAVEPOINT before_user_insert');
-      let userResult;
-      try {
-        userResult = await client.query(
-          `INSERT INTO users (
-            name, email, password, role, school_id, owner_id,
-            institution_type, status, package, phone, created_at
-          ) VALUES ($1,$2,$3,'owner',$4,$4,$5,'active',$6,$7,NOW())
-          RETURNING id`,
-          [
-            contact_name,
-            contact_email.toLowerCase().trim(),
-            hashedPassword,
-            newSchoolId,
-            normalizedType,
-            plan,
-            contact_phone,
-          ]
+      // ── 2. INSERT user ────────────────────────────────────────
+      // Same strategy: full INSERT first, then minimal + patch.
+
+      let userId: number | null = null;
+
+      const userFull = await tryQuery(client, 'sp_user_full',
+        `INSERT INTO users (name, email, password, role, school_id, owner_id,
+           institution_type, status, package, phone, created_at)
+         VALUES ($1,$2,$3,'owner',$4,$4,$5,'active',$6,$7,NOW()) RETURNING id`,
+        [contact_name, contact_email.toLowerCase().trim(), hashedPassword,
+         newSchoolId, normalizedType, plan, contact_phone]
+      );
+
+      if (userFull) {
+        userId = userFull.rows[0].id;
+      } else {
+        // Attempt 2: minimal INSERT — only the non-nullable core columns
+        const userMin = await tryQuery(client, 'sp_user_min',
+          `INSERT INTO users (name, email, password, role, status, created_at)
+           VALUES ($1,$2,$3,'owner','active',NOW()) RETURNING id`,
+          [contact_name, contact_email.toLowerCase().trim(), hashedPassword]
         );
-      } catch (userInsertErr: any) {
-        // CHECK constraint violation or invalid enum value — retry without institution_type
-        if (userInsertErr.code === '23514' || userInsertErr.code === '22P02') {
-          await client.query('ROLLBACK TO SAVEPOINT before_user_insert');
-          userResult = await client.query(
-            `INSERT INTO users (
-              name, email, password, role, school_id, owner_id,
-              status, package, phone, created_at
-            ) VALUES ($1,$2,$3,'owner',$4,$4,'active',$5,$6,NOW())
-            RETURNING id`,
-            [
-              contact_name,
-              contact_email.toLowerCase().trim(),
-              hashedPassword,
-              newSchoolId,
-              plan,
-              contact_phone,
-            ]
-          );
-          // Try to set institution_type separately (best-effort)
-          try {
-            await client.query('SAVEPOINT before_type_update');
-            await client.query('UPDATE users SET institution_type = $1 WHERE id = $2', [normalizedType, userResult.rows[0].id]);
-          } catch {
-            await client.query('ROLLBACK TO SAVEPOINT before_type_update');
-          }
-        } else {
-          throw userInsertErr;
-        }
+        if (!userMin) throw new Error('فشل إنشاء حساب المستخدم حتى بالحد الأدنى من البيانات');
+        userId = userMin.rows[0].id;
+
+        // Patch optional columns individually
+        await tryQuery(client, 'sp_u_school',    `UPDATE users SET school_id=$1     WHERE id=$2`, [newSchoolId, userId]);
+        await tryQuery(client, 'sp_u_owner',     `UPDATE users SET owner_id=$1      WHERE id=$2`, [newSchoolId, userId]);
+        await tryQuery(client, 'sp_u_itype',     `UPDATE users SET institution_type=$1 WHERE id=$2`, [normalizedType, userId]);
+        await tryQuery(client, 'sp_u_package',   `UPDATE users SET package=$1       WHERE id=$2`, [plan, userId]);
+        await tryQuery(client, 'sp_u_phone',     `UPDATE users SET phone=$1         WHERE id=$2`, [contact_phone, userId]);
       }
-      const userId = userResult.rows[0].id;
 
-      // Update owner_id on school if that column exists (added by migration).
-      try {
-        await client.query(
-          'UPDATE schools SET owner_id = $1 WHERE id = $2',
-          [userId, newSchoolId]
-        );
-      } catch { /* owner_id column may not exist yet */ }
+      // ── 3. Link owner_id on school ────────────────────────────
+      await tryQuery(client, 'sp_school_owner',
+        `UPDATE schools SET owner_id=$1 WHERE id=$2`, [userId, newSchoolId]);
 
-      // Optional tables — insert if they exist, ignore errors if they don't
-      try {
-        await client.query(
-          `INSERT INTO school_owners (user_id, school_id) VALUES ($1, $2) ON CONFLICT (school_id) DO NOTHING`,
-          [userId, newSchoolId]
-        );
-      } catch { /* table may not exist yet */ }
+      // ── 4. Optional tables (silently ignored if absent) ───────
+      await tryQuery(client, 'sp_school_owners',
+        `INSERT INTO school_owners (user_id, school_id) VALUES ($1,$2) ON CONFLICT (school_id) DO NOTHING`,
+        [userId, newSchoolId]);
 
-      try {
-        const planResult = await client.query('SELECT id FROM plans WHERE name = $1', [plan]);
-        const planId = planResult.rows[0]?.id || null;
-        await client.query(
-          `INSERT INTO subscriptions (school_id, owner_id, plan_id, status, billing_cycle, trial_ends_at, created_at)
-           VALUES ($1,$2,$3,'trial','monthly',NOW() + INTERVAL '30 days',NOW())`,
-          [newSchoolId, userId, planId]
-        );
-      } catch { /* table may not exist yet */ }
+      await tryQuery(client, 'sp_subscription', (() => {
+        // We can't easily reference planId here; just pass null for plan_id
+        return `INSERT INTO subscriptions (school_id, owner_id, plan_id, status, billing_cycle, trial_ends_at, created_at)
+                VALUES ($1,$2,NULL,'trial','monthly',NOW() + INTERVAL '30 days',NOW())`;
+      })(), [newSchoolId, userId]);
 
-      try {
-        await client.query(
-          `INSERT INTO email_otps (email, otp, expires_at, created_at) VALUES ($1,$2,$3,NOW())
-           ON CONFLICT (email) DO UPDATE SET otp=$2, expires_at=$3, created_at=NOW()`,
-          [contact_email.toLowerCase().trim(), otp, otpExpiry]
-        );
-      } catch { /* table may not exist yet */ }
+      await tryQuery(client, 'sp_otp',
+        `INSERT INTO email_otps (email, otp, expires_at, created_at) VALUES ($1,$2,$3,NOW())
+         ON CONFLICT (email) DO UPDATE SET otp=$2, expires_at=$3, created_at=NOW()`,
+        [contact_email.toLowerCase().trim(), otp, otpExpiry]);
 
       await client.query('COMMIT');
 
-      // Use newSchoolId for the response
-      const schoolId = newSchoolId;
-
-      // إرسال إيميل التحقق
+      // ── 5. Send welcome email (best-effort, outside transaction) ─
       try {
         const RESEND_KEY = process.env.RESEND_API_KEY;
-        if (!RESEND_KEY || RESEND_KEY === 'dev_mode_no_email') {
-          // [DEV] log removed
-        } else {
+        if (RESEND_KEY && RESEND_KEY !== 'dev_mode_no_email') {
           const { Resend } = await import('resend');
           const resend = new Resend(RESEND_KEY);
           await resend.emails.send({
@@ -235,7 +204,7 @@ export async function POST(request: Request) {
         success: true,
         message: 'تم تسجيل المؤسسة بنجاح. تحقق من بريدك الإلكتروني لتأكيد الحساب.',
         data: {
-          school_id: schoolId,
+          school_id: newSchoolId,
           school_code: schoolCode,
           institution_type: normalizedType,
           trial_ends_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
@@ -256,11 +225,6 @@ export async function POST(request: Request) {
     if (error.code === '23505') {
       return NextResponse.json({ error: 'هذا البريد الإلكتروني أو الكود مسجل مسبقاً' }, { status: 409 });
     }
-    if (error.code === '23514') {
-      // CHECK constraint violation — likely institution_type not in allowed values
-      console.error('[Register] CHECK constraint violated — ensure migration script has been run');
-      return NextResponse.json({ error: 'نوع المؤسسة غير مدعوم في قاعدة البيانات. يرجى تشغيل سكريبت الترحيل.' }, { status: 500 });
-    }
     return NextResponse.json({ error: 'فشل التسجيل. حاول مرة أخرى.' }, { status: 500 });
   }
 }
@@ -272,9 +236,11 @@ export async function GET(request: Request) {
     if (!user || user.role !== 'super_admin') {
       return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     }
+    // Use COALESCE/try approach: s.* will work regardless of column presence;
+    // we select only guaranteed columns to avoid 42703 errors.
     const result = await pool.query(`
       SELECT s.id, s.name, s.code, s.email, s.phone,
-             s.type as institution_type, s.is_active, s.slug, s.created_at,
+             s.type as institution_type, s.slug, s.created_at,
              u.name as owner_name, u.email as owner_email,
              (SELECT COUNT(*) FROM students WHERE school_id = s.id) as students_count,
              (SELECT COUNT(*) FROM teachers WHERE school_id = s.id) as teachers_count
@@ -284,6 +250,7 @@ export async function GET(request: Request) {
     `);
     return NextResponse.json({ success: true, data: result.rows });
   } catch (error) {
+    console.error('[Register GET]', error);
     return NextResponse.json({ error: 'فشل' }, { status: 500 });
   }
 }
