@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     }
 
     const result = await pool.query(
-      `SELECT id, name, email, password, role, school_id, owner_id, package, status, phone
+      `SELECT id, name, email, password, role, school_id, owner_id, package, status, phone, institution_type
        FROM users WHERE email = $1 LIMIT 1`,
       [email.toLowerCase().trim()]
     );
@@ -52,23 +52,24 @@ export async function POST(request: NextRequest) {
     // إنشاء التوكن
     const token = generateToken(user);
 
-    // تحديد صفحة التوجيه حسب الدور
+    // تحديد صفحة التوجيه حسب الدور ونوع المؤسسة
+    const isQuranInstitution = user.institution_type === 'mosque' || user.institution_type === 'quran_center';
     const roleRedirects: Record<string, string> = {
       super_admin: '/dashboard/super-admin',
-      owner: '/dashboard',
-      admin: '/dashboard',
+      owner: isQuranInstitution ? '/quran/dashboard' : '/dashboard',
+      admin: isQuranInstitution ? '/quran/dashboard' : '/dashboard',
       teacher: '/dashboard/teacher',
       trainer: '/dashboard/trainer',
       trainee: '/dashboard/trainee',
-      muhaffiz: '/dashboard/muhaffiz',
-      supervisor: '/dashboard/supervisor',
+      muhaffiz: '/quran/teacher',
+      supervisor: '/quran/supervisor',
       caregiver: '/dashboard/caregiver',
-      student: '/dashboard/student',
+      student: isQuranInstitution ? '/quran/student' : '/dashboard/student',
       parent: '/dashboard/parent',
       school_owner: '/dashboard',
       training_manager: '/dashboard',
       institute_admin: '/dashboard',
-      quran_admin: '/dashboard',
+      quran_admin: '/quran/dashboard',
     };
 
     const redirect = roleRedirects[user.role] || '/dashboard';
@@ -84,6 +85,7 @@ export async function POST(request: NextRequest) {
       package: user.package,
       status: user.status,
       phone: user.phone,
+      institution_type: user.institution_type || null,
       bio: bio,
       avatar: avatar,
     };

@@ -93,15 +93,26 @@ export default function DashboardHome() {
         .then(r => r.json())
         .then(data => {
           if (data.valid) {
-            setUser(data.user);
-            localStorage.setItem('matin_user', JSON.stringify(data.user));
-            loadAll(data.user);
+            const u = data.user;
+            // إعادة توجيه مالك المسجد/تحفيظ إلى لوحة تحكم القرآن
+            if (u.institution_type === 'mosque' || u.institution_type === 'quran_center') {
+              window.location.href = '/quran/dashboard';
+              return;
+            }
+            setUser(u);
+            localStorage.setItem('matin_user', JSON.stringify(u));
+            loadAll(u);
           } else { window.location.href = '/login'; }
         }).catch(() => setLoading(false));
     } else {
       const u = JSON.parse(localStorage.getItem('matin_user') || '{}');
-      if (u.id) { setUser(u); loadAll(u); }
-      else { window.location.href = '/login'; }
+      if (!u.id) { window.location.href = '/login'; return; }
+      // إعادة توجيه مالك المسجد/تحفيظ إلى لوحة تحكم القرآن
+      if (u.institution_type === 'mosque' || u.institution_type === 'quran_center') {
+        window.location.href = '/quran/dashboard';
+        return;
+      }
+      setUser(u); loadAll(u);
     }
   }, []);
 

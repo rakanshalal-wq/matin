@@ -35,8 +35,32 @@ export default function QuranDashboardPage() {
       fetch('/api/quran?type=stats').then(r => r.ok ? r.json() : null).catch(() => null),
       fetch('/api/quran?type=halaqat').then(r => r.ok ? r.json() : null).catch(() => null),
     ]).then(([s, h]) => {
-      if (s) setStats(s.data ?? s);
-      if (h) setHalaqat(h.data ?? h);
+      if (s) {
+        // الـ API يرجع { stats: { students, teachers, halaqat, ijazat }, halaqat: [] }
+        const raw = s.stats ?? s;
+        setStats({
+          totalStudents: raw.totalStudents ?? raw.students ?? 0,
+          teachers: raw.teachers ?? 0,
+          activeHalaqat: raw.activeHalaqat ?? raw.halaqat ?? 0,
+          ijazat: raw.ijazat ?? 0,
+        });
+        // الحلقات قد تأتي مع الـ stats أو من طلب منفصل
+        if (!h && Array.isArray(s.halaqat)) {
+          setHalaqat(s.halaqat.map((r: any) => ({
+            id: r.id, name: r.name, teacher: r.teacher,
+            students: r.students ?? r.students_count ?? 0,
+            time: r.time ?? '', status: r.status ?? 'نشطة',
+          })));
+        }
+      }
+      if (h) {
+        const list: any[] = Array.isArray(h) ? h : (h.halaqat ?? h.data ?? []);
+        setHalaqat(list.map((r: any) => ({
+          id: r.id, name: r.name, teacher: r.teacher,
+          students: r.students ?? r.students_count ?? 0,
+          time: r.time ?? '', status: r.status ?? 'نشطة',
+        })));
+      }
     }).finally(() => setLoading(false));
   }, []);
 

@@ -98,7 +98,7 @@ export async function getUserFromRequest(request: Request): Promise<any> {
       const decoded = verifyToken(token);
       if (decoded) {
         const result = await pool.query(
-          'SELECT id, name, email, role, school_id, owner_id, package, status FROM users WHERE id = $1 AND status = $2',
+          'SELECT id, name, email, role, school_id, owner_id, package, status, institution_type FROM users WHERE id = $1 AND status = $2',
           [decoded.id, 'active']
         );
         if (result.rows[0]) return result.rows[0];
@@ -110,7 +110,7 @@ export async function getUserFromRequest(request: Request): Promise<any> {
       const decoded = verifyToken(tokenMatch[1]);
       if (decoded) {
         const result = await pool.query(
-          'SELECT id, name, email, role, school_id, owner_id, package, status FROM users WHERE id = $1 AND status = $2',
+          'SELECT id, name, email, role, school_id, owner_id, package, status, institution_type FROM users WHERE id = $1 AND status = $2',
           [decoded.id, 'active']
         );
         if (result.rows[0]) return result.rows[0];

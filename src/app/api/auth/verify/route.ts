@@ -27,7 +27,7 @@ export async function GET(request: Request) {
     }
 
     const result = await pool.query(
-      'SELECT id, name, email, role, school_id, owner_id, package, status FROM users WHERE id = $1',
+      'SELECT id, name, email, role, school_id, owner_id, package, status, institution_type FROM users WHERE id = $1',
       [decoded.id]
     );
 
