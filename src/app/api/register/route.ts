@@ -69,35 +69,96 @@ export async function POST(request: Request) {
     try {
       await client.query('BEGIN');
 
-      const schoolResult = await client.query(
-        `INSERT INTO schools (
-          name, type, code, email, phone,
-          slug, is_active, created_at, updated_at
-        ) VALUES ($1,$2,$3,$4,$5,$6,true,NOW(),NOW())
-        RETURNING id`,
-        [institution_name, normalizedType, schoolCode,
-         contact_email, contact_phone, slug]
-      );
+      // Insert school — try with the full type value; if the type column has a CHECK
+      // constraint that doesn't include this institution type yet, fall back to 'school'.
+      await client.query('SAVEPOINT before_school_insert');
+      let schoolResult;
+      try {
+        schoolResult = await client.query(
+          `INSERT INTO schools (
+            name, type, code, email, phone,
+            slug, is_active, created_at, updated_at
+          ) VALUES ($1,$2,$3,$4,$5,$6,true,NOW(),NOW())
+          RETURNING id`,
+          [institution_name, normalizedType, schoolCode,
+           contact_email, contact_phone, slug]
+        );
+      } catch (schoolInsertErr: any) {
+        if (schoolInsertErr.code === '23514' || schoolInsertErr.code === '22P02') {
+          await client.query('ROLLBACK TO SAVEPOINT before_school_insert');
+          schoolResult = await client.query(
+            `INSERT INTO schools (
+              name, type, code, email, phone,
+              slug, is_active, created_at, updated_at
+            ) VALUES ($1,$2,$3,$4,$5,$6,true,NOW(),NOW())
+            RETURNING id`,
+            [institution_name, 'school', schoolCode,
+             contact_email, contact_phone, slug]
+          );
+          // Try to set the real type separately
+          try {
+            await client.query('SAVEPOINT before_school_type');
+            await client.query('UPDATE schools SET type = $1 WHERE id = $2', [normalizedType, schoolResult.rows[0].id]);
+          } catch {
+            await client.query('ROLLBACK TO SAVEPOINT before_school_type');
+          }
+        } else {
+          throw schoolInsertErr;
+        }
+      }
       const newSchoolId = schoolResult.rows[0].id;
 
-      // Insert user using only the columns guaranteed to exist in the current DB schema.
-      // Omit email_verified / verification_code / code_expires_at — not in schema.
-      const userResult = await client.query(
-        `INSERT INTO users (
-          name, email, password, role, school_id, owner_id,
-          institution_type, status, package, phone, created_at
-        ) VALUES ($1,$2,$3,'owner',$4,$4,$5,'active',$6,$7,NOW())
-        RETURNING id`,
-        [
-          contact_name,
-          contact_email.toLowerCase().trim(),
-          hashedPassword,
-          newSchoolId,
-          normalizedType,
-          plan,
-          contact_phone,
-        ]
-      );
+      // Insert user — try with institution_type first; fall back without it if the column
+      // has a CHECK constraint that hasn't been updated in production yet.
+      await client.query('SAVEPOINT before_user_insert');
+      let userResult;
+      try {
+        userResult = await client.query(
+          `INSERT INTO users (
+            name, email, password, role, school_id, owner_id,
+            institution_type, status, package, phone, created_at
+          ) VALUES ($1,$2,$3,'owner',$4,$4,$5,'active',$6,$7,NOW())
+          RETURNING id`,
+          [
+            contact_name,
+            contact_email.toLowerCase().trim(),
+            hashedPassword,
+            newSchoolId,
+            normalizedType,
+            plan,
+            contact_phone,
+          ]
+        );
+      } catch (userInsertErr: any) {
+        // CHECK constraint violation or invalid enum value — retry without institution_type
+        if (userInsertErr.code === '23514' || userInsertErr.code === '22P02') {
+          await client.query('ROLLBACK TO SAVEPOINT before_user_insert');
+          userResult = await client.query(
+            `INSERT INTO users (
+              name, email, password, role, school_id, owner_id,
+              status, package, phone, created_at
+            ) VALUES ($1,$2,$3,'owner',$4,$4,'active',$5,$6,NOW())
+            RETURNING id`,
+            [
+              contact_name,
+              contact_email.toLowerCase().trim(),
+              hashedPassword,
+              newSchoolId,
+              plan,
+              contact_phone,
+            ]
+          );
+          // Try to set institution_type separately (best-effort)
+          try {
+            await client.query('SAVEPOINT before_type_update');
+            await client.query('UPDATE users SET institution_type = $1 WHERE id = $2', [normalizedType, userResult.rows[0].id]);
+          } catch {
+            await client.query('ROLLBACK TO SAVEPOINT before_type_update');
+          }
+        } else {
+          throw userInsertErr;
+        }
+      }
       const userId = userResult.rows[0].id;
 
       // Update owner_id on school if that column exists (added by migration).
@@ -212,7 +273,7 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'غير مصرح' }, { status: 401 });
     }
     const result = await pool.query(`
-      SELECT s.id, s.name, s.code, s.email, s.phone, s.city,
+      SELECT s.id, s.name, s.code, s.email, s.phone,
              s.type as institution_type, s.is_active, s.slug, s.created_at,
              u.name as owner_name, u.email as owner_email,
              (SELECT COUNT(*) FROM students WHERE school_id = s.id) as students_count,
