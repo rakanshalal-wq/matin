@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     }
 
     const result = await pool.query(
-      `SELECT id, name, email, password, role, school_id, owner_id, package, status, phone, bio, avatar
+      `SELECT id, name, email, password, role, school_id, owner_id, package, status, phone
        FROM users WHERE email = $1 LIMIT 1`,
       [email.toLowerCase().trim()]
     );
@@ -20,6 +20,18 @@ export async function POST(request: NextRequest) {
     if (!user) {
       return NextResponse.json({ message: 'البريد الإلكتروني أو كلمة المرور غير صحيحة' }, { status: 401 });
     }
+
+    // جلب الحقول الاختيارية بشكل منفصل لتجنب فشل الاستعلام لو العمود غير موجود
+    let bio: string | null = null;
+    let avatar: string | null = null;
+    try {
+      const profileResult = await pool.query(
+        'SELECT bio, avatar FROM users WHERE id = $1',
+        [user.id]
+      );
+      bio = profileResult.rows[0]?.bio ?? null;
+      avatar = profileResult.rows[0]?.avatar ?? null;
+    } catch { /* columns may not exist yet — ignored */ }
 
     // التحقق من حالة الحساب
     if (user.status === 'suspended' || user.status === 'banned') {
@@ -72,8 +84,8 @@ export async function POST(request: NextRequest) {
       package: user.package,
       status: user.status,
       phone: user.phone,
-      bio: user.bio,
-      avatar: user.avatar,
+      bio: bio,
+      avatar: avatar,
     };
 
     const response = NextResponse.json({

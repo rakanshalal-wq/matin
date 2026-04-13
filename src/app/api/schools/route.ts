@@ -12,20 +12,20 @@ export async function GET(request: Request) {
     if (user.role === 'super_admin') {
       result = await pool.query(
         `SELECT s.*, u.name as owner_name, u.email as owner_email 
-         FROM schools s LEFT JOIN users u ON u.id::text = s.owner_id 
+         FROM schools s LEFT JOIN users u ON u.id::text = s.owner_id::text 
          ORDER BY s.created_at DESC`
       );
     } else if (user.role === 'owner') {
       result = await pool.query(
         `SELECT s.*, u.name as owner_name, u.email as owner_email 
-         FROM schools s LEFT JOIN users u ON u.id::text = s.owner_id 
-         WHERE s.owner_id = $1::text ORDER BY s.created_at DESC`,
+         FROM schools s LEFT JOIN users u ON u.id::text = s.owner_id::text 
+         WHERE s.owner_id::text = $1::text ORDER BY s.created_at DESC`,
         [user.id]
       );
     } else if (user.school_id) {
       result = await pool.query(
         `SELECT s.*, u.name as owner_name, u.email as owner_email 
-         FROM schools s LEFT JOIN users u ON u.id::text = s.owner_id 
+         FROM schools s LEFT JOIN users u ON u.id::text = s.owner_id::text 
          WHERE s.id = $1`,
         [String(user.school_id)]
       );

@@ -160,8 +160,7 @@ export default function RegisterPage() {
                   <option value="institute" style={{ background: '#0B0B16', color: '#EEEEF5' }}>معهد</option>
                   <option value="kindergarten" style={{ background: '#0B0B16', color: '#EEEEF5' }}>روضة أطفال</option>
                   <option value="training_center" style={{ background: '#0B0B16', color: '#EEEEF5' }}>مركز تدريب</option>
-                  <option value="mosque" style={{ background: '#0B0B16', color: '#EEEEF5' }}>مسجد</option>
-                  <option value="quran_center" style={{ background: '#0B0B16', color: '#EEEEF5' }}>حلقة تحفيظ قرآن</option>
+                  <option value="mosque" style={{ background: '#0B0B16', color: '#EEEEF5' }}>مسجد / حلقة تحفيظ قرآن</option>
                 </select>
               </div>
               <div style={{ marginBottom: 20 }}>

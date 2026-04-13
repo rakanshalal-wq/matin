@@ -45,12 +45,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'هذا البريد الإلكتروني مسجل مسبقاً' }, { status: 409 });
     }
 
+    // quran_center is an alias for mosque — treat both as the same institution type
+    const normalizedType = institution_type === 'quran_center' ? 'mosque' : institution_type;
     const typePrefix: Record<string, string> = {
       school: 'SCH', university: 'UNI', institute: 'INS',
       kindergarten: 'KND', training_center: 'TRN',
-      mosque: 'MSQ', quran_center: 'QRN',
+      mosque: 'MSQ',
     };
-    const prefix = typePrefix[institution_type] || 'SCH';
+    const prefix = typePrefix[normalizedType] || 'SCH';
     const schoolCode = `${prefix}-${Date.now().toString(36).toUpperCase()}`;
 
     const bcrypt = await import('bcryptjs');
@@ -77,7 +79,7 @@ export async function POST(request: Request) {
           slug, is_active, created_at, updated_at
         ) VALUES ($1,$2,$3,$4,$5,$6,true,NOW(),NOW())
         RETURNING id`,
-        [institution_name, institution_type, schoolCode,
+        [institution_name, normalizedType, schoolCode,
          contact_email, contact_phone, slug]
       );
       const newSchoolId = schoolResult.rows[0].id;
@@ -95,7 +97,7 @@ export async function POST(request: Request) {
           contact_email.toLowerCase().trim(),
           hashedPassword,
           newSchoolId,
-          institution_type,
+          normalizedType,
           plan,
           contact_phone,
         ]
@@ -178,7 +180,7 @@ export async function POST(request: Request) {
         data: {
           school_id: schoolId,
           school_code: schoolCode,
-          institution_type,
+          institution_type: normalizedType,
           trial_ends_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
           requires_verification: true,
           ...(process.env.NODE_ENV === 'development' ? { dev_otp: otp } : {}),
