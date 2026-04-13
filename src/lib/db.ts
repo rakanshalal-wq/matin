@@ -29,5 +29,54 @@ if (!globalForDb._pgPool && MATIN_DB_URL) {
 
 const pool = globalForDb._pgPool!;
 
+// Auto-migration: create missing tables on first connection.
+// Runs once per process (guarded by flag on globalThis).
+const globalForMigration = globalThis as unknown as { _matnMigrationDone: boolean };
+if (!globalForMigration._matnMigrationDone && MATIN_DB_URL) {
+  globalForMigration._matnMigrationDone = true;
+  pool.query(`
+    CREATE TABLE IF NOT EXISTS exams (
+      id         SERIAL PRIMARY KEY,
+      school_id  INTEGER NOT NULL REFERENCES schools(id) ON DELETE CASCADE,
+      title      VARCHAR(255) NOT NULL DEFAULT '',
+      status     VARCHAR(50)  NOT NULL DEFAULT 'DRAFT'
+                   CHECK (status IN ('DRAFT','SCHEDULED','ONGOING','COMPLETED','CANCELLED')),
+      created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+    );
+    CREATE INDEX IF NOT EXISTS idx_exams_school_id ON exams(school_id);
+    CREATE INDEX IF NOT EXISTS idx_exams_status    ON exams(status);
+
+    CREATE TABLE IF NOT EXISTS subjects (
+      id         SERIAL PRIMARY KEY,
+      school_id  INTEGER NOT NULL REFERENCES schools(id) ON DELETE CASCADE,
+      name       VARCHAR(255) NOT NULL DEFAULT '',
+      created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+    );
+    CREATE INDEX IF NOT EXISTS idx_subjects_school_id ON subjects(school_id);
+
+    CREATE TABLE IF NOT EXISTS courses (
+      id         SERIAL PRIMARY KEY,
+      school_id  INTEGER NOT NULL REFERENCES schools(id) ON DELETE CASCADE,
+      name       VARCHAR(255) NOT NULL DEFAULT '',
+      created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+    );
+    CREATE INDEX IF NOT EXISTS idx_courses_school_id ON courses(school_id);
+
+    CREATE TABLE IF NOT EXISTS classes (
+      id         SERIAL PRIMARY KEY,
+      school_id  INTEGER NOT NULL REFERENCES schools(id) ON DELETE CASCADE,
+      name       VARCHAR(255) NOT NULL DEFAULT '',
+      created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+    );
+    CREATE INDEX IF NOT EXISTS idx_classes_school_id ON classes(school_id);
+  `).catch((err: Error) => {
+    console.warn('[DB] auto-migration warning (non-fatal):', err.message);
+  });
+}
+
 export default pool;
 export { pool };
